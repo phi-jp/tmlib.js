@@ -1,23 +1,28 @@
-/**
- * @author phi
+/*
+ * 
  */
+
 
 (function() { "use strict"; })();
 
 
-/**
+/*
  * tm namespace
  */
 var tm = tm || {};
 
-/**
- * 
- */
+
 (function() {
     
+    /**
+     * バージョン
+     */
     tm.VERSION = "0.0.0";
     
     
+    /**
+     * tmlib.js のルートパス
+     */
     tm.LIB_ROOT = (function(){
         if (!document) return ;
         
@@ -27,6 +32,9 @@ var tm = tm || {};
         }
     })();
     
+    /**
+     * ブラウザ
+     */
     tm.BROWSER = (function() {
         if      (/chrome/i.test(navigator.userAgent))   { return "Chrome";  }
         else if (/safari/i.test(navigator.userAgent))   { return "Safari";  }
@@ -37,17 +45,17 @@ var tm = tm || {};
         else { return null; }
     })();
     
+    /**
+     * モバイルかどうかの判定フラグ
+     */
     tm.isMobile = (function() {
         return (navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("Android") > 0);
     })();
     
-    tm.extend = function(dest, source) {
-        for (var property in source) {
-            dest[property] = source[property];
-        }
-        return dest;
-    };
     
+    /**
+     * クラス定義
+     */
     tm.createClass = function(prop) {
         // デフォルト値
         prop.init = prop.init || function() {};
@@ -78,6 +86,10 @@ var tm = tm || {};
         return tm_class;
     };
     
+    
+    /**
+     * 使用する
+     */
     tm.using = function() {
         for (var key in tm) {
             window[key] = tm[key];

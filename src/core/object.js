@@ -1,12 +1,14 @@
-/**
- * @author phi
- */
 
-/**
- * 
- */
+
 (function() {
     
+    /**
+     * @member Object
+     * @method defineVariable
+     * 変数を追加
+     * @param   {String} key name
+     * @param   {Object} param
+     */
     Object.defineProperty(Object.prototype, "defineVariable", {
         value: function(name, val) {
             Object.defineProperty(this, name, {
@@ -16,6 +18,13 @@
         }
     });
     
+    /**
+     * @member Object
+     * @method defineFunction
+     * 関数を追加
+     * @param   {String} key name
+     * @param   {Function} function
+     */
     Object.defineProperty(Object.prototype, "defineFunction", {
         value: function(name, fn) {
             Object.defineProperty(this, name, {
