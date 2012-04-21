@@ -1,3 +1,6 @@
+/*
+ * string.js
+ */
 
 
 (function() {
@@ -58,10 +61,10 @@
      * キャピタライズ
      * 
      * ## Reference
-     * <ul>
-     *  <li><a href="http://d.hatena.ne.jp/brazil/20051212/1134369083">キャピタライズ(単語の先頭の大文字化)を行う - oct inaodu</a></li>
-     *  <li><a href="http://design-program.blogspot.com/2011/02/javascript.html">デザインとプログラムの狭間で: javascriptでキャピタライズ（一文字目を大文字にする）</a></li>
-     * </ul>
+     * 
+     * - [キャピタライズ(単語の先頭の大文字化)を行う - oct inaodu](http://d.hatena.ne.jp/brazil/20051212/1134369083)
+     * - [デザインとプログラムの狭間で: javascriptでキャピタライズ（一文字目を大文字にする）](http://design-program.blogspot.com/2011/02/javascript.html)
+     * 
      */
     String.prototype.capitalize = function() {
         return this.replace(/\w+/g, function(word){

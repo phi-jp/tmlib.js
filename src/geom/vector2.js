@@ -1,9 +1,16 @@
+/*
+ * vector2.js
+ */
+
+/*
+ * 幾何学
+ */
+tm.geom = tm.geom || {};
 
 
 (function() {
     
     /**
-     * @class Vector2
      * 2次元ベクトル
      */
     tm.geom.Vector2 = tm.createClass({
