@@ -3,7 +3,11 @@
 (function() {
     
     /**
-     * @member Object
+     * @class Object
+     * オブジェクト
+     */
+    
+    /**
      * @method defineVariable
      * 変数を追加
      * @param   {String} key name
@@ -19,7 +23,6 @@
     });
     
     /**
-     * @member Object
      * @method defineFunction
      * 関数を追加
      * @param   {String} key name
