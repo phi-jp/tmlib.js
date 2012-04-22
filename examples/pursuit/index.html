@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <meta charset="UTF-8" />
+        <title>tmlib.js test</title>
+        <script src="../../build/tmlib.min.js"></script>
+        
+        <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
+        <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
+        
+        <script>
+            
+            // 定数
+            var CIRCLE_RADIUS   = 30;
+            var CIRCLE_MAX_NUM  = 15;
+            var CIRCLE_PURSUIT_RATE = 0.25;  // 収束率
+            
+            var app = null;
+            
+            var Circle = tm.createClass({
+                superClass: tm.app.CanvasElement,
+                
+                init: function(color) {
+                    tm.app.CanvasElement.prototype.init.call(this);
+                    
+                    this.color = color;
+                },
+                
+                update: function(app) {
+                    if (this.target) {
+                        this.x += (this.target.x-this.x)*CIRCLE_PURSUIT_RATE;
+                        this.y += (this.target.y-this.y)*CIRCLE_PURSUIT_RATE;
+                    }
+                    else {
+                        this.x = app.pointing.x;
+                        this.y = app.pointing.y;
+                    }
+                },
+                
+                draw: function(c) {
+                    c.globalCompositeOperation = "lighter";
+                    c.fillStyle = this.color;
+                    c.fillCircle(0, 0, CIRCLE_RADIUS);
+                },
+            });
+            
+            window.onload = function() {
+                var app = tm.app.CanvasApp("#c");
+                
+                var circleList = [];
+                for (var i=0; i<CIRCLE_MAX_NUM; ++i) {
+                    var c = "hsla({0}, 75%, 50%, 0.75)".format(360/CIRCLE_MAX_NUM*i);
+                    var circle = Circle(c);
+                    app.scene.addChild(circle);
+                    circleList.push(circle);
+                }
+                
+                for (var i=1; i<CIRCLE_MAX_NUM; ++i) {
+                    circleList[i].target = circleList[i-1];
+                }
+                
+                app.run();
+            };
+            
+            
+        </script>
+    </head>
+    
+    <body>
+        <canvas id="c" width="640" height="480"></canvas>
+    </body>
+    
+</html>
