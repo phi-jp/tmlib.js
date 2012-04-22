@@ -12,7 +12,7 @@ tm.app = tm.app || {};
      * @class
      * アプリケーション用オブジェクトの基底となるクラス
      */
-    tm.app.element = tm.createClass({
+    tm.app.Element = tm.createClass({
         
         parent: null,
         children: null,
@@ -21,7 +21,7 @@ tm.app = tm.app || {};
          * 初期化
          */
         init: function() {
-            
+            this.children = [];
         },
         
         /**

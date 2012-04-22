@@ -32,27 +32,26 @@ tm.app = tm.app || {};
         init: function(canvas)
         {
             if (canvas instanceof HTMLCanvasElement) {
-                this.element = this.canvas = canvas;
-                // グラフィックスを生成
-                this.graphics   = TM.Graphics.Graphics(this.canvas);
+                this.element = canvas;
             }
             else {
-                this.element = this.canvas = tm.$create("canvas");
-                document.body.appendChild(this.canvas);
-                // グラフィックスを生成
-                this.graphics   = TM.Graphics.Graphics(this.canvas).fitWindowSize();
+                this.element = document.createElement("canvas");
+                document.body.appendChild(this.element);
             }
+            // グラフィックスを生成
+            this.canvas = tm.graphics.Canvas(this.element);
+            
             // シーンを生成
-            this.scene      = TM.App.Scene();
+            this.scene      = tm.app.Scene();
             // マウスを生成
-            this.mouse      = TM.$Mouse(this.canvas);
+            this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
-            this.touch      = TM.$Touch(this.canvas);
+            this.touch      = tm.input.Touch(this.element);
             // キーボードを生成
-            this.keyboard   = TM.$Key();
+            this.keyboard   = tm.input.Keyboard(this.element);
             
             // ポインティングをセット(PC では Mouse, Mobile では Touch)
-            this.pointing   = (TM.isMobile) ? this.touch : this.mouse;
+            this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
         },
         
         /**
@@ -61,7 +60,7 @@ tm.app = tm.app || {};
         run: function()
         {
             var self = this;
-            TM.setLoop(function(){ self.loop(); }, 1000/self.fps);
+            tm.setLoop(function(){ self.loop(); }, 1000/self.fps);
         },
         
         loop: function()
@@ -91,13 +90,13 @@ tm.app = tm.app || {};
         
         _draw: function()
         {
-            this.graphics.fillStyle = this.scene.background;
-            this.graphics.strokeStyle = "black";
-            this.graphics.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            this.canvas.fillStyle = this.scene.background;
+            this.canvas.strokeStyle = "black";
+            this.canvas.fillRect(0, 0, window.innerWidth, window.innerHeight);
             
-            this.graphics.fillStyle = "white";
-            this.graphics.strokeStyle = "white";
-            this.scene._draw(this.graphics);
+            this.canvas.fillStyle   = "white";
+            this.canvas.strokeStyle = "white";
+            this.scene._draw(this.canvas);
         },
         
     });

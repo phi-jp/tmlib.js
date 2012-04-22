@@ -96,6 +96,17 @@ var tm = tm || {};
         }
     };
     
+    /**
+     * ループ
+     */
+    tm.setLoop = function(fn, delay) {
+        var temp = function() {
+            fn();
+            setTimeout(arguments.callee, delay);
+        };
+        setTimeout(temp, delay);
+    };
+    
     
 })();
 
