@@ -96,6 +96,17 @@ var tm = tm || {};
         }
     };
     
+    /**
+     * ループ
+     */
+    tm.setLoop = function(fn, delay) {
+        var temp = function() {
+            fn();
+            setTimeout(arguments.callee, delay);
+        };
+        setTimeout(temp, delay);
+    };
+    
     
 })();
 
@@ -647,3 +658,2284 @@ tm.geom = tm.geom || {};
     
 })();
 
+
+
+/*
+ * vector3.js
+ */
+
+/*
+ * 幾何学
+ */
+tm.geom = tm.geom || {};
+
+
+(function() {
+    
+    /**
+     * 3次元ベクトル
+     */
+    tm.geom.Vector3 = tm.createClass({
+        /**
+         * @cfg {Number}    X 座標
+         */
+        x: 0,
+        /**
+         * @cfg {Number}    Y 座標
+         */
+        y: 0,
+        /**
+         * @cfg {Number}    Z 座標
+         */
+        z: 0,
+        
+
+        /**
+         * @constructor
+         * ３次元ベクトル
+         * 
+         * - [Test Program](http://tmlib-js.googlecode.com/svn/trunk/test/geom/vector-test.html)
+         */
+        init: function(x, y, z) {
+            this.set(x, y, z);
+        },
+        
+        /**
+         * セット
+         */
+        set: function(x, y, z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            
+            return this;
+        },
+        
+        /**
+         * 数値からセット
+         */
+        setFromNumber: function(x, y, z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            
+            return this;
+        },
+        
+        /**
+         * 配列からセット
+         */
+        setFromArray: function(arr) {
+            this.x = arr[0];
+            this.y = arr[1];
+            this.z = arr[2];
+            
+            return this;
+        },
+        
+        /**
+         * オブジェクトからセット
+         */
+        setFromObject: function(obj) {
+            this.x = obj.x;
+            this.y = obj.y;
+            this.z = obj.z;
+            
+            return this;
+        },
+        
+        /**
+         * 文字列からセット
+         */
+        setFromString: function(str) {
+            var m = str.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
+            this.x = parseFloat(m[1]);
+            this.y = parseFloat(m[3]);
+            this.z = parseFloat(m[5]);
+            
+            return this;
+        },
+        
+        /**
+         * 角度(radian)と長さでベクトルをセット
+         */
+        setFromAngle: function(thetaRad, phiRad, len) {
+            len = len || 1;
+            
+            this.x = len * Math.cos(thetaRad) * Math.sin(phiRad);
+            this.y = len * Math.sin(thetaRad);
+            this.z = len * Math.cos(thetaRad) * Math.cos(phiRad);
+            
+            return this;
+        },
+        
+        /**
+         * 角度(radian)と長さでベクトルをセット
+         */
+        setFromRadian: function(thetaRad, phiRad, len) {
+            return this.setFromAngle(thetaRad, phiRad, len);
+        },
+        
+        /**
+         * 角度(degree)と長さでベクトルをセット
+         */
+        setFromDegree: function(thetaDegree, phiDegree, len) {
+            return this.setFromAngle(thetaDegree*Math.PI/180, phiDegree*Math.PI/180, len);
+        },
+
+        /**
+         * 角度(radian)と長さでベクトルをセット
+         */
+        setFromAngle2D: function(radian, len) {
+            len = len || 1;
+            this.x = Math.cos(radian)*len;
+            this.y = Math.sin(radian)*len;
+            this.z = 0;
+            return this;
+        },
+        
+        /**
+         * 角度(radian)と長さでベクトルをセット
+         */
+        setFromRadian2D: function(radian, len) {
+            len = len || 1;
+            this.x = Math.cos(radian)*len;
+            this.y = Math.sin(radian)*len;
+            this.z = 0;
+            return this;
+        },
+        
+        /**
+         * 角度(degree)と長さでベクトルをセット
+         */
+        setFromDegree2D: function(degree, len) {
+            len = len || 1;
+            radian = degree * Math.PI/180;
+            this.x = Math.cos(radian)*len;
+            this.y = Math.sin(radian)*len;
+            this.z = 0;
+            return this;
+        },
+                
+        /**
+         * 賢いセット
+         */
+        setSmart: function(x, y, z) {
+            var v = arguments[0];
+            // xyz
+            if (arguments.length === 3) {
+                this.x = x;
+                this.y = y;
+                this.z = z;
+            }
+            // Array
+            else if (v instanceof Array) {
+                this.x = v[0];
+                this.y = v[1];
+                this.z = v[2];
+            }
+            // Object
+            else if (v instanceof Object) {
+                this.x = v.x;
+                this.y = v.y;
+                this.z = v.z;
+            }
+            // String
+            else if (typeof(v) == "string") {
+                var m = v.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
+                this.x = parseFloat(m[1]);
+                this.y = parseFloat(m[3]);
+                this.z = parseFloat(m[5]);
+            }
+            
+            return this;
+        },
+        
+        /**
+         * 加算
+         */
+        add: function(v) {
+            this.x += v.x;
+            this.y += v.y;
+            this.z += v.z;
+            
+            return this;
+        },
+        
+        /**
+         * 減算
+         */
+        sub: function(v) {
+            this.x -= v.x;
+            this.y -= v.y;
+            this.z -= v.z;
+            
+            return this;
+        },
+        
+        /**
+         * 乗算
+         */
+        mul: function(n) {
+            this.x *= n;
+            this.y *= n;
+            this.z *= n;
+            
+            return this;
+        },
+        
+        /**
+         * 除算
+         */
+        div: function(n) {
+            console.assert(n != 0, "0 division!!");
+            this.x /= n;
+            this.y /= n;
+            this.z /= n;
+            
+            return this;
+        },
+        
+        /**
+         * 反転
+         */
+        negate: function() {
+            this.x = -this.x;
+            this.y = -this.y;
+            this.z = -this.z;
+            
+            return this;
+        },
+        
+        /**
+         * 長さを取得
+         * or magnitude
+         */
+        length: function() {
+            return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
+        },
+        
+        /**
+         * 2乗された長さを取得
+         * C# の名前を引用
+         * or lengthSquare or lengthSqrt
+         */
+        lengthSquared: function() {
+            return this.x*this.x + this.y*this.y + this.z*this.z;
+        },
+        
+        /**
+         * 正規化
+         */
+        normalize: function() {
+            var length = this.length();
+            this.div(length);
+            
+            return this;
+        },
+        
+
+        toVector2: function() {
+            // TODO:
+        },
+        
+
+        /**
+         * 角度(radian)に変換
+         */
+        toAngleXY: function() {
+            return Math.atan2(this.y, this.x);
+        },
+        
+        
+        /**
+         * 3D化する
+         */
+        to3D: function() {
+            // TODO: 3d化する
+        },
+        
+        toStyleString: function() {
+            return "{x:{x}, y:{y}, z:{z}}".format(this);
+        },
+        
+        toString: function() {
+            return "{x:{x}, y:{y}, z:{z}}".format(this);
+        },
+        
+        
+        /**
+         * X値をセット
+         * チェーンメソッド用セッター
+         */
+        setX: function(x) {
+            this.x = x;
+            return this;
+        },
+        
+        /**
+         * Y値をセット
+         * チェーンメソッド用セッター
+         */
+        setY: function(y) {
+            this.y = y;
+            return this;
+        },
+        
+        /**
+         * Z値をセット
+         * チェーンメソッド用セッター
+         */
+        setZ: function(z) {
+            this.z = z;
+            return this;
+        }
+    });
+    
+})();
+
+
+
+/*
+ * evnet.js
+ */
+
+(function() {
+    
+    /**
+     * @class Event
+     * 
+     * Event クラス
+     */
+    
+    // 仕方なしの IE 対応(これ引っかかったら他のもダメだから必要ないかも)
+    if (!Event.prototype.stopPropagation) {
+        Event.prototype.stopPropagation = function() {
+            this.cancelBubble = true;
+        };
+    }
+    if (!Event.prototype.preventDefault) {
+        Event.prototype.preventDefault = function() {
+            this.returnValue = false;
+        };
+    }
+    
+    /**
+     * @method
+     * イベントのデフォルト処理 & 伝達を止める
+     */
+    Event.prototype.stop = function() {
+        // イベントキャンセル
+        this.preventDefault();
+        // イベント伝達を止める
+        this.stopPropagation();
+    };
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class KeyboardEvent
+     * 
+     * KeyboardEvent クラス
+     */
+    
+    /**
+     * @property    character
+     * 押したキーの文字を取得
+     */
+    KeyboardEvent.prototype.getter("character", function(){
+        return String.fromCharCode(this.keyCode);
+    });
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class MouseEvent
+     * 
+     * MouseEvent クラス
+     */
+    
+    /**
+     * @property    pointX
+     * マウスのX座標.
+     */
+    MouseEvent.prototype.getter("pointX", function() {
+        return this.pageX - this.target.getBoundingClientRect().left;
+    });
+    
+    /**
+     * @property    pointY
+     * マウスのY座標.
+     */
+    MouseEvent.prototype.getter("pointY", function() {
+        return this.pageY - this.target.getBoundingClientRect().top;
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    if (window.TouchEvent === undefined) { return ; }
+    
+    
+    /**
+     * @class TouchEvent
+     * 
+     * TouchEvent クラス
+     */
+    
+    /**
+     * @property    pointX
+     * タッチイベント.
+     */
+    TouchEvent.prototype.getter("pointX", function() {
+        return this.touches[0].pageX;
+    });
+    
+    /**
+     * @property    pointY
+     * タッチイベント.
+     */
+    TouchEvent.prototype.getter("pointY", function() {
+        return this.touches[0].pageY;
+    });
+    
+    
+})();
+
+
+
+
+
+
+
+
+
+/*
+ * phi
+ */
+
+
+tm.input = tm.input || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * キーボードクラス
+     */
+    tm.input.Keyboard = tm.createClass({
+        
+        
+        /**
+         * target element
+         */
+        element: null,
+        
+        key: null,
+        
+        press   : null, // 押しているキー
+        down    : null, // 押したキー
+        up      : null, // 離したキー
+        last    : null, // 押していたキー
+        
+        /**
+         * @constructs
+         * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html">Test Program</a>.
+         * @example
+         * TM.loadScript("input", "keyboard");
+         *  
+         * TM.main(function() {
+         *     var k = TM.$Key(document);
+         *     k.run();
+         *     TM.setLoop(function(){
+         *         if (k.getKey('a')) { console.log("press 'a'!!"); }
+         *     });
+         * });
+         */
+        init: function(element) {
+            this.element = element || document;
+            
+            this.key = {};
+            
+            this.press  = {};
+            this.down   = {};
+            this.up     = {};
+            this.last   = {};
+            
+            var self = this;
+            this.element.addEventListener("keydown", function(e){
+                self.key[e.keyCode] = true;
+            });
+            this.element.addEventListener("keyup", function(e){
+                // delete self.key[e.keyCode];
+                self.key[e.keyCode] = false;
+                // self.button |= 1<<e.button;
+            });
+            this.element.addEventListener("keypress", function(e){
+                // self.button &= ~(1<<e.button);
+            });
+        },
+        
+        /**
+         * run.
+         * 自動でマウス情報を更新したい際に使用する
+         */
+        run: function(fps) {
+            var self = this;
+            fps = fps || 30;
+            TM.setLoop(function(){
+                self.update();
+            },　1000/fps);
+        },
+        
+        /**
+         * 情報更新処理
+         * マイフレーム呼んで下さい.
+         */
+        update: function() {
+            // TODO: 一括ビット演算で行うよう修正する
+            for (var k in this.key) {
+                this.last[k]    = this.press[k];
+                this.press[k]   = this.key[k];
+                
+                this.down[k] = (this.press[k] ^ this.last[k]) & this.press[k];
+                this.up[k] = (this.press[k] ^ this.last[k]) & this.last[k];
+            }
+            
+            return this;
+        },
+        
+        /**
+         * キーを押しているかをチェック
+         * @param   {Number/String} key keyCode or keyName
+         * @returns {Boolean}   チェック結果
+         */
+        getKey: function(key) {
+            if (typeof(key) == "string") {
+                key = TM.hotkeys[key];
+            }
+            return this.press[key] == true;
+        },
+        
+        /**
+         * キーを押したかをチェック
+         * @param   {Number/String} key keyCode or keyName
+         * @returns {Boolean}   チェック結果
+         */
+        getKeyDown: function(key) {
+            if (typeof(key) == "string") {
+                key = TM.hotkeys[key];
+            }
+            return this.down[key] == true;
+        },
+        
+        /**
+         * キーを離したかをチェック
+         * @param   {Number/String} key keyCode or keyName
+         * @returns {Boolean}   チェック結果
+         */
+        getKeyUp: function(key) {
+            if (typeof(key) == "string") {
+                key = TM.hotkeys[key];
+            }
+            return this.up[key] == true;
+        },
+        
+        /**
+         * キーの方向を Angle(Degree) で取得
+         * @returns {Boolean}   角度(Degree)
+         */
+        getKeyAngle: function() {
+            var angle = null;
+            var arrowBit =
+                (this.getKey("left")   << 3) | // 1000
+                (this.getKey("up")     << 2) | // 0100
+                (this.getKey("right")  << 1) | // 0010
+                (this.getKey("down"));         // 0001
+            
+            if (arrowBit != 0 && ARROW_BIT_TO_ANGLE_TABLE.hasOwnProperty(arrowBit)) {
+                angle = ARROW_BIT_TO_ANGLE_TABLE[arrowBit];
+            }
+            
+            return angle;
+        }
+        
+    });
+    
+    var ARROW_BIT_TO_ANGLE_TABLE = {
+        // 上下左右
+        0x01: 270,      // 下
+        0x02:   0,      // 右
+        0x04:  90,      // 上
+        0x08: 180,      // 左
+        // 斜め
+        0x06:  45,      // 右上
+        0x03: 315,      // 右下
+        0x0c: 135,      // 左上
+        0x09: 225,      // 左下
+        // 三方向同時押し対応
+        // 想定外の操作だが対応しといたほうが無難
+        0x0e:  90,      // 右上左
+        0x0d: 180,      // 上左下
+        0x0b: 270,      // 左下右
+        0x07:   0,      // 下右上
+    };
+    
+    
+})();
+
+
+
+/*
+ * phi
+ */
+
+
+tm.input = tm.input || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * マウスクラス
+     */
+    tm.input.Mouse = tm.createClass({
+        
+        
+        element: null,
+        
+        x   : 0,
+        y   : 0,
+        pX  : 0,
+        pY  : 0,
+        dX  : 0,
+        dY  : 0,
+        
+        /**
+         * 初期化
+         */
+        init: function(element) {
+            this.element = element || window.document;
+            
+            var self = this;
+            this.element.addEventListener("mousemove", function(e){
+                var rect = e.target.getBoundingClientRect();
+                self.x = e.clientX - rect.left;
+                self.y = e.clientY - rect.top;
+            });
+            this.element.addEventListener("mousedown", function(e){
+                self.button |= 1<<e.button;
+            });
+            this.element.addEventListener("mouseup", function(e){
+                self.button &= ~(1<<e.button);
+            });
+        },
+        
+        /**
+         * run.
+         * 自動でマウス情報を更新したい際に使用する
+         */
+        run: function(fps) {
+            var self = this;
+            fps = fps || 30;
+            TM.setLoop(function(){
+                self.update();
+            },　1000/fps);
+        },
+        
+        /**
+         * 情報更新処理
+         * マイフレーム呼んで下さい.
+         */
+        update: function() {
+            this.last = this.press;
+            
+            this.press = this.button;
+            
+            this.down = (this.press ^ this.last) & this.press;
+            this.up   = (this.press ^ this.last) & this.last;
+            
+            this.dX = this.x - this.pX;
+            this.dY = this.y - this.pY;
+            
+            this.pX = this.x;
+            this.pY = this.y;
+        },
+        
+        /**
+         * ボタン取得
+         */
+        getButton: function(button) {
+            if (typeof(button) == "string") {
+                button = BUTTON_MAP[button];
+            }
+            
+            return (this.press & button) != 0;
+        },
+        
+        /**
+         * ボタンダウン取得
+         */
+        getButtonDown: function(button) {
+            if (typeof(button) == "string") {
+                button = BUTTON_MAP[button];
+            }
+            
+            return (this.down & button) != 0;
+        },
+        
+        /**
+         * ボタンアップ取得
+         */
+        getButtonUp: function(button) {
+            if (typeof(button) == "string") {
+                button = BUTTON_MAP[button];
+            }
+            
+            return (this.up & button) != 0;
+        },
+        
+        
+    });
+    
+    
+    tm.input.Mouse.BUTTON_LEFT      = 0x1;
+    tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
+    tm.input.Mouse.BUTTON_RIGHT     = 0x4;
+    
+    var BUTTON_MAP = {
+        "left"  : tm.input.Mouse.BUTTON_LEFT,
+        "middle": tm.input.Mouse.BUTTON_MIDDLE,
+        "right" : tm.input.Mouse.BUTTON_RIGHT
+    };
+    
+    
+    /**
+     * @method
+     * ポインティング状態取得(touch との差異対策)
+     */
+    tm.input.Mouse.prototype.getPointing        = function() { return this.getButton("left"); };
+    /**
+     * @method
+     * ポインティングを開始したかを取得(touch との差異対策)
+     */
+    tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown("left"); };
+    /**
+     * @method
+     * ポインティングを終了したかを取得(touch との差異対策)
+     */
+    tm.input.Mouse.prototype.getPointingEnd     = function() { return this.getButtonUp("left"); };
+    
+    
+})();
+
+
+
+/*
+ * phi
+ */
+
+
+tm.input = tm.input || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * タッチクラス
+     */
+    tm.input.Touch = tm.createClass({
+        
+        element: null,
+        touched: false,
+        
+        x   : 0,
+        y   : 0,
+        pX  : 0,
+        pY  : 0,
+        dX  : 0,
+        dY  : 0,
+        
+        /**
+         * @constructs
+         * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
+         */
+        init: function(element) {
+            this.element = element || window.document;
+            
+            var self = this;
+            this.element.addEventListener("touchstart", function(e){
+                self.touched = true;
+            });
+            this.element.addEventListener("touchend", function(e){
+                self.touched = false;
+            });
+            this.element.addEventListener("touchmove", function(e){
+                var t = e.touches[0];
+                self.x = t.pageX;
+                self.y = t.pageY;
+                // 画面移動を止める
+                e.stop();
+            });
+        },
+        
+        /**
+         * run.
+         * 自動でマウス情報を更新したい際に使用する
+         */
+        run: function(fps) {
+            var self = this;
+            fps = fps || 30;
+            TM.setLoop(function(){
+                self.update();
+            },　1000/fps);
+        },
+        
+        /**
+         * 情報更新処理
+         * マイフレーム呼んで下さい.
+         */
+        update: function() {
+            this.last   = this.now;
+            this.now    = this.touched;
+            this.start  = (this.now ^ this.last) & this.now;
+            this.end    = (this.now ^ this.last) & this.last;
+            
+            this.dX = this.x - this.pX;
+            this.dY = this.y - this.pY;
+            
+            this.pX = this.x;
+            this.pY = this.y;
+        },
+        
+        /**
+         * タッチしているかを判定
+         */
+        getTouch: function() {
+            return this.touched;
+        },
+        
+        /**
+         * タッチ開始時に true
+         */
+        getTouchStart: function() {
+            return this.start;
+        },
+        
+        /**
+         * タッチ終了時に true
+         */
+        getTouchEnd: function() {
+            return this.end;
+        }
+        
+    });
+    
+    
+    /**
+     * @method
+     * ポインティング状態取得(mouse との差異対策)
+     */
+    tm.input.Touch.prototype.getPointing        = tm.input.Touch.prototype.getTouch;
+    /**
+     * @method
+     * ポインティングを開始したかを取得(mouse との差異対策)
+     */
+    tm.input.Touch.prototype.getPointingStart   = tm.input.Touch.prototype.getTouchStart;
+    /**
+     * @method
+     * ポインティングを終了したかを取得(mouse との差異対策)
+     */
+    tm.input.Touch.prototype.getPointingEnd     = tm.input.Touch.prototype.getTouchEnd;
+    
+})();
+
+
+
+/*
+ * color.js
+ */
+
+/*
+ * 
+ */
+tm.graphics = tm.graphics || {};
+
+(function() {
+    
+    /**
+     * @class   カラークラス
+     */
+    tm.graphics.Color = tm.createClass({
+        
+        /**
+         * R値
+         */
+        r: 255,
+        
+        /**
+         * G値
+         */
+        g: 255,
+        
+        /**
+         * B値
+         */
+        b: 255,
+        
+        /**
+         * A値
+         */
+        a: 1.0,
+        
+        /**
+         * @constructor
+         * 初期化
+         */
+        init: function(r, g, b, a) {
+            
+            this.canvas             = canvas || document.createElement("canvas");
+            this.context            = this.canvas.getContext("2d");
+            this.context.lineCap    = "round";
+            this.context.lineJoin   = "round";
+        },
+        
+        /**
+         * CSS 用 RGBA 文字列に変換
+         */
+        toCSSValue: function() {
+            return "rgba({r},{g},{b},{a})".format(this);
+        },
+        
+    });
+    
+})();
+
+
+/*
+ * canvas.js
+ */
+
+/*
+ * 
+ */
+tm.graphics = tm.graphics || {};
+
+(function() {
+    
+    /**
+     * キャンバス
+     */
+    tm.graphics.Canvas = tm.createClass({
+        
+        /**
+         * キャンバス
+         */
+        canvas: null,
+        
+        /**
+         * コンテキスト
+         */
+        context: null,
+        
+        /**
+         * @constructor
+         * 初期化
+         */
+        init: function(canvas) {
+            this.canvas = null;
+            if (typeof canvas == "string") {
+                this.canvas = document.querySelector(canvas);
+            }
+            else {
+                this.canvas = canvas || document.createElement("canvas");
+            }
+            this.context            = this.canvas.getContext("2d");
+            this.context.lineCap    = "round";
+            this.context.lineJoin   = "round";
+        },
+        
+        /**
+         * リサイズする
+         */
+        resize: function(width, height) {
+            this.canvas.width   = width;
+            this.canvas.height  = height;
+            return this;
+        },
+        
+        /**
+         * フィット
+         */
+        resizeToFitScreen: function() {
+            this.canvas.style.position  = "fixed";
+            this.canvas.style.margin    = "0px";
+            this.canvas.style.padding   = "0px";
+            this.canvas.style.left      = "0px";
+            this.canvas.style.top       = "0px";
+            return this.resize(window.innerWidth, window.innerHeight);
+        },
+        
+        /**
+         *  クリア
+         */
+        clear: function(x, y, width, height)
+        {
+            x = x || 0;
+            y = y || 0;
+            width = width || this.width;
+            height= height|| this.height;
+            this.context.clearRect(x, y, width, height);
+            return this;
+        },
+        
+        
+        /**
+         * 色指定クリア
+         * @param {String}  fillStyle
+         * @param {Number}  [x=0]
+         * @param {Number}  [y=0]
+         * @param {Number}  [width=this.width]
+         * @param {Number}  [height=this.height]
+         */
+        clearColor: function(fillStyle, x, y, width, height)
+        {
+            x = x || 0;
+            y = y || 0;
+            width = width || this.width;
+            height= height|| this.height;
+            
+            this.save();
+            this.resetTransform();          // 行列初期化
+            this.fillStyle = fillStyle;     // 塗りつぶしスタイルセット
+            this.context.fillRect(x, y, width, height);
+            this.restore();
+            
+            return this;
+        },
+                
+        /**
+         *  パスを開始(リセット)
+         */
+        beginPath: function()
+        {
+            this.context.beginPath();
+            return this;
+        },
+                
+        /**
+         *  パスを閉じる
+         */
+        closePath: function()
+        {
+            this.context.closePath();
+            return this;
+        },
+        
+
+        /**
+         *  新規パス生成
+         */
+        moveTo: function(x, y)
+        {
+            this.context.moveTo(x, y);
+            return this;
+        },
+        
+        /**
+         * パスに追加
+         */
+        lineTo: function(x, y)
+        {
+            this.context.lineTo(x, y);
+            return this;
+        },
+        
+        /**
+         * パス内を塗りつぶす
+         */
+        fill: function()
+        {
+            this.context.fill();
+            return this;
+        },
+        
+        /**
+         * パス上にラインを引く
+         */
+        stroke: function()
+        {
+            this.context.stroke();
+            return this;
+        },
+        
+        /**
+         * 点描画
+         */
+        drawPoint: function(x, y)
+        {
+            return this.strokeRect(x, y, 1, 1);
+            // return this.beginPath().moveTo(x-0.5, y-0.5).lineTo(x+0.5, y+0.5).stroke();
+        },
+
+        /**
+         * ラインパスを作成
+         */
+        line: function(x0, y0, x1, y1)
+        {
+            return this.moveTo(x0, y0).lineTo(x1, y1);
+        },
+        
+        /**
+         * ラインを描画
+         */
+        drawLine: function(x0, y0, x1, y1)
+        {
+            return this.beginPath().line(x0, y0, x1, y1).stroke();
+        },
+        
+        /**
+         * ダッシュラインを描画
+         */
+        drawDashLine: function(x0, y0, x1, y1, pattern)
+        {
+            var patternTable = null;
+            if (typeof(pattern) == "string") {
+                patternTable = pattern;
+            }
+            else {
+                pattern = pattern || 0xf0f0;
+                patternTable = pattern.toString(2);
+            }
+            patternTable = patternTable.padding(16, '1');
+            
+            var vx = x1-x0;
+            var vy = y1-y0;
+            var len = Math.sqrt(vx*vx + vy*vy);
+            vx/=len; vy/=len;
+            
+            var x = x0;
+            var y = y0;
+            for (var i=0; i<len; ++i) {
+                if (patternTable[i%16] == '1') {
+                    this.drawPoint(x, y);
+                    // this.fillRect(x, y, this.context.lineWidth, this.context.lineWidth);
+                }
+                x += vx;
+                y += vy;
+            }
+            
+            return this;
+        },
+        
+        /**
+         * v0(x0, y0), v1(x1, y1) から角度を求めて矢印を描画
+         * http://hakuhin.jp/as/rotation.html
+         */
+        drawArrow: function(x0, y0, x1, y1, arrowRadius)
+        {
+            var vx = x1-x0;
+            var vy = y1-y0;
+            var angle = Math.atan2(vy, vx)*180/Math.PI;
+            
+            this.drawLine(x0, y0, x1, y1);
+            this.fillPolygon(x1, y1, arrowRadius || 5, 3, angle);
+            
+            return this;
+        },
+        
+        
+        /**
+         * lines
+         */
+        lines: function()
+        {
+            this.moveTo(arguments[0], arguments[1]);
+            for (var i=1,len=arguments.length/2; i<len; ++i) {
+                this.lineTo(arguments[i*2], arguments[i*2+1]);
+            }
+            return this;
+        },
+        
+        strokeLines: function()
+        {
+            this.beginPath();
+            this.lines.apply(this, arguments);
+            this.stroke();
+            return this;
+        },
+        
+        fillLines: function()
+        {
+            this.beginPath();
+            this.lines.apply(this, arguments);
+            this.fill();
+            return this;
+        },
+        
+        /**
+         * 四角形パスを作成する
+         */
+        rect: function(x, y, width, height)
+        {
+            this.context.rect.apply(this.context, arguments);
+            return this;
+        },
+        
+        /**
+         * 四角形塗りつぶし描画
+         */
+        fillRect: function()
+        {
+            this.context.fillRect.apply(this.context, arguments);
+            return this;
+        },
+        
+        /**
+         * 四角形ライン描画
+         */
+        strokeRect: function()
+        {
+            this.context.strokeRect.apply(this.context, arguments);
+            return this;
+        },
+        
+        /**
+         * 角丸四角形パス
+         */
+        roundRect: function(x, y, width, height, radius) {
+            var l = x + radius;
+            var r = x + width - radius;
+            var t = y + radius;
+            var b = y + height - radius;
+            
+            /*
+            var ctx = this.context;
+            ctx.moveTo(l, y);
+            ctx.lineTo(r, y);
+            ctx.quadraticCurveTo(x+width, y, x+width, t);
+            ctx.lineTo(x+width, b);
+            ctx.quadraticCurveTo(x+width, y+height, r, y+height);
+            ctx.lineTo(l, y+height);
+            ctx.quadraticCurveTo(x, y+height, x, b);
+            ctx.lineTo(x, t);
+            ctx.quadraticCurveTo(x, y, l, y);
+            /**/
+            
+            this.context.arc(l, t, radius,     -Math.PI, -Math.PI*0.5, false);  // 左上
+            this.context.arc(r, t, radius, -Math.PI*0.5,            0, false);  // 右上
+            this.context.arc(r, b, radius,            0,  Math.PI*0.5, false);  // 右下
+            this.context.arc(l, b, radius,  Math.PI*0.5,      Math.PI, false);  // 左下
+            this.closePath();
+            /**/
+            
+            return this;
+        },
+        /**
+         * 角丸四角形塗りつぶし
+         */
+        fillRoundRect: function(x, y, width, height, radius) {
+            return this.beginPath().roundRect(x, y, width, height, radius).fill();
+        },
+        /**
+         * 角丸四角形ストローク描画
+         */
+        strokeRoundRect: function(x, y, width, height, radius) {
+            return this.beginPath().roundRect(x, y, width, height, radius).stroke();
+        },
+        
+        /**
+         * ポリゴンパス
+         */
+        polygon: function(x, y, size, sides, offsetAngle) {
+            var radDiv = (Math.PI*2)/sides;
+            var radOffset = (offsetAngle!=undefined) ? offsetAngle*Math.PI/180 : -Math.PI/2;
+            
+            this.moveTo(x + Math.cos(radOffset)*size, y + Math.sin(radOffset)*size);
+            for (var i=1; i<sides; ++i) {
+                var rad = radDiv*i+radOffset;
+                this.lineTo(
+                    x + Math.cos(rad)*size,
+                    y + Math.sin(rad)*size
+                );
+            }
+            this.closePath();
+            return this;
+        },
+        /**
+         * ポリゴン塗りつぶし
+         */
+        fillPolygon: function(x, y, radius, sides, offsetAngle) {
+            return this.beginPath().polygon(x, y, radius, sides, offsetAngle).fill();
+        },
+        /**
+         * ポリゴンストローク描画
+         */
+        strokePolygon: function(x, y, radius, sides, offsetAngle) {
+            return this.beginPath().polygon(x, y, radius, sides, offsetAngle).stroke();
+        },
+        
+        /**
+         * star
+         */
+        star: function(x, y, radius, sides, sideIndent, offsetAngle) {
+            var sideIndentRadius = radius * (sideIndent || 0.38);
+            var radOffset = (offsetAngle) ? offsetAngle*Math.PI/180 : -Math.PI/2;
+            var radDiv = (Math.PI*2)/sides/2;
+            
+            this.moveTo(
+                x + Math.cos(radOffset)*radius,
+                y + Math.sin(radOffset)*radius
+            );
+            for (var i=1; i<sides*2; ++i) {
+                var rad = radDiv*i + radOffset;
+                var len = (i%2) ? sideIndentRadius : radius;
+                this.lineTo(
+                    x + Math.cos(rad)*len,
+                    y + Math.sin(rad)*len
+                );
+            }
+            this.closePath();
+            return this;
+        },
+        
+        fillStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
+            return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).fill();
+        },
+        strokeStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
+            return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).stroke();
+        },
+        
+        
+        /**
+         * 円のパスを設定
+         */
+        circle: function(x, y, radius)
+        {
+            this.context.arc(x, y, radius, 0, Math.PI*2, false);
+            return this;
+        },
+        
+        /**
+         * 塗りつぶし円を描画
+         */
+        fillCircle: function(x, y, radius)
+        {
+            return this.beginPath().circle(x, y, radius).fill();
+        },
+        
+        /**
+         * ストローク円を描画
+         */
+        strokeCircle: function(x, y, radius)
+        {
+            return this.beginPath().circle(x, y, radius).stroke();
+        },
+        
+        /**
+         * 三角形パスを設定
+         */
+        triangle: function(x0, y0, x1, y1, x2, y2)
+        {
+            this.moveTo(x0, y0).lineTo(x1, y1).lineTo(x2, y2);
+            this.closePath();
+            return this;
+        },
+        
+        /**
+         * 塗りつぶし三角形を描画
+         */
+        fillTriangle: function(x0, y0, x1, y1, x2, y2)
+        {
+            return this.beginPath().triangle(x0, y0, x1, y1, x2, y2).fill();
+        },
+        
+        /**
+         * ストローク三角形を描画
+         */
+        strokeTriangle: function(x0, y0, x1, y1, x2, y2)
+        {
+            return this.beginPath().triangle(x0, y0, x1, y1, x2, y2).stroke();
+        },
+        
+
+        /**
+         * 塗りつぶしテキストを描画
+         */
+        fillText: function(text, x, y)
+        {
+            return this.context.fillText.apply(this.context, arguments);
+        },
+        
+        /**
+         * ストロークテキスト
+         */
+        strokeText: function(text, x, y)
+        {
+            return this.context.strokeText.apply(this.context, arguments);
+        },
+        
+        /**
+         * 塗りつぶしテキスト
+         */
+        fillTextList: function(text_list, x, y, offsetX, offsetY)
+        {
+            offsetX = offsetX || 0;
+            offsetY = offsetY || 20;
+            
+            for (var i=0,len=text_list.length; i<len; ++i) {
+                this.fillText(text_list[i], x+offsetX*i, y+offsetY*i);
+            }
+            
+            return this;
+        },
+        
+        /**
+         * ストロークテキストリスト
+         */
+        strokeTextList: function(text_list, x, y, offsetX, offsetY)
+        {
+            offsetX = offsetX || 0;
+            offsetY = offsetY || 20;
+            
+            for (var i=0,len=text_list.length; i<len; ++i) {
+                this.strokeText(x+offsetX*i, y+offsetY*i, text_list[i]);
+            }
+            
+            return this;
+        },
+                
+        /**
+         * 画像描画
+         */
+        drawImage: function(image, x, y)
+        {
+            this.context.drawImage.apply(this.context, arguments);
+            return ;
+            
+            x = x || 0;
+            y = y || 0;
+            this.context.drawImage(image, x, y);
+            return this;
+            // ctx.drawImage(this.image.canvas,
+                // 0, 0, this.width, this.height,
+                // -this.width/2, -this.height/2, this.width, this.height);
+        },
+        
+        /**
+         * 行列をセット
+         */
+        setTransform: function(m11, m12, m21, m22, dx, dy)
+        {
+            this.context.setTransform(m11, m12, m21, m22, dx, dy);
+            return this;
+        },
+        
+        
+        /**
+         * 行列をリセット
+         */
+        resetTransform: function()
+        {
+            this.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+            return this;
+        },
+        
+        
+        /**
+         * 中心に移動
+         */
+        setTransformCenter: function()
+        {
+            this.context.setTransform(1, 0, 0, 1, this.width/2, this.height/2);
+            return this;
+        },
+        
+        /**
+         * 保存
+         */
+        save: function()
+        {
+            this.context.save();
+            return this;
+        },
+        
+        /**
+         * 復元
+         */
+        restore: function()
+        {
+            this.context.restore();
+            return this;
+        },
+        
+        /**
+         * 移動
+         */
+        translate: function(x, y)
+        {
+            this.context.translate(x, y);
+            return this;
+        },
+        
+        /**
+         * 回転
+         */
+        rotate: function(rotation)
+        {
+            this.context.rotate(rotation);
+            return this;
+        },
+        
+        /**
+         * スケール
+         */
+        scale: function(scaleX, scaleY)
+        {
+            this.context.scale(scaleX, scaleY);
+            return this;
+        },
+        
+        /**
+         * 画像として保存
+         */
+        saveAsImage: function(mime_type) {
+            mime_type = mime_type || tm.graphics.Canvas.MIME_TYPE_PNG;
+            var data_url = this.canvas.toDataURL(mime_type);
+            // data_url = data_url.replace(mime_type, "image/octet-stream");
+            window.open(data_url, "save");
+            
+            // toDataURL を使えば下記のようなツールが作れるかも!!
+            // TODO: プログラムで絵をかいて保存できるツール
+        },
+        
+        setCompositing: function(alpha, compositeOperation)
+        {
+            // TODO
+        },
+        
+        /**
+         * 
+         * @see <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles</a>
+         */
+        setColorStyle: function(stroke, fill)
+        {
+            fill = fill || stroke;
+            
+            this.context.strokeStyle    = stroke;
+            this.context.fillStyle      = fill;
+            return this;
+        },
+        
+        /**
+         * テキストをセット
+         */
+        setText: function(font, align, baseline)
+        {
+            var c = this.context;
+            c.font          = font;
+            c.textAlign     = align;
+            c.textBaseline  = baseline;
+        },
+        
+        /**
+         * ラインスタイルを一括セット
+         * @see <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles</a>
+         */
+        setLineStyle: function(width, cap, join, miter) {
+            with(this.context) {
+                lineWidth   = width || 1;
+                lineCap     = cap   || "round";
+                lineJoin    = join  || "round";
+                miterLimit  = miter || 10.0;
+            }
+            return this;
+        },
+        
+        /**
+         * 影をセット
+         * - <http://www.html5.jp/canvas/ref/property/shadowColor.html>
+         * - <http://www.w3.org/TR/2010/WD-2dcontext-20100624/#shadows>
+         */
+        setShadows: function(color, offsetX, offsetY, blur) {
+            with(this.context) {
+                shadowColor     = color     || "black";
+                shadowOffsetX   = offsetX   || 0;
+                shadowOffsetY   = offsetY   || 0;
+                shadowBlur      = blur      || 0;
+            }
+            return this;
+        },
+        
+    });
+    
+    tm.graphics.Canvas.MIME_TYPE_PNG = "image/png";
+    tm.graphics.Canvas.MIME_TYPE_JPG = "image/jpeg";
+    tm.graphics.Canvas.MIME_TYPE_SVG = "image/svg+xml";
+    
+    /**
+     * @property    width
+     * 幅
+     */
+    tm.graphics.Canvas.prototype.accessor("width", {
+        "get": function()   { return this.canvas.width; },
+        "set": function(v)  { this.canvas.width = v; }
+    });
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.graphics.Canvas.prototype.accessor("height", {
+        "get": function()   { return this.canvas.height; },
+        "set": function(v)  { this.canvas.height = v;   }
+    });
+    
+    /**
+     * @property    fillStyle
+     * 塗りつぶしスタイル
+     */
+    tm.graphics.Canvas.prototype.accessor("fillStyle", {
+        "get": function()   { return this.context.fillStyle; },
+        "set": function(v)  { this.context.fillStyle = v;   }
+    });
+    
+    
+    /**
+     * @property    strokeStyle
+     * ストロークスタイル
+     */
+    tm.graphics.Canvas.prototype.accessor("strokeStyle", {
+        "get": function()   { return this.context.strokeStyle; },
+        "set": function(v)  { this.context.strokeStyle = v;   }
+    });
+    
+    
+    /**
+     * @property    globalAlpha
+     * アルファ指定
+     */
+    tm.graphics.Canvas.prototype.accessor("globalAlpha", {
+        "get": function()   { return this.context.globalAlpha; },
+        "set": function(v)  { this.context.globalAlpha = v;   }
+    });
+    
+    
+    /**
+     * @property    globalCompositeOperation
+     * ブレンド指定
+     */
+    tm.graphics.Canvas.prototype.accessor("globalCompositeOperation", {
+        "get": function()   { return this.context.globalCompositeOperation; },
+        "set": function(v)  { this.context.globalCompositeOperation = v;   }
+    });
+
+    /**
+     * @property    shadowBlur
+     * シャドウブラー
+     */
+    tm.graphics.Canvas.prototype.accessor("shadowBlur", {
+        "get": function()   { return this.context.shadowBlur; },
+        "set": function(v)  { this.context.shadowBlur = v;   }
+    });
+    
+
+    /**
+     * @property    shadowColor
+     * シャドウブラーカラー
+     */
+    tm.graphics.Canvas.prototype.accessor("shadowColor", {
+        "get": function()   { return this.context.shadowColor; },
+        "set": function(v)  { this.context.shadowColor = v;   }
+    });
+    
+    /**
+     * @property    lineCap
+     * ライン終端の描画方法
+     */
+    tm.graphics.Canvas.prototype.accessor("lineCap", {
+        "get": function()   { return this.context.lineCap; },
+        "set": function(v)  { this.context.lineCap = v;   }
+    });
+    
+    /**
+     * @property    lineJoin
+     * ラインつなぎ目の描画方法
+     */
+    tm.graphics.Canvas.prototype.accessor("lineJoin", {
+        "get": function()   { return this.context.lineJoin; },
+        "set": function(v)  { this.context.lineJoin = v;   }
+    });
+    
+    /**
+     * @property    lineWidth
+     * ライン幅設定
+     */
+    tm.graphics.Canvas.prototype.accessor("lineWidth", {
+        "get": function()   { return this.context.lineWidth; },
+        "set": function(v)  { this.context.lineWidth = v;   }
+    });
+    
+    /**
+     * @property    font
+     * フォント
+     */
+    tm.graphics.Canvas.prototype.accessor("font", {
+        "get": function()   { return this.context.font; },
+        "set": function(v)  { this.context.font = v;   }
+    });
+    
+    
+    /**
+     * @property    centerX
+     * センターX
+     */
+    tm.graphics.Canvas.prototype.getter("centerX", function() {
+        return this.canvas.width/2;
+    });
+    
+    /**
+     * @property    centerY
+     * センターY
+     */
+    tm.graphics.Canvas.prototype.getter("centerY", function(){
+        return this.canvas.height/2;
+    });
+    
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * 
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * アプリケーション用オブジェクトの基底となるクラス
+     */
+    tm.app.Element = tm.createClass({
+        
+        parent: null,
+        children: null,
+        
+        /**
+         * 初期化
+         */
+        init: function() {
+            this.children = [];
+        },
+        
+        /**
+         * 親から離れる
+         */
+        remove: function()
+        {
+            console.assert(this.parent);
+            this.parent.removeChild(this);
+            
+            return this;
+        },
+        
+        /**
+         * 子供を追加
+         */
+        addChild: function(child) {
+            if (child.parent) child.remove();
+            child.parent = this;
+            this.children.push(child);
+            
+            return child;
+        },
+        
+        /**
+         * まとめて追加
+         * scene 遷移時に子供をごっそり移譲するときなどに使用
+         * まだ動作確認していない
+         */
+        addChildren: function(children)
+        {
+            var tempChildren = children.slice();
+            for (var i=beginIndex,len=tempChildren.length; i<len; ++i) {
+                this.addChild(tempChildren[i]);
+            }
+        },
+        
+        /**
+         * index 指定で子供を取得
+         */
+        getChildAt: function() {
+            // TODO: 
+        },
+        
+        /**
+         * child に一致するエレメントを離す
+         */
+        removeChild: function(child)
+        {
+            var index = this.children.indexOf(child);
+            if (index != -1) this.children.splice(index, 1);
+        },
+        
+        /**
+         * すべての child を離す
+         */
+        removeChildren: function(beginIndex)
+        {
+            beginIndex = beginIndex || 0;
+            var tempChildren = this.children.slice();
+            for (var i=beginIndex,len=tempChildren.length; i<len; ++i) {
+                tempChildren[i].remove();
+            }
+            this.children = [];
+        },
+        
+        /**
+         * 名前の一致する child を取得
+         */
+        getChildByName: function(name)
+        {
+            for (var i=0,len=this.children.length; i<len; ++i)
+                if (this.children[i].name == name) return this.children[i];
+            
+            return null;
+        },
+        
+        /**
+         * 関数実行
+         */
+        execChildren: function(func, args)
+        {
+            args = (args && args.length) ? args : [args];
+            // 関数内で remove される可能性があるので配列をコピーする
+            var tempChildren = this.children.slice();
+            for (var i=0,len=tempChildren.length; i<len; ++i) {
+                func.apply(tempChildren[i], args);
+            }
+        },
+        
+        /**
+         * 親を取得
+         */
+        getParent: function() { return this.parent; },
+        
+        /**
+         * ルートを取得
+         */
+        getRoot: function() {
+            if (!this.parent) return null;
+            // TODO: 親をたどって NULL だったらそのエレメントを返す
+            var elm = null;
+            for (elm=this.parent; elm.parent != null; elm = elm.parent) {}
+            return elm;
+        },
+        
+        /**
+         * イベント起動
+         */
+        dispatchEvent: function(eventName) {
+            var oldEventName = 'on' + eventName;
+            if (this[oldEventName]) this[oldEventName]();
+        },
+    });
+    
+})();
+
+
+/*
+ * 
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * キャンバスエレメント
+     */
+    tm.app.CanvasElement = tm.createClass({
+        
+        superClass: tm.app.Element,
+        
+        /**
+         * 位置
+         */
+        position: null,
+        /**
+         * 回転
+         */
+        rotation: 0,
+        /**
+         * スケール
+         */
+        scale: null,
+        
+        /**
+         * 幅
+         */
+        width:  64,
+        /**
+         * 高さ
+         */
+        height: 64,
+        /**
+         * 半径
+         */
+        radius: 32,
+        /**
+         * 表示フラグ
+         */
+        visible: true,
+        /**
+         * アルファ
+         */
+        alpha: 1.0,
+
+        /**
+         * ゲーム用エレメントクラス
+         */
+        init: function() {
+            tm.app.Element.prototype.init.apply(this);
+            this.position = tm.geom.Vector2(0, 0);
+            this.scale    = tm.geom.Vector2(1, 1);
+            this.eventFlags = {};
+        },
+        
+        /**
+         * 更新処理
+         */
+        update: function() {},
+        /**
+         * 描画処理
+         */
+        draw: function(ctx) {},
+        
+        /**
+         * 点と衝突しているかを判定
+         */
+        isHitPoint: function(x, y) {
+            var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
+            // var globalPos = this;
+            if (
+                globalPos.x < x && x < (globalPos.x+this.width) &&
+                globalPos.y < y && y < (globalPos.y+this.height))
+            {
+                return true;
+            }
+            return false;
+        },
+        
+        /**
+         * 要素と衝突しているかを判定
+         */
+        isHitElement: function(elm) {
+            var selfGlobalPos  = this.parent.localToGlobal(this);
+            if (((this.x-elm.x)*(this.x-elm.x)+(this.y-elm.y)*(this.y-elm.y)) < (this.radius+elm.radius)*(this.radius+elm.radius)) {
+                return true;
+            }
+            return false;
+        },
+        
+        /**
+         * ローカル座標をグローバル座標にする
+         */
+        localToGlobal: function(p) {
+            // TODO: まだ未実装
+            return { x: this.x + p.x, y: this.y + p.y };
+        },
+        
+        drawFillRect: function(ctx) {
+            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+            return this;
+        },
+        drawStrokeRect: function(ctx) {
+            ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
+            return this;
+        },
+        
+        drawFillArc: function(ctx) {
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
+            ctx.fill();
+            ctx.closePath();
+            return this;
+        },
+        drawStrokeArc: function(ctx) {
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
+            ctx.stroke();
+            ctx.closePath();
+            return this;
+        },
+        
+        _update: function(game) {
+            this.update(game);
+            
+            // 子供達も実行
+            this.execChildren(arguments.callee, game);
+        },
+        
+        _draw: function(graphics) {
+            
+            if (this.visible === false) return ;
+            
+            graphics.save();
+            
+            graphics.translate(this.x, this.y);
+            graphics.rotate(this.rotation*Math.PI/180);
+            graphics.scale(this.scaleX, this.scaleY);
+            graphics.globalAlpha = this.alpha;
+            
+            this.draw(graphics);
+            
+            // 子供達も実行
+            this.execChildren(arguments.callee, graphics);
+            
+            graphics.restore();
+        },
+        
+        
+        _checkEvent: function(check_func, event_name) {
+            
+            if (check_func(this) === true) {
+                this.eventFlags[event_name] = true;
+                if (this[event_name]) this[event_name]();
+            }
+            else {
+                this.eventFlags[event_name] = false;
+            }
+            
+            for (var i=0; i<this.children.length; ++i) {
+                this.children[i]._checkEvent(check_func, event_name);
+            }
+        }
+        
+        
+    });
+    
+    
+    /**
+     * @property    x
+     * x座標値
+     */
+    tm.app.CanvasElement.prototype.accessor("x", {
+        "get": function()   { return this.position.x; },
+        "set": function(v)  { this.position.x = v; }
+    });
+    
+    /**
+     * @property    y
+     * y座標値
+     */
+    tm.app.CanvasElement.prototype.accessor("y", {
+        "get": function()   { return this.position.y; },
+        "set": function(v)  { this.position.y = v; }
+    });
+    
+    /**
+     * @property    rotate
+     * 回転値(削除予定)
+     */
+    tm.app.CanvasElement.prototype.accessor("rotate", {
+        "get": function()   { return this.rotation; },
+        "set": function(v)  { this.rotation = v; }
+    });
+    
+    /**
+     * @property    scaleX
+     * スケールX値
+     */
+    tm.app.CanvasElement.prototype.accessor("scaleX", {
+        "get": function()   { return this.scale.x; },
+        "set": function(v)  { this.scale.x = v; }
+    });
+    
+    /**
+     * @property    scaleY
+     * スケールY値
+     */
+    tm.app.CanvasElement.prototype.accessor("scaleY", {
+        "get": function()   { return this.scale.y; },
+        "set": function(v)  { this.scale.y = v; }
+    });
+    
+})();
+
+
+/*
+ * 
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * シーンとして使用するゲームエレメントクラス
+     */
+    tm.app.Scene = tm.createClass({
+        
+        superClass: tm.app.CanvasElement,
+        
+        /**
+         * 初期化
+         */
+        init: function() {
+            tm.app.CanvasElement.prototype.init.apply(this);
+            
+            this.background = "black";
+        },
+        
+    });
+    
+})();
+
+
+/*
+ * 
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * キャンバスアプリケーション
+     */
+    tm.app.CanvasApp = tm.createClass({
+        
+        element : null,
+        canvas  : null,
+        graphics: null,
+        scene   : null,
+        mouse   : null,
+        touch   : null,
+        pointing: null,
+        keyboard: null,
+        stats   : null,
+        frame   : 0,
+        fps     : 30,
+        
+        /**
+         * 初期化
+         */
+        init: function(canvas)
+        {
+            if (canvas instanceof HTMLCanvasElement) {
+                this.element = canvas;
+            }
+            else if (typeof canvas == "string") {
+                this.element = document.querySelector(canvas);
+            }
+            else {
+                this.element = document.createElement("canvas");
+                document.body.appendChild(this.element);
+            }
+            // グラフィックスを生成
+            this.canvas = tm.graphics.Canvas(this.element);
+            
+            // シーンを生成
+            this.scene      = tm.app.Scene();
+            // マウスを生成
+            this.mouse      = tm.input.Mouse(this.element);
+            // タッチを生成
+            this.touch      = tm.input.Touch(this.element);
+            // キーボードを生成
+            this.keyboard   = tm.input.Keyboard(this.element);
+            
+            // ポインティングをセット(PC では Mouse, Mobile では Touch)
+            this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
+        },
+        
+        /**
+         * 実行
+         */
+        run: function()
+        {
+            var self = this;
+            tm.setLoop(function(){ self.loop(); }, 1000/self.fps);
+        },
+        
+        loop: function()
+        {
+            // stats update
+            if (this.stats) this.stats.update();
+            
+            // update
+            if (this.update) this.update();
+            this._update();
+            ++this.frame;
+            
+            // draw
+            if (this.draw) this.draw();
+            this._draw();
+        },
+        
+        _update: function()
+        {
+            // デバイス系 Update
+            this.mouse.update();
+            this.keyboard.update();
+            this.touch.update();
+            
+            this.scene._update(this);
+        },
+        
+        _draw: function()
+        {
+            this.canvas.fillStyle = this.scene.background;
+            this.canvas.strokeStyle = "black";
+            this.canvas.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            
+            this.canvas.fillStyle   = "white";
+            this.canvas.strokeStyle = "white";
+            this.scene._draw(this.canvas);
+        },
+        
+    });
+    
+})();
