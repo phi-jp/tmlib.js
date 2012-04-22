@@ -34,6 +34,9 @@ tm.app = tm.app || {};
             if (canvas instanceof HTMLCanvasElement) {
                 this.element = canvas;
             }
+            else if (typeof canvas == "string") {
+                this.element = document.querySelector(canvas);
+            }
             else {
                 this.element = document.createElement("canvas");
                 document.body.appendChild(this.element);
