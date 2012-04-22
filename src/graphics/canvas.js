@@ -41,6 +41,26 @@ tm.graphics = tm.graphics || {};
             this.context.lineJoin   = "round";
         },
         
+        /**
+         * リサイズする
+         */
+        resize: function(width, height) {
+            this.canvas.width   = width;
+            this.canvas.height  = height;
+            return this;
+        },
+        
+        /**
+         * フィット
+         */
+        resizeToFitScreen: function() {
+            this.canvas.style.position  = "fixed";
+            this.canvas.style.margin    = "0px";
+            this.canvas.style.padding   = "0px";
+            this.canvas.style.left      = "0px";
+            this.canvas.style.top       = "0px";
+            return this.resize(window.innerWidth, window.innerHeight);
+        },
         
         /**
          *  クリア
@@ -58,8 +78,13 @@ tm.graphics = tm.graphics || {};
         
         /**
          * 色指定クリア
+         * @param {String}  fillStyle
+         * @param {Number}  [x=0]
+         * @param {Number}  [y=0]
+         * @param {Number}  [width=this.width]
+         * @param {Number}  [height=this.height]
          */
-        clearWithColor: function(fillStyle, x, y, width, height)
+        clearColor: function(fillStyle, x, y, width, height)
         {
             x = x || 0;
             y = y || 0;
