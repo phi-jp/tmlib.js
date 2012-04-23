@@ -202,13 +202,13 @@ tm.dom = tm.dom || {};
          * ポインティング
          */
         pointstart: function(fn, id) {
-            this.add(TM.DOM.Event.POINT_START, fn, id);
+            this.add(tm.dom.Event.POINT_START, fn, id);
         },
         pointmove: function(fn, id) {
-            this.add(TM.DOM.Event.POINT_MOVE, fn, id);
+            this.add(tm.dom.Event.POINT_MOVE, fn, id);
         },
         pointend: function(fn, id) {
-            this.add(TM.DOM.Event.POINT_END, fn, id);
+            this.add(tm.dom.Event.POINT_END, fn, id);
         },
         
         /**
@@ -273,13 +273,17 @@ tm.dom = tm.dom || {};
         
     });
     
+    tm.dom.Event.POINT_START    = (tm.isMobile) ? "touchstart" : "mousedown";
+    tm.dom.Event.POINT_MOVE     = (tm.isMobile) ? "touchmove" : "mousemove";
+    tm.dom.Event.POINT_END      = (tm.isMobile) ? "touchend" : "mouseup";
+    
     
     /**
      * @property    event
      * スタイルクラス
      */
     tm.dom.Element.prototype.getter("event", function(){
-        return this._event || ( this._event = Event(this.element) );
+        return this._event || ( this._event = tm.dom.Event(this.element) );
     });
     
 })();
