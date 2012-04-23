@@ -128,6 +128,34 @@ var tm = tm || {};
  * math.js
  */
 
+
+(function() {
+    
+    /**
+     * @class Math
+     * 数学
+     */
+    
+    /**
+     * @method
+     * ランダムな値を指定された範囲内で生成
+     */
+    Math.rand = function(min, max) {
+        return window.Math.floor( Math.randf(min, max) );
+    };
+    
+    /**
+     * @method
+     * ランダムな値を指定された範囲内で生成
+     */
+    Math.randf= function(min, max) {
+        return window.Math.random()*(max-min)+min;
+    };
+    
+})();
+
+
+
 /*
  * number.js
  */
@@ -997,8 +1025,337 @@ tm.geom = tm.geom || {};
 
 
 /*
+ * element.js
+ */
+
+tm.dom = tm.dom || {};
+
+(function() {
+    
+    /**
+     * @class
+     * Element クラス
+     */
+    tm.dom.Element = tm.createClass({
+        
+        element: null,
+        
+        /**
+         * 初期化
+         */
+        init: function() {
+            this.set.apply(this, arguments);
+        },
+        
+        /**
+         * セッター
+         */
+        set: function(q) {
+            if (typeof q === "string") {
+                this.element = document.querySelector(q);
+            }
+            else if (q != undefined) {
+                this.element = q;
+            }
+            else {
+                // デフォルトはドキュメント
+                this.element = document;
+            }
+        },
+        
+
+        /**
+         * 子供の最後尾に追加
+         */
+        append: function(child) {
+            this.element.appendChild(child.element);
+            return this;
+        },
+        
+        /**
+         * 子供の先頭に追加
+         */
+        prepend: function(child) {
+            this.element.insertBefore(child.element, this.element.firstChild);
+            return this;
+        },
+        
+        /**
+         * 自分の後に追加
+         */
+        after: function(child) {
+            this.element.parentNode.insertBefore(child.element, this.element.nextSibling);
+            return this;
+        },
+        
+        /**
+         * 自分の前に追加
+         */
+        before: function(child) {
+            this.element.parentNode.insertBefore(child.element, this.element);
+            return this;
+        },
+        
+        /**
+         * 引数に渡された要素に自分を append
+         */
+        appendTo: function(parent) {
+            parent.append(this);
+            return this;
+        },
+        
+        /**
+         * 引数に渡された要素に自分を prepend
+         */
+        prependTo: function(parent) {
+            parent.prepend(this);
+            return this;
+        },
+        
+        clone: function() {
+            return tm.dom.Element(this.element.cloneNode(true));
+        },
+        
+        /**
+         * 親から自分を引っぺがす
+         */
+        remove: function() {
+            this.element.parentNode.removeChild(this.element);
+            return this;
+        },
+        
+        /**
+         * 要素生成
+         */
+        create: function(tag, addFuncName) {
+            // 要素を生成
+            var element = tm.dom.Element(document.createElement(tag));
+            // デフォルトの追加方法は append
+            if (!addFuncName) { addFuncName="append"; }
+            // 自分の子供として追加
+            this[addFuncName](element);
+            
+            return element;
+        },
+        
+        /**
+         * query
+         */
+        query: function(query, index) {
+            var elm = (index) ?
+                this.element.querySelectorAll(query)[index] : 
+                this.element.querySelector(query);
+            
+            return tm.dom.Element(elm);
+        },
+        
+        /**
+         * queryAll
+         */
+        queryAll: function(query) {
+            return tm.dom.ElementList(query);
+        },
+        
+        /**
+         * 固定化
+         */
+        fixed: function(x, y, width, height) {
+            this.style.set("position", "fixed");
+            if (x) this.x = x;
+            if (y) this.y = y;
+            if (width) this.width = width;
+            if (height) this.height = height;
+            return this;
+        },
+        
+        /**
+         * absolute 化
+         */
+        absolute: function(x, y, width, height) {
+            this.style.set("position", "absolute");
+            if (x) this.x = x;
+            if (y) this.y = y;
+            if (width) this.width = width;
+            if (height) this.height = height;
+            return this;
+        },
+        
+        /**
+         * フルスクリーン化
+         */
+        fullScreen: function() {
+            this.element.webkitRequestFullScreen();
+        },
+        
+        /**
+         * 文字列化
+         */
+        toString: function() {
+            return "tm.dom.element";
+        },
+        
+    });
+    
+    
+
+    /**
+     * @property    html
+     * html の値
+     */
+    tm.dom.Element.prototype.accessor("html", {
+        "get": function()       { return this.element.innerHTML; },
+        "set": function(html)   { this.element.innerHTML = html; }
+    });
+    
+    
+    /**
+     * @property    value
+     * value の値
+     */
+    tm.dom.Element.prototype.accessor("value", {
+        "get": function()       { return this.element.value; },
+        "set": function(value)   { this.element.value = value; }
+    });
+    
+    
+    /**
+     * @property    x
+     * x値
+     */
+    tm.dom.Element.prototype.accessor("x", {
+        "get": function()   { return Number( this.element.style.left.replace("px", '') ); },
+        "set": function(x)  { this.element.style.left = x+"px"; }
+    });
+    
+    /**
+     * @property    y
+     * y値
+     */
+    tm.dom.Element.prototype.accessor("y", {
+        "get": function()   { return Number( this.element.style.top.replace("px", '') ); },
+        "set": function(y)  { this.element.style.top = y+"px"; }
+    });
+    
+    
+    /**
+     * @property    width
+     * 幅
+     */
+    tm.dom.Element.prototype.accessor("width", {
+        "get": function()   { return Number( this.element.style.width.replace("px", '') ); },
+        "set": function(w)  { this.element.style.width = w+"px"; }
+    });
+    
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.dom.Element.prototype.accessor("height", {
+        "get": function()   { return Number( this.element.style.height.replace("px", '') ); },
+        "set": function(h)  { this.element.style.height = h+"px"; }
+    });
+    
+    
+    /**
+     * @property    color
+     * 色
+     */
+    tm.dom.Element.prototype.accessor("color", {
+        "get": function()       { return this.element.style.color; },
+        "set": function(color)  { this.element.style.color = color; }
+    });
+    
+    
+    /**
+     * @property    backgroundColor
+     * 背景色
+     */
+    tm.dom.Element.prototype.accessor("backgroundColor", {
+        "get": function()       { return this.element.style.backgroundColor; },
+        "set": function(color)  { this.element.style.backgroundColor = color; }
+    });
+    
+    /**
+     * @property    visible
+     * 表示/非表示
+     */
+    tm.dom.Element.prototype.accessor("visible", {
+        "get": function()   { return this.element.style.visibility != "hidden"; },
+        "set": function(v)  { this.element.style.visibility = (v==true) ? "visible" : "hidden"; }
+    });
+    
+    /**
+     * @property    text
+     * テキスト
+     */
+    tm.dom.Element.prototype.accessor("text", {
+        "get": function()   { return this.element.innerText; },
+        "set": function(v)  { this.element.innerText = v; }
+    });
+    
+    
+    tm.dom.Element.prototype.getter("parent", function(){
+        return (this.element.parent != undefined) ? tm.dom.Element(this.element.parent) : null;
+    });
+    tm.dom.Element.prototype.getter("prev", function(){
+        return (this.element.previousSibling != undefined) ? tm.dom.Element(this.element.previousSibling) : null;
+    });
+    tm.dom.Element.prototype.getter("next", function(){
+        return (this.element.nextSibling != undefined) ? tm.dom.Element(this.element.nextSibling) : null;
+    });
+    tm.dom.Element.prototype.getter("children", function(){
+        return tm.dom.ElementList(this.element.children);
+    });
+    
+    
+})();
+
+
+
+
+
+(function(){
+    
+    /**
+     * @class
+     * エレメントリスト
+     */
+    tm.dom.ElementList = tm.createClass({
+        superClass: Array,
+        
+        /**
+         * TM.DOM.Element 用配列
+         * @constructs
+         */
+        init: function(arr) {
+            if (typeof arguments[0] == "string") {
+                var query = arguments[0];
+                arr = document.querySelectorAll(query);
+            }
+            else if (arr == undefined) {
+                return ;
+            }
+            
+            for (var i=0,len=arr.length; i<len; ++i) {
+                this.push( tm.dom.Element(arr[i]) );
+            }
+        },
+        
+        toString: function() {
+            return "";
+        }
+    });
+    
+})();
+
+
+
+/*
  * evnet.js
  */
+
+tm.dom = tm.dom || {};
 
 (function() {
     
@@ -1114,7 +1471,171 @@ tm.geom = tm.geom || {};
 
 
 
-
+(function() {
+    
+    /**
+     * @class
+     * Event クラス
+     */
+    tm.dom.Event = tm.createClass({
+        element     : null,
+        funcList    : null,
+        funcIndex   : 0,
+        
+        
+        /**
+         * 初期化
+         */
+        init: function(element) {
+            this.element = element;
+            this.funcList = {};
+        },
+        
+        /**
+         * イベントを追加
+         */
+        add: function(type, fn, id) {
+            var self = this;
+            var elm  = tm.dom.Element(this.element);
+            
+            var temp_fn = function(e) {
+                // return fn.apply(self, arguments);
+                var result = fn.apply(elm, arguments);
+                
+                if (result === false) {
+                    // デフォルトイベントをキャンセル
+                    e.preventDefault();
+                    e.returnValue = false;  // IE
+                    // イベント伝達をキャンセル
+                    e.stopPropagation();
+                }
+                
+                return result;
+            }
+            
+            this._funcIndex = this._funcIndex || 0;
+            id = id || this._funcIndex++;
+            this.funcList[type] = this.funcList[type] || {};
+            this.funcList[type][id] = temp_fn;
+            fn._id = id;    // しれっと記録
+            
+            this.element.addEventListener(type, temp_fn, false);
+            return this;
+        },
+        
+        /**
+         * イベントを解除
+         */
+        remove: function(type, fn_or_id) {
+            var id = (typeof(fn_or_id) === "function") ? fn_or_id._id : fn_or_id;
+            var fn = this.getFunc(type, id);
+            
+            this.element.removeEventListener(type, fn, false);
+            delete this.funcList[type][id];
+        },
+        
+        /**
+         * クリックイベント
+         */
+        click: function(fn, id) {
+            this.add("click", fn, id);
+            return this;
+        },
+        
+        mdlclick: function(fn, id) {
+            var temp_fn = function(e) {
+                if (e.button == 1) {
+                    fn(e);
+                }
+            }
+            this.add("click", temp_fn, id);
+        },
+        
+        /**
+         * ポインティング
+         */
+        pointstart: function(fn, id) {
+            this.add(TM.DOM.Event.POINT_START, fn, id);
+        },
+        pointmove: function(fn, id) {
+            this.add(TM.DOM.Event.POINT_MOVE, fn, id);
+        },
+        pointend: function(fn, id) {
+            this.add(TM.DOM.Event.POINT_END, fn, id);
+        },
+        
+        /**
+         * ホバーイベント
+         */
+        hover: function(fn, id) {
+            this.add("mouseover", fn, id);
+            return this;
+        },
+        
+        /**
+         * 一度だけ呼ばれるイベントを登録
+         */
+        one: function(type, fn, id) {
+            var self = this;
+            var elm  = TM.$DOMElement(this.element);
+            
+            var temp_fn = function() {
+                var result = fn.apply(elm, arguments);
+                self.remove(type, temp_fn);
+                return result;
+            };
+            
+            this.add(type, temp_fn, id);
+            
+            return this;
+        },
+        
+        /**
+         * トグルイベント登録
+         */
+        toggle: function(type, fn_list) {
+            var self = this;
+            var elm  = TM.$DOMElement(this.element);
+            var temp_list = [];
+            
+            for (var i=0; i<fn_list.length; ++i) {
+                var temp_fn = (function(i){
+                    return function(){
+                        var result = fn_list[i].apply(elm, arguments);
+                        
+                        if (result !== false) {
+                            var index = (i+1)%fn_list.length;
+                            self.one(type, temp_list[index]);
+                        }
+                    }
+                })(i);
+                temp_list.push(temp_fn);
+            }
+            
+            this.one(type, temp_list[0]);
+            
+            return this;
+        },
+        
+        /**
+         * 指定したイベントタイプ & id の関数を取得
+         */
+        getFunc: function(type, id) {
+            return this.funcList[type][id];
+        },
+        
+    });
+    
+    
+    /**
+     * @property    event
+     * スタイルクラス
+     */
+    tm.dom.Element.prototype.getter("event", function(){
+        return this._event || ( this._event = Event(this.element) );
+    });
+    
+})();
 
 
 
@@ -2801,7 +3322,7 @@ tm.app = tm.app || {};
 
 
 /*
- * 
+ * scene.js
  */
 
 tm.app = tm.app || {};
@@ -2823,8 +3344,6 @@ tm.app = tm.app || {};
          */
         init: function() {
             tm.app.CanvasElement.prototype.init.apply(this);
-            
-            this.background = "black";
         },
         
     });
@@ -2848,17 +3367,18 @@ tm.app = tm.app || {};
      */
     tm.app.CanvasApp = tm.createClass({
         
-        element : null,
-        canvas  : null,
-        graphics: null,
-        scene   : null,
-        mouse   : null,
-        touch   : null,
-        pointing: null,
-        keyboard: null,
-        stats   : null,
-        frame   : 0,
-        fps     : 30,
+        element     : null,
+        canvas      : null,
+        graphics    : null,
+        scene       : null,
+        mouse       : null,
+        touch       : null,
+        pointing    : null,
+        keyboard    : null,
+        stats       : null,
+        frame       : 0,
+        fps         : 30,
+        background  : null,
         
         /**
          * 初期化
@@ -2889,6 +3409,9 @@ tm.app = tm.app || {};
             
             // ポインティングをセット(PC では Mouse, Mobile では Touch)
             this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
+            
+            // カラー
+            this.background = "black";
         },
         
         /**
@@ -2897,10 +3420,10 @@ tm.app = tm.app || {};
         run: function()
         {
             var self = this;
-            tm.setLoop(function(){ self.loop(); }, 1000/self.fps);
+            tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
         },
         
-        loop: function()
+        _loop: function()
         {
             // stats update
             if (this.stats) this.stats.update();
@@ -2927,9 +3450,7 @@ tm.app = tm.app || {};
         
         _draw: function()
         {
-            this.canvas.fillStyle = this.scene.background;
-            this.canvas.strokeStyle = "black";
-            this.canvas.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            this.canvas.clearColor(this.background, 0, 0);
             
             this.canvas.fillStyle   = "white";
             this.canvas.strokeStyle = "white";

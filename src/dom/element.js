@@ -285,3 +285,41 @@ tm.dom = tm.dom || {};
     
 })();
 
+
+
+
+
+(function(){
+    
+    /**
+     * @class
+     * エレメントリスト
+     */
+    tm.dom.ElementList = tm.createClass({
+        superClass: Array,
+        
+        /**
+         * TM.DOM.Element 用配列
+         * @constructs
+         */
+        init: function(arr) {
+            if (typeof arguments[0] == "string") {
+                var query = arguments[0];
+                arr = document.querySelectorAll(query);
+            }
+            else if (arr == undefined) {
+                return ;
+            }
+            
+            for (var i=0,len=arr.length; i<len; ++i) {
+                this.push( tm.dom.Element(arr[i]) );
+            }
+        },
+        
+        toString: function() {
+            return "";
+        }
+    });
+    
+})();
+
