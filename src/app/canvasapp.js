@@ -14,17 +14,18 @@ tm.app = tm.app || {};
      */
     tm.app.CanvasApp = tm.createClass({
         
-        element : null,
-        canvas  : null,
-        graphics: null,
-        scene   : null,
-        mouse   : null,
-        touch   : null,
-        pointing: null,
-        keyboard: null,
-        stats   : null,
-        frame   : 0,
-        fps     : 30,
+        element     : null,
+        canvas      : null,
+        graphics    : null,
+        scene       : null,
+        mouse       : null,
+        touch       : null,
+        pointing    : null,
+        keyboard    : null,
+        stats       : null,
+        frame       : 0,
+        fps         : 30,
+        background  : null,
         
         /**
          * 初期化
@@ -55,6 +56,9 @@ tm.app = tm.app || {};
             
             // ポインティングをセット(PC では Mouse, Mobile では Touch)
             this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
+            
+            // カラー
+            this.background = "black";
         },
         
         /**
@@ -63,10 +67,10 @@ tm.app = tm.app || {};
         run: function()
         {
             var self = this;
-            tm.setLoop(function(){ self.loop(); }, 1000/self.fps);
+            tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
         },
         
-        loop: function()
+        _loop: function()
         {
             // stats update
             if (this.stats) this.stats.update();
@@ -93,9 +97,7 @@ tm.app = tm.app || {};
         
         _draw: function()
         {
-            this.canvas.fillStyle = this.scene.background;
-            this.canvas.strokeStyle = "black";
-            this.canvas.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            this.canvas.clearColor(this.background, 0, 0);
             
             this.canvas.fillStyle   = "white";
             this.canvas.strokeStyle = "white";

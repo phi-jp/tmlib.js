@@ -1,5 +1,5 @@
 /*
- * 
+ * scene.js
  */
 
 tm.app = tm.app || {};
@@ -21,8 +21,6 @@ tm.app = tm.app || {};
          */
         init: function() {
             tm.app.CanvasElement.prototype.init.apply(this);
-            
-            this.background = "black";
         },
         
     });
