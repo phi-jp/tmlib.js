@@ -85,6 +85,34 @@ tm.app = tm.app || {};
             this._draw();
         },
         
+        /**
+         * シーンを切り替える
+         * ## Reference
+         * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
+         */
+        replaceScene: function()
+        {
+            
+        },
+        
+        /**
+         * シーンをプッシュする
+         * ポーズやオブション画面などで使用する
+         */
+        pushScene: function()
+        {
+            
+        },
+        
+        /**
+         * シーンをポップする
+         * ポーズやオブション画面などで使用する
+         */
+        popScene: function()
+        {
+            
+        },
+        
         _update: function()
         {
             // デバイス系 Update
