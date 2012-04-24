@@ -15,15 +15,15 @@ tm.geom = tm.geom || {};
      */
     tm.geom.Vector3 = tm.createClass({
         /**
-         * @cfg {Number}    X 座標
+         * x 座標
          */
         x: 0,
         /**
-         * @cfg {Number}    Y 座標
+         * y 座標
          */
         y: 0,
         /**
-         * @cfg {Number}    Z 座標
+         * z 座標
          */
         z: 0,
         
@@ -120,41 +120,7 @@ tm.geom = tm.geom || {};
         setFromDegree: function(thetaDegree, phiDegree, len) {
             return this.setFromAngle(thetaDegree*Math.PI/180, phiDegree*Math.PI/180, len);
         },
-
-        /**
-         * 角度(radian)と長さでベクトルをセット
-         */
-        setFromAngle2D: function(radian, len) {
-            len = len || 1;
-            this.x = Math.cos(radian)*len;
-            this.y = Math.sin(radian)*len;
-            this.z = 0;
-            return this;
-        },
         
-        /**
-         * 角度(radian)と長さでベクトルをセット
-         */
-        setFromRadian2D: function(radian, len) {
-            len = len || 1;
-            this.x = Math.cos(radian)*len;
-            this.y = Math.sin(radian)*len;
-            this.z = 0;
-            return this;
-        },
-        
-        /**
-         * 角度(degree)と長さでベクトルをセット
-         */
-        setFromDegree2D: function(degree, len) {
-            len = len || 1;
-            radian = degree * Math.PI/180;
-            this.x = Math.cos(radian)*len;
-            this.y = Math.sin(radian)*len;
-            this.z = 0;
-            return this;
-        },
-                
         /**
          * 賢いセット
          */
@@ -329,6 +295,238 @@ tm.geom = tm.geom || {};
             return this;
         }
     });
+    
+    
+    
+    /**
+     * @method
+     * @static
+     * min
+     */
+    tm.geom.Vector3.min = function(lhs, rhs) {
+        return Vector3(
+            (lhs.x < rhs.x) ? lhs.x : rhs.x,
+            (lhs.y < rhs.y) ? lhs.y : rhs.y,
+            (lhs.z < rhs.z) ? lhs.z : rhs.z
+        );
+    };
+    
+    /**
+     * @method
+     * @static
+     * max
+     */
+    tm.geom.Vector3.max = function(lhs, rhs) {
+        return Vector3(
+            (lhs.x > rhs.x) ? lhs.x : rhs.x,
+            (lhs.y > rhs.y) ? lhs.y : rhs.y,
+            (lhs.z > rhs.z) ? lhs.z : rhs.z
+        );
+    };
+    
+    /**
+     * @method
+     * @static
+     * 加算
+     */
+    tm.geom.Vector3.add = function(lhs, rhs) {
+        return Vector3(lhs.x+rhs.x, lhs.y+rhs.y, lhs.z+rhs.z);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 減算
+     */
+    tm.geom.Vector3.sub = function(lhs, rhs) {
+        return Vector3(lhs.x-rhs.x, lhs.y-rhs.y, lhs.z-rhs.z);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 乗算
+     */
+    tm.geom.Vector3.mul = function(v, n) {
+        return Vector3(v.x*n, v.y*n, v.z*n);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 割算
+     */
+    tm.geom.Vector3.div = function(v, n) {
+        return Vector3(v.x/n, v.y/n, v.z/n);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 内積.
+     * 投影ベクトルを求めたり, 類似度に使ったり.
+     */
+    tm.geom.Vector3.dot = function(lhs, rhs) {
+        return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+    };
+    
+
+    /**
+     * @method
+     * @static
+     * 外積
+     */
+    tm.geom.Vector3.cross = function(lhs, rhs) {
+        // TODO: 
+    };
+    
+    /**
+     * @method
+     * @static
+     * 反転
+     */
+    tm.geom.Vector3.negate = function(v) {
+        return Vector3(-v.x, -v.y, -v.z);
+    };
+    
+    /**
+     * @method
+     * @static
+     * ２点間の距離を返す
+     */
+    tm.geom.Vector3.distance = function(lhs, rhs) {
+        return Math.sqrt( Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2) );
+    };
+    
+    /**
+     * @method
+     * @static
+     * ２点間の距離を返す
+     */
+    TM.Geom.Vector3.distanceSquared = function(lhs, rhs) {
+        return Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2);
+    };
+
+    /**
+     * @method
+     * @static
+     * マンハッタン距離
+     */
+    tm.geom.Vector3.manhattanDistance = function(lhs, rhs) {
+        return Math.abs(lhs.x-rhs.x) + Math.abs(lhs.y-rhs.y) + Math.abs(lhs.z-rhs.z);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 反射ベクトル
+     */
+    tm.geom.Vector3.reflect = function(v, normal) {
+        var len = Vector3.dot(v, normal);
+        var temp= Vector3.mul(normal, 2*len);
+        
+        return Vector3.sub(v, temp);
+    };
+
+    /**
+     * @method
+     * @static
+     * 補間.
+     * 0.5 で lhs と rhs の中間ベクトルを求めることができます.
+     */
+    tm.geom.Vector3.lerp = function(lhs, rhs, t) {
+        // TODO: 
+        return Vector3(
+            lhs.x + (rhs.x-lhs.x)*t,
+            lhs.y + (rhs.y-lhs.y)*t,
+            lhs.z + (rhs.z-lhs.z)*t
+        );
+    };
+    
+    
+    /**
+     * @method
+     * @static
+     * 補間
+     */
+    tm.geom.Vector3.slerp = function(lhs, rhs, t) {
+        // TODO:
+        // cos...
+    };
+    
+    /**
+     * @method
+     * @static
+     * min ~ max の間でランダムな方向のベクトルを生成する. len で長さ指定.
+     */
+    tm.geom.Vector3.random = function(thetaMin, thetaMax, phiMin, phiMax, len)
+    {
+        thetaMin= thetaMin || 0;
+        thetaMax= thetaMax || 360;
+        phiMin  = phiMin || 0;
+        phiMax  = phiMax || 360;
+        len = len || 1;
+        return TM.Geom.Vector3().setFromDegree(TM.randomf(thetaMin, thetaMax), TM.randomf(phiMin, phiMax), len);
+    };
+    
+    
+    
+    /*
+    Vector3.prototype.accessor("length", {
+        "get": function()    { return this.length(); },
+        "set": function(len) { this.normalize().mul(len); }
+    });
+    */
+    
+    
+    /**
+     * @property
+     * @static
+     * zero
+     */
+    tm.geom.Vector3.ZERO    = TM.Geom.Vector3( 0, 0, 0);
+    
+    /**
+     * @property
+     * @static
+     * left
+     */
+    tm.geom.Vector3.LEFT    = TM.Geom.Vector3(-1, 0, 0);
+    
+    /**
+     * @property
+     * @static
+     * right
+     */
+    tm.geom.Vector3.RIGHT   = TM.Geom.Vector3( 1, 0, 0);
+    
+    /**
+     * @property
+     * @static
+     * up
+     */
+    tm.geom.Vector3.UP      = TM.Geom.Vector3( 0, 1, 0);
+    
+    /**
+     * @property
+     * @static
+     * down
+     */
+    tm.geom.Vector3.DOWN    = TM.Geom.Vector3( 0,-1, 0);
+    
+    /**
+     * @property
+     * @static
+     * forward
+     */
+    tm.geom.Vector3.FORWARD = TM.Geom.Vector3( 0, 0,-1);
+    
+    /**
+     * @property
+     * @static
+     * backward
+     */
+    tm.geom.Vector3.BACKWARD= TM.Geom.Vector3( 0, 0, 1);
     
 })();
 
