@@ -2,8 +2,6 @@
  * debug
  */
 
-tm.util = tm.util || {};
-
 
 (function() {
     
@@ -11,7 +9,7 @@ tm.util = tm.util || {};
      * @class
      * デバッグ用コンソール. 標準である console の dom 版.
      */
-    tm.util.Console = tm.createClass({
+    tm.Console = tm.createClass({
         
         element: null,
         indent: "",
