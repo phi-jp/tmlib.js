@@ -2,6 +2,20 @@
  * element.js
  */
 
+
+(function() {
+    
+    // innerText 対応 ( moz では textContent なので innerText に統一 )
+    var temp = document.createElement("div");
+    if (temp.innerText === undefined) {
+        HTMLElement.prototype.accessor("innerText", {
+            "get": function()   { return this.textContent; },
+            "set": function(d)  { this.textContent = d; }
+        });
+    }
+    
+})();
+
 tm.dom = tm.dom || {};
 
 (function() {
