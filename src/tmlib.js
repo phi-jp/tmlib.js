@@ -71,6 +71,15 @@ var tm = tm || {};
         // 継承
         if (prop.superClass) {
             tm_class.prototype = Object.create(prop.superClass.prototype);
+            tm_class.prototype.superInit = function() {
+                // 一時的に superClass として扱われるようにする
+                var temp_proto = this.__proto__;
+                this.__proto__ = prop.superClass.prototype;
+                // 親の初期化を呼び出す
+                prop.superClass.prototype.init.apply(this, arguments);
+                // 元に戻す
+                this.__proto__ = temp_proto;
+            };
         }
         
         // プロパティを追加
