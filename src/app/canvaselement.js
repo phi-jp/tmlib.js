@@ -38,10 +38,6 @@ tm.app = tm.app || {};
          */
         height: 64,
         /**
-         * 半径
-         */
-        radius: 32,
-        /**
          * 表示フラグ
          */
         visible: true,
@@ -216,6 +212,16 @@ tm.app = tm.app || {};
     tm.app.CanvasElement.prototype.accessor("scaleY", {
         "get": function()   { return this.scale.y; },
         "set": function(v)  { this.scale.y = v; }
+    });
+    
+    
+    /**
+     * @property    radius
+     * 半径
+     */
+    tm.app.CanvasElement.prototype.accessor("radius", {
+        "get": function()   { return this._radius || (this.width+this.height)/2; },
+        "set": function(v)  { this._radius = v; }
     });
     
 })();
