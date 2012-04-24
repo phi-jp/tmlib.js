@@ -428,14 +428,14 @@ tm.geom = tm.geom || {};
      * @static
      * zero
      */
-    tm.geom.Vector2.ZERO    = TM.Geom.Vector2( 0, 0);
+    tm.geom.Vector2.ZERO    = tm.geom.Vector2( 0, 0);
     
     /**
      * @property
      * @static
      * left
      */
-    tm.geom.Vector2.LEFT    = TM.Geom.Vector2(-1, 0);
+    tm.geom.Vector2.LEFT    = tm.geom.Vector2(-1, 0);
     
     
     /**
@@ -443,21 +443,21 @@ tm.geom = tm.geom || {};
      * @static
      * right
      */
-    tm.geom.Vector2.RIGHT   = TM.Geom.Vector2( 1, 0);
+    tm.geom.Vector2.RIGHT   = tm.geom.Vector2( 1, 0);
     
     /**
      * @property
      * @static
      * up
      */
-    tm.geom.Vector2.UP      = TM.Geom.Vector2( 0, 1);
+    tm.geom.Vector2.UP      = tm.geom.Vector2( 0, 1);
     
     /**
      * @property
      * @static
      * down
      */
-    tm.geom.Vector2.DOWN    = TM.Geom.Vector2( 0,-1);
+    tm.geom.Vector2.DOWN    = tm.geom.Vector2( 0,-1);
     
 })();
 

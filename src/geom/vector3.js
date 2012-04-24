@@ -330,7 +330,7 @@ tm.geom = tm.geom || {};
      * 加算
      */
     tm.geom.Vector3.add = function(lhs, rhs) {
-        return Vector3(lhs.x+rhs.x, lhs.y+rhs.y, lhs.z+rhs.z);
+        return tm.geom.Vector3(lhs.x+rhs.x, lhs.y+rhs.y, lhs.z+rhs.z);
     };
     
     /**
@@ -339,7 +339,7 @@ tm.geom = tm.geom || {};
      * 減算
      */
     tm.geom.Vector3.sub = function(lhs, rhs) {
-        return Vector3(lhs.x-rhs.x, lhs.y-rhs.y, lhs.z-rhs.z);
+        return tm.geom.Vector3(lhs.x-rhs.x, lhs.y-rhs.y, lhs.z-rhs.z);
     };
     
     /**
@@ -348,7 +348,7 @@ tm.geom = tm.geom || {};
      * 乗算
      */
     tm.geom.Vector3.mul = function(v, n) {
-        return Vector3(v.x*n, v.y*n, v.z*n);
+        return tm.geom.Vector3(v.x*n, v.y*n, v.z*n);
     };
     
     /**
@@ -357,7 +357,7 @@ tm.geom = tm.geom || {};
      * 割算
      */
     tm.geom.Vector3.div = function(v, n) {
-        return Vector3(v.x/n, v.y/n, v.z/n);
+        return tm.geom.Vector3(v.x/n, v.y/n, v.z/n);
     };
     
     /**
@@ -386,7 +386,7 @@ tm.geom = tm.geom || {};
      * 反転
      */
     tm.geom.Vector3.negate = function(v) {
-        return Vector3(-v.x, -v.y, -v.z);
+        return tm.geom.Vector3(-v.x, -v.y, -v.z);
     };
     
     /**
@@ -403,7 +403,7 @@ tm.geom = tm.geom || {};
      * @static
      * ２点間の距離を返す
      */
-    TM.Geom.Vector3.distanceSquared = function(lhs, rhs) {
+    tm.geom.Vector3.distanceSquared = function(lhs, rhs) {
         return Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2);
     };
 
@@ -436,7 +436,7 @@ tm.geom = tm.geom || {};
      */
     tm.geom.Vector3.lerp = function(lhs, rhs, t) {
         // TODO: 
-        return Vector3(
+        return tm.geom.Vector3(
             lhs.x + (rhs.x-lhs.x)*t,
             lhs.y + (rhs.y-lhs.y)*t,
             lhs.z + (rhs.z-lhs.z)*t
@@ -484,49 +484,49 @@ tm.geom = tm.geom || {};
      * @static
      * zero
      */
-    tm.geom.Vector3.ZERO    = TM.Geom.Vector3( 0, 0, 0);
+    tm.geom.Vector3.ZERO    = tm.geom.Vector3( 0, 0, 0);
     
     /**
      * @property
      * @static
      * left
      */
-    tm.geom.Vector3.LEFT    = TM.Geom.Vector3(-1, 0, 0);
+    tm.geom.Vector3.LEFT    = tm.geom.Vector3(-1, 0, 0);
     
     /**
      * @property
      * @static
      * right
      */
-    tm.geom.Vector3.RIGHT   = TM.Geom.Vector3( 1, 0, 0);
+    tm.geom.Vector3.RIGHT   = tm.geom.Vector3( 1, 0, 0);
     
     /**
      * @property
      * @static
      * up
      */
-    tm.geom.Vector3.UP      = TM.Geom.Vector3( 0, 1, 0);
+    tm.geom.Vector3.UP      = tm.geom.Vector3( 0, 1, 0);
     
     /**
      * @property
      * @static
      * down
      */
-    tm.geom.Vector3.DOWN    = TM.Geom.Vector3( 0,-1, 0);
+    tm.geom.Vector3.DOWN    = tm.geom.Vector3( 0,-1, 0);
     
     /**
      * @property
      * @static
      * forward
      */
-    tm.geom.Vector3.FORWARD = TM.Geom.Vector3( 0, 0,-1);
+    tm.geom.Vector3.FORWARD = tm.geom.Vector3( 0, 0,-1);
     
     /**
      * @property
      * @static
      * backward
      */
-    tm.geom.Vector3.BACKWARD= TM.Geom.Vector3( 0, 0, 1);
+    tm.geom.Vector3.BACKWARD= tm.geom.Vector3( 0, 0, 1);
     
 })();
 
