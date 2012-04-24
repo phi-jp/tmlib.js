@@ -71,6 +71,15 @@ var tm = tm || {};
         // 継承
         if (prop.superClass) {
             tm_class.prototype = Object.create(prop.superClass.prototype);
+            tm_class.prototype.superInit = function() {
+                // 一時的に superClass として扱われるようにする
+                var temp_proto = this.__proto__;
+                this.__proto__ = prop.superClass.prototype;
+                // 親の初期化を呼び出す
+                prop.superClass.prototype.init.apply(this, arguments);
+                // 元に戻す
+                this.__proto__ = temp_proto;
+            };
         }
         
         // プロパティを追加
@@ -444,11 +453,11 @@ tm.geom = tm.geom || {};
      */
     tm.geom.Vector2 = tm.createClass({
         /**
-         * @cfg {Number}    X 座標
+         * x 座標
          */
         x: 0,
         /**
-         * @cfg {Number}    Y 座標
+         * y 座標
          */
         y: 0,
         
@@ -684,6 +693,210 @@ tm.geom = tm.geom || {};
         }
     });
     
+    
+    /**
+     * @method
+     * @static
+     * min
+     */
+    tm.geom.Vector2.min = function(lhs, rhs) {
+        return Vector2(
+            (lhs.x < rhs.x) ? lhs.x : rhs.x,
+            (lhs.y < rhs.y) ? lhs.y : rhs.y
+        );
+    };
+    
+    /**
+     * @method
+     * @static
+     * max
+     */
+    tm.geom.Vector2.max = function(lhs, rhs) {
+        return Vector2(
+            (lhs.x > rhs.x) ? lhs.x : rhs.x,
+            (lhs.y > rhs.y) ? lhs.y : rhs.y
+        );
+    };
+    
+    /**
+     * @method
+     * @static
+     * 加算
+     */
+    tm.geom.Vector2.add = function(lhs, rhs) {
+        return Vector2(lhs.x+rhs.x, lhs.y+rhs.y);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 減算
+     */
+    tm.geom.Vector2.sub = function(lhs, rhs) {
+        return Vector2(lhs.x-rhs.x, lhs.y-rhs.y);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 乗算
+     */
+    tm.geom.Vector2.mul = function(v, n) {
+        return Vector2(v.x*n, v.y*n);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 割算
+     */
+    tm.geom.Vector2.div = function(v, n) {
+        return Vector2(v.x/n, v.y/n);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 内積.
+     * 投影ベクトルを求めたり, 類似度に使ったり.
+     */
+    tm.geom.Vector2.dot = function(lhs, rhs) {
+        return lhs.x * rhs.x + lhs.y * rhs.y;
+    };
+    
+
+    /**
+     * @method
+     * @static
+     * 外積
+     */
+    tm.geom.Vector2.cross = function(lhs, rhs) {
+        // TODO: 
+    };
+    
+    /**
+     * @method
+     * @static
+     * 反転
+     */
+    tm.geom.Vector2.negate = function(v) {
+        return Vector2(-v.x, -v.y);
+    };
+    
+    /**
+     * @method
+     * @static
+     * ２点間の距離を返す
+     */
+    tm.geom.Vector2.distance = function(lhs, rhs) {
+        return Math.sqrt( Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) );
+    };
+    
+    /**
+     * @method
+     * @static
+     * ２点間の距離を返す
+     */
+    tm.geom.Vector2.distanceSquared = function(lhs, rhs) {
+        return Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2);
+    };
+
+    /**
+     * @method
+     * @static
+     * マンハッタン距離
+     */
+    tm.geom.Vector2.manhattanDistance = function(lhs, rhs) {
+        return Math.abs(lhs.x-rhs.x) + Math.abs(lhs.y-rhs.y);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 反射ベクトル
+     */
+    tm.geom.Vector2.reflect = function(v, normal) {
+        var len = Vector2.dot(v, normal);
+        var temp= Vector2.mul(normal, 2*len);
+        
+        return Vector2.sub(v, temp);
+    };
+
+    /**
+     * @method
+     * @static
+     * 補間.
+     * 0.5 で lhs と rhs の中間ベクトルを求めることができます.
+     */
+    tm.geom.Vector2.lerp = function(lhs, rhs, t) {
+        // TODO: 
+        return Vector2(
+            lhs.x + (rhs.x-lhs.x)*t,
+            lhs.y + (rhs.y-lhs.y)*t
+        );
+    };
+    
+    
+    /**
+     * @method
+     * @static
+     * 補間
+     */
+    tm.geom.Vector2.slerp = function(lhs, rhs, t) {
+        // TODO:
+        // cos...
+    };
+    
+
+    /**
+     * @method
+     * @static
+     * min ~ max の間でランダムな方向のベクトルを生成する. len で長さ指定.
+     */
+    tm.geom.Vector2.random = function(min, max, len) {
+        min = min || 0;
+        max = max || 360;
+        len = len || 1;
+        return TM.Geom.Vector2().setFromDegree(TM.randomf(min, max), len);
+    };
+    
+    
+    /**
+     * @property
+     * @static
+     * zero
+     */
+    tm.geom.Vector2.ZERO    = tm.geom.Vector2( 0, 0);
+    
+    /**
+     * @property
+     * @static
+     * left
+     */
+    tm.geom.Vector2.LEFT    = tm.geom.Vector2(-1, 0);
+    
+    
+    /**
+     * @property
+     * @static
+     * right
+     */
+    tm.geom.Vector2.RIGHT   = tm.geom.Vector2( 1, 0);
+    
+    /**
+     * @property
+     * @static
+     * up
+     */
+    tm.geom.Vector2.UP      = tm.geom.Vector2( 0, 1);
+    
+    /**
+     * @property
+     * @static
+     * down
+     */
+    tm.geom.Vector2.DOWN    = tm.geom.Vector2( 0,-1);
+    
 })();
 
 
@@ -705,15 +918,15 @@ tm.geom = tm.geom || {};
      */
     tm.geom.Vector3 = tm.createClass({
         /**
-         * @cfg {Number}    X 座標
+         * x 座標
          */
         x: 0,
         /**
-         * @cfg {Number}    Y 座標
+         * y 座標
          */
         y: 0,
         /**
-         * @cfg {Number}    Z 座標
+         * z 座標
          */
         z: 0,
         
@@ -810,41 +1023,7 @@ tm.geom = tm.geom || {};
         setFromDegree: function(thetaDegree, phiDegree, len) {
             return this.setFromAngle(thetaDegree*Math.PI/180, phiDegree*Math.PI/180, len);
         },
-
-        /**
-         * 角度(radian)と長さでベクトルをセット
-         */
-        setFromAngle2D: function(radian, len) {
-            len = len || 1;
-            this.x = Math.cos(radian)*len;
-            this.y = Math.sin(radian)*len;
-            this.z = 0;
-            return this;
-        },
         
-        /**
-         * 角度(radian)と長さでベクトルをセット
-         */
-        setFromRadian2D: function(radian, len) {
-            len = len || 1;
-            this.x = Math.cos(radian)*len;
-            this.y = Math.sin(radian)*len;
-            this.z = 0;
-            return this;
-        },
-        
-        /**
-         * 角度(degree)と長さでベクトルをセット
-         */
-        setFromDegree2D: function(degree, len) {
-            len = len || 1;
-            radian = degree * Math.PI/180;
-            this.x = Math.cos(radian)*len;
-            this.y = Math.sin(radian)*len;
-            this.z = 0;
-            return this;
-        },
-                
         /**
          * 賢いセット
          */
@@ -1019,6 +1198,238 @@ tm.geom = tm.geom || {};
             return this;
         }
     });
+    
+    
+    
+    /**
+     * @method
+     * @static
+     * min
+     */
+    tm.geom.Vector3.min = function(lhs, rhs) {
+        return Vector3(
+            (lhs.x < rhs.x) ? lhs.x : rhs.x,
+            (lhs.y < rhs.y) ? lhs.y : rhs.y,
+            (lhs.z < rhs.z) ? lhs.z : rhs.z
+        );
+    };
+    
+    /**
+     * @method
+     * @static
+     * max
+     */
+    tm.geom.Vector3.max = function(lhs, rhs) {
+        return Vector3(
+            (lhs.x > rhs.x) ? lhs.x : rhs.x,
+            (lhs.y > rhs.y) ? lhs.y : rhs.y,
+            (lhs.z > rhs.z) ? lhs.z : rhs.z
+        );
+    };
+    
+    /**
+     * @method
+     * @static
+     * 加算
+     */
+    tm.geom.Vector3.add = function(lhs, rhs) {
+        return tm.geom.Vector3(lhs.x+rhs.x, lhs.y+rhs.y, lhs.z+rhs.z);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 減算
+     */
+    tm.geom.Vector3.sub = function(lhs, rhs) {
+        return tm.geom.Vector3(lhs.x-rhs.x, lhs.y-rhs.y, lhs.z-rhs.z);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 乗算
+     */
+    tm.geom.Vector3.mul = function(v, n) {
+        return tm.geom.Vector3(v.x*n, v.y*n, v.z*n);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 割算
+     */
+    tm.geom.Vector3.div = function(v, n) {
+        return tm.geom.Vector3(v.x/n, v.y/n, v.z/n);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 内積.
+     * 投影ベクトルを求めたり, 類似度に使ったり.
+     */
+    tm.geom.Vector3.dot = function(lhs, rhs) {
+        return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+    };
+    
+
+    /**
+     * @method
+     * @static
+     * 外積
+     */
+    tm.geom.Vector3.cross = function(lhs, rhs) {
+        // TODO: 
+    };
+    
+    /**
+     * @method
+     * @static
+     * 反転
+     */
+    tm.geom.Vector3.negate = function(v) {
+        return tm.geom.Vector3(-v.x, -v.y, -v.z);
+    };
+    
+    /**
+     * @method
+     * @static
+     * ２点間の距離を返す
+     */
+    tm.geom.Vector3.distance = function(lhs, rhs) {
+        return Math.sqrt( Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2) );
+    };
+    
+    /**
+     * @method
+     * @static
+     * ２点間の距離を返す
+     */
+    tm.geom.Vector3.distanceSquared = function(lhs, rhs) {
+        return Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2);
+    };
+
+    /**
+     * @method
+     * @static
+     * マンハッタン距離
+     */
+    tm.geom.Vector3.manhattanDistance = function(lhs, rhs) {
+        return Math.abs(lhs.x-rhs.x) + Math.abs(lhs.y-rhs.y) + Math.abs(lhs.z-rhs.z);
+    };
+    
+    /**
+     * @method
+     * @static
+     * 反射ベクトル
+     */
+    tm.geom.Vector3.reflect = function(v, normal) {
+        var len = Vector3.dot(v, normal);
+        var temp= Vector3.mul(normal, 2*len);
+        
+        return Vector3.sub(v, temp);
+    };
+
+    /**
+     * @method
+     * @static
+     * 補間.
+     * 0.5 で lhs と rhs の中間ベクトルを求めることができます.
+     */
+    tm.geom.Vector3.lerp = function(lhs, rhs, t) {
+        // TODO: 
+        return tm.geom.Vector3(
+            lhs.x + (rhs.x-lhs.x)*t,
+            lhs.y + (rhs.y-lhs.y)*t,
+            lhs.z + (rhs.z-lhs.z)*t
+        );
+    };
+    
+    
+    /**
+     * @method
+     * @static
+     * 補間
+     */
+    tm.geom.Vector3.slerp = function(lhs, rhs, t) {
+        // TODO:
+        // cos...
+    };
+    
+    /**
+     * @method
+     * @static
+     * min ~ max の間でランダムな方向のベクトルを生成する. len で長さ指定.
+     */
+    tm.geom.Vector3.random = function(thetaMin, thetaMax, phiMin, phiMax, len)
+    {
+        thetaMin= thetaMin || 0;
+        thetaMax= thetaMax || 360;
+        phiMin  = phiMin || 0;
+        phiMax  = phiMax || 360;
+        len = len || 1;
+        return TM.Geom.Vector3().setFromDegree(TM.randomf(thetaMin, thetaMax), TM.randomf(phiMin, phiMax), len);
+    };
+    
+    
+    
+    /*
+    Vector3.prototype.accessor("length", {
+        "get": function()    { return this.length(); },
+        "set": function(len) { this.normalize().mul(len); }
+    });
+    */
+    
+    
+    /**
+     * @property
+     * @static
+     * zero
+     */
+    tm.geom.Vector3.ZERO    = tm.geom.Vector3( 0, 0, 0);
+    
+    /**
+     * @property
+     * @static
+     * left
+     */
+    tm.geom.Vector3.LEFT    = tm.geom.Vector3(-1, 0, 0);
+    
+    /**
+     * @property
+     * @static
+     * right
+     */
+    tm.geom.Vector3.RIGHT   = tm.geom.Vector3( 1, 0, 0);
+    
+    /**
+     * @property
+     * @static
+     * up
+     */
+    tm.geom.Vector3.UP      = tm.geom.Vector3( 0, 1, 0);
+    
+    /**
+     * @property
+     * @static
+     * down
+     */
+    tm.geom.Vector3.DOWN    = tm.geom.Vector3( 0,-1, 0);
+    
+    /**
+     * @property
+     * @static
+     * forward
+     */
+    tm.geom.Vector3.FORWARD = tm.geom.Vector3( 0, 0,-1);
+    
+    /**
+     * @property
+     * @static
+     * backward
+     */
+    tm.geom.Vector3.BACKWARD= tm.geom.Vector3( 0, 0, 1);
     
 })();
 
@@ -1197,7 +1608,7 @@ tm.dom = tm.dom || {};
     });
     
     
-
+    
     /**
      * @property    html
      * html の値
@@ -3142,10 +3553,6 @@ tm.app = tm.app || {};
          */
         height: 64,
         /**
-         * 半径
-         */
-        radius: 32,
-        /**
          * 表示フラグ
          */
         visible: true,
@@ -3322,6 +3729,16 @@ tm.app = tm.app || {};
         "set": function(v)  { this.scale.y = v; }
     });
     
+    
+    /**
+     * @property    radius
+     * 半径
+     */
+    tm.app.CanvasElement.prototype.accessor("radius", {
+        "get": function()   { return this._radius || (this.width+this.height)/2; },
+        "set": function(v)  { this._radius = v; }
+    });
+    
 })();
 
 
@@ -3440,6 +3857,34 @@ tm.app = tm.app || {};
             // draw
             if (this.draw) this.draw();
             this._draw();
+        },
+        
+        /**
+         * シーンを切り替える
+         * ## Reference
+         * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
+         */
+        replaceScene: function()
+        {
+            
+        },
+        
+        /**
+         * シーンをプッシュする
+         * ポーズやオブション画面などで使用する
+         */
+        pushScene: function()
+        {
+            
+        },
+        
+        /**
+         * シーンをポップする
+         * ポーズやオブション画面などで使用する
+         */
+        popScene: function()
+        {
+            
         },
         
         _update: function()
