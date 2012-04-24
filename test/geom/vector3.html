@@ -1,0 +1,169 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Vector Test | TM Lib</title>
+        
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+        
+        <script id="test-script">
+            
+            /*
+             * Color Test
+             */
+            window.onload = function()
+            {
+                // コンソール
+                var c = tm.Console("#console");
+                //var c = console; // コンソールの方に出力
+                
+                var v  = tm.geom.Vector3(0, 1, 2);
+                var v2 = tm.geom.Vector3(1, 2, 3);
+                
+                // setter test
+                c.group("【setter test】");
+                    
+                    c.log("init             : ", v.toString());
+                    c.log("set              : ", v.set(3, 4, 5));
+                    c.log("setFromNumber    : ", v.setFromNumber(6, 7, 8));
+                    c.log("setFromArray     : ", v.setFromArray([9, 10, 11]));
+                    c.log("setFromObject    : ", v.setFromObject({x:12, y:13, z:14}));
+                    c.log("setFromString    : ", v.setFromString("(15, 16, 17)"));
+                    c.log("setSmart         : ");
+                    c.log("    ", v.setSmart(6, 7, 8));
+                    c.log("    ", v.setSmart([9, 10, 11]));
+                    c.log("    ", v.setSmart({x:12, y:13, z:14}));
+                    c.log("    ", v.setSmart("(15.012, 16.125, 17.55)"));
+                    
+                c.groupEnd()
+                
+                // operator test
+                c.group("【operator test】");
+                
+                    c.log("add      : ", v.set(-1, -2, -3).add(v2));
+                    c.log("sub      : ", v.set(1, 2, 3).sub(v2));
+                    c.log("mul      : ", v.set(2, 4, 8).mul(2));
+                    c.log("div      : ", v.set(2, 4, 8).div(2));
+                    c.log("negate   : ", v.set(2, 4, 8).negate());
+                    
+                c.groupEnd();
+                
+                // util method test
+                c.group("【util method test】");
+                
+                    v.set(0, 4, 3);
+                    c.log("length       : ", v.length());
+                    c.log("lengthSquared: ", v.lengthSquared());
+                    c.log("normalize    : ", v.normalize());
+                
+                c.groupEnd();
+                
+                
+                // static operator test
+                c.group("【static operator test】");
+                    
+                    v.set(2, 4, 8);
+                    v2.set(8, 4, 2);
+                    c.log("add      : ", tm.geom.Vector3.add(v, v2));
+                    c.log("sub      : ", tm.geom.Vector3.sub(v, v2));
+                    c.log("mul      : ", tm.geom.Vector3.mul(v, 5));
+                    c.log("div      : ", tm.geom.Vector3.div(v, 5));
+                    c.log("negate   : ", tm.geom.Vector3.negate(v));
+                    c.log("dot      : ", tm.geom.Vector3.dot(v, v2));
+                    c.log("cross    : ", tm.geom.Vector3.cross(v, v2));
+                    
+                c.groupEnd();
+                
+                // static util method test
+                c.group("【static util method test】");
+                    
+                    v.set(0, 1, 2);
+                    v2.set(3, 4, 5);
+                    
+                    c.log("distance         : ", tm.geom.Vector3.distance(v, v2));
+                    c.log("manhattanDistance: ", tm.geom.Vector3.manhattanDistance(v, v2));
+                    
+                    c.log("lerp(t=0.0)      : ", tm.geom.Vector3.lerp(v, v2, 0.0));
+                    c.log("lerp(t=0.5)      : ", tm.geom.Vector3.lerp(v, v2, 0.5));
+                    c.log("lerp(t=1.0)      : ", tm.geom.Vector3.lerp(v, v2, 1.0));
+                    // c.log("add      : ", $V3.add(v, v2));
+                    // c.log("sub      : ", $V3.sub(v, v2));
+                    // c.log("mul      : ", $V3.mul(v, 5));
+                    // c.log("div      : ", $V3.div(v, 5));
+                    // c.log("negate   : ", $V3.negate(v));
+                    
+                c.groupEnd();
+                
+            };
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+    </head>
+    
+    <body>
+         
+        <h1>Vector Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>DOMElement Test | TM Lib</title>
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            .box {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                padding: 10px;
+                border: 1px solid black;
+            }
+            
+            #target {
+            }
+            .append-element {
+                border: 2px solid hsl(0, 50%, 50%);
+            }
+            .prepend-element {
+                border: 2px solid hsl(90, 50%, 50%);
+            }
+            .after-element {
+                border: 2px solid hsl(180, 50%, 50%);
+            }
+            .before-element {
+                border: 2px solid hsl(270, 50%, 50%);
+            }
+            
+            .absolute {
+                background : white;
+                color: black;
+            }
+            
+            .fixed {
+                background : black;
+                color: white;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+
+        <script id="test-script">
+            
+            /*
+             * Test
+             */
+            window.onload = function()
+            {
+                var eTarget = tm.dom.Element( "#target" );
+                // append test 
+                var eAppend = tm.dom.Element( document.createElement("div") );
+                eAppend.html = "append element";
+                eAppend.element.setAttribute("class", "box append-element");
+                eTarget.append(eAppend);
+                // prepend test
+                var ePrepend = tm.dom.Element( document.createElement("div") );
+                ePrepend.html = "prepend element";
+                ePrepend.element.setAttribute("class", "box prepend-element");
+                eTarget.prepend(ePrepend);
+                // after test
+                var eAfter = tm.dom.Element( document.createElement("div") );
+                eAfter.html = "after element";
+                eAfter.element.setAttribute("class", "box after-element");
+                eTarget.after(eAfter);
+                // before test
+                var eBefore = tm.dom.Element( document.createElement("div") );
+                eBefore.html = "before element";
+                eBefore.element.setAttribute("class", "box before-element");
+                eTarget.before(eBefore);
+                
+                // create and append test
+                var eCreate = eTarget.create("div");
+                eCreate.html = "create and append element";
+                eCreate.element.setAttribute("class", "box append-element");
+                // create and before test
+                var eCreatePrepend = eTarget.create("div", "prepend");
+                eCreatePrepend.html = "create and prepend element";
+                eCreatePrepend.element.setAttribute("class", "box prepend-element");
+                
+                // コンソール生成
+                // var c = console;
+                var c = tm.Console("#console");
+                
+                // query test
+                c.group("query test");
+                c.log( eTarget.query(".append-element").html );
+                c.log( eTarget.query(".append-element", 1).html );
+                c.log( eTarget.query(".prepend-element").html );
+                c.log( eTarget.query(".prepend-element", 1).html );
+                c.groupEnd();
+                
+                // 
+                c.group("queryAll test");
+                var boxList = tm.dom.Element(document).queryAll(".box");
+                for (var i=0,len=boxList.length; i<len; ++i) {
+                    c.log(i + ": " + boxList[i].text);
+                }
+                c.groupEnd();
+                
+                
+                // 
+                c.group("field test(absolute)");
+                var eAbsolute = tm.dom.Element(".absolute");
+                eAbsolute.absolute(window.innerWidth - 350, 200, 100, 100);
+                c.log("html     : ", eAbsolute.html);
+                c.log("text     : ", eAbsolute.text);
+                c.log("value    : ", eAbsolute.value);
+                c.log("x        : ", eAbsolute.x);
+                c.log("y        : ", eAbsolute.y);
+                c.log("width    : ", eAbsolute.width);
+                c.log("height   : ", eAbsolute.height);
+                // しれっとフルスクリーン登録
+                eAbsolute.element.onclick = function() {
+                    eAbsolute.fullScreen();
+                };
+                c.groupEnd();
+                
+                
+                // 
+                c.group("field test(fixed)");
+                var eFixed = tm.dom.Element(".fixed");
+                eFixed.fixed(window.innerWidth - 200, 200, 100, 100);
+                c.log("html     : ", eFixed.html);
+                c.log("text     : ", eFixed.text);
+                c.log("value    : ", eFixed.value);
+                c.log("x        : ", eFixed.x);
+                c.log("y        : ", eFixed.y);
+                c.log("width    : ", eFixed.width);
+                c.log("height   : ", eFixed.height);
+                // しれっとフルスクリーン登録
+                eFixed.element.onclick = function() {
+                    eFixed.fullScreen();
+                };
+                c.groupEnd();
+                
+                var time = 0;
+                tm.setLoop(function(){
+                    time += 1;
+                    // css プロパティを数値っぽく扱えるのでこんなことができちゃいます!!
+                    eAbsolute.height    += Math.cos(time*Math.PI/180);
+                    eFixed.y            += Math.cos(time*Math.PI/180);
+                }, 1000/30);
+            };
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+        
+    </head>
+    
+    <body>
+         
+        <h1>DOMElement Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <h2>DOMElement Test</h2>
+                <section>
+                    <div id="target" class="box">
+                        Target
+                        <div class="box">Dummy00</div>
+                        <div class="box">Dummy01</div>
+                        <div class="box">Dummy02</div>
+                    </div>
+                </section>
+                <section>
+                    <div class="absolute box">absolute box</div>
+                </section>
+                <section>
+                    <div class="fixed box">fixed box</div>
+                </section>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
