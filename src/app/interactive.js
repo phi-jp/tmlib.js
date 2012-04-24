@@ -10,7 +10,33 @@ tm.app = tm.app || {};
     
     var _interactiveUpdate = function(app)
     {
+        var prevOnMouseFlag = this._onMouseFlag;
+        this._onMouseFlag   = this.isHitPoint(app.pointing.x, app.pointing.y);
         
+        if (!prevOnMouseFlag && this._onMouseFlag) {
+            this.dispatchEvent("mouseover");
+        }
+        
+        if (prevOnMouseFlag && !this._onMouseFlag) {
+            this.dispatchEvent("mouseout");
+        }
+        
+        if (this._onMouseFlag) {
+            if (app.pointing.getPointingStart()) {
+                this.dispatchEvent("mousedown");
+                this.mouseDowned = true;
+            }
+            
+            this.dispatchEvent("mousemove");
+        }
+        
+        if (this.mouseDowned==true && app.pointing.getPointingEnd()) {
+            this.dispatchEvent("mouseup");
+            this.mouseDowned = false;
+        }
+        
+        // 衝突判定
+        this.dispatchEvent("enterframe");
     };
     
     /**
