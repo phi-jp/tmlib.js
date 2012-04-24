@@ -15,6 +15,7 @@ tm.app = tm.app || {};
     
     /**
      * @class
+     * インタラクティブキャンバスクラス
      */
     tm.app.InteractiveCanvasElement = tm.createClass({
         
