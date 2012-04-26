@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <meta charset="UTF-8" />
+        <title>tmlib.js test</title>
+        
+        <style>
+            .piano {
+                position:relative;
+                height:200px;
+                margin: 20px;
+            }
+            
+            .white-key-set {
+                position:absolute;
+                left:0px;
+                display:-webkit-box;
+                display:-moz-box;
+                display: box;
+            }
+            
+            .white-key-set .keyboard {
+                display:-moz-box;
+                width:40px;
+                height:200px;
+                border:solid 1px black;
+                background-color: #eee;
+                -webkit-animation-name: play;
+                -webkit-animation-duration: 0.25s;
+                -webkit-animation-play-state: paused;
+                -webkit-animation-delay: 0.1s;
+            }
+            
+            @-webkit-keyframes play {
+                0% {
+                    background-color: #aaa;
+                }
+                50% {
+                    -webkit-transform: rotateX(30deg)
+                }
+                100% {
+                    background-color: #eee;
+                }
+            }
+            
+            .black-key-set {
+                display:-webkit-box;
+                display:-moz-box;
+                display: box;
+                position:absolute;
+                top: 1px;
+                left: 25px;
+            }
+            
+            .black-key-set .keyboard {
+                display:-moz-box;
+                width:30px;
+                height:120px;
+                border:solid 1px white;
+                margin-right: 10px;
+                background-color: #000;
+                -webkit-animation-name: play-black;
+                -webkit-animation-duration: 0.25s;
+                -webkit-animation-play-state: paused;
+                -webkit-animation-delay: 0.1s;
+            }
+            
+            @-webkit-keyframes play-black {
+                0% {
+                    background-color: #000;
+                }
+                50% {
+                    -webkit-transform: rotateX(30deg)
+                }
+                100% {
+                    background-color: #aaa;
+                }
+            }
+        </style>
+        
+        <script src="../../build/tmlib.js"></script>
+        
+        <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
+        <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
+        
+        <script>
+            var SOUND_FILE_LIST = {
+                "C3" : "../../resource/se/piano/C3.wav",
+                "D3" : "../../resource/se/piano/D3.wav",
+                "E3" : "../../resource/se/piano/E3.wav",
+                "F3" : "../../resource/se/piano/F3.wav",
+                "G3" : "../../resource/se/piano/G3.wav",
+                "A3" : "../../resource/se/piano/A3.wav",
+                "B3" : "../../resource/se/piano/B3.wav",
+                "C4" : "../../resource/se/piano/C4.wav",
+                "pC3": "../../resource/se/piano/pC3.wav",
+                "pD3": "../../resource/se/piano/pD3.wav",
+                "pF3": "../../resource/se/piano/pF3.wav",
+                "pG3": "../../resource/se/piano/pG3.wav",
+                "pA3": "../../resource/se/piano/pA3.wav",
+            };
+            
+            var KEY_MAP = {
+                'A': "C3",
+                'S': "D3",
+                'D': "E3",
+                'F': "F3",
+                'J': "G3",
+                'K': "A3",
+                'L': "B3",
+                ';': "C4",
+                'W': "pC3",
+                'E': "pD3",
+                'U': "pF3",
+                'I': "pG3",
+                'O': "pA3",
+            };
+            
+            window.onload = function() {
+                for (var key in SOUND_FILE_LIST) {
+                    var value = SOUND_FILE_LIST[key];
+                    tm.sound.SoundManager.add(key, value, 8);
+                }
+                
+                var eKeyList = tm.dom.Element().queryAll(".keyboard");
+                
+                for (var i=0,len=eKeyList.length; i<len; ++i) {
+                    eKeyList[i].event.add("mousedown", function() {
+                        var name = this.element.getAttribute("name");
+                        tm.sound.SoundManager.get(name).play();
+                    });
+                }
+                
+                document.onkeypress = function(e) {
+                    var key = String.fromCharCode(e.charCode);
+                    key = key.toUpperCase();
+                    
+                    var name = KEY_MAP[key];
+                    if (name) {
+                        tm.sound.SoundManager.get(name).play();
+                    }
+                }
+            };
+            
+        </script>
+    </head>
+    
+    <body>
+        <!--<h1>TM Piano</h1>-->
+        <div class="piano">
+            <div class="white-key-set">
+                <div class="keyboard" name="C3"></div>
+                <div class="keyboard" name="D3"></div>
+                <div class="keyboard" name="E3"></div>
+                <div class="keyboard" name="F3"></div>
+                <div class="keyboard" name="G3"></div>
+                <div class="keyboard" name="A3"></div>
+                <div class="keyboard" name="B3"></div>
+                <div class="keyboard" name="C4"></div>
+            </div>
+            <div class="black-key-set">
+                <div class="keyboard" name="pC3"></div>
+                <div class="keyboard" name="pD3"></div>
+                <div class="keyboard" name="nameless" style="visibility:hidden;"></div>
+                <div class="keyboard" name="pF3"></div>
+                <div class="keyboard" name="pG3"></div>
+                <div class="keyboard" name="pA3"></div>
+            </div>
+        </div>
+    </body>
+    
+</html>
