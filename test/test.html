@@ -31,8 +31,11 @@
         
         <script src="../src/app/element.js"></script>
         <script src="../src/app/canvaselement.js"></script>
+        <script src="../src/app/label.js"></script>
         <script src="../src/app/scene.js"></script>
         <script src="../src/app/canvasapp.js"></script>
+        <script src="../src/app/event.js"></script>
+        <script src="../src/app/interactive.js"></script>
         
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
         <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
@@ -40,7 +43,25 @@
         <script>
             
             window.onload = function() {
+                var app = tm.app.CanvasApp("#world");
+                app.background = "black";
                 
+                var endScene = tm.app.EndScene();
+                app.pushScene(endScene);
+                
+                var mainScene = tm.app.Scene();
+                app.pushScene(mainScene);
+                mainScene.update = function() {
+                    if (app.frame > 120) {
+                        app.popScene();
+                    }
+                    console.log("main exec");
+                };
+                
+                var startScene = tm.app.StartScene();
+                app.pushScene(startScene);
+                
+                app.run();
             };
             
         </script>
@@ -48,6 +69,7 @@
     
     <body>
         <h1>tmlib.js test</h1>
+        <canvas id="world"></canvas>
     </body>
     
 </html>

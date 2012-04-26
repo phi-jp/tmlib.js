@@ -64,9 +64,8 @@ tm.app = tm.app || {};
     
         
     /**
+     * @property    size
      * サイズ
-     * @name        size
-     * @fieldof     TM.App.Text.prototype
      */
     tm.app.Label.prototype.accessor("size", {
         "get": function() { return this._size; },
@@ -75,9 +74,8 @@ tm.app = tm.app || {};
     
         
     /**
+     * @property    font
      * フォント
-     * @name        font
-     * @fieldof     TM.App.Text.prototype
      */
     tm.app.Label.prototype.accessor("font", {
         "get": function() { return this._font; },

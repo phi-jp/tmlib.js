@@ -16,8 +16,6 @@ tm.app = tm.app || {};
         
         element     : null,
         canvas      : null,
-        graphics    : null,
-        scene       : null,
         mouse       : null,
         touch       : null,
         pointing    : null,
@@ -26,6 +24,9 @@ tm.app = tm.app || {};
         frame       : 0,
         fps         : 30,
         background  : null,
+
+        _scenes      : null,
+        _sceneIndex  : 0,
         
         /**
          * 初期化
@@ -45,8 +46,6 @@ tm.app = tm.app || {};
             // グラフィックスを生成
             this.canvas = tm.graphics.Canvas(this.element);
             
-            // シーンを生成
-            this.scene      = tm.app.Scene();
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
@@ -59,6 +58,10 @@ tm.app = tm.app || {};
             
             // カラー
             this.background = "black";
+            
+            // シーン周り
+            this._scenes = [ tm.app.Scene() ];
+            this._sceneIndex = 0;
         },
         
         /**
@@ -93,24 +96,29 @@ tm.app = tm.app || {};
         replaceScene: function(scene)
         {
             var e = null;
-            if (this.scene) {
+            if (this.currentScene) {
                 e = tm.app.Event("exit");
                 e.app = this;
-                this.scene.dispatchEvent(e);
+                this.currentScene.dispatchEvent(e);
             }
             e = tm.app.Event("enter");
             e.app = this;
-            this.scene = scene;
-            this.scene.dispatchEvent(e);
+            this.currentScene = scene;
+            this.currentScene.dispatchEvent(e);
         },
         
         /**
          * シーンをプッシュする
          * ポーズやオブション画面などで使用する
          */
-        pushScene: function()
+        pushScene: function(scene)
         {
+            this._scenes.push(scene);
+            ++this._sceneIndex;
             
+            e = tm.app.Event("enter");
+            e.app = this;
+            scene.dispatchEvent(e);
         },
         
         /**
@@ -119,7 +127,14 @@ tm.app = tm.app || {};
          */
         popScene: function()
         {
+            var scene = this._scenes.pop(scene);
+            --this._sceneIndex;
             
+            e = tm.app.Event("exit");
+            e.app = this;
+            scene.dispatchEvent(e);
+
+            return scene;
         },
         
         _update: function()
@@ -129,7 +144,7 @@ tm.app = tm.app || {};
             this.keyboard.update();
             this.touch.update();
             
-            this.scene._update(this);
+            this.currentScene._update(this);
         },
         
         _draw: function()
@@ -138,9 +153,18 @@ tm.app = tm.app || {};
             
             this.canvas.fillStyle   = "white";
             this.canvas.strokeStyle = "white";
-            this.scene._draw(this.canvas);
+            this.currentScene._draw(this.canvas);
         },
         
+    });
+    
+    /**
+     * @property    currentScene
+     * カレントシーン
+     */
+    tm.app.CanvasApp.prototype.accessor("currentScene", {
+        "get": function() { return this._scenes[this._sceneIndex]; },
+        "set": function(v){ this._scenes[this._sceneIndex] = v; }
     });
     
 })();

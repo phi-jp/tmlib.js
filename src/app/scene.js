@@ -46,6 +46,12 @@ tm.app = tm.app || {};
             this.width  = e.app.canvas.width;
             this.height = e.app.canvas.height;
             this.interact();
+            
+            this.app = e.app;
+        },
+        
+        onmousedown: function(e) {
+            this.app.popScene();
         },
     });
     
@@ -70,7 +76,14 @@ tm.app = tm.app || {};
             this.width  = e.app.canvas.width;
             this.height = e.app.canvas.height;
             this.interact();
-        }
+            
+            this.app = e.app;
+        },
+        
+        
+        onmousedown: function(e) {
+            //this.app.popScene();
+        },
     });
     
 })();
