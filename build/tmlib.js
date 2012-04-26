@@ -2048,6 +2048,20 @@ tm.geom = tm.geom || {};
  * element.js
  */
 
+
+(function() {
+    
+    // innerText 対応 ( moz では textContent なので innerText に統一 )
+    var temp = document.createElement("div");
+    if (temp.innerText === undefined) {
+        HTMLElement.prototype.accessor("innerText", {
+            "get": function()   { return this.textContent; },
+            "set": function(d)  { this.textContent = d; }
+        });
+    }
+    
+})();
+
 tm.dom = tm.dom || {};
 
 (function() {
@@ -4113,9 +4127,9 @@ tm.app = tm.app || {};
         /**
          * イベント起動
          */
-        dispatchEvent: function(eventName) {
-            var oldEventName = 'on' + eventName;
-            if (this[oldEventName]) this[oldEventName]();
+        dispatchEvent: function(e) {
+            var oldEventName = 'on' + e.type;
+            if (this[oldEventName]) this[oldEventName](e);
         },
     });
     
@@ -4378,6 +4392,67 @@ tm.app = tm.app || {};
         
     });
     
+    tm.app.StartScene = tm.createClass({
+        
+        superClass: tm.app.Scene,
+        
+        init: function() {
+            this.superInit();
+            
+        },
+        
+        onenter: function(e) {
+            var label = tm.app.Label("Start");
+            label.x = e.app.canvas.width/2;
+            label.y = e.app.canvas.height/2;
+            label.align     = "center";
+            label.baseline  = "middle";
+            this.addChild(label);
+            console.log("start");
+            // タッチに反応させる
+            this.width  = e.app.canvas.width;
+            this.height = e.app.canvas.height;
+            this.interact();
+            
+            this.app = e.app;
+        },
+        
+        onmousedown: function(e) {
+            this.app.popScene();
+        },
+    });
+    
+    
+    tm.app.EndScene = tm.createClass({
+        
+        superClass: tm.app.Scene,
+        
+        init: function() {
+            this.superInit();
+        },
+        
+        onenter: function(e) {
+            var label = tm.app.Label("end");
+            label.x = e.app.canvas.width/2;
+            label.y = e.app.canvas.height/2;
+            label.align     = "center";
+            label.baseline  = "middle";
+            this.addChild(label);
+            console.log("end");
+            // タッチに反応させる
+            this.width  = e.app.canvas.width;
+            this.height = e.app.canvas.height;
+            this.interact();
+            
+            this.app = e.app;
+        },
+        
+        
+        onmousedown: function(e) {
+            //this.app.popScene();
+        },
+    });
+    
 })();
 
 
@@ -4397,24 +4472,24 @@ tm.app = tm.app || {};
         this._onMouseFlag   = this.isHitPoint(app.pointing.x, app.pointing.y);
         
         if (!prevOnMouseFlag && this._onMouseFlag) {
-            this.dispatchEvent("mouseover");
+            this.dispatchEvent(tm.app.Event("mouseover"));
         }
         
         if (prevOnMouseFlag && !this._onMouseFlag) {
-            this.dispatchEvent("mouseout");
+            this.dispatchEvent(tm.app.Event("mouseout"));
         }
         
         if (this._onMouseFlag) {
             if (app.pointing.getPointingStart()) {
-                this.dispatchEvent("mousedown");
+                this.dispatchEvent(tm.app.Event("mousedown"));
                 this.mouseDowned = true;
             }
             
-            this.dispatchEvent("mousemove");
+            this.dispatchEvent(tm.app.Event("mousemove"));
         }
         
         if (this.mouseDowned==true && app.pointing.getPointingEnd()) {
-            this.dispatchEvent("mouseup");
+            this.dispatchEvent(tm.app.Event("mouseup"));
             this.mouseDowned = false;
         }
         
@@ -4470,8 +4545,6 @@ tm.app = tm.app || {};
         
         element     : null,
         canvas      : null,
-        graphics    : null,
-        scene       : null,
         mouse       : null,
         touch       : null,
         pointing    : null,
@@ -4480,6 +4553,9 @@ tm.app = tm.app || {};
         frame       : 0,
         fps         : 30,
         background  : null,
+
+        _scenes      : null,
+        _sceneIndex  : 0,
         
         /**
          * 初期化
@@ -4499,8 +4575,6 @@ tm.app = tm.app || {};
             // グラフィックスを生成
             this.canvas = tm.graphics.Canvas(this.element);
             
-            // シーンを生成
-            this.scene      = tm.app.Scene();
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
@@ -4513,6 +4587,10 @@ tm.app = tm.app || {};
             
             // カラー
             this.background = "black";
+            
+            // シーン周り
+            this._scenes = [ tm.app.Scene() ];
+            this._sceneIndex = 0;
         },
         
         /**
@@ -4544,18 +4622,32 @@ tm.app = tm.app || {};
          * ## Reference
          * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
          */
-        replaceScene: function()
+        replaceScene: function(scene)
         {
-            
+            var e = null;
+            if (this.currentScene) {
+                e = tm.app.Event("exit");
+                e.app = this;
+                this.currentScene.dispatchEvent(e);
+            }
+            e = tm.app.Event("enter");
+            e.app = this;
+            this.currentScene = scene;
+            this.currentScene.dispatchEvent(e);
         },
         
         /**
          * シーンをプッシュする
          * ポーズやオブション画面などで使用する
          */
-        pushScene: function()
+        pushScene: function(scene)
         {
+            this._scenes.push(scene);
+            ++this._sceneIndex;
             
+            e = tm.app.Event("enter");
+            e.app = this;
+            scene.dispatchEvent(e);
         },
         
         /**
@@ -4564,7 +4656,14 @@ tm.app = tm.app || {};
          */
         popScene: function()
         {
+            var scene = this._scenes.pop(scene);
+            --this._sceneIndex;
             
+            e = tm.app.Event("exit");
+            e.app = this;
+            scene.dispatchEvent(e);
+
+            return scene;
         },
         
         _update: function()
@@ -4574,7 +4673,7 @@ tm.app = tm.app || {};
             this.keyboard.update();
             this.touch.update();
             
-            this.scene._update(this);
+            this.currentScene._update(this);
         },
         
         _draw: function()
@@ -4583,9 +4682,271 @@ tm.app = tm.app || {};
             
             this.canvas.fillStyle   = "white";
             this.canvas.strokeStyle = "white";
-            this.scene._draw(this.canvas);
+            this.currentScene._draw(this.canvas);
+        },
+        
+    });
+    
+    /**
+     * @property    currentScene
+     * カレントシーン
+     */
+    tm.app.CanvasApp.prototype.accessor("currentScene", {
+        "get": function() { return this._scenes[this._sceneIndex]; },
+        "set": function(v){ this._scenes[this._sceneIndex] = v; }
+    });
+    
+})();
+
+
+/*
+ * scene.js
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * イベントクラス
+     */
+    tm.app.Event = tm.createClass({
+        
+        /**
+         * タイプ
+         */
+        type: null,
+        
+        /**
+         * 初期化
+         */
+        init: function(type) {
+            this.type = type;
         },
         
     });
     
 })();
+
+
+/*
+ * sound.js
+ */
+
+tm.sound = tm.sound || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * サウンドクラス
+     */
+    tm.sound.Sound = tm.createClass({
+        
+        element     : null,
+        loaded      : false,
+        isPlay      : false,
+        
+        /**
+         * 初期化
+         */
+        init: function(src) {
+            this.element = new Audio();
+            this.element.src = src;
+            this.element.load();
+            this.element.setAttribute("preload", "auto");
+            
+            var self = this;
+            this.element.addEventListener("canplaythrough", function(){
+                self.loaded = true;
+            });
+            this.element.addEventListener("ended", function(){
+                self.isPlay = false;
+            });
+            this.element.addEventListener("error", function(){
+                console.warn(this.src + "の読み込みに失敗しました");
+            });
+            
+            this.element.volume = 1.0;
+        },
+        
+        /**
+         * 再生
+         */
+        play: function() {
+            this.element.play();
+            this.isPlay = true;
+            return this;
+        },
+        
+        /**
+         * 停止
+         */
+        stop: function() {
+            this.element.stop();
+            this.isPlay = false;
+            return this;
+        },
+        
+        /**
+         * クローン
+         */
+        clone: function() {
+            return TM.App.Sound( this.element.src );
+        },
+        
+    });
+    
+    
+    
+    /**
+     * @property    volume
+     * ボリューム
+     */
+    tm.sound.Sound.prototype.accessor("volume", {
+        "get": function() { return this.element.volume; },
+        "set": function(v){ this.element.volume = v; }
+    });
+    
+    
+    if ((new Audio()).loop !== undefined) {
+    
+        /**
+         * @property    loop
+         * ループフラグ
+         */
+        tm.sound.Sound.prototype.accessor("loop", {
+            "get": function() { return this.element.loop; },
+            "set": function(v){ this.element.loop = v; }
+        });
+    }
+    // firefox 対応
+    else {
+        var onLoopFunc = function() {
+            this.play();
+        }
+        tm.sound.Sound.prototype.accessor("loop", {
+            "get": function() { return this.element.loop; },
+            "set": function(v){
+                // ループが false の状態で ture が来た場合ループ用関数を登録する
+                if (this.element.loop != true && v == true) {
+                    this.element.addEventListener("ended", onLoopFunc, false);
+                }
+                // 関数が登録されていて false が設定された場合ループ用関数を解除する
+                else if (this.element.loop == true && v == false) {
+                    this.element.removeEventListener("ended", onLoopFunc, false);
+                }
+                this.element.loop = v;
+            }
+        });
+    }
+    
+    
+    /**
+     * @static
+     * @property    SUPPORT_EXT
+     * サポートしている拡張子
+     */
+    tm.sound.Sound.SUPPORT_EXT = (function(){
+        var ext     = "";
+        var audio   = new Audio();
+        
+        if      (audio.canPlayType("audio/ogg") == 'maybe') { ext="ogg"; }
+        else if (audio.canPlayType("audio/mp3") == 'maybe') { ext="mp3"; }
+        else if (audio.canPlayType("audio/wav") == 'maybe') { ext="wav"; }
+        
+        return ext;
+    })();
+    
+})();
+
+
+(function(){
+    
+    /**
+     * @class   サウンドマネージャクラス
+     * サウンドを管理するクラス
+     */
+    tm.sound.SoundManager = {
+        sounds: {}
+    };
+    
+    /**
+     * @static
+     * @method
+     * サウンドを追加
+     */
+    tm.sound.SoundManager.add = function(name, src, cache) {
+        cache = cache || 4;
+        
+        // 拡張子チェック
+        if (src.indexOf('.') == -1) {
+            src += "." + tm.sound.Sound.SUPPORT_EXT;
+        }
+        
+        var cacheList = this.sounds[name] = [];
+        for (var i=0; i<cache; ++i) {
+            var sound = tm.sound.Sound(src);
+            cacheList.push( sound );
+        }
+        
+        return this;
+    };
+    
+
+    
+    /**
+     * @static
+     * @method
+     * サウンドを取得
+     */
+    tm.sound.SoundManager.get = function(name) {
+        var cacheList = this.sounds[name];
+        for (var i=0,len=cacheList.length; i<len; ++i) {
+            if (cacheList[i].isPlay == false) {
+                return cacheList[i];
+            }
+        }
+        // 仕方なく0番目を返す
+        return cacheList[0];
+    };
+    
+    
+    /**
+     * @static
+     * @method
+     * サウンドを取得(index 指定版)
+     */
+    tm.sound.SoundManager.getByIndex = function(name, index) {
+        return this.sounds[name][index];
+    };
+    
+    /**
+     * @static
+     * @method
+     * サウンドを削除
+     */
+    tm.sound.SoundManager.remove = function(name) {
+        // TODO:
+        
+        return this;
+    };
+    
+    /**
+     * @static
+     * @method
+     * ボリュームをセット
+     */
+    tm.sound.SoundManager.setVolume = function(name, volume) {
+        // TODO:
+        
+        return this;
+    };
+    
+    
+})();
+
