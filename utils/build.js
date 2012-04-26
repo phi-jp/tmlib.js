@@ -1,6 +1,8 @@
 
 var fs      = require("fs");
 var merger  = require("./modules/merger");
+var compressor = require("C:/Users/phi/node_modules/node-minify/lib/node-minify");
+
 
 var base = "../src/";
 var target = [
@@ -34,6 +36,9 @@ var target = [
     "app/scene.js",
     "app/interactive.js",
     "app/canvasapp.js",
+    "app/event.js",
+    
+    "sound/sound.js",
 ];
 for (var i=0,len=target.length; i<len; ++i) {
     target[i] = base + target[i];
@@ -49,4 +54,18 @@ for (var i=0,len=target.length; i<len; ++i) {
 })();
 
 
+(function() {
+    new compressor.minify({
+        /*
+        type: 'gcc',
+        type: 'uglifyjs',
+        */
+        type: 'yui',
+        fileIn : '../build/tmlib.js',
+        fileOut: '../build/tmlib.min.js',
+        callback: function(err) {
+            console.log(err);
+        }
+    });
+})();
 
