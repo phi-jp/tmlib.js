@@ -90,9 +90,18 @@ tm.app = tm.app || {};
          * ## Reference
          * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
          */
-        replaceScene: function()
+        replaceScene: function(scene)
         {
-            
+            var e = null;
+            if (this.scene) {
+                e = tm.app.Event("exit");
+                e.app = this;
+                this.scene.dispatchEvent(e);
+            }
+            e = tm.app.Event("enter");
+            e.app = this;
+            this.scene = scene;
+            this.scene.dispatchEvent(e);
         },
         
         /**

@@ -14,24 +14,24 @@ tm.app = tm.app || {};
         this._onMouseFlag   = this.isHitPoint(app.pointing.x, app.pointing.y);
         
         if (!prevOnMouseFlag && this._onMouseFlag) {
-            this.dispatchEvent("mouseover");
+            this.dispatchEvent(tm.app.Event("mouseover"));
         }
         
         if (prevOnMouseFlag && !this._onMouseFlag) {
-            this.dispatchEvent("mouseout");
+            this.dispatchEvent(tm.app.Event("mouseout"));
         }
         
         if (this._onMouseFlag) {
             if (app.pointing.getPointingStart()) {
-                this.dispatchEvent("mousedown");
+                this.dispatchEvent(tm.app.Event("mousedown"));
                 this.mouseDowned = true;
             }
             
-            this.dispatchEvent("mousemove");
+            this.dispatchEvent(tm.app.Event("mousemove"));
         }
         
         if (this.mouseDowned==true && app.pointing.getPointingEnd()) {
-            this.dispatchEvent("mouseup");
+            this.dispatchEvent(tm.app.Event("mouseup"));
             this.mouseDowned = false;
         }
         

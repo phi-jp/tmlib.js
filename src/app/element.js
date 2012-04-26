@@ -131,9 +131,9 @@ tm.app = tm.app || {};
         /**
          * イベント起動
          */
-        dispatchEvent: function(eventName) {
-            var oldEventName = 'on' + eventName;
-            if (this[oldEventName]) this[oldEventName]();
+        dispatchEvent: function(e) {
+            var oldEventName = 'on' + e.type;
+            if (this[oldEventName]) this[oldEventName](e);
         },
     });
     
