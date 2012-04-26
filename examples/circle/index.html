@@ -19,7 +19,7 @@
                 superClass: tm.app.CanvasElement,
                 
                 init: function(color) {
-                    tm.app.CanvasElement.prototype.init.call(this);
+                    this.superInit();
                     
                     this.color = color;
                     this.v = tm.geom.Vector2(0, 0);
@@ -47,7 +47,7 @@
             window.onload = function() {
                 var app = tm.app.CanvasApp("#c");
                 
-                app.scene.update = function(app) {
+                app.currentScene.update = function(app) {
                     if (app.pointing.getPointing() === true) {
                         var c = Circle(
                             "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360))

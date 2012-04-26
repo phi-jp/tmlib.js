@@ -23,8 +23,7 @@
                 superClass: tm.app.CanvasElement,
                 
                 init: function(color) {
-                    tm.app.CanvasElement.prototype.init.call(this);
-                    
+                    this.superInit();
                     this.color = color;
                 },
                 
@@ -53,7 +52,7 @@
                 for (var i=0; i<CIRCLE_MAX_NUM; ++i) {
                     var c = "hsla({0}, 75%, 50%, 0.75)".format(360/CIRCLE_MAX_NUM*i);
                     var circle = Circle(c);
-                    app.scene.addChild(circle);
+                    app.currentScene.addChild(circle);
                     circleList.push(circle);
                 }
                 
