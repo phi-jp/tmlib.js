@@ -2707,7 +2707,25 @@ tm.dom = tm.dom || {};
         },
         
         
+        /**
+         * アニメーション開始
+         */
+        start: function() {
+            this.element.style["webkitAnimationPlayState"] = "running";
+            return this;
+        },
         
+        /**
+         * アニメーション終了
+         */
+        stop: function() {
+            this.element.style["webkitAnimationPlayState"] = "paused";
+            return this;
+        },
+        
+        /**
+         * プロパティをセット
+         */
         setProperty: function(prop) {
             if (typeof prop == "string") {
                 this.element.style["webkitAnimation"] = prop;
@@ -2722,26 +2740,41 @@ tm.dom = tm.dom || {};
             return this;
         },
         
+        /**
+         * 名前をセット
+         */
         setName: function(name) {
             this.element.style["webkitAnimationName"] = name;
             return this;
         },
         
+        /**
+         * アニメーション時間の長さをセット
+         */
         setDuration: function(s) {
             this.element.style["webkitAnimationDuration"] = s;
             return this;
         },
         
+        /**
+         * 補間関数をセット
+         */
         setTimingFunction: function(func) {
             this.element.style["webkitAnimationTimingFunction"] = func;
             return this;
         },
         
+        /**
+         * イテレータカウントをセット
+         */
         setIterationCount: function(n) {
             this.element.style["webkitAnimationIterationCount"] = n;
             return this;
         },
         
+        /**
+         * アニメーション開始待ち時間をセット
+         */
         setDelay: function(s) {
             this.element.style["webkitAnimationDelay"] = s;
             return this;
@@ -2753,16 +2786,6 @@ tm.dom = tm.dom || {};
          */
         setDirection: function(t) {
             this.element.style["webkitAnimationDirection"] = t;
-            return this;
-        },
-        
-        start: function() {
-            this.element.style["webkitAnimationPlayState"] = "running";
-            return this;
-        },
-        
-        stop: function() {
-            this.element.style["webkitAnimationPlayState"] = "paused";
             return this;
         },
     });
@@ -4295,11 +4318,17 @@ tm.app = tm.app || {};
          * 表示フラグ
          */
         visible: true,
+        
         /**
          * アルファ
          */
         alpha: 1.0,
-
+        
+        /**
+         * ブレンドモード
+         */
+        blendMode: "source-over",
+        
         /**
          * ゲーム用エレメントクラス
          */
@@ -4390,10 +4419,12 @@ tm.app = tm.app || {};
             
             graphics.save();
             
+            graphics.globalAlpha = this.alpha;
+            graphics.globalCompositeOperation = this.blendMode;
+            
             graphics.translate(this.x, this.y);
             graphics.rotate(this.rotation*Math.PI/180);
             graphics.scale(this.scaleX, this.scaleY);
-            graphics.globalAlpha = this.alpha;
             
             this.draw(graphics);
             
@@ -4477,6 +4508,9 @@ tm.app = tm.app || {};
         "get": function()   { return this._radius || (this.width+this.height)/2; },
         "set": function(v)  { this._radius = v; }
     });
+    
+    
+    
     
 })();
 

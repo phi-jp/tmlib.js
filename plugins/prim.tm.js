@@ -22,7 +22,6 @@ tm.prim = tm.prim || {};
         },
         
         draw: function(c) {
-            c.globalCompositeOperation = "lighter";
             c.fillStyle = this.color;
             c.fillCircle(0, 0, this.radius);
         }
@@ -45,7 +44,6 @@ tm.prim = tm.prim || {};
         },
         
         draw: function(c) {
-            c.globalCompositeOperation = "lighter";
             c.fillStyle = this.color;
             c.fillRect(0, 0, this.width, this.height);
         }
@@ -62,15 +60,14 @@ tm.prim = tm.prim || {};
         init: function(radius, sides, sideIndent, offsetAngle, color) {
             this.superInit();
             
-            this.radius = radius;
-            this.sides = sides;
-            this.sideIndent = sideIndent;
-            this.offsetAngle = offsetAngle;
-            this.color = color;
+            this.radius     = radius    || 16;
+            this.sides      = sides     || 5;
+            this.sideIndent = sideIndent|| 0.5;
+            this.offsetAngle= offsetAngle;
+            this.color      = color     || "yellow";
         },
         
         draw: function(c) {
-            c.globalCompositeOperation = "lighter";
             c.fillStyle = this.color;
             c.fillStar(0, 0, this.radius, this.sides, this.sideIndent, this.offsetAngle);
         }

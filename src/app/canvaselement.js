@@ -41,11 +41,17 @@ tm.app = tm.app || {};
          * 表示フラグ
          */
         visible: true,
+        
         /**
          * アルファ
          */
         alpha: 1.0,
-
+        
+        /**
+         * ブレンドモード
+         */
+        blendMode: "source-over",
+        
         /**
          * ゲーム用エレメントクラス
          */
@@ -136,10 +142,12 @@ tm.app = tm.app || {};
             
             graphics.save();
             
+            graphics.globalAlpha = this.alpha;
+            graphics.globalCompositeOperation = this.blendMode;
+            
             graphics.translate(this.x, this.y);
             graphics.rotate(this.rotation*Math.PI/180);
             graphics.scale(this.scaleX, this.scaleY);
-            graphics.globalAlpha = this.alpha;
             
             this.draw(graphics);
             
@@ -223,5 +231,8 @@ tm.app = tm.app || {};
         "get": function()   { return this._radius || (this.width+this.height)/2; },
         "set": function(v)  { this._radius = v; }
     });
+    
+    
+    
     
 })();
