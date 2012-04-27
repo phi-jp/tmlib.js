@@ -23,6 +23,7 @@
     
     
     /**
+     * @method  erase
      * elm と一致する要素を削除
      */
     Array.defineInstanceMethod("erase", function(elm) {
@@ -32,6 +33,7 @@
     });
     
     /**
+     * @method  eraseAll
      * elm と一致する要素を全て削除
      */
     Array.defineInstanceMethod("eraseAll", function(elm) {
@@ -44,6 +46,7 @@
     });
     
     /**
+     * @method  eraseIf
      * 条件にマッチした要素を削除
      */
     Array.defineInstanceMethod("eraseIf", function(fn) {
@@ -54,6 +57,7 @@
     });
     
     /**
+     * @method  random
      * 要素の中からランダムで取り出す
      */
     Array.defineInstanceMethod("random", function(min, max) {
@@ -64,6 +68,7 @@
     
     
     /**
+     * @method  uniq
      * 重複削除
      */
     Array.defineInstanceMethod("uniq", function(deep) {
@@ -78,6 +83,7 @@
     });
     
     /**
+     * @method  flatten
      * フラット.
      * Ruby のやつ.
      */
@@ -96,6 +102,7 @@
     });
     
     /**
+     * @method  clone
      * 配列をクローン
      */
     Array.defineInstanceMethod("clone", function(deep) {
@@ -111,6 +118,7 @@
     });
     
     /**
+     * @method  clear
      * クリア
      */
     Array.defineInstanceMethod("clear", function() {
@@ -119,6 +127,7 @@
     });
     
     /**
+     * @method  fill
      * 特定の値で満たす
      */
     Array.defineInstanceMethod("fill", function() {
@@ -127,16 +136,18 @@
     });
     
     /**
-     * 
+     * @method  toULElement
+     * ULElement に変換
      */
     Array.defineInstanceMethod("toULElement", function(){
         // TODO: 
     });
 
     /**
-     * 
+     * @method  toOLElement
+     * OLElement に変換
      */
-    Array.defineInstanceMethod("toLIElement", function(){
+    Array.defineInstanceMethod("toOLElement", function(){
         // TODO:
     });
     
