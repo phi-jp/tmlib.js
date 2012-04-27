@@ -56,7 +56,7 @@ tm.app = tm.app || {};
          * ゲーム用エレメントクラス
          */
         init: function() {
-            tm.app.Element.prototype.init.apply(this);
+            this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
             this.eventFlags = {};

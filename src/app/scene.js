@@ -20,7 +20,7 @@ tm.app = tm.app || {};
          * 初期化
          */
         init: function() {
-            tm.app.CanvasElement.prototype.init.apply(this);
+            this.superInit();
         },
         
     });
