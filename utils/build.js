@@ -23,6 +23,7 @@ var target = [
     
     "dom/element.js",
     "dom/event.js",
+    "dom/anim.js",
     
     "input/keyboard.js",
     "input/mouse.js",

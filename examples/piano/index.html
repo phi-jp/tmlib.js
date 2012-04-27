@@ -128,8 +128,7 @@
                 
                 for (var i=0,len=eKeyList.length; i<len; ++i) {
                     eKeyList[i].event.add("mousedown", function() {
-                        var name = this.element.getAttribute("name");
-                        tm.sound.SoundManager.get(name).play();
+                        play(this);
                     });
                 }
                 
@@ -139,9 +138,17 @@
                     
                     var name = KEY_MAP[key];
                     if (name) {
-                        tm.sound.SoundManager.get(name).play();
+                        var elm  = tm.dom.Element(document.getElementsByName(name)[0]);
+                        play(elm);
                     }
                 }
+            };
+            
+            var play = function(elm)
+            {
+                var key = elm.element.getAttribute("name");
+                tm.sound.SoundManager.get(key).play();
+                elm.anim.start();
             };
             
         </script>
