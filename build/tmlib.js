@@ -122,95 +122,6 @@ var tm = tm || {};
 
 
 /*
- * array.js
- */
-
-/*
- * date.js
- */
-
-/*
- * function.js
- */
-
-/*
- * math.js
- */
-
-
-(function() {
-    
-    /**
-     * @class Math
-     * 数学
-     */
-    
-    /**
-     * @method
-     * ランダムな値を指定された範囲内で生成
-     */
-    Math.rand = function(min, max) {
-        return window.Math.floor( Math.randf(min, max) );
-    };
-    
-    /**
-     * @method
-     * ランダムな値を指定された範囲内で生成
-     */
-    Math.randf= function(min, max) {
-        return window.Math.random()*(max-min)+min;
-    };
-    
-    /**
-     * @method
-     * Degree を Radian に変換
-     */
-    Math.degToRad = function(deg) {
-        return deg / 180.0 * Math.PI;
-    };
-    
-    /**
-     * @method
-     * Radian を Degree に変換
-     */
-    Math.radToDeg = function(rad) {
-        return rad * 180.0 / Math.PI;
-    };
-    
-    
-    /**
-     * @method
-     * 長さを取得
-     */
-    Math.magnitude = function() {
-        return Math.sqrt(Math.magnitudeSq.apply(null, arguments));
-    };
-    
-    
-    /**
-     * @method
-     * 長さの２乗を取得
-     */
-    Math.magnitudeSq = function() {
-        var n = 0;
-        
-        for (var i=0,len=arguments.length; i<len; ++i) {
-            n += arguments[i]*arguments[i];
-        }
-        
-        return n;
-    };
-    
-})();
-
-
-
-/*
- * number.js
- */
-
-
-/*
  * object.js
  */
 
@@ -305,6 +216,237 @@ var tm = tm || {};
     
 })();
 
+
+
+/*
+ * array.js
+ */
+
+
+(function() {
+    
+    /**
+     * @class   Array
+     * 配列
+     */
+    
+    /**
+     * @method  swap
+     * a番目 と b番目 を入れ替える
+     */
+    Array.defineInstanceMethod("swap", function(a, b) {
+        var temp = this[a];
+        this[a] = this[b];
+        this[b] = temp;
+        return this;
+    });
+    
+    
+    /**
+     * elm と一致する要素を削除
+     */
+    Array.defineInstanceMethod("erase", function(elm) {
+        var index  = this.indexOf(elm);
+        this.splice(index, 1);
+        return this;
+    });
+    
+    /**
+     * elm と一致する要素を全て削除
+     */
+    Array.defineInstanceMethod("eraseAll", function(elm) {
+        for (var i=0,len=this.length; i<len; ++i) {
+            if (this[i] == elm) {
+                this.splice(i--, 1);
+            }
+        }
+        return this;
+    });
+    
+    /**
+     * 条件にマッチした要素を削除
+     */
+    Array.defineInstanceMethod("eraseIf", function(fn) {
+        for (var i=0,len=this.length; i<len; ++i) {
+            if ( fn(this[i], i, this) ) { this.splice(i--, 1); }
+        }
+        return this;
+    });
+    
+    /**
+     * 要素の中からランダムで取り出す
+     */
+    Array.defineInstanceMethod("random", function(min, max) {
+        min = min || 0;
+        max = max || this.length;
+        return this[ Math.rand(min, max) ];
+    });
+    
+    
+    /**
+     * 重複削除
+     */
+    Array.defineInstanceMethod("uniq", function(deep) {
+        var arr = [];
+        for (var i=0,len=this.length; i<len; ++i) {
+            var value = this[i];
+            if (value in arr == false) {
+                arr.push(value);
+            }
+        }
+        return arr;
+    });
+    
+    /**
+     * フラット.
+     * Ruby のやつ.
+     */
+    Array.defineInstanceMethod("flatten", function(deep) {
+        var arr = [];
+        for (var i=0,len=this.length; i<len; ++i) {
+            var value = this[i];
+            if (value instanceof Array) {
+                arr = arr.concat(value.flatten());
+            }
+            else {
+                arr.push(value);
+            }
+        }
+        return arr;
+    });
+    
+    /**
+     * 配列をクローン
+     */
+    Array.defineInstanceMethod("clone", function(deep) {
+        if (deep == true) {
+            var a = Array(this.length);
+            for (var i=0,len=this.length; i<len; ++i) {
+                a[i] = (this[i].clone) ? this[i].clone(deep) : this[i];
+            }
+            return a;
+        };
+        
+        return Array.prototype.slice.apply(this);
+    });
+    
+    /**
+     * クリア
+     */
+    Array.defineInstanceMethod("clear", function() {
+        this.length = 0;
+        return this;
+    });
+    
+    /**
+     * 特定の値で満たす
+     */
+    Array.defineInstanceMethod("fill", function() {
+        // TODO:
+        return this;
+    });
+    
+    /**
+     * 
+     */
+    Array.defineInstanceMethod("toULElement", function(){
+        // TODO: 
+    });
+
+    /**
+     * 
+     */
+    Array.defineInstanceMethod("toLIElement", function(){
+        // TODO:
+    });
+    
+})();
+
+
+
+/*
+ * date.js
+ */
+
+/*
+ * function.js
+ */
+
+/*
+ * math.js
+ */
+
+
+(function() {
+    
+    /**
+     * @class Math
+     * 数学
+     */
+    
+    /**
+     * @method
+     * ランダムな値を指定された範囲内で生成
+     */
+    Math.rand = function(min, max) {
+        return window.Math.floor( Math.randf(min, max) );
+    };
+    
+    /**
+     * @method
+     * ランダムな値を指定された範囲内で生成
+     */
+    Math.randf= function(min, max) {
+        return window.Math.random()*(max-min)+min;
+    };
+    
+    /**
+     * @method
+     * Degree を Radian に変換
+     */
+    Math.degToRad = function(deg) {
+        return deg / 180.0 * Math.PI;
+    };
+    
+    /**
+     * @method
+     * Radian を Degree に変換
+     */
+    Math.radToDeg = function(rad) {
+        return rad * 180.0 / Math.PI;
+    };
+    
+    
+    /**
+     * @method
+     * 長さを取得
+     */
+    Math.magnitude = function() {
+        return Math.sqrt(Math.magnitudeSq.apply(null, arguments));
+    };
+    
+    
+    /**
+     * @method
+     * 長さの２乗を取得
+     */
+    Math.magnitudeSq = function() {
+        var n = 0;
+        
+        for (var i=0,len=arguments.length; i<len; ++i) {
+            n += arguments[i]*arguments[i];
+        }
+        
+        return n;
+    };
+    
+})();
+
+
+
+/*
+ * number.js
+ */
 
 
 /*
@@ -4333,7 +4475,7 @@ tm.app = tm.app || {};
          * ゲーム用エレメントクラス
          */
         init: function() {
-            tm.app.Element.prototype.init.apply(this);
+            this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
             this.eventFlags = {};
@@ -4537,7 +4679,7 @@ tm.app = tm.app || {};
          * 初期化
          */
         init: function() {
-            tm.app.CanvasElement.prototype.init.apply(this);
+            this.superInit();
         },
         
     });

@@ -8,12 +8,12 @@ var base = "../src/";
 var target = [
     "tmlib.js",
     
+    "core/object.js",
     "core/array.js",
     "core/date.js",
     "core/function.js",
     "core/math.js",
     "core/number.js",
-    "core/object.js",
     "core/string.js",
     
     "geom/vector2.js",
