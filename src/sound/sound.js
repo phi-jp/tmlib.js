@@ -150,7 +150,7 @@ tm.sound = tm.sound || {};
         cache = cache || 4;
         
         // 拡張子チェック
-        if (src.indexOf('.') == -1) {
+        if (src.split('/').at(-1).indexOf('.') == -1) {
             src += "." + tm.sound.Sound.SUPPORT_EXT;
         }
         
