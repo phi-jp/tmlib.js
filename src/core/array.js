@@ -11,6 +11,18 @@
      */
     
     /**
+     * @method  at
+     * ループ添字アクセス
+     */
+    Array.defineInstanceMethod("at", function(i) {
+        i%=this.length;
+        i+=this.length;
+        i%=this.length;
+        return this[i];
+    });
+    
+    
+    /**
      * @method  swap
      * a番目 と b番目 を入れ替える
      */
