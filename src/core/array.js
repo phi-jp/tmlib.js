@@ -172,6 +172,18 @@
     });
     
     /**
+     * @method  shuffle
+     * シャッフル
+     */
+    Array.defineInstanceMethod("shuffle", function() {
+        for (var i=0,len=this.length; i<len; ++i) {
+            this.swap(i, Math.rand(0, len));
+        }
+        
+        return this;
+    });
+    
+    /**
      * @method  toULElement
      * ULElement に変換
      */
