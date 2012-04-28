@@ -11,8 +11,26 @@
      */
     
     /**
+     * @property    first
+     * 最初の要素
+     */
+    Array.prototype.accessor("first", {
+        "get": function()   { return this[0]; },
+        "set": function(v)  { this[0] = v; }
+    });
+    
+    /**
+     * @property    last
+     * 最後の要素
+     */
+    Array.prototype.accessor("last", {
+        "get": function()   { return this[this.length-1]; },
+        "set": function(v)  { this[this.length-1] = v; }
+    });
+    
+    /**
      * @method  at
-     * ループ添字アクセス
+     * ループ添字アクセス(Ruby っぽいやつ)
      */
     Array.defineInstanceMethod("at", function(i) {
         i%=this.length;
@@ -142,8 +160,14 @@
      * @method  fill
      * 特定の値で満たす
      */
-    Array.defineInstanceMethod("fill", function() {
-        // TODO:
+    Array.defineInstanceMethod("fill", function(value, start, end) {
+        start = start || 0;
+        end   = end   || (this.length-1);
+        
+        for (var i=start; i<end; ++i) {
+            this[i] = value;
+        }
+        
         return this;
     });
     
