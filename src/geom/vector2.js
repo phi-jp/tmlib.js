@@ -221,6 +221,13 @@ tm.geom = tm.geom || {};
             return this;
         },
         
+        random: function(min, max, len) {
+            min = min || 0;
+            max = max || 360;
+            len = len || 1;
+            this.setFromDegree(Math.randf(min, max), len);
+        },
+        
         /**
          * 角度(radian)に変換
          */

@@ -231,8 +231,26 @@ var tm = tm || {};
      */
     
     /**
+     * @property    first
+     * 最初の要素
+     */
+    Array.prototype.accessor("first", {
+        "get": function()   { return this[0]; },
+        "set": function(v)  { this[0] = v; }
+    });
+    
+    /**
+     * @property    last
+     * 最後の要素
+     */
+    Array.prototype.accessor("last", {
+        "get": function()   { return this[this.length-1]; },
+        "set": function(v)  { this[this.length-1] = v; }
+    });
+    
+    /**
      * @method  at
-     * ループ添字アクセス
+     * ループ添字アクセス(Ruby っぽいやつ)
      */
     Array.defineInstanceMethod("at", function(i) {
         i%=this.length;
@@ -362,8 +380,26 @@ var tm = tm || {};
      * @method  fill
      * 特定の値で満たす
      */
-    Array.defineInstanceMethod("fill", function() {
-        // TODO:
+    Array.defineInstanceMethod("fill", function(value, start, end) {
+        start = start || 0;
+        end   = end   || (this.length-1);
+        
+        for (var i=start; i<end; ++i) {
+            this[i] = value;
+        }
+        
+        return this;
+    });
+    
+    /**
+     * @method  shuffle
+     * シャッフル
+     */
+    Array.defineInstanceMethod("shuffle", function() {
+        for (var i=0,len=this.length; i<len; ++i) {
+            this.swap(i, Math.rand(0, len));
+        }
+        
         return this;
     });
     
@@ -390,6 +426,98 @@ var tm = tm || {};
 /*
  * date.js
  */
+
+
+(function() {
+    
+    /**
+     * @class   Date
+     * Date クラス
+     */
+    
+    var MONTH = [
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ];
+    
+    var WEEK = [
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ];
+    
+    /**
+     * @method  round
+     * 四捨五入
+     * 桁数指定版
+     */
+    Date.prototype.format = function(pattern)
+    {
+        /*
+        var str = "{y}/{m}/{d}".format({
+            y: this.getYear()+1900,
+            m: this.getMonth()+1,
+            d: this.getDate(),
+        });
+        
+        return str;
+        */
+        
+        var year    = this.getFullYear();
+        var month   = this.getMonth();
+        var date    = this.getDate();
+        var day     = this.getDay();
+        var hours   = this.getHours();
+        var minutes = this.getMinutes();
+        var seconds = this.getSeconds();
+        var str = "";
+        
+        for (var i=0,len=pattern.length; i<len; ++i) {
+            var ch = pattern.charAt(i);
+            var temp = "";
+            switch(ch) {
+                // 日
+                case "d": temp = date.padding(2, '0'); break;
+                case "D": temp = WEEK[day].substr(0, 3); break;
+                case "j": temp = date; break;
+                case "l": temp = WEEK[day]; break;
+                // case "N": temp = ; break;
+                // case "S": temp = ; break;
+                // case "w": temp = ; break;
+                // case "z": temp = ; break;
+                
+                // 月
+                case "F": temp = MONTH[month]; break;
+                case "m": temp = (month+1).padding(2, '0'); break;
+                case "M": temp = MONTH[month].substr(0, 3); break;
+                case "n": temp = (month+1); break;
+                // case "t": temp = (month+1); break;
+                
+                // 年
+                // case "L": temp = ; break;
+                // case "o": temp = ; break;
+                case "Y": temp = year; break;
+                case "y": temp = year.toString().substr(2, 2); break;
+                
+                
+                // 時間
+                // case "a": temp = ; break;
+                // case "A": temp = ; break;
+                // case "B": temp = ; break;
+                // case "g": temp = ; break;
+                case "G": temp = hours; break;
+                // case "h": temp = ; break;
+                case "H": temp = hours.padding(2, '0'); break;
+                case "i": temp = minutes.padding(2, '0'); break;
+                case "s": temp = seconds.padding(2, '0'); break;
+                
+                default : temp = ch; break;
+            }
+            str += temp;
+        }
+        return str;
+    };
+    
+})();
+
+
 
 /*
  * function.js
@@ -995,6 +1123,13 @@ tm.geom = tm.geom || {};
             this.div(length);
             
             return this;
+        },
+        
+        random: function(min, max, len) {
+            min = min || 0;
+            max = max || 360;
+            len = len || 1;
+            this.setFromDegree(Math.randf(min, max), len);
         },
         
         /**
@@ -4942,7 +5077,7 @@ tm.app = tm.app || {};
         }
         
         // 衝突判定
-        this.dispatchEvent("enterframe");
+        this.dispatchEvent(tm.app.Event("enterframe"));
     };
     
     /**
