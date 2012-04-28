@@ -36,7 +36,7 @@ tm.app = tm.app || {};
         }
         
         // 衝突判定
-        this.dispatchEvent("enterframe");
+        this.dispatchEvent(tm.app.Event("enterframe"));
     };
     
     /**
