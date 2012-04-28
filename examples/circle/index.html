@@ -6,6 +6,7 @@
         <meta charset="UTF-8" />
         <title>tmlib.js test</title>
         <script src="../../build/tmlib.js"></script>
+        <script src="../../src/sound/sound.js"></script>
         
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
         <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
@@ -34,6 +35,9 @@
                     if (this.y > bottom) {
                         this.y = bottom;
                         this.v.y *= -0.99;
+                        var se = tm.sound.SoundManager.get("bound")
+                        se.volume = 0.5;
+                        se.play();
                     }
                 },
                 
@@ -47,8 +51,10 @@
             window.onload = function() {
                 var app = tm.app.CanvasApp("#c");
                 
+                tm.sound.SoundManager.add("bound", "../../resource/se/puu89");
+                
                 app.currentScene.update = function(app) {
-                    if (app.pointing.getPointing() === true) {
+                    if (app.pointing.getPointingStart() === true) {
                         var c = Circle(
                             "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360))
                         );

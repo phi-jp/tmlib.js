@@ -231,6 +231,18 @@ var tm = tm || {};
      */
     
     /**
+     * @method  at
+     * ループ添字アクセス
+     */
+    Array.defineInstanceMethod("at", function(i) {
+        i%=this.length;
+        i+=this.length;
+        i%=this.length;
+        return this[i];
+    });
+    
+    
+    /**
      * @method  swap
      * a番目 と b番目 を入れ替える
      */
@@ -243,6 +255,7 @@ var tm = tm || {};
     
     
     /**
+     * @method  erase
      * elm と一致する要素を削除
      */
     Array.defineInstanceMethod("erase", function(elm) {
@@ -252,6 +265,7 @@ var tm = tm || {};
     });
     
     /**
+     * @method  eraseAll
      * elm と一致する要素を全て削除
      */
     Array.defineInstanceMethod("eraseAll", function(elm) {
@@ -264,6 +278,7 @@ var tm = tm || {};
     });
     
     /**
+     * @method  eraseIf
      * 条件にマッチした要素を削除
      */
     Array.defineInstanceMethod("eraseIf", function(fn) {
@@ -274,6 +289,7 @@ var tm = tm || {};
     });
     
     /**
+     * @method  random
      * 要素の中からランダムで取り出す
      */
     Array.defineInstanceMethod("random", function(min, max) {
@@ -284,6 +300,7 @@ var tm = tm || {};
     
     
     /**
+     * @method  uniq
      * 重複削除
      */
     Array.defineInstanceMethod("uniq", function(deep) {
@@ -298,6 +315,7 @@ var tm = tm || {};
     });
     
     /**
+     * @method  flatten
      * フラット.
      * Ruby のやつ.
      */
@@ -316,6 +334,7 @@ var tm = tm || {};
     });
     
     /**
+     * @method  clone
      * 配列をクローン
      */
     Array.defineInstanceMethod("clone", function(deep) {
@@ -331,6 +350,7 @@ var tm = tm || {};
     });
     
     /**
+     * @method  clear
      * クリア
      */
     Array.defineInstanceMethod("clear", function() {
@@ -339,6 +359,7 @@ var tm = tm || {};
     });
     
     /**
+     * @method  fill
      * 特定の値で満たす
      */
     Array.defineInstanceMethod("fill", function() {
@@ -347,16 +368,18 @@ var tm = tm || {};
     });
     
     /**
-     * 
+     * @method  toULElement
+     * ULElement に変換
      */
     Array.defineInstanceMethod("toULElement", function(){
         // TODO: 
     });
 
     /**
-     * 
+     * @method  toOLElement
+     * OLElement に変換
      */
-    Array.defineInstanceMethod("toLIElement", function(){
+    Array.defineInstanceMethod("toOLElement", function(){
         // TODO:
     });
     
@@ -5176,6 +5199,7 @@ tm.sound = tm.sound || {};
         cache = cache || 4;
         
         // 拡張子チェック
+        alert(src.split('/').at(-1));
         if (src.indexOf('.') == -1) {
             src += "." + tm.sound.Sound.SUPPORT_EXT;
         }
