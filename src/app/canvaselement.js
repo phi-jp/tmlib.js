@@ -129,11 +129,15 @@ tm.app = tm.app || {};
             return this;
         },
         
-        _update: function(game) {
-            this.update(game);
+        _update: function(app) {
+            this.update(app);
+            
+            var e = tm.app.Event("enterframe");
+            e.app = app;
+            this.dispatchEvent(e);
             
             // 子供達も実行
-            this.execChildren(arguments.callee, game);
+            this.execChildren(arguments.callee, app);
         },
         
         _draw: function(graphics) {

@@ -4590,6 +4590,7 @@ tm.app = tm.app || {};
          */
         init: function() {
             this.children = [];
+            this._listeners = {};
         },
         
         /**
@@ -4697,11 +4698,29 @@ tm.app = tm.app || {};
         },
         
         /**
+         * イベントリスナー追加
+         */
+        addEventListener: function(type, listener) {
+            if (this._listeners[type] === undefined) {
+                this._listeners[type] = [];
+            }
+            
+            this._listeners[type].push(listener);
+        },
+        
+        /**
          * イベント起動
          */
         dispatchEvent: function(e) {
             var oldEventName = 'on' + e.type;
             if (this[oldEventName]) this[oldEventName](e);
+            
+            var listeners = this._listeners[e.type];
+            if (listeners) {
+                for (var i=0,len=listeners.length; i<len; ++i) {
+                    listeners[i].call(this, e);
+                }
+            }
         },
     });
     
@@ -4839,11 +4858,15 @@ tm.app = tm.app || {};
             return this;
         },
         
-        _update: function(game) {
-            this.update(game);
+        _update: function(app) {
+            this.update(app);
+            
+            var e = tm.app.Event("enterframe");
+            e.app = app;
+            this.dispatchEvent(e);
             
             // 子供達も実行
-            this.execChildren(arguments.callee, game);
+            this.execChildren(arguments.callee, app);
         },
         
         _draw: function(graphics) {
@@ -5049,10 +5072,10 @@ tm.app = tm.app || {};
 
 (function() {
     
-    var _interactiveUpdate = function(app)
+    var _interactiveUpdate = function(e)
     {
         var prevOnMouseFlag = this._onMouseFlag;
-        this._onMouseFlag   = this.isHitPoint(app.pointing.x, app.pointing.y);
+        this._onMouseFlag   = this.isHitPoint(e.app.pointing.x, e.app.pointing.y);
         
         if (!prevOnMouseFlag && this._onMouseFlag) {
             this.dispatchEvent(tm.app.Event("mouseover"));
@@ -5063,7 +5086,7 @@ tm.app = tm.app || {};
         }
         
         if (this._onMouseFlag) {
-            if (app.pointing.getPointingStart()) {
+            if (e.app.pointing.getPointingStart()) {
                 this.dispatchEvent(tm.app.Event("mousedown"));
                 this.mouseDowned = true;
             }
@@ -5071,13 +5094,10 @@ tm.app = tm.app || {};
             this.dispatchEvent(tm.app.Event("mousemove"));
         }
         
-        if (this.mouseDowned==true && app.pointing.getPointingEnd()) {
+        if (this.mouseDowned==true && e.app.pointing.getPointingEnd()) {
             this.dispatchEvent(tm.app.Event("mouseup"));
             this.mouseDowned = false;
         }
-        
-        // 衝突判定
-        this.dispatchEvent(tm.app.Event("enterframe"));
     };
     
     /**
@@ -5105,7 +5125,7 @@ tm.app = tm.app || {};
     
     
     tm.app.Element.prototype.interact = function() {
-        this.update = _interactiveUpdate;
+        this.addEventListener("enterframe", _interactiveUpdate);
     };
     
 })();

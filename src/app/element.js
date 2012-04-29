@@ -22,6 +22,7 @@ tm.app = tm.app || {};
          */
         init: function() {
             this.children = [];
+            this._listeners = {};
         },
         
         /**
@@ -129,11 +130,29 @@ tm.app = tm.app || {};
         },
         
         /**
+         * イベントリスナー追加
+         */
+        addEventListener: function(type, listener) {
+            if (this._listeners[type] === undefined) {
+                this._listeners[type] = [];
+            }
+            
+            this._listeners[type].push(listener);
+        },
+        
+        /**
          * イベント起動
          */
         dispatchEvent: function(e) {
             var oldEventName = 'on' + e.type;
             if (this[oldEventName]) this[oldEventName](e);
+            
+            var listeners = this._listeners[e.type];
+            if (listeners) {
+                for (var i=0,len=listeners.length; i<len; ++i) {
+                    listeners[i].call(this, e);
+                }
+            }
         },
     });
     
