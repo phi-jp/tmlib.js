@@ -32,11 +32,11 @@ tm.app = tm.app || {};
         /**
          * 幅
          */
-        width:  64,
+        width:  32,
         /**
          * 高さ
          */
-        height: 64,
+        height: 32,
         /**
          * 表示フラグ
          */
