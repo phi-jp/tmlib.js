@@ -269,7 +269,7 @@ tm.geom = tm.geom || {};
      * min
      */
     tm.geom.Vector2.min = function(lhs, rhs) {
-        return Vector2(
+        return tm.geom.Vector2(
             (lhs.x < rhs.x) ? lhs.x : rhs.x,
             (lhs.y < rhs.y) ? lhs.y : rhs.y
         );
@@ -281,7 +281,7 @@ tm.geom = tm.geom || {};
      * max
      */
     tm.geom.Vector2.max = function(lhs, rhs) {
-        return Vector2(
+        return tm.geom.Vector2(
             (lhs.x > rhs.x) ? lhs.x : rhs.x,
             (lhs.y > rhs.y) ? lhs.y : rhs.y
         );
@@ -293,7 +293,7 @@ tm.geom = tm.geom || {};
      * 加算
      */
     tm.geom.Vector2.add = function(lhs, rhs) {
-        return Vector2(lhs.x+rhs.x, lhs.y+rhs.y);
+        return tm.geom.Vector2(lhs.x+rhs.x, lhs.y+rhs.y);
     };
     
     /**
@@ -302,7 +302,7 @@ tm.geom = tm.geom || {};
      * 減算
      */
     tm.geom.Vector2.sub = function(lhs, rhs) {
-        return Vector2(lhs.x-rhs.x, lhs.y-rhs.y);
+        return tm.geom.Vector2(lhs.x-rhs.x, lhs.y-rhs.y);
     };
     
     /**
@@ -311,7 +311,7 @@ tm.geom = tm.geom || {};
      * 乗算
      */
     tm.geom.Vector2.mul = function(v, n) {
-        return Vector2(v.x*n, v.y*n);
+        return tm.geom.Vector2(v.x*n, v.y*n);
     };
     
     /**
@@ -320,7 +320,7 @@ tm.geom = tm.geom || {};
      * 割算
      */
     tm.geom.Vector2.div = function(v, n) {
-        return Vector2(v.x/n, v.y/n);
+        return tm.geom.Vector2(v.x/n, v.y/n);
     };
     
     /**
@@ -349,7 +349,7 @@ tm.geom = tm.geom || {};
      * 反転
      */
     tm.geom.Vector2.negate = function(v) {
-        return Vector2(-v.x, -v.y);
+        return tm.geom.Vector2(-v.x, -v.y);
     };
     
     /**
@@ -388,7 +388,7 @@ tm.geom = tm.geom || {};
         var len = Vector2.dot(v, normal);
         var temp= Vector2.mul(normal, 2*len);
         
-        return Vector2.sub(v, temp);
+        return tm.geom.Vector2.sub(v, temp);
     };
 
     /**
@@ -399,7 +399,7 @@ tm.geom = tm.geom || {};
      */
     tm.geom.Vector2.lerp = function(lhs, rhs, t) {
         // TODO: 
-        return Vector2(
+        return tm.geom.Vector2(
             lhs.x + (rhs.x-lhs.x)*t,
             lhs.y + (rhs.y-lhs.y)*t
         );
@@ -426,7 +426,7 @@ tm.geom = tm.geom || {};
         min = min || 0;
         max = max || 360;
         len = len || 1;
-        return TM.Geom.Vector2().setFromDegree(TM.randomf(min, max), len);
+        return tm.geom.Vector2().setFromDegree(TM.randomf(min, max), len);
     };
     
     
