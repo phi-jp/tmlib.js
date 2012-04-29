@@ -137,7 +137,13 @@ tm.app = tm.app || {};
             this.dispatchEvent(e);
             
             // 子供達も実行
-            this.execChildren(arguments.callee, app);
+            if (this.children.length > 0) {
+                var tempChildren = this.children.slice();
+                for (var i=0,len=tempChildren.length; i<len; ++i) {
+                    tempChildren[i]._update(app);
+                }
+                //this.execChildren(arguments.callee, app);
+            }
         },
         
         _draw: function(graphics) {
@@ -156,7 +162,13 @@ tm.app = tm.app || {};
             this.draw(graphics);
             
             // 子供達も実行
-            this.execChildren(arguments.callee, graphics);
+            if (this.children.length > 0) {
+                var tempChildren = this.children.slice();
+                for (var i=0,len=tempChildren.length; i<len; ++i) {
+                    tempChildren[i]._draw(graphics);
+                }
+                // this.execChildren(arguments.callee, graphics);
+            }
             
             graphics.restore();
         },
