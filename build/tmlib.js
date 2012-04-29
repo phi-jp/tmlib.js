@@ -3635,6 +3635,7 @@ tm.input = tm.input || {};
             
             var self = this;
             this.element.addEventListener("touchstart", function(e){
+                self._touchmove(e);
                 self.touched = true;
             });
             this.element.addEventListener("touchend", function(e){
@@ -3666,6 +3667,7 @@ tm.input = tm.input || {};
         update: function() {
             this.last   = this.now;
             this.now    = this.touched;
+            
             this.start  = (this.now ^ this.last) & this.now;
             this.end    = (this.now ^ this.last) & this.last;
             

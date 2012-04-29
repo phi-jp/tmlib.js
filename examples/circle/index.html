@@ -54,7 +54,7 @@
                 tm.sound.SoundManager.add("bound", "../../resource/se/puu89");
                 
                 app.currentScene.update = function(app) {
-                    if (app.pointing.getPointingStart() === true) {
+                    if (app.pointing.getPointingStart() == true) {
                         var c = Circle(
                             "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360))
                         );
