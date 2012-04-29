@@ -39,9 +39,7 @@ tm.input = tm.input || {};
                 self.touched = false;
             });
             this.element.addEventListener("touchmove", function(e){
-                var t = e.touches[0];
-                self.x = t.pageX;
-                self.y = t.pageY;
+                self._touchmove(e);
                 // 画面移動を止める
                 e.stop();
             });
@@ -95,7 +93,26 @@ tm.input = tm.input || {};
          */
         getTouchEnd: function() {
             return this.end;
-        }
+        },
+        
+        _touchmove: function(e) {
+            var t = e.touches[0];
+            this.x = t.pageX;
+            this.y = t.pageY;
+        },
+        
+        _touchmoveScale: function(e) {
+            var t = e.touches[0];
+            this.x = t.pageX;
+            this.y = t.pageY;
+            
+            if (e.target.style.width) {
+                this.x *= e.target.width / parseInt(e.target.style.width);
+            }
+            if (e.target.style.height) {
+                this.y *= e.target.height / parseInt(e.target.style.height);
+            }
+        },
         
     });
     

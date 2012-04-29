@@ -32,9 +32,8 @@ tm.input = tm.input || {};
             
             var self = this;
             this.element.addEventListener("mousemove", function(e){
-                var rect = e.target.getBoundingClientRect();
-                self.x = e.clientX - rect.left;
-                self.y = e.clientY - rect.top;
+                // 座標更新
+                self._mousemove(e);
             });
             this.element.addEventListener("mousedown", function(e){
                 self.button |= 1<<e.button;
@@ -108,6 +107,33 @@ tm.input = tm.input || {};
             return (this.up & button) != 0;
         },
         
+        _mousemove: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this.x = e.clientX - rect.left;
+            this.y = e.clientY - rect.top;
+        },
+        
+        _mousemoveNormal: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this.x = e.clientX - rect.left;
+            this.y = e.clientY - rect.top;
+        },
+        
+        _mousemoveScale: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this.x = e.clientX - rect.left;
+            this.y = e.clientY - rect.top;
+            
+            //if (e.target instanceof HTMLCanvasElement) {
+                // スケールを考慮した拡縮
+                if (e.target.style.width) {
+                    this.x *= e.target.width / parseInt(e.target.style.width);
+                }
+                if (e.target.style.height) {
+                    this.y *= e.target.height / parseInt(e.target.style.height);
+                }
+            //}
+        },
         
     });
     

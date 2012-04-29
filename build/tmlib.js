@@ -3462,9 +3462,8 @@ tm.input = tm.input || {};
             
             var self = this;
             this.element.addEventListener("mousemove", function(e){
-                var rect = e.target.getBoundingClientRect();
-                self.x = e.clientX - rect.left;
-                self.y = e.clientY - rect.top;
+                // 座標更新
+                self._mousemove(e);
             });
             this.element.addEventListener("mousedown", function(e){
                 self.button |= 1<<e.button;
@@ -3538,6 +3537,33 @@ tm.input = tm.input || {};
             return (this.up & button) != 0;
         },
         
+        _mousemove: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this.x = e.clientX - rect.left;
+            this.y = e.clientY - rect.top;
+        },
+        
+        _mousemoveNormal: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this.x = e.clientX - rect.left;
+            this.y = e.clientY - rect.top;
+        },
+        
+        _mousemoveScale: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this.x = e.clientX - rect.left;
+            this.y = e.clientY - rect.top;
+            
+            //if (e.target instanceof HTMLCanvasElement) {
+                // スケールを考慮した拡縮
+                if (e.target.style.width) {
+                    this.x *= e.target.width / parseInt(e.target.style.width);
+                }
+                if (e.target.style.height) {
+                    this.y *= e.target.height / parseInt(e.target.style.height);
+                }
+            //}
+        },
         
     });
     
@@ -3615,9 +3641,7 @@ tm.input = tm.input || {};
                 self.touched = false;
             });
             this.element.addEventListener("touchmove", function(e){
-                var t = e.touches[0];
-                self.x = t.pageX;
-                self.y = t.pageY;
+                self._touchmove(e);
                 // 画面移動を止める
                 e.stop();
             });
@@ -3671,7 +3695,26 @@ tm.input = tm.input || {};
          */
         getTouchEnd: function() {
             return this.end;
-        }
+        },
+        
+        _touchmove: function(e) {
+            var t = e.touches[0];
+            this.x = t.pageX;
+            this.y = t.pageY;
+        },
+        
+        _touchmoveScale: function(e) {
+            var t = e.touches[0];
+            this.x = t.pageX;
+            this.y = t.pageY;
+            
+            if (e.target.style.width) {
+                this.x *= e.target.width / parseInt(e.target.style.width);
+            }
+            if (e.target.style.height) {
+                this.y *= e.target.height / parseInt(e.target.style.height);
+            }
+        },
         
     });
     
@@ -4761,11 +4804,11 @@ tm.app = tm.app || {};
         /**
          * 幅
          */
-        width:  64,
+        width:  32,
         /**
          * 高さ
          */
-        height: 64,
+        height: 32,
         /**
          * 表示フラグ
          */
@@ -5194,6 +5237,49 @@ tm.app = tm.app || {};
             // シーン周り
             this._scenes = [ tm.app.Scene() ];
             this._sceneIndex = 0;
+        },
+        
+        /**
+         * 画面にフィットさせる
+         */
+        fitWindow: function(everFlag) {
+            
+            if (everFlag === undefined) {
+                everFlag = true;
+            }
+            
+            var self = this;
+            var _fitFunc = function() {
+                var element = self.element;
+                var style   = element.style;
+                style.position = "absolute";
+                style.left = "0px";
+                style.top  = "0px";
+                
+                var rateWidth = element.width/window.innerWidth;
+                var rateHeight= element.height/window.innerHeight;
+                var rate = element.height/element.width;
+                
+                if (rateWidth > rateHeight) {
+                    style.width  = innerWidth+"px";
+                    style.height = innerWidth*rate+"px";
+                }
+                else {
+                    style.width  = innerHeight/rate+"px";
+                    style.height = innerHeight+"px";
+                }
+            }
+            
+            // 一度実行しておく
+            _fitFunc();
+            // リサイズ時のリスナとして登録しておく
+            if (everFlag) {
+                window.addEventListener("resize", _fitFunc, false);
+            }
+            
+            // マウスとタッチの座標更新関数をパワーアップ
+            this.mouse._mousemove = this.mouse._mousemoveScale;
+            this.touch._touchmove = this.touch._touchmoveScale;
         },
         
         /**
