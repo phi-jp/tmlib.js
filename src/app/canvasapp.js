@@ -118,9 +118,6 @@ tm.app = tm.app || {};
         
         _loop: function()
         {
-            // stats update
-            if (this.stats) this.stats.update();
-            
             // update
             if (this.update) this.update();
             this._update();
@@ -129,6 +126,9 @@ tm.app = tm.app || {};
             // draw
             if (this.draw) this.draw();
             this._draw();
+            
+            // stats update
+            if (this.stats) this.stats.update();
         },
         
         /**
@@ -178,6 +178,21 @@ tm.app = tm.app || {};
             scene.dispatchEvent(e);
 
             return scene;
+        },
+        
+        enableStats: function() {
+            if (window.Stats) {
+                // Stats
+                this.stats = new Stats();
+                // 右上に設定
+                this.stats.getDomElement().style.position = "fixed";
+                this.stats.getDomElement().style.left     = "5px";
+                this.stats.getDomElement().style.top      = "5px";
+                document.body.appendChild(this.stats.getDomElement());
+            }
+            else {
+                console.error("not defined stats.");
+            }
         },
         
         _update: function()
