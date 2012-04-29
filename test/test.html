@@ -28,9 +28,11 @@
         <script src="../src/input/touch.js"></script>
         
         <script src="../src/graphics/canvas.js"></script>
+        <script src="../src/graphics/texture.js"></script>
         
         <script src="../src/app/element.js"></script>
         <script src="../src/app/canvaselement.js"></script>
+        <script src="../src/app/sprite.js"></script>
         <script src="../src/app/label.js"></script>
         <script src="../src/app/scene.js"></script>
         <script src="../src/app/canvasapp.js"></script>
@@ -52,7 +54,7 @@
                 var mainScene = tm.app.Scene();
                 app.pushScene(mainScene);
                 mainScene.update = function() {
-                    if (app.frame > 120) {
+                    if (app.frame > 300) {
                         app.popScene();
                     }
                     console.log("main exec");
@@ -62,6 +64,18 @@
                 app.pushScene(startScene);
                 
                 app.run();
+                
+                // 
+                tm.graphics.TextureManager.add("human", "../resource/img/human.png");
+                mainScene.onenter = function() {
+                    // 
+                    var sprite = tm.app.Sprite(64, 64);
+                    sprite.position.set(100, 50);
+                    mainScene.addChild(sprite);
+                    sprite.canvas.fillStyle = "white";
+                    sprite.canvas.fillRect(0, 0, sprite.width, sprite.height);
+                    sprite.setImage( tm.graphics.TextureManager.get("human") );
+                };
             };
             
         </script>
