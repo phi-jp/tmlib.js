@@ -156,6 +156,10 @@ tm.app = tm.app || {};
          */
         pushScene: function(scene)
         {
+            e = tm.app.Event("exit");
+            e.app = this;
+            this.currentScene.dispatchEvent(e);
+            
             this._scenes.push(scene);
             ++this._sceneIndex;
             
@@ -176,7 +180,12 @@ tm.app = tm.app || {};
             e = tm.app.Event("exit");
             e.app = this;
             scene.dispatchEvent(e);
-
+            
+            // 
+            e = tm.app.Event("enter");
+            e.app = this;
+            this.currentScene.dispatchEvent(e);
+            
             return scene;
         },
         
