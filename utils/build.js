@@ -31,9 +31,12 @@ var target = [
     
     "graphics/color.js",
     "graphics/canvas.js",
+    "graphics/texture.js",
     
     "app/element.js",
     "app/canvaselement.js",
+    "app/sprite.js",
+    "app/label.js",
     "app/scene.js",
     "app/interactive.js",
     "app/canvasapp.js",

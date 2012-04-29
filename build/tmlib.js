@@ -4612,6 +4612,79 @@ tm.graphics = tm.graphics || {};
 
 
 /*
+ * texture.js
+ */
+
+tm.graphics = tm.graphics || {};
+
+(function() {
+    
+    /**
+     * @class
+     * テクスチャクラス
+     */
+    tm.graphics.Texture = tm.createClass({
+        
+        element: null,
+        loaded: false,
+        
+        /**
+         * 初期化
+         */
+        init: function(src) {
+            this.element = new Image();
+            this.element.src = src;
+            
+            var self = this;
+            this.element.onload = function() {
+                self.loaded = true;
+            };
+        }
+        
+    });
+    
+})();
+
+(function(){
+    
+    /**
+     * @class
+     * テクスチャマネージャクラス
+     */
+    tm.graphics.TextureManager = {
+        textures: {},
+        loaded: true,
+    };
+    
+    /**
+     * @static
+     * @method
+     * 追加
+     */
+    tm.graphics.TextureManager.add = function(name, src)
+    {
+        if (src === undefined) { src = name; }
+        
+        this.textures[name] = tm.graphics.Texture(src);
+        this.loaded = false;
+    };
+    
+    /**
+     * @static
+     * @method
+     * 取得
+     */
+    tm.graphics.TextureManager.get = function(name)
+    {
+        return this.textures[name];
+    };
+    
+})();
+
+
+
+
+/*
  * 
  */
 
@@ -5029,6 +5102,149 @@ tm.app = tm.app || {};
 
 
 /*
+ * sprite.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * Sprite
+     */
+    tm.app.Sprite = tm.createClass({
+        
+        superClass: tm.app.CanvasElement,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height)
+        {
+            this.superInit();
+            
+            this.width  = width;
+            this.height = height;
+            this.canvas = tm.graphics.Canvas();
+            this.canvas.width = width;
+            this.canvas.height= height;
+        },
+        
+        /**
+         * 描画
+         */
+        draw: function(canvas) {
+            canvas.drawImage(this.canvas.canvas,
+                0, 0, this.width, this.height,
+                -this.width/2, -this.height/2, this.width, this.height);
+            
+            return ;
+            
+            canvas.drawImage(this.canvas.canvas, 0, 0, this.width, this.height);
+            return ;
+        },
+        
+        
+        setImage: function(texture) {
+            this.canvas.drawImage(texture.element, 0, 0, this.width, this.height);
+        },
+    });
+    
+})();
+
+
+/*
+ * label.js
+ */
+
+tm.app = tm.app || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * Label
+     */
+    tm.app.Label = tm.createClass({
+        
+        superClass: tm.app.CanvasElement,
+        
+        /**
+         * 塗りつぶしフラグ
+         */
+        fill: true,
+        /**
+         * ストロークフラグ
+         */
+        stroke: false,
+        debugBox: false,
+        
+        /**
+         * 初期化
+         */
+        init: function(text, size) {
+            this.superInit();
+            
+            this.text       = text || "HOGE";
+            this.size       = size || 24;
+            this.font       = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
+            this.align      = "start";
+            this.baseline   = "alphabetic";
+        },
+        
+        /**
+         * 描画
+         */
+        draw: function(canvas) {
+            canvas.setText(this.fontStyle, this.align, this.baseline);
+            if (this.fill) {
+                canvas.fillText(this.text, 0, 0, this.width);
+            }
+            if (this.stroke) {
+                canvas.strokeText(this.text, 0, 0, this.width);
+            }
+            
+            if (this.debugBox) {
+                canvas.strokeRect(0, 0, this.width, -this.size);
+            }
+        },
+        
+        _updateFont: function() {
+            this.fontStyle = "{size}px {font}".format(this);
+        }
+        
+    });
+    
+    
+        
+    /**
+     * @property    size
+     * サイズ
+     */
+    tm.app.Label.prototype.accessor("size", {
+        "get": function() { return this._size; },
+        "set": function(v){ this._size = v; this._updateFont(); }
+    });
+    
+        
+    /**
+     * @property    font
+     * フォント
+     */
+    tm.app.Label.prototype.accessor("font", {
+        "get": function() { return this._font; },
+        "set": function(v){ this._font = v; this._updateFont(); }
+    });
+    
+})();
+
+
+
+/*
  * scene.js
  */
 
@@ -5068,10 +5284,11 @@ tm.app = tm.app || {};
             var label = tm.app.Label("Start");
             label.x = e.app.canvas.width/2;
             label.y = e.app.canvas.height/2;
+            label.width = e.app.canvas.width;
             label.align     = "center";
             label.baseline  = "middle";
             this.addChild(label);
-            console.log("start");
+            
             // タッチに反応させる
             this.width  = e.app.canvas.width;
             this.height = e.app.canvas.height;
@@ -5098,10 +5315,10 @@ tm.app = tm.app || {};
             var label = tm.app.Label("end");
             label.x = e.app.canvas.width/2;
             label.y = e.app.canvas.height/2;
+            label.width = e.app.canvas.width;
             label.align     = "center";
             label.baseline  = "middle";
             this.addChild(label);
-            console.log("end");
             // タッチに反応させる
             this.width  = e.app.canvas.width;
             this.height = e.app.canvas.height;
@@ -5345,6 +5562,10 @@ tm.app = tm.app || {};
          */
         pushScene: function(scene)
         {
+            e = tm.app.Event("exit");
+            e.app = this;
+            this.currentScene.dispatchEvent(e);
+            
             this._scenes.push(scene);
             ++this._sceneIndex;
             
@@ -5365,7 +5586,12 @@ tm.app = tm.app || {};
             e = tm.app.Event("exit");
             e.app = this;
             scene.dispatchEvent(e);
-
+            
+            // 
+            e = tm.app.Event("enter");
+            e.app = this;
+            this.currentScene.dispatchEvent(e);
+            
             return scene;
         },
         
