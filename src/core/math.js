@@ -11,6 +11,37 @@
      */
     
     /**
+     * @property    DEG_TO_RAD
+     * Degree to Radian.
+     */
+    Math.DEG_TO_RAD = Math.PI/180;
+    
+    
+    /**
+     * @property    RAD_TO_DEG
+     * Radian to Degree.
+     */
+    Math.RAD_TO_DEG = 180/Math.PI;
+    
+    /**
+     * @method
+     * Degree を Radian に変換
+     */
+    Math.degToRad = function(deg) {
+        return deg * DEG_TO_RAD;
+    };
+    
+    /**
+     * @method
+     * Radian を Degree に変換
+     */
+    Math.radToDeg = function(rad) {
+        return rad * RAD_TO_DEG;
+    };
+    
+    
+    
+    /**
      * @method
      * ランダムな値を指定された範囲内で生成
      */
@@ -25,24 +56,7 @@
     Math.randf= function(min, max) {
         return window.Math.random()*(max-min)+min;
     };
-    
-    /**
-     * @method
-     * Degree を Radian に変換
-     */
-    Math.degToRad = function(deg) {
-        return deg / 180.0 * Math.PI;
-    };
-    
-    /**
-     * @method
-     * Radian を Degree に変換
-     */
-    Math.radToDeg = function(rad) {
-        return rad * 180.0 / Math.PI;
-    };
-    
-    
+
     /**
      * @method
      * 長さを取得
