@@ -72,7 +72,7 @@ tm.input = tm.input || {};
         run: function(fps) {
             var self = this;
             fps = fps || 30;
-            TM.setLoop(function(){
+            tm.setLoop(function(){
                 self.update();
             },　1000/fps);
         },
@@ -101,7 +101,7 @@ tm.input = tm.input || {};
          */
         getKey: function(key) {
             if (typeof(key) == "string") {
-                key = TM.hotkeys[key];
+                key = tm.keyCode[key];
             }
             return this.press[key] == true;
         },
@@ -113,7 +113,7 @@ tm.input = tm.input || {};
          */
         getKeyDown: function(key) {
             if (typeof(key) == "string") {
-                key = TM.hotkeys[key];
+                key = tm.keyCode[key];
             }
             return this.down[key] == true;
         },
@@ -125,7 +125,7 @@ tm.input = tm.input || {};
          */
         getKeyUp: function(key) {
             if (typeof(key) == "string") {
-                key = TM.hotkeys[key];
+                key = tm.keyCode[key];
             }
             return this.up[key] == true;
         },
