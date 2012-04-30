@@ -116,6 +116,115 @@ var tm = tm || {};
         setTimeout(temp, delay);
     };
     
+    /**
+     * キーコード
+     */
+    tm.keyCode = {
+        "backspace" : 8,
+        "tab"       : 9,
+        "enter"     : 13, "return"    : 13,
+        "shift"     : 16,
+        "ctrl"      : 17,
+        "alt"       : 18,
+        "pause"     : 19,
+        "capslock"  : 20,
+        "escape"    : 27,
+        "pageup"    : 33,
+        "pagedown"  : 34,
+        "end"       : 35,
+        "home"      : 36,
+        "left"      : 37,
+        "up"        : 38,
+        "right"     : 39,
+        "down"      : 40,
+        "insert"    : 45,
+        "delete"    : 46,
+        
+        "0" : 48,
+        "1" : 49,
+        "2" : 50,
+        "3" : 51,
+        "4" : 52,
+        "5" : 53,
+        "6" : 54,
+        "7" : 55,
+        "8" : 56,
+        "9" : 57,
+        
+        "a" : 65, "A" : 65,
+        "b" : 66, "B" : 66,
+        "c" : 67, "C" : 67,
+        "d" : 68, "D" : 68,
+        "e" : 69, "E" : 69,
+        "f" : 70, "F" : 70,
+        "g" : 71, "G" : 71,
+        "h" : 72, "H" : 72,
+        "i" : 73, "I" : 73,
+        "j" : 74, "J" : 74,
+        "k" : 75, "K" : 75,
+        "l" : 76, "L" : 76,
+        "m" : 77, "M" : 77,
+        "n" : 78, "N" : 78,
+        "o" : 79, "O" : 79,
+        "p" : 80, "P" : 80,
+        "q" : 81, "Q" : 81,
+        "r" : 82, "R" : 82,
+        "s" : 83, "S" : 83,
+        "t" : 84, "T" : 84,
+        "u" : 85, "U" : 85,
+        "v" : 86, "V" : 86,
+        "w" : 87, "W" : 87,
+        "x" : 88, "X" : 88,
+        "y" : 89, "Y" : 89,
+        "z" : 90, "Z" : 90,
+        
+        "numpad0" : 96,
+        "numpad1" : 97,
+        "numpad2" : 98,
+        "numpad3" : 99,
+        "numpad4" : 100,
+        "numpad5" : 101,
+        "numpad6" : 102,
+        "numpad7" : 103,
+        "numpad8" : 104,
+        "numpad9" : 105,
+        "multiply"      : 106,
+        "add"           : 107,
+        "subtract"      : 109,
+        "decimalpoint"  : 110,
+        "divide"        : 111,
+        
+        "f1"    : 112,
+        "f2"    : 113,
+        "f3"    : 114,
+        "f4"    : 115,
+        "f5"    : 116,
+        "f6"    : 117,
+        "f7"    : 118,
+        "f8"    : 119,
+        "f9"    : 120,
+        "f10"   : 121,
+        "f11"   : 122,
+        "f12"   : 123,
+        
+        "numlock"   : 144,
+        "scrolllock": 145,
+        "semicolon" : 186,
+        "equalsign" : 187,
+        "comma"     : 188,
+        "dash"      : 189,
+        "period"    : 190,
+        "forward slash" : 191,  "/": 191,
+        "grave accent"  : 192,
+        "open bracket"  : 219,
+        "back slash"    : 220,
+        "close braket"  : 221,
+        "single quote"  : 222,
+        
+        
+        
+        "space"         : 32
+    };
     
 })();
 
@@ -573,6 +682,37 @@ var tm = tm || {};
      */
     
     /**
+     * @property    DEG_TO_RAD
+     * Degree to Radian.
+     */
+    Math.DEG_TO_RAD = Math.PI/180;
+    
+    
+    /**
+     * @property    RAD_TO_DEG
+     * Radian to Degree.
+     */
+    Math.RAD_TO_DEG = 180/Math.PI;
+    
+    /**
+     * @method
+     * Degree を Radian に変換
+     */
+    Math.degToRad = function(deg) {
+        return deg * DEG_TO_RAD;
+    };
+    
+    /**
+     * @method
+     * Radian を Degree に変換
+     */
+    Math.radToDeg = function(rad) {
+        return rad * RAD_TO_DEG;
+    };
+    
+    
+    
+    /**
      * @method
      * ランダムな値を指定された範囲内で生成
      */
@@ -587,24 +727,7 @@ var tm = tm || {};
     Math.randf= function(min, max) {
         return window.Math.random()*(max-min)+min;
     };
-    
-    /**
-     * @method
-     * Degree を Radian に変換
-     */
-    Math.degToRad = function(deg) {
-        return deg / 180.0 * Math.PI;
-    };
-    
-    /**
-     * @method
-     * Radian を Degree に変換
-     */
-    Math.radToDeg = function(rad) {
-        return rad * 180.0 / Math.PI;
-    };
-    
-    
+
     /**
      * @method
      * 長さを取得
@@ -1931,7 +2054,7 @@ tm.geom = tm.geom || {};
          */
         init: function() {
             this.m = [];
-            if (arguments.length >= 16) {
+            if (arguments.length >= 9) {
                 this.set.apply(this, arguments);
             }
             else {
@@ -1947,19 +2070,41 @@ tm.geom = tm.geom || {};
         {
             console.assert(arguments.length>=9, "");
             
-            // |m00, m10, m20|
-            // |m01, m11, m21|
-            // |m02, m12, m22|
+            // |m00, m01, m02|
+            // |m10, m11, m12|
+            // |m20, m21, m22|
             
-            this.m[0]  = arguments[0];  // m00
-            this.m[1]  = arguments[1];  // m01
-            this.m[2]  = arguments[2];  // m02
-            this.m[3]  = arguments[3];  // m10
-            this.m[4]  = arguments[4];  // m11
-            this.m[5]  = arguments[5];  // m12
-            this.m[6]  = arguments[6];  // m20
-            this.m[7]  = arguments[7];  // m21
-            this.m[8]  = arguments[8];  // m22
+            this.m00 = m00; this.m01 = m01; this.m02 = m02;
+            this.m10 = m10; this.m11 = m11; this.m12 = m12;
+            this.m20 = m20; this.m21 = m21; this.m22 = m22;
+            
+            return this;
+        },
+        
+        /**
+         * 配列からセット
+         */
+        setArray: function(arr)
+        {
+            this.set(
+                arr[0], arr[3], arr[6],
+                arr[1], arr[4], arr[7],
+                arr[2], arr[5], arr[8]
+            );
+            
+            return this;
+        },
+        
+        /**
+         * オブジェクトからセット
+         */
+        setObject: function(obj)
+        {
+            this.set(
+                obj.m00, obj.m01, obj.m02,
+                obj.m10, obj.m11, obj.m12,
+                obj.m20, obj.m21, obj.m22
+            );
             
             return this;
         },
@@ -1977,10 +2122,124 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * 転地
+         */
+        transpose: function() {
+            this.m.swap(1, 3);
+            this.m.swap(2, 6);
+            this.m.swap(5, 7);
+            
+            return this;
+        },
+        
+        /**
+         * ゼロクリア
+         */
+        zero: function() {
+            this.set(
+                0, 0, 0,
+                0, 0, 0,
+                0, 0, 0
+            );
+            
+            return this;
+        },
+        
+        /**
+         * 移動
+         */
+        translate: function(x, y) {
+            this.set(
+                0, 0, x,
+                0, 0, y,
+                0, 0, 0
+            );
+            
+            return this;
+        },
+        
+        /**
+         * X軸回転
+         */
+        rotateX: function(rad) {
+            var c = Math.cos(rad);
+            var s = Math.sin(rad);
+            
+            this.set(
+                1, 0, 0,
+                0, c,-s,
+                0, s, c
+            );
+            
+            return this;
+        },
+        
+        /**
+         * Y軸回転
+         */
+        rotateY: function(rad) {
+            var c = Math.cos(rad);
+            var s = Math.sin(rad);
+            
+            this.set(
+                 c, 0, s,
+                 0, 1, 0,
+                -s, 0, c
+            );
+            
+            return this;
+        },
+        
+        /**
+         * Z軸回転
+         */
+        rotateZ: function(rad) {
+            var c = Math.cos(rad);
+            var s = Math.sin(rad);
+            
+            this.set(
+                c,-s, 0,
+                s, c, 0,
+                0, 0, 1
+            );
+            
+            return this;
+        },
+        
+        /**
+         * スケーリング
+         */
+        scale: function(x, y) {
+            if (arguments.length == 1) {
+                this.set(
+                    x, 0, 0,
+                    0, x, 0,
+                    0, 0, 0
+                );
+            }
+            else {
+                this.set(
+                    x, 0, 0,
+                    0, y, 0,
+                    0, 0, 0
+                );
+            }
+            
+            return this;
+        },
+        
+        /**
+         * 配列に変換
+         */
+        toArray: function() {
+            return this.m.slice();
+        },
+        
+        /**
          * 文字列化
          */
         toString: function() {
-            return "|{m00}, {m10}, {m20}|\n|{m01}, {m11}, {m21}|\n|{m02}, {m12}, {m22}|".format(this);
+            return "|{m00}, {m01}, {m02}|\n|{m10}, {m11}, {m12}|\n|{m20}, {m21}, {m22}|".format(this);
         },
         
     });
@@ -1996,27 +2255,27 @@ tm.geom = tm.geom || {};
         "set": function(v)  { this.m[0] = v;    }
     });
     /**
-     * @property    m01
+     * @property    m10
      * 要素
      */
-    tm.geom.Matrix33.prototype.accessor("m01", {
+    tm.geom.Matrix33.prototype.accessor("m10", {
         "get": function()   { return this.m[1]; },
         "set": function(v)  { this.m[1] = v;    }
     });
     /**
-     * @property    m02
+     * @property    m20
      * 要素
      */
-    tm.geom.Matrix33.prototype.accessor("m02", {
+    tm.geom.Matrix33.prototype.accessor("m20", {
         "get": function()   { return this.m[2]; },
         "set": function(v)  { this.m[2] = v;    }
     });
     
     /**
-     * @property    m10
+     * @property    m01
      * 要素
      */
-    tm.geom.Matrix33.prototype.accessor("m10", {
+    tm.geom.Matrix33.prototype.accessor("m01", {
         "get": function()   { return this.m[3]; },
         "set": function(v)  { this.m[3] = v;    }
     });
@@ -2029,27 +2288,27 @@ tm.geom = tm.geom || {};
         "set": function(v)  { this.m[4] = v;    }
     });
     /**
-     * @property    m12
+     * @property    m21
      * 要素
      */
-    tm.geom.Matrix33.prototype.accessor("m12", {
+    tm.geom.Matrix33.prototype.accessor("m21", {
         "get": function()   { return this.m[5]; },
         "set": function(v)  { this.m[5] = v;    }
     });
     
     /**
-     * @property    m20
+     * @property    m02
      * 要素
      */
-    tm.geom.Matrix33.prototype.accessor("m20", {
+    tm.geom.Matrix33.prototype.accessor("m02", {
         "get": function()   { return this.m[6]; },
         "set": function(v)  { this.m[6] = v;    }
     });
     /**
-     * @property    m21
+     * @property    m12
      * 要素
      */
-    tm.geom.Matrix33.prototype.accessor("m21", {
+    tm.geom.Matrix33.prototype.accessor("m12", {
         "get": function()   { return this.m[7]; },
         "set": function(v)  { this.m[7] = v;    }
     });
@@ -2206,7 +2465,7 @@ tm.geom = tm.geom || {};
             var mat = tm.geom.Matrix44();
             
             var s = Math.sin(angle);
-            var c = Math.sin(angle);
+            var c = Math.cos(angle);
             mat.m11 =  c; mat.m21 = -s;
             mat.m12 =  s; mat.m22 =  c;
             
@@ -2220,7 +2479,7 @@ tm.geom = tm.geom || {};
             var mat = tm.geom.Matrix44();
             
             var s = Math.sin(angle);
-            var c = Math.sin(angle);
+            var c = Math.cos(angle);
             mat.m00 =  c; mat.m20 = s;
             mat.m02 = -s; mat.m22 = c;
             
@@ -2234,7 +2493,7 @@ tm.geom = tm.geom || {};
             var mat = tm.geom.Matrix44();
             
             var s = Math.sin(angle);
-            var c = Math.sin(angle);
+            var c = Math.cos(angle);
             mat.m00 = c; mat.m10 =-s;
             mat.m01 = s; mat.m11 = c;
             
@@ -3325,7 +3584,7 @@ tm.input = tm.input || {};
         run: function(fps) {
             var self = this;
             fps = fps || 30;
-            TM.setLoop(function(){
+            tm.setLoop(function(){
                 self.update();
             },　1000/fps);
         },
@@ -3354,7 +3613,7 @@ tm.input = tm.input || {};
          */
         getKey: function(key) {
             if (typeof(key) == "string") {
-                key = TM.hotkeys[key];
+                key = tm.keyCode[key];
             }
             return this.press[key] == true;
         },
@@ -3366,7 +3625,7 @@ tm.input = tm.input || {};
          */
         getKeyDown: function(key) {
             if (typeof(key) == "string") {
-                key = TM.hotkeys[key];
+                key = tm.keyCode[key];
             }
             return this.down[key] == true;
         },
@@ -3378,7 +3637,7 @@ tm.input = tm.input || {};
          */
         getKeyUp: function(key) {
             if (typeof(key) == "string") {
-                key = TM.hotkeys[key];
+                key = tm.keyCode[key];
             }
             return this.up[key] == true;
         },
@@ -5140,16 +5399,19 @@ tm.app = tm.app || {};
             canvas.drawImage(this.canvas.canvas,
                 0, 0, this.width, this.height,
                 -this.width/2, -this.height/2, this.width, this.height);
-            
             return ;
-            
             canvas.drawImage(this.canvas.canvas, 0, 0, this.width, this.height);
             return ;
         },
         
         
         setImage: function(texture) {
-            this.canvas.drawImage(texture.element, 0, 0, this.width, this.height);
+            if (texture instanceof tm.graphics.Texture) {
+                this.canvas.drawImage(texture.element, 0, 0, this.width, this.height);
+            }
+            else if (texture instanceof tm.graphics.Canvas) {
+                this.canvas.drawImage(texture.canvas, 0, 0, this.width, this.height);
+            }
         },
     });
     
@@ -5457,7 +5719,7 @@ tm.app = tm.app || {};
             // タッチを生成
             this.touch      = tm.input.Touch(this.element);
             // キーボードを生成
-            this.keyboard   = tm.input.Keyboard(this.element);
+            this.keyboard   = tm.input.Keyboard();
             
             // ポインティングをセット(PC では Mouse, Mobile では Touch)
             this.pointing   = (tm.isMobile) ? this.touch : this.mouse;

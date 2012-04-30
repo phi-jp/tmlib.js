@@ -34,19 +34,22 @@ tm.app = tm.app || {};
          * 描画
          */
         draw: function(canvas) {
-            canvas.drawImage(this.canvas.canvas, 0, 0, this.width, this.height);
-            return ;
-            
             canvas.drawImage(this.canvas.canvas,
                 0, 0, this.width, this.height,
                 -this.width/2, -this.height/2, this.width, this.height);
             return ;
-            
+            canvas.drawImage(this.canvas.canvas, 0, 0, this.width, this.height);
+            return ;
         },
         
         
         setImage: function(texture) {
-            this.canvas.drawImage(texture.element, 0, 0, this.width, this.height);
+            if (texture instanceof tm.graphics.Texture) {
+                this.canvas.drawImage(texture.element, 0, 0, this.width, this.height);
+            }
+            else if (texture instanceof tm.graphics.Canvas) {
+                this.canvas.drawImage(texture.canvas, 0, 0, this.width, this.height);
+            }
         },
     });
     
