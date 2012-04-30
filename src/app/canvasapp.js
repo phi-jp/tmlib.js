@@ -51,7 +51,7 @@ tm.app = tm.app || {};
             // タッチを生成
             this.touch      = tm.input.Touch(this.element);
             // キーボードを生成
-            this.keyboard   = tm.input.Keyboard(this.element);
+            this.keyboard   = tm.input.Keyboard();
             
             // ポインティングをセット(PC では Mouse, Mobile では Touch)
             this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
