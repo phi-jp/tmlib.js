@@ -34,14 +34,14 @@ tm.app = tm.app || {};
          * 描画
          */
         draw: function(canvas) {
+            canvas.drawImage(this.canvas.canvas, 0, 0, this.width, this.height);
+            return ;
+            
             canvas.drawImage(this.canvas.canvas,
                 0, 0, this.width, this.height,
                 -this.width/2, -this.height/2, this.width, this.height);
-            
             return ;
             
-            canvas.drawImage(this.canvas.canvas, 0, 0, this.width, this.height);
-            return ;
         },
         
         
