@@ -139,7 +139,7 @@ tm.geom = tm.geom || {};
             var mat = tm.geom.Matrix44();
             
             var s = Math.sin(angle);
-            var c = Math.sin(angle);
+            var c = Math.cos(angle);
             mat.m11 =  c; mat.m21 = -s;
             mat.m12 =  s; mat.m22 =  c;
             
@@ -153,7 +153,7 @@ tm.geom = tm.geom || {};
             var mat = tm.geom.Matrix44();
             
             var s = Math.sin(angle);
-            var c = Math.sin(angle);
+            var c = Math.cos(angle);
             mat.m00 =  c; mat.m20 = s;
             mat.m02 = -s; mat.m22 = c;
             
@@ -167,7 +167,7 @@ tm.geom = tm.geom || {};
             var mat = tm.geom.Matrix44();
             
             var s = Math.sin(angle);
-            var c = Math.sin(angle);
+            var c = Math.cos(angle);
             mat.m00 = c; mat.m10 =-s;
             mat.m01 = s; mat.m11 = c;
             
