@@ -50,6 +50,8 @@
             
             window.onload = function() {
                 var app = tm.app.CanvasApp("#c");
+                app.fitWindow();
+                app.enableStats();
                 
                 tm.sound.SoundManager.add("bound", "../../resource/se/puu89");
                 
