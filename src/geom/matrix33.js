@@ -116,83 +116,71 @@ tm.geom = tm.geom || {};
          * 移動
          */
         translate: function(x, y) {
-            this.set(
-                0, 0, x,
-                0, 0, y,
-                0, 0, 0
-            );
-            
-            return this;
+            return this.multiply( tm.geom.Matrix33.translate(x, y) );
         },
         
         /**
          * X軸回転
          */
         rotateX: function(rad) {
-            var c = Math.cos(rad);
-            var s = Math.sin(rad);
-            
-            this.set(
-                1, 0, 0,
-                0, c,-s,
-                0, s, c
-            );
-            
-            return this;
+            return this.multiply( tm.geom.Matrix33.rotateX(rad) );
         },
         
         /**
          * Y軸回転
          */
         rotateY: function(rad) {
-            var c = Math.cos(rad);
-            var s = Math.sin(rad);
-            
-            this.set(
-                 c, 0, s,
-                 0, 1, 0,
-                -s, 0, c
-            );
-            
-            return this;
+            return this.multiply( tm.geom.Matrix33.rotateY(rad) );
         },
         
         /**
          * Z軸回転
          */
         rotateZ: function(rad) {
-            var c = Math.cos(rad);
-            var s = Math.sin(rad);
-            
-            this.set(
-                c,-s, 0,
-                s, c, 0,
-                0, 0, 1
-            );
-            
-            return this;
+            return this.multiply( tm.geom.Matrix33.rotateZ(rad) );
         },
         
         /**
          * スケーリング
          */
         scale: function(x, y) {
-            if (arguments.length == 1) {
-                this.set(
-                    x, 0, 0,
-                    0, x, 0,
-                    0, 0, 0
-                );
-            }
-            else {
-                this.set(
-                    x, 0, 0,
-                    0, y, 0,
-                    0, 0, 0
-                );
-            }
+            return this.multiply( tm.geom.Matrix33.scale(x, y) );
+        },
+        
+        /**
+         * 掛け算
+         */
+        multiply: function(mat)
+        {
+            var m00 = this.m00*mat.m00 + this.m01*mat.m10 + this.m02*mat.m20;
+            var m01 = this.m00*mat.m01 + this.m01*mat.m11 + this.m02*mat.m21;
+            var m02 = this.m00*mat.m02 + this.m01*mat.m12 + this.m02*mat.m22;
             
-            return this;
+            var m10 = this.m10*mat.m00 + this.m11*mat.m10 + this.m12*mat.m20;
+            var m11 = this.m10*mat.m01 + this.m11*mat.m11 + this.m12*mat.m21;
+            var m12 = this.m10*mat.m02 + this.m11*mat.m12 + this.m12*mat.m22;
+            
+            var m20 = this.m20*mat.m00 + this.m21*mat.m10 + this.m22*mat.m20;
+            var m21 = this.m20*mat.m01 + this.m21*mat.m11 + this.m22*mat.m21;
+            var m22 = this.m20*mat.m02 + this.m21*mat.m12 + this.m22*mat.m22;
+            
+            return this.set(
+                m00, m01, m02,
+                m10, m11, m12,
+                m20, m21, m22
+            );
+        },
+        
+        /**
+         * ベクトルとの掛け算
+         */
+        multiplyVector3: function(v)
+        {
+            var vx = this.m00*v.x + this.m01*v.y + this.m02*v.z;
+            var vy = this.m10*v.x + this.m11*v.y + this.m12*v.z;
+            var vz = this.m20*v.x + this.m21*v.y + this.m22*v.z;
+            
+            return v.set(vx, vy, vz);
         },
         
         /**
@@ -288,4 +276,90 @@ tm.geom = tm.geom || {};
         "set": function(v)  { this.m[8] = v;    }
     });
     
+
+    /**
+     * 移動
+     */
+    tm.geom.Matrix33.translate = function(x, y) {
+        return tm.geom.Matrix33(
+            0, 0, x,
+            0, 0, y,
+            0, 0, 0
+        );
+    };
+    
+    /**
+     * X軸回転
+     */
+    tm.geom.Matrix33.rotateX = function(rad) {
+        var c = Math.cos(rad);
+        var s = Math.sin(rad);
+        
+        return tm.geom.Matrix33(
+            1, 0, 0,
+            0, c,-s,
+            0, s, c
+        );
+    };
+    
+    /**
+     * Y軸回転
+     */
+    tm.geom.Matrix33.rotateY = function(rad) {
+        var c = Math.cos(rad);
+        var s = Math.sin(rad);
+        
+        return tm.geom.Matrix33(
+             c, 0, s,
+             0, 1, 0,
+            -s, 0, c
+        );
+    };
+    
+    /**
+     * Z軸回転
+     */
+    tm.geom.Matrix33.rotateZ = function(rad) {
+        var c = Math.cos(rad);
+        var s = Math.sin(rad);
+        
+        return tm.geom.Matrix33(
+            c,-s, 0,
+            s, c, 0,
+            0, 0, 1
+        );
+    };
+    
+    /**
+     * スケーリング
+     */
+    tm.geom.Matrix33.scale = function(x, y) {
+        var mat = tm.geom.Matrix33();
+        if (arguments.length == 1) {
+            mat.set(
+                x, 0, 0,
+                0, x, 0,
+                0, 0, 0
+            );
+        }
+        else {
+            mat.set(
+                x, 0, 0,
+                0, y, 0,
+                0, 0, 0
+            );
+        }
+        
+        return mat;
+    };
+    
 })();
+
+
+
+
+
+
+
+
+
