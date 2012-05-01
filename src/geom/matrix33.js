@@ -289,6 +289,8 @@ tm.geom = tm.geom || {};
     
 
     /**
+     * @static
+     * @method
      * 移動
      */
     tm.geom.Matrix33.translate = function(x, y) {
@@ -300,6 +302,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * X軸回転
      */
     tm.geom.Matrix33.rotateX = function(rad) {
@@ -314,6 +318,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * Y軸回転
      */
     tm.geom.Matrix33.rotateY = function(rad) {
@@ -328,6 +334,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * Z軸回転
      */
     tm.geom.Matrix33.rotateZ = function(rad) {
@@ -342,6 +350,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * スケーリング
      */
     tm.geom.Matrix33.scale = function(x, y) {
