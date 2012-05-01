@@ -15,6 +15,11 @@ tm.graphics = tm.graphics || {};
     tm.graphics.Canvas = tm.createClass({
         
         /**
+         * 要素
+         */
+        element: null,
+        
+        /**
          * キャンバス
          */
         canvas: null,
@@ -36,6 +41,7 @@ tm.graphics = tm.graphics || {};
             else {
                 this.canvas = canvas || document.createElement("canvas");
             }
+            this.element            = this.canvas;
             this.context            = this.canvas.getContext("2d");
             this.context.lineCap    = "round";
             this.context.lineJoin   = "round";

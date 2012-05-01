@@ -76,6 +76,10 @@
                 // 
                 var sprite = tm.app.Sprite(64, 64);
                 sprite.position.set(150, 75);
+                sprite.update = function(app) {
+                    this.x = app.pointing.x;
+                    this.y = app.pointing.y;
+                };
                 /*
                 sprite.scaleX = 3;
                 sprite.scaleY = 2;
@@ -84,7 +88,7 @@
                 mainScene.addChild(sprite);
                 sprite.canvas.fillStyle = "white";
                 sprite.canvas.fillRect(0, 0, sprite.width, sprite.height);
-                sprite.setImage( tm.graphics.TextureManager.get("human") );            
+                sprite.setImage( tm.graphics.TextureManager.get("human") );
             });
             
         </script>
