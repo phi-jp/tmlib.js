@@ -1505,7 +1505,7 @@ tm.geom = tm.geom || {};
         min = min || 0;
         max = max || 360;
         len = len || 1;
-        return tm.geom.Vector2().setFromDegree(TM.randomf(min, max), len);
+        return tm.geom.Vector2().setFromDegree(Math.randf(min, max), len);
     };
     
     
@@ -2374,6 +2374,8 @@ tm.geom = tm.geom || {};
     
 
     /**
+     * @static
+     * @method
      * 移動
      */
     tm.geom.Matrix33.translate = function(x, y) {
@@ -2385,6 +2387,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * X軸回転
      */
     tm.geom.Matrix33.rotateX = function(rad) {
@@ -2399,6 +2403,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * Y軸回転
      */
     tm.geom.Matrix33.rotateY = function(rad) {
@@ -2413,6 +2419,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * Z軸回転
      */
     tm.geom.Matrix33.rotateZ = function(rad) {
@@ -2427,6 +2435,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * スケーリング
      */
     tm.geom.Matrix33.scale = function(x, y) {
@@ -2812,6 +2822,8 @@ tm.geom = tm.geom || {};
     
 
     /**
+     * @static
+     * @method
      * 移動
      */
     tm.geom.Matrix44.translate = function(x, y, z) {
@@ -2824,6 +2836,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * X軸回転
      */
     tm.geom.Matrix44.rotateX = function(rad) {
@@ -2839,6 +2853,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * Y軸回転
      */
     tm.geom.Matrix44.rotateY = function(rad) {
@@ -2854,6 +2870,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * Z軸回転
      */
     tm.geom.Matrix44.rotateZ = function(rad) {
@@ -2869,6 +2887,8 @@ tm.geom = tm.geom || {};
     };
     
     /**
+     * @static
+     * @method
      * スケーリング
      */
     tm.geom.Matrix44.scale = function(x, y, z) {

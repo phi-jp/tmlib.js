@@ -426,7 +426,7 @@ tm.geom = tm.geom || {};
         min = min || 0;
         max = max || 360;
         len = len || 1;
-        return tm.geom.Vector2().setFromDegree(TM.randomf(min, max), len);
+        return tm.geom.Vector2().setFromDegree(Math.randf(min, max), len);
     };
     
     
