@@ -416,22 +416,16 @@ tm.geom = tm.geom || {};
      */
     tm.geom.Matrix44.scale = function(x, y, z) {
         var mat = tm.geom.Matrix44();
-        if (arguments.length == 1) {
-            mat.set(
-                x, 0, 0, 0,
-                0, x, 0, 0,
-                0, 0, x, 0,
-                0, 0, 0, 1
-            );
-        }
-        else {
-            mat.set(
-                x, 0, 0, 0,
-                0, y, 0, 0,
-                0, 0, z, 0,
-                0, 0, 0, 1
-            );
-        }
+        
+        if (y == undefined) y = x;
+        if (z == undefined) z = x;
+        
+        mat.set(
+            x, 0, 0, 0,
+            0, y, 0, 0,
+            0, 0, z, 0,
+            0, 0, 0, 1
+        );
         
         return mat;
     };

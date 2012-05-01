@@ -346,20 +346,14 @@ tm.geom = tm.geom || {};
      */
     tm.geom.Matrix33.scale = function(x, y) {
         var mat = tm.geom.Matrix33();
-        if (arguments.length == 1) {
-            mat.set(
-                x, 0, 0,
-                0, x, 0,
-                0, 0, 0
-            );
-        }
-        else {
-            mat.set(
-                x, 0, 0,
-                0, y, 0,
-                0, 0, 0
-            );
-        }
+        
+        if (y == undefined) y = x;
+        
+        mat.set(
+            x, 0, 0,
+            0, y, 0,
+            0, 0, 1
+        );
         
         return mat;
     };
