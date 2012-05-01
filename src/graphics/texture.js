@@ -66,6 +66,21 @@ tm.graphics = tm.graphics || {};
         return this.textures[name];
     };
     
+    /**
+     * ロードチェック
+     */
+    tm.graphics.TextureManager.isLoaded = function()
+    {
+        for (var key in this.textures) {
+            if (this.textures[key].loaded == false) {
+                return false;
+            }
+        }
+        return true;
+    };
+    
+    tm.addLoadCheckList(tm.graphics.TextureManager);
+    
 })();
 
 

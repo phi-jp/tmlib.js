@@ -214,5 +214,25 @@ tm.sound = tm.sound || {};
     };
     
     
+    
+    /**
+     * ロードチェック
+     */
+    tm.sound.SoundManager.isLoaded = function()
+    {
+        for (var key in this.sounds) {
+            var soundList = sounds[key];
+            
+            for (var i=0,len=soundList.length; i<len; ++i) {
+                if (soundList[i].loaded == false) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+    
+    tm.addLoadCheckList(tm.sound.SoundManager);
+    
 })();
 

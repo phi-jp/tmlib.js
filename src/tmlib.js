@@ -226,5 +226,57 @@ var tm = tm || {};
         "space"         : 32
     };
     
+    
 })();
+
+(function() {
+    _loadCheckList = [];
+    tm.addLoadCheckList = function(obj) {
+        console.assert(obj.isLoaded !== undefined, "isLoaded が定義されていません!!");
+        
+        _loadCheckList.push(obj);
+    };
+    
+    _preloadListners = [];
+    _mainListners = [];
+    
+    tm.preload = function(fn) { _preloadListners.push(fn); };
+    tm.main    = function(fn) { _mainListners.push(fn); };
+    
+    var _preload = function() {
+        
+        for (var i=0,len=_preloadListners.length; i<len; ++i) {
+            _preloadListners[i]();
+        }
+        _preloadListners = [];
+    };
+    
+    var _main = function() {
+        for (var i=0,len=_loadCheckList.length; i<len; ++i) {
+            var c = _loadCheckList[i];
+            if (c.isLoaded() == false) {
+                setTimeout(arguments.callee, 0);
+                return ;
+            }
+        }
+        
+        for (var i=0,len=_mainListners.length; i<len; ++i) {
+            _mainListners[i]();
+        }
+        
+        _mainListners = [];
+    };
+    
+    window.addEventListener("load", function() {
+        
+        _preload();
+        
+        _main();
+        
+    }, false);
+
+})();
+
+
+
 
