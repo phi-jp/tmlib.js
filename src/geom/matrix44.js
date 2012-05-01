@@ -37,27 +37,15 @@ tm.geom = tm.geom || {};
         {
             console.assert(arguments.length>=16, "");
             
-            // |m00, m10, m20, m30|
-            // |m01, m11, m21, m31|
-            // |m02, m12, m22, m32|
-            // |m03, m13, m23, m33|
+            // |m00, m01, m02, m03|
+            // |m10, m11, m12, m13|
+            // |m20, m21, m22, m23|
+            // |m30, m31, m32, m33|
             
-            this.m[0]  = arguments[0];  // m00
-            this.m[1]  = arguments[1];  // m01
-            this.m[2]  = arguments[2];  // m02
-            this.m[3]  = arguments[3];  // m03
-            this.m[4]  = arguments[4];  // m10
-            this.m[5]  = arguments[5];  // m11
-            this.m[6]  = arguments[6];  // m12
-            this.m[7]  = arguments[7];  // m13
-            this.m[8]  = arguments[8];  // m20
-            this.m[9]  = arguments[9];  // m21
-            this.m[10] = arguments[10]; // m22
-            this.m[11] = arguments[11]; // m23
-            this.m[12] = arguments[12]; // m30
-            this.m[13] = arguments[13]; // m31
-            this.m[14] = arguments[14]; // m32
-            this.m[15] = arguments[15]; // m33
+            this.m00 = m00; this.m01 = m01; this.m02 = m02; this.m03 = m03;
+            this.m10 = m10; this.m11 = m11; this.m12 = m12; this.m13 = m13;
+            this.m20 = m20; this.m21 = m21; this.m22 = m22; this.m23 = m23;
+            this.m30 = m30; this.m31 = m31; this.m32 = m32; this.m33 = m33;
             
             return this;
         },
@@ -65,33 +53,30 @@ tm.geom = tm.geom || {};
         /**
          * 配列からセット
          */
-        setFromArray: function(arr)
+        setArray: function(arr)
         {
-            this.set.apply(this, arr);
+            this.set(
+                arr[0], arr[4],  arr[8], arr[12],
+                arr[1], arr[5],  arr[9], arr[13],
+                arr[2], arr[6], arr[10], arr[14],
+                arr[3], arr[7], arr[11], arr[15]
+            );
+            
+            return this;
         },
         
         /**
          * オブジェクトからセット.
          * Matrix44 もこいつでいける!!
          */
-        setFromObject: function(obj)
+        setObject: function(obj)
         {
-            this.m[0]  = obj.m00;
-            this.m[1]  = obj.m01;
-            this.m[2]  = obj.m02;
-            this.m[3]  = obj.m03;
-            this.m[4]  = obj.m10;
-            this.m[5]  = obj.m11;
-            this.m[6]  = obj.m12;
-            this.m[7]  = obj.m13;
-            this.m[8]  = obj.m20;
-            this.m[9]  = obj.m21;
-            this.m[10] = obj.m22;
-            this.m[11] = obj.m23;
-            this.m[12] = obj.m30;
-            this.m[13] = obj.m31;
-            this.m[14] = obj.m32;
-            this.m[15] = obj.m33;
+            this.set(
+                obj.m00, obj.m01, obj.m02, obj.m03,
+                obj.m10, obj.m11, obj.m12, obj.m13,
+                obj.m20, obj.m21, obj.m22, obj.m23,
+                obj.m30, obj.m31, obj.m32, obj.m33
+            );
             
             return this;
         },
@@ -114,13 +99,7 @@ tm.geom = tm.geom || {};
          * 移動
          */
         translate: function(x, y, z) {
-            var mat = tm.geom.Matrix44();
-            mat.m30 = x;
-            mat.m31 = y;
-            mat.m32 = z;
-            // console.log(mat.toString());
-            
-            return this.mult(mat);
+            return this.multiply( tm.geom.Matrix44.translate(x, y, z) );
         },
         
         /**
@@ -132,66 +111,31 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * X軸を基軸に angle(radian)回転する
+         * X軸を基軸に回転する
          */
-        rotateX: function(angle) {
-            
-            var mat = tm.geom.Matrix44();
-            
-            var s = Math.sin(angle);
-            var c = Math.cos(angle);
-            mat.m11 =  c; mat.m21 = -s;
-            mat.m12 =  s; mat.m22 =  c;
-            
-            return this.mult(mat);
+        rotateX: function(rad) {
+            return this.multiply( tm.geom.Matrix44.rotateX(rad) );
         },
         
         /**
-         * Y軸を基軸に angle(radian)回転する
+         * Y軸を基軸に回転する
          */
-        rotateY: function(angle) {
-            var mat = tm.geom.Matrix44();
-            
-            var s = Math.sin(angle);
-            var c = Math.cos(angle);
-            mat.m00 =  c; mat.m20 = s;
-            mat.m02 = -s; mat.m22 = c;
-            
-            return this.mult(mat);
+        rotateY: function(rad) {
+            return this.multiply( tm.geom.Matrix44.rotateY(rad) );
         },
         
         /**
-         * Z軸を基軸に angle(radian)回転する
+         * Z軸を基軸に回転する
          */
-        rotateZ: function(angle) {
-            var mat = tm.geom.Matrix44();
-            
-            var s = Math.sin(angle);
-            var c = Math.cos(angle);
-            mat.m00 = c; mat.m10 =-s;
-            mat.m01 = s; mat.m11 = c;
-            
-            return this.mult(mat);
+        rotateZ: function(rad) {
+            return this.multiply( tm.geom.Matrix44.rotateZ(rad) );
         },
         
         /**
          * スケーリング
          */
         scale: function(x, y, z) {
-            var mat = tm.geom.Matrix44();
-            
-            if (arguments.length == 1) {
-                mat.m00 = arguments[0];
-                mat.m11 = arguments[0];
-                mat.m22 = arguments[0];
-            }
-            else {
-                mat.m00 = x;
-                mat.m11 = y;
-                mat.m22 = z;
-            }
-            
-            return this.mult(mat);
+            return this.multiply( tm.geom.Matrix44.scale(x, y, z) );
         },
         
         /**
@@ -206,7 +150,7 @@ tm.geom = tm.geom || {};
          * 乗算
          * this * mat
          */
-        mult: function(mat)
+        multiply: function(mat)
         {
             var m00 = this.m00*mat.m00 + this.m01*mat.m10 + this.m02*mat.m20 + this.m03*mat.m30;
             var m01 = this.m00*mat.m01 + this.m01*mat.m11 + this.m02*mat.m21 + this.m03*mat.m31;
@@ -268,7 +212,7 @@ tm.geom = tm.geom || {};
          * 文字列化
          */
         toString: function() {
-            return "|{m00}, {m10}, {m20}, {m30}|\n|{m01}, {m11}, {m21}, {m31}|\n|{m02}, {m12}, {m22}, {m32}|\n|{m03}, {m13}, {m23}, {m33}|".format(this);
+            return "|{m00}, {m01}, {m02}, {m03}|\n|{m10}, {m11}, {m12}, {m13}|\n|{m20}, {m21}, {m22}, {m23}|\n|{m30}, {m31}, {m32}, {m33}|".format(this);
         }
         
     });
@@ -286,7 +230,7 @@ tm.geom = tm.geom || {};
      * @property    m01
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m01", {
+    tm.geom.Matrix44.prototype.accessor("m10", {
         "get": function()   { return this.m[1]; },
         "set": function(v)  { this.m[1] = v;    }
     });
@@ -294,7 +238,7 @@ tm.geom = tm.geom || {};
      * @property    m02
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m02", {
+    tm.geom.Matrix44.prototype.accessor("m20", {
         "get": function()   { return this.m[2]; },
         "set": function(v)  { this.m[2] = v;    }
     });
@@ -302,7 +246,7 @@ tm.geom = tm.geom || {};
      * @property    m03
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m03", {
+    tm.geom.Matrix44.prototype.accessor("m30", {
         "get": function()   { return this.m[3]; },
         "set": function(v)  { this.m[3] = v;    }
     });
@@ -311,7 +255,7 @@ tm.geom = tm.geom || {};
      * @property    m10
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m10", {
+    tm.geom.Matrix44.prototype.accessor("m01", {
         "get": function()   { return this.m[4]; },
         "set": function(v)  { this.m[4] = v;    }
     });
@@ -327,7 +271,7 @@ tm.geom = tm.geom || {};
      * @property    m12
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m12", {
+    tm.geom.Matrix44.prototype.accessor("m21", {
         "get": function()   { return this.m[6]; },
         "set": function(v)  { this.m[6] = v;    }
     });
@@ -335,7 +279,7 @@ tm.geom = tm.geom || {};
      * @property    m13
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m13", {
+    tm.geom.Matrix44.prototype.accessor("m31", {
         "get": function()   { return this.m[7]; },
         "set": function(v)  { this.m[7] = v;    }
     });
@@ -344,7 +288,7 @@ tm.geom = tm.geom || {};
      * @property    m20
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m20", {
+    tm.geom.Matrix44.prototype.accessor("m02", {
         "get": function()   { return this.m[8]; },
         "set": function(v)  { this.m[8] = v;    }
     });
@@ -352,7 +296,7 @@ tm.geom = tm.geom || {};
      * @property    m21
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m21", {
+    tm.geom.Matrix44.prototype.accessor("m12", {
         "get": function()   { return this.m[9]; },
         "set": function(v)  { this.m[9] = v;    }
     });
@@ -368,7 +312,7 @@ tm.geom = tm.geom || {};
      * @property    m23
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m23", {
+    tm.geom.Matrix44.prototype.accessor("m32", {
         "get": function()   { return this.m[11]; },
         "set": function(v)  { this.m[11] = v;    }
     });
@@ -377,7 +321,7 @@ tm.geom = tm.geom || {};
      * @property    m30
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m30", {
+    tm.geom.Matrix44.prototype.accessor("m03", {
         "get": function()   { return this.m[12]; },
         "set": function(v)  { this.m[12] = v;    }
     });
@@ -385,7 +329,7 @@ tm.geom = tm.geom || {};
      * @property    m31
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m31", {
+    tm.geom.Matrix44.prototype.accessor("m13", {
         "get": function()   { return this.m[13]; },
         "set": function(v)  { this.m[13] = v;    }
     });
@@ -393,7 +337,7 @@ tm.geom = tm.geom || {};
      * @property    m32
      * 要素
      */
-    tm.geom.Matrix44.prototype.accessor("m32", {
+    tm.geom.Matrix44.prototype.accessor("m23", {
         "get": function()   { return this.m[14]; },
         "set": function(v)  { this.m[14] = v;    }
     });
@@ -407,4 +351,115 @@ tm.geom = tm.geom || {};
     });
     
     
+    
+    
+
+    /**
+     * 移動
+     */
+    tm.geom.Matrix44.translate = function(x, y, z) {
+        return tm.geom.Matrix44(
+            1, 0, 0, x,
+            0, 1, 0, y,
+            0, 0, 1, z,
+            0, 0, 0, 1
+        );
+    };
+    
+    /**
+     * X軸回転
+     */
+    tm.geom.Matrix44.rotateX = function(rad) {
+        var c = Math.cos(rad);
+        var s = Math.sin(rad);
+        
+        return tm.geom.Matrix44(
+            1, 0, 0, 0,
+            0, c,-s, 0,
+            0, s, c, 0,
+            0, 0, 0, 1
+        );
+    };
+    
+    /**
+     * Y軸回転
+     */
+    tm.geom.Matrix44.rotateY = function(rad) {
+        var c = Math.cos(rad);
+        var s = Math.sin(rad);
+        
+        return tm.geom.Matrix44(
+             c, 0, s, 0,
+             0, 1, 0, 0,
+            -s, 0, c, 0,
+             0, 0, 0, 1
+        );
+    };
+    
+    /**
+     * Z軸回転
+     */
+    tm.geom.Matrix44.rotateZ = function(rad) {
+        var c = Math.cos(rad);
+        var s = Math.sin(rad);
+        
+        return tm.geom.Matrix44(
+            c,-s, 0, 0,
+            s, c, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        );
+    };
+    
+    /**
+     * スケーリング
+     */
+    tm.geom.Matrix44.scale = function(x, y, z) {
+        var mat = tm.geom.Matrix44();
+        if (arguments.length == 1) {
+            mat.set(
+                x, 0, 0, 0,
+                0, x, 0, 0,
+                0, 0, x, 0,
+                0, 0, 0, 1
+            );
+        }
+        else {
+            mat.set(
+                x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
+                0, 0, 0, 1
+            );
+        }
+        
+        return mat;
+    };
+        
+    
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
