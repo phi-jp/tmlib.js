@@ -174,6 +174,17 @@ tm.geom = tm.geom || {};
         /**
          * ベクトルとの掛け算
          */
+        multiplyVector2: function(v)
+        {
+            var vx = this.m00*v.x + this.m01*v.y + this.m02;
+            var vy = this.m10*v.x + this.m11*v.y + this.m12;
+            
+            return v.set(vx, vy);
+        },
+        
+        /**
+         * ベクトルとの掛け算
+         */
         multiplyVector3: function(v)
         {
             var vx = this.m00*v.x + this.m01*v.y + this.m02*v.z;
@@ -282,9 +293,9 @@ tm.geom = tm.geom || {};
      */
     tm.geom.Matrix33.translate = function(x, y) {
         return tm.geom.Matrix33(
-            0, 0, x,
-            0, 0, y,
-            0, 0, 0
+            1, 0, x,
+            0, 1, y,
+            0, 0, 1
         );
     };
     

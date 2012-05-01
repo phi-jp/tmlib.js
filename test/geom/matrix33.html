@@ -85,6 +85,9 @@
                 c.log("setObject: ");
                 c.log(mat.setObject(mat2)); c.log();
                 
+                c.log("identity: ");
+                c.log(mat.identity()); c.log();
+                
                 c.log("transpose: ");
                 c.log(mat2.transpose()); c.log();
                 
@@ -94,23 +97,20 @@
                 c.log("toArray: ");
                 c.log(mat.toArray()); c.log();
                 
-                c.log("identity: ");
-                c.log(mat.identity()); c.log();
-                
                 c.log("translate: ");
-                c.log(mat.translate(5, 10)); c.log();
+                c.log(tm.geom.Matrix33.translate(5, 10)); c.log();
                 
                 c.log("rotateX: ");
-                c.log(mat.rotateX(Math.PI/2)); c.log();
+                c.log(tm.geom.Matrix33.rotateX(Math.PI/2)); c.log();
                 
                 c.log("rotateY: ");
-                c.log(mat.rotateY(Math.PI/2)); c.log();
+                c.log(tm.geom.Matrix33.rotateY(Math.PI/2)); c.log();
                 
                 c.log("rotateZ: ");
-                c.log(mat.rotateZ(Math.PI/2)); c.log();
+                c.log(tm.geom.Matrix33.rotateZ(Math.PI/2)); c.log();
                 
                 c.log("scale: ");
-                c.log(mat.scale(5, 10)); c.log();
+                c.log(tm.geom.Matrix33.scale(5, 10)); c.log();
                 
                 c.groupEnd();
             };
