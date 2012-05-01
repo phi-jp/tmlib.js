@@ -160,6 +160,7 @@ tm.app = tm.app || {};
             
             
             // 座標計算
+            /*
             this._matrix.identity();
             this._matrix.translate(this.x, this.y);
             this._matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
@@ -170,13 +171,12 @@ tm.app = tm.app || {};
                 this._matrix.m01, this._matrix.m11,
                 this._matrix.m02, this._matrix.m12
             );
+            /**/
             
-            /*
             graphics.translate(this.x, this.y);
             graphics.rotate(this.rotation*Math.PI/180);
             graphics.scale(this.scaleX, this.scaleY);
-            /*
-            */
+            /**/
             
             this.draw(graphics);
             
