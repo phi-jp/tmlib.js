@@ -52,6 +52,8 @@ tm.app = tm.app || {};
          */
         blendMode: "source-over",
         
+        _matrix: null,
+        
         /**
          * ゲーム用エレメントクラス
          */
@@ -59,6 +61,7 @@ tm.app = tm.app || {};
             this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
+            this._matrix  = tm.geom.Matrix33();
             this.eventFlags = {};
         },
         
@@ -155,9 +158,25 @@ tm.app = tm.app || {};
             graphics.globalAlpha = this.alpha;
             graphics.globalCompositeOperation = this.blendMode;
             
+            
+            // 座標計算
+            this._matrix.identity();
+            this._matrix.translate(this.x, this.y);
+            this._matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
+            this._matrix.scale(this.scaleX, this.scaleY);
+            
+            graphics.setTransform(
+                this._matrix.m00, this._matrix.m10,
+                this._matrix.m01, this._matrix.m11,
+                this._matrix.m02, this._matrix.m12
+            );
+            
+            /*
             graphics.translate(this.x, this.y);
             graphics.rotate(this.rotation*Math.PI/180);
             graphics.scale(this.scaleX, this.scaleY);
+            /*
+            */
             
             this.draw(graphics);
             

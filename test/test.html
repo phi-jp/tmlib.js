@@ -46,6 +46,7 @@
             
             window.onload = function() {
                 var app = tm.app.CanvasApp("#world");
+                app.enableStats();
                 app.background = "black";
                 
                 var endScene = tm.app.EndScene();
@@ -70,7 +71,12 @@
                 mainScene.onenter = function() {
                     // 
                     var sprite = tm.app.Sprite(64, 64);
-                    sprite.position.set(10, 10);
+                    sprite.position.set(150, 75);
+                    /*
+                    sprite.scaleX = 3;
+                    sprite.scaleY = 2;
+                    sprite.rotation = 80;
+                    */
                     mainScene.addChild(sprite);
                     sprite.canvas.fillStyle = "white";
                     sprite.canvas.fillRect(0, 0, sprite.width, sprite.height);
