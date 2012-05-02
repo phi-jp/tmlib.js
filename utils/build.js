@@ -1,7 +1,7 @@
 
 var fs      = require("fs");
 var merger  = require("merger");
-var compressor = require("C:/Users/phi/node_modules/node-minify/lib/node-minify");
+var compressor = require("node-minify");
 
 
 var base = "../src/";

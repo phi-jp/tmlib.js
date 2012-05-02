@@ -769,7 +769,7 @@ var tm = tm || {};
      * ランダムな値を指定された範囲内で生成
      */
     Math.rand = function(min, max) {
-        return window.Math.floor( Math.randf(min, max) );
+        return window.Math.floor( Math.random()*(max-min+1) ) + min;
     };
     
     /**
