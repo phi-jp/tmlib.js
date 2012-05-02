@@ -1,3 +1,0 @@
-[submodule "utils/node_modules/node-minify"]
-	path = utils/node_modules/node-minify
-	url = https://github.com/srod/node-minify.git
