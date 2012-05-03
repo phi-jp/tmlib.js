@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>tmlib.js test</title>
+        <link rel="stylesheet" href="https://raw.github.com/visionmedia/mocha/master/mocha.css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="https://raw.github.com/visionmedia/mocha/master/mocha.js"></script>
+        <script>
+            mocha.setup('bdd');
+        </script>
+        <script src="../src/tmlib.js"></script>
+        <script src="../src/core/object.js"></script>
+        <script src="../src/core/array.js"></script>
+        <script src="../src/geom/vector2.js"></script>
+        <script src="../src/geom/vector3.js"></script>
+        <script src="test.js"></script>
+        <script>
+            
+            var assert = function(expr, msg) {
+                if (!expr) throw new Error(msg || 'failed');
+            };
+            
+            assert.equal = function(a, b, msg) {
+                if (a !== b) throw new Error(msg || ('failed : '+a+','+b));
+            };
+            
+            $(function() {
+                mocha.run();
+            });
+            
+        </script>
+    </head>
+    <body>
+        <div id="mocha"></div>
+    </body>
+</html>

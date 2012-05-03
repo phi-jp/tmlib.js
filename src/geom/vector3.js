@@ -265,6 +265,9 @@ tm.geom = tm.geom || {};
         equals: function(x, y, z) {
             return ( (this.x === x) && (this.y === y) && (this.z === z) );
         },
+        // equals: function(obj) {
+            // return this.equals(obj.x, obj.y, obj.z);
+        // },
         
         /**
          * 配列と等しいか

@@ -51,7 +51,6 @@
      * equalsDeep にするか検討. (Java では deepEquals なのでとりあえず合わせとく)
      */
     Array.defineInstanceMethod("deepEquals", function(arr) {
-        debugger;
         for (var i=0,len=this.length; i<len; ++i) {
             var result = (this[i].deepEquals) ? this[i].deepEquals(arr[i]) : (this[i] === arr[i]);
             if (result === false) {
