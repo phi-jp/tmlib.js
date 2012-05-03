@@ -437,7 +437,6 @@ var tm = tm || {};
      * equalsDeep にするか検討. (Java では deepEquals なのでとりあえず合わせとく)
      */
     Array.defineInstanceMethod("deepEquals", function(arr) {
-        debugger;
         for (var i=0,len=this.length; i<len; ++i) {
             var result = (this[i].deepEquals) ? this[i].deepEquals(arr[i]) : (this[i] === arr[i]);
             if (result === false) {
@@ -1118,8 +1117,6 @@ var tm = tm || {};
 /*
  * vector2.js
  */
-
-var tm = tm || {};
 
 /*
  * 幾何学
@@ -1856,6 +1853,9 @@ tm.geom = tm.geom || {};
         equals: function(x, y, z) {
             return ( (this.x === x) && (this.y === y) && (this.z === z) );
         },
+        // equals: function(obj) {
+            // return this.equals(obj.x, obj.y, obj.z);
+        // },
         
         /**
          * 配列と等しいか
@@ -5875,7 +5875,7 @@ tm.app = tm.app || {};
         },
         
         onmousedown: function(e) {
-            this.app.popScene();
+            //this.app.popScene();
         },
     });
     

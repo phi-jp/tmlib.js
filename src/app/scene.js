@@ -52,7 +52,7 @@ tm.app = tm.app || {};
         },
         
         onmousedown: function(e) {
-            this.app.popScene();
+            //this.app.popScene();
         },
     });
     
