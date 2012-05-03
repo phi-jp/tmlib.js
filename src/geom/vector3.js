@@ -259,6 +259,34 @@ tm.geom = tm.geom || {};
             // TODO: 3d化する
         },
         
+        /**
+         * 等しいか
+         */
+        equals: function(x, y, z) {
+            return ( (this.x === x) && (this.y === y) && (this.z === z) );
+        },
+        
+        /**
+         * 配列と等しいか
+         */
+        equalsArray: function(arr) {
+            return this.equals(arr[0], arr[1], arr[2]);
+        },
+        
+        /**
+         * オブジェクトと等しいか
+         */
+        equalsObject: function(obj) {
+            return this.equals(obj.x, obj.y, obj.z);
+        },
+        
+        /**
+         * 賢い比較
+         */
+        equalsSmart: function() {
+            // TODO: 
+        },
+        
         toStyleString: function() {
             return "{x:{x}, y:{y}, z:{z}}".format(this);
         },
