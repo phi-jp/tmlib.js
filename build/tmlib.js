@@ -5,7 +5,6 @@
 
 (function() { "use strict"; })();
 
-
 /*
  * tm namespace
  */
@@ -24,7 +23,7 @@ var tm = tm || {};
      * tmlib.js のルートパス
      */
     tm.LIB_ROOT = (function(){
-        if (!document) return ;
+        if (!window.document) return ;
         
         var scripts = document.getElementsByTagName("script");
         for (var i=0, len=scripts.length; i<len; ++i) {
@@ -36,6 +35,8 @@ var tm = tm || {};
      * ブラウザ
      */
     tm.BROWSER = (function() {
+        if (!window.navigator) return ;
+        
         if      (/chrome/i.test(navigator.userAgent))   { return "Chrome";  }
         else if (/safari/i.test(navigator.userAgent))   { return "Safari";  }
         else if (/firefox/i.test(navigator.userAgent))  { return "Firefox"; }
@@ -49,6 +50,8 @@ var tm = tm || {};
      * モバイルかどうかの判定フラグ
      */
     tm.isMobile = (function() {
+        if (!window.navigator) return ;
+        
         return (navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("Android") > 0);
     })();
     
@@ -230,6 +233,8 @@ var tm = tm || {};
 })();
 
 (function() {
+    if (!window.document) return ;
+    
     _loadCheckList = [];
     tm.addLoadCheckList = function(obj) {
         console.assert(obj.isLoaded !== undefined, "isLoaded が定義されていません!!");
@@ -407,6 +412,39 @@ var tm = tm || {};
     Array.prototype.accessor("last", {
         "get": function()   { return this[this.length-1]; },
         "set": function(v)  { this[this.length-1] = v; }
+    });
+    
+    
+    /**
+     * @method  equals
+     * 渡された配列と等しいかどうかをチェック
+     */
+    Array.defineInstanceMethod("equals", function(arr) {
+        // // 長さもチェックするかを検討
+        // if (this.length !== arr.length) return false;
+        
+        for (var i=0,len=this.length; i<len; ++i) {
+            if (this[i] !== arr[i]) {
+                return false;
+            }
+        }
+        return true;
+    });
+    
+    /**
+     * @method  deepEquals
+     * ネストされている配列含め渡された配列と等しいかどうかをチェック
+     * equalsDeep にするか検討. (Java では deepEquals なのでとりあえず合わせとく)
+     */
+    Array.defineInstanceMethod("deepEquals", function(arr) {
+        debugger;
+        for (var i=0,len=this.length; i<len; ++i) {
+            var result = (this[i].deepEquals) ? this[i].deepEquals(arr[i]) : (this[i] === arr[i]);
+            if (result === false) {
+                return false;
+            }
+        }
+        return true;
     });
     
     /**
@@ -1080,6 +1118,8 @@ var tm = tm || {};
 /*
  * vector2.js
  */
+
+var tm = tm || {};
 
 /*
  * 幾何学
@@ -1808,6 +1848,34 @@ tm.geom = tm.geom || {};
          */
         to3D: function() {
             // TODO: 3d化する
+        },
+        
+        /**
+         * 等しいか
+         */
+        equals: function(x, y, z) {
+            return ( (this.x === x) && (this.y === y) && (this.z === z) );
+        },
+        
+        /**
+         * 配列と等しいか
+         */
+        equalsArray: function(arr) {
+            return this.equals(arr[0], arr[1], arr[2]);
+        },
+        
+        /**
+         * オブジェクトと等しいか
+         */
+        equalsObject: function(obj) {
+            return this.equals(obj.x, obj.y, obj.z);
+        },
+        
+        /**
+         * 賢い比較
+         */
+        equalsSmart: function() {
+            // TODO: 
         },
         
         toStyleString: function() {

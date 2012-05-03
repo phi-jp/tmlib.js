@@ -5,7 +5,6 @@
 
 (function() { "use strict"; })();
 
-
 /*
  * tm namespace
  */
@@ -24,7 +23,7 @@ var tm = tm || {};
      * tmlib.js のルートパス
      */
     tm.LIB_ROOT = (function(){
-        if (!document) return ;
+        if (!window.document) return ;
         
         var scripts = document.getElementsByTagName("script");
         for (var i=0, len=scripts.length; i<len; ++i) {
@@ -36,6 +35,8 @@ var tm = tm || {};
      * ブラウザ
      */
     tm.BROWSER = (function() {
+        if (!window.navigator) return ;
+        
         if      (/chrome/i.test(navigator.userAgent))   { return "Chrome";  }
         else if (/safari/i.test(navigator.userAgent))   { return "Safari";  }
         else if (/firefox/i.test(navigator.userAgent))  { return "Firefox"; }
@@ -49,6 +50,8 @@ var tm = tm || {};
      * モバイルかどうかの判定フラグ
      */
     tm.isMobile = (function() {
+        if (!window.navigator) return ;
+        
         return (navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("Android") > 0);
     })();
     
@@ -230,6 +233,8 @@ var tm = tm || {};
 })();
 
 (function() {
+    if (!window.document) return ;
+    
     _loadCheckList = [];
     tm.addLoadCheckList = function(obj) {
         console.assert(obj.isLoaded !== undefined, "isLoaded が定義されていません!!");
