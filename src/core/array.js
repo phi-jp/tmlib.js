@@ -28,6 +28,39 @@
         "set": function(v)  { this[this.length-1] = v; }
     });
     
+    
+    /**
+     * @method  equals
+     * 渡された配列と等しいかどうかをチェック
+     */
+    Array.defineInstanceMethod("equals", function(arr) {
+        // // 長さもチェックするかを検討
+        // if (this.length !== arr.length) return false;
+        
+        for (var i=0,len=this.length; i<len; ++i) {
+            if (this[i] !== arr[i]) {
+                return false;
+            }
+        }
+        return true;
+    });
+    
+    /**
+     * @method  deepEquals
+     * ネストされている配列含め渡された配列と等しいかどうかをチェック
+     * equalsDeep にするか検討. (Java では deepEquals なのでとりあえず合わせとく)
+     */
+    Array.defineInstanceMethod("deepEquals", function(arr) {
+        debugger;
+        for (var i=0,len=this.length; i<len; ++i) {
+            var result = (this[i].deepEquals) ? this[i].deepEquals(arr[i]) : (this[i] === arr[i]);
+            if (result === false) {
+                return false;
+            }
+        }
+        return true;
+    });
+    
     /**
      * @method  at
      * ループ添字アクセス(Ruby っぽいやつ)
