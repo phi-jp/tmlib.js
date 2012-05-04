@@ -41,9 +41,10 @@ var target = [
     "app/sprite.js",
     "app/label.js",
     "app/scene.js",
-    "app/interactive.js",
     "app/canvasapp.js",
     "app/event.js",
+    "app/interactive.js",
+    "app/collision.js",
     "app/anim.js",
     
     "sound/sound.js",

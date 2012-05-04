@@ -43,6 +43,16 @@ tm.app = tm.app || {};
         visible: true,
         
         /**
+         * fillStyle
+         */
+        fillStyle: "black",
+        
+        /**
+         * strokeStyle
+         */
+        strokeStyle: "white",
+        
+        /**
          * アルファ
          */
         alpha: 1.0,
@@ -155,9 +165,10 @@ tm.app = tm.app || {};
             
             graphics.save();
             
-            graphics.globalAlpha = this.alpha;
+            graphics.fillStyle      = this.fillStyle;
+            graphics.strokeStyle    = this.strokeStyle;
+            graphics.globalAlpha    = this.alpha;
             graphics.globalCompositeOperation = this.blendMode;
-            
             
             // 座標計算
             /*
