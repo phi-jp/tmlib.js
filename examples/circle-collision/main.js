@@ -2,6 +2,12 @@
  * phi
  */
 
+/*
+ * グローバル
+ */
+var app             = null;
+var visibleTrace    = true;
+var circleList      = [];
 
 /*
  * 定数
@@ -28,11 +34,10 @@ tm.preload(function() {
  */
 tm.main(function() {
     app = tm.app.CanvasApp("#c");
+    app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    // app.resizeWindow();
     app.fitWindow();
-    app.enableStats();
     app.background = "rgba(0, 0, 0, 0.25)";
-    
-    var circleList = [];
     
     for (var i=0; i<CIRCLE_MAX_NUM; ++i) {
         var circle = Circle();
@@ -48,6 +53,26 @@ tm.main(function() {
         }
     }
     
+    // Stats
+    app.enableStats();
+    
+    // dat.GUI
+    var gui = app.enableDatGUI();
+    if (gui) {
+        gui.add(window, "explode");
+        gui.add(window, "visibleTrace").setValue(true).onChange(function(){
+            app.background = (visibleTrace) ? "rgba(0, 0, 0, 0.25)" : "rgba(0, 0, 0, 1)";
+        });
+        gui.add(window, "BOUNCINESS", 0, 1, 0.1);
+        gui.add(window, "FRICTION", 0, 1, 0.01);
+        
+        // gravity フォルダ
+        var gravityFolder = gui.addFolder("gravity");
+        gravityFolder.add(GRAVITY, "x", -2, 2, 0.1);
+        gravityFolder.add(GRAVITY, "y", -2, 2, 0.1);
+        gravityFolder.open();
+    }
+    
     // 更新
     app.currentScene.update = function() {
     };
@@ -55,6 +80,13 @@ tm.main(function() {
     app.run();
 });
 
+
+window.explode = function() {
+    for (var i=0; i<circleList.length; ++i) {
+        var circle = circleList[i];
+        circle.explode();
+    }
+};
 
 
 /*
@@ -67,10 +99,8 @@ var Circle = tm.createClass({
         this.superInit(40, 40);
         
         // 位置をセット
-        this.x = Math.rand(0, SCREEN_WIDTH);
-        this.y = Math.rand(0, SCREEN_HEIGHT);
-        // 向きをセット
-        this.velocity = tm.geom.Vector2.random(0, 360, 25);
+        this.x = Math.rand(0, app.width);
+        this.y = Math.rand(0, app.height);
         
         // パラメータセット
         this.radius = Math.rand(25, 50);
@@ -87,6 +117,9 @@ var Circle = tm.createClass({
         this.fillStyle  = grad;
         this.strokeStyle= "white";
         this.blendMode  = "lighter";
+        
+        // 
+        this.explode();
     },
     
     update: function(app) {
@@ -97,9 +130,9 @@ var Circle = tm.createClass({
         
         // 
         var left    = this.radius;
-        var right   = SCREEN_WIDTH-this.radius;
+        var right   = app.width-this.radius;
         var top     = this.radius;
-        var bottom  = SCREEN_HEIGHT-this.radius;
+        var bottom  = app.height-this.radius;
         if (this.x < left)  { this.x = left;    this.velocity.x*=-1; }
         if (this.x > right) { this.x = right;   this.velocity.x*=-1; }
         if (this.y < top)   { this.y = top;     this.velocity.y*=-1; }
@@ -108,6 +141,11 @@ var Circle = tm.createClass({
     
     draw: function(canvas) {
         canvas.fillCircle(0, 0, this.radius);
+    },
+    
+    explode: function() {
+        // 向きをセット
+        this.velocity = tm.geom.Vector2.random(0, 360, 32);
     },
     
     oncollisionstay: function(e) {
