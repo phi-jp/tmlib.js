@@ -60,6 +60,8 @@
         <script src="../../src/app/event.js"></script>
         <script src="../../src/app/collision.js"></script>
         
+        <script src="../../src/anim/tween.js"></script>
+        
         <script src="../../plugins/console.tm.js"></script>
 
         <script id="test-script">
@@ -71,37 +73,31 @@
             {
                 var c = tm.Console("#console");
                 
-                var app = tm.app.CanvasApp("#world");
+                var canvas = document.getElementById("world");
+                var context= canvas.getContext("2d");
                 
-                var player = tm.app.CanvasElement();
-                app.currentScene.addChild(player);
-                player.update = function(app) {
-                    this.x = app.pointing.x;
-                    this.y = app.pointing.y;
-                };
-                player.draw = function(canvas) {
-                    canvas.fillCircle(0, 0, this.radius);
-                };
-                player.oncollisionEnter =
-                player.oncollisionStay =
-                player.oncollisionExit = function(e) {
-                    console.log(e.type);
+                var obj = {
+                    x: 0,
+                    y: 0,
                 };
                 
-                player.collide();
+                var tween = tm.anim.Tween(obj, "x", 0, 500, 1000);
+                tween.start();
                 
-                for (var i=0; i<10; ++i) {
-                    var enemy = tm.app.CanvasElement(enemy);
-                    app.currentScene.addChild(enemy);
-                    player.addCollisionElement(enemy);
-                    enemy.x = Math.rand(0, 640);
-                    enemy.y = Math.rand(0, 480);
-                    enemy.draw = function(canvas) {
-                        canvas.fillCircle(0, 0, this.radius);
-                    }
-                }
+                tm.setLoop(function() {
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    context.fillRect(obj.x, obj.y, 100, 100);
+                }, 1000/30);
                 
-                app.run();
+                var fn = function() {
+                    tween[this.html]();
+                };
+                
+                tm.dom.Element("#start").event.click(fn);
+                tm.dom.Element("#rewind").event.click(fn);
+                tm.dom.Element("#stop").event.click(fn);
+                tm.dom.Element("#resume").event.click(fn);
+                tm.dom.Element("#fforward").event.click(fn);
             };
             
         </script>
@@ -122,7 +118,12 @@
         <div id="content">
             <section>
                 <h2>Canvas</h2>
-                <canvas id="world" width="640" height="480"></canvas>
+                <canvas id="world" width="640" height="480"></canvas><br />
+                <button id="start">start</button>
+                <button id="stop">stop</button>
+                <button id="resume">resume</button>
+                <button id="rewind">rewind</button>
+                <button id="fforward">fforward</button>
                 <h2>Console</h2>
                 <pre id="console" class="prettyprint"></pre>
             </section>
