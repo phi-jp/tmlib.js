@@ -57,6 +57,18 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * リサイズウィンドウ
+         */
+        resizeWindow: function() {
+            this.canvas.style.position  = "fixed";
+            this.canvas.style.margin    = "0px";
+            this.canvas.style.padding   = "0px";
+            this.canvas.style.left      = "0px";
+            this.canvas.style.top       = "0px";
+            return this.resize(window.innerWidth, window.innerHeight);
+        },
+        
+        /**
          * フィット
          */
         resizeToFitScreen: function() {

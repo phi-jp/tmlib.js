@@ -32,12 +32,13 @@ tm.anim = tm.anim || {};
         
         init: function(target, prop, begin, finish, duration, func) {
             if (arguments.length == 1) {
-                this.setObject(arugments);
+                this.setObject(target);
             }
             else {
                 this.set.apply(this, arguments);
             }
             
+            this.time = 0;
             this.isPlaying = false;
         },
         
@@ -54,7 +55,7 @@ tm.anim = tm.anim || {};
         
         setObject: function(obj)
         {
-            this.set(obj.target, obj.prop, obj.begin, obj.finsih, obj.duration, obj.func);
+            this.set(obj.target, obj.prop, obj.begin, obj.finish, obj.duration, obj.func);
         },
         
         /**
@@ -117,7 +118,6 @@ tm.anim = tm.anim || {};
          */
         update: function() {
             this.target[this.prop] = this.func(this.time, this.begin, this.change, this.duration);
-            
             this.dispatchEvent("change");
             //this.target[this.prop] = this.begin + (this.finish - this.begin) * (this.time/this.duration);
         },
