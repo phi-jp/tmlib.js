@@ -30,6 +30,7 @@ tm.main(function() {
     app = tm.app.CanvasApp("#c");
     app.fitWindow();
     app.enableStats();
+    app.background = "rgba(0, 0, 0, 0.25)";
     
     var circleList = [];
     
