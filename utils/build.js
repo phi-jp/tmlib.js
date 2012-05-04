@@ -44,6 +44,8 @@ var target = [
     "app/event.js",
     
     "sound/sound.js",
+    
+    "anim/tween.js",
 ];
 for (var i=0,len=target.length; i<len; ++i) {
     target[i] = base + target[i];

@@ -840,6 +840,32 @@ var tm = tm || {};
         return n;
     };
     
+    /**
+     * @method
+     * Dummy
+     */
+    Math.linear = function(t, b, c, d) {
+        return c*t/d + b;
+    };
+    
+    Math.easeInQuad = function(t, b, c, d) {
+        return c*(t/=d)*t + b;
+    };
+    
+    /*
+    tm.anim.bounceEaseOut = function(t, b, c, d) {
+        if ((t/=d) < (1/2.75)) {
+            return c*(7.5625*t*t) + b;
+        } else if (t < (2/2.75)) {
+            return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
+        } else if (t < (2.5/2.75)) {
+            return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
+        } else {
+            return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
+        }
+    }
+     */
+    
 })();
 
 
@@ -1124,8 +1150,6 @@ var tm = tm || {};
     /**
      * @class
      * Item クラス
-     * 
-     * ## Reference
      */
     tm.Item = tm.createClass({
         
@@ -1143,6 +1167,13 @@ var tm = tm || {};
     /**
      * @class
      * List クラス
+     * ### Reference
+     * - <http://java.sun.com/javase/ja/6/docs/ja/api/java/util/LinkedList.html>
+     * - <http://www.javadrive.jp/start/linkedlist/>
+     * - <http://www5c.biglobe.ne.jp/~ecb/cpp/07_08.html>
+     * - <http://hextomino.tsukuba.ch/e30895.html>
+     * - <http://www.nczonline.net/blog/2009/04/21/computer-science-in-javascript-doubly-linked-lists/>
+     * - <http://www.nczonline.net/blog/2009/04/13/computer-science-in-javascript-linked-list/>
      */
     tm.List = tm.createClass({
         
@@ -1218,6 +1249,48 @@ var tm = tm || {};
          * 繰り返し
          */
         forEach: function(fn) {
+            // TODO:
+        },
+        
+        /**
+         * クリア
+         */
+        clear: function() {
+            // TODO:
+        },
+        
+        /**
+         * クローン
+         */
+        clone: function() {
+            // TODO:
+        },
+        
+        /**
+         * 最初の要素を取得
+         */
+        getFirst: function() {
+            // TODO:
+        },
+        
+        /**
+         * 最後の要素を取得
+         */
+        getLast: function() {
+            // TODO:
+        },
+        
+        /**
+         * 最初に一致した位置のインデックスを取得
+         */
+        indexOf: function(obj) {
+            // TODO:
+        },
+        
+        /**
+         * 最後に一致した位置のインデックスを取得
+         */
+        lastIndexOf: function(obj) {
             // TODO:
         },
         
@@ -6629,6 +6702,180 @@ tm.sound = tm.sound || {};
     };
     
     tm.addLoadCheckList(tm.sound.SoundManager);
+    
+})();
+
+
+
+/*
+ * tween.js
+ */
+
+tm.anim = tm.anim || {};
+
+(function() {
+    
+    var bind = function(fn, self) {
+        return function() { return fn.apply(self, arguments); };
+    };
+    
+    tm.anim.Tween = tm.createClass({
+        
+        target      : null,
+        prop        : null,
+        now         : null,
+        finish      : null,
+        duration    : null,
+        timerID     : null,
+        isLooping   : null,
+        isPlaying   : null,
+        
+        /**
+         * frame rate
+         */
+        fps     : 30,
+        
+        init: function(target, prop, begin, finish, duration, func) {
+            if (arguments.length == 1) {
+                this.setObject(arugments);
+            }
+            else {
+                this.set.apply(this, arguments);
+            }
+            
+            this.isPlaying = false;
+        },
+        
+        set: function(target, prop, begin, finish, duration, func)
+        {
+            this.target = target;
+            this.prop   = prop;
+            this.begin  = begin;
+            this.finish = finish;
+            this.change = this.finish-this.begin;
+            this.duration = duration;
+            this.func = func || Math.linear;
+        },
+        
+        setObject: function(obj)
+        {
+            this.set(obj.target, obj.prop, obj.begin, obj.finsih, obj.duration, obj.func);
+        },
+        
+        /**
+         * 再開
+         */
+        resume: function() {
+            this.isPlaying = true;
+            this._resumeTime();
+            this._updateTime();
+            this.dispatchEvent("resume");
+        },
+        
+        /**
+         * 開始
+         */
+        start: function() {
+            this.isPlaying = true;
+            this._startTime();
+            this._updateTime();
+            this.dispatchEvent("start");
+        },
+        
+        /**
+         * ストップ
+         */
+        stop: function() {
+            this.isPlaying = false;
+            this.dispatchEvent("stop");
+        },
+        
+        /**
+         * 開始位置まで戻る
+         */
+        rewind: function() {
+            this.time = 0;
+            this.update();
+        },
+        
+        /**
+         * 最後位置まで早送り
+         */
+        fforward: function() {
+            this.time = this.duration;
+            this.update();
+        },
+        
+        /**
+         * ヨーヨー
+         */
+        yoyo: function() {
+            var temp = this.finish;
+            this.finish = this.begin;
+            this.begin  = temp;
+            this.change = this.finish-this.begin;
+            this.start();
+        },
+        
+        update: function() {
+            this.target[this.prop] = this.func(this.time, this.begin, this.change, this.duration);
+            
+            this.dispatchEvent("change");
+            //this.target[this.prop] = this.begin + (this.finish - this.begin) * (this.time/this.duration);
+        },
+        
+        dispatchEvent: function(type) {
+            var fnName = 'on'+type;
+            if (this[fnName]) this[fnName](type);
+        },
+        
+        _resumeTime: function() {
+            this.startTime = (new Date()).getTime() - this.time;
+        },
+        
+        _startTime: function() {
+            this.startTime = (new Date()).getTime();
+        },
+        
+        _updateTime: function() {
+            if (this.isPlaying) {
+                this._nextTime();
+                setTimeout(bind(arguments.callee, this), 1000/this.fps);
+            }
+        },
+        
+        _nextTime: function() {
+            var time = (new Date()).getTime() - this.startTime;
+            // モーション終了
+            if (time > this.duration) {
+                // ループ
+                if (this.isLooping) {
+                    this.rewind();
+                    // 座標を更新
+                    this.update();
+                    // イベント開始
+                    this.dispatchEvent("loop");
+                }
+                // 終了
+                else {
+                    this.time = this.duration;
+                    // 座標を更新
+                    this.update();
+                    // 停止
+                    this.stop();
+                    // イベント開始
+                    this.dispatchEvent("finish");
+                }
+            }
+            // 更新
+            else {
+                this.time = time;
+                // 座標を更新
+                this.update();
+            }
+        }
+    });
+    
     
 })();
 

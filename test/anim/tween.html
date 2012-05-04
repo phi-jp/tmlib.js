@@ -3,7 +3,7 @@
     <head> 
         <meta charset="utf-8"> 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Number Test | TM Lib</title>
+        <title>Tween Test | TM Lib</title>
         
         <!-- prettify -->
         <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
@@ -77,19 +77,31 @@
                 var context= canvas.getContext("2d");
                 
                 var obj = {
-                    x: 0,
-                    y: 0,
+                    x: 10,
+                    y: 10,
                 };
                 
-                var tween = tm.anim.Tween(obj, "x", 0, 500, 1000);
+                var tween = tm.anim.Tween(obj, "x", 10, 500, 1000);
                 tween.start();
+                tween.onchange = function() {
+                    c.log(obj.x);
+                }
+                // tween.onfinish = function() {
+                    // this.yoyo();
+                // };
                 
                 tm.setLoop(function() {
-                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    context.fillStyle = "black";
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    context.fillStyle = "white";
                     context.fillRect(obj.x, obj.y, 100, 100);
+                    // tween.time+=1;
+                    // tween.update();
                 }, 1000/30);
                 
                 var fn = function() {
+                    c.clear();
                     tween[this.html]();
                 };
                 
@@ -113,12 +125,12 @@
     
     <body>
          
-        <h1>Number Test | TM Lib</h1>
+        <h1>Tween Test | TM Lib</h1>
         
         <div id="content">
             <section>
                 <h2>Canvas</h2>
-                <canvas id="world" width="640" height="480"></canvas><br />
+                <canvas id="world" width="640" height="200"></canvas><br />
                 <button id="start">start</button>
                 <button id="stop">stop</button>
                 <button id="resume">resume</button>
