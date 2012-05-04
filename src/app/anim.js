@@ -37,6 +37,7 @@ tm.app = tm.app || {};
                 if (tween.time > tween.duration) {
                     tween.time = tween.duration;
                     tween.update();
+                    tween.dispatchEvent("finish");
                     this.tweens.erase(tween);
                     
                     // 全てのアニメーション終了チェック
@@ -53,7 +54,8 @@ tm.app = tm.app || {};
         },
         
         addTween: function(param) {
-            param.target = this.element;
+            if (!param.target) param.target = this.element;
+            
             var tween = tm.anim.Tween(param);
             this.tweens.push(tween);
             
