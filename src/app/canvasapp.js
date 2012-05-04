@@ -64,6 +64,20 @@ tm.app = tm.app || {};
             this._sceneIndex = 0;
         },
         
+        resize: function(width, height) {
+            this.width = width;
+            this.height= height;
+            
+            return this;
+        },
+        
+        resizeWindow: function() {
+            this.width = innerWidth;
+            this.height= innerHeight;
+            
+            return this;
+        },
+        
         /**
          * 画面にフィットさせる
          */
@@ -204,6 +218,14 @@ tm.app = tm.app || {};
             }
         },
         
+        enableDatGUI: function() {
+            if (window.dat) {
+                var gui = new dat.GUI();
+                
+                return gui;
+            }
+        },
+        
         _update: function()
         {
             // デバイス系 Update
@@ -223,6 +245,25 @@ tm.app = tm.app || {};
             this.currentScene._draw(this.canvas);
         },
         
+    });
+    
+    
+    /**
+     * @property    width
+     * 幅
+     */
+    tm.app.CanvasApp.prototype.accessor("width", {
+        "get": function()   { return this.canvas.width; },
+        "set": function(v)  { this.canvas.width = v; }
+    });
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.app.CanvasApp.prototype.accessor("height", {
+        "get": function()   { return this.canvas.height; },
+        "set": function(v)  { this.canvas.height = v; }
     });
     
     /**

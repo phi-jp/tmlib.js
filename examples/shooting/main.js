@@ -62,6 +62,7 @@ tm.preload(function() {
  */
 tm.main(function() {
     app = tm.app.CanvasApp("#c");
+    app.resize(640, 480);
     app.fitWindow();
     app.enableStats();
     app.score = 0;
