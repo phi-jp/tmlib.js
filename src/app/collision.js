@@ -8,78 +8,94 @@ tm.app = tm.app || {};
 
 (function() {
     
-    var _collisionUpdate = function(e)
-    {
-        for (var i=0,len=this._collideList.length; i<len; ++i) {
-            var collide = this._collideList[i];
-            if (this.isHitElement(collide.element)) {
-                // 最初の衝突だった場合は collisionEnter を呼ぶ
-                if (collide.collide === false) {
-                    var e = tm.app.Event("collisionEnter");
-                    e.other = collide.element;
-                    this.dispatchEvent(e);
-                }
-                // 通常の衝突イベント
-                var e = tm.app.Event("collisionStay");
-                e.other = collide.element;
-                this.dispatchEvent(e);
-                
-                collide.collide = true;
-            }
-            else {
-                if (collide.collide == true) {
-                    var e = tm.app.Event("collisionExit");
-                    e.other = collide.element;
-                    this.dispatchEvent(e);
-                }
-                collide.collide = false;
-            }
-        }
-    };
-    
-    var _addCollisionElement = function(elm)
-    {
-        this._collideList.push({
-            element: elm,
-            collide: false,
-        });
-    };
-    
     /**
      * @class
-     * 衝突判定を簡単に行えるエレメント
+     * 衝突管理クラス
      */
-    tm.app.CollisionElement = tm.createClass({
+    tm.app.Collision = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        collideList: null,
         
         /**
          * 初期化
          */
-        init: function() {
-            this.superInit();
-            this._collideList = [];
+        init: function(elm) {
+            this.element = elm;
+            this.collideList = [];
         },
         
         /**
          * @method
          * 更新
          */
-        update: _collisionUpdate,
-        
+        update: function(app) {
+            var cl  = this.collideList.clone();
+            var elm = this.element;
+            
+            for (var i=0,len=cl.length; i<len; ++i) {
+                var c = cl[i];
+                if (elm.isHitElement(c.element)) {
+                    // 最初の衝突だった場合は collisionenter を呼ぶ
+                    if (c.collide === false) {
+                        var e = tm.app.Event("collisionenter");
+                        e.other = c.element;
+                        elm.dispatchEvent(e);
+                    }
+                    // 通常の衝突イベント
+                    var e = tm.app.Event("collisionstay");
+                    e.other = c.element;
+                    elm.dispatchEvent(e);
+                    
+                    c.collide = true;
+                }
+                else {
+                    if (c.collide == true) {
+                        var e = tm.app.Event("collisionexit");
+                        e.other = c.element;
+                        elm.dispatchEvent(e);
+                    }
+                    c.collide = false;
+                }
+            }
+        },
         
         /**
-         * @method
-         * 衝突の対象となるエレメントを追加
+         * 追加
          */
-        addCollisionElement: _addCollisionElement,
+        add: function(elm) {
+            this.collideList.push({
+                element: elm,
+                collide: false,
+            });
+        },
+        
+        /**
+         * 削除
+         */
+        remove: function(elm) {
+            this.collideList.eraseIf(function(v) {
+                return v.element == elm;
+            });
+        },
+        
     });
     
     
-    tm.app.Element.prototype.collide = function() {
-        this.addEventListener("enterframe", _collisionUpdate);
-        this.addCollisionElement = _addCollisionElement;
-        this._collideList = [];
-    };
+    /**
+     * @member      tm.app.Element
+     * @property    collision
+     * コリジョン
+     */
+    tm.app.Element.prototype.getter("collision", function() {
+        if (!this._collision) {
+            this._collision = tm.app.Collision(this);
+            this.addEventListener("enterframe", function(e){
+                this._collision.update(e.app);
+            });
+        }
+        
+        return this._collision
+    });
+    
     
 })();

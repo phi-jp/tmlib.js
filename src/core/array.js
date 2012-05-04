@@ -113,7 +113,11 @@
      */
     Array.defineInstanceMethod("eraseIf", function(fn) {
         for (var i=0,len=this.length; i<len; ++i) {
-            if ( fn(this[i], i, this) ) { this.splice(i--, 1); }
+            if ( fn(this[i], i, this) ) {
+                this.splice(i, 1);
+                break;
+            }
+            // if ( fn(this[i], i, this) ) { this.splice(i--, 1); }
         }
         return this;
     });

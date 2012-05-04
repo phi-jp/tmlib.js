@@ -499,7 +499,11 @@ var tm = tm || {};
      */
     Array.defineInstanceMethod("eraseIf", function(fn) {
         for (var i=0,len=this.length; i<len; ++i) {
-            if ( fn(this[i], i, this) ) { this.splice(i--, 1); }
+            if ( fn(this[i], i, this) ) {
+                this.splice(i, 1);
+                break;
+            }
+            // if ( fn(this[i], i, this) ) { this.splice(i--, 1); }
         }
         return this;
     });
@@ -917,6 +921,10 @@ var tm = tm || {};
         var base = Math.pow(10, figure);
         var temp = this * base;
         temp = Math.floor(temp);
+        
+        // ~~this
+        // this|0
+        
         return temp/base;
     });
     
