@@ -84,6 +84,7 @@
                 
                 draw: function(canvas) {
                     canvas.fillCircle(0, 0, this.radius);
+                    //canvas.fillRect(0, 0, this.width, this.height);
                 },
                 
                 startAnim: function() {
@@ -100,6 +101,22 @@
                         finish: 0,
                         duration: 1000,
                     });
+                    
+                    /*
+                    this.anim.addTween({
+                        prop: "scaleX",
+                        begin: 1,
+                        finish: 2,
+                        duration: 1000,
+                    });
+                    
+                    this.anim.addTween({
+                        prop: "scaleY",
+                        begin: 1,
+                        finish: 2,
+                        duration: 1000,
+                    });
+                    */
                 },
                 
                 onanimationend: function() {
@@ -110,8 +127,7 @@
             /*
              * Test
              */
-            window.onload = function()
-            {
+            tm.main(function() {
                 var c = tm.Console("#console");
                 
                 var app = tm.app.CanvasApp("#world");
@@ -136,7 +152,7 @@
                 };
                 
                 app.run();
-            };
+            });
             
         </script>
         
