@@ -24,6 +24,7 @@ tm.anim = tm.anim || {};
         timerID     : null,
         isLooping   : null,
         isPlaying   : null,
+        func        : Math.linear,
         
         /**
          * frame rate
@@ -55,7 +56,12 @@ tm.anim = tm.anim || {};
         
         setObject: function(obj)
         {
-            this.set(obj.target, obj.prop, obj.begin, obj.finish, obj.duration, obj.func);
+            for (var key in obj) {
+                this[key] = obj[key];
+            }
+            this.change = this.finish-this.begin;
+            
+            //this.set(obj.target, obj.prop, obj.begin, obj.finish, obj.duration, obj.func);
         },
         
         /**
@@ -164,7 +170,7 @@ tm.anim = tm.anim || {};
                     this.update();
                     // 停止
                     this.stop();
-                    // イベント開始
+                    // イベント
                     this.dispatchEvent("finish");
                 }
             }
