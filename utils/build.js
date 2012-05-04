@@ -34,6 +34,8 @@ var target = [
     "graphics/canvas.js",
     "graphics/texture.js",
     
+    "anim/tween.js",
+    
     "app/element.js",
     "app/canvaselement.js",
     "app/sprite.js",
@@ -42,10 +44,10 @@ var target = [
     "app/interactive.js",
     "app/canvasapp.js",
     "app/event.js",
+    "app/anim.js",
     
     "sound/sound.js",
     
-    "anim/tween.js",
 ];
 for (var i=0,len=target.length; i<len; ++i) {
     target[i] = base + target[i];

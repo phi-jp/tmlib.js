@@ -32,11 +32,11 @@ tm.app = tm.app || {};
         /**
          * 幅
          */
-        width:  32,
+        width:  64,
         /**
          * 高さ
          */
-        height: 32,
+        height: 64,
         /**
          * 表示フラグ
          */
@@ -263,7 +263,7 @@ tm.app = tm.app || {};
      * 半径
      */
     tm.app.CanvasElement.prototype.accessor("radius", {
-        "get": function()   { return this._radius || (this.width+this.height)/2; },
+        "get": function()   { return this._radius || (this.width+this.height)/4; },
         "set": function(v)  { this._radius = v; }
     });
     

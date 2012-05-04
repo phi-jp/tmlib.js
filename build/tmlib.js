@@ -510,7 +510,7 @@ var tm = tm || {};
      */
     Array.defineInstanceMethod("random", function(min, max) {
         min = min || 0;
-        max = max || this.length;
+        max = max || this.length-1;
         return this[ Math.rand(min, max) ];
     });
     
@@ -4601,6 +4601,18 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * リサイズウィンドウ
+         */
+        resizeWindow: function() {
+            this.canvas.style.position  = "fixed";
+            this.canvas.style.margin    = "0px";
+            this.canvas.style.padding   = "0px";
+            this.canvas.style.left      = "0px";
+            this.canvas.style.top       = "0px";
+            return this.resize(window.innerWidth, window.innerHeight);
+        },
+        
+        /**
          * フィット
          */
         resizeToFitScreen: function() {
@@ -5447,6 +5459,196 @@ tm.graphics = tm.graphics || {};
 
 
 /*
+ * tween.js
+ */
+
+tm.anim = tm.anim || {};
+
+(function() {
+    
+    var bind = function(fn, self) {
+        return function() { return fn.apply(self, arguments); };
+    };
+    
+    /**
+     * @class
+     * Tween クラス
+     */
+    tm.anim.Tween = tm.createClass({
+        
+        target      : null,
+        prop        : null,
+        now         : null,
+        finish      : null,
+        duration    : null,
+        timerID     : null,
+        isLooping   : null,
+        isPlaying   : null,
+        func        : Math.linear,
+        
+        /**
+         * frame rate
+         */
+        fps     : 30,
+        
+        init: function(target, prop, begin, finish, duration, func) {
+            if (arguments.length == 1) {
+                this.setObject(target);
+            }
+            else {
+                this.set.apply(this, arguments);
+            }
+            
+            this.time = 0;
+            this.isPlaying = false;
+        },
+        
+        set: function(target, prop, begin, finish, duration, func)
+        {
+            this.target = target;
+            this.prop   = prop;
+            this.begin  = begin;
+            this.finish = finish;
+            this.change = this.finish-this.begin;
+            this.duration = duration;
+            this.func = func || Math.linear;
+        },
+        
+        setObject: function(obj)
+        {
+            for (var key in obj) {
+                this[key] = obj[key];
+            }
+            this.change = this.finish-this.begin;
+            
+            //this.set(obj.target, obj.prop, obj.begin, obj.finish, obj.duration, obj.func);
+        },
+        
+        /**
+         * 再開
+         */
+        resume: function() {
+            this.isPlaying = true;
+            this._resumeTime();
+            this._updateTime();
+            this.dispatchEvent("resume");
+        },
+        
+        /**
+         * 開始
+         */
+        start: function() {
+            this.isPlaying = true;
+            this._startTime();
+            this._updateTime();
+            this.dispatchEvent("start");
+        },
+        
+        /**
+         * ストップ
+         */
+        stop: function() {
+            this.isPlaying = false;
+            this.dispatchEvent("stop");
+        },
+        
+        /**
+         * 開始位置まで戻る
+         */
+        rewind: function() {
+            this.time = 0;
+            this.update();
+        },
+        
+        /**
+         * 最後位置まで早送り
+         */
+        fforward: function() {
+            this.time = this.duration;
+            this.update();
+        },
+        
+        /**
+         * ヨーヨー
+         */
+        yoyo: function() {
+            var temp = this.finish;
+            this.finish = this.begin;
+            this.begin  = temp;
+            this.change = this.finish-this.begin;
+            this.start();
+        },
+        
+        /**
+         * 更新
+         */
+        update: function() {
+            this.target[this.prop] = this.func(this.time, this.begin, this.change, this.duration);
+            this.dispatchEvent("change");
+            //this.target[this.prop] = this.begin + (this.finish - this.begin) * (this.time/this.duration);
+        },
+        
+        /**
+         * ディスパッチイベント
+         */
+        dispatchEvent: function(type) {
+            var fnName = 'on'+type;
+            if (this[fnName]) this[fnName](type);
+        },
+        
+        _resumeTime: function() {
+            this.startTime = (new Date()).getTime() - this.time;
+        },
+        
+        _startTime: function() {
+            this.startTime = (new Date()).getTime();
+        },
+        
+        _updateTime: function() {
+            if (this.isPlaying) {
+                this._nextTime();
+                setTimeout(bind(arguments.callee, this), 1000/this.fps);
+            }
+        },
+        
+        _nextTime: function() {
+            var time = (new Date()).getTime() - this.startTime;
+            // モーション終了
+            if (time > this.duration) {
+                // ループ
+                if (this.isLooping) {
+                    this.rewind();
+                    // 座標を更新
+                    this.update();
+                    // イベント開始
+                    this.dispatchEvent("loop");
+                }
+                // 終了
+                else {
+                    this.time = this.duration;
+                    // 座標を更新
+                    this.update();
+                    // 停止
+                    this.stop();
+                    // イベント
+                    this.dispatchEvent("finish");
+                }
+            }
+            // 更新
+            else {
+                this.time = time;
+                // 座標を更新
+                this.update();
+            }
+        }
+    });
+    
+    
+})();
+
+
+
+/*
  * 
  */
 
@@ -5641,11 +5843,11 @@ tm.app = tm.app || {};
         /**
          * 幅
          */
-        width:  32,
+        width:  64,
         /**
          * 高さ
          */
-        height: 32,
+        height: 64,
         /**
          * 表示フラグ
          */
@@ -5872,7 +6074,7 @@ tm.app = tm.app || {};
      * 半径
      */
     tm.app.CanvasElement.prototype.accessor("radius", {
-        "get": function()   { return this._radius || (this.width+this.height)/2; },
+        "get": function()   { return this._radius || (this.width+this.height)/4; },
         "set": function(v)  { this._radius = v; }
     });
     
@@ -6468,6 +6670,96 @@ tm.app = tm.app || {};
 
 
 /*
+ * anim.js
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * インタラクティブキャンバスクラス
+     */
+    tm.app.Anim = tm.createClass({
+        
+        isAnimation: false,
+        
+        /**
+         * 初期化
+         */
+        init: function(elm) {
+            this.element    = elm;
+            this.tweens     = [];
+        },
+        
+        /**
+         * @method
+         * 更新
+         */
+        update: function(app) {
+            var tweens = this.tweens.clone();
+            for (var i=0,len=tweens.length; i<len; ++i) {
+                var tween = tweens[i];
+                tween.time += 1000/app.fps;
+                
+                if (tween.time > tween.duration) {
+                    tween.time = tween.duration;
+                    tween.update();
+                    tween.dispatchEvent("finish");
+                    this.tweens.erase(tween);
+                    
+                    // 全てのアニメーション終了チェック
+                    if (this.tweens.length <= 0) {
+                        this.isAnimation = false;
+                        var e = tm.app.Event("animationend");
+                        this.element.dispatchEvent(e);
+                    }
+                }
+                else {
+                    tween.update();
+                }
+            }
+        },
+        
+        addTween: function(param) {
+            if (!param.target) param.target = this.element;
+            
+            var tween = tm.anim.Tween(param);
+            this.tweens.push(tween);
+            
+            if (this.isAnimation == false) {
+                this.isAnimation = true;
+                var e = tm.app.Event("animationstart");
+                this.element.dispatchEvent(e);
+            }
+            
+            return tween;
+        },
+        
+    });
+    
+    
+    /**
+     * @property    anim
+     * アニメーション
+     */
+    tm.app.Element.prototype.getter("anim", function() {
+        if (!this._anim) {
+            this._anim = tm.app.Anim(this);
+            this.addEventListener("enterframe", function(e){
+                this._anim.update(e.app);
+            });
+        }
+        
+        return this._anim
+    });
+    
+})();
+
+/*
  * sound.js
  */
 
@@ -6702,180 +6994,6 @@ tm.sound = tm.sound || {};
     };
     
     tm.addLoadCheckList(tm.sound.SoundManager);
-    
-})();
-
-
-
-/*
- * tween.js
- */
-
-tm.anim = tm.anim || {};
-
-(function() {
-    
-    var bind = function(fn, self) {
-        return function() { return fn.apply(self, arguments); };
-    };
-    
-    tm.anim.Tween = tm.createClass({
-        
-        target      : null,
-        prop        : null,
-        now         : null,
-        finish      : null,
-        duration    : null,
-        timerID     : null,
-        isLooping   : null,
-        isPlaying   : null,
-        
-        /**
-         * frame rate
-         */
-        fps     : 30,
-        
-        init: function(target, prop, begin, finish, duration, func) {
-            if (arguments.length == 1) {
-                this.setObject(arugments);
-            }
-            else {
-                this.set.apply(this, arguments);
-            }
-            
-            this.isPlaying = false;
-        },
-        
-        set: function(target, prop, begin, finish, duration, func)
-        {
-            this.target = target;
-            this.prop   = prop;
-            this.begin  = begin;
-            this.finish = finish;
-            this.change = this.finish-this.begin;
-            this.duration = duration;
-            this.func = func || Math.linear;
-        },
-        
-        setObject: function(obj)
-        {
-            this.set(obj.target, obj.prop, obj.begin, obj.finsih, obj.duration, obj.func);
-        },
-        
-        /**
-         * 再開
-         */
-        resume: function() {
-            this.isPlaying = true;
-            this._resumeTime();
-            this._updateTime();
-            this.dispatchEvent("resume");
-        },
-        
-        /**
-         * 開始
-         */
-        start: function() {
-            this.isPlaying = true;
-            this._startTime();
-            this._updateTime();
-            this.dispatchEvent("start");
-        },
-        
-        /**
-         * ストップ
-         */
-        stop: function() {
-            this.isPlaying = false;
-            this.dispatchEvent("stop");
-        },
-        
-        /**
-         * 開始位置まで戻る
-         */
-        rewind: function() {
-            this.time = 0;
-            this.update();
-        },
-        
-        /**
-         * 最後位置まで早送り
-         */
-        fforward: function() {
-            this.time = this.duration;
-            this.update();
-        },
-        
-        /**
-         * ヨーヨー
-         */
-        yoyo: function() {
-            var temp = this.finish;
-            this.finish = this.begin;
-            this.begin  = temp;
-            this.change = this.finish-this.begin;
-            this.start();
-        },
-        
-        update: function() {
-            this.target[this.prop] = this.func(this.time, this.begin, this.change, this.duration);
-            
-            this.dispatchEvent("change");
-            //this.target[this.prop] = this.begin + (this.finish - this.begin) * (this.time/this.duration);
-        },
-        
-        dispatchEvent: function(type) {
-            var fnName = 'on'+type;
-            if (this[fnName]) this[fnName](type);
-        },
-        
-        _resumeTime: function() {
-            this.startTime = (new Date()).getTime() - this.time;
-        },
-        
-        _startTime: function() {
-            this.startTime = (new Date()).getTime();
-        },
-        
-        _updateTime: function() {
-            if (this.isPlaying) {
-                this._nextTime();
-                setTimeout(bind(arguments.callee, this), 1000/this.fps);
-            }
-        },
-        
-        _nextTime: function() {
-            var time = (new Date()).getTime() - this.startTime;
-            // モーション終了
-            if (time > this.duration) {
-                // ループ
-                if (this.isLooping) {
-                    this.rewind();
-                    // 座標を更新
-                    this.update();
-                    // イベント開始
-                    this.dispatchEvent("loop");
-                }
-                // 終了
-                else {
-                    this.time = this.duration;
-                    // 座標を更新
-                    this.update();
-                    // 停止
-                    this.stop();
-                    // イベント開始
-                    this.dispatchEvent("finish");
-                }
-            }
-            // 更新
-            else {
-                this.time = time;
-                // 座標を更新
-                this.update();
-            }
-        }
-    });
-    
     
 })();
 
