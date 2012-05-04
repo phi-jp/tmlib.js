@@ -15,6 +15,7 @@ var target = [
     "core/math.js",
     "core/number.js",
     "core/string.js",
+    "core/list.js",
     
     "geom/vector2.js",
     "geom/vector3.js",
