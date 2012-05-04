@@ -124,7 +124,7 @@
      */
     Array.defineInstanceMethod("random", function(min, max) {
         min = min || 0;
-        max = max || this.length;
+        max = max || this.length-1;
         return this[ Math.rand(min, max) ];
     });
     
