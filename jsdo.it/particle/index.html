@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <meta charset="UTF-8" />
+        <title>tmlib.js test</title>
+        <script src="../../build/tmlib.js"></script>
+        
+        <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
+        <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
+        
+        <script>
+            
+            // 定数
+            var CIRCLE_RADIUS   = 30;
+            
+            var Particle = tm.createClass({
+                superClass: tm.app.CanvasElement,
+                
+                init: function(color) {
+                    this.superInit();
+                    
+                    this.color = color;
+                    this.v = tm.geom.Vector2(0, 0);
+                    this.blendMode = "lighter";
+                },
+                
+                update: function(app) {
+                    var diff = tm.geom.Vector2.sub(app.pointing, this)
+                    if (diff.lengthSquared() < 1) return ;
+                    
+                    var acc = 100 / (diff.x*diff.x + diff.y*diff.y)
+                    var acceleration = tm.geom.Vector2.mul(diff, acc);
+                    
+                    this.v.add(acceleration);
+                    this.v.mul(0.95);
+                    
+                    this.position.add(this.v);
+                },
+                
+                draw: function(c) {
+                    c.fillStyle = this.color;
+                    // c.fillRect(0, 0, 1, 1);
+                    c.fillCircle(0, 0, 2);
+                    // c.drawPoint(0, 0);
+                },
+                
+            });
+            
+            window.onload = function() {
+                var app = tm.app.CanvasApp("#c");
+                app.fitWindow();
+                app.enableStats();
+                
+                for (var i=0; i<500; ++i) {
+                    var c = Particle(
+                        "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360))
+                    );
+                    c.x = Math.rand(0, 640);
+                    c.y = Math.rand(0, 480);
+                    app.currentScene.addChild(c);
+                }
+                
+                app.currentScene.update = function(app) {
+                    
+                };
+                
+                app.run();
+            };
+            
+        </script>
+    </head>
+    
+    <body>
+        <canvas id="c" width="640" height="480"></canvas>
+    </body>
+    
+</html>

@@ -45,6 +45,10 @@
         var base = Math.pow(10, figure);
         var temp = this * base;
         temp = Math.floor(temp);
+        
+        // ~~this
+        // this|0
+        
         return temp/base;
     });
     
