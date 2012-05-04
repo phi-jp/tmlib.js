@@ -8,5 +8,9 @@ google code で作っていた tmlib.js を再開発
 
 ## Examples
 
-<a href="http://storage.tmlife.net/libs/tmlib.js/examples/shooting/"><img alt="screenshot" width="150" src="http://img716.imageshack.us/img716/1681/8428cff83e0d47619b7a893.png" /></a>
+<a href="http://storage.tmlife.net/libs/tmlib.js/examples/shooting/"><img alt="screenshot" width="160" src="http://img716.imageshack.us/img716/1681/8428cff83e0d47619b7a893.png" /></a>
+<a href="http://storage.tmlife.net/libs/tmlib.js/examples/circle-collision/"><img alt="screenshot" width="160" src="http://img560.imageshack.us/img560/540/701ebc8b122442fe927b54a.png" /></a>
+<a href="http://storage.tmlife.net/libs/tmlib.js/examples/shooting/"><img alt="screenshot" width="160" src="http://img716.imageshack.us/img716/1681/8428cff83e0d47619b7a893.png" /></a>
+<a href="http://storage.tmlife.net/libs/tmlib.js/examples/shooting/"><img alt="screenshot" width="160" src="http://img716.imageshack.us/img716/1681/8428cff83e0d47619b7a893.png" /></a>
+<a href="http://storage.tmlife.net/libs/tmlib.js/examples/shooting/"><img alt="screenshot" width="160" src="http://img716.imageshack.us/img716/1681/8428cff83e0d47619b7a893.png" /></a>
 
