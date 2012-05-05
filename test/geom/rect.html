@@ -1,0 +1,160 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Rect Test | TM Lib</title>
+        
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            canvas {
+                box-shadow: 0px 0px 4px 0px #aaa;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        <script src="../../src/geom/rect.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+        
+        <script id="test-script">
+            
+            /*
+             * Color Test
+             */
+            window.onload = function()
+            {
+                // コンソール
+                var c = tm.Console("#console");
+                //var c = console; // コンソールの方に出力
+                
+                // コンテキスト取得
+                var ctx = document.getElementById("world").getContext("2d");
+                
+                // rectangle test
+                c.group("【rectangle test】");
+                var r = tm.geom.Rect(10, 10, 50, 50);
+                
+                c.log("TM.$Rect(10, 10, 50, 50) : ", r.x, r.y, r.width, r.height);
+                ctx.fillRect(r.x, r.y, r.width, r.height);
+                
+                r.moveBy(25, 25);
+                c.log("r.moveBy(25, 25)         : ", r.x, r.y, r.width, r.height);
+                ctx.fillStyle = "red";
+                ctx.fillRect(r.x, r.y, r.width, r.height);
+                
+                r.resizeBy(-10, -10);
+                c.log("r.resizeBy(-10, -10)     : ", r.x, r.y, r.width, r.height);
+                ctx.fillStyle = "green";
+                ctx.fillRect(r.x, r.y, r.width, r.height);
+                
+                
+                // padding 
+                r.set(100, 10, 50, 50);
+                ctx.fillStyle = "black";
+                ctx.fillRect(r.x, r.y, r.width, r.height);
+                
+                r.padding(10);
+                c.log("r.padding(10, 10, 10, 10): ", r.x, r.y, r.width, r.height);
+                ctx.fillStyle = "white";
+                ctx.fillRect(r.x, r.y, r.width, r.height);
+                
+                
+                
+                // left, right, top, bottom
+                r.set(160, 10, 125, 125);
+                ctx.fillStyle = "black";
+                ctx.fillRect(r.x, r.y, r.width, r.height);
+                
+                r.left = 180;
+                ctx.strokeStyle = "red";
+                ctx.strokeRect(r.x, r.y, r.width, r.height);
+                
+                r.top = 30;
+                ctx.strokeStyle = "green";
+                ctx.strokeRect(r.x, r.y, r.width, r.height);
+                
+                r.right = 250;
+                ctx.strokeStyle = "blue";
+                ctx.strokeRect(r.x, r.y, r.width, r.height);
+                
+                r.right = 250;
+                ctx.strokeStyle = "blue";
+                ctx.strokeRect(r.x, r.y, r.width, r.height);
+                
+                r.bottom = 100;
+                ctx.strokeStyle = "yellow";
+                ctx.strokeRect(r.x, r.y, r.width, r.height);
+                
+                c.groupEnd();
+                
+            };
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+    </head>
+    
+    <body>
+         
+        <h1>Rect Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <h2>Canvas</h2>
+                <canvas id="world"></canvas>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
