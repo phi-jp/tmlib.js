@@ -45,7 +45,7 @@ var target = [
     "app/scene.js",
     "app/canvasapp.js",
     "app/event.js",
-    "app/interactive.js",
+    "app/interaction.js",
     "app/collision.js",
     "app/anim.js",
     

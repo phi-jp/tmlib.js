@@ -39,7 +39,7 @@
         <script src="../src/app/scene.js"></script>
         <script src="../src/app/canvasapp.js"></script>
         <script src="../src/app/event.js"></script>
-        <script src="../src/app/interactive.js"></script>
+        <script src="../src/app/interaction.js"></script>
         
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
         <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
@@ -55,21 +55,34 @@
                 app.enableStats();
                 app.background = "black";
                 
-                var endScene = tm.app.EndScene();
-                app.pushScene(endScene);
-                
-                var mainScene = tm.app.Scene();
-                app.pushScene(mainScene);
-                mainScene.update = function() {
-                    if (app.frame > 300) {
-                        app.popScene();
-                    }
-                    console.log("main exec");
-                };
                 
                 
                 var startScene = tm.app.StartScene();
-                app.pushScene(startScene);
+                app.replaceScene(startScene);
+                startScene.onmousedown = function() {
+                    app.replaceScene(mainScene);
+                };
+                
+                
+                
+                var mainScene = tm.app.Scene();
+                mainScene.update = function() {
+                    // if (app.frame > 300) {
+                        // app.replaceScene(endScene);
+                    // }
+                    console.log("main exec");
+                };
+                mainScene.onmousedown = function() {
+                    app.replaceScene(endScene);
+                };
+                
+                
+                var endScene = tm.app.EndScene();
+                endScene.onmousedown = function() {
+                    app.replaceScene(startScene);
+                };
+                
+                
                 
                 app.run();
                 
