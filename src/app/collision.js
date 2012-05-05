@@ -94,7 +94,7 @@ tm.app = tm.app || {};
             });
         }
         
-        return this._collision
+        return this._collision;
     });
     
     

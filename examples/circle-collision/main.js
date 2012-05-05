@@ -8,6 +8,7 @@
 var app             = null;
 var visibleTrace    = true;
 var circleList      = [];
+var target          = null;
 
 /*
  * 定数
@@ -118,11 +119,21 @@ var Circle = tm.createClass({
         this.strokeStyle= "white";
         this.blendMode  = "lighter";
         
+        // マウスやタッチ反応を有効化
+        this.interaction;
+        
         // 
         this.explode();
     },
     
     update: function(app) {
+        // 掴んでいるサークルが自分だった場合
+        if (this === target) {
+            var p = app.pointing;
+            this.position.set(p.x, p.y);
+            this.velocity.set(p.dX, p.dY);
+            return ;
+        }
         
         this.velocity.mul(FRICTION);
         this.velocity.add(GRAVITY);
@@ -170,6 +181,15 @@ var Circle = tm.createClass({
         
         this.velocity.add( V.mul(abVec, ma) );
         other.velocity.add( V.mul(abVec, mb) );
+    },
+    
+    onmousedown: function() {
+        target = this;
+        this.velocity.set(0, 0);
+    },
+    
+    onmouseup: function() {
+        target = null;
     },
 });
 

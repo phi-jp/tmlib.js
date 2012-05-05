@@ -88,6 +88,14 @@ tm.app = tm.app || {};
          * 点と衝突しているかを判定
          */
         isHitPoint: function(x, y) {
+            // 円判定
+            if (((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)) < (this.radius*this.radius)) {
+                return true;
+            }
+            return false;
+            
+            
+            // ここから下のバージョンは四角形
             var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
             // var globalPos = this;
             if (

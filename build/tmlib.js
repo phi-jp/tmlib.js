@@ -6240,6 +6240,14 @@ tm.app = tm.app || {};
          * 点と衝突しているかを判定
          */
         isHitPoint: function(x, y) {
+            // 円判定
+            if (((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)) < (this.radius*this.radius)) {
+                return true;
+            }
+            return false;
+            
+            
+            // ここから下のバージョンは四角形
             var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
             // var globalPos = this;
             if (
@@ -7004,63 +7012,77 @@ tm.app = tm.app || {};
 
 (function() {
     
-    var _interactiveUpdate = function(e)
-    {
-        var prevOnMouseFlag = this._onMouseFlag;
-        this._onMouseFlag   = this.isHitPoint(e.app.pointing.x, e.app.pointing.y);
-        
-        if (!prevOnMouseFlag && this._onMouseFlag) {
-            this.dispatchEvent(tm.app.Event("mouseover"));
-        }
-        
-        if (prevOnMouseFlag && !this._onMouseFlag) {
-            this.dispatchEvent(tm.app.Event("mouseout"));
-        }
-        
-        if (this._onMouseFlag) {
-            if (e.app.pointing.getPointingStart()) {
-                this.dispatchEvent(tm.app.Event("mousedown"));
-                this.mouseDowned = true;
-            }
-            
-            this.dispatchEvent(tm.app.Event("mousemove"));
-        }
-        
-        if (this.mouseDowned==true && e.app.pointing.getPointingEnd()) {
-            this.dispatchEvent(tm.app.Event("mouseup"));
-            this.mouseDowned = false;
-        }
-    };
-    
     /**
      * @class
-     * インタラクティブキャンバスクラス
+     * インタラクティブクラス
      */
-    tm.app.InteractiveCanvasElement = tm.createClass({
+    tm.app.Interaction = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        hitFlag: false,
+        downFlag: false,
         
-        /**
-         * 初期化
-         */
-        init: function() {
-            this.superInit();
+        init: function(element) {
+            this.element = element;
         },
         
-        /**
-         * @method
-         * 更新
-         */
-        update: _interactiveUpdate,
+        update: function(app) {
+            var elm = this.element;
+            var p   = app.pointing;
+            
+            var prevHitFlag = this.hitFlag;
+            
+            this.hitFlag   = elm.isHitPoint(p.x, p.y);
+            
+            if (!prevHitFlag && this.hitFlag) {
+                elm.dispatchEvent(tm.app.Event("mouseover"));
+            }
+            
+            if (prevHitFlag && !this.hitFlag) {
+                elm.dispatchEvent(tm.app.Event("mouseout"));
+            }
+            
+            if (this.hitFlag) {
+                if (p.getPointingStart()) {
+                    elm.dispatchEvent(tm.app.Event("mousedown"));
+                    this.downFlag = true;
+                }
+                
+                elm.dispatchEvent(tm.app.Event("mousemove"));
+            }
+            
+            if (this.downFlag==true && p.getPointingEnd()) {
+                elm.dispatchEvent(tm.app.Event("mouseup"));
+                this.downFlag = false;
+            }
+        },
         
     });
     
     
-    tm.app.Element.prototype.interact = function() {
-        this.addEventListener("enterframe", _interactiveUpdate);
-    };
+    /**
+     * @member      tm.app.Element
+     * @property    interaction
+     * インタラクション
+     */
+    tm.app.Element.prototype.getter("interaction", function() {
+        if (!this._interaction) {
+            this._interaction = tm.app.Interaction(this);
+            this.addEventListener("enterframe", function(e){
+                this._interaction.update(e.app);
+            });
+        }
+        
+        return this._interaction;
+    });
     
 })();
+
+
+
+
+
+
+
 
 /*
  * collision.js
@@ -7158,7 +7180,7 @@ tm.app = tm.app || {};
             });
         }
         
-        return this._collision
+        return this._collision;
     });
     
     
@@ -7259,6 +7281,13 @@ tm.app = tm.app || {};
  */
 
 tm.sound = tm.sound || {};
+
+
+(function() {
+    
+    tm.sound.globalVolume = 1.0;
+    
+})();
 
 
 (function() {

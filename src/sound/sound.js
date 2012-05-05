@@ -7,6 +7,13 @@ tm.sound = tm.sound || {};
 
 (function() {
     
+    tm.sound.globalVolume = 1.0;
+    
+})();
+
+
+(function() {
+    
     /**
      * @class
      * サウンドクラス
