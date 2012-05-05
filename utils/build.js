@@ -21,6 +21,8 @@ var target = [
     "geom/vector3.js",
     "geom/matrix33.js",
     "geom/matrix44.js",
+    "geom/rect.js",
+    "geom/circle.js",
     
     "dom/element.js",
     "dom/event.js",

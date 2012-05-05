@@ -3227,6 +3227,339 @@ tm.geom = tm.geom || {};
 
 
 /*
+ * rect.js
+ */
+
+tm.geom = tm.geom || {};
+
+(function() {
+    
+    /**
+     * @class
+     * 四角形クラス
+     */
+    tm.geom.Rect = tm.createClass({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        
+        /**
+         * 初期化
+         */
+        init: function(x, y, width, height)
+        {
+            this.set(x, y, width, height);
+        },
+        
+        /**
+         * セッター
+         */
+        set: function(x, y, width, height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            
+            return this;
+        },
+        
+
+        /**
+         * 移動
+         */
+        move: function(x, y)
+        {
+            this.x = x;
+            this.y = y;
+            return this;
+        },
+        
+        /**
+         * 現在位置を基準に移動
+         */
+        moveBy: function(x, y)
+        {
+            this.x += x;
+            this.y += y;
+            return this;
+        },
+        
+        /**
+         * リサイズ
+         */
+        resize: function(w, h)
+        {
+            this.width = w;
+            this.height= h;
+            return this;
+        },
+        
+        /**
+         * 現在のサイズを基準にリサイズ
+         */
+        resizeBy: function(w, h)
+        {
+            this.width += w;
+            this.height+= h;
+            return this;
+        },
+        
+        /**
+         * パディング.
+         * 縮めたりなど. 画面ハミ出しチェック時などに便利
+         * @example
+         * var circle = TM.$Circle(10, 10, 10);
+         * var windowRect = TM.$Rect(0, 0, window.innerWidth, window.innerHiehgt);
+         * windowRect.padding(circle.radius);
+         * if (circle.x < windowRect.left) {
+         *     // 左にはみ出した時の処理
+         * }
+         */
+        padding: function(top, right, bottom, left)
+        {
+            // css の padding に合わせて時計回りにパラメータ調整
+            switch (arguments.length) {
+                case 1:
+                    top = right = bottom = left = arguments[0];
+                    break;
+                case 2:
+                    top     = bottom= arguments[0];
+                    right   = left  = arguments[1];
+                    break;
+                case 3:
+                    top     = arguments[0];
+                    right   = left = arguments[1];
+                    bottom  = arguments[2];
+                    break;
+            }
+            
+            this.x += left;
+            this.y += top;
+            this.width -= left+right;
+            this.height-= top +bottom;
+            
+            return this;
+        },
+        
+        clone: function()
+        {
+            
+        },
+        
+        toCircle: function()
+        {
+            return tm.geom.Circle(
+                this.centerX,
+                this.centerY,
+                (this.width < this.height) ? this.width : this.height
+                );
+        },
+        
+        toArray: function()
+        {
+            return [this.x, this.y, this.width, this.height];
+        },
+        
+    });
+    
+    
+    /**
+     * @property    left
+     * left
+     */
+    tm.geom.Rect.prototype.accessor("left", {
+        "get": function()   { return this.x; },
+        "set": function(v)  { this.width -= v-this.x; this.x = v; }
+    });
+    
+    /**
+     * @property    top
+     * top
+     */
+    tm.geom.Rect.prototype.accessor("top", {
+        "get": function()   { return this.y; },
+        "set": function(v)  { this.height -= v-this.y; this.y = v; }
+    });
+    
+    /**
+     * @property    right
+     * right
+     */
+    tm.geom.Rect.prototype.accessor("right", {
+        "get": function()   { return this.x + this.width; },
+        "set": function(v)  { this.width += v-this.right; }
+    });
+    
+    /**
+     * @property    bottom
+     * bottom
+     */
+    tm.geom.Rect.prototype.accessor("bottom", {
+        "get": function()   { return this.y + this.height; },
+        "set": function(v)  { this.height += v-this.bottom; }
+    });
+    
+    /**
+     * @property    centerX
+     * centerX
+     */
+    tm.geom.Rect.prototype.accessor("centerX", {
+        "get": function()   { return this.x + this.width/2; },
+        "set": function(v)  {
+            // TODO: どうしようかな??
+        }
+    });
+    
+    /**
+     * @property    centerY
+     * centerY
+     */
+    tm.geom.Rect.prototype.accessor("centerY", {
+        "get": function()   { return this.y + this.height/2; },
+        "set": function(v)  {
+            // TODO: どうしようかな??
+        }
+    });
+    
+})();
+
+
+
+/*
+ * circle.js
+ */
+
+tm.geom = tm.geom || {};
+
+(function() {
+    
+    /**
+     * @class
+     * 円クラス
+     */
+    tm.geom.Circle = tm.createClass({
+        x: 0,
+        y: 0,
+        radius: 0,
+        
+        /**
+         * 初期化
+         */
+        init: function(x, y, radius)
+        {
+            this.set(x, y, radius);
+        },
+        
+        /**
+         * セッター
+         */
+        set: function(x, y, radius)
+        {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            
+            return this;
+        },
+        
+        /**
+         * 移動
+         */
+        move: function(x, y)
+        {
+            this.x = x;
+            this.y = y;
+            return this;
+        },
+        
+        /**
+         * 現在位置を基準に移動
+         */
+        moveBy: function(x, y)
+        {
+            this.x += x;
+            this.y += y;
+            return this;
+        },
+        
+        /**
+         * リサイズ
+         */
+        resize: function(size)
+        {
+            this.radius = size;
+            return this;
+        },
+        
+        /**
+         * 現在のサイズを基準にリサイズ
+         */
+        resizeBy: function(size)
+        {
+            this.radius += size;
+            return this;
+        },
+        
+        clone: function()
+        {
+            
+        },
+        
+        /**
+         * 四角形に変換
+         */
+        toRectangle: function()
+        {
+            return tm.geom.Rectangle(this.x, this.y, this.radius*2, this.radius*2);
+        },
+        
+        /**
+         * 配列に変換
+         */
+        toArray: function()
+        {
+            return [this.x, this.y, this.radius];
+        }
+    });
+    
+    /**
+     * @property    left
+     * left
+     */
+    tm.geom.Circle.prototype.getter("left", function() {
+        return this.x - this.radius;
+    });
+    
+    /**
+     * @property    top
+     * top
+     */
+    tm.geom.Circle.prototype.getter("top", function() {
+        return this.y - this.radius;
+    });
+    
+    /**
+     * @property    right
+     * right
+     */
+    tm.geom.Circle.prototype.getter("right", function() {
+        return this.x + this.radius;
+    });
+    
+    /**
+     * @property    bottom
+     * bottom
+     */
+    tm.geom.Circle.prototype.getter("bottom", function() {
+        return this.y + this.radius;
+    });
+    
+})();
+
+
+
+/*
  * element.js
  */
 

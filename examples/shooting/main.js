@@ -137,6 +137,17 @@ var Player = tm.createClass({
             this.speed      = 8;
         }
         
+        // マウスによる移動
+        var p = app.pointing;
+        if (p.getPointing()) {
+            this.velocity.x = p.x - this.position.x;
+            this.velocity.y = p.y - this.position.y;
+            if (this.velocity.lengthSquared() > 20*20) {
+                this.speed = 8;
+            }
+            this.velocity.normalize();
+        }
+        
         // 移動
         this.position.add( tm.geom.Vector2.mul(this.velocity, this.speed) );
         
