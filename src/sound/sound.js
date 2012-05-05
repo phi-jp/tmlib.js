@@ -38,6 +38,11 @@ tm.sound = tm.sound || {};
             });
             
             this.element.volume = 1.0;
+            
+            //? モバイル系は音が不安定なので一時対応
+            if (tm.isMobile) {
+                this.loaded = true;
+            }
         },
         
         /**
@@ -133,6 +138,9 @@ tm.sound = tm.sound || {};
 
 (function(){
     
+    //? モバイル系ブラウザ対応
+    var DEFAULT_CACHE_NUM = (tm.isMobile) ? 1 : 4;
+    
     /**
      * @class   サウンドマネージャクラス
      * サウンドを管理するクラス
@@ -147,7 +155,7 @@ tm.sound = tm.sound || {};
      * サウンドを追加
      */
     tm.sound.SoundManager.add = function(name, src, cache) {
-        cache = cache || 4;
+        cache = cache || DEFAULT_CACHE_NUM;
         
         // 拡張子チェック
         if (src.split('/').at(-1).indexOf('.') == -1) {

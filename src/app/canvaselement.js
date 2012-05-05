@@ -45,7 +45,7 @@ tm.app = tm.app || {};
         /**
          * fillStyle
          */
-        fillStyle: "black",
+        fillStyle: "white",
         
         /**
          * strokeStyle
