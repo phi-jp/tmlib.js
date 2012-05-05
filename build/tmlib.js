@@ -5059,6 +5059,15 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * クリップ
+         */
+        clip: function()
+        {
+            this.context.clip();
+            return this;
+        },
+        
+        /**
          * 点描画
          */
         drawPoint: function(x, y)
@@ -5216,7 +5225,6 @@ tm.graphics = tm.graphics || {};
             this.context.arc(r, b, radius,            0,  Math.PI*0.5, false);  // 右下
             this.context.arc(l, b, radius,  Math.PI*0.5,      Math.PI, false);  // 左下
             this.closePath();
-            /**/
             
             return this;
         },
@@ -5319,6 +5327,32 @@ tm.graphics = tm.graphics || {};
         strokeCircle: function(x, y, radius)
         {
             return this.beginPath().circle(x, y, radius).stroke();
+        },
+        
+        
+        /**
+         * 円弧のパスを設定
+         */
+        arc: function(x, y, radius, startAngle, endAngle, anticlockwise)
+        {
+            this.context.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+            return this;
+        },
+        
+        /**
+         * 塗りつぶし円弧を描画
+         */
+        fillArc: function(x, y, radius, startAngle, endAngle, anticlockwise)
+        {
+            return this.beginPath().arc(x, y, radius, startAngle, endAngle, anticlockwise).fill();
+        },
+        
+        /**
+         * ストローク円弧を描画
+         */
+        strokeArc: function(x, y, radius, startAngle, endAngle, anticlockwise)
+        {
+            return this.beginPath().arc(x, y, radius, startAngle, endAngle, anticlockwise).stroke();
         },
         
         /**
@@ -5674,6 +5708,23 @@ tm.graphics = tm.graphics || {};
         "set": function(v)  { this.context.font = v;   }
     });
     
+    /**
+     * @property    textAlign
+     * テキストのアラインメント
+     */
+    tm.graphics.Canvas.prototype.accessor("textAlign", {
+        "get": function()   { return this.context.textAlign; },
+        "set": function(v)  { this.context.textAlign = v;   }
+    });
+    
+    /**
+     * @property    textBaseline
+     * テキストのベースライン
+     */
+    tm.graphics.Canvas.prototype.accessor("textBaseline", {
+        "get": function()   { return this.context.textBaseline; },
+        "set": function(v)  { this.context.textBaseline = v;   }
+    });
     
     /**
      * @property    centerX
