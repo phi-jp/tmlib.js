@@ -107,6 +107,19 @@ tm.app = tm.app || {};
             return false;
         },
         
+        isHitPointRect: function(x, y) {
+            // ここから下のバージョンは四角形
+            var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
+            // var globalPos = this;
+            if (
+                globalPos.x < x && x < (globalPos.x+this.width) &&
+                globalPos.y < y && y < (globalPos.y+this.height))
+            {
+                return true;
+            }
+            return false;
+        },
+        
         /**
          * 要素と衝突しているかを判定
          */

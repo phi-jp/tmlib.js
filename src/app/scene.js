@@ -21,8 +21,12 @@ tm.app = tm.app || {};
          */
         init: function() {
             this.superInit();
+            
+            // タッチに反応させる
+            this.interaction;
         },
         
+        isHitPoint: function() { return true; },
     });
     
     tm.app.StartScene = tm.createClass({
@@ -43,16 +47,11 @@ tm.app = tm.app || {};
             label.baseline  = "middle";
             this.addChild(label);
             
-            // タッチに反応させる
+            // 幅高さをセット
             this.width  = e.app.canvas.width;
             this.height = e.app.canvas.height;
-            this.interact();
             
             this.app = e.app;
-        },
-        
-        onmousedown: function(e) {
-            //this.app.popScene();
         },
     });
     
@@ -73,17 +72,12 @@ tm.app = tm.app || {};
             label.align     = "center";
             label.baseline  = "middle";
             this.addChild(label);
-            // タッチに反応させる
+            
+            // 幅高さをセット
             this.width  = e.app.canvas.width;
             this.height = e.app.canvas.height;
-            this.interact();
             
             this.app = e.app;
-        },
-        
-        
-        onmousedown: function(e) {
-            //this.app.popScene();
         },
     });
     
