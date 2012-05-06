@@ -56,7 +56,20 @@ tm.app = tm.app || {};
         },
         
         setImage: function(texture) {
-            this.canvas.drawImage(texture.element, 0, 0, this.width, this.height);
+            this.canvas.resize(texture.element.width, texture.element.height);
+            this.canvas.drawImage(texture.element, 0, 0, texture.element.width, texture.element.height);
+        },
+        
+        setFrameIndex: function(index, width, height) {
+            var w   = width || this.width;
+            var h   = width || this.height;
+            var row = ~~(this.canvas.width / w)
+            var x   = index%row;
+            var y   = ~~(index/row);
+            this.srcRect.x = x*w;
+            this.srcRect.y = y*h;
+            this.srcRect.width  = w;
+            this.srcRect.height = h;
         },
     });
     

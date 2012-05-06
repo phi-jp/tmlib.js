@@ -48,10 +48,13 @@
             
             tm.preload(function() {
                 tm.graphics.TextureManager.add("human", "../resource/img/human.png");
+                tm.graphics.TextureManager.add("crash", "../resource/img/crash.png");
+                tm.graphics.TextureManager.add("dancing-men", "../resource/img/dancing-men.png");
             });
             
             tm.main(function() {
                 var app = tm.app.CanvasApp("#world");
+                app.resize(640, 480);
                 app.enableStats();
                 app.background = "black";
                 
@@ -66,15 +69,18 @@
                 
                 
                 var mainScene = tm.app.Scene();
+                mainScene.onenter = function() {
+                    app.frame = 0;
+                };
                 mainScene.update = function() {
-                    // if (app.frame > 300) {
-                        // app.replaceScene(endScene);
-                    // }
-                    console.log("main exec");
+                    if (app.frame > 300) {
+                        app.replaceScene(endScene);
+                    }
+                    // console.log("main exec");
                 };
-                mainScene.onmousedown = function() {
-                    app.replaceScene(endScene);
-                };
+                // mainScene.onmousedown = function() {
+                    // app.replaceScene(endScene);
+                // };
                 
                 
                 var endScene = tm.app.EndScene();
@@ -89,10 +95,6 @@
                 // 
                 var sprite = tm.app.Sprite(64, 64);
                 sprite.position.set(150, 75);
-                sprite.update = function(app) {
-                    this.x = app.pointing.x;
-                    this.y = app.pointing.y;
-                };
                 /*
                 sprite.scaleX = 3;
                 sprite.scaleY = 2;
@@ -102,6 +104,25 @@
                 sprite.canvas.fillStyle = "white";
                 sprite.canvas.fillRect(0, 0, sprite.width, sprite.height);
                 sprite.setImage( tm.graphics.TextureManager.get("human") );
+                
+                sprite.update = function(app) {
+                    this.x = app.pointing.x;
+                    this.y = app.pointing.y;
+                };
+                
+                // タッチ
+                mainScene.onmousedown = function() {
+                    var p = app.pointing;
+                    var crash = tm.app.Sprite(128, 128);
+                    crash.position.set(p.x, p.y);
+                    crash.setImage( tm.graphics.TextureManager.get("crash") );
+                    crash.frameIndex = 0;
+                    crash.blendMode = "lighter";
+                    crash.update = function(app) {
+                        if (app.frame % 1 == 0) this.setFrameIndex(this.frameIndex++ % 64, 64, 64);
+                    };
+                    mainScene.addChild(crash);
+                };
             });
             
         </script>
