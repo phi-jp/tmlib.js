@@ -561,6 +561,28 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * テクスチャ描画
+         */
+        drawTexture: function(texture, x, y)
+        {
+            arguments[0] = texture.element;
+            this.context.drawImage.apply(this.context, arguments);
+            
+            return ;
+        },
+        
+        /**
+         * ビットマップ描画
+         */
+        drawBitmap: function(bitmap, x, y)
+        {
+            arguments[0] = bitmap.imageData;
+            this.context.putImageData.apply(this.context, arguments);
+            
+            return ;
+        },
+        
+        /**
          * 行列をセット
          */
         setTransform: function(m11, m12, m21, m22, dx, dy)
