@@ -2,7 +2,7 @@
 <html lang="ja"> 
     <head> 
         <meta charset="utf-8"> 
-        <title>Bitmap Test | TM Lib</title>
+        <title>Filter Test | TM Lib</title>
         
         
         <!-- prettify -->
@@ -83,37 +83,40 @@
                 // 画像描画
                 canvas.drawTexture(image, 0, 0);
                 
-                // モノクロフィルタ
-                var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
-                var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
-                var filter      = tm.graphics.MonochromeFilter();
-                
-                filter.apply(srcBitmap, dstBitmap);
-                canvas.drawBitmap(dstBitmap, image.element.width, 0);
-                
-                // トゥーンフィルタ
-                var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
-                var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
-                var filter      = tm.graphics.ToonFilter();
-                
-                filter.apply(srcBitmap, dstBitmap);
-                canvas.drawBitmap(dstBitmap, 0, image.element.height);                
-                
-                // リバース
-                var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
-                var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
-                var filter      = tm.graphics.ReverseFilter();
-                
-                filter.apply(srcBitmap, dstBitmap);
-                canvas.drawBitmap(dstBitmap, image.element.width, image.element.height);            
-                
-                // // ブラー
+                // // モノクロフィルタ
                 // var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
                 // var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
-                // var filter      = tm.graphics.BlurFilter();
+                // var filter      = tm.graphics.MonochromeFilter();
 //                 
                 // filter.apply(srcBitmap, dstBitmap);
-                // canvas.drawBitmap(dstBitmap, image.element.width, image.element.height);
+                // canvas.drawBitmap(dstBitmap, image.element.width, 0);
+//                 
+                // // トゥーンフィルタ
+                // var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
+                // var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
+                // var filter      = tm.graphics.ToonFilter();
+//                 
+                // filter.apply(srcBitmap, dstBitmap);
+                // canvas.drawBitmap(dstBitmap, 0, image.element.height);                
+//                 
+                // // リバース
+                // var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
+                // var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
+                // var filter      = tm.graphics.ReverseFilter();
+//                 
+                // filter.apply(srcBitmap, dstBitmap);
+                // canvas.drawBitmap(dstBitmap, image.element.width, image.element.height);            
+                
+                // ブラー
+                var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
+                var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
+                var filter      = tm.graphics.BlurFilter(10, 10);
+                
+                console.time("blur");
+                filter.apply(srcBitmap, dstBitmap);
+                console.timeEnd("blur");
+                console.dir(srcBitmap);
+                canvas.drawBitmap(dstBitmap, image.element.width, image.element.height);
             });
             
         </script>
@@ -128,7 +131,7 @@
     
     <body>
          
-        <h1>Bitmap Test | TM Lib</h1>
+        <h1>Filter Test | TM Lib</h1>
         
         <div id="content">
             <section>

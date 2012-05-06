@@ -8,7 +8,7 @@ tm.graphics = tm.graphics || {};
     
     /**
      * @class
-     * テクスチャクラス
+     * ビットマップクラス
      */
     tm.graphics.Bitmap = tm.createClass({
         
@@ -23,33 +23,34 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * index 指定でピクセル値を取得
+         * 最も高速
+         */
+        getPixelIndex: function(index) {
+            var i = index*4;
+            return [
+                this.data[i+0],
+                this.data[i+1],
+                this.data[i+2],
+                this.data[i+3]
+            ];
+        },
+        
+        /**
+         * x, y 指定でピクセル値を取得
+         */
+        getPixelXY: function(x, y) {
+            return this.getPixelIndex( this.posToIndex(x, y) );
+        },
+        
+        /**
          * ピクセル値を取得
          * ### Memo
          * - index 指定か x, y 指定にするか検討中
          * - 配列で返すか数値で返すか検討中. 速度の早いやつを採用する
          */
-        getPixel: function(index) {
-            var i = index*4;
-            return [
-                this.imageData.data[i+0],
-                this.imageData.data[i+1],
-                this.imageData.data[i+2],
-                this.imageData.data[i+3]
-            ];
-        },
-        
-        getPixelIndex: function(index) {
-            var i = index*4;
-            return [
-                this.imageData.data[i+0],
-                this.imageData.data[i+1],
-                this.imageData.data[i+2],
-                this.imageData.data[i+3]
-            ];
-        },
-        
-        getPixelXY: function(x, y) {
-            return this.getPixelIndex(y*this.width + x);
+        getPixel: function(x, y) {
+            return this.getPixelIndex( this.posToIndex(x, y) );
         },
         
         getPixelAsNumber: function(index) {
@@ -70,117 +71,66 @@ tm.graphics = tm.graphics || {};
         getPixelAsArray: function(index) {
             var i = index*4;
             return [
-                this.imageData.data[i+0],
-                this.imageData.data[i+1],
-                this.imageData.data[i+2],
-                this.imageData.data[i+3]
+                this.data[i+0],
+                this.data[i+1],
+                this.data[i+2],
+                this.data[i+3]
             ];
         },
         
-        getPixelAverage: function(index) {
-            var x = index%this.width;
-            var y = Math.floor(index/this.width);
-            var f = 0;
-            var temp   = [];
-            var r, g, b, a;
-            r = g = b = a = 0;
-            
-            // 中心
-            temp.push(this.getPixel(index));
-            // 上
-            if (0 < y) {
-                temp.push(this.getPixel(index-this.width));
-                f |= 1;
-            }
-            // 右
-            if (x < this.width) {
-                temp.push(this.getPixel(index+1));
-                f |= 2;
-            }
-            // 下
-            if (y < this.height) {
-                temp.push(this.getPixel(index+this.width));
-                f |= 4;
-            }
-            // 左
-            if (0 < x) {
-                temp.push(this.getPixel(index-1));
-                f |= 8;
-            }
-            
-            // 右上
-            if (f | 3) {
-                temp.push(this.getPixel(index-this.width+1));
-            }
-            
-            // 右下
-            if (f | 6) {
-                temp.push(this.getPixel(index+this.width+1));
-            }
-            
-            // 左下
-            if (f | 12) {
-                temp.push(this.getPixel(index+this.width-1));
-            }
-            
-            // 左上
-            if (f | 9) {
-                temp.push(this.getPixel(index-this.width-1));
-            }
-            
-            var len = len=temp.length;
-            for (var i=0; i<len; ++i) {
-                r += temp[i][0];
-                g += temp[i][1];
-                b += temp[i][2];
-                a += temp[i][3];
-            }
-            
-            return [
-                r/len,
-                g/len,
-                b/len,
-                a/len
-            ];
-        },
-        
-        getPixelAverage2: function(x, y, width, height)
+        /**
+         * 指定した範囲内のピクセル平均値を取得
+         */
+        getPixelAverage: function(x, y, width, height)
         {
-            var temp = [];
-            var r, g, b, a;
-            r = g = b = a = 0;
+            var rgba = [0, 0, 0, 0];
             
-            for (var i=y; i<y+height; ++i) {
-                if (0 > i)              { continue ; }
-                if (i >= this.height)    { continue ; }
-                
-                for (var j=x; j<x+width; ++j) {
-                    if (0 > j)          { continue ; }
-                    if (j >= this.width) { continue ; }
-                    
-                    temp.push(
-                        this.getPixelXY(j, i)
-                    );
+            // 範囲
+            var l = x;
+            var r = x+width;
+            var t = y;
+            var b = y+height;
+            
+            // ハミ出し調整
+            if (l < 0) { l = 0; }
+            if (r > this.width) { r = this.width; }
+            if (t < 0) { t = 0; }
+            if (b > this.height) { b = this.height; }
+            
+            // 範囲内のピクセル全てを取得
+            var temp = [];
+            var bitmapWidth = this.width;
+            for (var i=t; i<b; ++i) {
+                for (var j=l; j<r; ++j) {
+                    var index = bitmapWidth*i + j;
+                    temp.push( this.getPixelIndex(index) );
+                    // temp.push( this.getPixelXY(j, i) );
                 }
             }
             
+            // 平均を求める
             var len = len=temp.length;
             for (var i=0; i<len; ++i) {
-                r += temp[i][0];
-                g += temp[i][1];
-                b += temp[i][2];
-                a += temp[i][3];
+                rgba[0] += temp[i][0];
+                rgba[1] += temp[i][1];
+                rgba[2] += temp[i][2];
+                rgba[3] += temp[i][3];
             }
             
-            return [
-                r/len,
-                g/len,
-                b/len,
-                a/len
-            ];
+            rgba[0]/=len;
+            rgba[1]/=len;
+            rgba[2]/=len;
+            rgba[3]/=len;
+            
+            return rgba;
         },
         
-        setPixel: function(index, r, g, b)
+        
+        /**
+         * index 指定でピクセル値をセット
+         * 最も高速
+         */
+        setPixelIndex: function(index, r, g, b)
         {
             var i = index*4;
             this.data[i+0] = r;
@@ -189,7 +139,23 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
-        setPixel32: function(index, r, g, b, a)
+        /**
+         * x, y指定でピクセル値をセット
+         */
+        setPixelXY: function(x, y, r, g, b)
+        {
+            return this.setPixelIndex(y*this.imageData.width+x, r, g, b);
+        },
+        
+        /**
+         * ピクセル値をセット
+         */
+        setPixel: function(index, r, g, b)
+        {
+            return this.setPixelIndex(y*this.imageData.width+x, r, g, b);
+        },
+        
+        setPixel32Index: function(index, r, g, b, a)
         {
             var i = index*4;
             this.data[i+0] = r;
@@ -197,6 +163,16 @@ tm.graphics = tm.graphics || {};
             this.data[i+2] = b;
             this.data[i+3] = a;
             return this;
+        },
+        
+        setPixel32: function(x, y, r, g, b, a)
+        {
+            return this.setPixel32Index(y*this.width+x, r, g, b, a);
+        },
+        
+        setPixel32XY: function(x, y, r, g, b, a)
+        {
+            return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
         
         setPixelFromArray: function(index, pixel)
@@ -246,8 +222,11 @@ tm.graphics = tm.graphics || {};
             
         },
         
+        /**
+         * 位置をインデックスに変換
+         */
         posToIndex: function(x, y) {
-            return y*this.width + x;
+            return y*this.imageData.width + x;
         },
         
         // filter: function(rect, filter)
@@ -265,19 +244,23 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
+        /**
+         * ノイズ
+         */
         noise: function(low, high)
         {
             low = low  || 0;
             high= high || 255;
             range= high-low;
-            this.filter({
-                calc: function(p, index, x, y, imageData) {
-                    p[0] = Math.random()*range + low;
-                    p[1] = Math.random()*range + low;
-                    p[2] = Math.random()*range + low;
-                    imageData.setPixelFromArray(index, p);
-                }
-            })
+            
+            for (var i=0,len=this.length; i<len; ++i) {
+                var p = this.getPixelIndex(i);
+                p[0] = Math.random()*range + low;
+                p[1] = Math.random()*range + low;
+                p[2] = Math.random()*range + low;
+                p[3] = 255;
+                this.setPixel32Index(i, p[0], p[1], p[2], p[3]);
+            }
         },
         
         applyFilter: function(filter) {
@@ -297,8 +280,13 @@ tm.graphics = tm.graphics || {};
         "set": function(v)  { this.iamgeData.height = v;    }
     });
     
+    tm.graphics.Bitmap.prototype.getter("length", function() {
+        return this.imageData.width*this.imageData.height;
+    });
+    
     
     /**
+     * @member      tm.graphics.Canvas
      * @property    getBitmap
      * ビットマップ取得
      */
@@ -307,6 +295,7 @@ tm.graphics = tm.graphics || {};
     };
     
     /**
+     * @member      tm.graphics.Canvas
      * @property    createBitmap
      * ビットマップ生成
      */
