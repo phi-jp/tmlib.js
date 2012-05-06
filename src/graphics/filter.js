@@ -24,8 +24,9 @@ tm.graphics = tm.graphics || {};
          * apply
          */
         apply: function(src, dst) {
-            for (var i=0,len=src.width*src.height; i<len; ++i) {
-                var p = src.getPixel(i);
+            var len = src.length;
+            for (var i=0; i<len; ++i) {
+                var p = src.getPixelIndex(i);
                 var grayscale = p[0]*0.3 + p[1]*0.59 + p[2]*0.11;
                 dst.setPixel32Index(i, grayscale, grayscale, grayscale, 255);
             }
@@ -60,7 +61,7 @@ tm.graphics = tm.graphics || {};
          */
         apply: function(src, dst) {
             for (var i=0,len=src.width*src.height; i<len; ++i) {
-                var p = src.getPixel(i);
+                var p = src.getPixelIndex(i);
                 p[0] = 255-p[0];
                 p[1] = 255-p[1];
                 p[2] = 255-p[2];
@@ -80,6 +81,10 @@ tm.graphics = tm.graphics || {};
     /**
      * @class
      * ブラーフィルタ
+     * 
+     * ### Reference
+     * - <http://www40.atwiki.jp/spellbound/pages/153.html>
+     * - <http://www.flother.com/blog/2010/image-blur-html5-canvas/>
      */
     tm.graphics.BlurFilter = tm.createClass({
         
@@ -104,24 +109,27 @@ tm.graphics = tm.graphics || {};
             var srcHeight   = src.height;
             var len         = src.length;
             
-            /* 速度的には大差ないっぽい
-            for (var i=0; i<srcHeight; ++i) {
-                for (var j=0; j<srcWidth; ++j) {
-                    var x = j;
-                    var y = i;
-                    var p = src.getPixelAverage(x-level, y-level, range, range);
-                    dst.setPixel32XY(x, y, p[0], p[1], p[2], 255);
+            // ブラー処理
+            var _apply = function(src, dst) {
+                for (var i=0; i<len; ++i) {
+                    var x = i%srcWidth;
+                    var y = Math.floor(i/srcWidth);
+                    var p = src.getPixelAverage(x-halfX, y-halfY, rangeX, rangeY);
+                    dst.setPixel32Index(i, p[0], p[1], p[2], 255);
                 }
-            }
-            return dst;
-            */
+            };
             
-            for (var i=0; i<len; ++i) {
-                var x = i%srcWidth;
-                var y = Math.floor(i/srcWidth);
-                var p = src.getPixelAverage(x-halfX, y-halfY, rangeX, rangeY);
-                dst.setPixel32Index(i, p[0], p[1], p[2], 255);
+            // quality の回数だけブラーをかける
+            var tempDst     = src;
+            for (var i=0; i<this.quality; ++i) {
+                src = tempDst;
+                tempDst = tm.graphics.Bitmap(srcWidth, srcHeight);
+                _apply(src, tempDst);
             }
+            
+            // 結果に代入
+            //? メモリリークとか大丈夫なのかな
+            dst.imageData = tempDst.imageData;
             
             return dst;
         },
@@ -148,7 +156,7 @@ tm.graphics = tm.graphics || {};
     
     /**
      * @class
-     * フィルタ
+     * トゥーンフィルタ
      */
     tm.graphics.ToonFilter = tm.createClass({
         
@@ -166,7 +174,7 @@ tm.graphics = tm.graphics || {};
          */
         apply: function(src, dst) {
             for (var i=0,len=src.width*src.height; i<len; ++i) {
-                var pixel = src.getPixel(i);
+                var pixel = src.getPixelIndex(i);
                 var r = this.toonTable[ pixel[0] ];
                 var g = this.toonTable[ pixel[1] ];
                 var b = this.toonTable[ pixel[2] ];
@@ -179,6 +187,62 @@ tm.graphics = tm.graphics || {};
     
     
 })();
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * カラーマトリックスフィルタ
+     * 
+     * ### Reference
+     * - <http://blog.boreal-kiss.com/2008/04/08113113.html/>
+     * - <http://voglia.jp/2010/01/26/260>
+     * - <http://hakuhin.jp/as/color.html#COLOR_02>
+     * - <http://d.hatena.ne.jp/umezo/20090122/1232627694>
+     * - <http://www40.atwiki.jp/spellbound/pages/188.html>
+     */
+    tm.graphics.ColorMatrixFilter = tm.createClass({
+        
+        /**
+         * 初期化
+         */
+        init: function(colorMatrix) {
+            this.colorMatrix = colorMatrix;
+        },
+        
+        /**
+         * apply
+         */
+        apply: function(src, dst) {
+            var cm = this.colorMatrix;
+            for (var i=0,len=src.length; i<len; ++i) {
+                var pixel = src.getPixelIndex(i);
+                var r = (pixel[0] * cm[0]) + (pixel[1] * cm[1]) + (pixel[2] * cm[2]) + (pixel[3] * cm[3]) + cm[4];
+                var g = (pixel[0] * cm[5]) + (pixel[1] * cm[6]) + (pixel[2] * cm[7]) + (pixel[3] * cm[8]) + cm[9];
+                var b = (pixel[0] * cm[10]) + (pixel[1] * cm[11]) + (pixel[2] * cm[12]) + (pixel[3] * cm[13]) + cm[14];
+                var a = (pixel[0] * cm[15]) + (pixel[1] * cm[16]) + (pixel[2] * cm[17]) + (pixel[3] * cm[18]) + cm[19];
+                dst.setPixel32Index(i, r, g, b, a);
+            }
+            
+            return dst;
+        }
+        
+    });
+    
+})();
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -5446,6 +5446,28 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * テクスチャ描画
+         */
+        drawTexture: function(texture, x, y)
+        {
+            arguments[0] = texture.element;
+            this.context.drawImage.apply(this.context, arguments);
+            
+            return ;
+        },
+        
+        /**
+         * ビットマップ描画
+         */
+        drawBitmap: function(bitmap, x, y)
+        {
+            arguments[0] = bitmap.imageData;
+            this.context.putImageData.apply(this.context, arguments);
+            
+            return ;
+        },
+        
+        /**
          * 行列をセット
          */
         setTransform: function(m11, m12, m21, m22, dx, dy)
@@ -5846,6 +5868,573 @@ tm.graphics = tm.graphics || {};
     tm.addLoadCheckList(tm.graphics.TextureManager);
     
 })();
+
+
+
+
+/*
+ * bitmap.js
+ */
+
+tm.graphics = tm.graphics || {};
+
+(function() {
+    
+    /**
+     * @class
+     * ビットマップクラス
+     */
+    tm.graphics.Bitmap = tm.createClass({
+        
+        imageData: null,
+        
+        /**
+         * 初期化
+         */
+        init: function(imageData) {
+            if (arguments.length == 1) {
+                this.imageData = imageData;
+                this.data = imageData.data;
+            }
+            else if (arguments.length == 2) {
+                var w = arguments[0];
+                var h = arguments[0];
+                this.imageData = dummyContext.createImageData(w, h);
+                this.data = this.imageData.data;
+            }
+        },
+        
+        /**
+         * index 指定でピクセル値を取得
+         * 最も高速
+         */
+        getPixelIndex: function(index) {
+            var i = index*4;
+            return [
+                this.data[i+0],
+                this.data[i+1],
+                this.data[i+2],
+                this.data[i+3]
+            ];
+        },
+        
+        /**
+         * x, y 指定でピクセル値を取得
+         */
+        getPixelXY: function(x, y) {
+            return this.getPixelIndex( this.posToIndex(x, y) );
+        },
+        
+        /**
+         * ピクセル値を取得
+         * ### Memo
+         * - index 指定か x, y 指定にするか検討中
+         * - 配列で返すか数値で返すか検討中. 速度の早いやつを採用する
+         */
+        getPixel: function(x, y) {
+            return this.getPixelIndex( this.posToIndex(x, y) );
+        },
+        
+        getPixelAsNumber: function(index) {
+            var i = index*4;
+            return (this.data[i+3] << 24) | (this.data[i+0] << 16) | (this.data[i+1] << 8) | this.data[i+2];
+        },
+        
+        getPixelAsObject: function(index) {
+            var i = index*4;
+            return {
+                r: this.data[i+0],
+                g: this.data[i+1],
+                b: this.data[i+2],
+                a: this.data[i+3]
+            };
+        },
+        
+        getPixelAsArray: function(index) {
+            var i = index*4;
+            return [
+                this.data[i+0],
+                this.data[i+1],
+                this.data[i+2],
+                this.data[i+3]
+            ];
+        },
+        
+        /**
+         * 指定した範囲内のピクセル平均値を取得
+         */
+        getPixelAverage: function(x, y, width, height)
+        {
+            var rgba = [0, 0, 0, 0];
+            
+            // 範囲
+            var l = x;
+            var r = x+width;
+            var t = y;
+            var b = y+height;
+            
+            // ハミ出し調整
+            if (l < 0) { l = 0; }
+            if (r > this.width) { r = this.width; }
+            if (t < 0) { t = 0; }
+            if (b > this.height) { b = this.height; }
+            
+            // 範囲内のピクセル全てを取得
+            var temp = [];
+            var bitmapWidth = this.width;
+            for (var i=t; i<b; ++i) {
+                for (var j=l; j<r; ++j) {
+                    var index = bitmapWidth*i + j;
+                    temp.push( this.getPixelIndex(index) );
+                    // temp.push( this.getPixelXY(j, i) );
+                }
+            }
+            
+            // 平均を求める
+            var len = len=temp.length;
+            for (var i=0; i<len; ++i) {
+                rgba[0] += temp[i][0];
+                rgba[1] += temp[i][1];
+                rgba[2] += temp[i][2];
+                rgba[3] += temp[i][3];
+            }
+            
+            rgba[0]/=len;
+            rgba[1]/=len;
+            rgba[2]/=len;
+            rgba[3]/=len;
+            
+            return rgba;
+        },
+        
+        
+        /**
+         * index 指定でピクセル値をセット
+         * 最も高速
+         */
+        setPixelIndex: function(index, r, g, b)
+        {
+            var i = index*4;
+            this.data[i+0] = r;
+            this.data[i+1] = g;
+            this.data[i+2] = b;
+            return this;
+        },
+        
+        /**
+         * x, y指定でピクセル値をセット
+         */
+        setPixelXY: function(x, y, r, g, b)
+        {
+            return this.setPixelIndex(y*this.imageData.width+x, r, g, b);
+        },
+        
+        /**
+         * ピクセル値をセット
+         */
+        setPixel: function(index, r, g, b)
+        {
+            return this.setPixelIndex(y*this.imageData.width+x, r, g, b);
+        },
+        
+        setPixel32Index: function(index, r, g, b, a)
+        {
+            var i = index*4;
+            this.data[i+0] = r;
+            this.data[i+1] = g;
+            this.data[i+2] = b;
+            this.data[i+3] = a;
+            return this;
+        },
+        
+        setPixel32: function(x, y, r, g, b, a)
+        {
+            return this.setPixel32Index(y*this.width+x, r, g, b, a);
+        },
+        
+        setPixel32XY: function(x, y, r, g, b, a)
+        {
+            return this.setPixel32Index(y*this.width+x, r, g, b, a);
+        },
+        
+        setPixelFromArray: function(index, pixel)
+        {
+            return this.setPixel(index, pixel[0], pixel[1], pixel[2]);
+        },
+        
+        setPixel32FromArray: function(index, pixel)
+        {
+            return this.setPixel32(index, pixel[0], pixel[1], pixel[2], pixel[3]);
+        },
+
+        /**
+         * argb
+         */
+        setPixelFromNumber: function(index, pixel)
+        {
+            return this.setPixel(index, (pixel & 0x00ff0000)>>>16, (pixel & 0x0000ff00)>>>8, (pixel & 0x000000ff)>>>0);
+        },
+
+        /**
+         * argb
+         */
+        setPixel32FromNumber: function(index, pixel)
+        {
+            return this.setPixel32(index, (pixel & 0x00ff0000)>>>16, (pixel & 0x0000ff00)>>>8, (pixel & 0x000000ff)>>>0, (pixel & 0xff000000)>>>24);
+        },
+        
+        /**
+         * object
+         */
+        setPixelFromObject: function(index, pixel)
+        {
+            return this.setPixel(pixel.r, pixel.g, pixel.b);
+        },
+        setPixel32FromObject: function(index, pixel)
+        {
+            return this.setPixel32(pixel.r, pixel.g, pixel.b, pixel.a);
+        },
+        
+        /**
+         * string
+         * rgb, hsl, #... #...... などに対応予定
+         */
+        setPixelFromString: function(index, pixel)
+        {
+            
+        },
+        
+        /**
+         * 位置をインデックスに変換
+         */
+        posToIndex: function(x, y) {
+            return y*this.imageData.width + x;
+        },
+        
+        // filter: function(rect, filter)
+        filter: function(filter)
+        {
+            for (var i=0; i<this.height; ++i) {
+                for (var j=0; j<this.width; ++j) {
+                    var index = this.posToIndex(j, i);
+                    var p = this.getPixel(index);
+                    
+                    filter.calc(p, index, j, i, this);
+                }
+            }
+            
+            return this;
+        },
+        
+        /**
+         * ノイズ
+         */
+        noise: function(low, high)
+        {
+            low = low  || 0;
+            high= high || 255;
+            range= high-low;
+            
+            for (var i=0,len=this.length; i<len; ++i) {
+                var p = this.getPixelIndex(i);
+                p[0] = Math.random()*range + low;
+                p[1] = Math.random()*range + low;
+                p[2] = Math.random()*range + low;
+                p[3] = 255;
+                this.setPixel32Index(i, p[0], p[1], p[2], p[3]);
+            }
+        },
+        
+        applyFilter: function(filter) {
+            
+        },
+        
+    });
+    
+    
+    tm.graphics.Bitmap.prototype.accessor("width", {
+        "get": function()   { return this.imageData.width; },
+        "set": function(v)  { this.iamgeData.width = v;    }
+    });
+    
+    tm.graphics.Bitmap.prototype.accessor("height", {
+        "get": function()   { return this.imageData.height; },
+        "set": function(v)  { this.iamgeData.height = v;    }
+    });
+    
+    tm.graphics.Bitmap.prototype.getter("length", function() {
+        return this.imageData.width*this.imageData.height;
+    });
+    
+    
+    /**
+     * @member      tm.graphics.Canvas
+     * @property    getBitmap
+     * ビットマップ取得
+     */
+    tm.graphics.Canvas.prototype.getBitmap = function(x, y, width, height) {
+        return tm.graphics.Bitmap(this.context.getImageData(x||0, y||0, width||this.width, height||this.height));
+    };
+    
+    /**
+     * @member      tm.graphics.Canvas
+     * @property    createBitmap
+     * ビットマップ生成
+     */
+    tm.graphics.Canvas.prototype.createBitmap = function(width, height) {
+        return tm.graphics.Bitmap(this.context.createImageData(width||this.width, height||this.height));
+    };
+    
+    var dummyCanvas = document.createElement("canvas");
+    var dummyContext= dummyCanvas.getContext("2d");
+    
+})();
+
+
+
+/*
+ * bitmap.js
+ */
+
+tm.graphics = tm.graphics || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * フィルタ
+     */
+    tm.graphics.MonochromeFilter = tm.createClass({
+        
+        /**
+         * 初期化
+         */
+        init: function() {
+            
+        },
+        
+        /**
+         * apply
+         */
+        apply: function(src, dst) {
+            var len = src.length;
+            for (var i=0; i<len; ++i) {
+                var p = src.getPixelIndex(i);
+                var grayscale = p[0]*0.3 + p[1]*0.59 + p[2]*0.11;
+                dst.setPixel32Index(i, grayscale, grayscale, grayscale, 255);
+            }
+            
+            return dst;
+        },
+    });
+    
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * フィルタ
+     */
+    tm.graphics.ReverseFilter = tm.createClass({
+        
+        /**
+         * 初期化
+         */
+        init: function() {
+            
+        },
+        
+        /**
+         * apply
+         */
+        apply: function(src, dst) {
+            for (var i=0,len=src.width*src.height; i<len; ++i) {
+                var p = src.getPixelIndex(i);
+                p[0] = 255-p[0];
+                p[1] = 255-p[1];
+                p[2] = 255-p[2];
+                dst.setPixel32Index(i, p[0], p[1], p[2], 255);
+            }
+            
+            return dst;
+        },
+    });
+    
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class
+     * ブラーフィルタ
+     * 
+     * ### Reference
+     * - <http://www40.atwiki.jp/spellbound/pages/153.html>
+     * - <http://www.flother.com/blog/2010/image-blur-html5-canvas/>
+     */
+    tm.graphics.BlurFilter = tm.createClass({
+        
+        /**
+         * 初期化
+         */
+        init: function(blurX, blurY, quality) {
+            this.blurX      = blurX || 4;
+            this.blurY      = blurY || 4;
+            this.quality    = quality || 1;
+        },
+        
+        /**
+         * apply
+         */
+        apply: function(src, dst) {
+            var halfX       = Math.floor(this.blurX/2);
+            var halfY       = Math.floor(this.blurY/2);
+            var rangeX      = this.blurX;
+            var rangeY      = this.blurY;
+            var srcWidth    = src.width;
+            var srcHeight   = src.height;
+            var len         = src.length;
+            
+            // TODO: 下記だと反映されない. ちゃんと quality を反映させるにはビットマップのコピーが必要になる. ちゃんと作る.
+            var _apply = function() {
+                for (var i=0; i<len; ++i) {
+                    var x = i%srcWidth;
+                    var y = Math.floor(i/srcWidth);
+                    var p = src.getPixelAverage(x-halfX, y-halfY, rangeX, rangeY);
+                    dst.setPixel32Index(i, p[0], p[1], p[2], 255);
+                }
+            };
+            
+            for (var i=0; i<this.quality; ++i) { _apply(); }
+            
+            return dst;
+        },
+    });
+    
+    
+})();
+
+
+(function() {
+    
+    // トゥーンテーブル
+    var defaultToonTable = [];
+    for(var i=0; i<255; ++i) {
+        var n=0;
+        
+        if      (i<100) { n =  60; }
+        else if (i<150) { n = 150; }
+        else if (i<180) { n = 180; }
+        else            { n = 220; }
+        
+        defaultToonTable[i] = n;
+    }
+    
+    /**
+     * @class
+     * トゥーンフィルタ
+     */
+    tm.graphics.ToonFilter = tm.createClass({
+        
+        toonTable: null,
+        
+        /**
+         * 初期化
+         */
+        init: function(toonTable) {
+            this.toonTable = toonTable || defaultToonTable;
+        },
+        
+        /**
+         * apply
+         */
+        apply: function(src, dst) {
+            for (var i=0,len=src.width*src.height; i<len; ++i) {
+                var pixel = src.getPixelIndex(i);
+                var r = this.toonTable[ pixel[0] ];
+                var g = this.toonTable[ pixel[1] ];
+                var b = this.toonTable[ pixel[2] ];
+                dst.setPixel32Index(i, r, g, b, 255);
+            }
+            
+            return dst;
+        },
+    });
+    
+    
+})();
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * カラーマトリックスフィルタ
+     * 
+     * ### Reference
+     * - <http://blog.boreal-kiss.com/2008/04/08113113.html/>
+     * - <http://voglia.jp/2010/01/26/260>
+     * - <http://hakuhin.jp/as/color.html#COLOR_02>
+     * - <http://d.hatena.ne.jp/umezo/20090122/1232627694>
+     * - <http://www40.atwiki.jp/spellbound/pages/188.html>
+     */
+    tm.graphics.ColorMatrixFilter = tm.createClass({
+        
+        /**
+         * 初期化
+         */
+        init: function(colorMatrix) {
+            this.colorMatrix = colorMatrix;
+        },
+        
+        /**
+         * apply
+         */
+        apply: function(src, dst) {
+            var cm = this.colorMatrix;
+            for (var i=0,len=src.length; i<len; ++i) {
+                var pixel = src.getPixelIndex(i);
+                var r = (pixel[0] * cm[0]) + (pixel[1] * cm[1]) + (pixel[2] * cm[2]) + (pixel[3] * cm[3]) + cm[4];
+                var g = (pixel[0] * cm[5]) + (pixel[1] * cm[6]) + (pixel[2] * cm[7]) + (pixel[3] * cm[8]) + cm[9];
+                var b = (pixel[0] * cm[10]) + (pixel[1] * cm[11]) + (pixel[2] * cm[12]) + (pixel[3] * cm[13]) + cm[14];
+                var a = (pixel[0] * cm[15]) + (pixel[1] * cm[16]) + (pixel[2] * cm[17]) + (pixel[3] * cm[18]) + cm[19];
+                dst.setPixel32Index(i, r, g, b, a);
+            }
+            
+            return dst;
+        }
+        
+    });
+    
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6566,7 +7155,20 @@ tm.app = tm.app || {};
         },
         
         setImage: function(texture) {
-            this.canvas.drawImage(texture.element, 0, 0, this.width, this.height);
+            this.canvas.resize(texture.element.width, texture.element.height);
+            this.canvas.drawImage(texture.element, 0, 0, texture.element.width, texture.element.height);
+        },
+        
+        setFrameIndex: function(index, width, height) {
+            var w   = width || this.width;
+            var h   = width || this.height;
+            var row = ~~(this.canvas.width / w)
+            var x   = index%row;
+            var y   = ~~(index/row);
+            this.srcRect.x = x*w;
+            this.srcRect.y = y*h;
+            this.srcRect.width  = w;
+            this.srcRect.height = h;
         },
     });
     

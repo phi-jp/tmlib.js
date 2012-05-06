@@ -75,48 +75,73 @@
                 var canvas = tm.graphics.Canvas("#world");
                 var image  = tm.graphics.TextureManager.get("image", 0, 0);
                 
-                canvas.resize(image.element.width*2, image.element.height*2);
+                canvas.resize(image.element.width*2, image.element.height*3);
                 canvas.clearColor("black");
                 canvas.fillStyle = "white";
                 canvas.fillCircle(50, 50, 25);
                 
+                
+                
                 // 画像描画
                 canvas.drawTexture(image, 0, 0);
                 
-                // // モノクロフィルタ
-                // var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
-                // var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
-                // var filter      = tm.graphics.MonochromeFilter();
-//                 
-                // filter.apply(srcBitmap, dstBitmap);
-                // canvas.drawBitmap(dstBitmap, image.element.width, 0);
-//                 
-                // // トゥーンフィルタ
-                // var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
-                // var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
-                // var filter      = tm.graphics.ToonFilter();
-//                 
-                // filter.apply(srcBitmap, dstBitmap);
-                // canvas.drawBitmap(dstBitmap, 0, image.element.height);                
-//                 
-                // // リバース
-                // var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
-                // var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
-                // var filter      = tm.graphics.ReverseFilter();
-//                 
-                // filter.apply(srcBitmap, dstBitmap);
-                // canvas.drawBitmap(dstBitmap, image.element.width, image.element.height);            
+                
+                
+                // モノクロフィルタ
+                var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
+                var dstBitmap   = tm.graphics.Bitmap(image.element.width, image.element.height);
+                var filter      = tm.graphics.MonochromeFilter();
+                
+                filter.apply(srcBitmap, dstBitmap);
+                canvas.drawBitmap(dstBitmap, image.element.width, 0);
+                
+                
+                
+                // トゥーンフィルタ
+                var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
+                var dstBitmap   = tm.graphics.Bitmap(image.element.width, image.element.height);
+                var filter      = tm.graphics.ToonFilter();
+                
+                filter.apply(srcBitmap, dstBitmap);
+                canvas.drawBitmap(dstBitmap, 0, image.element.height);                
+                
+                
+                
+                // リバース
+                var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
+                var dstBitmap   = tm.graphics.Bitmap(image.element.width, image.element.height);
+                var filter      = tm.graphics.ReverseFilter();
+                
+                filter.apply(srcBitmap, dstBitmap);
+                canvas.drawBitmap(dstBitmap, image.element.width, image.element.height);
+                
+                
+                
+                // カラーマトリックスフィルタ
+                var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
+                var dstBitmap   = tm.graphics.Bitmap(image.element.width, image.element.height);
+                var filter      = tm.graphics.ColorMatrixFilter([
+                    1, 0, 0, 0, 0,
+                    0, 1, 0, 0, 0,
+                    0, 0,-1, 0,255,
+                    0, 0, 0, 0.5, 0,
+                ]);
+                
+                filter.apply(srcBitmap, dstBitmap);
+                canvas.drawBitmap(dstBitmap, 0, image.element.height*2);
+                
+                
                 
                 // ブラー
                 var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
-                var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
-                var filter      = tm.graphics.BlurFilter(10, 10);
+                var dstBitmap   = tm.graphics.Bitmap(image.element.width, image.element.height);
+                var filter      = tm.graphics.BlurFilter(6, 6, 1);
                 
                 console.time("blur");
                 filter.apply(srcBitmap, dstBitmap);
                 console.timeEnd("blur");
                 console.dir(srcBitmap);
-                canvas.drawBitmap(dstBitmap, image.element.width, image.element.height);
+                canvas.drawBitmap(dstBitmap, image.element.width, image.element.height*2);
             });
             
         </script>

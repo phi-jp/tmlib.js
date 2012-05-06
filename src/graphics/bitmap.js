@@ -18,8 +18,16 @@ tm.graphics = tm.graphics || {};
          * 初期化
          */
         init: function(imageData) {
-            this.imageData = imageData;
-            this.data = imageData.data;
+            if (arguments.length == 1) {
+                this.imageData = imageData;
+                this.data = imageData.data;
+            }
+            else if (arguments.length == 2) {
+                var w = arguments[0];
+                var h = arguments[0];
+                this.imageData = dummyContext.createImageData(w, h);
+                this.data = this.imageData.data;
+            }
         },
         
         /**
@@ -302,6 +310,9 @@ tm.graphics = tm.graphics || {};
     tm.graphics.Canvas.prototype.createBitmap = function(width, height) {
         return tm.graphics.Bitmap(this.context.createImageData(width||this.width, height||this.height));
     };
+    
+    var dummyCanvas = document.createElement("canvas");
+    var dummyContext= dummyCanvas.getContext("2d");
     
 })();
 

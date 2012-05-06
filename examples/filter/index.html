@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <meta charset="UTF-8" />
+        <title>filter</title>
+        
+        <style>
+            canvas {
+                box-shadow: 0px 0px 4px 0px #aaa;
+            }
+        </style>
+        
+        <script src="../../build/tmlib.js"></script>
+        <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
+        <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
+        
+        <script>
+            
+            var colorMatrix = [
+                1, 0, 0, 0, 0,
+                0, 1, 0, 0, 0,
+                0, 0, 1, 0, 0,
+                0, 0, 0, 1, 0,
+            ];
+            
+            var monochrome = function() {
+                var m = colorMatrix;
+                m[0]  = 0.3; m[1]  = 0.59; m[2]  = 0.11; m[3]  = 0; m[4]  = 0;
+                m[5]  = 0.3; m[6]  = 0.59; m[7]  = 0.11; m[8]  = 0; m[9]  = 0;
+                m[10] = 0.3; m[11] = 0.59; m[12] = 0.11; m[13] = 0; m[14] = 0;
+                m[15] =   0; m[16] =    0; m[17] =    0; m[18] = 1; m[19] = 0;
+                filter();
+            };
+            
+            tm.preload(function() {
+                tm.graphics.TextureManager.add("image", "image2.jpg");
+            });
+            
+            tm.main(function() {
+                var element = tm.dom.Element("#world");
+                var canvas  = tm.graphics.Canvas("#world");
+                var image   = tm.graphics.TextureManager.get("image");
+                
+                // リサイズ
+                canvas.resize(image.element.width*2, image.element.height);
+                
+                // ダブルクリックで保存
+                element.event.mdlclick( function() { canvas.saveAsImage(); } );
+                
+                // 画像を描画
+                canvas.drawTexture(image, 0, 0);
+                
+                // カラーマトリックスフィルタ
+                var srcBitmap   = canvas.getBitmap(0, 0, image.element.width, image.element.height);
+                var dstBitmap   = canvas.createBitmap(image.element.width, image.element.height);
+                
+                window.filter = function() {
+                    var filter      = tm.graphics.ColorMatrixFilter(colorMatrix);
+                    
+                    filter.apply(srcBitmap, dstBitmap);
+                    canvas.drawBitmap(dstBitmap, canvas.width/2, 0);
+                };
+                
+                window.filter();
+                
+                // dat.GUI
+                if (window.dat) {
+                    var gui = new window.dat.GUI();
+                    gui.add(window, "filter");
+                    gui.add(window, "monochrome");
+                    
+                    var rFolder = gui.addFolder("r");
+                    rFolder.add(colorMatrix, "0", -1, 1, 0.1).onChange(filter);
+                    rFolder.add(colorMatrix, "1", -1, 1, 0.1).onChange(filter);
+                    rFolder.add(colorMatrix, "2", -1, 1, 0.1).onChange(filter);
+                    rFolder.add(colorMatrix, "3", -1, 1, 0.1).onChange(filter);
+                    rFolder.add(colorMatrix, "4", -255, 255, 1).onChange(filter);
+                    
+                    var gFolder = gui.addFolder("g");
+                    gFolder.add(colorMatrix, "5", -1, 1, 0.1).onChange(filter);
+                    gFolder.add(colorMatrix, "6", -1, 1, 0.1).onChange(filter);
+                    gFolder.add(colorMatrix, "7", -1, 1, 0.1).onChange(filter);
+                    gFolder.add(colorMatrix, "8", -1, 1, 0.1).onChange(filter);
+                    gFolder.add(colorMatrix, "9", -255, 255, 1).onChange(filter);
+                    
+                    var bFolder = gui.addFolder("b");
+                    bFolder.add(colorMatrix, "10", -1, 1, 0.1).onChange(filter);
+                    bFolder.add(colorMatrix, "11", -1, 1, 0.1).onChange(filter);
+                    bFolder.add(colorMatrix, "12", -1, 1, 0.1).onChange(filter);
+                    bFolder.add(colorMatrix, "13", -1, 1, 0.1).onChange(filter);
+                    bFolder.add(colorMatrix, "14", -255, 255, 1).onChange(filter);
+                    
+                    var aFolder = gui.addFolder("a");
+                    aFolder.add(colorMatrix, "15", -1, 1, 0.1).onChange(filter);
+                    aFolder.add(colorMatrix, "16", -1, 1, 0.1).onChange(filter);
+                    aFolder.add(colorMatrix, "17", -1, 1, 0.1).onChange(filter);
+                    aFolder.add(colorMatrix, "18", -1, 1, 0.1).onChange(filter);
+                    aFolder.add(colorMatrix, "19", -255, 255, 1).onChange(filter);
+                }
+            });
+            
+            
+        </script>
+    </head>
+    
+    <body>
+        <canvas id="world" width="640" height="480"></canvas>
+    </body>
+    
+</html>
