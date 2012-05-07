@@ -6303,8 +6303,8 @@ tm.graphics = tm.graphics || {};
             var srcHeight   = src.height;
             var len         = src.length;
             
-            // TODO: 下記だと反映されない. ちゃんと quality を反映させるにはビットマップのコピーが必要になる. ちゃんと作る.
-            var _apply = function() {
+            // ブラー処理
+            var _apply = function(src, dst) {
                 for (var i=0; i<len; ++i) {
                     var x = i%srcWidth;
                     var y = Math.floor(i/srcWidth);
@@ -6313,7 +6313,17 @@ tm.graphics = tm.graphics || {};
                 }
             };
             
-            for (var i=0; i<this.quality; ++i) { _apply(); }
+            // quality の回数だけブラーをかける
+            var tempDst     = src;
+            for (var i=0; i<this.quality; ++i) {
+                src = tempDst;
+                tempDst = tm.graphics.Bitmap(srcWidth, srcHeight);
+                _apply(src, tempDst);
+            }
+            
+            // 結果に代入
+            //? メモリリークとか大丈夫なのかな
+            dst.imageData = tempDst.imageData;
             
             return dst;
         },
@@ -6416,6 +6426,114 @@ tm.graphics = tm.graphics || {};
     });
     
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * gradient.js
+ */
+
+tm.graphics = tm.graphics || {};
+
+(function() {
+    
+    tm.graphics.Canvas.prototype.setGradient = function(gradient) {
+        this.context.fillStyle = gradient.gradient;
+    };
+    
+})();
+
+(function() {
+    
+    /**
+     * @class
+     * 線形グラデーション
+     */
+    tm.graphics.LinearGradient = tm.createClass({
+        
+        init: function(x, y, width, height) {
+            this.gradient = dummyContext.createLinearGradient(x, y, width, height);
+        },
+        
+        addColorStop: function(offset, color) {
+            this.gradient.addColorStop(offset, color);
+            return this;
+        },
+        
+        addColorStopList: function(prop) {
+            for (var i=0,len=prop.length; i<len; ++i) {
+                var offset  = prop[i].offset;
+                var color   = prop[i].color;
+                this.addColorStop(offset, color);
+            }
+            return this;
+        },
+        
+    });
+    
+    
+    var dummyCanvas = document.createElement("canvas");
+    var dummyContext= dummyCanvas.getContext("2d");
+    
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class
+     * 円形グラデーション
+     */
+    tm.graphics.RadialGradient = tm.createClass({
+        
+        init: function(x0, y0, r0, x1, y1, r1) {
+            this.gradient = dummyContext.createRadialGradient(x0, y0, r0, x1, y1, r1);
+        },
+        
+        addColorStop: function(offset, color) {
+            this.gradient.addColorStop(offset, color);
+            return this;
+        },
+        
+        addColorStopList: function(prop) {
+            for (var i=0,len=prop.length; i<len; ++i) {
+                var offset  = prop[i].offset;
+                var color   = prop[i].color;
+                this.addColorStop(offset, color);
+            }
+            return this;
+        },
+        
+    });
+    
+    
+    var dummyCanvas = document.createElement("canvas");
+    var dummyContext= dummyCanvas.getContext("2d");
+    
+})();
+
+
 
 
 

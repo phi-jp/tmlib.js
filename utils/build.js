@@ -37,6 +37,7 @@ var target = [
     "graphics/texture.js",
     "graphics/bitmap.js",
     "graphics/filter.js",
+    "graphics/gradient.js",
     
     "anim/tween.js",
     
