@@ -1,0 +1,126 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Gradient Test | TM Lib</title>
+        
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            canvas {
+                box-shadow: 0px 0px 4px 0px #aaa;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        <script src="../../src/geom/circle.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../src/graphics/canvas.js"></script>
+        <script src="../../src/graphics/gradient.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+        
+        <script id="test-script">
+            
+            tm.preload(function() {
+            });
+            
+            tm.main(function() {
+                // コンソール
+                var c = tm.Console("#console");
+                //var c = console; // コンソールの方に出力
+                
+                // キャンバス取得
+                var canvas = tm.graphics.Canvas("#world");
+                canvas.resize(640, 480);
+                canvas.clearColor("black");
+                
+                // 線形グラデーション
+                var linearGradient = tm.graphics.LinearGradient(50, 10, 200, 400);
+                linearGradient.addColorStop(0.0, "hsl(  0, 75%, 50%)");
+                linearGradient.addColorStop(0.5, "hsl(120, 75%, 50%)");
+                linearGradient.addColorStop(1.0, "hsl(240, 75%, 50%)");
+                console.dir(linearGradient);
+                canvas.setGradient(linearGradient);
+                canvas.fillRect(50, 20, 200, 400);
+                
+                // 円形グラデーション
+                var radialGradient = tm.graphics.RadialGradient(450, 200, 0, 450, 200, 150);
+                radialGradient.addColorStopList([
+                    { offset: 0.0, color: "hsl(  0, 75%, 50%)" },
+                    { offset: 0.5, color: "hsl(120, 75%, 50%)" },
+                    { offset: 0.9, color: "hsla(240, 75%, 50%, 0.2)" },
+                    { offset: 1.0, color: "hsla(240, 75%, 50%, 0.0)" },
+                ]);
+                canvas.setGradient(radialGradient);
+                canvas.fillCircle(450, 200, 150);
+            });
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+    </head>
+    
+    <body>
+         
+        <h1>Gradient Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <h2>Canvas</h2>
+                <canvas id="world"></canvas>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
