@@ -5713,6 +5713,15 @@ tm.graphics = tm.graphics || {};
     });
     
     /**
+     * @property    miterLimit
+     * マイターリミット
+     */
+    tm.graphics.Canvas.prototype.accessor("miterLimit", {
+        "get": function()   { return this.context.miterLimit; },
+        "set": function(v)  { this.context.miterLimit = v;   }
+    });
+    
+    /**
      * @property    lineWidth
      * ライン幅設定
      */
@@ -7094,12 +7103,12 @@ tm.app = tm.app || {};
             
             if (this.visible === false) return ;
             
-            graphics.save();
+            graphics.context.save();
             
-            graphics.fillStyle      = this.fillStyle;
-            graphics.strokeStyle    = this.strokeStyle;
-            graphics.globalAlpha    = this.alpha;
-            graphics.globalCompositeOperation = this.blendMode;
+            graphics.context.fillStyle      = this.fillStyle;
+            graphics.context.strokeStyle    = this.strokeStyle;
+            graphics.context.globalAlpha    = this.alpha;
+            graphics.context.globalCompositeOperation = this.blendMode;
             
             // 座標計算
             /*
@@ -7115,9 +7124,9 @@ tm.app = tm.app || {};
             );
             /**/
             
-            graphics.translate(this.x, this.y);
+            graphics.translate(this.position.x, this.position.y);
             graphics.rotate(this.rotation*Math.PI/180);
-            graphics.scale(this.scaleX, this.scaleY);
+            graphics.scale(this.scale.x, this.scale.y);
             /**/
             
             this.draw(graphics);
@@ -7131,7 +7140,7 @@ tm.app = tm.app || {};
                 // this.execChildren(arguments.callee, graphics);
             }
             
-            graphics.restore();
+            graphics.context.restore();
         },
         
         
@@ -7170,15 +7179,6 @@ tm.app = tm.app || {};
     tm.app.CanvasElement.prototype.accessor("y", {
         "get": function()   { return this.position.y; },
         "set": function(v)  { this.position.y = v; }
-    });
-    
-    /**
-     * @property    rotate
-     * 回転値(削除予定)
-     */
-    tm.app.CanvasElement.prototype.accessor("rotate", {
-        "get": function()   { return this.rotation; },
-        "set": function(v)  { this.rotation = v; }
     });
     
     /**

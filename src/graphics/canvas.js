@@ -828,6 +828,15 @@ tm.graphics = tm.graphics || {};
     });
     
     /**
+     * @property    miterLimit
+     * マイターリミット
+     */
+    tm.graphics.Canvas.prototype.accessor("miterLimit", {
+        "get": function()   { return this.context.miterLimit; },
+        "set": function(v)  { this.context.miterLimit = v;   }
+    });
+    
+    /**
      * @property    lineWidth
      * ライン幅設定
      */
