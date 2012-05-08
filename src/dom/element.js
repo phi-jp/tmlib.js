@@ -141,7 +141,8 @@ tm.dom = tm.dom || {};
          * queryAll
          */
         queryAll: function(query) {
-            return tm.dom.ElementList(query);
+            var list = this.element.querySelectorAll(query);
+            return tm.dom.ElementList(list);
         },
         
         /**
