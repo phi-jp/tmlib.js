@@ -792,7 +792,7 @@ var tm = tm || {};
      * Degree を Radian に変換
      */
     Math.degToRad = function(deg) {
-        return deg * DEG_TO_RAD;
+        return deg * Math.DEG_TO_RAD;
     };
     
     /**
@@ -800,7 +800,7 @@ var tm = tm || {};
      * Radian を Degree に変換
      */
     Math.radToDeg = function(rad) {
-        return rad * RAD_TO_DEG;
+        return rad * Math.RAD_TO_DEG;
     };
     
     
@@ -5602,7 +5602,7 @@ tm.graphics = tm.graphics || {};
          * - <http://www.html5.jp/canvas/ref/property/shadowColor.html>
          * - <http://www.w3.org/TR/2010/WD-2dcontext-20100624/#shadows>
          */
-        setShadows: function(color, offsetX, offsetY, blur) {
+        setShadow: function(color, offsetX, offsetY, blur) {
             with(this.context) {
                 shadowColor     = color     || "black";
                 shadowOffsetX   = offsetX   || 0;
@@ -7107,7 +7107,7 @@ tm.app = tm.app || {};
             
             graphics.context.fillStyle      = this.fillStyle;
             graphics.context.strokeStyle    = this.strokeStyle;
-            graphics.context.globalAlpha    = this.alpha;
+            graphics.context.globalAlpha    *= this.alpha;
             graphics.context.globalCompositeOperation = this.blendMode;
             
             // 座標計算
@@ -7208,8 +7208,6 @@ tm.app = tm.app || {};
         "get": function()   { return this._radius || (this.width+this.height)/4; },
         "set": function(v)  { this._radius = v; }
     });
-    
-    
     
     
 })();
@@ -7812,7 +7810,9 @@ tm.app = tm.app || {};
             this.hitFlag   = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
-                elm.dispatchEvent(tm.app.Event("mouseover"));
+                var e = tm.app.Event("mouseover");
+                e.app = app;
+                elm.dispatchEvent(e);
             }
             
             if (prevHitFlag && !this.hitFlag) {
@@ -7825,7 +7825,9 @@ tm.app = tm.app || {};
                     this.downFlag = true;
                 }
                 
-                elm.dispatchEvent(tm.app.Event("mousemove"));
+                var e = tm.app.Event("mousemove");
+                e.app = app;
+                elm.dispatchEvent(e);
             }
             
             if (this.downFlag==true && p.getPointingEnd()) {

@@ -30,7 +30,9 @@ tm.app = tm.app || {};
             this.hitFlag   = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
-                elm.dispatchEvent(tm.app.Event("mouseover"));
+                var e = tm.app.Event("mouseover");
+                e.app = app;
+                elm.dispatchEvent(e);
             }
             
             if (prevHitFlag && !this.hitFlag) {
@@ -43,7 +45,9 @@ tm.app = tm.app || {};
                     this.downFlag = true;
                 }
                 
-                elm.dispatchEvent(tm.app.Event("mousemove"));
+                var e = tm.app.Event("mousemove");
+                e.app = app;
+                elm.dispatchEvent(e);
             }
             
             if (this.downFlag==true && p.getPointingEnd()) {

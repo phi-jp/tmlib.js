@@ -28,7 +28,7 @@
      * Degree を Radian に変換
      */
     Math.degToRad = function(deg) {
-        return deg * DEG_TO_RAD;
+        return deg * Math.DEG_TO_RAD;
     };
     
     /**
@@ -36,7 +36,7 @@
      * Radian を Degree に変換
      */
     Math.radToDeg = function(rad) {
-        return rad * RAD_TO_DEG;
+        return rad * Math.RAD_TO_DEG;
     };
     
     

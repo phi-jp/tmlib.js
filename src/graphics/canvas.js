@@ -717,7 +717,7 @@ tm.graphics = tm.graphics || {};
          * - <http://www.html5.jp/canvas/ref/property/shadowColor.html>
          * - <http://www.w3.org/TR/2010/WD-2dcontext-20100624/#shadows>
          */
-        setShadows: function(color, offsetX, offsetY, blur) {
+        setShadow: function(color, offsetX, offsetY, blur) {
             with(this.context) {
                 shadowColor     = color     || "black";
                 shadowOffsetX   = offsetX   || 0;
