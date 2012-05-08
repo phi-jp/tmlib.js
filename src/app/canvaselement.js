@@ -188,7 +188,7 @@ tm.app = tm.app || {};
             
             graphics.context.fillStyle      = this.fillStyle;
             graphics.context.strokeStyle    = this.strokeStyle;
-            graphics.context.globalAlpha    = this.alpha;
+            graphics.context.globalAlpha    *= this.alpha;
             graphics.context.globalCompositeOperation = this.blendMode;
             
             // 座標計算
@@ -289,8 +289,6 @@ tm.app = tm.app || {};
         "get": function()   { return this._radius || (this.width+this.height)/4; },
         "set": function(v)  { this._radius = v; }
     });
-    
-    
     
     
 })();

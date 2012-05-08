@@ -14,6 +14,7 @@ var CIRCLE_PURSUIT_RATE = 0.25;  // 収束率
  * グローバル
  */
 var app = null;
+var pad = null;
 var player = null;
 var bulletGroup = null;
 var enemyGroup  = null;
@@ -88,6 +89,11 @@ tm.main(function() {
         }
     }
     
+    // パッド生成
+    pad = tm.controller.Pad();
+    pad.position.set(100, 400);
+    app.currentScene.addChild(pad);
+    
     // スコア生成
     var score = tm.app.Label("Score : " + app.score.padding(3, ' '));
     score.position.set(620, 20);
@@ -102,9 +108,9 @@ tm.main(function() {
     };
     
     app.run();
-    var bgm = tm.sound.SoundManager.get("bgm");
-    bgm.loop = true;
-    bgm.play();
+    // var bgm = tm.sound.SoundManager.get("bgm");
+    // bgm.loop = true;
+    // bgm.play();
 });
 
 
@@ -137,7 +143,13 @@ var Player = tm.createClass({
             this.speed      = 8;
         }
         
+        if (pad.isTouching) {
+            this.velocity.setFromDegree(pad.angle, 1);
+            this.speed      = 8;
+        }
+        
         // マウスによる移動
+        /*
         var p = app.pointing;
         if (p.getPointing()) {
             this.velocity.x = p.x - this.position.x;
@@ -147,6 +159,7 @@ var Player = tm.createClass({
             }
             this.velocity.normalize();
         }
+        */
         
         // 移動
         this.position.add( tm.geom.Vector2.mul(this.velocity, this.speed) );
