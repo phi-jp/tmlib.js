@@ -53,11 +53,17 @@ tm.controller = tm.controller || {};
         
         onmousemove: function(e) {
             if (this.isTouching==false) return ;
-            
             var p = e.app.pointing;
             var v = tm.geom.Vector2(p.x - this.x, p.y - this.y);
+            var len = v.length();
+            v.div(len);
+            
+            if (len > 40) len = 40;
+            
             this.angle = Math.radToDeg(v.toAngle());
-            this.circle.position.set(v.x, v.y);
+            this.circle.position.set(v.x*len, v.y*len);
+            
+            this.v = v.div(40);
         }
         
         

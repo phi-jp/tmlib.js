@@ -23,8 +23,10 @@ var playerImage = (function(){
     var c = tm.graphics.Canvas();
     c.width = c.height = 40;
     c.setTransformCenter();
-    c.setColorStyle("white", "white");
+    c.setLineStyle(2, "round", "round");
+    c.setColorStyle("white", "rgba(200, 200, 200, 0.9)");
     c.fillPolygon(0, 0, 20, 3, 0);
+    c.strokePolygon(0, 0, 20, 3, 0);
     
     return c;
 })();
@@ -33,8 +35,10 @@ var enemyImage = (function(){
     var c = tm.graphics.Canvas();
     c.width = c.height = 40;
     c.setTransformCenter();
-    c.setColorStyle("red", "red");
+    c.setLineStyle(1.5, "round", "round");
+    c.setColorStyle("white", "rgb(255, 50, 50)");
     c.fillStar(0, 0, 20, 16, 0.6);    
+    c.strokeStar(0, 0, 20, 16, 0.6);
     return c;
 })()
 
@@ -91,7 +95,7 @@ tm.main(function() {
     
     // パッド生成
     pad = tm.controller.Pad();
-    pad.position.set(100, 400);
+    pad.position.set(80, app.height-80);
     app.currentScene.addChild(pad);
     
     // スコア生成
@@ -274,6 +278,7 @@ var Crash = tm.createClass({
             particle.scaleX = particle.scaleY = 0.5;
             particle.v = tm.geom.Vector2.random(0, 360, 2);
             particle.setImage(enemyImage);
+            particle.blendMode = "lighter";
             particle.update = function() {
                 this.x += this.v.x;
                 this.y += this.v.y;
