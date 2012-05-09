@@ -380,6 +380,50 @@ var tm = tm || {};
         return this;
     });
     
+    /**
+     * 安全拡張
+     * 上書きしない
+     */
+    Object.defineInstanceMethod("extendSafe", function(source) {
+        for (var property in source) {
+            if (!this[property]) {
+                this[property] = source[property];
+            }
+        }
+        return this;
+    });
+    
+    
+    /**
+     * 厳格拡張
+     * すでにあった場合は警告
+     */
+    Object.defineInstanceMethod("extendStrict", function(source) {
+        for (var property in source) {
+            console.assert(!this[property], "TM Error: {0} is Already".format(property));
+            this[property] = source[property];
+        }
+        
+        return this;
+    });
+    
+    if (window) {
+        /**
+         * グローバル化
+         */
+        Object.defineInstanceMethod("globalize", function(key) {
+            if (key) {
+                window[key] = this[key];
+            }
+            else {
+                window.extendStrict(this);
+            }
+            return this;
+        });
+    }
+    
+    
+    
 })();
 
 
@@ -395,6 +439,30 @@ var tm = tm || {};
      * @class   Array
      * 配列
      */
+    
+
+    /**
+     * @static
+     * @method  flatten
+     * フラット.
+     * Ruby のやつ.
+     */
+    Array.flatten = function(array, deep) {
+        var arr = [];
+        
+        for (var i=0,len=array.length; i<len; ++i) {
+            var value = array[i];
+            if (value instanceof Array) {
+                arr = arr.concat(Array.flatten(value));
+            }
+            else {
+                arr.push(value);
+            }
+        }
+        return arr;
+    };
+    
+    
     
     /**
      * @property    first
@@ -534,23 +602,19 @@ var tm = tm || {};
         return arr;
     });
     
+
     /**
      * @method  flatten
      * フラット.
      * Ruby のやつ.
      */
     Array.defineInstanceMethod("flatten", function(deep) {
-        var arr = [];
-        for (var i=0,len=this.length; i<len; ++i) {
-            var value = this[i];
-            if (value instanceof Array) {
-                arr = arr.concat(value.flatten());
-            }
-            else {
-                arr.push(value);
-            }
-        }
-        return arr;
+        var temp = Array.flatten(this);
+        
+        this.clear().concat(temp);
+        for (var i=0,len=temp.length; i<len; ++i) this[i] = temp[i];
+        
+        return this;
     });
     
     /**
@@ -584,10 +648,38 @@ var tm = tm || {};
      */
     Array.defineInstanceMethod("fill", function(value, start, end) {
         start = start || 0;
-        end   = end   || (this.length-1);
+        end   = end   || (this.length);
         
         for (var i=start; i<end; ++i) {
             this[i] = value;
+        }
+        
+        return this;
+    });
+    
+
+    /**
+     * @method  range
+     * python のやつ
+     */
+    Array.defineInstanceMethod("range", function(start, end, step) {
+        if (arguments.length == 1) {
+            this.clear();
+            for (var i=0; i<start; ++i) this[i] = i;
+        }
+        else if (start < end){
+            step  = step || 1;
+            this.clear();
+            for (var i=start, index=0; i<end; i+=step, ++index) {
+                this[index] = i;
+            }
+        }
+        else {
+            step  = step || -1;
+            this.clear();
+            for (var i=start, index=0; i>end; i+=step, ++index) {
+                this[index] = i;
+            }
         }
         
         return this;
@@ -3702,7 +3794,8 @@ tm.dom = tm.dom || {};
          * queryAll
          */
         queryAll: function(query) {
-            return tm.dom.ElementList(query);
+            var list = this.element.querySelectorAll(query);
+            return tm.dom.ElementList(list);
         },
         
         /**
@@ -6990,7 +7083,7 @@ tm.app = tm.app || {};
             this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
-            this._matrix  = tm.geom.Matrix33();
+            // this._matrix  = tm.geom.Matrix33();
             this.eventFlags = {};
         },
         
@@ -7103,12 +7196,14 @@ tm.app = tm.app || {};
             
             if (this.visible === false) return ;
             
-            graphics.context.save();
+            var context = graphics.context;
             
-            graphics.context.fillStyle      = this.fillStyle;
-            graphics.context.strokeStyle    = this.strokeStyle;
-            graphics.context.globalAlpha    *= this.alpha;
-            graphics.context.globalCompositeOperation = this.blendMode;
+            context.save();
+            
+            context.fillStyle      = this.fillStyle;
+            context.strokeStyle    = this.strokeStyle;
+            context.globalAlpha    *= this.alpha;
+            context.globalCompositeOperation = this.blendMode;
             
             // 座標計算
             /*
@@ -7124,9 +7219,9 @@ tm.app = tm.app || {};
             );
             /**/
             
-            graphics.translate(this.position.x, this.position.y);
-            graphics.rotate(this.rotation*Math.PI/180);
-            graphics.scale(this.scale.x, this.scale.y);
+            context.translate(this.position.x, this.position.y);
+            context.rotate(this.rotation*Math.PI/180);
+            context.scale(this.scale.x, this.scale.y);
             /**/
             
             this.draw(graphics);
@@ -7140,7 +7235,7 @@ tm.app = tm.app || {};
                 // this.execChildren(arguments.callee, graphics);
             }
             
-            graphics.context.restore();
+            context.restore();
         },
         
         
@@ -7824,7 +7919,9 @@ tm.app = tm.app || {};
                     elm.dispatchEvent(tm.app.Event("mousedown"));
                     this.downFlag = true;
                 }
-                
+            }
+            
+            if (this.downFlag) {
                 var e = tm.app.Event("mousemove");
                 e.app = app;
                 elm.dispatchEvent(e);

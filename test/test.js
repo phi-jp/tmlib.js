@@ -87,6 +87,30 @@ describe('Array Test', function() {
         
     });
     
+    describe('range', function() {
+        
+        it('test', function() {
+            assert([].range(10).equals([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]));
+            assert([].range(1, 11).equals([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+            assert([].range(0, 30, 5).equals([0, 5, 10, 15, 20, 25, 30]));
+            assert([].range(0, 10, 3).equals([0, 3, 6, 9]));
+            assert([].range(0, -10).equals([0, -1, -2, -3, -4, -5, -6, -7, -8, -9]));
+            assert([].range(0, -10, -2).equals([0, -2, -4, -6, -8]));            return ;
+            assert([].range(0).equals([]));
+            assert([].range(1, 0).equals([]));
+        });
+        
+    });
+    
+    describe('flatten', function() {
+        var arr = [1, 2, 3, [4, 5, 6]];
+        
+        it('test', function() {
+            console.log(arr.flatten());
+        });
+        
+    });
+    
 });
 
 

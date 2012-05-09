@@ -91,5 +91,49 @@
         return this;
     });
     
+    /**
+     * 安全拡張
+     * 上書きしない
+     */
+    Object.defineInstanceMethod("extendSafe", function(source) {
+        for (var property in source) {
+            if (!this[property]) {
+                this[property] = source[property];
+            }
+        }
+        return this;
+    });
+    
+    
+    /**
+     * 厳格拡張
+     * すでにあった場合は警告
+     */
+    Object.defineInstanceMethod("extendStrict", function(source) {
+        for (var property in source) {
+            console.assert(!this[property], "TM Error: {0} is Already".format(property));
+            this[property] = source[property];
+        }
+        
+        return this;
+    });
+    
+    if (window) {
+        /**
+         * グローバル化
+         */
+        Object.defineInstanceMethod("globalize", function(key) {
+            if (key) {
+                window[key] = this[key];
+            }
+            else {
+                window.extendStrict(this);
+            }
+            return this;
+        });
+    }
+    
+    
+    
 })();
 

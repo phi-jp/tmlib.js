@@ -10,6 +10,30 @@
      * 配列
      */
     
+
+    /**
+     * @static
+     * @method  flatten
+     * フラット.
+     * Ruby のやつ.
+     */
+    Array.flatten = function(array, deep) {
+        var arr = [];
+        
+        for (var i=0,len=array.length; i<len; ++i) {
+            var value = array[i];
+            if (value instanceof Array) {
+                arr = arr.concat(Array.flatten(value));
+            }
+            else {
+                arr.push(value);
+            }
+        }
+        return arr;
+    };
+    
+    
+    
     /**
      * @property    first
      * 最初の要素
@@ -148,23 +172,19 @@
         return arr;
     });
     
+
     /**
      * @method  flatten
      * フラット.
      * Ruby のやつ.
      */
     Array.defineInstanceMethod("flatten", function(deep) {
-        var arr = [];
-        for (var i=0,len=this.length; i<len; ++i) {
-            var value = this[i];
-            if (value instanceof Array) {
-                arr = arr.concat(value.flatten());
-            }
-            else {
-                arr.push(value);
-            }
-        }
-        return arr;
+        var temp = Array.flatten(this);
+        
+        this.clear().concat(temp);
+        for (var i=0,len=temp.length; i<len; ++i) this[i] = temp[i];
+        
+        return this;
     });
     
     /**
@@ -198,10 +218,38 @@
      */
     Array.defineInstanceMethod("fill", function(value, start, end) {
         start = start || 0;
-        end   = end   || (this.length-1);
+        end   = end   || (this.length);
         
         for (var i=start; i<end; ++i) {
             this[i] = value;
+        }
+        
+        return this;
+    });
+    
+
+    /**
+     * @method  range
+     * python のやつ
+     */
+    Array.defineInstanceMethod("range", function(start, end, step) {
+        if (arguments.length == 1) {
+            this.clear();
+            for (var i=0; i<start; ++i) this[i] = i;
+        }
+        else if (start < end){
+            step  = step || 1;
+            this.clear();
+            for (var i=start, index=0; i<end; i+=step, ++index) {
+                this[index] = i;
+            }
+        }
+        else {
+            step  = step || -1;
+            this.clear();
+            for (var i=start, index=0; i>end; i+=step, ++index) {
+                this[index] = i;
+            }
         }
         
         return this;
