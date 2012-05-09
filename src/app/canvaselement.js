@@ -71,7 +71,7 @@ tm.app = tm.app || {};
             this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
-            this._matrix  = tm.geom.Matrix33();
+            // this._matrix  = tm.geom.Matrix33();
             this.eventFlags = {};
         },
         
@@ -184,12 +184,14 @@ tm.app = tm.app || {};
             
             if (this.visible === false) return ;
             
-            graphics.context.save();
+            var context = graphics.context;
             
-            graphics.context.fillStyle      = this.fillStyle;
-            graphics.context.strokeStyle    = this.strokeStyle;
-            graphics.context.globalAlpha    *= this.alpha;
-            graphics.context.globalCompositeOperation = this.blendMode;
+            context.save();
+            
+            context.fillStyle      = this.fillStyle;
+            context.strokeStyle    = this.strokeStyle;
+            context.globalAlpha    *= this.alpha;
+            context.globalCompositeOperation = this.blendMode;
             
             // 座標計算
             /*
@@ -205,9 +207,9 @@ tm.app = tm.app || {};
             );
             /**/
             
-            graphics.translate(this.position.x, this.position.y);
-            graphics.rotate(this.rotation*Math.PI/180);
-            graphics.scale(this.scale.x, this.scale.y);
+            context.translate(this.position.x, this.position.y);
+            context.rotate(this.rotation*Math.PI/180);
+            context.scale(this.scale.x, this.scale.y);
             /**/
             
             this.draw(graphics);
@@ -221,7 +223,7 @@ tm.app = tm.app || {};
                 // this.execChildren(arguments.callee, graphics);
             }
             
-            graphics.context.restore();
+            context.restore();
         },
         
         
