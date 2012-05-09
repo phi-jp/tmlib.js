@@ -42,6 +42,10 @@ tm.util = tm.util || {};
 
 (function() {
     
+    /**
+     * @class
+     * ファイルマネージャ
+     */
     tm.util.FileManager = {
         files: {}
     };
@@ -58,6 +62,8 @@ tm.util = tm.util || {};
     };
     
     /**
+     * @static
+     * @method  isLoaded
      * ロードチェック
      */
     tm.util.FileManager.isLoaded = function()
