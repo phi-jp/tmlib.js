@@ -44,7 +44,9 @@ tm.app = tm.app || {};
                     elm.dispatchEvent(tm.app.Event("mousedown"));
                     this.downFlag = true;
                 }
-                
+            }
+            
+            if (this.downFlag) {
                 var e = tm.app.Event("mousemove");
                 e.app = app;
                 elm.dispatchEvent(e);
