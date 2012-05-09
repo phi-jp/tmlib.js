@@ -21,9 +21,12 @@
                 init: function(color) {
                     this.superInit();
                     
-                    this.color = color;
                     this.v = tm.geom.Vector2(0, 0);
-                    this.blendMode = "lighter";
+                    this.scaleX = this.scaleY = 2;
+                    this.fillStyle = color;
+                    if (tm.BROWSER != "Firefox") {
+                        this.blendMode = "lighter";
+                    }
                 },
                 
                 update: function(app) {
@@ -40,9 +43,8 @@
                 },
                 
                 draw: function(c) {
-                    c.fillStyle = this.color;
-                    // c.fillRect(0, 0, 1, 1);
-                    c.fillCircle(0, 0, 2);
+                    c.fillRect(0, 0, 1, 1);
+                    // c.fillCircle(0, 0, 2);
                     // c.drawPoint(0, 0);
                 },
                 
@@ -52,8 +54,9 @@
                 var app = tm.app.CanvasApp("#c");
                 app.fitWindow();
                 app.enableStats();
+                app.background = "rgba(0, 0, 0, 0.5)";
                 
-                for (var i=0; i<500; ++i) {
+                for (var i=0; i<1000; ++i) {
                     var c = Particle(
                         "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360))
                     );
