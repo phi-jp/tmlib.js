@@ -1,0 +1,121 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Timeline Test | TM Lib</title>
+        
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            canvas {
+                box-shadow: 0px 0px 4px 0px #aaa;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../src/util/timeline.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+        
+        <script id="test-script">
+            
+            /*
+             * main
+             */
+            tm.main(function() {
+                // コンソール
+                var c = tm.Console("#console");
+                
+                var timeline = tm.util.Timeline();
+                
+                timeline.at(0, function() { c.log(0); });
+                timeline.at(1000, function() { c.log(1000); });
+                timeline.at(2000, function() { c.log(2000); });
+                timeline.at(3000, function() { c.log(3000); });
+                timeline.at(4000, function() { c.log(4000); });
+                timeline.at(5000, function() { c.log(5000); });
+                timeline.at(10000, function() { c.log(10000); });
+                timeline.at(15000, function() { c.log(15000); });
+                
+                timeline.at(2000, function() {
+                    timeline.after(500, function() {
+                        c.log("500");
+                    });
+                });
+                
+                var fn = function() {
+                    c.clear();
+                    timeline[this.html]();
+                };
+                
+                tm.dom.Element("#start").event.click(fn);
+                tm.dom.Element("#stop").event.click(fn);
+                tm.dom.Element("#resume").event.click(fn);
+            });
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+    </head>
+    
+    <body>
+        
+        <h1>Timeline Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <button id="start">start</button>
+                <button id="stop">stop</button>
+                <button id="resume">resume</button>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>

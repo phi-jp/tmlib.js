@@ -381,6 +381,7 @@ var tm = tm || {};
     });
     
     /**
+     * @method extendSafe
      * 安全拡張
      * 上書きしない
      */
@@ -7197,6 +7198,7 @@ tm.app = tm.app || {};
             if (this.visible === false) return ;
             
             var context = graphics.context;
+            
             context.save();
             
             context.fillStyle      = this.fillStyle;
@@ -8151,6 +8153,10 @@ tm.app = tm.app || {};
     });
     
 })();
+
+
+
+
 
 /*
  * sound.js
