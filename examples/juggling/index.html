@@ -82,17 +82,14 @@
             
             var app = null;
             
-            window.onload = function() {
+            tm.preload(function() {
+                tm.sound.SoundManager.add("bound", "../../resource/se/puu89");
+            });
+            
+            tm.main(function() {
                 app = tm.app.CanvasApp("#c");
                 app.fitWindow();
-                
-                tm.sound.SoundManager.add("bound", "../../resource/se/puu89");
-                
-                var stats = new Stats();
-                document.body.appendChild(stats.getDomElement());
-                stats.getDomElement().style.position= "fixed";
-                stats.getDomElement().style.right   = "5px";
-                stats.getDomElement().style.top     = "5px";
+                app.enableStats();
                 
                 app.currentScene.update = function(app) {
                     if (app.frame % 300 == 0) {
@@ -103,12 +100,10 @@
                         c.y = 300;
                         c.x = 320;
                     }
-                    
-                    stats.update();
                 };
                 
                 app.run();
-            };
+            });
             
             
         </script>

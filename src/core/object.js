@@ -92,6 +92,7 @@
     });
     
     /**
+     * @method  extendSafe
      * 安全拡張
      * 上書きしない
      */
@@ -106,6 +107,7 @@
     
     
     /**
+     * @method  extendStrict
      * 厳格拡張
      * すでにあった場合は警告
      */
@@ -120,6 +122,7 @@
     
     if (window) {
         /**
+         * @method  globalize
          * グローバル化
          */
         Object.defineInstanceMethod("globalize", function(key) {
