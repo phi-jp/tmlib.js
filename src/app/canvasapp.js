@@ -208,10 +208,10 @@ tm.app = tm.app || {};
                 // Stats
                 this.stats = new Stats();
                 // 右上に設定
-                this.stats.getDomElement().style.position = "fixed";
-                this.stats.getDomElement().style.left     = "5px";
-                this.stats.getDomElement().style.top      = "5px";
-                document.body.appendChild(this.stats.getDomElement());
+                this.stats.domElement.style.position = "fixed";
+                this.stats.domElement.style.left     = "5px";
+                this.stats.domElement.style.top      = "5px";
+                document.body.appendChild(this.stats.domElement);
             }
             else {
                 console.error("not defined stats.");
