@@ -10,6 +10,22 @@
      * 関数
      */
     
+    
+    if (!Function.prototype.bind) {
+        /**
+         * @member  Function
+         * バインド
+         */
+        Function.defineInstanceMethod("bind", function(obj) {
+            var self = this;
+            
+            return function() {
+                self.apply(obj, arguments);
+            };
+        });
+    }
+    
+    
     /**
      * @method  toArrayFunction
      * 関数を配列対応関数に変換.

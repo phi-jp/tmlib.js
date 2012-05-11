@@ -6,9 +6,6 @@ tm.anim = tm.anim || {};
 
 (function() {
     
-    var bind = function(fn, self) {
-        return function() { return fn.apply(self, arguments); };
-    };
     
     /**
      * @class
@@ -147,7 +144,7 @@ tm.anim = tm.anim || {};
         _updateTime: function() {
             if (this.isPlaying) {
                 this._nextTime();
-                setTimeout(bind(arguments.callee, this), 1000/this.fps);
+                setTimeout(arguments.callee.bind(this), 1000/this.fps);
             }
         },
         

@@ -41,7 +41,9 @@ tm.app = tm.app || {};
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
-                    elm.dispatchEvent(tm.app.Event("mousedown"));
+                    var e = tm.app.Event("mousedown");
+                    e.app = app;
+                    elm.dispatchEvent(e);
                     this.downFlag = true;
                 }
             }

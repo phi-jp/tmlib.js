@@ -381,7 +381,7 @@ var tm = tm || {};
     });
     
     /**
-     * @method extendSafe
+     * @method  extendSafe
      * 安全拡張
      * 上書きしない
      */
@@ -396,6 +396,7 @@ var tm = tm || {};
     
     
     /**
+     * @method  extendStrict
      * 厳格拡張
      * すでにあった場合は警告
      */
@@ -410,6 +411,7 @@ var tm = tm || {};
     
     if (window) {
         /**
+         * @method  globalize
          * グローバル化
          */
         Object.defineInstanceMethod("globalize", function(key) {
@@ -825,6 +827,22 @@ var tm = tm || {};
      * @class   Function
      * 関数
      */
+    
+    
+    if (!Function.prototype.bind) {
+        /**
+         * @member  Function
+         * バインド
+         */
+        Function.defineInstanceMethod("bind", function(obj) {
+            var self = this;
+            
+            return function() {
+                self.apply(obj, arguments);
+            };
+        });
+    }
+    
     
     /**
      * @method  toArrayFunction
@@ -1690,7 +1708,16 @@ tm.geom = tm.geom || {};
         setY: function(y) {
             this.y = y;
             return this;
-        }
+        },
+        
+        clone: function(v) {
+            return tm.geom.Vector2(v.x, v.y);
+        },
+        
+        equals: function(v) {
+            return (this.x === v.x && this.y === v.y) ? true : false;
+        },
+        
     });
     
     
@@ -4831,9 +4858,14 @@ tm.input = tm.input || {};
         run: function(fps) {
             var self = this;
             fps = fps || 30;
-            TM.setLoop(function(){
+            
+            tm.setLoop(function() {
+                
                 self.update();
-            },　1000/fps);
+                
+            }, 1000/fps);
+            
+            return this;
         },
         
         /**
@@ -4858,21 +4890,21 @@ tm.input = tm.input || {};
          * タッチしているかを判定
          */
         getTouch: function() {
-            return this.touched;
+            return this.touched != 0;
         },
         
         /**
          * タッチ開始時に true
          */
         getTouchStart: function() {
-            return this.start;
+            return this.start != 0;
         },
         
         /**
          * タッチ終了時に true
          */
         getTouchEnd: function() {
-            return this.end;
+            return this.end != 0;
         },
         
         _touchmove: function(e) {
@@ -6668,9 +6700,6 @@ tm.anim = tm.anim || {};
 
 (function() {
     
-    var bind = function(fn, self) {
-        return function() { return fn.apply(self, arguments); };
-    };
     
     /**
      * @class
@@ -6809,7 +6838,7 @@ tm.anim = tm.anim || {};
         _updateTime: function() {
             if (this.isPlaying) {
                 this._nextTime();
-                setTimeout(bind(arguments.callee, this), 1000/this.fps);
+                setTimeout(arguments.callee.bind(this), 1000/this.fps);
             }
         },
         
@@ -6897,6 +6926,19 @@ tm.app = tm.app || {};
             this.children.push(child);
             
             return child;
+        },
+        
+        /**
+         * parent に自分を子供として追加
+         */
+        addChildTo: function(parent) {
+            parent.addChild(this);
+            
+            // if (this.parent) this.remove();
+            // this.parent = parent;
+            // parent.children.push(child);
+            
+            return this;
         },
         
         /**
@@ -7917,7 +7959,9 @@ tm.app = tm.app || {};
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
-                    elm.dispatchEvent(tm.app.Event("mousedown"));
+                    var e = tm.app.Event("mousedown");
+                    e.app = app;
+                    elm.dispatchEvent(e);
                     this.downFlag = true;
                 }
             }
@@ -8098,6 +8142,13 @@ tm.app = tm.app || {};
             var tweens = this.tweens.clone();
             for (var i=0,len=tweens.length; i<len; ++i) {
                 var tween = tweens[i];
+                
+                // 待ちチェック
+                if (tween.delay > 0) {
+                    tween.delay -= 1000/app.fps;
+                    continue;
+                }
+                
                 tween.time += 1000/app.fps;
                 
                 if (tween.time > tween.duration) {
@@ -8123,6 +8174,7 @@ tm.app = tm.app || {};
             if (!param.target) param.target = this.element;
             
             var tween = tm.anim.Tween(param);
+            tween.delay = param.delay || 0;
             this.tweens.push(tween);
             
             if (this.isAnimation == false) {
