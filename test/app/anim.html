@@ -55,6 +55,7 @@
         
         <script src="../../src/app/element.js"></script>
         <script src="../../src/app/canvaselement.js"></script>
+        <script src="../../src/app/sprite.js"></script>
         <script src="../../src/app/scene.js"></script>
         <script src="../../src/app/canvasapp.js"></script>
         <script src="../../src/app/event.js"></script>
@@ -94,6 +95,16 @@
                         finish: this.startX + 300,
                         duration: 1000,
                     });
+                    this.x = this.startX;
+                    
+                    this.anim.addTween({
+                        prop: "y",
+                        begin: this.startY,
+                        finish: this.startY + 300,
+                        duration: 1000,
+                        delay: 500,
+                    });
+                    this.y = this.startY;
                     
                     this.anim.addTween({
                         prop: "alpha",
@@ -149,6 +160,23 @@
                         var circle = Effect(p.x, p.y);
                         this.addChild(circle);
                     };
+                    
+                    // フェードアウト
+                    if (p.getPointingStart()) {
+                        // var fadeout = tm.app.Sprite(app.width, app.height);
+                        // fadeout.originX = fadeout.originY = 0;
+                        // fadeout.canvas.clearColor("white");
+                        // fadeout.addChildTo(this);
+                        // fadeout.anim.addTween({
+                            // prop: "alpha",
+                            // begin: 0,
+                            // finish: 1.0,
+                            // duration: 1500,
+                        // });
+                        // fadeout.onanimationend = function() {
+                            // this.remove();
+                        // }
+                    }
                 };
                 
                 app.run();

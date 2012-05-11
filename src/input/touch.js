@@ -53,9 +53,14 @@ tm.input = tm.input || {};
         run: function(fps) {
             var self = this;
             fps = fps || 30;
-            TM.setLoop(function(){
+            
+            tm.setLoop(function() {
+                
                 self.update();
-            },　1000/fps);
+                
+            }, 1000/fps);
+            
+            return this;
         },
         
         /**
@@ -80,21 +85,21 @@ tm.input = tm.input || {};
          * タッチしているかを判定
          */
         getTouch: function() {
-            return this.touched;
+            return this.touched != 0;
         },
         
         /**
          * タッチ開始時に true
          */
         getTouchStart: function() {
-            return this.start;
+            return this.start != 0;
         },
         
         /**
          * タッチ終了時に true
          */
         getTouchEnd: function() {
-            return this.end;
+            return this.end != 0;
         },
         
         _touchmove: function(e) {

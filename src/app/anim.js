@@ -32,6 +32,13 @@ tm.app = tm.app || {};
             var tweens = this.tweens.clone();
             for (var i=0,len=tweens.length; i<len; ++i) {
                 var tween = tweens[i];
+                
+                // 待ちチェック
+                if (tween.delay > 0) {
+                    tween.delay -= 1000/app.fps;
+                    continue;
+                }
+                
                 tween.time += 1000/app.fps;
                 
                 if (tween.time > tween.duration) {
@@ -57,6 +64,7 @@ tm.app = tm.app || {};
             if (!param.target) param.target = this.element;
             
             var tween = tm.anim.Tween(param);
+            tween.delay = param.delay || 0;
             this.tweens.push(tween);
             
             if (this.isAnimation == false) {

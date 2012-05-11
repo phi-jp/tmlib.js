@@ -48,6 +48,19 @@ tm.app = tm.app || {};
         },
         
         /**
+         * parent に自分を子供として追加
+         */
+        addChildTo: function(parent) {
+            parent.addChild(this);
+            
+            // if (this.parent) this.remove();
+            // this.parent = parent;
+            // parent.children.push(child);
+            
+            return this;
+        },
+        
+        /**
          * まとめて追加
          * scene 遷移時に子供をごっそり移譲するときなどに使用
          * まだ動作確認していない

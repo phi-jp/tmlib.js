@@ -259,7 +259,16 @@ tm.geom = tm.geom || {};
         setY: function(y) {
             this.y = y;
             return this;
-        }
+        },
+        
+        clone: function(v) {
+            return tm.geom.Vector2(v.x, v.y);
+        },
+        
+        equals: function(v) {
+            return (this.x === v.x && this.y === v.y) ? true : false;
+        },
+        
     });
     
     
