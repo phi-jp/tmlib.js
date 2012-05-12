@@ -14,6 +14,7 @@
     if (!Function.prototype.bind) {
         /**
          * @member  Function
+         * @method  bind
          * バインド
          */
         Function.defineInstanceMethod("bind", function(obj) {

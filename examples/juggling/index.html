@@ -27,7 +27,7 @@
                     this.blendMode  = "lighter";
                     this.alpha      = 0.75;
                     this.v = tm.geom.Vector2();
-                    this.v.random(270-20, 270+20, 12);
+                    this.v.setRandom(270-20, 270+20, 12);
                     this.interaction;
                 },
                 
@@ -59,7 +59,7 @@
                 },
                 
                 onmousedown: function() {
-                    this.v.random(270-20, 270+20, 12);
+                    this.v.setRandom(270-20, 270+20, 12);
                     var se = tm.sound.SoundManager.get("bound")
                     se.volume = 0.5;
                     se.play();

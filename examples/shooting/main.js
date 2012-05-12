@@ -142,13 +142,13 @@ var Player = tm.createClass({
         // キーボードによる速度設定
         var angle = app.keyboard.getKeyAngle();
         if (angle != null) {
-            this.velocity.setFromDegree( angle, 1 );
+            this.velocity.setDegree( angle, 1 );
             this.velocity.y *= -1;
             this.speed      = 8;
         }
         
         if (pad.isTouching) {
-            this.velocity.setFromDegree(pad.angle, 1);
+            this.velocity.setDegree(pad.angle, 1);
             this.speed      = 8;
         }
         
