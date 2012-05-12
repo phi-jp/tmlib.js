@@ -433,7 +433,13 @@ tm.graphics = tm.graphics || {};
          */
         fillCircle: function(x, y, radius)
         {
-            return this.beginPath().circle(x, y, radius).fill();
+            var c = this.context;
+            c.beginPath();
+            c.arc(x, y, radius, 0, Math.PI*2, false);
+            c.closePath();
+            c.fill();
+            return this;
+            // return this.beginPath().circle(x, y, radius).fill();
         },
         
         /**

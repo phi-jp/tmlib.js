@@ -127,6 +127,27 @@ tm.app = tm.app || {};
         run: function()
         {
             var self = this;
+            
+            // requestAnimationFrame version
+            // var fn = function() {
+                // self._loop();
+                // requestAnimationFrame(fn);
+            // }
+            // fn();
+            
+            tm.setLoop(function(){ self._loop(); }, 1000/this.fps);
+            
+            return ;
+            
+            if (true) {
+                setTimeout(arguments.callee.bind(this), 1000/this.fps);
+                this._loop();
+            }
+            
+            return ;
+            
+            var self = this;
+            // setInterval(function(){ self._loop(); }, 1000/self.fps);
             tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
         },
         

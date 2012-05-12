@@ -18,7 +18,6 @@ var tm = tm || {};
      */
     tm.VERSION = "0.0.0";
     
-    
     /**
      * tmlib.js のルートパス
      */
@@ -45,6 +44,24 @@ var tm = tm || {};
         else if (/msie/i.test(navigator.userAgent))     { return "IE";      }
         else { return null; }
     })();
+    
+    /**
+     * ベンダープレフィックス
+     */
+    tm.VENDER_PREFIX = (function() {
+        if (!window) return ;
+        
+        var map = {
+            "Chrome"    : "webkit",
+            "Safari"    : "webkit",
+            "Firefox"   : "moz",
+            "Opera"     : "o",
+            "IE"        : "ms"
+        };
+        
+        return map[tm.BROWSER] || "";
+    })();
+    
     
     /**
      * モバイルかどうかの判定フラグ
@@ -113,8 +130,20 @@ var tm = tm || {};
      */
     tm.setLoop = function(fn, delay) {
         var temp = function() {
+            // 開始時間
+            var start = (new Date()).getTime();
+            
+            // 実行
             fn();
-            setTimeout(arguments.callee, delay);
+            
+            // 経過時間
+            var progress = (new Date()).getTime() - start;
+            // 次回までの待ち時間を計算
+            var newDelay = delay-progress;
+            newDelay = (newDelay > 0) ? newDelay : 0;
+            
+            // 次回呼び出し登録
+            setTimeout(arguments.callee, newDelay);
         };
         setTimeout(temp, delay);
     };
@@ -231,6 +260,25 @@ var tm = tm || {};
     
     
 })();
+
+
+(function() {
+    
+    if (!window) return ;
+    
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window[tm.VENDER_PREFIX + "RequestAnimationFrame"] || function(callback) {
+            window.setTimeout(callback, 1000/60);
+        };
+    }
+    
+    if (!window.cancelRequestAnimationFrame) {
+        window.cancelRequestAnimationFrame = window[tm.VENDER_PREFIX + "CancelRequestAnimationFrame"] || window.clearTimeout;
+    }
+    
+})();
+
+
 
 (function() {
     if (!window.document) return ;
@@ -5497,7 +5545,13 @@ tm.graphics = tm.graphics || {};
          */
         fillCircle: function(x, y, radius)
         {
-            return this.beginPath().circle(x, y, radius).fill();
+            var c = this.context;
+            c.beginPath();
+            c.arc(x, y, radius, 0, Math.PI*2, false);
+            c.closePath();
+            c.fill();
+            return this;
+            // return this.beginPath().circle(x, y, radius).fill();
         },
         
         /**
@@ -7785,6 +7839,27 @@ tm.app = tm.app || {};
         run: function()
         {
             var self = this;
+            
+            // requestAnimationFrame version
+            // var fn = function() {
+                // self._loop();
+                // requestAnimationFrame(fn);
+            // }
+            // fn();
+            
+            tm.setLoop(function(){ self._loop(); }, 1000/this.fps);
+            
+            return ;
+            
+            if (true) {
+                setTimeout(arguments.callee.bind(this), 1000/this.fps);
+                this._loop();
+            }
+            
+            return ;
+            
+            var self = this;
+            // setInterval(function(){ self._loop(); }, 1000/self.fps);
             tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
         },
         
