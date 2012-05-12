@@ -60,7 +60,8 @@ tm.app = tm.app || {};
             }
         },
         
-        addTween: function(param) {
+        addTween: function(param)
+        {
             if (!param.target) param.target = this.element;
             
             var tween = tm.anim.Tween(param);
@@ -74,6 +75,16 @@ tm.app = tm.app || {};
             }
             
             return tween;
+        },
+        
+        addTweens: function(args)
+        {
+            for (var i=0,len=arguments.length; i<len; ++i) {
+                var param = arguments[i];
+                this.addTween(param);
+            }
+            
+            return this;
         },
         
     });

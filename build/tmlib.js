@@ -832,6 +832,7 @@ var tm = tm || {};
     if (!Function.prototype.bind) {
         /**
          * @member  Function
+         * @method  bind
          * バインド
          */
         Function.defineInstanceMethod("bind", function(obj) {
@@ -1480,6 +1481,41 @@ tm.geom = tm.geom || {};
             this.set(x, y);
         },
         
+        
+        /**
+         * 複製
+         */
+        clone: function() {
+            return tm.geom.Vector2(this.x, this.y);
+        },
+        
+        
+        /**
+         * 等しいかどうかをチェック
+         * @param   {tm.geom.Vector2}   v   比較対象となる２次元ベクトル
+         */
+        equals: function(v) {
+            return (this.x === v.x && this.y === v.y) ? true : false;
+        },
+        
+        /**
+         * 数値と等しいかどうかをチェック
+         * @param   {Number}   x    比較対象となる x 値
+         * @param   {Number}   y    比較対象となる y 値
+         */
+        equalsNumber: function(x, y) {
+            return (this.x === x && this.y === y) ? true : false;
+        },
+        
+        /**
+         * 配列と等しいかどうかをチェック
+         * @param   {Number}   arr  比較対象となる配列
+         */
+        equalsArray: function(arr) {
+            return (this.x === arr[0] && this.y === arr[1]) ? true : false;
+        },
+        
+        
         /**
          * セッター
          */
@@ -1488,11 +1524,10 @@ tm.geom = tm.geom || {};
             this.y = y;
         },
         
-        
         /**
          * 数値からセット
          */
-        setFromNumber: function(x, y) {
+        setNumber: function(x, y) {
             this.x = x;
             this.y = y;
             
@@ -1502,7 +1537,7 @@ tm.geom = tm.geom || {};
         /**
          * 配列からセット
          */
-        setFromArray: function(arr) {
+        setArray: function(arr) {
             this.x = arr[0];
             this.y = arr[1];
             
@@ -1512,7 +1547,7 @@ tm.geom = tm.geom || {};
         /**
          * オブジェクトからセット
          */
-        setFromObject: function(obj) {
+        setObject: function(obj) {
             this.x = obj.x;
             this.y = obj.y;
             
@@ -1522,7 +1557,7 @@ tm.geom = tm.geom || {};
         /**
          * 文字列からセット
          */
-        setFromString: function(str) {
+        setString: function(str) {
             var m = str.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
             this.x = parseFloat(m[1]);
             this.y = parseFloat(m[3]);
@@ -1530,42 +1565,10 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-
-        /**
-         * 角度(radian)と長さでベクトルをセット
-         */
-        setFromAngle: function(radian, len) {
-            len = len || 1;
-            this.x = Math.cos(radian)*len;
-            this.y = Math.sin(radian)*len;
-            return this;
-        },
-        
-        /**
-         * 角度(radian)と長さでベクトルをセット
-         */
-        setFromRadian: function(radian, len) {
-            len = len || 1;
-            this.x = Math.cos(radian)*len;
-            this.y = Math.sin(radian)*len;
-            return this;
-        },
-        
-        /**
-         * 角度(degree)と長さでベクトルをセット
-         */
-        setFromDegree: function(degree, len) {
-            len = len || 1;
-            radian = degree * Math.PI/180;
-            this.x = Math.cos(radian)*len;
-            this.y = Math.sin(radian)*len;
-            return this;
-        },
-                
         /**
          * 賢いセット
          */
-        setSmart: function(x, y, z) {
+        setSmart: function(x, y) {
             var v = arguments[0];
             // xyz
             if (arguments.length === 2) {
@@ -1584,13 +1587,62 @@ tm.geom = tm.geom || {};
             }
             // String
             else if (typeof(v) == "string") {
-                var m = str.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
+                var m = v.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
                 this.x = parseFloat(m[1]);
                 this.y = parseFloat(m[3]);
             }
             
             return this;
         },
+        
+        /**
+         * 角度と長さでベクトルをセット
+         * Angle は Degree 値で指定
+         */
+        setAngle: function(angle, len) {
+            var rad = angle*Math.DEG_TO_RAD;
+            
+            len = len || 1;
+            this.x = Math.cos(rad)*len;
+            this.y = Math.sin(rad)*len;
+            
+            return this;
+        },
+        
+        /**
+         * 角度(radian)と長さでベクトルをセット
+         */
+        setRadian: function(radian, len) {
+            len = len || 1;
+            this.x = Math.cos(radian)*len;
+            this.y = Math.sin(radian)*len;
+            
+            return this;
+        },
+        
+        /**
+         * 角度(degree)と長さでベクトルをセット
+         */
+        setDegree: function(degree, len) {
+            var rad = degree*Math.DEG_TO_RAD;
+            
+            len = len || 1;
+            this.x = Math.cos(rad)*len;
+            this.y = Math.sin(rad)*len;
+            
+            return this;
+        },
+        
+        /**
+         * ランダムベクトルをセット
+         */
+        setRandom: function(min, max, len) {
+            min = min || 0;
+            max = max || 360;
+            len = len || 1;
+            this.setDegree(Math.randf(min, max), len);
+        },
+        
         
         /**
          * 加算
@@ -1626,7 +1678,8 @@ tm.geom = tm.geom || {};
          * 除算
          */
         div: function(n) {
-            console.assert(n != 0, "0 division!!");
+            //console.assert(n != 0, "0 division!!");
+            n = n || 0.01;
             this.x /= n;
             this.y /= n;
             
@@ -1645,7 +1698,8 @@ tm.geom = tm.geom || {};
         
         /**
          * 長さを取得
-         * or magnitude
+         * ### memo
+         * magnitude って名前の方が良いかも. 検討中.
          */
         length: function() {
             return Math.sqrt(this.x*this.x + this.y*this.y);
@@ -1661,6 +1715,20 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * ２点間の距離を返す
+         */
+        distance: function(v) {
+            return Math.sqrt( Math.pow(this.x-v.x, 2) + Math.pow(this.y-v.y, 2) );
+        },
+        
+        /**
+         * ２点間の距離を返す
+         */
+        distanceSquared: function(v) {
+            return Math.pow(this.x-v.x, 2) + Math.pow(this.y-v.y, 2);
+        },
+        
+        /**
          * 正規化
          */
         normalize: function() {
@@ -1668,13 +1736,6 @@ tm.geom = tm.geom || {};
             this.div(length);
             
             return this;
-        },
-        
-        random: function(min, max, len) {
-            min = min || 0;
-            max = max || 360;
-            len = len || 1;
-            this.setFromDegree(Math.randf(min, max), len);
         },
         
         /**
@@ -1708,14 +1769,6 @@ tm.geom = tm.geom || {};
         setY: function(y) {
             this.y = y;
             return this;
-        },
-        
-        clone: function(v) {
-            return tm.geom.Vector2(v.x, v.y);
-        },
-        
-        equals: function(v) {
-            return (this.x === v.x && this.y === v.y) ? true : false;
         },
         
     });
@@ -1784,6 +1837,15 @@ tm.geom = tm.geom || {};
     /**
      * @method
      * @static
+     * 反転
+     */
+    tm.geom.Vector2.negate = function() {
+        return tm.geom.Vector2(-this.x, -this.y);
+    };
+    
+    /**
+     * @method
+     * @static
      * 内積.
      * 投影ベクトルを求めたり, 類似度に使ったり.
      */
@@ -1798,16 +1860,7 @@ tm.geom = tm.geom || {};
      * 外積
      */
     tm.geom.Vector2.cross = function(lhs, rhs) {
-        // TODO: 
-    };
-    
-    /**
-     * @method
-     * @static
-     * 反転
-     */
-    tm.geom.Vector2.negate = function(v) {
-        return tm.geom.Vector2(-v.x, -v.y);
+        return (lhs.x*rhs.y) - (lhs.y*rhs.x);
     };
     
     /**
@@ -1884,7 +1937,7 @@ tm.geom = tm.geom || {};
         min = min || 0;
         max = max || 360;
         len = len || 1;
-        return tm.geom.Vector2().setFromDegree(Math.randf(min, max), len);
+        return tm.geom.Vector2().setDegree(Math.randf(min, max), len);
     };
     
     
@@ -8170,7 +8223,8 @@ tm.app = tm.app || {};
             }
         },
         
-        addTween: function(param) {
+        addTween: function(param)
+        {
             if (!param.target) param.target = this.element;
             
             var tween = tm.anim.Tween(param);
@@ -8184,6 +8238,16 @@ tm.app = tm.app || {};
             }
             
             return tween;
+        },
+        
+        addTweens: function(args)
+        {
+            for (var i=0,len=arguments.length; i<len; ++i) {
+                var param = arguments[i];
+                this.addTween(param);
+            }
+            
+            return this;
         },
         
     });
