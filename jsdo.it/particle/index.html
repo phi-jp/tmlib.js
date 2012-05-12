@@ -5,6 +5,13 @@
     <head>
         <meta charset="UTF-8" />
         <title>tmlib.js test</title>
+        
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+        
         <script src="../../build/tmlib.js"></script>
         
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
@@ -14,54 +21,101 @@
             
             // 定数
             var CIRCLE_RADIUS   = 30;
+            var SCREEN_WIDTH    = 465;
+            var SCREEN_HEIGHT   = 465;
+            var FRICTION        = 0.96;
+            var TO_DIST         = SCREEN_WIDTH*0.86;
+            var STIR_DIST       = SCREEN_WIDTH*0.125;
+            var BLOW_DIST       = SCREEN_WIDTH*0.5;
             
             var Particle = tm.createClass({
-                superClass: tm.app.CanvasElement,
+                superClass: tm.app.Sprite,
                 
                 init: function(color) {
-                    this.superInit();
+                    this.superInit(10, 10);
                     
                     this.v = tm.geom.Vector2(0, 0);
-                    this.scaleX = this.scaleY = 2;
                     this.fillStyle = color;
                     if (tm.BROWSER != "Firefox") {
                         this.blendMode = "lighter";
                     }
+                    this.canvas.setTransformCenter();
+                    this.canvas.fillStyle = color;
+                    this.canvas.fillStar(0, 0, 5, 5);
                 },
                 
                 update: function(app) {
-                    var diff = tm.geom.Vector2.sub(app.pointing, this)
-                    if (diff.lengthSquared() < 1) return ;
+                    var p  = app.pointing;
+                    var dv = tm.geom.Vector2.sub(this, p);
+                    var d  = dv.length() || 0.001;
                     
-                    var acc = 100 / (diff.x*diff.x + diff.y*diff.y)
-                    var acceleration = tm.geom.Vector2.mul(diff, acc);
+                    // normalize
+                    dv.div(d);
                     
-                    this.v.add(acceleration);
-                    this.v.mul(0.95);
+                    
+                    if (p.getPointing()) {
+                        if (d < BLOW_DIST) {
+                            var blowAcc = (1 - (d/BLOW_DIST)) * 14;
+                            this.v.x += dv.x * blowAcc + 0.5 - Math.random();
+                            this.v.y += dv.y * blowAcc + 0.5 - Math.random();
+                        }
+                    }
+                    
+                    
+                    
+                    if (d<TO_DIST) {
+                        var toAcc = ( 1 - ( d / TO_DIST ) ) * app.width * 0.0014;
+                        this.v.x -= dv.x * toAcc;
+                        this.v.y -= dv.y * toAcc;
+                    }
+                      
+                    // if (d<STIR_DIST) {
+                        // var mAcc = ( 1 - (d / STIR_DIST) * app.width * 0.00026 );
+                        // this.v.x += p.x * mAcc;
+                        // this.v.y += p.y * mAcc;
+                    // }
+//                     
+                    this.v.mul(FRICTION);
                     
                     this.position.add(this.v);
-                },
-                
-                draw: function(c) {
-                    c.fillRect(0, 0, 1, 1);
-                    // c.fillCircle(0, 0, 2);
-                    // c.drawPoint(0, 0);
+                    
+                    // ハミ出しチェック
+                    if (this.x > app.width) {
+                        this.x = app.width;
+                        this.v.x *= -1;
+                    }
+                    else if (this.x < 0) {
+                        this.x = 0;
+                        this.v.x *= -1;
+                    }
+                    if (this.y > app.height) {
+                        this.y = app.height;
+                        this.v.y *= -1;
+                    }
+                    else if (this.y < 0) {
+                        this.y = 0;
+                        this.v.y *= -1;
+                    }
+                    
+                    this.rotation += 10;
                 },
                 
             });
             
             window.onload = function() {
                 var app = tm.app.CanvasApp("#c");
+                app.fps = 30;
+                app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
                 app.fitWindow();
                 app.enableStats();
                 app.background = "rgba(0, 0, 0, 0.5)";
                 
-                for (var i=0; i<1000; ++i) {
+                for (var i=0; i<500; ++i) {
                     var c = Particle(
-                        "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360))
+                        "hsla({0}, 75%, 50%, 1)".format(Math.rand(0, 360))
                     );
-                    c.x = Math.rand(0, 640);
-                    c.y = Math.rand(0, 480);
+                    c.x = Math.rand(0, app.width);
+                    c.y = Math.rand(0, app.height);
                     app.currentScene.addChild(c);
                 }
                 
