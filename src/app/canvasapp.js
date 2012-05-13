@@ -128,7 +128,7 @@ tm.app = tm.app || {};
         {
             var self = this;
             
-            // requestAnimationFrame version
+            // // requestAnimationFrame version
             // var fn = function() {
                 // self._loop();
                 // requestAnimationFrame(fn);

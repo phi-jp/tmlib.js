@@ -38,6 +38,10 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
+        toStyle: function() {
+            this.gradient;
+        },
+        
     });
     
     
@@ -72,6 +76,10 @@ tm.graphics = tm.graphics || {};
                 this.addColorStop(offset, color);
             }
             return this;
+        },
+        
+        toStyle: function() {
+            this.gradient;
         },
         
     });

@@ -50,9 +50,13 @@ tm.util = tm.util || {};
         },
         
         bin: function(data) {
-            // TODO: 
-            return data;
-        }
+            var bytearray = [];
+            for (var i=0, len=data.length; i<len; ++i) {
+                bytearray[i] = data.charCodeAt(i) & 0xff;
+            }
+            return bytearray;
+        },
+        
     };
     
     tm.util.Ajax = {

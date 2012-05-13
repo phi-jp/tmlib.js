@@ -11,6 +11,13 @@
      */
     
     /**
+     * クランプ
+     */
+    Math.clamp = function(x, a, b) {
+        return (x < a) ? a : ( (x > b) ? b : x );
+    };
+    
+    /**
      * @property    DEG_TO_RAD
      * Degree to Radian.
      */

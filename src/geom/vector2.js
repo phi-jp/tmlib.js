@@ -191,8 +191,8 @@ tm.geom = tm.geom || {};
             max = max || 360;
             len = len || 1;
             this.setDegree(Math.randf(min, max), len);
+            return this;
         },
-        
         
         /**
          * 加算
