@@ -1,8 +1,8 @@
 
 var fs      = require("fs");
 var merger  = require("merger");
-var compressor = require("node-minify");
-
+var uglify  = require("uglify-js");
+var codeText   = "";
 
 var base = "../src/";
 var target = [
@@ -53,34 +53,32 @@ var target = [
     "app/anim.js",
     
     "sound/sound.js",
-    
 ];
 for (var i=0,len=target.length; i<len; ++i) {
     target[i] = base + target[i];
 }
 
-// main
+// merge
 (function() {
     // マージ
     var outputFile  = fs.createWriteStream("../build/tmlib.js");
-    var codeText    = merger.merge(target);
     
+    codeText    = merger.merge(target);
     outputFile.write(codeText);
 })();
 
 
+// minify
 (function() {
-    new compressor.minify({
-        /*
-        type: 'gcc',
-        type: 'uglifyjs',
-        */
-        type: 'yui',
-        fileIn : '../build/tmlib.js',
-        fileOut: '../build/tmlib.min.js',
-        callback: function(err) {
-            console.log(err);
-        }
-    });
+    var outputFile = fs.createWriteStream("../build/tmlib.min.js");
+    
+    // パース
+    var ast = uglify.parser.parse(codeText);
+    ast = uglify.uglify.ast_mangle(ast);
+    ast = uglify.uglify.ast_squeeze(ast);
+    var finalCode = uglify.uglify.gen_code(ast);
+    
+    // 出力
+    outputFile.write(finalCode);
 })();
 
