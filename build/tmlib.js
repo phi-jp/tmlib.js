@@ -935,6 +935,13 @@ var tm = tm || {};
      */
     
     /**
+     * クランプ
+     */
+    Math.clamp = function(x, a, b) {
+        return (x < a) ? a : ( (x > b) ? b : x );
+    };
+    
+    /**
      * @property    DEG_TO_RAD
      * Degree to Radian.
      */
@@ -1689,8 +1696,8 @@ tm.geom = tm.geom || {};
             max = max || 360;
             len = len || 1;
             this.setDegree(Math.randf(min, max), len);
+            return this;
         },
-        
         
         /**
          * 加算
@@ -6731,6 +6738,10 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
+        toStyle: function() {
+            this.gradient;
+        },
+        
     });
     
     
@@ -6765,6 +6776,10 @@ tm.graphics = tm.graphics || {};
                 this.addColorStop(offset, color);
             }
             return this;
+        },
+        
+        toStyle: function() {
+            this.gradient;
         },
         
     });
@@ -7840,7 +7855,7 @@ tm.app = tm.app || {};
         {
             var self = this;
             
-            // requestAnimationFrame version
+            // // requestAnimationFrame version
             // var fn = function() {
                 // self._loop();
                 // requestAnimationFrame(fn);
