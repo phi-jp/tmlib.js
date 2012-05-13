@@ -52,6 +52,7 @@
                         finish: 2.0,
                         duration: 1000,
                         delay: 1500,
+                        func: "easeOutInBounce",
                     });
                     this.anim.addTween({
                         prop: "scaleY",
@@ -59,6 +60,7 @@
                         finish: 2.0,
                         duration: 1000,
                         delay: 1500,
+                        func: "easeOutInBounce",
                     });
                     this.anim.addTween({
                         prop: "alpha",
@@ -121,7 +123,7 @@
                         begin: 0,
                         finish: 360,
                         duration: 1000,
-                        func: Math.easeInQuad,
+                        func: "easeInOutQuad",
                     });
                     
                     
@@ -131,6 +133,7 @@
                         finish: 2.0,
                         duration: 1000,
                         delay: 1500,
+                        func: "easeInOutBack",
                     });
                     this.anim.addTween({
                         prop: "scaleY",
@@ -138,6 +141,7 @@
                         finish: 2.0,
                         duration: 1000,
                         delay: 1500,
+                        func: "easeInOutBack",
                     });
                     this.anim.addTween({
                         prop: "alpha",

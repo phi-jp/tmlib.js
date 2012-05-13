@@ -86,9 +86,15 @@
                 tween.onchange = function() {
                     c.log(obj.x);
                 }
-                // tween.onfinish = function() {
-                    // this.yoyo();
-                // };
+                tween.onfinish = function() {
+                    var elm = tm.dom.Element("#transition");
+                    elm.element.selectedIndex += 1;
+                    if (!elm.value) elm.element.selectedIndex = 0;
+                    tween.setTransition(elm.value);
+                    tween.start();
+                    c.clear();
+                    //this.yoyo();
+                };
                 
                 tm.setLoop(function() {
                     context.fillStyle = "black";
@@ -96,8 +102,6 @@
                     
                     context.fillStyle = "white";
                     context.fillRect(obj.x, obj.y, 100, 100);
-                    // tween.time+=1;
-                    // tween.update();
                 }, 1000/30);
                 
                 var fn = function() {
@@ -110,6 +114,12 @@
                 tm.dom.Element("#stop").event.click(fn);
                 tm.dom.Element("#resume").event.click(fn);
                 tm.dom.Element("#fforward").event.click(fn);
+                
+                tm.dom.Element("#transition").event.add("change", function() {
+                    tween.setTransition(this.value);
+                    c.clear();
+                    tween.start();
+                });
             };
             
         </script>
@@ -136,6 +146,48 @@
                 <button id="resume">resume</button>
                 <button id="rewind">rewind</button>
                 <button id="fforward">fforward</button>
+                <select id="transition">
+                    <option value="linear">linear</options>
+                    <option value="easeInQuad">easeInQuad</options>
+                    <option value="easeOutQuad">easeOutQuad</options>
+                    <option value="easeInOutQuad">easeInOutQuad</options>
+                    <option value="easeInCubic">easeInCubic</options>
+                    <option value="easeOutCubic">easeOutCubic</options>
+                    <option value="easeInOutCubic">easeInOutCubic</options>
+                    <option value="easeOutInCubic">easeOutInCubic</options>
+                    <option value="easeInQuart">easeInQuart</options>
+                    <option value="easeOutQuart">easeOutQuart</options>
+                    <option value="easeInOutQuart">easeInOutQuart</options>
+                    <option value="easeOutInQuart">easeOutInQuart</options>
+                    <option value="easeInQuint">easeInQuint</options>
+                    <option value="easeOutQuint">easeOutQuint</options>
+                    <option value="easeInOutQuint">easeInOutQuint</options>
+                    <option value="easeOutInQuint">easeOutInQuint</options>
+                    <option value="easeInSine">easeInSine</options>
+                    <option value="easeOutSine">easeOutSine</options>
+                    <option value="easeInOutSine">easeInOutSine</options>
+                    <option value="easeOutInSine">easeOutInSine</options>
+                    <option value="easeInExpo">easeInExpo</options>
+                    <option value="easeOutExpo">easeOutExpo</options>
+                    <option value="easeInOutExpo">easeInOutExpo</options>
+                    <option value="easeOutInExpo">easeOutInExpo</options>
+                    <option value="easeInCirc">easeInCirc</options>
+                    <option value="easeOutCirc">easeOutCirc</options>
+                    <option value="easeInOutCirc">easeInOutCirc</options>
+                    <option value="easeOutInCirc">easeOutInCirc</options>
+                    <option value="easeInElastic">easeInElastic</options>
+                    <option value="easeOutElastic">easeOutElastic</options>
+                    <option value="easeInOutElastic">easeInOutElastic</options>
+                    <option value="easeOutInElastic">easeOutInElastic</options>
+                    <option value="easeInBack">easeInBack</options>
+                    <option value="easeOutBack">easeOutBack</options>
+                    <option value="easeInOutBack">easeInOutBack</options>
+                    <option value="easeOutInBack">easeOutInBack</options>
+                    <option value="easeInBounce">easeInBounce</options>
+                    <option value="easeOutBounce">easeOutBounce</options>
+                    <option value="easeInOutBounce">easeInOutBounce</options>
+                    <option value="easeOutInBounce">easeOutInBounce</options>
+                </select>
                 <h2>Console</h2>
                 <pre id="console" class="prettyprint"></pre>
             </section>

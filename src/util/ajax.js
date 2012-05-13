@@ -19,45 +19,6 @@ tm.util = tm.util || {};
         error   : function(data){ alert("error!!"); }
     };
     
-    var DATA_CONVERTE_TABLE = {
-        undefined: function(data) {
-            return data;
-        },
-        
-        text: function(data) {
-            return data;
-        },
-        
-        xml: function(data) {
-            var div = document.createElement("div");
-            div.innerHTML = data;
-            return div;
-        },
-        
-        dom: function(data) {
-            var div = document.createElement("div");
-            div.innerHTML = data;
-            return tm.dom.Element(div);
-        },
-        
-        json: function(data) {
-            return JSON.parse(data);
-        },
-        
-        script: function(data) {
-            eval(data);
-            return data;
-        },
-        
-        bin: function(data) {
-            var bytearray = [];
-            for (var i=0, len=data.length; i<len; ++i) {
-                bytearray[i] = data.charCodeAt(i) & 0xff;
-            }
-            return bytearray;
-        },
-        
-    };
     
     tm.util.Ajax = {
         load: function(params)
@@ -68,7 +29,7 @@ tm.util = tm.util || {};
             
             var httpRequest = new XMLHttpRequest();
             var ajax_params = "";
-            var conv_func = DATA_CONVERTE_TABLE[params.dataType];
+            var conv_func = tm.util.Ajax.DATA_CONVERTE_TABLE[params.dataType];
             
             // コールバック
             httpRequest.onreadystatechange = function()
@@ -99,6 +60,54 @@ tm.util = tm.util || {};
             httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
             httpRequest.send(null);
         }
+    };
+    
+    /**
+     * データコンバータテーブル
+     */
+    tm.util.Ajax.DATA_CONVERTE_TABLE = {
+        undefined: function(data) {
+            return data;
+        },
+        
+        text: function(data) {
+            return data;
+        },
+        
+        xml: function(data) {
+            var div = document.createElement("div");
+            div.innerHTML = data;
+            return div;
+        },
+        
+        dom: function(data) {
+            var div = document.createElement("div");
+            div.innerHTML = data;
+            return tm.dom.Element(div);
+        },
+        
+        json: function(data) {
+            return JSON.parse(data);
+        },
+        
+        script: function(data) {
+            eval(data);
+            return data;
+        },
+        
+        /**
+         * ### Reference
+         * - <http://efcl.info/adiary/Javascript/treat-binary>
+         * @param {Object} data
+         */
+        bin: function(data) {
+            var bytearray = [];
+            for (var i=0, len=data.length; i<len; ++i) {
+                bytearray[i] = data.charCodeAt(i) & 0xff;
+            }
+            return bytearray;
+        },
+        
     };
     
 })();
