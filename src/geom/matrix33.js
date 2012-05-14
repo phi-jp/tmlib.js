@@ -80,11 +80,12 @@ tm.geom = tm.geom || {};
          * 単位行列
          */
         identity: function() {
-            this.set(
-                1, 0, 0,
-                0, 1, 0,
-                0, 0, 1
-            );
+            var m = this.m;
+            
+            m[0] = 1; m[3] = 0; m[6] = 0;
+            m[1] = 0; m[4] = 1; m[7] = 0;
+            m[2] = 0; m[5] = 0; m[8] = 1;
+            
             return this;
         },
         
@@ -116,6 +117,14 @@ tm.geom = tm.geom || {};
          * 移動
          */
         translate: function(x, y) {
+            var m = this.m;
+            
+            m[6] = m[0] * x + m[3] * y + m[6];
+            m[7] = m[1] * x + m[4] * y + m[7];
+            m[8] = m[2] * x + m[5] * y + m[8];
+            
+            return this;
+            
             return this.multiply( tm.geom.Matrix33.translate(x, y) );
         },
         
@@ -137,6 +146,18 @@ tm.geom = tm.geom || {};
          * Z軸回転
          */
         rotateZ: function(rad) {
+            var s = Math.sin(rad);
+            var c = Math.cos(rad);
+            var m = this.m;
+            
+            var m00 = m[0];
+            var m10 = m[1];
+            var m20 = m[2];
+            var m01 = m[3];
+            var m11 = m[4];
+            var m21 = m[5];
+            
+            
             return this.multiply( tm.geom.Matrix33.rotateZ(rad) );
         },
         
@@ -144,6 +165,13 @@ tm.geom = tm.geom || {};
          * スケーリング
          */
         scale: function(x, y) {
+            var m = this.m;
+            
+            m[0] *= x; m[3] *= y;
+            m[1] *= x; m[4] *= y;
+            m[2] *= x; m[5] *= y;
+            
+            return this;
             return this.multiply( tm.geom.Matrix33.scale(x, y) );
         },
         
@@ -152,23 +180,25 @@ tm.geom = tm.geom || {};
          */
         multiply: function(mat)
         {
-            var m00 = this.m00*mat.m00 + this.m01*mat.m10 + this.m02*mat.m20;
-            var m01 = this.m00*mat.m01 + this.m01*mat.m11 + this.m02*mat.m21;
-            var m02 = this.m00*mat.m02 + this.m01*mat.m12 + this.m02*mat.m22;
+            var m = this.m;
             
-            var m10 = this.m10*mat.m00 + this.m11*mat.m10 + this.m12*mat.m20;
-            var m11 = this.m10*mat.m01 + this.m11*mat.m11 + this.m12*mat.m21;
-            var m12 = this.m10*mat.m02 + this.m11*mat.m12 + this.m12*mat.m22;
+            var m00 = m[0]*mat.m00 + m[3]*mat.m10 + m[6]*mat.m20;
+            var m01 = m[0]*mat.m01 + m[3]*mat.m11 + m[6]*mat.m21;
+            var m02 = m[0]*mat.m02 + m[3]*mat.m12 + m[6]*mat.m22;
             
-            var m20 = this.m20*mat.m00 + this.m21*mat.m10 + this.m22*mat.m20;
-            var m21 = this.m20*mat.m01 + this.m21*mat.m11 + this.m22*mat.m21;
-            var m22 = this.m20*mat.m02 + this.m21*mat.m12 + this.m22*mat.m22;
+            var m10 = m[1]*mat.m00 + m[4]*mat.m10 + m[7]*mat.m20;
+            var m11 = m[1]*mat.m01 + m[4]*mat.m11 + m[7]*mat.m21;
+            var m12 = m[1]*mat.m02 + m[4]*mat.m12 + m[7]*mat.m22;
             
-            return this.set(
-                m00, m01, m02,
-                m10, m11, m12,
-                m20, m21, m22
-            );
+            var m20 = m[2]*mat.m00 + m[5]*mat.m10 + m[8]*mat.m20;
+            var m21 = m[2]*mat.m01 + m[5]*mat.m11 + m[8]*mat.m21;
+            var m22 = m[2]*mat.m02 + m[5]*mat.m12 + m[8]*mat.m22;
+            
+            m[0] = m00; m[3] = m01; m[6] = m02;
+            m[1] = m10; m[4] = m11; m[7] = m12;
+            m[2] = m20; m[5] = m21; m[8] = m22;
+            
+            return this;
         },
         
         /**

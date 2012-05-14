@@ -618,6 +618,15 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * 行列を掛ける
+         */
+        transform: function(m11, m12, m21, m22, dx, dy)
+        {
+            this.context.transform(m11, m12, m21, m22, dx, dy);
+            return this;
+        },
+        
+        /**
          * 保存
          */
         save: function()
