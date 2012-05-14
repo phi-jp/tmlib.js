@@ -37,6 +37,17 @@ tm.app = tm.app || {};
          * 高さ
          */
         height: 64,
+        
+        /**
+         * originX
+         */
+        originX: 0.5,
+        
+        /**
+         * originX
+         */
+        originY: 0.5,
+        
         /**
          * 表示フラグ
          */
@@ -71,7 +82,8 @@ tm.app = tm.app || {};
             this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
-            // this._matrix  = tm.geom.Matrix33();
+            this._matrix  = tm.geom.Matrix33();
+            this._matrix.identity();
             this.eventFlags = {};
         },
         
@@ -180,11 +192,11 @@ tm.app = tm.app || {};
             }
         },
         
-        _draw: function(graphics) {
+        _draw: function(canvas) {
             
             if (this.visible === false) return ;
             
-            var context = graphics.context;
+            var context = canvas.context;
             
             context.save();
             
@@ -193,37 +205,42 @@ tm.app = tm.app || {};
             context.globalAlpha    *= this.alpha;
             context.globalCompositeOperation = this.blendMode;
             
-            // 座標計算
-            /*
-            this._matrix.identity();
-            this._matrix.translate(this.x, this.y);
-            this._matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
-            this._matrix.scale(this.scaleX, this.scaleY);
-            
-            graphics.setTransform(
-                this._matrix.m00, this._matrix.m10,
-                this._matrix.m01, this._matrix.m11,
-                this._matrix.m02, this._matrix.m12
-            );
-            /**/
+            // // 座標計算
+            // var matrix = this._matrix;
+            // matrix.identity();
+            // if (this.parent) matrix.multiply(this.parent._matrix);
+            // matrix.translate(this.x, this.y);
+            // // matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
+            // matrix.scale(this.scaleX, this.scaleY);
+//             
+            // var m = matrix.m;
+            // context.setTransform(
+                // m[0], m[1],
+                // m[3], m[4],
+                // m[6], m[7]
+            // );
             
             context.translate(this.position.x, this.position.y);
-            context.rotate(this.rotation*Math.PI/180);
+            context.rotate(this.rotation * Math.DEG_TO_RAD);
             context.scale(this.scale.x, this.scale.y);
-            /**/
             
-            this.draw(graphics);
+            this.draw(canvas);
             
             // 子供達も実行
             if (this.children.length > 0) {
                 var tempChildren = this.children.slice();
                 for (var i=0,len=tempChildren.length; i<len; ++i) {
-                    tempChildren[i]._draw(graphics);
+                    tempChildren[i]._draw(canvas);
                 }
-                // this.execChildren(arguments.callee, graphics);
+                // this.execChildren(arguments.callee, canvas);
             }
             
             context.restore();
+            
+            // // 衝突バウンディングボックス
+            // canvas.strokeRect(this.left, this.top, this.width, this.height);
+            // // 衝突バウンディングサークル
+            // canvas.strokeCircle(this.x, this.y, this.radius);
         },
         
         
@@ -240,7 +257,7 @@ tm.app = tm.app || {};
             for (var i=0; i<this.children.length; ++i) {
                 this.children[i]._checkEvent(check_func, event_name);
             }
-        }
+        },
         
         
     });
@@ -292,5 +309,36 @@ tm.app = tm.app || {};
         "set": function(v)  { this._radius = v; }
     });
     
+    /**
+     * @property    top
+     * 左
+     */
+    tm.app.CanvasElement.prototype.getter("top", function() {
+        return this.y - this.height*this.originY;
+    });
+    
+    /**
+     * @property    right
+     * 左
+     */
+    tm.app.CanvasElement.prototype.getter("right", function() {
+        return this.x + this.width*this.originX;
+    });
+    
+    /**
+     * @property    bottom
+     * 左
+     */
+    tm.app.CanvasElement.prototype.getter("bottom", function() {
+        return this.y + this.height*this.originY;
+    });
+    
+    /**
+     * @property    left
+     * 左
+     */
+    tm.app.CanvasElement.prototype.getter("left", function() {
+        return this.x - this.width*this.originX;
+    });
     
 })();

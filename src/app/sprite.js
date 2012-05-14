@@ -16,9 +16,6 @@ tm.app = tm.app || {};
         
         superClass: tm.app.CanvasElement,
         
-        originX: 0.5,
-        originY: 0.5,
-        
         /**
          * 初期化
          */

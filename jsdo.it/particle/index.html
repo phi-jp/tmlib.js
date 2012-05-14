@@ -68,11 +68,11 @@
                         this.v.y -= dv.y * toAcc;
                     }
                       
-                    // if (d<STIR_DIST) {
-                        // var mAcc = ( 1 - (d / STIR_DIST) * app.width * 0.00026 );
-                        // this.v.x += p.dX * mAcc;
-                        // this.v.y += p.dY * mAcc;
-                    // }
+                    if (d<STIR_DIST) {
+                        var mAcc = ( 1 - (d / STIR_DIST) * app.width * 0.00026 );
+                        this.v.x += p.dX * mAcc * 0.1;
+                        this.v.y += p.dY * mAcc * 0.1;
+                    }
                     
                     // 摩擦
                     this.v.mul(FRICTION);
