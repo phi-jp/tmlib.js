@@ -10,9 +10,9 @@ tm.app = tm.app || {};
     
     /**
      * @class
-     * インタラクティブキャンバスクラス
+     * アニメーションクラス
      */
-    tm.app.Anim = tm.createClass({
+    tm.app.Animation = tm.createClass({
         
         isAnimation: false,
         
@@ -91,18 +91,18 @@ tm.app = tm.app || {};
     
     
     /**
-     * @property    anim
+     * @property    animation
      * アニメーション
      */
-    tm.app.Element.prototype.getter("anim", function() {
-        if (!this._anim) {
-            this._anim = tm.app.Anim(this);
+    tm.app.Element.prototype.getter("animation", function() {
+        if (!this._animation) {
+            this._animation = tm.app.Animation(this);
             this.addEventListener("enterframe", function(e){
-                this._anim.update(e.app);
+                this._animation.update(e.app);
             });
         }
         
-        return this._anim
+        return this._animation;
     });
     
 })();

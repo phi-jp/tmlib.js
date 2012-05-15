@@ -95,25 +95,25 @@ var Star = tm.createClass({
     },
     
     startAnim: function() {
-        this.anim.addTween({
+        this.animation.addTween({
             prop: "alpha",
             begin: 1,
             finish: 0,
             duration: 1000,
         });
-        this.anim.addTween({
+        this.animation.addTween({
             prop: "scaleX",
             begin: 1,
             finish: 2,
             duration: 1000,
         });
-        this.anim.addTween({
+        this.animation.addTween({
             prop: "scaleY",
             begin: 1,
             finish: 2,
             duration: 1000,
         });
-        this.anim.addTween({
+        this.animation.addTween({
             prop: "rotation",
             begin: 0,
             finish: 360,

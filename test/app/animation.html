@@ -60,7 +60,7 @@
         <script src="../../src/app/canvasapp.js"></script>
         <script src="../../src/app/event.js"></script>
         <script src="../../src/app/collision.js"></script>
-        <script src="../../src/app/anim.js"></script>
+        <script src="../../src/app/animation.js"></script>
         
         <script src="../../src/anim/tween.js"></script>
         
@@ -89,7 +89,7 @@
                 },
                 
                 startAnim: function() {
-                    this.anim.addTween({
+                    this.animation.addTween({
                         prop: "x",
                         begin: this.startX,
                         finish: this.startX + 300,
@@ -97,7 +97,7 @@
                     });
                     this.x = this.startX;
                     
-                    this.anim.addTween({
+                    this.animation.addTween({
                         prop: "y",
                         begin: this.startY,
                         finish: this.startY + 300,
@@ -106,7 +106,7 @@
                     });
                     this.y = this.startY;
                     
-                    this.anim.addTween({
+                    this.animation.addTween({
                         prop: "alpha",
                         begin: 1,
                         finish: 0,
