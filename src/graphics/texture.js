@@ -30,6 +30,22 @@ tm.graphics = tm.graphics || {};
         
     });
     
+    /**
+     * @property    width
+     * 幅
+     */
+    tm.graphics.Texture.prototype.getter("width", function() {
+        return this.element.width;
+    });
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.graphics.Texture.prototype.getter("height", function() {
+        return this.element.height;
+    });
+    
 })();
 
 (function(){
