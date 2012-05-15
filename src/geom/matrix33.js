@@ -41,6 +41,14 @@ tm.geom = tm.geom || {};
             // |m10, m11, m12|
             // |m20, m21, m22|
             
+            // |m[0], m[3], m[6]|
+            // |m[1], m[4], m[7]|
+            // |m[2], m[5], m[8]|
+            
+            // |a, b, tx|
+            // |c, d, ty|
+            // |0, 0,  1|
+            
             this.m00 = m00; this.m01 = m01; this.m02 = m02;
             this.m10 = m10; this.m11 = m11; this.m12 = m12;
             this.m20 = m20; this.m21 = m21; this.m22 = m22;
@@ -180,23 +188,28 @@ tm.geom = tm.geom || {};
          */
         multiply: function(mat)
         {
-            var m = this.m;
+            var tm = this.m;
+            var om = mat.m;
             
-            var m00 = m[0]*mat.m00 + m[3]*mat.m10 + m[6]*mat.m20;
-            var m01 = m[0]*mat.m01 + m[3]*mat.m11 + m[6]*mat.m21;
-            var m02 = m[0]*mat.m02 + m[3]*mat.m12 + m[6]*mat.m22;
+            var a00 = tm[0], a01 = tm[3], a02 = tm[6];
+            var a10 = tm[1], a11 = tm[4], a12 = tm[7];
+            var a20 = tm[2], a21 = tm[5], a22 = tm[8];
+            var b00 = om[0], b01 = om[3], b02 = om[6];
+            var b10 = om[1], b11 = om[4], b12 = om[7];
+            var b20 = om[2], b21 = om[5], b22 = om[8];
             
-            var m10 = m[1]*mat.m00 + m[4]*mat.m10 + m[7]*mat.m20;
-            var m11 = m[1]*mat.m01 + m[4]*mat.m11 + m[7]*mat.m21;
-            var m12 = m[1]*mat.m02 + m[4]*mat.m12 + m[7]*mat.m22;
             
-            var m20 = m[2]*mat.m00 + m[5]*mat.m10 + m[8]*mat.m20;
-            var m21 = m[2]*mat.m01 + m[5]*mat.m11 + m[8]*mat.m21;
-            var m22 = m[2]*mat.m02 + m[5]*mat.m12 + m[8]*mat.m22;
+            tm[0] = a00*b00 + a01*b10 + a02*b20;
+            tm[3] = a00*b01 + a01*b11 + a02*b21;
+            tm[6] = a00*b02 + a01*b12 + a02*b22;
             
-            m[0] = m00; m[3] = m01; m[6] = m02;
-            m[1] = m10; m[4] = m11; m[7] = m12;
-            m[2] = m20; m[5] = m21; m[8] = m22;
+            tm[1] = a10*b00 + a11*b10 + a12*b20;
+            tm[4] = a10*b01 + a11*b11 + a12*b21;
+            tm[7] = a10*b02 + a11*b12 + a12*b22;
+            
+            tm[2] = a20*b00 + a21*b10 + a22*b20;
+            tm[5] = a20*b01 + a21*b11 + a22*b21;
+            tm[8] = a20*b02 + a21*b12 + a22*b22;
             
             return this;
         },
@@ -315,6 +328,55 @@ tm.geom = tm.geom || {};
     tm.geom.Matrix33.prototype.accessor("m22", {
         "get": function()   { return this.m[8]; },
         "set": function(v)  { this.m[8] = v;    }
+    });
+
+    /**
+     * @property    a
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor("a", {
+        "get": function()   { return this.m[0]; },
+        "set": function(v)  { this.m[0] = v;    }
+    });
+    /**
+     * @property    b
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor("b", {
+        "get": function()   { return this.m[3]; },
+        "set": function(v)  { this.m[3] = v;    }
+    });
+    /**
+     * @property    c
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor("c", {
+        "get": function()   { return this.m[1]; },
+        "set": function(v)  { this.m[1] = v;    }
+    });
+    /**
+     * @property    d
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor("d", {
+        "get": function()   { return this.m[4]; },
+        "set": function(v)  { this.m[4] = v;    }
+    });
+    /**
+     * @property    tx
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor("tx", {
+        "get": function()   { return this.m[6]; },
+        "set": function(v)  { this.m[6] = v;    }
+    });
+    /**
+     * @property    ty
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor("ty", {
+        "get": function()   { return this.m[7]; },
+        "set": function(v)  { this.m[7] = v;    }
     });
     
 
