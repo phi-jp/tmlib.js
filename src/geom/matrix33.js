@@ -29,7 +29,18 @@ tm.geom = tm.geom || {};
             }
         },
         
-
+        /**
+         * クローン
+         */
+        clone: function() {
+            var m = this.m;
+            return tm.geom.Matrix33(
+                m[0], m[3], m[6],
+                m[1], m[4], m[7],
+                m[2], m[5], m[8]
+            );
+        },
+        
         /**
          * セッター
          */
@@ -106,6 +117,47 @@ tm.geom = tm.geom || {};
             this.m.swap(5, 7);
             
             return this;
+        },
+        
+        /**
+         * 逆行列
+         */
+        invert: function() {
+            var m = this.m;
+            var m00 = m[0], m01 = m[3], m02 = m[6];
+            var m10 = m[1], m11 = m[4], m12 = m[7];
+            var m20 = m[2], m21 = m[5], m22 = m[8];
+            var det = this.determinant();
+            
+            // |m00, m01, m02|
+            // |m10, m11, m12|
+            // |m20, m21, m22|
+            
+            this.m00 = (m11*m22-m12*m21)/det;
+            this.m01 = (m10*m22-m12*m20)/det*-1;
+            this.m02 = (m10*m21-m11*m20)/det;
+            
+            this.m10 = (m01*m22-m02*m21)/det*-1;
+            this.m11 = (m00*m22-m02*m20)/det;
+            this.m12 = (m00*m21-m01*m20)/det*-1;
+            
+            this.m20 = (m01*m12-m02*m11)/det;
+            this.m21 = (m00*m12-m02*m10)/det*-1;
+            this.m22 = (m00*m11-m01*m10)/det;
+            
+            this.transpose();
+            
+            return this;
+        },
+        
+        determinant: function() {
+            var m = this.m;
+            
+            var m00 = m[0], m01 = m[3], m02 = m[6];
+            var m10 = m[1], m11 = m[4], m12 = m[7];
+            var m20 = m[2], m21 = m[5], m22 = m[8];
+            
+            return m00*m11*m22 + m10*m21*m02 + m01*m12*m20 - m02*m11*m20 - m01*m10*m22 - m12*m21*m00;
         },
         
         /**
@@ -222,7 +274,7 @@ tm.geom = tm.geom || {};
             var vx = this.m00*v.x + this.m01*v.y + this.m02;
             var vy = this.m10*v.x + this.m11*v.y + this.m12;
             
-            return v.set(vx, vy);
+            return tm.geom.Vector2(vx, vy);
         },
         
         /**
@@ -234,7 +286,7 @@ tm.geom = tm.geom || {};
             var vy = this.m10*v.x + this.m11*v.y + this.m12*v.z;
             var vz = this.m20*v.x + this.m21*v.y + this.m22*v.z;
             
-            return v.set(vx, vy, vz);
+            return tm.geom.Vector3(vx, vy, vz);
         },
         
         /**
