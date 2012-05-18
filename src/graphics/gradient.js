@@ -39,7 +39,7 @@ tm.graphics = tm.graphics || {};
         },
         
         toStyle: function() {
-            this.gradient;
+            return this.gradient;
         },
         
     });
@@ -79,7 +79,7 @@ tm.graphics = tm.graphics || {};
         },
         
         toStyle: function() {
-            this.gradient;
+            return this.gradient;
         },
         
     });
