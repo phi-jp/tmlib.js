@@ -483,6 +483,37 @@ describe('Vector3 Test', function() {
 
 
 
+describe('Matrix33 Test', function() {
+
+    
+    /*
+    var mat = tm.geom.Matrix33(
+        1, 3, 1,
+        1, 1, 2,
+        2, 3, 4
+    );
+    
+       // 2.000   9.000  -5.000
+       // 0.000  -2.000   1.000
+      // -1.000  -3.000   2.000
+      
+    // |2, -9, -5|
+    // |0, -2, -1|
+    // |-1, 3, 2|
+    
+    var invert = mat.clone();
+    invert.invert();
+    console.log((invert).toString());
+    console.log(mat.multiply(invert).toString());
+    */
+    
+
+    
+});
+
+
+
+
 
 
 

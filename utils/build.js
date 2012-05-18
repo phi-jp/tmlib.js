@@ -17,6 +17,8 @@ var target = [
     "core/string.js",
     "core/list.js",
     
+    "util/random.js",
+    
     "geom/vector2.js",
     "geom/vector3.js",
     "geom/matrix33.js",
@@ -27,6 +29,8 @@ var target = [
     "dom/element.js",
     "dom/event.js",
     "dom/anim.js",
+    
+    "event/eventdispatcher.js",
     
     "input/keyboard.js",
     "input/mouse.js",
@@ -50,7 +54,7 @@ var target = [
     "app/event.js",
     "app/interaction.js",
     "app/collision.js",
-    "app/anim.js",
+    "app/animation.js",
     
     "sound/sound.js",
 ];

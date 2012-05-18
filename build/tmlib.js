@@ -1478,6 +1478,42 @@ var tm = tm || {};
 
 
 /*
+ * random.js
+ */
+
+tm.util = tm.util || {};
+
+(function() {
+    
+    /**
+     * @class
+     * ランダムクラス
+     * ## Reference
+     * - <http://www.python.jp/doc/2.5/lib/module-random.html>
+     * - <http://www.yukun.info/blog/2008/06/python-random.html>
+     * - <http://www.python-izm.com/contents/application/random.shtml>
+     */
+    tm.util.Random = {
+        
+        /**
+         * Dummy
+         */
+        randint: function(min, max) {
+            return window.Math.floor( Math.random()*(max-min+1) ) + min;
+        },
+        
+        /**
+         * Dummy
+         */
+        randfloat: function(min, max) {
+            return window.Math.random()*(max-min)+min;
+        },
+    };
+    
+})();
+
+
+/*
  * vector2.js
  */
 
@@ -2606,7 +2642,18 @@ tm.geom = tm.geom || {};
             }
         },
         
-
+        /**
+         * クローン
+         */
+        clone: function() {
+            var m = this.m;
+            return tm.geom.Matrix33(
+                m[0], m[3], m[6],
+                m[1], m[4], m[7],
+                m[2], m[5], m[8]
+            );
+        },
+        
         /**
          * セッター
          */
@@ -2683,6 +2730,47 @@ tm.geom = tm.geom || {};
             this.m.swap(5, 7);
             
             return this;
+        },
+        
+        /**
+         * 逆行列
+         */
+        invert: function() {
+            var m = this.m;
+            var m00 = m[0], m01 = m[3], m02 = m[6];
+            var m10 = m[1], m11 = m[4], m12 = m[7];
+            var m20 = m[2], m21 = m[5], m22 = m[8];
+            var det = this.determinant();
+            
+            // |m00, m01, m02|
+            // |m10, m11, m12|
+            // |m20, m21, m22|
+            
+            this.m00 = (m11*m22-m12*m21)/det;
+            this.m01 = (m10*m22-m12*m20)/det*-1;
+            this.m02 = (m10*m21-m11*m20)/det;
+            
+            this.m10 = (m01*m22-m02*m21)/det*-1;
+            this.m11 = (m00*m22-m02*m20)/det;
+            this.m12 = (m00*m21-m01*m20)/det*-1;
+            
+            this.m20 = (m01*m12-m02*m11)/det;
+            this.m21 = (m00*m12-m02*m10)/det*-1;
+            this.m22 = (m00*m11-m01*m10)/det;
+            
+            this.transpose();
+            
+            return this;
+        },
+        
+        determinant: function() {
+            var m = this.m;
+            
+            var m00 = m[0], m01 = m[3], m02 = m[6];
+            var m10 = m[1], m11 = m[4], m12 = m[7];
+            var m20 = m[2], m21 = m[5], m22 = m[8];
+            
+            return m00*m11*m22 + m10*m21*m02 + m01*m12*m20 - m02*m11*m20 - m01*m10*m22 - m12*m21*m00;
         },
         
         /**
@@ -2799,7 +2887,7 @@ tm.geom = tm.geom || {};
             var vx = this.m00*v.x + this.m01*v.y + this.m02;
             var vy = this.m10*v.x + this.m11*v.y + this.m12;
             
-            return v.set(vx, vy);
+            return tm.geom.Vector2(vx, vy);
         },
         
         /**
@@ -2811,7 +2899,7 @@ tm.geom = tm.geom || {};
             var vy = this.m10*v.x + this.m11*v.y + this.m12*v.z;
             var vz = this.m20*v.x + this.m21*v.y + this.m22*v.z;
             
-            return v.set(vx, vy, vz);
+            return tm.geom.Vector3(vx, vy, vz);
         },
         
         /**
@@ -4626,6 +4714,70 @@ tm.dom = tm.dom || {};
     
 })();
 
+
+
+/*
+ * eventdispatcher.js
+ */
+
+tm.event = tm.event || {};
+
+(function() {
+    
+    /**
+     * @class
+     * Event Dispatcher
+     * ### Reference
+     * -(EventDispatcher - ActionScript 3.0 コンポーネントリファレンスガイド)[http://livedocs.adobe.com/flash/9.0_jp/ActionScriptLangRefV3/flash/events/EventDispatcher.html]
+     */
+    tm.event.EventDispatcher = tm.createClass({
+        
+        init: function() {
+            this._listeners = {};
+        },
+        
+        /**
+         * イベントリスナー追加
+         */
+        addEventListener: function(type, listener) {
+            if (this._listeners[type] === undefined) {
+                this._listeners[type] = [];
+            }
+            
+            this._listeners[type].push(listener);
+        },
+        
+        /**
+         * イベント起動
+         */
+        dispatchEvent: function(e) {
+            var oldEventName = 'on' + e.type;
+            if (this[oldEventName]) this[oldEventName](e);
+            
+            var listeners = this._listeners[e.type];
+            if (listeners) {
+                for (var i=0,len=listeners.length; i<len; ++i) {
+                    listeners[i].call(this, e);
+                }
+            }
+        },
+        
+        /**
+         * 登録されたイベントがあるかをチェック
+         */
+        hasEventListener: function(type) {
+            
+        },
+        
+        /**
+         * リスナーを削除
+         */
+        removeEventListener: function(type, listener) {
+            // TODO: 
+        },
+    });
+    
+})();
 
 
 /*
@@ -6830,7 +6982,7 @@ tm.graphics = tm.graphics || {};
         },
         
         toStyle: function() {
-            this.gradient;
+            return this.gradient;
         },
         
     });
@@ -6870,7 +7022,7 @@ tm.graphics = tm.graphics || {};
         },
         
         toStyle: function() {
-            this.gradient;
+            return this.gradient;
         },
         
     });
@@ -7066,13 +7218,13 @@ tm.anim = tm.anim || {};
         
         _updateTime: function() {
             if (this.isPlaying) {
-                this._nextTime();
+                this._setTime((new Date()).getTime() - this.startTime);
                 setTimeout(arguments.callee.bind(this), 1000/this.fps);
             }
         },
         
-        _nextTime: function() {
-            var time = (new Date()).getTime() - this.startTime;
+        _setTime: function(t) {
+            var time = t;
             // モーション終了
             if (time > this.duration) {
                 // ループ
@@ -7311,7 +7463,6 @@ tm.anim = tm.anim || {};
 tm.app = tm.app || {};
 
 
-
 (function() {
     
     /**
@@ -7320,6 +7471,8 @@ tm.app = tm.app || {};
      */
     tm.app.Element = tm.createClass({
         
+        superClass: tm.event.EventDispatcher,
+        
         parent: null,
         children: null,
         
@@ -7327,6 +7480,9 @@ tm.app = tm.app || {};
          * 初期化
          */
         init: function() {
+            
+            this.superInit();
+            
             this.children = [];
             this._listeners = {};
         },
@@ -7448,31 +7604,6 @@ tm.app = tm.app || {};
             return elm;
         },
         
-        /**
-         * イベントリスナー追加
-         */
-        addEventListener: function(type, listener) {
-            if (this._listeners[type] === undefined) {
-                this._listeners[type] = [];
-            }
-            
-            this._listeners[type].push(listener);
-        },
-        
-        /**
-         * イベント起動
-         */
-        dispatchEvent: function(e) {
-            var oldEventName = 'on' + e.type;
-            if (this[oldEventName]) this[oldEventName](e);
-            
-            var listeners = this._listeners[e.type];
-            if (listeners) {
-                for (var i=0,len=listeners.length; i<len; ++i) {
-                    listeners[i].call(this, e);
-                }
-            }
-        },
     });
     
 })();
@@ -7562,6 +7693,7 @@ tm.app = tm.app || {};
             this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
+            this.pointing = tm.geom.Vector2(0, 0);
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
             this.eventFlags = {};
@@ -7576,12 +7708,29 @@ tm.app = tm.app || {};
          */
         draw: function(ctx) {},
         
+        getFinalMatrix: function() {
+            var matrix = tm.geom.Matrix33();
+            
+            if (this.parent) {
+                matrix.multiply(this.parent.getFinalMatrix());
+            }
+            matrix.translate(this.x, this.y);
+            matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
+            matrix.scale(this.scaleX, this.scaleY);
+            
+            return matrix;
+        },
+        
         /**
          * 点と衝突しているかを判定
          */
         isHitPoint: function(x, y) {
             // 円判定
-            if (((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)) < (this.radius*this.radius)) {
+            var p = this.globalToLocal(tm.geom.Vector2(x, y));
+            this.pointing.x = p.x;
+            this.pointing.y = p.y;
+            
+            if (((p.x)*(p.x)+(p.y)*(p.y)) < (this.radius*this.radius)) {
                 return true;
             }
             return false;
@@ -7624,11 +7773,20 @@ tm.app = tm.app || {};
         },
         
         /**
-         * ローカル座標をグローバル座標にする
+         * ローカル座標をグローバル座標に変換
          */
         localToGlobal: function(p) {
-            // TODO: まだ未実装
-            return { x: this.x + p.x, y: this.y + p.y };
+            return this.getFinalMatrix().multiplyVector2(p);
+        },
+        
+        /**
+         * グローバル座標をローカル座標に変換
+         */
+        globalToLocal: function(p) {
+            var matrix = this.getFinalMatrix();
+            matrix.invert();
+            
+            return matrix.multiplyVector2(p);
         },
         
         drawFillRect: function(ctx) {
@@ -7686,19 +7844,9 @@ tm.app = tm.app || {};
             context.globalCompositeOperation = this.blendMode;
             
             // // 座標計算
-            // var matrix = this._matrix;
-            // matrix.identity();
-            // if (this.parent) matrix.multiply(this.parent._matrix);
-            // matrix.translate(this.x, this.y);
-            // // matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
-            // matrix.scale(this.scaleX, this.scaleY);
-//             
+            // var matrix = this.getFinalMatrix();
             // var m = matrix.m;
-            // context.setTransform(
-                // m[0], m[1],
-                // m[3], m[4],
-                // m[6], m[7]
-            // );
+            // context.setTransform( m[0], m[1], m[3], m[4], m[6], m[7] );
             
             context.translate(this.position.x, this.position.y);
             context.rotate(this.rotation * Math.DEG_TO_RAD);
@@ -8611,9 +8759,9 @@ tm.app = tm.app || {};
     
     /**
      * @class
-     * インタラクティブキャンバスクラス
+     * アニメーションクラス
      */
-    tm.app.Anim = tm.createClass({
+    tm.app.Animation = tm.createClass({
         
         isAnimation: false,
         
@@ -8640,12 +8788,11 @@ tm.app = tm.app || {};
                     continue;
                 }
                 
-                tween.time += 1000/app.fps;
+                var time = tween.time + 1000/app.fps;
+                tween._setTime(time);
                 
-                if (tween.time > tween.duration) {
-                    tween.time = tween.duration;
-                    tween.update();
-                    tween.dispatchEvent("finish");
+                if (tween.time >= tween.duration) {
+                    // 削除
                     this.tweens.erase(tween);
                     
                     // 全てのアニメーション終了チェック
@@ -8688,22 +8835,27 @@ tm.app = tm.app || {};
             return this;
         },
         
+        
+        clear: function() {
+            this.tweens = [];
+            return this;
+        },
     });
     
     
     /**
-     * @property    anim
+     * @property    animation
      * アニメーション
      */
-    tm.app.Element.prototype.getter("anim", function() {
-        if (!this._anim) {
-            this._anim = tm.app.Anim(this);
+    tm.app.Element.prototype.getter("animation", function() {
+        if (!this._animation) {
+            this._animation = tm.app.Animation(this);
             this.addEventListener("enterframe", function(e){
-                this._anim.update(e.app);
+                this._animation.update(e.app);
             });
         }
         
-        return this._anim
+        return this._animation;
     });
     
 })();

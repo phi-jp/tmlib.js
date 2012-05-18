@@ -67,6 +67,7 @@ tm.preload(function() {
  */
 tm.main(function() {
     app = tm.app.CanvasApp("#c");
+    app.fps = 30;
     app.resize(640, 480);
     app.fitWindow();
     app.enableStats();
@@ -273,7 +274,7 @@ var Crash = tm.createClass({
         this.timer = 30;
         
         var self = this;
-        for (var i=0; i<8; ++i) {
+        for (var i=0; i<16; ++i) {
             var particle = tm.app.Sprite(40, 40);
             particle.scaleX = particle.scaleY = 0.5;
             particle.v = tm.geom.Vector2.random(0, 360, 2);

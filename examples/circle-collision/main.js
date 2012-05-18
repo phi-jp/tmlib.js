@@ -130,7 +130,7 @@ var Circle = tm.createClass({
         // 掴んでいるサークルが自分だった場合
         if (this === target) {
             var p = app.pointing;
-            this.position.set(p.x, p.y);
+            this.position.set(this.x+this.pointing.x, this.y+this.pointing.y);
             this.velocity.set(p.dX, p.dY);
             return ;
         }
@@ -184,6 +184,7 @@ var Circle = tm.createClass({
     },
     
     onmousedown: function() {
+        console.log("a");
         target = this;
         this.velocity.set(0, 0);
     },
@@ -192,4 +193,10 @@ var Circle = tm.createClass({
         target = null;
     },
 });
+
+
+
+
+
+
 
