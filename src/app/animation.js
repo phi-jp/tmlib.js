@@ -39,12 +39,11 @@ tm.app = tm.app || {};
                     continue;
                 }
                 
-                tween.time += 1000/app.fps;
+                var time = tween.time + 1000/app.fps;
+                tween._setTime(time);
                 
-                if (tween.time > tween.duration) {
-                    tween.time = tween.duration;
-                    tween.update();
-                    tween.dispatchEvent("finish");
+                if (tween.time >= tween.duration) {
+                    // 削除
                     this.tweens.erase(tween);
                     
                     // 全てのアニメーション終了チェック
@@ -87,6 +86,11 @@ tm.app = tm.app || {};
             return this;
         },
         
+        
+        clear: function() {
+            this.tweens = [];
+            return this;
+        },
     });
     
     

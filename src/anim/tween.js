@@ -159,13 +159,13 @@ tm.anim = tm.anim || {};
         
         _updateTime: function() {
             if (this.isPlaying) {
-                this._nextTime();
+                this._setTime((new Date()).getTime() - this.startTime);
                 setTimeout(arguments.callee.bind(this), 1000/this.fps);
             }
         },
         
-        _nextTime: function() {
-            var time = (new Date()).getTime() - this.startTime;
+        _setTime: function(t) {
+            var time = t;
             // モーション終了
             if (time > this.duration) {
                 // ループ
