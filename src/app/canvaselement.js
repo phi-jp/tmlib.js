@@ -82,6 +82,7 @@ tm.app = tm.app || {};
             this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
+            this.pointing = tm.geom.Vector2(0, 0);
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
             this.eventFlags = {};
@@ -96,12 +97,29 @@ tm.app = tm.app || {};
          */
         draw: function(ctx) {},
         
+        getFinalMatrix: function() {
+            var matrix = tm.geom.Matrix33();
+            
+            if (this.parent) {
+                matrix.multiply(this.parent.getFinalMatrix());
+            }
+            matrix.translate(this.x, this.y);
+            matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
+            matrix.scale(this.scaleX, this.scaleY);
+            
+            return matrix;
+        },
+        
         /**
          * 点と衝突しているかを判定
          */
         isHitPoint: function(x, y) {
             // 円判定
-            if (((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)) < (this.radius*this.radius)) {
+            var p = this.globalToLocal(tm.geom.Vector2(x, y));
+            this.pointing.x = p.x;
+            this.pointing.y = p.y;
+            
+            if (((p.x)*(p.x)+(p.y)*(p.y)) < (this.radius*this.radius)) {
                 return true;
             }
             return false;
@@ -144,11 +162,20 @@ tm.app = tm.app || {};
         },
         
         /**
-         * ローカル座標をグローバル座標にする
+         * ローカル座標をグローバル座標に変換
          */
         localToGlobal: function(p) {
-            // TODO: まだ未実装
-            return { x: this.x + p.x, y: this.y + p.y };
+            return this.getFinalMatrix().multiplyVector2(p);
+        },
+        
+        /**
+         * グローバル座標をローカル座標に変換
+         */
+        globalToLocal: function(p) {
+            var matrix = this.getFinalMatrix();
+            matrix.invert();
+            
+            return matrix.multiplyVector2(p);
         },
         
         drawFillRect: function(ctx) {
@@ -206,19 +233,9 @@ tm.app = tm.app || {};
             context.globalCompositeOperation = this.blendMode;
             
             // // 座標計算
-            // var matrix = this._matrix;
-            // matrix.identity();
-            // if (this.parent) matrix.multiply(this.parent._matrix);
-            // matrix.translate(this.x, this.y);
-            // // matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
-            // matrix.scale(this.scaleX, this.scaleY);
-//             
+            // var matrix = this.getFinalMatrix();
             // var m = matrix.m;
-            // context.setTransform(
-                // m[0], m[1],
-                // m[3], m[4],
-                // m[6], m[7]
-            // );
+            // context.setTransform( m[0], m[1], m[3], m[4], m[6], m[7] );
             
             context.translate(this.position.x, this.position.y);
             context.rotate(this.rotation * Math.DEG_TO_RAD);
