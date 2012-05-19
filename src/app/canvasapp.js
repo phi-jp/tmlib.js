@@ -175,11 +175,11 @@ tm.app = tm.app || {};
         {
             var e = null;
             if (this.currentScene) {
-                e = tm.app.Event("exit");
+                e = tm.event.Event("exit");
                 e.app = this;
                 this.currentScene.dispatchEvent(e);
             }
-            e = tm.app.Event("enter");
+            e = tm.event.Event("enter");
             e.app = this;
             this.currentScene = scene;
             this.currentScene.dispatchEvent(e);
@@ -191,14 +191,14 @@ tm.app = tm.app || {};
          */
         pushScene: function(scene)
         {
-            e = tm.app.Event("exit");
+            e = tm.event.Event("exit");
             e.app = this;
             this.currentScene.dispatchEvent(e);
             
             this._scenes.push(scene);
             ++this._sceneIndex;
             
-            e = tm.app.Event("enter");
+            e = tm.event.Event("enter");
             e.app = this;
             scene.dispatchEvent(e);
         },
@@ -212,12 +212,12 @@ tm.app = tm.app || {};
             var scene = this._scenes.pop(scene);
             --this._sceneIndex;
             
-            e = tm.app.Event("exit");
+            e = tm.event.Event("exit");
             e.app = this;
             scene.dispatchEvent(e);
             
             // 
-            e = tm.app.Event("enter");
+            e = tm.event.Event("enter");
             e.app = this;
             this.currentScene.dispatchEvent(e);
             

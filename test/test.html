@@ -29,6 +29,8 @@
         <script src="../src/input/keyboard.js"></script>
         <script src="../src/input/touch.js"></script>
         
+        <script src="../src/event/event.js"></script>
+        
         <script src="../src/graphics/canvas.js"></script>
         <script src="../src/graphics/texture.js"></script>
         
@@ -40,7 +42,6 @@
         <script src="../src/app/label.js"></script>
         <script src="../src/app/scene.js"></script>
         <script src="../src/app/canvasapp.js"></script>
-        <script src="../src/app/event.js"></script>
         <script src="../src/app/interaction.js"></script>
         
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
@@ -49,9 +50,8 @@
         <script>
             
             tm.preload(function() {
-                tm.graphics.TextureManager.add("human", "../resource/img/human.png");
-                tm.graphics.TextureManager.add("crash", "../resource/img/crash.png");
-                tm.graphics.TextureManager.add("dancing-men", "../resource/img/dancing-men.png");
+                tm.graphics.TextureManager.add("human", "../resource/img/stick-figure/00.png");
+                tm.graphics.TextureManager.add("crash", "../resource/img/crash/01.png");
             });
             
             tm.main(function() {

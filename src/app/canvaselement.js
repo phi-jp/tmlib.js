@@ -205,7 +205,7 @@ tm.app = tm.app || {};
         _update: function(app) {
             this.update(app);
             
-            var e = tm.app.Event("enterframe");
+            var e = tm.event.Event("enterframe");
             e.app = app;
             this.dispatchEvent(e);
             

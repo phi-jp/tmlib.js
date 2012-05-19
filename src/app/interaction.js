@@ -30,18 +30,18 @@ tm.app = tm.app || {};
             this.hitFlag   = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
-                var e = tm.app.Event("mouseover");
+                var e = tm.event.Event("mouseover");
                 e.app = app;
                 elm.dispatchEvent(e);
             }
             
             if (prevHitFlag && !this.hitFlag) {
-                elm.dispatchEvent(tm.app.Event("mouseout"));
+                elm.dispatchEvent(tm.event.Event("mouseout"));
             }
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
-                    var e = tm.app.Event("mousedown");
+                    var e = tm.event.Event("mousedown");
                     e.app = app;
                     elm.dispatchEvent(e);
                     this.downFlag = true;
@@ -49,13 +49,13 @@ tm.app = tm.app || {};
             }
             
             if (this.downFlag) {
-                var e = tm.app.Event("mousemove");
+                var e = tm.event.Event("mousemove");
                 e.app = app;
                 elm.dispatchEvent(e);
             }
             
             if (this.downFlag==true && p.getPointingEnd()) {
-                elm.dispatchEvent(tm.app.Event("mouseup"));
+                elm.dispatchEvent(tm.event.Event("mouseup"));
                 this.downFlag = false;
             }
         },
