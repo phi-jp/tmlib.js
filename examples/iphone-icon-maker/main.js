@@ -104,6 +104,7 @@ var refresh = function() {
     result.fillCircle(circleX, circleY, radius);
     
     // オリジナルの方に切り取りフレームを描画する
+    original.strokeStyle = "#aaa";
     original.strokeRect(param.x, param.y, param.width, param.height);
 };
 
