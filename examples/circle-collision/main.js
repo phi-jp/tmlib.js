@@ -74,9 +74,18 @@ tm.main(function() {
         gravityFolder.open();
     }
     
-    // 更新
-    app.currentScene.update = function() {
-    };
+    app.update = function() {
+        var scene = this.currentScene;
+        var key = this.keyboard;
+        if (key.getKeyDown("space") == true) {
+            (scene.isUpdate == true) ? scene.sleep() : scene.wakeUp();
+        }
+    }
+    
+    // mdlclick でキャプチャ
+    tm.dom.Element(app.getElement()).event.mdlclick(function() {
+        app.canvas.saveAsImage();
+    });
     
     app.run();
 });
