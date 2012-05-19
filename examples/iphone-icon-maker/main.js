@@ -76,16 +76,19 @@ var refreshOriginal = function(image) {
 
 var refreshResult = function() {
     var iconSize = 256;
-    var padding  = 4;
+    var padding  = 0;
     result.resize(iconSize, iconSize);
     
-    // 影
-    result.save();
-    result.setShadow("black", 2, 2, 3);
-    result.fillRoundRect(padding, padding, iconSize-padding*2, iconSize-padding*2, 10);
-    result.restore();
+    // // 影
+    // result.save();
+    // result.setShadow("black", 2, 2, 3);
+    // result.fillRoundRect(padding, padding, iconSize-padding*2, iconSize-padding*2, 10);
+    // result.restore();
     
-    result.roundRect(padding, padding, iconSize-padding*2, iconSize-padding*2, 10);
+    // // 背景塗りつぶし
+    // result.fillRect(0, 0, iconSize, iconSize);
+    
+    result.roundRect(padding, padding, iconSize-padding*2, iconSize-padding*2, 20);
     result.clip();
     result.drawImage(original.canvas, param.x, param.y, param.width, param.height, 0, 0, iconSize, iconSize);
     
