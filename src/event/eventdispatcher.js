@@ -33,8 +33,9 @@ tm.event = tm.event || {};
          * イベント起動
          */
         dispatchEvent: function(e) {
+            e.target = this;
             var oldEventName = 'on' + e.type;
-            if (this[oldEventName]) this[oldEventName](e);
+            if (oldEventName in this) this[oldEventName](e);
             
             var listeners = this._listeners[e.type];
             if (listeners) {

@@ -12,7 +12,7 @@ tm.app = tm.app || {};
      * @class
      * イベントクラス
      */
-    tm.app.Event = tm.createClass({
+    tm.event.Event = tm.createClass({
         
         /**
          * タイプ
@@ -29,3 +29,18 @@ tm.app = tm.app || {};
     });
     
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

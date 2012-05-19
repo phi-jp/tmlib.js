@@ -13,12 +13,15 @@ tm.anim = tm.anim || {};
      */
     tm.anim.Tween = tm.createClass({
         
+        superClass: tm.event.EventDispatcher,
+        
         target      : null,
+        time        : null,
         prop        : null,
         now         : null,
+        begin       : null,
         finish      : null,
         duration    : null,
-        timerID     : null,
         isLooping   : null,
         isPlaying   : null,
         func        : Math.linear,
@@ -29,6 +32,8 @@ tm.anim = tm.anim || {};
         fps     : 30,
         
         init: function(target, prop, begin, finish, duration, func) {
+            this.superInit();
+            
             if (arguments.length == 1) {
                 this.setObject(target);
             }
@@ -84,7 +89,7 @@ tm.anim = tm.anim || {};
             this.isPlaying = true;
             this._resumeTime();
             this._updateTime();
-            this.dispatchEvent("resume");
+            this.dispatchEvent(tm.event.TweenEvent("resume", this.time, this.now));
         },
         
         /**
@@ -94,7 +99,7 @@ tm.anim = tm.anim || {};
             this.isPlaying = true;
             this._startTime();
             this._updateTime();
-            this.dispatchEvent("start");
+            this.dispatchEvent(tm.event.TweenEvent("start", this.time, this.now));
         },
         
         /**
@@ -102,7 +107,7 @@ tm.anim = tm.anim || {};
          */
         stop: function() {
             this.isPlaying = false;
-            this.dispatchEvent("stop");
+            this.dispatchEvent(tm.event.TweenEvent("stop", this.time, this.now));
         },
         
         /**
@@ -136,17 +141,9 @@ tm.anim = tm.anim || {};
          * 更新
          */
         update: function() {
-            this.target[this.prop] = this.func(this.time, this.begin, this.change, this.duration);
-            this.dispatchEvent("change");
-            //this.target[this.prop] = this.begin + (this.finish - this.begin) * (this.time/this.duration);
-        },
-        
-        /**
-         * ディスパッチイベント
-         */
-        dispatchEvent: function(type) {
-            var fnName = 'on'+type;
-            if (this[fnName]) this[fnName](type);
+            this.now = this.func(this.time, this.begin, this.change, this.duration);
+            this.target[this.prop] = this.now;
+            this.dispatchEvent(tm.event.TweenEvent("change", this.time, this.now));
         },
         
         _resumeTime: function() {
@@ -174,7 +171,7 @@ tm.anim = tm.anim || {};
                     // 座標を更新
                     this.update();
                     // イベント開始
-                    this.dispatchEvent("loop");
+                    this.dispatchEvent(tm.event.TweenEvent("loop", this.time, this.now));
                 }
                 // 終了
                 else {
@@ -184,7 +181,7 @@ tm.anim = tm.anim || {};
                     // 停止
                     this.stop();
                     // イベント
-                    this.dispatchEvent("finish");
+                    this.dispatchEvent(tm.event.TweenEvent("finish", this.time, this.now));
                 }
             }
             // 更新

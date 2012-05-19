@@ -9,8 +9,6 @@
      * @class   Function
      * 関数
      */
-    
-    
     if (!Function.prototype.bind) {
         /**
          * @member  Function
@@ -52,5 +50,5 @@
     
     // forEach や map はもう標準化されてきてるので実装しないよん♪
     
-});
+})();
 
