@@ -183,6 +183,10 @@ tm.dom = tm.dom || {};
             return "tm.dom.element";
         },
         
+        getElement: function() {
+            return this.element;
+        },
+        
     });
     
     

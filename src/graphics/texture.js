@@ -26,7 +26,11 @@ tm.graphics = tm.graphics || {};
             this.element.onload = function() {
                 self.loaded = true;
             };
-        }
+        },
+        
+        getElement: function() {
+            return this.element;
+        },
         
     });
     

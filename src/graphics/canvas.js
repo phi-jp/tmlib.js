@@ -742,6 +742,10 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
+        getElement: function() {
+            return this.element;
+        },
+        
     });
     
     tm.graphics.Canvas.MIME_TYPE_PNG = "image/png";

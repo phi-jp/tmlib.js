@@ -266,6 +266,10 @@ tm.app = tm.app || {};
             this.currentScene._draw(this.canvas);
         },
         
+        getElement: function() {
+            return this.element;
+        },
+        
     });
     
     
