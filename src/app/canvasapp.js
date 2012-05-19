@@ -24,7 +24,8 @@ tm.app = tm.app || {};
         frame       : 0,
         fps         : 30,
         background  : null,
-
+        isPlaying   : null,
+        
         _scenes      : null,
         _sceneIndex  : 0,
         
@@ -55,6 +56,9 @@ tm.app = tm.app || {};
             
             // ポインティングをセット(PC では Mouse, Mobile では Touch)
             this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
+            
+            // 再生フラグ
+            this.isPlaying = true;
             
             // カラー
             this.background = "black";
@@ -247,6 +251,16 @@ tm.app = tm.app || {};
             }
         },
         
+        start: function()
+        {
+            this.isPlaying = true;
+        },
+        
+        stop: function()
+        {
+            this.isPlaying = false;
+        },
+        
         _update: function()
         {
             // デバイス系 Update
@@ -254,7 +268,7 @@ tm.app = tm.app || {};
             this.keyboard.update();
             this.touch.update();
             
-            this.currentScene._update(this);
+            if (this.isPlaying) this.currentScene._update(this);
         },
         
         _draw: function()

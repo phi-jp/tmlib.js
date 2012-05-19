@@ -49,6 +49,11 @@ tm.app = tm.app || {};
         originY: 0.5,
         
         /**
+         * 更新フラグ
+         */
+        isUpdate: true,
+        
+        /**
          * 表示フラグ
          */
         visible: true,
@@ -202,7 +207,30 @@ tm.app = tm.app || {};
             return this;
         },
         
+        wakeUp: function() {
+            this.isUpdate = true;
+            return this;
+        },
+        
+        sleep: function() {
+            this.isUpdate = false;
+            return this;
+        },
+        
+        show: function() {
+            this.visible = true;
+            return this;
+        },
+        
+        hide: function() {
+            this.visible = false;
+            return this;
+        },
+        
         _update: function(app) {
+            // 更新有効チェック
+            if (this.isUpdate == false) return ;
+            
             this.update(app);
             
             var e = tm.event.Event("enterframe");
@@ -220,7 +248,7 @@ tm.app = tm.app || {};
         },
         
         _draw: function(canvas) {
-            
+            // 表示有効チェック
             if (this.visible === false) return ;
             
             var context = canvas.context;

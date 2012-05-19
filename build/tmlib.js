@@ -7739,6 +7739,11 @@ tm.app = tm.app || {};
         originY: 0.5,
         
         /**
+         * 更新フラグ
+         */
+        isUpdate: true,
+        
+        /**
          * 表示フラグ
          */
         visible: true,
@@ -7892,7 +7897,30 @@ tm.app = tm.app || {};
             return this;
         },
         
+        wakeUp: function() {
+            this.isUpdate = true;
+            return this;
+        },
+        
+        sleep: function() {
+            this.isUpdate = false;
+            return this;
+        },
+        
+        show: function() {
+            this.visible = true;
+            return this;
+        },
+        
+        hide: function() {
+            this.visible = false;
+            return this;
+        },
+        
         _update: function(app) {
+            // 更新有効チェック
+            if (this.isUpdate == false) return ;
+            
             this.update(app);
             
             var e = tm.event.Event("enterframe");
@@ -7910,7 +7938,7 @@ tm.app = tm.app || {};
         },
         
         _draw: function(canvas) {
-            
+            // 表示有効チェック
             if (this.visible === false) return ;
             
             var context = canvas.context;
@@ -8326,7 +8354,8 @@ tm.app = tm.app || {};
         frame       : 0,
         fps         : 30,
         background  : null,
-
+        isPlaying   : null,
+        
         _scenes      : null,
         _sceneIndex  : 0,
         
@@ -8357,6 +8386,9 @@ tm.app = tm.app || {};
             
             // ポインティングをセット(PC では Mouse, Mobile では Touch)
             this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
+            
+            // 再生フラグ
+            this.isPlaying = true;
             
             // カラー
             this.background = "black";
@@ -8549,6 +8581,16 @@ tm.app = tm.app || {};
             }
         },
         
+        start: function()
+        {
+            this.isPlaying = true;
+        },
+        
+        stop: function()
+        {
+            this.isPlaying = false;
+        },
+        
         _update: function()
         {
             // デバイス系 Update
@@ -8556,7 +8598,7 @@ tm.app = tm.app || {};
             this.keyboard.update();
             this.touch.update();
             
-            this.currentScene._update(this);
+            if (this.isPlaying) this.currentScene._update(this);
         },
         
         _draw: function()
