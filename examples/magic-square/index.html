@@ -14,88 +14,7 @@
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
         <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
         <script>
-            var MagicSquare = tm.createClass({
-                
-                superClass: tm.app.CanvasElement,
-                
-                init: function() {
-                    this.superInit();
-                    
-                    this.radius    = 50;
-                    this.blendMode = "lighter";
-                    // this.strokeStyle = "hsl(200, 75%, 50%)";
-                    this.fillStyle  = "hsl(60, 75%, 50%)";
-                    this.strokeStyle= "hsl(60, 75%, 50%)";
-                    
-                    this.setup();
-                },
-                
-                setup: function() {
-                    this.animation.addTween({
-                        prop: "alpha",
-                        begin: 0,
-                        finish: 1.0,
-                        duration: 1000,
-                    });
-                    this.animation.addTween({
-                        prop: "rotation",
-                        begin: 0,
-                        finish: 360,
-                        duration: 1000,
-                        func: Math.easeInQuad,
-                    });
-                    
-                    
-                    this.animation.addTween({
-                        prop: "scaleX",
-                        begin: 1.0,
-                        finish: 2.0,
-                        duration: 1000,
-                        delay: 1500,
-                        func: "easeOutInBounce",
-                    });
-                    this.animation.addTween({
-                        prop: "scaleY",
-                        begin: 1.0,
-                        finish: 2.0,
-                        duration: 1000,
-                        delay: 1500,
-                        func: "easeOutInBounce",
-                    });
-                    this.animation.addTween({
-                        prop: "alpha",
-                        begin: 1.0,
-                        finish: 0.0,
-                        duration: 1000,
-                        delay: 1500,
-                    });
-                    
-                    this.onanimationend = function() {
-                        this.remove();
-                    };
-                },
-                
-                draw: function(canvas) {
-                    canvas.lineWidth = 2;
-                    canvas.strokeStar(0, 0, this.radius, 5);
-                    canvas.lineWidth = 1;
-                    canvas.strokePolygon(0, 0, this.radius, 5);
-                    canvas.strokeCircle(0, 0, this.radius);
-                    canvas.strokeCircle(0, 0, this.radius-12);
-                    canvas.lineWidth = 4;
-                    canvas.strokeCircle(0, 0, this.radius+20);
-                    
-                    var text = "Time is money. Time is money. Time";
-                    canvas.lineWidth = 1;
-                    for (var i=0,len=text.length; i<len; ++i) {
-                        canvas.save();
-                        canvas.rotate(Math.degToRad(i*10));
-                        canvas.translate(0, -this.radius-7);
-                        canvas.fillText(text[i], 0, 0);
-                        canvas.restore();
-                    }
-                },
-            });
+
             
             var MagicSquareSprite = tm.createClass({
                 
@@ -162,21 +81,26 @@
                     canvas.setTransformCenter();
                     canvas.fillStyle  = "hsl(60, 75%, 50%)";
                     canvas.strokeStyle= "hsl(60, 75%, 50%)";
+                    // 星
                     canvas.lineWidth = 2;
                     canvas.strokeStar(0, 0, this.radius, 5);
                     canvas.lineWidth = 1;
+                    // ５角形
                     canvas.strokePolygon(0, 0, this.radius, 5);
+                    // 円
                     canvas.strokeCircle(0, 0, this.radius);
-                    canvas.strokeCircle(0, 0, this.radius-12);
+                    // 内側の円
+                    canvas.strokeCircle(0, 0, this.radius*0.8);
                     canvas.lineWidth = 4;
-                    canvas.strokeCircle(0, 0, this.radius+20);
+                    // 外側の円
+                    canvas.strokeCircle(0, 0, this.radius*1.35);
                     
                     var text = "Time is money. Time is money. Time";
                     canvas.lineWidth = 1;
                     for (var i=0,len=text.length; i<len; ++i) {
                         canvas.save();
                         canvas.rotate(Math.degToRad(i*10));
-                        canvas.translate(0, -this.radius-7);
+                        canvas.translate(0, -this.radius*1.1);
                         canvas.fillText(text[i], 0, 0);
                         canvas.restore();
                     }
@@ -200,13 +124,18 @@
                     ms.addChildTo(this);
                 };
                 
-                app.currentScene.update = function(app) {
-                    // var key = app.keyboard;
-                    // if (key.getKeyDown("space") == true) {
-                        // app.currentScene.update = function() {};
-                        // app.canvas.saveAsImage();
-                    // }
+                app.update = function() {
+                    var scene = this.currentScene;
+                    var key = this.keyboard;
+                    if (key.getKeyDown("space") == true) {
+                        (scene.isUpdate == true) ? scene.sleep() : scene.wakeUp();
+                    }
                 }
+                
+                // mdlclick でキャプチャ
+                tm.dom.Element(app.getElement()).event.mdlclick(function() {
+                    app.canvas.saveAsImage();
+                });
                 
                 app.run();
             });
