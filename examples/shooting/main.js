@@ -112,10 +112,26 @@ tm.main(function() {
         score.text = "Score : " + app.score.padding(3, ' ');
     };
     
+    app.update = function() {
+        var scene = this.currentScene;
+        var key = this.keyboard;
+        // ポーズ
+        if (key.getKeyDown("space") == true) {
+            (scene.isUpdate == true) ? scene.sleep() : scene.wakeUp();
+        }
+    }
+    
+    // mdlclick でキャプチャ
+    tm.dom.Element(app.getElement()).event.mdlclick(function() {
+        app.canvas.saveAsImage();
+    });
+    
     app.run();
-    // var bgm = tm.sound.SoundManager.get("bgm");
-    // bgm.loop = true;
-    // bgm.play();
+    
+    // bgm 再生
+    var bgm = tm.sound.SoundManager.get("bgm");
+    bgm.loop = true;
+    bgm.play();
 });
 
 

@@ -77,6 +77,7 @@ tm.main(function() {
     app.update = function() {
         var scene = this.currentScene;
         var key = this.keyboard;
+        // ポーズ
         if (key.getKeyDown("space") == true) {
             (scene.isUpdate == true) ? scene.sleep() : scene.wakeUp();
         }
