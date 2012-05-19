@@ -189,7 +189,7 @@ var Player = tm.createClass({
         this.speed *= 0.5;
         
         // ショット
-        if (app.keyboard.getKeyDown("space") || app.pointing.getPointingEnd()) {
+        if (app.keyboard.getKeyDown("Z") || app.pointing.getPointingEnd()) {
             var bullet = Bullet();
             bullet.position.set(this.x+20, this.y);
             bulletGroup.addChild( bullet );
