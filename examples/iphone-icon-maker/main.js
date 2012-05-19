@@ -3,8 +3,9 @@
  */
 
 
-var original = null;
-var result   = null;
+var original    = null;
+var result      = null;
+var currentImage = null;
 var param    = {};
 
 /*
@@ -18,12 +19,10 @@ tm.preload(function() {
  * メイン処理
  */
 tm.main(function() {
+    var texture = tm.graphics.TextureManager.get("sample").getElement();
     original = tm.graphics.Canvas("#original");
     result   = tm.graphics.Canvas("#result");
-    var texture  = tm.graphics.TextureManager.get("sample");
-    
-    original.resize(texture.width, texture.height);
-    original.drawTexture(texture, 0, 0, texture.width, texture.height);
+    currentImage = texture;
     
     // パラメータ設定
     param.x = 0;
@@ -38,15 +37,13 @@ tm.main(function() {
         
         // param
         var paramFolder = gui.addFolder("param");
-        paramFolder.add(param, "x", 0, 512, 1).onChange(refreshResult);
-        paramFolder.add(param, "y", 0, 512, 1).onChange(refreshResult);
-        paramFolder.add(param, "width", 0, 512, 1).onChange(refreshResult);
-        paramFolder.add(param, "height", 0, 512, 1).onChange(refreshResult);
+        paramFolder.add(param, "x", 0, 512, 1).onChange(refresh);
+        paramFolder.add(param, "y", 0, 512, 1).onChange(refresh);
+        paramFolder.add(param, "width", 0, 512, 1).onChange(refresh);
+        paramFolder.add(param, "height", 0, 512, 1).onChange(refresh);
         paramFolder.open();
     }
-    
-    refreshResult();
-    
+        
     // ドラッグ & ドロップ
     tm.dom.Element(window).event.add("dragover", function(e) {
         e.stop();
@@ -61,20 +58,22 @@ tm.main(function() {
             var image = new Image();
             image.src = reader.result;
             image.onload = function() {
-                refreshOriginal(this);
-                refreshResult();
+                currentImage = image;
+                refresh();
             };
         };
         reader.readAsDataURL(file);
     });
+    
+    refresh();
 });
 
-var refreshOriginal = function(image) {
-    original.resize(image.width, image.height);
-    original.drawImage(image, 0, 0, image.width, image.height);
-};
-
-var refreshResult = function() {
+var refresh = function() {
+    // オリジナルの方の画像を更新
+    original.clear();
+    original.resize(currentImage.width, currentImage.height);
+    original.drawImage(currentImage, 0, 0, currentImage.width, currentImage.height);
+    
     var iconSize = 256;
     var padding  = 0;
     result.resize(iconSize, iconSize);
@@ -103,6 +102,9 @@ var refreshResult = function() {
     gradient.addColorStop(0.8, "rgba(255, 255, 255, 0.25)");
     result.setGradient(gradient);
     result.fillCircle(circleX, circleY, radius);
+    
+    // オリジナルの方に切り取りフレームを描画する
+    original.strokeRect(param.x, param.y, param.width, param.height);
 };
 
 var output = function() {
