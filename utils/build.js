@@ -30,6 +30,7 @@ var target = [
     "dom/event.js",
     "dom/anim.js",
     
+    "event/event.js",
     "event/eventdispatcher.js",
     
     "input/keyboard.js",
@@ -51,7 +52,6 @@ var target = [
     "app/label.js",
     "app/scene.js",
     "app/canvasapp.js",
-    "app/event.js",
     "app/interaction.js",
     "app/collision.js",
     "app/animation.js",

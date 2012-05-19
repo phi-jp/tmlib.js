@@ -37,12 +37,12 @@ tm.app = tm.app || {};
                 if (elm.isHitElement(c.element)) {
                     // 最初の衝突だった場合は collisionenter を呼ぶ
                     if (c.collide === false) {
-                        var e = tm.app.Event("collisionenter");
+                        var e = tm.event.Event("collisionenter");
                         e.other = c.element;
                         elm.dispatchEvent(e);
                     }
                     // 通常の衝突イベント
-                    var e = tm.app.Event("collisionstay");
+                    var e = tm.event.Event("collisionstay");
                     e.other = c.element;
                     elm.dispatchEvent(e);
                     
@@ -50,7 +50,7 @@ tm.app = tm.app || {};
                 }
                 else {
                     if (c.collide == true) {
-                        var e = tm.app.Event("collisionexit");
+                        var e = tm.event.Event("collisionexit");
                         e.other = c.element;
                         elm.dispatchEvent(e);
                     }

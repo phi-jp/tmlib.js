@@ -49,7 +49,7 @@ tm.app = tm.app || {};
                     // 全てのアニメーション終了チェック
                     if (this.tweens.length <= 0) {
                         this.isAnimation = false;
-                        var e = tm.app.Event("animationend");
+                        var e = tm.event.Event("animationend");
                         this.element.dispatchEvent(e);
                     }
                 }
@@ -69,7 +69,7 @@ tm.app = tm.app || {};
             
             if (this.isAnimation == false) {
                 this.isAnimation = true;
-                var e = tm.app.Event("animationstart");
+                var e = tm.event.Event("animationstart");
                 this.element.dispatchEvent(e);
             }
             

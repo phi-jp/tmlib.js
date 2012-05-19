@@ -875,8 +875,6 @@ var tm = tm || {};
      * @class   Function
      * 関数
      */
-    
-    
     if (!Function.prototype.bind) {
         /**
          * @member  Function
@@ -918,7 +916,7 @@ var tm = tm || {};
     
     // forEach や map はもう標準化されてきてるので実装しないよん♪
     
-});
+})();
 
 
 
@@ -1492,6 +1490,8 @@ tm.util = tm.util || {};
      * - <http://www.python.jp/doc/2.5/lib/module-random.html>
      * - <http://www.yukun.info/blog/2008/06/python-random.html>
      * - <http://www.python-izm.com/contents/application/random.shtml>
+     * - <http://libcinder.org/docs/v0.8.3/classcinder_1_1_rand.html>
+     * - <http://libcinder.org/docs/v0.8.3/_rand_8h_source.html>
      */
     tm.util.Random = {
         
@@ -1507,6 +1507,13 @@ tm.util = tm.util || {};
          */
         randfloat: function(min, max) {
             return window.Math.random()*(max-min)+min;
+        },
+        
+        /**
+         * Dummy
+         */
+        randbool: function() {
+            return this.randint(0, 1) === 1;
         },
     };
     
@@ -4126,6 +4133,10 @@ tm.dom = tm.dom || {};
             return "tm.dom.element";
         },
         
+        getElement: function() {
+            return this.element;
+        },
+        
     });
     
     
@@ -4717,6 +4728,68 @@ tm.dom = tm.dom || {};
 
 
 /*
+ * event/event.js
+ */
+
+tm.event = tm.event || {};
+
+(function() {
+    
+    /**
+     * @class
+     * イベントクラス
+     */
+    tm.event.Event = tm.createClass({
+        
+        /**
+         * タイプ
+         */
+        type: null,
+        
+        /**
+         * 初期化
+         */
+        init: function(type) {
+            this.type = type;
+        },
+        
+    });
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class
+     * Tween Event
+     */
+    tm.event.TweenEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, time, now) {
+            this.superInit(type);
+            
+            this.time = time;
+            this.now  = now;
+        }
+        
+    });
+    
+    tm.event.TweenEvent.CHANGE    = "change";
+    tm.event.TweenEvent.FINISH    = "finish";
+    tm.event.TweenEvent.LOOP      = "loop";
+    tm.event.TweenEvent.RESUME    = "resume";
+    tm.event.TweenEvent.START     = "start";
+    tm.event.TweenEvent.STOP      = "stop";
+    
+})();
+
+
+
+
+/*
  * eventdispatcher.js
  */
 
@@ -4751,8 +4824,9 @@ tm.event = tm.event || {};
          * イベント起動
          */
         dispatchEvent: function(e) {
+            e.target = this;
             var oldEventName = 'on' + e.type;
-            if (this[oldEventName]) this[oldEventName](e);
+            if (oldEventName in this) this[oldEventName](e);
             
             var listeners = this._listeners[e.type];
             if (listeners) {
@@ -6079,6 +6153,10 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
+        getElement: function() {
+            return this.element;
+        },
+        
     });
     
     tm.graphics.Canvas.MIME_TYPE_PNG = "image/png";
@@ -6288,7 +6366,11 @@ tm.graphics = tm.graphics || {};
             this.element.onload = function() {
                 self.loaded = true;
             };
-        }
+        },
+        
+        getElement: function() {
+            return this.element;
+        },
         
     });
     
@@ -7072,12 +7154,15 @@ tm.anim = tm.anim || {};
      */
     tm.anim.Tween = tm.createClass({
         
+        superClass: tm.event.EventDispatcher,
+        
         target      : null,
+        time        : null,
         prop        : null,
         now         : null,
+        begin       : null,
         finish      : null,
         duration    : null,
-        timerID     : null,
         isLooping   : null,
         isPlaying   : null,
         func        : Math.linear,
@@ -7088,6 +7173,8 @@ tm.anim = tm.anim || {};
         fps     : 30,
         
         init: function(target, prop, begin, finish, duration, func) {
+            this.superInit();
+            
             if (arguments.length == 1) {
                 this.setObject(target);
             }
@@ -7143,7 +7230,7 @@ tm.anim = tm.anim || {};
             this.isPlaying = true;
             this._resumeTime();
             this._updateTime();
-            this.dispatchEvent("resume");
+            this.dispatchEvent(tm.event.TweenEvent("resume", this.time, this.now));
         },
         
         /**
@@ -7153,7 +7240,7 @@ tm.anim = tm.anim || {};
             this.isPlaying = true;
             this._startTime();
             this._updateTime();
-            this.dispatchEvent("start");
+            this.dispatchEvent(tm.event.TweenEvent("start", this.time, this.now));
         },
         
         /**
@@ -7161,7 +7248,7 @@ tm.anim = tm.anim || {};
          */
         stop: function() {
             this.isPlaying = false;
-            this.dispatchEvent("stop");
+            this.dispatchEvent(tm.event.TweenEvent("stop", this.time, this.now));
         },
         
         /**
@@ -7195,17 +7282,9 @@ tm.anim = tm.anim || {};
          * 更新
          */
         update: function() {
-            this.target[this.prop] = this.func(this.time, this.begin, this.change, this.duration);
-            this.dispatchEvent("change");
-            //this.target[this.prop] = this.begin + (this.finish - this.begin) * (this.time/this.duration);
-        },
-        
-        /**
-         * ディスパッチイベント
-         */
-        dispatchEvent: function(type) {
-            var fnName = 'on'+type;
-            if (this[fnName]) this[fnName](type);
+            this.now = this.func(this.time, this.begin, this.change, this.duration);
+            this.target[this.prop] = this.now;
+            this.dispatchEvent(tm.event.TweenEvent("change", this.time, this.now));
         },
         
         _resumeTime: function() {
@@ -7233,7 +7312,7 @@ tm.anim = tm.anim || {};
                     // 座標を更新
                     this.update();
                     // イベント開始
-                    this.dispatchEvent("loop");
+                    this.dispatchEvent(tm.event.TweenEvent("loop", this.time, this.now));
                 }
                 // 終了
                 else {
@@ -7243,7 +7322,7 @@ tm.anim = tm.anim || {};
                     // 停止
                     this.stop();
                     // イベント
-                    this.dispatchEvent("finish");
+                    this.dispatchEvent(tm.event.TweenEvent("finish", this.time, this.now));
                 }
             }
             // 更新
@@ -7816,7 +7895,7 @@ tm.app = tm.app || {};
         _update: function(app) {
             this.update(app);
             
-            var e = tm.app.Event("enterframe");
+            var e = tm.event.Event("enterframe");
             e.app = app;
             this.dispatchEvent(e);
             
@@ -8398,11 +8477,11 @@ tm.app = tm.app || {};
         {
             var e = null;
             if (this.currentScene) {
-                e = tm.app.Event("exit");
+                e = tm.event.Event("exit");
                 e.app = this;
                 this.currentScene.dispatchEvent(e);
             }
-            e = tm.app.Event("enter");
+            e = tm.event.Event("enter");
             e.app = this;
             this.currentScene = scene;
             this.currentScene.dispatchEvent(e);
@@ -8414,14 +8493,14 @@ tm.app = tm.app || {};
          */
         pushScene: function(scene)
         {
-            e = tm.app.Event("exit");
+            e = tm.event.Event("exit");
             e.app = this;
             this.currentScene.dispatchEvent(e);
             
             this._scenes.push(scene);
             ++this._sceneIndex;
             
-            e = tm.app.Event("enter");
+            e = tm.event.Event("enter");
             e.app = this;
             scene.dispatchEvent(e);
         },
@@ -8435,12 +8514,12 @@ tm.app = tm.app || {};
             var scene = this._scenes.pop(scene);
             --this._sceneIndex;
             
-            e = tm.app.Event("exit");
+            e = tm.event.Event("exit");
             e.app = this;
             scene.dispatchEvent(e);
             
             // 
-            e = tm.app.Event("enter");
+            e = tm.event.Event("enter");
             e.app = this;
             this.currentScene.dispatchEvent(e);
             
@@ -8489,6 +8568,10 @@ tm.app = tm.app || {};
             this.currentScene._draw(this.canvas);
         },
         
+        getElement: function() {
+            return this.element;
+        },
+        
     });
     
     
@@ -8517,39 +8600,6 @@ tm.app = tm.app || {};
     tm.app.CanvasApp.prototype.accessor("currentScene", {
         "get": function() { return this._scenes[this._sceneIndex]; },
         "set": function(v){ this._scenes[this._sceneIndex] = v; }
-    });
-    
-})();
-
-
-/*
- * scene.js
- */
-
-tm.app = tm.app || {};
-
-
-
-(function() {
-    
-    /**
-     * @class
-     * イベントクラス
-     */
-    tm.app.Event = tm.createClass({
-        
-        /**
-         * タイプ
-         */
-        type: null,
-        
-        /**
-         * 初期化
-         */
-        init: function(type) {
-            this.type = type;
-        },
-        
     });
     
 })();
@@ -8587,18 +8637,18 @@ tm.app = tm.app || {};
             this.hitFlag   = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
-                var e = tm.app.Event("mouseover");
+                var e = tm.event.Event("mouseover");
                 e.app = app;
                 elm.dispatchEvent(e);
             }
             
             if (prevHitFlag && !this.hitFlag) {
-                elm.dispatchEvent(tm.app.Event("mouseout"));
+                elm.dispatchEvent(tm.event.Event("mouseout"));
             }
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
-                    var e = tm.app.Event("mousedown");
+                    var e = tm.event.Event("mousedown");
                     e.app = app;
                     elm.dispatchEvent(e);
                     this.downFlag = true;
@@ -8606,13 +8656,13 @@ tm.app = tm.app || {};
             }
             
             if (this.downFlag) {
-                var e = tm.app.Event("mousemove");
+                var e = tm.event.Event("mousemove");
                 e.app = app;
                 elm.dispatchEvent(e);
             }
             
             if (this.downFlag==true && p.getPointingEnd()) {
-                elm.dispatchEvent(tm.app.Event("mouseup"));
+                elm.dispatchEvent(tm.event.Event("mouseup"));
                 this.downFlag = false;
             }
         },
@@ -8684,12 +8734,12 @@ tm.app = tm.app || {};
                 if (elm.isHitElement(c.element)) {
                     // 最初の衝突だった場合は collisionenter を呼ぶ
                     if (c.collide === false) {
-                        var e = tm.app.Event("collisionenter");
+                        var e = tm.event.Event("collisionenter");
                         e.other = c.element;
                         elm.dispatchEvent(e);
                     }
                     // 通常の衝突イベント
-                    var e = tm.app.Event("collisionstay");
+                    var e = tm.event.Event("collisionstay");
                     e.other = c.element;
                     elm.dispatchEvent(e);
                     
@@ -8697,7 +8747,7 @@ tm.app = tm.app || {};
                 }
                 else {
                     if (c.collide == true) {
-                        var e = tm.app.Event("collisionexit");
+                        var e = tm.event.Event("collisionexit");
                         e.other = c.element;
                         elm.dispatchEvent(e);
                     }
@@ -8798,7 +8848,7 @@ tm.app = tm.app || {};
                     // 全てのアニメーション終了チェック
                     if (this.tweens.length <= 0) {
                         this.isAnimation = false;
-                        var e = tm.app.Event("animationend");
+                        var e = tm.event.Event("animationend");
                         this.element.dispatchEvent(e);
                     }
                 }
@@ -8818,7 +8868,7 @@ tm.app = tm.app || {};
             
             if (this.isAnimation == false) {
                 this.isAnimation = true;
-                var e = tm.app.Event("animationstart");
+                var e = tm.event.Event("animationstart");
                 this.element.dispatchEvent(e);
             }
             
