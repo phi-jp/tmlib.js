@@ -17,18 +17,15 @@ tm.input = tm.input || {};
         
         element: null,
         
-        x   : 0,
-        y   : 0,
-        pX  : 0,
-        pY  : 0,
-        dX  : 0,
-        dY  : 0,
-        
         /**
          * 初期化
          */
         init: function(element) {
             this.element = element || window.document;
+            
+            this.position       = tm.geom.Vector2(0, 0);
+            this.deltaPosition  = tm.geom.Vector2(0, 0);
+            this.prevPosition   = tm.geom.Vector2(0, 0);
             
             var self = this;
             this.element.addEventListener("mousemove", function(e){
@@ -44,15 +41,18 @@ tm.input = tm.input || {};
         },
         
         /**
-         * run.
+         * run
          * 自動でマウス情報を更新したい際に使用する
          */
         run: function(fps) {
             var self = this;
             fps = fps || 30;
-            TM.setLoop(function(){
+            
+            tm.setLoop(function() {
                 self.update();
-            },　1000/fps);
+            }, 1000/fps);
+            
+            return this;
         },
         
         /**
@@ -67,11 +67,11 @@ tm.input = tm.input || {};
             this.down = (this.press ^ this.last) & this.press;
             this.up   = (this.press ^ this.last) & this.last;
             
-            this.dX = this.x - this.pX;
-            this.dY = this.y - this.pY;
+            // 変化値を保存
+            this.deltaPosition.setObject(this.position).sub(this.prevPosition);
             
-            this.pX = this.x;
-            this.pY = this.y;
+            // 前回の座標を保存
+            this.prevPosition.setObject(this.position);
         },
         
         /**
@@ -147,6 +147,43 @@ tm.input = tm.input || {};
         "middle": tm.input.Mouse.BUTTON_MIDDLE,
         "right" : tm.input.Mouse.BUTTON_RIGHT
     };
+    
+    
+    /**
+     * @property    x
+     * x座標値
+     */
+    tm.input.Mouse.prototype.accessor("x", {
+        "get": function()   { return this.position.x; },
+        "set": function(v)  { this.position.x = v; }
+    });
+    
+    /**
+     * @property    y
+     * y座標値
+     */
+    tm.input.Mouse.prototype.accessor("y", {
+        "get": function()   { return this.position.y; },
+        "set": function(v)  { this.position.y = v; }
+    });
+    
+    /**
+     * @property    dx
+     * dx値
+     */
+    tm.input.Mouse.prototype.accessor("dx", {
+        "get": function()   { return this.deltaPosition.x; },
+        "set": function(v)  { this.deltaPosition.x = v; }
+    });
+    
+    /**
+     * @property    dy
+     * dy値
+     */
+    tm.input.Mouse.prototype.accessor("dy", {
+        "get": function()   { return this.deltaPosition.y; },
+        "set": function(v)  { this.deltaPosition.y = v; }
+    });
     
     
     /**

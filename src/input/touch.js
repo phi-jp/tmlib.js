@@ -17,19 +17,16 @@ tm.input = tm.input || {};
         element: null,
         touched: false,
         
-        x   : 0,
-        y   : 0,
-        pX  : 0,
-        pY  : 0,
-        dX  : 0,
-        dY  : 0,
-        
         /**
          * @constructs
          * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
          */
         init: function(element) {
             this.element = element || window.document;
+            
+            this.position       = tm.geom.Vector2(0, 0);
+            this.deltaPosition  = tm.geom.Vector2(0, 0);
+            this.prevPosition   = tm.geom.Vector2(0, 0);
             
             var self = this;
             this.element.addEventListener("touchstart", function(e){
@@ -74,11 +71,11 @@ tm.input = tm.input || {};
             this.start  = (this.now ^ this.last) & this.now;
             this.end    = (this.now ^ this.last) & this.last;
             
-            this.dX = this.x - this.pX;
-            this.dY = this.y - this.pY;
+            // 変化値を保存
+            this.deltaPosition.setObject(this.position).sub(this.prevPosition);
             
-            this.pX = this.x;
-            this.pY = this.y;
+            // 前回の座標を保存
+            this.prevPosition.setObject(this.position);
         },
         
         /**
@@ -122,6 +119,45 @@ tm.input = tm.input || {};
         },
         
     });
+    
+    
+
+    /**
+     * @property    x
+     * x座標値
+     */
+    tm.input.Touch.prototype.accessor("x", {
+        "get": function()   { return this.position.x; },
+        "set": function(v)  { this.position.x = v; }
+    });
+    
+    /**
+     * @property    y
+     * y座標値
+     */
+    tm.input.Touch.prototype.accessor("y", {
+        "get": function()   { return this.position.y; },
+        "set": function(v)  { this.position.y = v; }
+    });
+    
+    /**
+     * @property    dx
+     * dx値
+     */
+    tm.input.Touch.prototype.accessor("dx", {
+        "get": function()   { return this.deltaPosition.x; },
+        "set": function(v)  { this.deltaPosition.x = v; }
+    });
+    
+    /**
+     * @property    dy
+     * dy値
+     */
+    tm.input.Touch.prototype.accessor("dy", {
+        "get": function()   { return this.deltaPosition.y; },
+        "set": function(v)  { this.deltaPosition.y = v; }
+    });
+    
     
     
     /**

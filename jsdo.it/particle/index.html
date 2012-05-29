@@ -70,8 +70,8 @@
                       
                     if (d<STIR_DIST) {
                         var mAcc = ( 1 - (d / STIR_DIST) * app.width * 0.00026 );
-                        this.v.x += p.dX * mAcc * 0.1;
-                        this.v.y += p.dY * mAcc * 0.1;
+                        this.v.x += p.dx * mAcc * 0.1;
+                        this.v.y += p.dy * mAcc * 0.1;
                     }
                     
                     // 摩擦

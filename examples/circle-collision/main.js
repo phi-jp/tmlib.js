@@ -141,7 +141,7 @@ var Circle = tm.createClass({
         if (this === target) {
             var p = app.pointing;
             this.position.set(this.x+this.pointing.x, this.y+this.pointing.y);
-            this.velocity.set(p.dX, p.dY);
+            this.velocity.set(p.dx, p.dy);
             return ;
         }
         
