@@ -1,0 +1,145 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Accelerometer Test | TM Lib</title>
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../src/input/accelerometer.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+
+        <script id="test-script">
+            
+            /*
+             * Test
+             */
+            window.onload = function()
+            {
+                // コンソール生成
+                // var c = console;
+                var c = tm.Console("#console");
+                
+                // query test
+                c.group("test");
+                c.groupEnd();
+                
+                
+                // 加速度センサー
+                var acclerometer = tm.input.Accelerometer();
+                
+                // ループ
+                tm.setLoop(function() {
+                    var eAccele = tm.dom.Element("#acceleration");
+                    eAccele.query("td", 0).html = acclerometer.acceleration.x.round(4);
+                    eAccele.query("td", 1).html = acclerometer.acceleration.y.round(4);
+                    eAccele.query("td", 2).html = acclerometer.acceleration.z.round(4);
+                    var eGravity = tm.dom.Element("#gravity");
+                    eGravity.query("td", 0).html = acclerometer.gravity.x.round(4);
+                    eGravity.query("td", 1).html = acclerometer.gravity.y.round(4);
+                    eGravity.query("td", 2).html = acclerometer.gravity.z.round(4);
+                    var eOrientation = tm.dom.Element("#orientation");
+                    eOrientation.query("td", 0).html = acclerometer.orientation.x.round(4);
+                    eOrientation.query("td", 1).html = acclerometer.orientation.y.round(4);
+                    eOrientation.query("td", 2).html = acclerometer.orientation.z.round(4);
+                }, 1000/30);
+            };
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+        
+    </head>
+    
+    <body>
+         
+        <h1>Accelerometer Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <h2>Accelerometer Test</h2>
+                <table border>
+                    <tr>
+                        <th></th>
+                        <th>x(beta)</th>
+                        <th>y(gamma)</th>
+                        <th>z(alpha)</th>
+                    </tr>
+                    <tr id="acceleration">
+                        <th>acceleration</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="gravity">
+                        <th>gravity</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="orientation">
+                        <th>orientation</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
