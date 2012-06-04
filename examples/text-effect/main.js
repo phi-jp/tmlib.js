@@ -10,6 +10,7 @@ var SCREEN_WIDTH        = 960;
 var SCREEN_HEIGHT       = 640;
 var CENTER_X            = SCREEN_WIDTH /2;
 var CENTER_Y            = SCREEN_HEIGHT/2;
+var POINT_RADIUS        = 80;
 var TEXT                = "tmlib.js";
 // var TEXT                = "★";
 var TEXT_MAX_HEIGHT     = 250;
@@ -77,6 +78,14 @@ tm.main(function() {
         var p = app.pointing;
         var k = app.keyboard;
     };
+    app.currentScene.draw = function(c) {
+        var p = app.pointing;
+        
+        c.save();
+        c.fillStyle = "rgba(255, 255, 255, 0.1)";
+        c.fillCircle(p.x, p.y, POINT_RADIUS);
+        c.restore();
+    }
     
     app.run();
 });
@@ -119,7 +128,7 @@ var Particle = tm.createClass({
         
         // 拡大
         var length = tm.geom.Vector2.distance(this.position, p.position);
-        if (length < 50) {
+        if (length < POINT_RADIUS) {
             this.scaleX = this.scaleY = 2;
         }
         else {
