@@ -1,6 +1,14 @@
 # tmlib.js
 
-JavaScript をより使いやすく, より便利に, そしてより豊かに.
+JavaScript をより使いやすく, より便利に, そしてより豊かに.  
+ゲーム制作.  
+jQuery ライクな DOM 操作.
+
+## Usage
+使い方
+```html
+<script src="build/tmlib.js"></script>
+```
 
 ## Documentation
 
