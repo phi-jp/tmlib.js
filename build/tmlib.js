@@ -1,5 +1,9 @@
 /*
- * tmlib.js
+ * tmlib.js v0.1.0
+ * http://github.com/phi1618/tmlib.js
+ * MIT licensed
+ * 
+ * Copyright (C) 2009 phi, http://tmlife.net
  */
 
 
