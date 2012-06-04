@@ -1,6 +1,6 @@
 # tmlib.js
 
-google code で作っていた tmlib.js を再開発
+JavaScript をより使いやすく, より便利に, そしてより豊かに.
 
 ## Documentation
 
