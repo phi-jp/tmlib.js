@@ -18,6 +18,9 @@ var target = [
     "core/list.js",
     
     "util/random.js",
+    "util/ajax.js",
+    "util/file.js",
+    "util/timeline.js",
     
     "geom/vector2.js",
     "geom/vector3.js",
@@ -28,6 +31,7 @@ var target = [
     
     "dom/element.js",
     "dom/event.js",
+    "dom/style.js",
     "dom/anim.js",
     "dom/trans.js",
     
@@ -37,6 +41,7 @@ var target = [
     "input/keyboard.js",
     "input/mouse.js",
     "input/touch.js",
+    "input/accelerometer.js",
     
     "graphics/color.js",
     "graphics/canvas.js",

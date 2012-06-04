@@ -1525,6 +1525,323 @@ tm.util = tm.util || {};
 
 
 /*
+ * ajax.js
+ */
+
+
+tm.util = tm.util || {};
+
+(function() {
+    
+    var AJAX_DEFAULT_SETTINGS = {
+        type :"POST",
+        async: true,
+        data: null,
+        contentType: 'application/x-www-form-urlencoded',
+        dataType: 'text',
+        username: null,
+        password: null,
+        success : function(data){ alert("success!!\n"+data); },
+        error   : function(data){ alert("error!!"); }
+    };
+    
+    
+    tm.util.Ajax = {
+        load: function(params)
+        {
+            for (var key in AJAX_DEFAULT_SETTINGS) {
+                params[key] = params[key] || AJAX_DEFAULT_SETTINGS[key];
+            }
+            
+            var httpRequest = new XMLHttpRequest();
+            var ajax_params = "";
+            var conv_func = tm.util.Ajax.DATA_CONVERTE_TABLE[params.dataType];
+            
+            // コールバック
+            httpRequest.onreadystatechange = function()
+            {
+                if (httpRequest.readyState == 4) {
+                    // 成功
+                    if (httpRequest.status === 200) {
+                        // タイプ別に変換をかける
+                        var data = conv_func[httpRequest.responseText];
+                        params.success(data);
+                    }
+                    // status === 0 はローカルファイル用
+                    else if (httpRequest.status === 0) {
+                        // タイプ別に変換をかける
+                        var data = conv_func(httpRequest.responseText);
+                        params.success(data);
+                    }
+                    else {
+                        params.error(httpRequest.responseText);
+                    }
+                }
+                else {
+                    //console.log("通信中");
+                }
+            };
+            
+            httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
+            httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
+            httpRequest.send(null);
+        }
+    };
+    
+    /**
+     * データコンバータテーブル
+     */
+    tm.util.Ajax.DATA_CONVERTE_TABLE = {
+        undefined: function(data) {
+            return data;
+        },
+        
+        text: function(data) {
+            return data;
+        },
+        
+        xml: function(data) {
+            var div = document.createElement("div");
+            div.innerHTML = data;
+            return div;
+        },
+        
+        dom: function(data) {
+            var div = document.createElement("div");
+            div.innerHTML = data;
+            return tm.dom.Element(div);
+        },
+        
+        json: function(data) {
+            return JSON.parse(data);
+        },
+        
+        script: function(data) {
+            eval(data);
+            return data;
+        },
+        
+        /**
+         * ### Reference
+         * - <http://efcl.info/adiary/Javascript/treat-binary>
+         * @param {Object} data
+         */
+        bin: function(data) {
+            var bytearray = [];
+            for (var i=0, len=data.length; i<len; ++i) {
+                bytearray[i] = data.charCodeAt(i) & 0xff;
+            }
+            return bytearray;
+        },
+        
+    };
+    
+})();
+
+/*
+ * file.js
+ */
+
+tm.util = tm.util || {};
+
+(function() {
+    
+    tm.util.File = tm.createClass({
+        
+        init: function(params) {
+            this.loaded = false;
+            if (arguments.length == 1) {
+                this.loadFile(params);
+            }
+        },
+        
+        loadFile: function(params) {
+            if (typeof params == "string") {
+                var url = params;
+                params = { url: url, };
+            }
+            
+            var self = this;
+            params.success = function(data) {
+                self.loaded = true;
+                self.data = data;
+            };
+            tm.util.Ajax.load(params);
+        },
+        
+        loadLocalStorage: function() {
+            
+        },
+        
+    });
+    
+    
+})();
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * ファイルマネージャ
+     */
+    tm.util.FileManager = {
+        files: {}
+    };
+    
+    tm.util.FileManager.load = function(key, params)
+    {
+        var file = tm.util.File(params);
+        this.files[key] = file;
+        return file;
+    };
+    
+    tm.util.FileManager.get = function(key) {
+        return this.files[key];
+    };
+    
+    /**
+     * @static
+     * @method  isLoaded
+     * ロードチェック
+     */
+    tm.util.FileManager.isLoaded = function()
+    {
+        for (var key in this.files) {
+            var file = this.files[key];
+            
+            if (file.loaded == false) {
+                return false;
+            }
+        }
+        return true;
+    };
+    
+    tm.addLoadCheckList(tm.util.FileManager);
+    
+})();
+
+/*
+ * tmline.js
+ */
+
+
+tm.util = tm.util || {};
+
+(function() {
+    
+    
+    /**
+     * @class
+     * タイムラインクラス
+     */
+    tm.util.Timeline = tm.createClass({
+        
+        target  : null,
+        tasks   : null,
+        
+        fps     : 30,
+        
+        /**
+         * 初期化
+         */
+        init: function() {
+            this.tasks = [];
+            this.time = 0;
+        },
+        
+        at: function(time, action) {
+            this.tasks.push({
+                time: time,
+                action: action,
+            });
+            return this;
+        },
+        
+        after: function(time, action) {
+            this.at(this.time + time, action);
+            return this;
+        },
+        
+        clear: function() {
+            this.tasks = [];
+            return this;
+        },
+        
+        removeTime: function(time) {
+            // TODO: 
+        },
+        
+        removeAction: function(action) {
+            // TODO: 
+        },
+        
+        start: function() {
+            this.isPlaying = true;
+            this._startTime();
+            this._updateTime();
+        },
+        
+        resume: function() {
+            this.isPlaying = true;
+            this._resumeTime();
+            this._updateTime();
+        },
+        
+        stop: function() {
+            this.isPlaying = false;
+        },
+        
+        rewind: function() {
+            this.time = 0;
+        },
+        
+        update: function() {
+            // タスク更新
+            if (this.tasks.length > 0) {
+                for (var i=0,len=this.tasks.length; i<len; ++i) {
+                    var task = this.tasks[i];
+                    if (this.prev <= task.time && task.time < this.time) {
+                        task.action();
+                        // this.tasks.erase(task);
+                        // break;
+                    }
+                }
+            }
+        },
+        
+        _startTime: function() {
+            this.startTime = (new Date()).getTime();
+        },
+        
+        _resumeTime: function() {
+            this.startTime = (new Date()).getTime() - this.time;
+        },
+        
+        _updateTime: function() {
+            if (this.isPlaying) {
+                this._nextTime();
+                setTimeout(arguments.callee.bind(this), 1000/this.fps);
+            }
+        },
+        
+        _nextTime: function() {
+            // 前回の時間
+            this.prev = this.time;
+            // 今回の時間
+            this.time = (new Date()).getTime() - this.startTime;
+            // 更新
+            this.update();
+        },
+        
+    });
+    
+})();
+
+
+
+/*
  * vector2.js
  */
 
@@ -4593,6 +4910,83 @@ tm.dom = tm.dom || {};
 
 
 /*
+ * style.js
+ */
+
+tm.dom = tm.dom || {};
+
+
+
+(function(){
+    
+    /**
+     * @class
+     * スタイル
+     */
+    tm.dom.Style = tm.createClass({
+        
+        element: null,
+        
+        /**
+         * 初期化
+         */
+        init: function(element) {
+            this.element = element;
+        },
+        
+        /**
+         * セット
+         */
+        set: function(name, value) {
+            this.element.style[name] = value;
+            return this;
+        },
+        
+        /**
+         * 削除
+         */
+        remove: function(name) {
+            this.element.style.removeProperty(name);
+            // delete this.element.style[name];
+            return this;
+        },
+        
+        /**
+         * クリア
+         */
+        clear: function(name) {
+            
+            return this;
+        },
+        
+        /**
+         * 取得
+         */
+        get: function(name) {
+            return this.element.style[name];
+        },
+        
+        /**
+         * CSS の値も考慮した上での値を取得
+         */
+        getPropValue: function(prop_name) {
+            return document.defaultView.getComputedStyle(this.element, '').getPropertyValue(prop_name);
+        },
+    });
+    
+    /**
+     * スタイルクラス
+     * @property    style
+     */
+    tm.dom.Element.prototype.getter("style", function(){
+        return this._style || ( this._style = tm.dom.Style(this.element) );
+    });
+    
+})();
+
+
+
+/*
  * anim.js
  */
 
@@ -5519,6 +5913,66 @@ tm.input = tm.input || {};
      * ポインティングを終了したかを取得(mouse との差異対策)
      */
     tm.input.Touch.prototype.getPointingEnd     = tm.input.Touch.prototype.getTouchEnd;
+    
+})();
+
+
+
+/*
+ * accelerometer.js
+ */
+
+
+tm.input = tm.input || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * タッチクラス
+     */
+    tm.input.Accelerometer = tm.createClass({
+        
+        /**
+         * @constructs
+         * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
+         * 
+         * ### Reference
+         * - <http://tmlife.net/programming/javascript/javascript-iphone-acceleration.html>
+         * - <http://hidekatsu.com/html5/archives/113>
+         * - <http://d.hatena.ne.jp/nakamura001/20110209/1297229062>
+         * - <http://d.hatena.ne.jp/nakamura001/20101128/1290946966>
+         */
+        init: function(element) {
+            
+            this.gravity        = tm.geom.Vector3(0, 0, 0);
+            this.acceleration   = tm.geom.Vector3(0, 0, 0);
+            this.orientation    = tm.geom.Vector3(0, 0, 0);
+            
+            var self = this;
+            window.addEventListener("devicemotion", function(e) {
+                var acceleration = self.acceleration;
+                var gravity = self.gravity;
+                
+                acceleration.x = e.acceleration.x;
+                acceleration.y = e.acceleration.y;
+                acceleration.z = e.acceleration.z;
+                
+                gravity.x = e.accelerationIncludingGravity.x;
+                gravity.y = e.accelerationIncludingGravity.y;
+                gravity.z = e.accelerationIncludingGravity.z;
+            });
+            
+            window.addEventListener("deviceorientation", function(e) {
+                var orientation = self.orientation;
+                orientation.alpha   = e.alpha;  // z(0~360)
+                orientation.beta    = e.beta;   // x(-180~180)
+                orientation.gamma   = e.gamma;  // y(-90~90)
+            });
+        },
+        
+    });
     
 })();
 
