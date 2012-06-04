@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <meta charset="UTF-8" />
+        <title>TODO List</title>
+        <script src="../../build/tmlib.js"></script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+                font-family: "Meiryo", Arial, Helvetica, sans-serif;
+                line-height: 1.5em;
+            }
+            
+            body {
+                background-color: #eee;
+            }
+            
+            h1 {
+                font-size: 50px;
+                margin-left: 20px;
+            }
+            
+            hr {
+                margin: 20px;
+            }
+
+
+            
+            #wrapper {
+                width: 900px;
+                min-height: 1280px;
+                margin: 0px auto;
+                padding: 20px 0px;
+                background-color: #fff;
+                box-shadow: 0px 0px 8px 0px black;
+            }
+            
+            #main-form {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+                margin: 0px auto;
+                padding: 20px;
+                width: 840px;
+                border: solid 1px #aaa;
+                border-radius: 5px;
+            }
+            
+            #main-form textarea {
+                display:block;
+                width: 700px;
+                height: 80px;
+                margin: 5px;
+                padding: 5px;
+                border: solid 1px #aaa;
+                border-radius: 4px;
+            }
+            #main-form input[type="submit"] {
+                display:block;
+                width:80px;
+                height:80px;
+                margin: 5px;
+                padding: 5px;
+            }
+            
+            
+            .task {
+                display: -webkit-box;
+                margin: 0px auto;
+                width: 800px;
+                min-height: 140px;
+                border: solid 1px #aaa;
+                border-radius: 4px;
+                margin-top:10px;
+                margin-bottom:20px;
+                padding: 10px;
+                position:relative;
+                background-color: rgb(240, 240, 245);
+                
+                -webkit-transition: 200ms;
+            }
+            
+            .task:hover {
+                box-shadow: 0px 0px 8px 0px black;
+            }
+            
+            .task .content {
+                width: 700px;
+                height: 80px;
+                margin: 5px;
+                padding: 5px;
+            }
+            
+            .task .editor {
+                width: 700px;
+                height: 80px;
+                margin: 5px;
+                padding: 5px;
+                border: solid 1px #aaa;
+                border-radius: 4px;
+            }
+
+            .task a.close-link {
+                display: block;
+                border:1px solid black;
+                border-radius: 5px;
+                width:20px;
+                height:20px;
+                line-height:20px;
+                text-align:center;
+                text-decoration: none;
+                color: white;
+                background-color: red;
+                font-weight: bold;
+                position:absolute;
+                right: -10px;
+                top:-10px;
+            }
+            
+            .task a.up-button {
+                position:absolute;
+                right: 20px;
+                top: 10px;
+                display: block;
+                width:50px;
+                height:25px;
+                background-color: black;
+                border:1px solid #aaa;
+                border-radius: 5px;
+                
+                color: white;
+                line-height:25px;
+                text-align:center;
+                text-decoration: none;
+            }
+            
+            .task a.down-button {
+                position:absolute;
+                right: 20px;
+                bottom: 10px;
+                display: block;
+                width:50px;
+                height:25px;
+                background-color: black;
+                border:1px solid #aaa;
+                border-radius: 5px;
+                
+                color: white;
+                line-height:25px;
+                text-align:center;
+                text-decoration: none;
+            }
+            
+            .task .footer {
+                position:absolute;
+                left: 20px;
+                bottom: 10px;
+                font-size: 11px;
+            }
+            .task:first-child .up-button {
+                opacity: 0.25;
+            }
+            .task:last-child .down-button {
+                opacity: 0.25;
+            }
+        </style>
+        
+        
+        <script type="template" id="task-template">
+            <div class="content"></div>
+            <textarea class="editor" rows="3" cols="60" style="display: none;"></textarea>
+            <div class="footer">
+                <a class="date" href="#"></a>
+                <a class="priority" href="#"></a>
+            </div>
+            <a class="close-link" href="#">×</a>
+            <a class="up-button"   href="#">▲</a>
+            <a class="down-button" href="#">▼</a>
+        </script>
+        <script>
+            var TEMPLATE_TASK = null;
+            
+            tm.main(function(){
+                TEMPLATE_TASK = (function() {
+                    var eTask = tm.dom.Element(document.createElement("div"));
+                    eTask.element.classList.add("task");
+                    eTask.html = tm.dom.Element("#task-template").html;
+                    
+                    return eTask;
+                })();
+            });
+            
+            var addTask = function(value) {
+                var eTask       = TEMPLATE_TASK.clone(true);
+                var eTaskList   = tm.dom.Element( "#tasklist" );
+                eTaskList.append(eTask);
+                
+                var eContent    = eTask.query(".content");
+                var eEditor     = eTask.query(".editor");
+                var eClose      = eTask.query(".close-link");
+                var eUpButton   = eTask.query(".up-button");
+                var eDownButton = eTask.query(".down-button");
+                var eDate       = eTask.query(".date");
+                
+                // 色を設定
+                eTask.backgroundColor = "hsl(" + (360/12)*eTaskList.children.length + ", 50%, 90%)";
+                
+                // 中身を代入
+                eContent.text  = value;
+                // 日付
+                eDate.text     = "2011/11/14 16:50";
+                
+                // 編集イベントを登録
+                eContent.event.add("dblclick", function() {
+                    eContent.style.set("display", "none");
+                    eEditor.style.set("display", "");
+                    
+                    eEditor.value = eContent.text;
+                    eEditor.element.focus();
+                    eEditor.element.select();
+                });
+                
+                // 編集完了イベントを登録
+                eEditor.event.add("blur", function(){
+                    eContent.text = this.value;
+                    this.style.set("display", "none");
+                    eContent.style.set("display", "");
+                }, false);
+                
+                // 削除イベントを登録
+                eClose.event.click(function(){
+                    var result = confirm("remove ok?");
+                    if (result) eTask.remove();
+                    return false;
+                })
+                
+                // 上に移動
+                eUpButton.event.click(function(e){
+                    var ePrevTask= eTask.prev;
+                    if (ePrevTask) {
+                        ePrevTask.before(eTask);
+                    }
+                    
+                    e.stop();
+                });
+                
+                // 下に移動
+                eDownButton.event.click(function(e){
+                    var ePrevTask = eTask.next;
+                    if (ePrevTask) {
+                        ePrevTask.after(eTask);
+                    }
+                    
+                    e.stop();
+                }, false);
+                
+                /*
+                // dispatchEvent の使い方
+                eTask.addEventListener("hoge", function(){
+                    alert("hoge");
+                }, false);
+                eTask.dispatchEvent(new Event("hoge"));
+                */
+            };
+            
+            var save = function() {
+                var eTaskList = tm.dom.Element( "#tasklist" );
+                var data = {
+                    tasks: []
+                };
+                for (var i=0; i<eTaskList.children.length; ++i) {
+                    var eTask = eTaskList.children[i];
+                    data.tasks.push({
+                        str: eTask.query(".content").text
+                    });
+                }
+                
+                //console.dir(data);
+                localStorage["TM.TODOLIST"] = JSON.stringify(data);
+            };
+            
+            var load = function() {
+                //addTask("test");
+                
+                var data = localStorage["TM.TODOLIST"];
+                if (data) {
+                    data = JSON.parse(data);
+                }
+                else {
+                    data = {
+                        tasks: [
+                            {str: "test"}
+                        ]
+                    };
+                }
+                
+                for (var i=0; i<data.tasks.length; ++i) {
+                    addTask(data.tasks[i].str);
+                }
+            };
+            
+            tm.main(function(){
+                load();
+                
+                tm.setLoop(function(){
+                    save();
+                }, 1000);
+            });
+            
+            window.onunload = function(){
+                save();
+            };
+        </script>
+    </head>
+    
+    <body>
+        <div id="wrapper">
+            <h1>TODO List</h1>
+            <form id="main-form" onsubmit="addTask(this.ta.value); return false;">
+                <textarea name="ta" id="ta" cols="50" onfocus="this.select();"></textarea>
+                <input type="submit" value="Add">
+            </form>
+            
+            <hr />
+            
+            <div id="tasklist"></div>
+        </div>
+    </body>
+    
+</html>
