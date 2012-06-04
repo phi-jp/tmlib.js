@@ -2,6 +2,12 @@
 
 JavaScript をより使いやすく, より便利に, そしてより豊かに.
 
+## Usage
+使い方
+```html
+<script src="build/tmlib.js"></script>
+```
+
 ## Documentation
 
 [Link](http://storage.tmlife.net/libs/tmlib.js/docs/index.html)
