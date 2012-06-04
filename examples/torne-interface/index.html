@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <meta charset="UTF-8" />
+        <title>Unit Circle</title>
+        <script src="../../build/tmlib.js"></script>
+        <style>
+            
+            * {
+                text-decoration: none;
+                margin: 0px;
+                padding: 0px;
+            }
+            
+            #main {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+                width: 800px;
+                height: 800px;
+                
+                -webkit-box-shadow: 3px 3px 10px #222;
+            }
+            
+            .torne-interface .title {
+                margin-top: 30px;
+                font-size: 64px;
+                text-align: center;
+                line-height: 800px;
+                opacity: 0.0
+            }
+            
+            .torne-interface {
+                width: 800px;
+                height: 800px;
+                position: absolute;
+            }
+            
+            .icon {
+                width: 80px;
+                height: 80px;
+                border-radius: 40px;
+                
+                color: white;
+                font-size: 22px;
+                font-weight: bold;
+                text-align: center;
+                line-height: 80px;
+                cursor: pointer;
+                
+                position: absolute;
+                
+                -webkit-box-shadow:
+                    inset 3px 3px 10px #fff,
+                    inset -3px -3px 10px #222,
+                    3px 3px 10px #222;
+            }
+            @-webkit-keyframes 'show' {
+                1% {
+                    -webkit-transform: rotate(-360deg) scale(2.0);
+                }
+                
+                100% {
+                    -webkit-transform: rotate(0deg) scale(1);
+                }
+            }
+        </style>
+        <script>
+            tm.main(function() {
+                var icons = tm.dom.Element().queryAll(".icon");
+                var div = 360/icons.length;                 // 度の間隔
+                
+                for (var i=0; i<icons.length; ++i) {
+                    var angle = div*i;
+                    icons[i].backgroundColor = "hsl(" + angle + ", 100%, 50%)"; // 色相で色指定
+                    
+                    // マウスオーバー時イベントを登録
+                    icons[i].event.add("mouseover", onMouseOverIcon);
+                    // マウスアウト時イベントを登録
+                    icons[i].event.add("mouseout", onMouseOutIcon);
+                };
+                
+                var div = 360/icons.length;                 // 度の間隔
+                
+                for (var i=0; i<icons.length; ++i) {
+                    var angle = div*i;
+                    // 位置調整
+                    var x = Math.cos(angle*Math.PI/180)*200 + 360;
+                    var y = -Math.sin(angle*Math.PI/180)*200 + 360;
+                    icons[i].x = x;
+                    icons[i].y = y;
+                };
+                
+                // 表示時アニメーション
+                var torne = tm.dom.Element(".torne-interface");
+                torne.anim
+                    .setName("show")
+                    .setTimingFunction("ease")
+                    .setDuration("1.5s")
+                    .start();
+            });
+            
+            var onMouseOverIcon = function() {
+                var title = tm.dom.Element(".torne-interface .title");   // 中央の文字
+                
+                // ちょっと大きくする
+                this.trans
+                    .setDuration("0.5s")
+                    .setProp({ "transform": "scale(1.25)" });
+                
+                // タイトルに自身のテキストを挿入
+                title.html = this.html;
+                // 色に自身の背景色を挿入
+                title.color = this.backgroundColor;
+                // 下からフワッと
+                title.trans
+                    .setDuration("1s")
+                    .setProp({
+                        "opacity": "1.0",
+                        "margin-top": "0px"
+                    });
+            };
+            
+            
+            var onMouseOutIcon = function()
+            {
+                var title = tm.dom.Element(".torne-interface .title");   // 中央の文字
+                
+                // もとに戻す
+                this.trans
+                    .setDuration("0.5s")
+                    .setTimingFunction("ease")
+                    .setProp({ "-webkitTransform": "scale(1.0)" });
+                
+                // もとに戻す
+                title.trans
+                    .setDuration("0.25s")
+                    .setProp({
+                        "opacity": "0.0",
+                        "margin-top": "30px"
+                    });
+            };
+        </script>
+    </head>
+    
+    <body>
+        <div id="main">
+            <div class="torne-interface">
+                <h2 class="title"></h2>
+                <div class="icon">abc</div>
+                <div class="icon">def</div>
+                <div class="icon">ghi</div>
+                <div class="icon">jkl</div>
+                <div class="icon">mnl</div>
+                <div class="icon">opq</div>
+                <div class="icon">rst</div>
+                <div class="icon">uvw</div>
+            </div>
+        </div>
+    </body>
+    
+</html>
