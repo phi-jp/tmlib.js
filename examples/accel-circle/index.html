@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        
+        <title>Accel Circle | tmlib.js</title>
+        
+        <link rel="apple-touch-icon-precomposed" href="icon.png" />
+        
+        <script src="../../build/tmlib.js"></script>
+        
+        <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
+        <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
+        
+        <script>
+            
+            // 定数
+            var CIRCLE_RADIUS   = 30;
+            
+            var Circle = tm.createClass({
+                superClass: tm.app.CanvasElement,
+                
+                init: function(color) {
+                    this.superInit();
+                    
+                    this.color = color;
+                    this.v = tm.geom.Vector2(0, 0);
+                },
+                
+                update: function(app) {
+                    var gravity = app.accelerometer .gravity;
+                    this.x += gravity.x;
+                    this.y -= gravity.y;
+                },
+                
+                draw: function(c) {
+                    c.fillStyle = this.color;
+                    c.fillCircle(0, 0, CIRCLE_RADIUS);
+                },
+            });
+            
+            window.onload = function() {
+                var app = tm.app.CanvasApp("#c");
+                app.fitWindow();
+                app.enableStats();
+                app.background = "rgba(0, 0, 0, 0.1)";
+                
+                var c = Circle("red");
+                c.x = app.width/2;
+                c.y = app.height/2;
+                app.currentScene.addChild(c);
+                
+                app.run();
+            };
+            
+            
+        </script>
+    </head>
+    
+    <body>
+        <canvas id="c" width="640" height="640"></canvas>
+    </body>
+    
+</html>
