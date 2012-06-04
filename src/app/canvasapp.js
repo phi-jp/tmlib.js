@@ -66,6 +66,9 @@ tm.app = tm.app || {};
             // シーン周り
             this._scenes = [ tm.app.Scene() ];
             this._sceneIndex = 0;
+            
+            // 決定時の処理をオフにする(iPhone 時のちらつき対策)
+            this.element.addEventListener("touchstart", function(e) { e.stop(); });
         },
         
         resize: function(width, height) {
