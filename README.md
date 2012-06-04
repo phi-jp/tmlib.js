@@ -14,7 +14,7 @@ google code で作っていた tmlib.js を再開発
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/juggling/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/juggling/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/magic-square/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/magic-square/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/paint/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/paint/icon.png" /></a>
-<a href="http://storage.tmlife.net/libs/tmlib.js/examples/piano/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/magic-square/icon.png" /></a>
+<a href="http://storage.tmlife.net/libs/tmlib.js/examples/piano/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/piano/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/pursuit/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/pursuit/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/shooting/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/shooting/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/snow/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/snow/icon.png" /></a>
