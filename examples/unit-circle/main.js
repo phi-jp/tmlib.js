@@ -39,7 +39,7 @@ tm.preload(function() {
  * メイン処理
  */
 tm.main(function() {
-    app = tm.app.CanvasApp("#c");
+    app = tm.app.CanvasApp("#world");
     app.fps = 30;
     app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
     app.fitWindow();
