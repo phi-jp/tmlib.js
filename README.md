@@ -10,6 +10,9 @@
 - [tmlib.js version 0.1.0 Starter pack](#)
 
 
+## Documentation
+[Link](http://storage.tmlife.net/libs/tmlib.js/docs/index.html)
+
 ## Usage
 使い方
 ```html
@@ -20,9 +23,6 @@
 下記のリンクにある jsdo.it のコードを fork すれば今すぐに tmlib.js を使うことができます.  
 [tmlib.js template](#)
 
-## Documentation
-
-[Link](http://storage.tmlife.net/libs/tmlib.js/docs/index.html)
 
 ## Examples
 
