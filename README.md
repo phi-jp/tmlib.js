@@ -10,6 +10,9 @@ jQuery ライクな DOM 操作.
 <script src="build/tmlib.js"></script>
 ```
 
+また jsdo.it のコードを fork すれば今すぐに tmlib.js を使うことができます.
+[tmlib.js template](#)
+
 ## Documentation
 
 [Link](http://storage.tmlife.net/libs/tmlib.js/docs/index.html)
