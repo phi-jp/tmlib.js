@@ -9658,7 +9658,8 @@ tm.sound = tm.sound || {};
          * 停止
          */
         stop: function() {
-            this.element.stop();
+            this.element.pause();
+            this.element.currentTime = 0;
             this.isPlay = false;
             return this;
         },
@@ -9726,9 +9727,9 @@ tm.sound = tm.sound || {};
         var ext     = "";
         var audio   = new Audio();
         
-        if      (audio.canPlayType("audio/ogg") == 'maybe') { ext="ogg"; }
+        if      (audio.canPlayType("audio/wav") == 'maybe') { ext="wav"; }
         else if (audio.canPlayType("audio/mp3") == 'maybe') { ext="mp3"; }
-        else if (audio.canPlayType("audio/wav") == 'maybe') { ext="wav"; }
+        else if (audio.canPlayType("audio/ogg") == 'maybe') { ext="ogg"; }
         
         return ext;
     })();

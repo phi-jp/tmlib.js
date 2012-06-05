@@ -118,6 +118,7 @@ tm.main(function() {
         // ポーズ
         if (key.getKeyDown("space") == true) {
             (scene.isUpdate == true) ? scene.sleep() : scene.wakeUp();
+            bgm.stop();
         }
     }
     
