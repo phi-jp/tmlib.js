@@ -71,11 +71,6 @@
 
 
 
-### jsdo.it
-下記のリンクにある jsdo.it のコードを fork すれば今すぐに tmlib.js を使うことができます.  
-[tmlib.js template](#)
-
-
 ## Examples
 
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/circle/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/circle/icon.png" /></a>
