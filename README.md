@@ -1,13 +1,19 @@
 # tmlib.js
 
-JavaScript をより使いやすく, より便利に, そしてより豊かに.  
-ゲーム制作.  
-jQuery ライクな DOM 操作.
+『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
+コンセプトに制作した JavaScript ライブラリです.
+
+
+## Donwload
+- [tmlib.js version 0.1.0](https://raw.github.com/phi1618/tmlib.js/master/build/tmlib.js)
+- [tmlib.min.js version 0.1.0](https://raw.github.com/phi1618/tmlib.js/0.1.0/build/tmlib.min.js)
+- [tmlib.js version 0.1.0 Starter pack](#)
+
 
 ## Usage
 使い方
 ```html
-<script src="build/tmlib.js"></script>
+<script src="tmlib.js"></script>
 ```
 
 ### jsdo.it
