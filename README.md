@@ -11,7 +11,7 @@
 
 
 ## Documentation
-[Link](http://storage.tmlife.net/libs/tmlib.js/docs/index.html)
+ドキュメントは[こちら](http://storage.tmlife.net/libs/tmlib.js/docs/index.html)
 
 ## Usage
 使い方
