@@ -86,7 +86,7 @@
 
 ## Examples
 
-使用例です. 随時追加していきます.
+使用例です. 随時追加していきます.  
 また, 「こんなん作ってみた」とかあれば教えて下さい.
 
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/circle/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/circle/icon.png" /></a>
