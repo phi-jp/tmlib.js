@@ -12,6 +12,9 @@
         <link rel="apple-touch-icon-precomposed" href="icon.png" />
         
         <style>
+            body {
+                margin:0px;
+            }
             canvas {
                 box-shadow: 0px 0px 4px 0px #222;
             }
@@ -19,47 +22,11 @@
         <script src="../../build/tmlib.js"></script>
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
         <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
-        
-        <script>
-            
-            window.onload = function() {
-                var e = tm.dom.Element("#c");
-                var c = tm.graphics.Canvas(e.element);
-                
-                c.setLineStyle(8, "round", "round", 10);
-                
-                // マウス用イベント登録
-                var pointX = null, pointY = null;
-                
-                e.event.pointstart(function(e) {
-                    // 位置をセット
-                    pointX = e.pointX; pointY = e.pointY;
-                    e.stop();
-                });
-                e.event.pointmove(function(e) {
-                    // null の時は描画しない
-                    if (pointX === null || pointY === null) return ;
-                    
-                    c.drawLine(pointX, pointY, e.pointX, e.pointY);
-                    pointX = e.pointX; pointY = e.pointY;
-                    e.stop();
-                });
-                e.event.pointend(function(e) {
-                    // ボタンを押していない時は null をセット
-                    pointX = pointY = null;
-                    e.stop();
-                });
-                
-                // ダブルクリックで保存
-                e.event.mdlclick( function() { c.saveAsImage(); } );
-            };
-            
-            
-        </script>
+        <script src="main.js"></script>
     </head>
     
     <body>
-        <canvas id="c" width="640" height="480"></canvas>
+        <canvas id="c"></canvas>
     </body>
     
 </html>
