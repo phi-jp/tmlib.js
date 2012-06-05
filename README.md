@@ -19,6 +19,58 @@
 <script src="tmlib.js"></script>
 ```
 
+
+読み込み後は下記のような形で使用します.
+
+```html
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        
+        <title>Starter Pack | tmlib.js</title>
+        <link rel="apple-touch-icon-precomposed" href="icon.png" />
+        
+        <script src="https://raw.github.com/phi1618/tmlib.js/master/build/tmlib.js"></script>
+        <script>
+            // メイン処理(ページ読み込み後に実行される)
+            tm.main(function() {
+                // アプリケーション作成
+                var app = tm.app.CanvasApp("#world");
+                app.resizeWindow(); // 画面サイズに合わせる
+                app.fitWindow();    // リサイズ対応
+                app.background = "rgba(0, 0, 0, 0.1)";  // 背景色をセット
+                
+                // 星スプライト
+                var star = tm.app.Sprite(64, 64);
+                star.canvas.setColorStyle("white", "yellow").fillStar(32, 32, 32, 5);
+                app.currentScene.addChild(star);    // シーンに追加
+                
+                // 更新
+                app.currentScene.update = function(app) {
+                    // マウス位置 or タッチ位置に移動
+                    star.x = app.pointing.x;
+                    star.y = app.pointing.y;
+                    // クリック or タッチ中は回転させる
+                    if (app.pointing.getPointing() == true) { star.rotation += 15; }
+                };
+                
+                // 実行
+                app.run();
+            });
+        </script>
+    </head>
+    <body>
+        <canvas id="world"></canvas>
+    </body>
+</html>
+```
+
+
+
 ### jsdo.it
 下記のリンクにある jsdo.it のコードを fork すれば今すぐに tmlib.js を使うことができます.  
 [tmlib.js template](#)
