@@ -89,13 +89,6 @@
 
 
 
-## Blog
-
-tmlib に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
-
-[TM Life](http://tmlife.net)
-
-
 ## Browser
 
 対応ブラウザの一覧です.  
@@ -103,4 +96,11 @@ IE なんて知りません.
 - [Google Chrome](http://www.google.co.jp/chrome/intl/ja/landing_ch.html)
 - [Safari](http://www.apple.com/jp/safari/)
 - [Firefox](http://mozilla.jp/firefox/)
+
+
+## Blog
+
+tmlib に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
+
+[TM Life](http://tmlife.net)
 
