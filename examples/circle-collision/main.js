@@ -14,7 +14,7 @@ var target          = null;
  * 定数
  */
 var SCREEN_WIDTH    = 640;
-var SCREEN_HEIGHT   = 480;
+var SCREEN_HEIGHT   = 640;
 var BOUNCINESS      = 0.8;
 var FRICTION        = 0.99;
 var GRAVITY         = tm.geom.Vector2(0, 0.8);
@@ -34,9 +34,8 @@ tm.preload(function() {
  * メイン処理
  */
 tm.main(function() {
-    app = tm.app.CanvasApp("#c");
+    app = tm.app.CanvasApp("#world");
     app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    // app.resizeWindow();
     app.fitWindow();
     app.background = "rgba(0, 0, 0, 0.25)";
     
@@ -54,6 +53,7 @@ tm.main(function() {
         }
     }
     
+    /*
     // Stats
     app.enableStats();
     
@@ -73,6 +73,7 @@ tm.main(function() {
         gravityFolder.add(GRAVITY, "y", -2, 2, 0.1);
         gravityFolder.open();
     }
+    */
     
     app.update = function() {
         var scene = this.currentScene;
