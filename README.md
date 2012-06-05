@@ -3,6 +3,19 @@
 『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
 コンセプトに制作した JavaScript ライブラリです.
 
+やってることは
+
+- jQuery ライクに DOM を扱えるようにしたり
+- ajax 機能をサポートしてみたり
+- HTML5 Canvas をラップして使いやすくしたり
+- アニメーションできるようにしてみたり
+- ベクトルや行列をサポートしてみたり
+- 音を鳴らせるようにしてみたり
+- 入力系をサポートしてみたり
+- 1つのコードで PC とスマホ同時対応できるようにしてみたり
+
+と色々やってます.
+
 
 ## Donwload
 - [tmlib.js version 0.1.0](https://raw.github.com/phi1618/tmlib.js/master/build/tmlib.js)
