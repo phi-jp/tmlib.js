@@ -2,6 +2,17 @@
  * phi
  */
 
+
+/*
+ * 定数
+ */
+var SCREEN_WIDTH    = 640;
+var SCREEN_HEIGHT   = 640;
+
+
+/**
+ * 魔方陣クラス
+ */
 var MagicSquareSprite = tm.createClass({
     
     superClass: tm.app.Sprite,
@@ -110,6 +121,14 @@ tm.main(function() {
         ms.y = p.y;
         ms.addChildTo(this);
     };
+    
+    // あらかじめいくつか生成しておく
+    for (var i=0; i<16; ++i) {
+        var ms = MagicSquareSprite();
+        ms.x = tm.util.Random.randint(0, SCREEN_WIDTH);
+        ms.y = tm.util.Random.randint(0, SCREEN_HEIGHT);;
+        ms.addChildTo(app.currentScene);
+    }
     
     app.update = function() {
         var scene = this.currentScene;
