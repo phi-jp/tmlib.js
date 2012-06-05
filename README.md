@@ -10,6 +10,10 @@ jQuery ライクな DOM 操作.
 <script src="build/tmlib.js"></script>
 ```
 
+### jsdo.it
+下記のリンクにある jsdo.it のコードを fork すれば今すぐに tmlib.js を使うことができます.  
+[tmlib.js template](#)
+
 ## Documentation
 
 [Link](http://storage.tmlife.net/libs/tmlib.js/docs/index.html)
@@ -29,4 +33,21 @@ jQuery ライクな DOM 操作.
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/text-effect/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/text-effect/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/torne-interface/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/torne-interface/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/unit-circle/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/unit-circle/icon.png" /></a>
+
+
+
+## Blog
+
+tmlib に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
+
+[TM Life](http://tmlife.net)
+
+
+## Browser
+
+対応ブラウザの一覧です.  
+IE なんて知りません.
+- [Google Chrome](http://www.google.co.jp/chrome/intl/ja/landing_ch.html)
+- [Safari](http://www.apple.com/jp/safari/)
+- [Firefox](http://mozilla.jp/firefox/)
 
