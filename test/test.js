@@ -433,15 +433,15 @@ describe('Vector3 Test', function() {
         assert(v.equals(0, 1, 2));
     });
     
-    it('setFromNumber', function() {
+    it('setNumber', function() {
         var v  = tm.geom.Vector3();
-        v.setFromNumber(2, 1, 0);
+        v.setNumber(2, 1, 0);
         assert(v.equals(2, 1, 0));
     });
     
-    it('setFromObject', function() {
+    it('setObject', function() {
         var v  = tm.geom.Vector3();
-        v.setFromObject({
+        v.setObject({
             x: 2,
             y: 1, 
             z: 0
@@ -449,10 +449,10 @@ describe('Vector3 Test', function() {
         assert(v.equals(2, 1, 0));
     });
     
-    it('setFromString', function() {
+    it('setString', function() {
         var v  = tm.geom.Vector3();
         
-        v.setFromString("(6, 7, 8)")
+        v.setString("(6, 7, 8)")
         assert(v.equals(6, 7, 8));
     });
     

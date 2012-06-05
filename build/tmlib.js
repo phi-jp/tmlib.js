@@ -2428,7 +2428,7 @@ tm.geom = tm.geom || {};
         /**
          * 数値からセット
          */
-        setFromNumber: function(x, y, z) {
+        setNumber: function(x, y, z) {
             this.x = x;
             this.y = y;
             this.z = z;
@@ -2439,7 +2439,7 @@ tm.geom = tm.geom || {};
         /**
          * 配列からセット
          */
-        setFromArray: function(arr) {
+        setArray: function(arr) {
             this.x = arr[0];
             this.y = arr[1];
             this.z = arr[2];
@@ -2450,7 +2450,7 @@ tm.geom = tm.geom || {};
         /**
          * オブジェクトからセット
          */
-        setFromObject: function(obj) {
+        setObject: function(obj) {
             this.x = obj.x;
             this.y = obj.y;
             this.z = obj.z;
@@ -2461,7 +2461,7 @@ tm.geom = tm.geom || {};
         /**
          * 文字列からセット
          */
-        setFromString: function(str) {
+        setString: function(str) {
             var m = str.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
             this.x = parseFloat(m[1]);
             this.y = parseFloat(m[3]);
@@ -2473,7 +2473,7 @@ tm.geom = tm.geom || {};
         /**
          * 角度(radian)と長さでベクトルをセット
          */
-        setFromAngle: function(thetaRad, phiRad, len) {
+        setAngle: function(thetaRad, phiRad, len) {
             len = len || 1;
             
             this.x = len * Math.cos(thetaRad) * Math.sin(phiRad);
@@ -2486,14 +2486,14 @@ tm.geom = tm.geom || {};
         /**
          * 角度(radian)と長さでベクトルをセット
          */
-        setFromRadian: function(thetaRad, phiRad, len) {
+        setRadian: function(thetaRad, phiRad, len) {
             return this.setFromAngle(thetaRad, phiRad, len);
         },
         
         /**
          * 角度(degree)と長さでベクトルをセット
          */
-        setFromDegree: function(thetaDegree, phiDegree, len) {
+        setDegree: function(thetaDegree, phiDegree, len) {
             return this.setFromAngle(thetaDegree*Math.PI/180, phiDegree*Math.PI/180, len);
         },
         
