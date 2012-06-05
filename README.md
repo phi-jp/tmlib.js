@@ -30,3 +30,10 @@ jQuery ライクな DOM 操作.
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/torne-interface/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/torne-interface/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/unit-circle/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/unit-circle/icon.png" /></a>
 
+
+
+## Blog
+
+tmlib に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
+
+[TM Life](http://tmlife.net)
