@@ -3,15 +3,32 @@
 『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
 コンセプトに制作した JavaScript ライブラリです.
 
+やってることは
 
-## Donwload
+- 生成時に new がいらない class 定義の仕組みを作ってみたり
+- jQuery ライクに DOM を扱えるようにしたり
+- ajax 機能をサポートしてみたり
+- HTML5 Canvas をラップして使いやすくしたり
+- アニメーションできるようにしてみたり
+- ベクトルや行列をサポートしてみたり
+- 音を鳴らせるようにしてみたり
+- 入力系をサポートしてみたり
+- 1つのコードで PC とスマホ同時対応できるようにしてみたり
+
+と色々やってます.
+
+[Examples](#examples) - [Documentation](#documentation) - [Download](#download)
+
+
+
+## Download
 - [tmlib.js version 0.1.0](https://raw.github.com/phi1618/tmlib.js/master/build/tmlib.js)
 - [tmlib.min.js version 0.1.0](https://raw.github.com/phi1618/tmlib.js/0.1.0/build/tmlib.min.js)
-- [tmlib.js version 0.1.0 Starter pack](#)
+- [tmlib.js version 0.1.0 Starter pack](https://github.com/downloads/phi1618/tmlib.js/starter.zip)
 
 
 ## Documentation
-[Link](http://storage.tmlife.net/libs/tmlib.js/docs/index.html)
+ドキュメントは[こちら](http://storage.tmlife.net/libs/tmlib.js/docs/index.html)
 
 ## Usage
 使い方
@@ -71,12 +88,10 @@
 
 
 
-### jsdo.it
-下記のリンクにある jsdo.it のコードを fork すれば今すぐに tmlib.js を使うことができます.  
-[tmlib.js template](#)
-
-
 ## Examples
+
+使用例です. 随時追加していきます.  
+また, 「こんなん作ってみた」とかあれば教えて下さい.
 
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/circle/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/circle/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/circle-collision/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/circle-collision/icon.png" /></a>
@@ -91,14 +106,8 @@
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/text-effect/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/text-effect/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/torne-interface/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/torne-interface/icon.png" /></a>
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/unit-circle/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/unit-circle/icon.png" /></a>
+<a href="http://storage.tmlife.net/libs/tmlib.js/examples/particle/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/particle/icon.png" /></a>
 
-
-
-## Blog
-
-tmlib に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
-
-[TM Life](http://tmlife.net)
 
 
 ## Browser
@@ -108,4 +117,11 @@ IE なんて知りません.
 - [Google Chrome](http://www.google.co.jp/chrome/intl/ja/landing_ch.html)
 - [Safari](http://www.apple.com/jp/safari/)
 - [Firefox](http://mozilla.jp/firefox/)
+
+
+## Blog
+
+tmlib.js に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
+
+[TM Life](http://tmlife.net)
 
