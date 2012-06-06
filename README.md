@@ -17,6 +17,9 @@
 
 と色々やってます.
 
+[Examples](#Examples) - [Documentation](#Documentation) - [Download](#Download)
+
+
 
 ## Donwload
 - [tmlib.js version 0.1.0](https://raw.github.com/phi1618/tmlib.js/master/build/tmlib.js)
