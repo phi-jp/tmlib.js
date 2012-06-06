@@ -109,6 +109,9 @@
 <a href="http://storage.tmlife.net/libs/tmlib.js/examples/particle/"><img alt="screenshot" width="160" src="http://storage.tmlife.net/libs/tmlib.js/examples/particle/icon.png" /></a>
 
 
+## License
+MIT License
+
 
 ## Browser
 
