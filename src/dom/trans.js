@@ -79,7 +79,7 @@ tm.dom = tm.dom || {};
      * @property    trans
      */
     tm.dom.Element.prototype.getter("trans", function(){
-        return this._style || ( this._trans = tm.dom.Trans(this.element) );
+        return this._trans || ( this._trans = tm.dom.Trans(this.element) );
     });
     
     var _styleList = {
