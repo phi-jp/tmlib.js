@@ -1,0 +1,71 @@
+.piano {
+    position:relative;
+    height:200px;
+    margin: 20px;
+}
+
+.white-key-set {
+    position:absolute;
+    left:0px;
+    display:-webkit-box;
+    display:-moz-box;
+    display: box;
+}
+
+.white-key-set .keyboard {
+    display:-moz-box;
+    width:40px;
+    height:200px;
+    border:solid 1px black;
+    background-color: #eee;
+    -webkit-animation-name: play;
+    -webkit-animation-duration: 0.25s;
+    -webkit-animation-play-state: paused;
+    -webkit-animation-delay: 0.1s;
+}
+
+@-webkit-keyframes play {
+    0% {
+        background-color: #aaa;
+    }
+    50% {
+        -webkit-transform: rotateX(30deg)
+    }
+    100% {
+        background-color: #eee;
+    }
+}
+
+.black-key-set {
+    display:-webkit-box;
+    display:-moz-box;
+    display: box;
+    position:absolute;
+    top: 1px;
+    left: 25px;
+}
+
+.black-key-set .keyboard {
+    display:-moz-box;
+    width:30px;
+    height:120px;
+    border:solid 1px white;
+    margin-right: 10px;
+    background-color: #000;
+    -webkit-animation-name: play-black;
+    -webkit-animation-duration: 0.25s;
+    -webkit-animation-play-state: paused;
+    -webkit-animation-delay: 0.1s;
+}
+
+@-webkit-keyframes play-black {
+    0% {
+        background-color: #000;
+    }
+    50% {
+        -webkit-transform: rotateX(30deg)
+    }
+    100% {
+        background-color: #aaa;
+    }
+}

@@ -20,7 +20,7 @@ var tm = tm || {};
     /**
      * バージョン
      */
-    tm.VERSION = "0.0.0";
+    tm.VERSION = "0.1.1";
     
     /**
      * tmlib.js のルートパス
