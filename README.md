@@ -17,7 +17,7 @@
 
 と色々やってます.
 
-[Examples](#Examples) - [Documentation](#Documentation) - [Download](#Download)
+[Examples](#examples) - [Documentation](#documentation) - [Download](#download)
 
 
 
