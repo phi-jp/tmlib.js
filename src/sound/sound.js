@@ -66,7 +66,10 @@ tm.sound = tm.sound || {};
          */
         stop: function() {
             this.element.pause();
-            this.element.currentTime = 0;
+            //? スマホだと止まるので応急対応
+            if (!tm.isMobile) {
+                this.element.currentTime = 0;
+            }
             this.isPlay = false;
             return this;
         },
