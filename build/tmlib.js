@@ -1845,6 +1845,7 @@ tm.util = tm.util || {};
  * data.js
  */
 
+tm.util = tm.util || {};
 
 (function() {
     

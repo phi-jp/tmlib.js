@@ -2,6 +2,7 @@
  * data.js
  */
 
+tm.util = tm.util || {};
 
 (function() {
     
