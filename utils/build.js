@@ -21,6 +21,7 @@ var target = [
     "util/ajax.js",
     "util/file.js",
     "util/timeline.js",
+    "util/data.js",
     
     "geom/vector2.js",
     "geom/vector3.js",
