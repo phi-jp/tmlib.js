@@ -227,6 +227,38 @@ tm.app = tm.app || {};
             return this;
         },
         
+        setX: function(x) {
+            this.position.x = x;
+            return this;
+        },
+        
+        setY: function(y) {
+            this.position.y = y;
+            return this;
+        },
+        
+        setPosition: function(x, y) {
+            this.position.x = x;
+            this.position.y = y;
+            return this;
+        },
+        
+        setWidth: function(width) {
+            this.width = width;
+            return this;
+        },
+        
+        setHeight: function(height) {
+            this.height = height;
+            return this;
+        },
+        
+        setSize: function(width, height) {
+            this.width  = width;
+            this.height = height;
+            return this;
+        },
+        
         _update: function(app) {
             // 更新有効チェック
             if (this.isUpdate == false) return ;
