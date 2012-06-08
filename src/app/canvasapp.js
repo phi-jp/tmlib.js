@@ -176,7 +176,6 @@ tm.app = tm.app || {};
             // update
             if (this.update) this.update();
             this._update();
-            ++this.frame;
             
             // draw
             if (this.draw) this.draw();
