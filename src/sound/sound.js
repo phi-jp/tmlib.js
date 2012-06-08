@@ -75,6 +75,14 @@ tm.sound = tm.sound || {};
         },
         
         /**
+         * 一時停止
+         */
+        pause: function() {
+            this.element.pause();
+            return this;
+        },
+        
+        /**
          * クローン
          */
         clone: function() {
