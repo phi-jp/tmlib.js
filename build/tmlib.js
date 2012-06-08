@@ -8587,6 +8587,38 @@ tm.app = tm.app || {};
             return this;
         },
         
+        setX: function(x) {
+            this.position.x = x;
+            return this;
+        },
+        
+        setY: function(y) {
+            this.position.y = y;
+            return this;
+        },
+        
+        setPosition: function(x, y) {
+            this.position.x = x;
+            this.position.y = y;
+            return this;
+        },
+        
+        setWidth: function(width) {
+            this.width = width;
+            return this;
+        },
+        
+        setHeight: function(height) {
+            this.height = height;
+            return this;
+        },
+        
+        setSize: function(width, height) {
+            this.width  = width;
+            this.height = height;
+            return this;
+        },
+        
         _update: function(app) {
             // 更新有効チェック
             if (this.isUpdate == false) return ;
@@ -9072,6 +9104,16 @@ tm.app = tm.app || {};
             
             // 決定時の処理をオフにする(iPhone 時のちらつき対策)
             this.element.addEventListener("touchstart", function(e) { e.stop(); });
+            
+            
+            // ウィンドウフォーカス時イベントリスナを登録
+            window.addEventListener("focus", function() {
+                this.currentScene.dispatchEvent(tm.event.Event("focus"));
+            }.bind(this));
+            // ウィンドウブラー時イベントリスナを登録
+            window.addEventListener("blur", function() {
+                this.currentScene.dispatchEvent(tm.event.Event("blur"));
+            }.bind(this));
         },
         
         resize: function(width, height) {
@@ -9274,7 +9316,10 @@ tm.app = tm.app || {};
             this.keyboard.update();
             this.touch.update();
             
-            if (this.isPlaying) this.currentScene._update(this);
+            if (this.isPlaying) {
+                this.currentScene._update(this);
+                ++this.frame;
+            }
         },
         
         _draw: function()
@@ -9283,7 +9328,13 @@ tm.app = tm.app || {};
             
             this.canvas.fillStyle   = "white";
             this.canvas.strokeStyle = "white";
-            this.currentScene._draw(this.canvas);
+            
+            // 描画は全てのシーン行う
+            for (var i=0, len=this._scenes.length; i<len; ++i) {
+                this._scenes[i]._draw(this.canvas);
+            }
+            
+            //this.currentScene._draw(this.canvas);
         },
         
         getElement: function() {
@@ -9705,6 +9756,14 @@ tm.sound = tm.sound || {};
                 this.element.currentTime = 0;
             }
             this.isPlay = false;
+            return this;
+        },
+        
+        /**
+         * 一時停止
+         */
+        pause: function() {
+            this.element.pause();
             return this;
         },
         
