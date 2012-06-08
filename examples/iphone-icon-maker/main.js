@@ -37,10 +37,10 @@ tm.main(function() {
         
         // param
         var paramFolder = gui.addFolder("param");
-        paramFolder.add(param, "x", 0, 512, 1).onChange(refresh);
-        paramFolder.add(param, "y", 0, 512, 1).onChange(refresh);
-        paramFolder.add(param, "width", 0, 512, 1).onChange(refresh);
-        paramFolder.add(param, "height", 0, 512, 1).onChange(refresh);
+        paramFolder.add(param, "x", 0, 1024, 1).onChange(refresh);
+        paramFolder.add(param, "y", 0, 1024, 1).onChange(refresh);
+        paramFolder.add(param, "width", 0, 1024, 1).onChange(refresh);
+        paramFolder.add(param, "height", 0, 1024, 1).onChange(refresh);
         paramFolder.open();
     }
         
