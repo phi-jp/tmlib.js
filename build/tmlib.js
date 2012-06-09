@@ -8542,10 +8542,10 @@ tm.app = tm.app || {};
             var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
             // var globalPos = this;
             
-            var left   = globalPos.x - this.width*this.originX;
-            var right  = globalPos.x + this.width*this.originX;
-            var top    = globalPos.y - this.height*this.originY;
-            var bottom = globalPos.y + this.height*this.originY;
+            var left   = globalPos.x - this.width*this.originX*this.scaleX;
+            var right  = globalPos.x + this.width*this.originX*this.scaleX;
+            var top    = globalPos.y - this.height*this.originY*this.scaleY;
+            var bottom = globalPos.y + this.height*this.originY*this.scaleY;
             
             if ( left < x && x < right && top  < y && y < bottom ) { return true; }
             
