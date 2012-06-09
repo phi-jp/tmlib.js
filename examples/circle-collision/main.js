@@ -45,6 +45,8 @@ tm.main(function() {
         circleList.push(circle);
     }
     
+    // app.currentScene.rotation = 30;
+    
     for (var i=0; i<circleList.length-1; ++i) {
         var target = circleList[i];
         for (var j=i+1; j<circleList.length; ++j) {

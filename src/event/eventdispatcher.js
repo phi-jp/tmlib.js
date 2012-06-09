@@ -35,7 +35,7 @@ tm.event = tm.event || {};
         dispatchEvent: function(e) {
             e.target = this;
             var oldEventName = 'on' + e.type;
-            if (oldEventName in this) this[oldEventName](e);
+            if (this[oldEventName]) this[oldEventName](e);
             
             var listeners = this._listeners[e.type];
             if (listeners) {
