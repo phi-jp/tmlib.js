@@ -6,6 +6,9 @@
 /*
  * 定数
  */
+var SCREEN_WIDTH = 720;
+var SCREEN_HEIGHT= 480;
+
 var CIRCLE_RADIUS   = 30;
 var CIRCLE_MAX_NUM  = 15;
 var CIRCLE_PURSUIT_RATE = 0.25;  // 収束率
@@ -66,9 +69,8 @@ tm.preload(function() {
  * メイン処理
  */
 tm.main(function() {
-    app = tm.app.CanvasApp("#c");
+    app = tm.app.CanvasApp("#world");
     app.fps = 30;
-    app.resize(640, 480);
     app.fitWindow();
     app.enableStats();
     app.score = 0;
@@ -89,7 +91,7 @@ tm.main(function() {
     enemyGroup.update = function(app) {
         if (app.frame % 30 == 0) {
             var enemy = Enemy();
-            enemy.position.set(660, Math.rand(20, 460));
+            enemy.position.set(SCREEN_WIDTH+40, Math.rand(20, SCREEN_HEIGHT-20));
             enemyGroup.addChild( enemy );
         }
     }
@@ -101,12 +103,11 @@ tm.main(function() {
     
     // スコア生成
     var score = tm.app.Label("Score : " + app.score.padding(3, ' '));
-    score.position.set(620, 20);
+    score.position.set(SCREEN_WIDTH-20, 20);
     score.align     = "end";
     score.baseline  = "top";
     score.width = 320;
     app.currentScene.addChild(score);
-    
     
     app.currentScene.update = function() {
         score.text = "Score : " + app.score.padding(3, ' ');
@@ -245,7 +246,7 @@ var Bullet = tm.createClass({
     
     update: function() {
         this.x += 16;
-        if (this.x >= 640+30) {
+        if (this.x >= SCREEN_WIDTH+30) {
             this.remove();
         }
         if (this.destroy == true) {
