@@ -125,7 +125,7 @@ IE なんて知りません.
 ## Resource
 当プロジェクトで使用させていただいている画像・音楽はこちらの皆様からお借りしております.
 
-### 音楽
+### Music
 - [魔王魂](http://maoudamashii.jokersounds.com/)
 - [ザ・マッチメイカァズ2nd](http://osabisi.sakura.ne.jp/m2/)
 
