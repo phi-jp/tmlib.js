@@ -16,18 +16,22 @@ tm.app = tm.app || {};
         
         hitFlag: false,
         downFlag: false,
+        enabled: true,
         
         init: function(element) {
             this.element = element;
+            this.setBoundingType("circle");
         },
         
         update: function(app) {
+            if (this.enabled === false) return ;
+            
             var elm = this.element;
             var p   = app.pointing;
             
             var prevHitFlag = this.hitFlag;
             
-            this.hitFlag   = elm.isHitPoint(p.x, p.y);
+            this.hitFlag    = this.hitTestFunc.call(elm, p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
                 var e = tm.event.Event("mouseover");
@@ -58,6 +62,19 @@ tm.app = tm.app || {};
                 elm.dispatchEvent(tm.event.Event("mouseup"));
                 this.downFlag = false;
             }
+        },
+        
+        setBoundingType: function(type) {
+            if (type == "rect") {
+                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRectHierarchy;
+            }
+            else if (type == "circle"){
+                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircleHierarchy;
+            }
+            else {
+                this.hitTestFunc = function() { return true };
+            }
+            return this;
         },
         
     });

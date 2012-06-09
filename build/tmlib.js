@@ -5363,7 +5363,7 @@ tm.event = tm.event || {};
         dispatchEvent: function(e) {
             e.target = this;
             var oldEventName = 'on' + e.type;
-            if (oldEventName in this) this[oldEventName](e);
+            if (this[oldEventName]) this[oldEventName](e);
             
             var listeners = this._listeners[e.type];
             if (listeners) {
@@ -8460,7 +8460,21 @@ tm.app = tm.app || {};
         /**
          * 描画処理
          */
-        draw: function(ctx) {},
+        draw: function(canvas) {},
+        
+        drawBoundingCircle: function(canvas) {
+            canvas.save();
+            canvas.lineWidth = 2;
+            canvas.strokeCircle(0, 0, this.radius);
+            canvas.restore();
+        },
+        
+        drawBoundingRect: function(canvas) {
+            canvas.save();
+            canvas.lineWidth = 2;
+            canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
+            canvas.restore();
+        },
         
         getFinalMatrix: function() {
             var matrix = tm.geom.Matrix33();
@@ -8488,30 +8502,53 @@ tm.app = tm.app || {};
                 return true;
             }
             return false;
-            
-            
-            // ここから下のバージョンは四角形
-            var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
-            // var globalPos = this;
-            if (
-                globalPos.x < x && x < (globalPos.x+this.width) &&
-                globalPos.y < y && y < (globalPos.y+this.height))
-            {
-                return true;
-            }
-            return false;
         },
         
         isHitPointRect: function(x, y) {
             // ここから下のバージョンは四角形
             var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
             // var globalPos = this;
-            if (
-                globalPos.x < x && x < (globalPos.x+this.width) &&
-                globalPos.y < y && y < (globalPos.y+this.height))
-            {
+            
+            var left   = globalPos.x - this.width*this.originX;
+            var right  = globalPos.x + this.width*this.originX;
+            var top    = globalPos.y - this.height*this.originY;
+            var bottom = globalPos.y + this.height*this.originY;
+            
+            if ( left < x && x < right && top  < y && y < bottom ) { return true; }
+            
+            return false;
+        },
+        
+        /**
+         * 階層を考慮した円衝突判定
+         */
+        isHitPointCircleHierarchy: function(x, y) {
+            // 円判定
+            var p = this.globalToLocal(tm.geom.Vector2(x, y));
+            this.pointing.x = p.x;
+            this.pointing.y = p.y;
+            
+            if (((p.x)*(p.x)+(p.y)*(p.y)) < (this.radius*this.radius)) {
                 return true;
             }
+            return false;
+        },
+        
+        /**
+         * 階層を考慮した矩形衝突判定
+         */
+        isHitPointRectHierarchy: function(x, y) {
+            // ここから下のバージョンは四角形
+            var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
+            // var globalPos = this;
+            
+            var left   = globalPos.x - this.width*this.originX;
+            var right  = globalPos.x + this.width*this.originX;
+            var top    = globalPos.y - this.height*this.originY;
+            var bottom = globalPos.y + this.height*this.originY;
+            
+            if ( left < x && x < right && top  < y && y < bottom ) { return true; }
+            
             return false;
         },
         
@@ -8970,9 +9007,8 @@ tm.app = tm.app || {};
             
             // タッチに反応させる
             this.interaction;
+            this.interaction.setBoundingType("none");
         },
-        
-        isHitPoint: function() { return true; },
     });
     
     tm.app.StartScene = tm.createClass({
@@ -9391,18 +9427,22 @@ tm.app = tm.app || {};
         
         hitFlag: false,
         downFlag: false,
+        enabled: true,
         
         init: function(element) {
             this.element = element;
+            this.setBoundingType("circle");
         },
         
         update: function(app) {
+            if (this.enabled === false) return ;
+            
             var elm = this.element;
             var p   = app.pointing;
             
             var prevHitFlag = this.hitFlag;
             
-            this.hitFlag   = elm.isHitPoint(p.x, p.y);
+            this.hitFlag    = this.hitTestFunc.call(elm, p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
                 var e = tm.event.Event("mouseover");
@@ -9433,6 +9473,19 @@ tm.app = tm.app || {};
                 elm.dispatchEvent(tm.event.Event("mouseup"));
                 this.downFlag = false;
             }
+        },
+        
+        setBoundingType: function(type) {
+            if (type == "rect") {
+                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRectHierarchy;
+            }
+            else if (type == "circle"){
+                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircleHierarchy;
+            }
+            else {
+                this.hitTestFunc = function() { return true };
+            }
+            return this;
         },
         
     });

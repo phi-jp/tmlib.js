@@ -24,9 +24,8 @@ tm.app = tm.app || {};
             
             // タッチに反応させる
             this.interaction;
+            this.interaction.setBoundingType("none");
         },
-        
-        isHitPoint: function() { return true; },
     });
     
     tm.app.StartScene = tm.createClass({
