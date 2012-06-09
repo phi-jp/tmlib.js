@@ -122,6 +122,13 @@ IE なんて知りません.
 - [Firefox](http://mozilla.jp/firefox/)
 
 
+## Resource
+当プロジェクトで使用させていただいている画像・音楽はこちらの皆様からお借りしております.
+
+### Music
+- [魔王魂](http://maoudamashii.jokersounds.com/)
+- [ザ・マッチメイカァズ2nd](http://osabisi.sakura.ne.jp/m2/)
+
 ## Blog
 
 tmlib.js に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
