@@ -125,6 +125,9 @@ window.onload = function() {
     var moonAxis = MoonAxis();
     app.currentScene.addChild(moonAxis);
     
+    // ダブルクリックで保存
+    //tm.dom.Element(app.element).event.mdlclick( function() { app.canvas.saveAsImage(); } );
+    
     app.run();
 };
 
