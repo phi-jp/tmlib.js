@@ -7,8 +7,39 @@
 var SCREEN_WIDTH    = 960;
 var SCREEN_HEIGHT   = 640;
 var SUN_RADIUS      = 200;
-var MOON_RADIUS     = 200;  // total eclipse
-// var MOON_RADIUS     = 150;  // annular eclipse
+// var MOON_RADIUS     = 200;  // total eclipse
+var MOON_RADIUS     = 150;  // annular eclipse
+var ECLIPSE_TIME    = 20000;
+var WAIT_TIME       = 5000;
+
+var SunAxis = tm.createClass({
+    superClass: tm.app.CanvasElement,
+    
+    init: function() {
+        this.superInit();
+        this.x = SCREEN_WIDTH/2 - 900;
+        this.y = SCREEN_HEIGHT/2 + 1000;
+        
+        var sun = Sun();
+        sun.x = 900;
+        sun.y = -1000;
+        sun.addChildTo(this);
+        
+        this.animation.addTween({
+            prop: "rotation",
+            begin: 330,
+            finish: 360,
+            duration: ECLIPSE_TIME,
+        });
+        this.animation.addTween({
+            prop: "rotation",
+            begin: 360,
+            finish: 390,
+            duration: ECLIPSE_TIME,
+            delay: ECLIPSE_TIME+WAIT_TIME,
+        });
+    },
+});
 
 var Sun = tm.createClass({
     superClass: tm.app.Sprite,
@@ -37,14 +68,6 @@ var Sun = tm.createClass({
     },
 });
 
-var MoonAxis = tm.createClass({
-    superClass: tm.app.CanvasElement,
-    
-    init: function() {
-        this.superInit();
-    },
-});
-
 var Moon = tm.createClass({
     superClass: tm.app.Sprite,
     
@@ -58,20 +81,37 @@ var Moon = tm.createClass({
         c.fillStyle = "black";
         c.fillCircle(0, 0, this.radius);
     },
+});
+
+var MoonAxis = tm.createClass({
+    superClass: tm.app.CanvasElement,
     
-    eclipse: function() {
+    init: function() {
+        this.superInit();
+        this.x = SCREEN_WIDTH/2 + 400;
+        this.y = SCREEN_HEIGHT/2 + 400;
+        
+        var moon = Moon();
+        moon.x = -400;
+        moon.y = -400;
+        moon.addChildTo(this);
+        
         this.animation.addTween({
-            prop: "x",
-            begin: 0,
-            finish: this.x,
-            duration: 3000,
+            prop: "rotation",
+            begin: 350,
+            finish: 360,
+            duration: ECLIPSE_TIME,
+        });
+        this.animation.addTween({
+            prop: "rotation",
+            begin: 360,
+            finish: 370,
+            duration: ECLIPSE_TIME,
+            delay: ECLIPSE_TIME+WAIT_TIME,
         });
     },
-    
-    update: function() {
-        
-    },
 });
+
 
 
 window.onload = function() {
@@ -79,16 +119,11 @@ window.onload = function() {
     app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
     app.fitWindow();
     
-    var sun = Sun();
-    sun.x = SCREEN_WIDTH/2;
-    sun.y = SCREEN_HEIGHT/2;
-    app.currentScene.addChild(sun);
+    var sunAxis = SunAxis();
+    app.currentScene.addChild(sunAxis);
     
-    var moon = Moon();
-    moon.x = SCREEN_WIDTH/2;
-    moon.y = SCREEN_HEIGHT/2;
-    moon.eclipse();
-    app.currentScene.addChild(moon);
+    var moonAxis = MoonAxis();
+    app.currentScene.addChild(moonAxis);
     
     app.run();
 };
