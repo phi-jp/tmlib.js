@@ -1,6 +1,6 @@
 # tmlib.js
 
-![logo](https://github.com/phi1618/tmlib.js/raw/master/logo.png)  
+<img src="https://github.com/phi1618/tmlib.js/raw/master/logo.png" width="320" height="320">
 
 『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
 コンセプトに制作した JavaScript ライブラリです.
