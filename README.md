@@ -1,5 +1,7 @@
 # tmlib.js
 
+![logo](logo.png)  
+
 『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
 コンセプトに制作した JavaScript ライブラリです.
 
