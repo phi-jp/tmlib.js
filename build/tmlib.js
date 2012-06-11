@@ -1,5 +1,5 @@
 /*
- * tmlib.js v0.1.2
+ * tmlib.js v0.1.3
  * http://github.com/phi1618/tmlib.js
  * MIT licensed
  * 
@@ -262,6 +262,51 @@ var tm = tm || {};
         "space"         : 32
     };
     
+    
+    tm.inform = function(parent){
+        parent = parent || document.body;
+        
+        var eInfo = document.createElement("div");
+        eInfo.setAttribute("class", "tm-info");
+        eInfo.addEventListener("mouseover", function(){
+            this.style.opacity = 0.9;
+        }, false);
+        eInfo.addEventListener("mouseout", function(){
+            this.style.opacity = 0.25;
+        }, false);
+        
+        with(eInfo.style) {
+            position    = "absolute";
+            width       = "100%";
+            // top         = "0px";
+            bottom      = "0px";
+            left        = "0px";
+            right       = "0px";
+            margin      = "0px";
+            padding     = "10px 0px";
+            zIndex      = "0";
+            textAlign   = "center";
+            fontFamily  = '"Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif';
+            fontSize    = "13px";
+            opacity     = "0.25";
+            backgroundColor = "rgb(230,230,255)";
+            background  = "-webkit-linear-gradient(top, hsla(0, 100%, 100%, 0.8) 0%, hsla(0, 100%, 100%, 0.3) 50%, hsla(0, 100%, 100%, 0.1) 51%, hsla(0, 100%, 100%, 0.2) 100%), rgb(190,190,210)";
+            background  = "-moz-linear-gradient(top, hsla(0, 100%, 100%, 0.8) 0%, hsla(0, 100%, 100%, 0.3) 50%, hsla(0, 100%, 100%, 0.1) 51%, hsla(0, 100%, 100%, 0.2) 100%), rgb(190,190,210)";
+            WebkitTransition = "1s";
+            MozTransition = "1s";
+        }
+        
+        /*
+        eInfo.innerHTML = "このプログラムで利用している JavaScript ライブラリ 『tmlib.js』 は<a href='{tmlibLink}'>こちら</a>からダウンロードできます. 詳しくは<a href='{blogLink}'>Blog</a>に書いています.".format({
+            "tmlibLink": "http://code.google.com/p/tmlib-js/downloads/list",
+            "blogLink" : "http://tmlife.net/tmlib"
+        });
+        */
+        eInfo.innerHTML = "このプログラムで利用している JavaScript ライブラリ 『tmlib.js』 については<a href='{projectLink}'>こちら</a>.".format({
+            "projectLink" : "https://github.com/phi1618/tmlib.js"
+        });
+        parent.appendChild(eInfo);
+    };
     
 })();
 
@@ -9706,6 +9751,27 @@ tm.app = tm.app || {};
             return this;
         },
         
+        fade: function(value, duration) {
+            duration = (duration !== undefined) ? duration : 1000;
+            
+            this.addTween({
+                prop: "alpha",
+                begin: this.element.alpha,
+                finish: value,
+                duration: duration,
+            });
+            return this;
+        },
+        
+        fadeIn: function(duration)
+        {
+            return this.fade(1.0, duration);
+        },
+        
+        fadeOut: function(duration)
+        {
+            return this.fade(0.0, duration);
+        },
         
         clear: function() {
             this.tweens = [];

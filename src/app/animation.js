@@ -86,6 +86,27 @@ tm.app = tm.app || {};
             return this;
         },
         
+        fade: function(value, duration) {
+            duration = (duration !== undefined) ? duration : 1000;
+            
+            this.addTween({
+                prop: "alpha",
+                begin: this.element.alpha,
+                finish: value,
+                duration: duration,
+            });
+            return this;
+        },
+        
+        fadeIn: function(duration)
+        {
+            return this.fade(1.0, duration);
+        },
+        
+        fadeOut: function(duration)
+        {
+            return this.fade(0.0, duration);
+        },
         
         clear: function() {
             this.tweens = [];
