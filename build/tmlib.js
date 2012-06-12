@@ -9763,6 +9763,49 @@ tm.app = tm.app || {};
             return this;
         },
         
+        move: function(x, y, duration, fn)
+        {
+            duration = (duration !== undefined) ? duration : 1000;
+            fn       = fn || "linear";
+            
+            this.addTween({
+                prop: "x",
+                begin: this.element.x,
+                finish: this.element.x + x,
+                duration: duration,
+                func: fn,
+            });
+            this.addTween({
+                prop: "y",
+                begin: this.element.y,
+                finish: this.element.y + y,
+                duration: duration,
+                func: fn,
+            });
+            
+            return this;
+        },
+        
+        scale: function(value, duration)
+        {
+            duration = (duration !== undefined) ? duration : 1000;
+            
+            this.addTween({
+                prop: "scaleX",
+                begin: this.element.scaleX,
+                finish: value,
+                duration: duration,
+            });
+            this.addTween({
+                prop: "scaleY",
+                begin: this.element.scaleY,
+                finish: value,
+                duration: duration,
+            });
+            
+            return this;
+        },
+        
         fadeIn: function(duration)
         {
             return this.fade(1.0, duration);
