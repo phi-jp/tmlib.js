@@ -23,8 +23,8 @@ tm.app = tm.app || {};
             this.superInit();
             
             // タッチに反応させる
-            this.interaction;
-            this.interaction.setBoundingType("none");
+            this.interaction.enabled = true;
+            this.interaction.boundingType = "none";
         },
     });
     

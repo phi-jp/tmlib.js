@@ -65,7 +65,7 @@
                 
                 var startScene = tm.app.StartScene();
                 app.replaceScene(startScene);
-                startScene.onmousedown = function() {
+                startScene.onpointingstart = function() {
                     app.replaceScene(mainScene);
                 };
                 
@@ -81,13 +81,10 @@
                     }
                     // console.log("main exec");
                 };
-                // mainScene.onmousedown = function() {
-                    // app.replaceScene(endScene);
-                // };
                 
                 
                 var endScene = tm.app.EndScene();
-                endScene.onmousedown = function() {
+                endScene.onpointingstart = function() {
                     app.replaceScene(startScene);
                 };
                 
@@ -114,7 +111,7 @@
                 };
                 
                 // タッチ
-                mainScene.onmousedown = function() {
+                mainScene.onpointingstart = function() {
                     var p = app.pointing;
                     var crash = tm.app.Sprite(128, 128);
                     crash.position.set(p.x, p.y);

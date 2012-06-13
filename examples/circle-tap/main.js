@@ -173,20 +173,13 @@ var StartScene = tm.createClass({
         
         var tmlibIconButton = IconButton( tm.graphics.TextureManager.get("tmlibIcon") );
         tmlibIconButton.setPosition(SCREEN_WIDTH-80, SCREEN_HEIGHT-80).setSize(100, 100);
-        tmlibIconButton.onmousedown = function() { window.open("https://github.com/phi1618/tmlib.js", "_blank"); };
+        tmlibIconButton.onpointingend = function() { window.open("https://github.com/phi1618/tmlib.js", "_self"); };
         tmlibIconButton.addChildTo(this);
         
         var blogIconButton = IconButton( tm.graphics.TextureManager.get("blogIcon") );
         blogIconButton.setPosition(SCREEN_WIDTH-80-120, SCREEN_HEIGHT-80).setSize(100, 100);
-        blogIconButton.onmousedown = function() {
-            var a = document.createElement("a");
-            a.target = "_blank";
-            a.href = "http://tmlife.net";
-            var evt = document.createEvent("MouseEvents");
-            evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-            a.dispatchEvent(evt);
-            // window.open("http://tmlife.net", "_blank");
-        };
+        // blogIconButton.onpointingend = function() { window.open("http://tmlife.net", "_self"); };
+        blogIconButton.onpointingend = function() { window.open("http://tmlife.net", "_self"); };
         blogIconButton.addChildTo(this);
         
         var fadein = tm.fade.FadeIn(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 2000);
@@ -194,7 +187,7 @@ var StartScene = tm.createClass({
         this.addChild( fadein );
     },
     
-    onmousedown: function() {
+    onpointingstart: function() {
         tm.sound.SoundManager.get("decide").play();
         
         this.addChild( tm.fade.FadeOut(
@@ -257,13 +250,13 @@ var EndScene = tm.createClass({
         
         this.addChild( tm.fade.FadeIn(
             SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {
-                this.onmousedown = this._onmousedown
+                this.onpointingstart = this._onpointingstart;
             }.bind(this))
         );
 
     },
     
-    _onmousedown: function() {
+    _onpointingstart: function() {
         tm.sound.SoundManager.get("decide").play();
         
         var fadeout = tm.fade.FadeOut(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 500, function() {
@@ -303,7 +296,7 @@ var PauseScene = tm.createClass({
         app.stop();
     },
     
-    onmousedown: function() {
+    onpointingstart: function() {
         tm.sound.SoundManager.get("main_bgm").play();
         app.popScene();
     },

@@ -114,7 +114,7 @@ tm.main(function() {
     app.background = "rgba(0, 0, 0, 0.25)";
     
     app.currentScene.name = "hoge";
-    app.currentScene.onmousedown = function(e) {
+    app.currentScene.onpointingstart = function(e) {
         var p  = e.app.pointing;
         var ms = MagicSquareSprite();
         ms.x = p.x;

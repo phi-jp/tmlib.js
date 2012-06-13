@@ -196,13 +196,13 @@ var Circle = tm.createClass({
         other.velocity.add( V.mul(abVec, mb) );
     },
     
-    onmousedown: function() {
+    onpointingstart: function() {
         console.log("a");
         target = this;
         this.velocity.set(0, 0);
     },
     
-    onmouseup: function() {
+    onpointingend: function() {
         target = null;
     },
 });

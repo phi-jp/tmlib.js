@@ -42,11 +42,11 @@ tm.controller = tm.controller || {};
             c.fillCircle(40, 40, 35);
         },
         
-        onmousedown: function() {
+        onpointingstart: function() {
             this.isTouching = true;
         },
         
-        onmouseup: function() {
+        onpointingend: function() {
             this.isTouching = false;
             this.circle.position.set(0, 0);
         },

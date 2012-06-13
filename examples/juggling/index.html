@@ -61,7 +61,7 @@
                     c.fillCircle(0, 0, this.radius);
                 },
                 
-                onmousedown: function() {
+                onpointingstart: function() {
                     this.v.setRandom(270-20, 270+20, 12);
                     var se = tm.sound.SoundManager.get("bound")
                     se.volume = 0.5;

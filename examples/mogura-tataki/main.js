@@ -80,7 +80,7 @@ var Mogura = tm.createClass({
         c.fillRect(-this.radius*0.6, this.moguraPos, this.radius*2*0.6, this.radius);
     },
     
-    onmousedown: function() {
+    onpointingstart: function() {
         var se = tm.sound.SoundManager.get("touch");
         se.volume = 0.5;
         se.play();
@@ -135,7 +135,7 @@ var MainScene = tm.createClass({
                 var x = j*140 + 100;
                 var y = i*140 + 200;
                 mogura.position.set(x, y);
-                mogura.addEventListener("mousedown", function(e) {
+                mogura.addEventListener("pointingstart", function(e) {
                     // if (e.target.isAppear() === false) return ;
                     
                     this.dispatchEvent(tm.event.Event("circleclick"));
@@ -203,10 +203,10 @@ var StartScene = tm.createClass({
         this.addChild( fadein );
     },
     
-    onmousedown: function() {
+    onpointingstart: function() {
         tm.sound.SoundManager.get("decide").play();
         
-        this.onmousedown = null;
+        this.onpointingstart = null;
         
         this.addChild( tm.fade.FadeOut(
             SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {
@@ -252,12 +252,12 @@ var EndScene = tm.createClass({
         
         this.addChild( tm.fade.FadeIn(
             SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {
-                this.onmousedown = this._onmousedown
+                this.onpointingstart = this._onpointingstart;
             }.bind(this))
         );
     },
     
-    _onmousedown: function() {
+    _onpointingstart: function() {
         tm.sound.SoundManager.get("decide").play();
         
         var fadeout = tm.fade.FadeOut(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 2000, function() {
@@ -303,7 +303,7 @@ var PauseScene = tm.createClass({
         app.stop();
     },
     
-    onmousedown: function() {
+    onpointingstart: function() {
         tm.sound.SoundManager.get("main_bgm").play();
         app.popScene();
     },

@@ -9126,8 +9126,8 @@ tm.app = tm.app || {};
             this.superInit();
             
             // タッチに反応させる
-            this.interaction;
-            this.interaction.setBoundingType("none");
+            this.interaction.enabled = true;
+            this.interaction.boundingType = "none";
         },
     });
     
@@ -9570,17 +9570,20 @@ tm.app = tm.app || {};
             
             if (!prevHitFlag && this.hitFlag) {
                 elm.dispatchEvent( tm.event.MouseEvent("mouseover", app) );
+                elm.dispatchEvent( tm.event.TouchEvent("touchover", app) );
                 elm.dispatchEvent( tm.event.PointingEvent("pointingover", app) );
             }
             
             if (prevHitFlag && !this.hitFlag) {
                 elm.dispatchEvent( tm.event.MouseEvent("mouseout", app) );
+                elm.dispatchEvent( tm.event.TouchEvent("touchout", app) );
                 elm.dispatchEvent( tm.event.PointingEvent("pointingout", app) );
             }
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
                     elm.dispatchEvent( tm.event.MouseEvent("mousedown", app) );
+                    elm.dispatchEvent( tm.event.TouchEvent("touchstart", app) );
                     elm.dispatchEvent( tm.event.PointingEvent("pointingstart", app) );
                     this.downFlag = true;
                 }
@@ -9588,11 +9591,13 @@ tm.app = tm.app || {};
             
             if (this.downFlag) {
                 elm.dispatchEvent( tm.event.MouseEvent("mousemove", app) );
+                elm.dispatchEvent( tm.event.TouchEvent("touchmove", app) );
                 elm.dispatchEvent( tm.event.PointingEvent("pointingmove", app) );
             }
             
             if (this.downFlag==true && p.getPointingEnd()) {
                 elm.dispatchEvent( tm.event.MouseEvent("mouseup", app) );
+                elm.dispatchEvent( tm.event.TouchEvent("touchend", app) );
                 elm.dispatchEvent( tm.event.PointingEvent("pointingend", app) );
                 this.downFlag = false;
             }
