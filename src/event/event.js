@@ -58,3 +58,78 @@ tm.event = tm.event || {};
 })();
 
 
+
+
+(function() {
+    
+    /**
+     * @class
+     * Pointing Event
+     */
+    tm.event.MouseEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, app) {
+            this.superInit(type);
+            
+            this.app = app;
+        }
+        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * Pointing Event
+     */
+    tm.event.TouchEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, app) {
+            this.superInit(type);
+            
+            this.app = app;
+        }
+        
+    });
+    
+})();
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * Pointing Event
+     */
+    tm.event.PointingEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, app) {
+            this.superInit(type);
+            
+            this.app = app;
+        }
+        
+    });
+    
+    // tm.event.PointingEvent.CHANGE    = "change";
+    // tm.event.PointingEvent.FINISH    = "finish";
+    // tm.event.PointingEvent.LOOP      = "loop";
+    // tm.event.PointingEvent.RESUME    = "resume";
+    // tm.event.PointingEvent.START     = "start";
+    // tm.event.PointingEvent.STOP      = "stop";
+    
+})();
+
+
