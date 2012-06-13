@@ -110,7 +110,7 @@ window.onload = function() {
     app.fps = 30;
     app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
     app.fitWindow();
-    //app.enableStats();
+    app.enableStats();
     app.background = "rgba(0, 0, 0, 0.5)";
     
     for (var i=0; i<500; ++i) {

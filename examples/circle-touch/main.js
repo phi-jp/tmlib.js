@@ -121,7 +121,7 @@ var StartScene = tm.createClass({
         
         this.score = tm.app.Label("Start");
         this.score.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-        this.score.size  = 60;
+        this.score.fontSize = 60;
         this.score.width = 320;
         this.score.color = "white";
         this.score.align = "center";
@@ -171,7 +171,7 @@ var EndScene = tm.createClass({
         var label = null;
         label = tm.app.Label("Score");
         label.position.set(SCREEN_WIDTH/2, 300);
-        label.size  = 60;
+        label.fontSize = 60;
         label.width = 320;
         label.color = "white";
         label.align = "center";
@@ -179,7 +179,7 @@ var EndScene = tm.createClass({
         
         label = tm.app.Label(app.score+"");
         label.position.set(SCREEN_WIDTH/2, 390);
-        label.size  = 60;
+        label.fontSize = 60;
         label.width = 320;
         label.color = "white";
         label.align = "center";

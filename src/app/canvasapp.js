@@ -244,7 +244,7 @@ tm.app = tm.app || {};
         },
         
         enableStats: function() {
-            if (window.Stats) {
+            if (window["Stats"]) {
                 // Stats
                 this.stats = new Stats();
                 // 右上に設定
@@ -254,7 +254,7 @@ tm.app = tm.app || {};
                 document.body.appendChild(this.stats.domElement);
             }
             else {
-                console.error("not defined stats.");
+                console.warn("not defined stats.");
             }
         },
         

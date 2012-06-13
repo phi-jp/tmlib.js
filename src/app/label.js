@@ -32,8 +32,8 @@ tm.app = tm.app || {};
             this.superInit();
             
             this.text       = text || "HOGE";
-            this.size       = size || 24;
-            this.font       = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
+            this.fontSize   = size || 24;
+            this.fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
             this.align      = "start";
             this.baseline   = "alphabetic";
         },
@@ -56,7 +56,7 @@ tm.app = tm.app || {};
         },
         
         _updateFont: function() {
-            this.fontStyle = "{size}px {font}".format(this);
+            this.fontStyle = "{fontSize}px {fontFamily}".format(this);
         }
         
     });
@@ -67,19 +67,18 @@ tm.app = tm.app || {};
      * @property    size
      * サイズ
      */
-    tm.app.Label.prototype.accessor("size", {
-        "get": function() { return this._size; },
-        "set": function(v){ this._size = v; this._updateFont(); }
+    tm.app.Label.prototype.accessor("fontSize", {
+        "get": function() { return this._fontSize; },
+        "set": function(v){ this._fontSize = v; this._updateFont(); }
     });
     
-        
     /**
      * @property    font
      * フォント
      */
-    tm.app.Label.prototype.accessor("font", {
-        "get": function() { return this._font; },
-        "set": function(v){ this._font = v; this._updateFont(); }
+    tm.app.Label.prototype.accessor("fontFamily", {
+        "get": function() { return this._fontFamily; },
+        "set": function(v){ this._fontFamily = v; this._updateFont(); }
     });
     
 })();

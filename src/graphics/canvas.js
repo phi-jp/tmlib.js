@@ -733,12 +733,13 @@ tm.graphics = tm.graphics || {};
          * - <http://www.w3.org/TR/2010/WD-2dcontext-20100624/#shadows>
          */
         setShadow: function(color, offsetX, offsetY, blur) {
-            with(this.context) {
-                shadowColor     = color     || "black";
-                shadowOffsetX   = offsetX   || 0;
-                shadowOffsetY   = offsetY   || 0;
-                shadowBlur      = blur      || 0;
-            }
+            var ctx = this.context;
+            
+            ctx.shadowColor     = color     || "black";
+            ctx.shadowOffsetX   = offsetX   || 0;
+            ctx.shadowOffsetY   = offsetY   || 0;
+            ctx.shadowBlur      = blur      || 0;
+            
             return this;
         },
         

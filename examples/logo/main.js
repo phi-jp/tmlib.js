@@ -57,9 +57,9 @@ var LogoLabel = tm.createClass({
         this.align = "center";
         this.fillStyle = "white";
         this.strokeStyle = "black";
-        this.size = LOGO_LABEL_SIZE;
-        this.font = '"Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif';
-        //this.font = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
+        this.fontSize = LOGO_LABEL_SIZE;
+        this.fontFamily = '"Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif';
+        //this.fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
         console.dir(this);
     },
     

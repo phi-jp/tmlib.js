@@ -78,6 +78,14 @@ tm.app = tm.app || {};
          */
         blendMode: "source-over",
         
+        /**
+         * シャドウカラー
+         */
+        shadowColor: "black",
+        shadowOffsetX: 0,
+        shadowOffsetY: 0,
+        shadowshadowBlur: 0,
+        
         _matrix: null,
         
         /**
@@ -328,6 +336,11 @@ tm.app = tm.app || {};
             context.strokeStyle    = this.strokeStyle;
             context.globalAlpha    *= this.alpha;
             context.globalCompositeOperation = this.blendMode;
+            
+            context.shadowColor     = this.shadowColor;
+            context.shadowOffsetX   = this.shadowOffsetX;
+            context.shadowOffsetY   = this.shadowOffsetY;
+            context.shadowBlur      = this.shadowBlur;
             
             // // 座標計算
             // var matrix = this.getFinalMatrix();

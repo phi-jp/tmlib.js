@@ -16,9 +16,10 @@ var IconButton = tm.createClass({
     init: function(img) {
         this.superInit(img.width, img.height, img);
         this.alpha = 0.5;
+        
         this.interaction.setBoundingType("rect");
-        this.addEventListener("mouseover", function() { this.animation.fade(1.0, 250); });
-        this.addEventListener("mouseout", function() { this.animation.fade(0.5, 250); });
+        this.addEventListener("pointingover", function() { this.animation.fade(1.0, 250); });
+        this.addEventListener("pointingout", function() { this.animation.fade(0.5, 250); });
     }
 });
 
@@ -154,7 +155,7 @@ var StartScene = tm.createClass({
         
         label = tm.app.Label("Circle Tap");
         label.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2-150);
-        label.size  = 70;
+        label.fontSize  = 70;
         label.width = SCREEN_WIDTH;
         label.color = "white";
         label.align = "center";
@@ -163,11 +164,12 @@ var StartScene = tm.createClass({
         
         label = tm.app.Label("Start");
         label.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2+150);
-        label.size  = 40;
+        label.fontSize  = 40;
         label.width = SCREEN_WIDTH;
-        label.color = "white";
         label.align = "center";
         label.baseline = "middle";
+        label.shadowColor = "#aaf";
+        label.shadowBlur   = 16;
         label.addChildTo(this);
         
         
@@ -222,7 +224,7 @@ var EndScene = tm.createClass({
         var label = null;
         label = tm.app.Label("Score");
         label.position.set(SCREEN_WIDTH/2, 300);
-        label.size  = 60;
+        label.fontSize = 60;
         label.width = SCREEN_WIDTH;
         label.color = "white";
         label.align = "center";
@@ -230,7 +232,7 @@ var EndScene = tm.createClass({
         
         label = tm.app.Label(app.score+"");
         label.position.set(SCREEN_WIDTH/2, 390);
-        label.size  = 60;
+        label.fontSize = 60;
         label.width = SCREEN_WIDTH;
         label.color = "white";
         label.align = "center";
