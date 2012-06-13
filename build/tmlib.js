@@ -5371,6 +5371,81 @@ tm.event = tm.event || {};
 
 
 
+(function() {
+    
+    /**
+     * @class
+     * Pointing Event
+     */
+    tm.event.MouseEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, app) {
+            this.superInit(type);
+            
+            this.app = app;
+        }
+        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * Pointing Event
+     */
+    tm.event.TouchEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, app) {
+            this.superInit(type);
+            
+            this.app = app;
+        }
+        
+    });
+    
+})();
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * Pointing Event
+     */
+    tm.event.PointingEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, app) {
+            this.superInit(type);
+            
+            this.app = app;
+        }
+        
+    });
+    
+    // tm.event.PointingEvent.CHANGE    = "change";
+    // tm.event.PointingEvent.FINISH    = "finish";
+    // tm.event.PointingEvent.LOOP      = "loop";
+    // tm.event.PointingEvent.RESUME    = "resume";
+    // tm.event.PointingEvent.START     = "start";
+    // tm.event.PointingEvent.STOP      = "stop";
+    
+})();
+
+
+
+
 /*
  * eventdispatcher.js
  */
@@ -8583,16 +8658,16 @@ tm.app = tm.app || {};
          * 階層を考慮した矩形衝突判定
          */
         isHitPointRectHierarchy: function(x, y) {
-            // ここから下のバージョンは四角形
-            var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
-            // var globalPos = this;
+            var p = this.globalToLocal(tm.geom.Vector2(x, y));
+            this.pointing.x = p.x;
+            this.pointing.y = p.y;
             
-            var left   = globalPos.x - this.width*this.originX*this.scaleX;
-            var right  = globalPos.x + this.width*this.originX*this.scaleX;
-            var top    = globalPos.y - this.height*this.originY*this.scaleY;
-            var bottom = globalPos.y + this.height*this.originY*this.scaleY;
+            var left   = -this.width*this.originX;
+            var right  = +this.width*this.originX;
+            var top    = -this.height*this.originY;
+            var bottom = +this.height*this.originY;
             
-            if ( left < x && x < right && top  < y && y < bottom ) { return true; }
+            if ( left < p.x && p.x < right && top  < p.y && p.y < bottom ) { return true; }
             
             return false;
         },
@@ -9473,6 +9548,9 @@ tm.app = tm.app || {};
         hitFlag: false,
         downFlag: false,
         enabled: true,
+        hitTestFunc: null,
+        
+        _boundingType: "circle",
         
         init: function(element) {
             this.element = element;
@@ -9489,42 +9567,44 @@ tm.app = tm.app || {};
             
             this.hitFlag    = this.hitTestFunc.call(elm, p.x, p.y);
             
+            
             if (!prevHitFlag && this.hitFlag) {
-                var e = tm.event.Event("mouseover");
-                e.app = app;
-                elm.dispatchEvent(e);
+                elm.dispatchEvent( tm.event.MouseEvent("mouseover", app) );
+                elm.dispatchEvent( tm.event.PointingEvent("pointingover", app) );
             }
             
             if (prevHitFlag && !this.hitFlag) {
-                elm.dispatchEvent(tm.event.Event("mouseout"));
+                elm.dispatchEvent( tm.event.MouseEvent("mouseout", app) );
+                elm.dispatchEvent( tm.event.PointingEvent("pointingout", app) );
             }
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
-                    var e = tm.event.Event("mousedown");
-                    e.app = app;
-                    elm.dispatchEvent(e);
+                    elm.dispatchEvent( tm.event.MouseEvent("mousedown", app) );
+                    elm.dispatchEvent( tm.event.PointingEvent("pointingstart", app) );
                     this.downFlag = true;
                 }
             }
             
             if (this.downFlag) {
-                var e = tm.event.Event("mousemove");
-                e.app = app;
-                elm.dispatchEvent(e);
+                elm.dispatchEvent( tm.event.MouseEvent("mousemove", app) );
+                elm.dispatchEvent( tm.event.PointingEvent("pointingmove", app) );
             }
             
             if (this.downFlag==true && p.getPointingEnd()) {
-                elm.dispatchEvent(tm.event.Event("mouseup"));
+                elm.dispatchEvent( tm.event.MouseEvent("mouseup", app) );
+                elm.dispatchEvent( tm.event.PointingEvent("pointingend", app) );
                 this.downFlag = false;
             }
         },
         
-        setBoundingType: function(type) {
-            if (type == "rect") {
+        setBoundingType: function(type) { this.boundingType = type; },
+        
+        _setHitTestFunc: function() {
+            if (this.boundingType == "rect") {
                 this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRectHierarchy;
             }
-            else if (type == "circle"){
+            else if (this.boundingType == "circle") {
                 this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircleHierarchy;
             }
             else {
@@ -9533,6 +9613,15 @@ tm.app = tm.app || {};
             return this;
         },
         
+    });
+    
+    /**
+     * @property    boundingType
+     * バウンディングタイプ
+     */
+    tm.app.Interaction.prototype.accessor("boundingType", {
+        "get": function()   { return this._boundingType; },
+        "set": function(v)  { this._boundingType = v; this._setHitTestFunc(); }
     });
     
     
