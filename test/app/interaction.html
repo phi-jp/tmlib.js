@@ -3,7 +3,7 @@
     <head> 
         <meta charset="utf-8"> 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Collision Test | TM Lib</title>
+        <title>Interaction Test | TM Lib</title>
         
         <!-- prettify -->
         <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
@@ -59,6 +59,7 @@
         
         <script src="../../src/app/element.js"></script>
         <script src="../../src/app/canvaselement.js"></script>
+        <script src="../../src/app/sprite.js"></script>
         <script src="../../src/app/scene.js"></script>
         <script src="../../src/app/canvasapp.js"></script>
         <script src="../../src/app/interaction.js"></script>
@@ -68,48 +69,74 @@
 
         <script id="test-script">
             
+            var Circle = tm.createClass({
+                superClass: tm.app.Sprite,
+                
+                init: function() {
+                    this.superInit(100, 100);
+                    this.canvas.fillStyle = "white";
+                    this.canvas.fillCircle(50, 50, 50);
+                }
+            });
+            
+            var Rect = tm.createClass({
+                superClass: tm.app.Sprite,
+                
+                init: function() {
+                    this.superInit(100, 100);
+                    this.canvas.fillStyle = "white";
+                    this.canvas.fillRect(0, 0, 100, 100);
+                }
+            });
+            
             /*
              * Test
              */
             window.onload = function()
             {
                 var c = tm.Console("#console");
-                
                 var app = tm.app.CanvasApp("#world");
                 
-                var player = tm.app.CanvasElement();
-                app.currentScene.addChild(player);
-                player.update = function(app) {
-                    this.x = app.pointing.x;
-                    this.y = app.pointing.y;
-                };
-                player.draw = function(canvas) {
-                    canvas.fillCircle(0, 0, this.radius);
-                };
-                player.oncollisionenter =
-                player.oncollisionstay =
-                player.oncollisionexit = function(e) {
-                    console.log(e.type);
-                };
+                var circle = Circle().addChildTo(app.currentScene);
+                circle.position.set(100, 100);
+                circle.alpha = 0.5;
+                circle.interaction.enabled = true;
+                circle.interaction.boundingType = "circle";
+                circle.onmouseover = function(e) { this.alpha = 1.0; };
+                circle.onmouseout  = function(e) { this.alpha = 0.5; };
                 
-                for (var i=0; i<10; ++i) {
-                    var enemy = tm.app.CanvasElement(enemy);
-                    app.currentScene.addChild(enemy);
-                    player.collision.add(enemy);
-                    enemy.x = Math.rand(0, 640);
-                    enemy.y = Math.rand(0, 480);
-                    enemy.draw = function(canvas) {
-                        canvas.fillCircle(0, 0, this.radius);
-                    }
-                }
+                var rect = Rect().addChildTo(app.currentScene);
+                rect.position.set(100, 300);
+                rect.alpha = 0.5;
+                rect.interaction.enabled = true;
+                rect.interaction.boundingType = "rect";
+                rect.onmouseover = function(e) { this.alpha = 1.0; };
+                rect.onmouseout  = function(e) { this.alpha = 0.5; };
                 
-                player.oncollisionexit = function(e) {
-                    console.log(e.type);
-                    // 衝突したオブジェクトを削除
-                    e.other.remove();
-                    // ちゃんとプレイヤーに登録していた衝突リストからも削除
-                    player.collision.remove(e.other);
-                };
+                
+                
+                
+                
+                var group = tm.app.CanvasElement().addChildTo(app.currentScene);
+                group.position.set(500, 20);
+                group.rotation = 45;
+                group.scaleX = 1.5;
+                
+                var circle = Circle().addChildTo(group);
+                circle.position.set(100, 100);
+                circle.alpha = 0.5;
+                circle.interaction.enabled = true;
+                circle.interaction.boundingType = "circle";
+                circle.onmouseover = function(e) { this.alpha = 1.0; };
+                circle.onmouseout  = function(e) { this.alpha = 0.5; };
+                
+                var rect = Rect().addChildTo(group);
+                rect.position.set(100, 300);
+                rect.alpha = 0.5;
+                rect.interaction.enabled = true;
+                rect.interaction.boundingType = "rect";
+                rect.onpointingover = function(e) { this.alpha = 1.0; };
+                rect.onpointingout  = function(e) { this.alpha = 0.5; };
                 
                 app.run();
             };
@@ -127,7 +154,7 @@
     
     <body>
          
-        <h1>Number Test | TM Lib</h1>
+        <h1>Interaction Test | TM Lib</h1>
         
         <div id="content">
             <section>

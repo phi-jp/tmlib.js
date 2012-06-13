@@ -17,6 +17,9 @@ tm.app = tm.app || {};
         hitFlag: false,
         downFlag: false,
         enabled: true,
+        hitTestFunc: null,
+        
+        _boundingType: "circle",
         
         init: function(element) {
             this.element = element;
@@ -33,42 +36,44 @@ tm.app = tm.app || {};
             
             this.hitFlag    = this.hitTestFunc.call(elm, p.x, p.y);
             
+            
             if (!prevHitFlag && this.hitFlag) {
-                var e = tm.event.Event("mouseover");
-                e.app = app;
-                elm.dispatchEvent(e);
+                elm.dispatchEvent( tm.event.MouseEvent("mouseover", app) );
+                elm.dispatchEvent( tm.event.PointingEvent("pointingover", app) );
             }
             
             if (prevHitFlag && !this.hitFlag) {
-                elm.dispatchEvent(tm.event.Event("mouseout"));
+                elm.dispatchEvent( tm.event.MouseEvent("mouseout", app) );
+                elm.dispatchEvent( tm.event.PointingEvent("pointingout", app) );
             }
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
-                    var e = tm.event.Event("mousedown");
-                    e.app = app;
-                    elm.dispatchEvent(e);
+                    elm.dispatchEvent( tm.event.MouseEvent("mousedown", app) );
+                    elm.dispatchEvent( tm.event.PointingEvent("pointingstart", app) );
                     this.downFlag = true;
                 }
             }
             
             if (this.downFlag) {
-                var e = tm.event.Event("mousemove");
-                e.app = app;
-                elm.dispatchEvent(e);
+                elm.dispatchEvent( tm.event.MouseEvent("mousemove", app) );
+                elm.dispatchEvent( tm.event.PointingEvent("pointingmove", app) );
             }
             
             if (this.downFlag==true && p.getPointingEnd()) {
-                elm.dispatchEvent(tm.event.Event("mouseup"));
+                elm.dispatchEvent( tm.event.MouseEvent("mouseup", app) );
+                elm.dispatchEvent( tm.event.PointingEvent("pointingend", app) );
                 this.downFlag = false;
             }
         },
         
-        setBoundingType: function(type) {
-            if (type == "rect") {
+        setBoundingType: function(type) { this.boundingType = type; },
+        
+        _setHitTestFunc: function() {
+            if (this.boundingType == "rect") {
                 this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRectHierarchy;
             }
-            else if (type == "circle"){
+            else if (this.boundingType == "circle") {
                 this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircleHierarchy;
             }
             else {
@@ -77,6 +82,15 @@ tm.app = tm.app || {};
             return this;
         },
         
+    });
+    
+    /**
+     * @property    boundingType
+     * バウンディングタイプ
+     */
+    tm.app.Interaction.prototype.accessor("boundingType", {
+        "get": function()   { return this._boundingType; },
+        "set": function(v)  { this._boundingType = v; this._setHitTestFunc(); }
     });
     
     
