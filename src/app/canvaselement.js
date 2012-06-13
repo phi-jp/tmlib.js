@@ -178,16 +178,16 @@ tm.app = tm.app || {};
          * 階層を考慮した矩形衝突判定
          */
         isHitPointRectHierarchy: function(x, y) {
-            // ここから下のバージョンは四角形
-            var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
-            // var globalPos = this;
+            var p = this.globalToLocal(tm.geom.Vector2(x, y));
+            this.pointing.x = p.x;
+            this.pointing.y = p.y;
             
-            var left   = globalPos.x - this.width*this.originX*this.scaleX;
-            var right  = globalPos.x + this.width*this.originX*this.scaleX;
-            var top    = globalPos.y - this.height*this.originY*this.scaleY;
-            var bottom = globalPos.y + this.height*this.originY*this.scaleY;
+            var left   = -this.width*this.originX;
+            var right  = +this.width*this.originX;
+            var top    = -this.height*this.originY;
+            var bottom = +this.height*this.originY;
             
-            if ( left < x && x < right && top  < y && y < bottom ) { return true; }
+            if ( left < p.x && p.x < right && top  < p.y && p.y < bottom ) { return true; }
             
             return false;
         },
