@@ -41,16 +41,22 @@ var CIRCLE_NUM      = 100;
 var TAP_RANGE       = 150;
 
 var Circle = tm.createClass({
-    superClass: tm.app.CanvasElement,
+    superClass: tm.app.Sprite,
     
     init: function(color) {
-        this.superInit();
+        this.superInit(CIRCLE_RADIUS+15, CIRCLE_RADIUS+15);
         
         this.v          = tm.geom.Vector2.random(0, 360, tm.util.Random.randfloat(4, 8));
         this.radius     = CIRCLE_RADIUS;
         this.fillStyle  = color;
         this.alpha      = 0.75;
-        this.interaction;
+        
+        this.canvas.fillStyle = color;
+        this.canvas.setTransformCenter();
+        this.canvas.fillCircle(0, 0, this.radius);
+        this.canvas.strokeStyle = "white";
+        this.canvas.lineWidth = 2;
+        this.canvas.strokeCircle(0, 0, this.radius+1);
     },
     
     update: function() {
@@ -67,19 +73,10 @@ var Circle = tm.createClass({
         else if (bottom < this.y) { this.y = bottom; this.v.y*=-1; }
     },
     
-    draw: function(c) {
-        //c.fillRect(0, 0, this.width, this.height);
-        c.fillCircle(0, 0, this.radius);
-        
-        c.strokeStyle = "white";
-        c.lineWidth = 2;
-        c.strokeCircle(0, 0, this.radius+1);
-    },
-    
     disappear: function() {
         this.update = function() {};
         var duration = tm.util.Random.randint(500, 1500);
-        this.animation.move(0, -150, duration).scale(8, duration).fadeOut(duration);
+        this.animation.move(0, -150, duration).scale(4, duration).fadeOut(duration);
     },
     
     onanimationend: function() {
@@ -176,12 +173,20 @@ var StartScene = tm.createClass({
         
         var tmlibIconButton = IconButton( tm.graphics.TextureManager.get("tmlibIcon") );
         tmlibIconButton.setPosition(SCREEN_WIDTH-80, SCREEN_HEIGHT-80).setSize(100, 100);
-        tmlibIconButton.onmousedown = function() { window.open("https://github.com/phi1618/tmlib.js", "_self"); };
+        tmlibIconButton.onmousedown = function() { window.open("https://github.com/phi1618/tmlib.js", "_blank"); };
         tmlibIconButton.addChildTo(this);
         
         var blogIconButton = IconButton( tm.graphics.TextureManager.get("blogIcon") );
         blogIconButton.setPosition(SCREEN_WIDTH-80-120, SCREEN_HEIGHT-80).setSize(100, 100);
-        blogIconButton.onmousedown = function() { window.open("http://tmlife.net", "_self"); };
+        blogIconButton.onmousedown = function() {
+            var a = document.createElement("a");
+            a.target = "_blank";
+            a.href = "http://tmlife.net";
+            var evt = document.createEvent("MouseEvents");
+            evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            a.dispatchEvent(evt);
+            // window.open("http://tmlife.net", "_blank");
+        };
         blogIconButton.addChildTo(this);
         
         var fadein = tm.fade.FadeIn(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 2000);
@@ -315,6 +320,7 @@ tm.preload(function() {
 
 tm.main(function() {
     app = tm.app.CanvasApp("#world");
+    app.fps = 30;
     app.fitWindow();
     app.enableStats();
     
