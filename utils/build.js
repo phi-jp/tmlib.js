@@ -64,6 +64,8 @@ var target = [
     "app/animation.js",
     
     "sound/sound.js",
+    
+    "social/twitter.js",
 ];
 for (var i=0,len=target.length; i<len; ++i) {
     target[i] = base + target[i];
