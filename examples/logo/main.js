@@ -61,24 +61,11 @@ var LogoLabel = tm.createClass({
         this.fontFamily = '"Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif';
         //this.fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
         console.dir(this);
-    },
-    
-    /**
-     * 影対応してないので対応版でオーバーライド
-     */
-    draw: function(canvas) {
-        canvas.setText(this.fontStyle, this.align, this.baseline);
-        canvas.setShadow("#000", 2, 2, 8);
-        if (this.fill) {
-            canvas.fillText(this.text, 0, 0, this.width);
-        }
-        if (this.stroke) {
-            canvas.strokeText(this.text, 0, 0, this.width);
-        }
         
-        if (this.debugBox) {
-            canvas.strokeRect(0, 0, this.width, -this.size);
-        }
+        this.shadowColor    = "#000";
+        this.shadowOffsetX  = 2;
+        this.shadowOffsetY  = 2;
+        this.shadowBlur     = 8;
     },
 });
 
