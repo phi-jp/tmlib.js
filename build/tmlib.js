@@ -8840,7 +8840,7 @@ tm.app = tm.app || {};
             context.globalAlpha    *= this.alpha;
             context.globalCompositeOperation = this.blendMode;
             
-            if (this.shadowColor > 0) {
+            if (this.shadowBlur > 0) {
                 context.shadowColor     = this.shadowColor;
                 context.shadowOffsetX   = this.shadowOffsetX;
                 context.shadowOffsetY   = this.shadowOffsetY;
