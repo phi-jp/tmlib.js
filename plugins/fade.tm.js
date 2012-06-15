@@ -21,7 +21,7 @@ tm.fade = tm.fade || {};
             this.setSize(width, height);
             
             this.fillStyle = color;
-            this.alpha = 1.0;
+            this.alpha = 0.0;
             this.animation.addTween({
                 prop: "alpha",
                 begin: 0.0,
