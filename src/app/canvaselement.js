@@ -314,6 +314,29 @@ tm.app = tm.app || {};
             return this;
         },
         
+        fromJSON: function(data) {
+            for (var key in data) {
+                var value = data[key];
+                if (key == "children") {
+                    for (var i=0,len=value.length; i<len; ++i) {
+                        var data = value[i];
+                        var elm = tm.app[data.type]().addChildTo(this);
+                        elm.fromJSON(data);
+                        this[data.name] = elm;
+                    }
+                }
+                else {
+                    this[key] = value;
+                }
+            }
+            
+            return this;
+        },
+        
+        toJSON: function() {
+            // TODO:
+        },
+        
         _update: function(app) {
             // 更新有効チェック
             if (this.isUpdate == false) return ;
