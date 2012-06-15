@@ -689,6 +689,18 @@ tm.graphics = tm.graphics || {};
             // TODO
         },
         
+        setFillStyle: function(style)
+        {
+            this.context.fillStyle = style;
+            return this;
+        },
+        
+        setStrokeStyle: function(style)
+        {
+            this.context.strokeStyle = style;
+            return this;
+        },
+        
         /**
          * 
          * @see <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles</a>

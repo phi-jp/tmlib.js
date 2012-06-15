@@ -304,6 +304,16 @@ tm.app = tm.app || {};
             return this;
         },
         
+        setFillStyle: function(style) {
+            this.fillStyle = style;
+            return this;
+        },
+        
+        setStrokeStyle: function(style) {
+            this.strokeStyle = style;
+            return this;
+        },
+        
         _update: function(app) {
             // 更新有効チェック
             if (this.isUpdate == false) return ;
@@ -337,10 +347,12 @@ tm.app = tm.app || {};
             context.globalAlpha    *= this.alpha;
             context.globalCompositeOperation = this.blendMode;
             
-            context.shadowColor     = this.shadowColor;
-            context.shadowOffsetX   = this.shadowOffsetX;
-            context.shadowOffsetY   = this.shadowOffsetY;
-            context.shadowBlur      = this.shadowBlur;
+            if (this.shadowColor > 0) {
+                context.shadowColor     = this.shadowColor;
+                context.shadowOffsetX   = this.shadowOffsetX;
+                context.shadowOffsetY   = this.shadowOffsetY;
+                context.shadowBlur      = this.shadowBlur;
+            }
             
             // // 座標計算
             // var matrix = this.getFinalMatrix();
