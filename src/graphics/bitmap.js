@@ -24,7 +24,7 @@ tm.graphics = tm.graphics || {};
             }
             else if (arguments.length == 2) {
                 var w = arguments[0];
-                var h = arguments[0];
+                var h = arguments[1];
                 this.imageData = dummyContext.createImageData(w, h);
                 this.data = this.imageData.data;
             }

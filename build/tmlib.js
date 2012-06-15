@@ -7263,7 +7263,7 @@ tm.graphics = tm.graphics || {};
             }
             else if (arguments.length == 2) {
                 var w = arguments[0];
-                var h = arguments[0];
+                var h = arguments[1];
                 this.imageData = dummyContext.createImageData(w, h);
                 this.data = this.imageData.data;
             }
@@ -9082,6 +9082,26 @@ tm.app = tm.app || {};
             if (this.debugBox) {
                 canvas.strokeRect(0, 0, this.width, -this.size);
             }
+        },
+        
+        setAlign: function(align) {
+            this.align = align;
+            return this;
+        },
+        
+        setBaseline: function(align) {
+            this.baseline = baseline;
+            return this;
+        },
+        
+        setFontSize: function(size) {
+            this.fontSize = size;
+            return this;
+        },
+        
+        setFontFamily: function(family) {
+            this.fontFamily= family;
+            return this;
         },
         
         _updateFont: function() {
