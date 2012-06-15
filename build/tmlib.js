@@ -9113,7 +9113,7 @@ tm.app = tm.app || {};
             return this;
         },
         
-        setBaseline: function(align) {
+        setBaseline: function(baseline) {
             this.baseline = baseline;
             return this;
         },
