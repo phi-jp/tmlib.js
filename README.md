@@ -1,4 +1,4 @@
-# tmlib.js
+# [tmlib.js](http://phi1618.github.com/tmlib.js/index.html)
 
 <img src="https://github.com/phi1618/tmlib.js/raw/master/logo.png" width="320" height="320">
 
