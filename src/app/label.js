@@ -55,6 +55,26 @@ tm.app = tm.app || {};
             }
         },
         
+        setAlign: function(align) {
+            this.align = align;
+            return this;
+        },
+        
+        setBaseline: function(align) {
+            this.baseline = baseline;
+            return this;
+        },
+        
+        setFontSize: function(size) {
+            this.fontSize = size;
+            return this;
+        },
+        
+        setFontFamily: function(family) {
+            this.fontFamily= family;
+            return this;
+        },
+        
         _updateFont: function() {
             this.fontStyle = "{fontSize}px {fontFamily}".format(this);
         }
