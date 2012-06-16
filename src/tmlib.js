@@ -73,7 +73,8 @@ var tm = tm || {};
     tm.isMobile = (function() {
         if (!window.navigator) return ;
         
-        return (navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("Android") > 0);
+        var ua = navigator.userAgent;
+        return (ua.indexOf("iPhone") > 0 || ua.indexOf("iPad") > 0 || ua.indexOf("Android") > 0);
     })();
     
     
