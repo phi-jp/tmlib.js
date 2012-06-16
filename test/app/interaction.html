@@ -92,8 +92,7 @@
             /*
              * Test
              */
-            window.onload = function()
-            {
+            tm.main(function() {
                 var c = tm.Console("#console");
                 var app = tm.app.CanvasApp("#world");
                 
@@ -139,7 +138,7 @@
                 rect.onpointingout  = function(e) { this.alpha = 0.5; };
                 
                 app.run();
-            };
+            });
             
         </script>
         

@@ -90,8 +90,7 @@
             /*
              * Test
              */
-            window.onload = function()
-            {
+            tm.main(function() {
                 var c = tm.Console("#console");
                 var app = tm.app.CanvasApp("#world");
                 
@@ -167,7 +166,7 @@
                 
                 
                 app.run();
-            };
+            });
             
         </script>
         
