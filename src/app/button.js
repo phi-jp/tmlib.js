@@ -65,7 +65,12 @@ tm.app = tm.app || {};
          */
         init: function(texture)
         {
-            this.superInit(texture.width, texture.height, texture);
+            if (texture) {
+                this.superInit(texture.width, texture.height, texture);
+            }
+            else {
+                this.superInit();
+            }
             
             this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
             

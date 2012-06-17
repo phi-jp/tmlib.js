@@ -23,20 +23,17 @@ tm.app = tm.app || {};
         {
             this.superInit();
             
-            this.width  = width;
-            this.height = height;
-            
             this.canvas = tm.graphics.Canvas();
-            this.canvas.width = width;
-            this.canvas.height= height;
-            if (texture) { this.setImage(texture); }
+            this.srcRect = tm.geom.Rect(0, 0, this.width, this.height);
             
-            this.srcRect = {
-                x: 0,
-                y: 0,
-                width: width,
-                height: height,
-            };
+            if (arguments.length >= 2) {
+                this.width  = width;
+                this.height = height;
+                this.canvas.resize(width, height);
+                this.srcRect.width  = this.width;
+                this.srcRect.height = this.height;
+                if (texture) { this.setImage(texture); }
+            }
         },
         
         /**
@@ -55,6 +52,11 @@ tm.app = tm.app || {};
         setImage: function(texture) {
             this.canvas.resize(texture.element.width, texture.element.height);
             this.canvas.drawImage(texture.element, 0, 0, texture.element.width, texture.element.height);
+            // 画像をセットしたら一旦全て表示するようソース矩形のサイズをフィットさせる
+            this.srcRect.x = 0;
+            this.srcRect.y = 0;
+            this.srcRect.width  = texture.element.width;
+            this.srcRect.height = texture.element.height;
         },
         
         setFrameIndex: function(index, width, height) {
