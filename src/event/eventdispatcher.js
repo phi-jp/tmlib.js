@@ -27,6 +27,7 @@ tm.event = tm.event || {};
             }
             
             this._listeners[type].push(listener);
+            return this;
         },
         
         /**
@@ -57,6 +58,15 @@ tm.event = tm.event || {};
          */
         removeEventListener: function(type, listener) {
             // TODO: 
+            return this;
+        },
+        
+        /**
+         * リスナーを全てクリア
+         */
+        clearEventListener: function(type) {
+            this._listeners[type] = [];
+            return this;
         },
     });
     

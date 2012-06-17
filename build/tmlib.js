@@ -5476,6 +5476,7 @@ tm.event = tm.event || {};
             }
             
             this._listeners[type].push(listener);
+            return this;
         },
         
         /**
@@ -5506,6 +5507,15 @@ tm.event = tm.event || {};
          */
         removeEventListener: function(type, listener) {
             // TODO: 
+            return this;
+        },
+        
+        /**
+         * リスナーを全てクリア
+         */
+        clearEventListener: function(type) {
+            this._listeners[type] = [];
+            return this;
         },
     });
     
@@ -8814,7 +8824,8 @@ tm.app = tm.app || {};
                 if (key == "children") {
                     for (var i=0,len=value.length; i<len; ++i) {
                         var data = value[i];
-                        var elm = tm.app[data.type]().addChildTo(this);
+                        var _class = window[data.type] || tm.app[data.type];
+                        var elm = _class().addChildTo(this);
                         elm.fromJSON(data);
                         this[data.name] = elm;
                     }

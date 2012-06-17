@@ -320,7 +320,8 @@ tm.app = tm.app || {};
                 if (key == "children") {
                     for (var i=0,len=value.length; i<len; ++i) {
                         var data = value[i];
-                        var elm = tm.app[data.type]().addChildTo(this);
+                        var _class = window[data.type] || tm.app[data.type];
+                        var elm = _class().addChildTo(this);
                         elm.fromJSON(data);
                         this[data.name] = elm;
                     }
