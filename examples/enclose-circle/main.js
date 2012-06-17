@@ -15,28 +15,28 @@ var CIRCLE_NUM      = 100;
 var TAP_RANGE       = 150;
 var TITLE_LIST      = [ "赤ちゃん", "素人", "プロ", "変態", "ネ申" ];
 var UI_DATA = {
-    START_SCENE: {
+    TITLE_SCENE: {
         children: [
             {
                 type:"Label",name:"titleLabel",
-                x:SCREEN_WIDTH/2,y:SCREEN_HEIGHT/2-150,width:SCREEN_WIDTH,fillStyle:"white",
-                text:"Circle Tap",fontSize:70,align:"center",baseline:"middle"
+                x:SCREEN_WIDTH/2,y:SCREEN_HEIGHT/2-170,width:SCREEN_WIDTH,fillStyle:"white",
+                text:"Enclose Circle",fontSize:60,align:"center",baseline:"middle"
             },
             {
                 type:"LabelButton",name:"startButton",
-                x:SCREEN_WIDTH/2,y:SCREEN_HEIGHT/2+60,width:140,
+                x:SCREEN_WIDTH/2,y:SCREEN_HEIGHT/2+40,width:140,
                 fillStyle:"white",shadowColor:"#00f",shadowBlur:16,
                 text:"Start",fontSize:40,align:"center",baseline:"middle"
             },
             {
                 type:"LabelButton",name:"tweetButton",
-                x:SCREEN_WIDTH/2,y:SCREEN_HEIGHT/2+120,width:140,
+                x:SCREEN_WIDTH/2,y:SCREEN_HEIGHT/2+100,width:140,
                 fillStyle:"white",shadowColor:"#00f",shadowBlur:16,
                 text:"Tweet",fontSize:40,align:"center",baseline:"middle"
             },
             {
                 type:"LabelButton",name:"rankingButton",
-                x:SCREEN_WIDTH/2,y:SCREEN_HEIGHT/2+180,width:140,
+                x:SCREEN_WIDTH/2,y:SCREEN_HEIGHT/2+160,width:140,
                 fillStyle:"white",shadowColor:"#00f",shadowBlur:16,
                 text:"Ranking",fontSize:40,align:"center",baseline:"middle"
             },
@@ -54,7 +54,7 @@ var UI_DATA = {
             },
         ]
     },
-    END_SCENE: {
+    RESULT_SCENE: {
         children: [
             {
                 type:"Label",name:"scoreLabel",
@@ -106,8 +106,8 @@ tm.main(function() {
     tm.sound.SoundManager.get("main_bgm").loop = true;
     tm.sound.SoundManager.get("main_bgm").play();
     
-    var startScene = StartScene();
-    app.replaceScene(startScene);
+    var titleScene = TitleScene();
+    app.replaceScene(titleScene);
     
     app.run();
 });
@@ -231,7 +231,7 @@ var MainScene = tm.createClass({
     },
     
     wait: function() {
-        if (app.frame > 120) { app.replaceScene(EndScene()); }
+        if (app.frame > 120) { app.replaceScene(ResultScene()); }
         
         app.frame+=1;
     },
@@ -243,9 +243,9 @@ var MainScene = tm.createClass({
 });
 
 /*
- * スタートシーンクラス
+ * タイトルシーンクラス
  */
-var StartScene = tm.createClass({
+var TitleScene = tm.createClass({
     superClass: tm.app.Scene,
     
     init: function(color) {
@@ -262,7 +262,7 @@ var StartScene = tm.createClass({
         
         
         // UI
-        this.fromJSON(UI_DATA.START_SCENE);
+        this.fromJSON(UI_DATA.TITLE_SCENE);
         // ゲームスタート
         this.startButton.onpointingstart = function() {
             this.dispatchEvent(tm.event.Event("startbuttondown"));
@@ -271,14 +271,14 @@ var StartScene = tm.createClass({
         this.tweetButton.onpointingstart = function() {
             window.open(tm.social.Twitter.createURL({
                 type    : "tweet",
-                text    : "『Circle Tap』\ntmlib.js を使ってミニゲームを作りました. 10 秒で遊べるシンプルなゲームだよん♪",
-                hashtags: "circletap,tmlibjs",
-                url     : "https://github.com/phi1618/tmlib.js",
+                text    : "『Enclose Circle』\ntmlib.js を使ってミニゲームを作りました. 10 秒で遊べるシンプルなゲームだよん♪",
+                hashtags: "enclosecircle,tmlibjs",
+                url     : "http://phi1618.github.com/tmlib.js/examples/enclose-circle/index.html",
             }), "_self");
         };
         // ランキング
         this.rankingButton.onpointingstart = function() {
-            window.open("https://twitter.com/#!/search/%23javascript%23tmlibjs", "_self");
+            window.open("https://twitter.com/#!/search/%23enclosecircle%23tmlibjs", "_self");
         };
         
         this.tmlibIconButton.setImage( tm.graphics.TextureManager.get("tmlibIcon") );
@@ -311,9 +311,9 @@ var StartScene = tm.createClass({
 });
 
 /*
- * エンドシーンクラス
+ * リザルトシーンクラス
  */
-var EndScene = tm.createClass({
+var ResultScene = tm.createClass({
     superClass: tm.app.Scene,
     
     init: function(color) {
@@ -335,7 +335,7 @@ var EndScene = tm.createClass({
         
         
         // UI
-        this.fromJSON(UI_DATA.END_SCENE);
+        this.fromJSON(UI_DATA.RESULT_SCENE);
         this.scoreLabel.text += app.score;    // スコアをセット
         this.titleLabel.text += title;
         this.backButton.onpointingstart = function() {
@@ -350,8 +350,8 @@ var EndScene = tm.createClass({
         var url = tm.social.Twitter.createURL({
             type    : "tweet",
             text    : msg,
-            hashtags: "circletap,tmlibjs",
-            url     : "https://github.com/phi1618/tmlib.js",
+            hashtags: "enclosecircle,tmlibjs",
+            url     : "http://phi1618.github.com/tmlib.js/examples/enclose-circle/index.html",
         });
         // ツイートボタン
         var tweetButton = tm.app.iPhoneButton(150, 50, "blue", "Tweet").addChildTo(this);
@@ -367,7 +367,7 @@ var EndScene = tm.createClass({
         tm.sound.SoundManager.get("decide").play();
         
         var fadeout = tm.fade.FadeOut(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 500, function() {
-            app.replaceScene(StartScene());
+            app.replaceScene(TitleScene());
         });
         fadeout.blendMode = "lighter";
         this.addChild( fadeout );
