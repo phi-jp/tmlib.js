@@ -101,7 +101,8 @@ var Particle = tm.createClass({
     init: function(x, y, angle) {
         this.superInit(PARTICLE_WIDTH, PARTICLE_HEIGHT);
         this.setImage(PARTICLE_IMAGE);
-        this.srcRect.x = angle*10;
+        this.srcRect.x      = angle*10;
+        this.srcRect.width  = 10;
         
         this.position.set(100, 100);
         
