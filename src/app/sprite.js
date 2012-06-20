@@ -51,6 +51,8 @@ tm.app = tm.app || {};
         },
         
         setImage: function(texture) {
+            if (typeof texture == "string") texture = tm.graphics.TextureManager.get(texture);
+            
             this.canvas.resize(texture.element.width, texture.element.height);
             this.canvas.drawImage(texture.element, 0, 0, texture.element.width, texture.element.height);
             // 画像をセットしたら一旦全て表示するようソース矩形のサイズをフィットさせる
@@ -71,6 +73,19 @@ tm.app = tm.app || {};
             this.srcRect.width  = w;
             this.srcRect.height = h;
         },
+        
+        _refreshSize: function() {
+            
+        },
+    });
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.app.Sprite.prototype.accessor("image", {
+        "get": function()   { return this.canvas; },
+        "set": function(v)  { this.setImage(v); }
     });
     
 })();

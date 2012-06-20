@@ -422,6 +422,8 @@ tm.app = tm.app || {};
             }
         },
         
+        _refreshSize: function() {},
+        
         
     });
     
@@ -470,7 +472,7 @@ tm.app = tm.app || {};
      */
     tm.app.CanvasElement.prototype.accessor("width", {
         "get": function()   { return this._width; },
-        "set": function(v)  { this._width = v; }
+        "set": function(v)  { this._width = v; this._refreshSize(); }
     });
     
     
@@ -480,7 +482,7 @@ tm.app = tm.app || {};
      */
     tm.app.CanvasElement.prototype.accessor("height", {
         "get": function()   { return this._height; },
-        "set": function(v)  { this._height = v; }
+        "set": function(v)  { this._height = v; this._refreshSize(); }
     });
     
     /**

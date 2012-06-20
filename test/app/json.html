@@ -42,6 +42,7 @@
         <script src="../../src/geom/vector2.js"></script>
         <script src="../../src/geom/vector3.js"></script>
         <script src="../../src/geom/matrix33.js"></script>
+        <script src="../../src/geom/rect.js"></script>
         
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
@@ -108,6 +109,17 @@
                             fontSize: 40,
                         },
                         {
+                            type: "Label",
+                            name: "titleLabel",
+                            x   : SCREEN_CENTER_X,
+                            y   : 100,
+                            width: SCREEN_WIDTH,
+                            height: 50,
+                            text: "Title",
+                            align: "center",
+                            fontSize: 40,
+                        },
+                        {
                             type: "LabelButton",
                             name: "button00",
                             x   : SCREEN_CENTER_X,
@@ -160,6 +172,15 @@
                             text: "Text Text Text Text Text Text Text Text",
                             align: "center",
                             fontSize: 15,
+                        },
+                        {
+                            type: "Sprite",
+                            name: "icon",
+                            x   : 560,
+                            y   : 400,
+                            width: 100,
+                            height: 100,
+                            image: "tmlibIcon",
                         },
                     ],
                 });

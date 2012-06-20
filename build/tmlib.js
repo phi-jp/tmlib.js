@@ -8926,6 +8926,8 @@ tm.app = tm.app || {};
             }
         },
         
+        _refreshSize: function() {},
+        
         
     });
     
@@ -8974,7 +8976,7 @@ tm.app = tm.app || {};
      */
     tm.app.CanvasElement.prototype.accessor("width", {
         "get": function()   { return this._width; },
-        "set": function(v)  { this._width = v; }
+        "set": function(v)  { this._width = v; this._refreshSize(); }
     });
     
     
@@ -8984,7 +8986,7 @@ tm.app = tm.app || {};
      */
     tm.app.CanvasElement.prototype.accessor("height", {
         "get": function()   { return this._height; },
-        "set": function(v)  { this._height = v; }
+        "set": function(v)  { this._height = v; this._refreshSize(); }
     });
     
     /**
@@ -9084,6 +9086,8 @@ tm.app = tm.app || {};
         },
         
         setImage: function(texture) {
+            if (typeof texture == "string") texture = tm.graphics.TextureManager.get(texture);
+            
             this.canvas.resize(texture.element.width, texture.element.height);
             this.canvas.drawImage(texture.element, 0, 0, texture.element.width, texture.element.height);
             // 画像をセットしたら一旦全て表示するようソース矩形のサイズをフィットさせる
@@ -9104,6 +9108,19 @@ tm.app = tm.app || {};
             this.srcRect.width  = w;
             this.srcRect.height = h;
         },
+        
+        _refreshSize: function() {
+            
+        },
+    });
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.app.Sprite.prototype.accessor("image", {
+        "get": function()   { return this.canvas; },
+        "set": function(v)  { this.setImage(v); }
     });
     
 })();
