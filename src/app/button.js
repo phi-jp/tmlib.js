@@ -100,11 +100,11 @@ tm.app = tm.app || {};
     tm.app.iPhoneButton = tm.createClass({
         superClass: tm.app.Sprite,
         
-        init: function(width, height, color, text) {
+        init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
             
-            
-            
+            text  = text  || "Button";
+            this.backgroundColor = backgroundColor || "black";
             this.alpha = tm.app.iPhoneButton.DEFAULT_ALPHA;
             
             this.interaction.enabled = true;
@@ -116,19 +116,47 @@ tm.app = tm.app || {};
                 this.animation.fade(tm.app.iPhoneButton.DEFAULT_ALPHA, 250);
             });
             
+            // ラベル
+            this.label = tm.app.Label(text || "").addChildTo(this);
+            this.label.setAlign("center").setBaseline("middle");
+            
+            this._refresh();
+        },
+        
+        
+        setSize: function(width, height) {
+            tm.app.Sprite.prototype.setSize.call(this, width, height);
+            
+            this.srcRect.width = width;
+            this.srcRect.height = height;
+            this._refresh();
+            
+            return this;
+        },
+        
+        setBackgroundColor: function(backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            
+            this._refresh();
+            
+            return this;
+        },
+        
+        _refresh: function() {
             // ボタン描画
             var c = this.canvas;
-            c.fillStyle = color;
-            c.fillRoundRect(2, 2, width-4, height-4, 10);
+            c.resize(this.width, this.height);
+            c.fillStyle = this.backgroundColor;
+            c.fillRoundRect(2, 2, this.width-4, this.height-4, 10);
             c.strokeStyle   = "rgba(100,100,100,0.75)";
             c.lineWidth     = 2;
-            c.strokeRoundRect(2, 2, width-4, height-4, 10);
+            c.strokeRoundRect(2, 2, this.width-4, this.height-4, 10);
             
             // テカリ
-            c.roundRect(2, 2, width-4, height-4, 10);
+            c.roundRect(2, 2, this.width-4, this.height-4, 10);
             c.clip();
             
-            var grad = tm.graphics.LinearGradient(0, 0, 0, 50);
+            var grad = tm.graphics.LinearGradient(0, 0, 0, this.height);
             
             // grad.addColorStop(0.0, "hsl(  0, 75%, 50%)");
             // grad.addColorStop(0.5, "hsl(120, 75%, 50%)");
@@ -138,18 +166,20 @@ tm.app = tm.app || {};
             grad.addColorStop(0.51, "rgba(255,255,255,0.2)");
             grad.addColorStop(1.0, "rgba(255,255,255,0.0)");
             c.setGradient(grad);
-            c.fillRect(2, 2, width-4, height-4, 10);
+            c.fillRect(2, 2, this.width-4, this.height-4, 10);
             
-            
-            // ラベル
-            this.label = tm.app.Label(text || "").addChildTo(this);
-            this.label.setAlign("center").setBaseline("middle");
-            this.label.setSize(width, height);
-        }
+            // ラベルのサイズをリセット
+            this.label.setSize(this.width, this.height);
+        },
     });
     
     
     tm.app.iPhoneButton.DEFAULT_ALPHA = 0.5;
     
+    
 })();
+
+
+
+
 

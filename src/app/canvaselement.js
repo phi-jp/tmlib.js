@@ -32,11 +32,11 @@ tm.app = tm.app || {};
         /**
          * 幅
          */
-        width:  64,
+        _width:  64,
         /**
          * 高さ
          */
-        height: 64,
+        _height: 64,
         
         /**
          * originX
@@ -462,6 +462,26 @@ tm.app = tm.app || {};
         "set": function(v)  { this.scale.y = v; }
     });
     
+    
+    
+    /**
+     * @property    width
+     * width
+     */
+    tm.app.CanvasElement.prototype.accessor("width", {
+        "get": function()   { return this._width; },
+        "set": function(v)  { this._width = v; }
+    });
+    
+    
+    /**
+     * @property    height
+     * height
+     */
+    tm.app.CanvasElement.prototype.accessor("height", {
+        "get": function()   { return this._height; },
+        "set": function(v)  { this._height = v; }
+    });
     
     /**
      * @property    radius

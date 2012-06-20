@@ -42,6 +42,7 @@
         <script src="../../src/geom/vector2.js"></script>
         <script src="../../src/geom/vector3.js"></script>
         <script src="../../src/geom/matrix33.js"></script>
+        <script src="../../src/geom/rect.js"></script>
         
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
@@ -106,9 +107,11 @@
                 var iphoneButton = tm.app.iPhoneButton(100, 50, "green").addChildTo(app.currentScene);
                 iphoneButton.setPosition(250, 300);
                 iphoneButton.onpointingstart = function() { c.log("click iphone button."); };
-                var iphoneButton = tm.app.iPhoneButton(100, 50, "blue").addChildTo(app.currentScene);
+                var iphoneButton = tm.app.iPhoneButton().addChildTo(app.currentScene);
                 iphoneButton.setPosition(400, 300);
                 iphoneButton.onpointingstart = function() { c.log("click iphone button."); };
+                iphoneButton.setSize(100, 50);
+                iphoneButton.setBackgroundColor("blue");
                 
                 app.run();
             });

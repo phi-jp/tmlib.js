@@ -23,17 +23,18 @@ tm.app = tm.app || {};
         {
             this.superInit();
             
+            width = width   || 64;
+            height= height  || 64;
+            
             this.canvas = tm.graphics.Canvas();
             this.srcRect = tm.geom.Rect(0, 0, this.width, this.height);
             
-            if (arguments.length >= 2) {
-                this.width  = width;
-                this.height = height;
-                this.canvas.resize(width, height);
-                this.srcRect.width  = this.width;
-                this.srcRect.height = this.height;
-                if (texture) { this.setImage(texture); }
-            }
+            this.width  = width;
+            this.height = height;
+            this.canvas.resize(width, height);
+            this.srcRect.width  = this.width;
+            this.srcRect.height = this.height;
+            if (texture) { this.setImage(texture); }
         },
         
         /**
