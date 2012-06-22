@@ -77,6 +77,7 @@
         
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/attr.js"></script>
         <script src="../../src/dom/event.js"></script>
         
         <script src="../../plugins/console.tm.js"></script>
@@ -92,32 +93,32 @@
                 // append test 
                 var eAppend = tm.dom.Element( document.createElement("div") );
                 eAppend.html = "append element";
-                eAppend.element.setAttribute("class", "box append-element");
+                eAppend.attr.set("class", "box append-element");
                 eTarget.append(eAppend);
                 // prepend test
                 var ePrepend = tm.dom.Element( document.createElement("div") );
                 ePrepend.html = "prepend element";
-                ePrepend.element.setAttribute("class", "box prepend-element");
+                ePrepend.attr.set("class", "box prepend-element");
                 eTarget.prepend(ePrepend);
                 // after test
                 var eAfter = tm.dom.Element( document.createElement("div") );
                 eAfter.html = "after element";
-                eAfter.element.setAttribute("class", "box after-element");
+                eAfter.attr.set("class", "box after-element");
                 eTarget.after(eAfter);
                 // before test
                 var eBefore = tm.dom.Element( document.createElement("div") );
                 eBefore.html = "before element";
-                eBefore.element.setAttribute("class", "box before-element");
+                eBefore.attr.set("class", "box before-element");
                 eTarget.before(eBefore);
                 
                 // create and append test
                 var eCreate = eTarget.create("div");
                 eCreate.html = "create and append element";
-                eCreate.element.setAttribute("class", "box append-element");
+                eCreate.attr.set("class", "box append-element");
                 // create and before test
                 var eCreatePrepend = eTarget.create("div", "prepend");
                 eCreatePrepend.html = "create and prepend element";
-                eCreatePrepend.element.setAttribute("class", "box prepend-element");
+                eCreatePrepend.attr.set("class", "box prepend-element");
                 
                 // コンソール生成
                 // var c = console;

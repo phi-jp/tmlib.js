@@ -32,6 +32,7 @@ var target = [
     
     "dom/element.js",
     "dom/event.js",
+    "dom/attr.js",
     "dom/style.js",
     "dom/anim.js",
     "dom/trans.js",
