@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Nineleap Test | TM Lib</title>
+        
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            canvas {
+                box-shadow: 0px 0px 4px 0px #aaa;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../src/social/nineleap.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+        
+        <script id="test-script">
+            
+            /*
+             * main
+             */
+            tm.main(function() {
+                // コンソール
+                var c = tm.Console("#console");
+                
+                c.log(tm.social.Nineleap.createURL(1719, 5000, "message"));
+                //tm.social.Nineleap.postRanking(5000, "abc");
+            });
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+    </head>
+    
+    <body>
+        
+        <h1>Nineleap Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
