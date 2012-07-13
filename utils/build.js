@@ -69,6 +69,8 @@ var target = [
     
     "social/twitter.js",
     "social/nineleap.js",
+    
+    "google/chart.js",
 ];
 for (var i=0,len=target.length; i<len; ++i) {
     target[i] = base + target[i];
