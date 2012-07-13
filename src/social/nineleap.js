@@ -29,7 +29,7 @@ tm.social = tm.social || {};
             location.replace( this.createURL(id, score, result) );
         }
         else {
-            console.warn("error!");
+            console.warn("9leap に投稿されていません!");
         }
     };
     
