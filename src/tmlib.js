@@ -107,6 +107,8 @@ var tm = tm || {};
             };
         }
         
+        tm_class.prototype.selfClass = tm_class;
+        
         // プロパティを追加
         for (var key in prop) {
             tm_class.prototype[key] = prop[key];

@@ -57,6 +57,7 @@ var target = [
     "app/element.js",
     "app/canvaselement.js",
     "app/sprite.js",
+    "app/shape.js",
     "app/label.js",
     "app/button.js",
     "app/scene.js",
