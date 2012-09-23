@@ -6362,6 +6362,43 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * 拡縮で画面にフィットさせる
+         * 名前は仮. 検討する
+         */
+        fitWindow: function(everFlag) {
+            everFlag = everFlag || true;
+            
+            var _fitFunc = function() {
+                var e = this.element;
+                var s = e.style;
+                
+                s.position = "absolute";
+                s.left = "0px";
+                s.top  = "0px";
+                
+                var rateWidth = e.width/window.innerWidth;
+                var rateHeight= e.height/window.innerHeight;
+                var rate = e.height/e.width;
+                
+                if (rateWidth > rateHeight) {
+                    s.width  = innerWidth+"px";
+                    s.height = innerWidth*rate+"px";
+                }
+                else {
+                    s.width  = innerHeight/rate+"px";
+                    s.height = innerHeight+"px";
+                }
+            }.bind(this);
+            
+            // 一度実行しておく
+            _fitFunc();
+            // リサイズ時のリスナとして登録しておく
+            if (everFlag) {
+                window.addEventListener("resize", _fitFunc, false);
+            }
+        },
+        
+        /**
          *  クリア
          */
         clear: function(x, y, width, height)
@@ -9678,39 +9715,8 @@ tm.app = tm.app || {};
          * 画面にフィットさせる
          */
         fitWindow: function(everFlag) {
-            
-            if (everFlag === undefined) {
-                everFlag = true;
-            }
-            
-            var self = this;
-            var _fitFunc = function() {
-                var element = self.element;
-                var style   = element.style;
-                style.position = "absolute";
-                style.left = "0px";
-                style.top  = "0px";
-                
-                var rateWidth = element.width/window.innerWidth;
-                var rateHeight= element.height/window.innerHeight;
-                var rate = element.height/element.width;
-                
-                if (rateWidth > rateHeight) {
-                    style.width  = innerWidth+"px";
-                    style.height = innerWidth*rate+"px";
-                }
-                else {
-                    style.width  = innerHeight/rate+"px";
-                    style.height = innerHeight+"px";
-                }
-            }
-            
-            // 一度実行しておく
-            _fitFunc();
-            // リサイズ時のリスナとして登録しておく
-            if (everFlag) {
-                window.addEventListener("resize", _fitFunc, false);
-            }
+            // 画面にフィット
+            this.canvas.fitWindow(everFlag);
             
             // マウスとタッチの座標更新関数をパワーアップ
             this.mouse._mousemove = this.mouse._mousemoveScale;

@@ -57,7 +57,7 @@ tm.google = tm.google || {};
     };
     
     /**
-     * 
+     * Tex 生成
      */
     tm.google.Chart.createTeX = function() {
         //&chco=ff0000ff

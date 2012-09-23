@@ -81,6 +81,43 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * 拡縮で画面にフィットさせる
+         * 名前は仮. 検討する
+         */
+        fitWindow: function(everFlag) {
+            everFlag = everFlag || true;
+            
+            var _fitFunc = function() {
+                var e = this.element;
+                var s = e.style;
+                
+                s.position = "absolute";
+                s.left = "0px";
+                s.top  = "0px";
+                
+                var rateWidth = e.width/window.innerWidth;
+                var rateHeight= e.height/window.innerHeight;
+                var rate = e.height/e.width;
+                
+                if (rateWidth > rateHeight) {
+                    s.width  = innerWidth+"px";
+                    s.height = innerWidth*rate+"px";
+                }
+                else {
+                    s.width  = innerHeight/rate+"px";
+                    s.height = innerHeight+"px";
+                }
+            }.bind(this);
+            
+            // 一度実行しておく
+            _fitFunc();
+            // リサイズ時のリスナとして登録しておく
+            if (everFlag) {
+                window.addEventListener("resize", _fitFunc, false);
+            }
+        },
+        
+        /**
          *  クリア
          */
         clear: function(x, y, width, height)
