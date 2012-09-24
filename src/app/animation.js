@@ -121,6 +121,29 @@ tm.app = tm.app || {};
             return this;
         },
         
+        moveTo: function(x, y, duration, fn)
+        {
+            duration = (duration !== undefined) ? duration : 1000;
+            fn       = fn || "linear";
+            
+            this.addTween({
+                prop: "x",
+                begin: this.element.x,
+                finish: x,
+                duration: duration,
+                func: fn,
+            });
+            this.addTween({
+                prop: "y",
+                begin: this.element.y,
+                finish: y,
+                duration: duration,
+                func: fn,
+            });
+            
+            return this;
+        },
+        
         scale: function(value, duration)
         {
             duration = (duration !== undefined) ? duration : 1000;

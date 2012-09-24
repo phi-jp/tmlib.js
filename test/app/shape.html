@@ -3,7 +3,7 @@
     <head> 
         <meta charset="utf-8"> 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Anim Test | TM Lib</title>
+        <title>Shape Test | TM Lib</title>
         
         <!-- prettify -->
         <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
@@ -73,77 +73,26 @@
 
         <script id="test-script">
             
-            var Effect = tm.createClass({
-                superClass: tm.app.CircleShape,
-                
-                init: function(x, y) {
-                    this.superInit(64, 64, {
-                        fillStyle: "blue"
-                    });
-                    
-                    this.startX = x;
-                    this.startY = y;
-                    
-                    this.x = x;
-                    this.y = y;
-                    
-                    this.startAnim();
-                },
-                
-                startAnim: function() {
-                    this.animation.addTween({
-                        prop: "x",
-                        begin: this.startX,
-                        finish: this.startX + 300,
-                        duration: 1000,
-                    });
-                    this.x = this.startX;
-                    
-                    this.animation.addTween({
-                        prop: "y",
-                        begin: this.startY,
-                        finish: this.startY + 300,
-                        duration: 1000,
-                        delay: 500,
-                    });
-                    this.y = this.startY;
-                    
-                    this.animation.addTween({
-                        prop: "alpha",
-                        begin: 1,
-                        finish: 0,
-                        duration: 1000,
-                    });
-                    
-                    /*
-                    this.anim.addTween({
-                        prop: "scaleX",
-                        begin: 1,
-                        finish: 2,
-                        duration: 1000,
-                    });
-                    
-                    this.anim.addTween({
-                        prop: "scaleY",
-                        begin: 1,
-                        finish: 2,
-                        duration: 1000,
-                    });
-                    */
-                },
-                
-                onanimationend: function() {
-                    this.startAnim();
-                },
-            });
+            var UI_DATA = {
+                children: [
+                    { type: "CircleShape", name: "circle", x: 100, y: 100 },
+                    { type: "TriangleShape", name: "triangle", x: 200, y: 100 },
+                    { type: "RectangleShape", name: "rectangle", x: 300, y: 100 },
+                    { type: "StarShape", name: "star", x: 400, y: 100 },
+                    { type: "PolygonShape", name: "polygon", x: 500, y: 100 },
+                ],
+            };
             
             /*
              * Test
              */
             tm.main(function() {
-                var c = tm.Console("#console");
-                
+                // キャンバスアプリケーション
                 var app = tm.app.CanvasApp("#world");
+                
+                // json load
+                app.currentScene.fromJSON(UI_DATA);
+                
                 
                 var player = tm.app.CanvasElement();
                 player.radius = 4;
@@ -158,27 +107,13 @@
                 
                 app.currentScene.update = function(app) {
                     var p = app.pointing;
-                    if (p.getPointingStart() == true) {
-                        var circle = Effect(p.x, p.y);
-                        this.addChild(circle);
+                    if (p.getPointing() == true) {
+                        this.circle.animation.moveTo(p.x, p.y, 1000, "easeInOutBounce");
+                        this.triangle.animation.moveTo(p.x, p.y, 800, "easeInOutBounce");
+                        this.rectangle.animation.moveTo(p.x, p.y, 600, "easeInOutBounce");
+                        this.star.animation.moveTo(p.x, p.y, 400, "easeInOutBounce");
+                        this.polygon.animation.moveTo(p.x, p.y, 200, "easeInOutBounce");
                     };
-                    
-                    // フェードアウト
-                    if (p.getPointingStart()) {
-                        // var fadeout = tm.app.Sprite(app.width, app.height);
-                        // fadeout.originX = fadeout.originY = 0;
-                        // fadeout.canvas.clearColor("white");
-                        // fadeout.addChildTo(this);
-                        // fadeout.anim.addTween({
-                            // prop: "alpha",
-                            // begin: 0,
-                            // finish: 1.0,
-                            // duration: 1500,
-                        // });
-                        // fadeout.onanimationend = function() {
-                            // this.remove();
-                        // }
-                    }
                 };
                 
                 app.run();
@@ -197,7 +132,7 @@
     
     <body>
          
-        <h1>Anim Test | TM Lib</h1>
+        <h1>Shape Test | TM Lib</h1>
         
         <div id="content">
             <section>
