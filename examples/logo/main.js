@@ -23,7 +23,7 @@ tm.preload(function() {
 });
 
 var Daylight = tm.createClass({
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function(x, y) {
         this.superInit(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -35,7 +35,7 @@ var Daylight = tm.createClass({
 });
 
 var Night = tm.createClass({
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function(x, y) {
         this.superInit(SCREEN_WIDTH, SCREEN_HEIGHT);

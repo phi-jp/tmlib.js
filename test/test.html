@@ -104,9 +104,7 @@
                 sprite.rotation = 80;
                 */
                 mainScene.addChild(sprite);
-                sprite.canvas.fillStyle = "white";
-                sprite.canvas.fillRect(0, 0, sprite.width, sprite.height);
-                sprite.setImage( tm.graphics.TextureManager.get("human") );
+                sprite.image = tm.graphics.TextureManager.get("human");
                 
                 sprite.update = function(app) {
                     this.x = app.pointing.x;
@@ -118,7 +116,7 @@
                     var p = app.pointing;
                     var crash = tm.app.Sprite(128, 128);
                     crash.position.set(p.x, p.y);
-                    crash.setImage( tm.graphics.TextureManager.get("crash") );
+                    crash.image = tm.graphics.TextureManager.get("crash");
                     crash.frameIndex = 0;
                     crash.blendMode = "lighter";
                     crash.update = function(app) {

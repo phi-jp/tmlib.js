@@ -21,7 +21,7 @@ var PARTICLE_SPACE      = 15;
 var PARTICLE_IMAGE      = null;
 
 var Filter = tm.createClass({
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function() {
         this.superInit(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -135,7 +135,7 @@ var Particle = tm.createClass({
     
     init: function(x, y, angle) {
         this.superInit(PARTICLE_WIDTH, PARTICLE_HEIGHT);
-        this.setImage(PARTICLE_IMAGE);
+        this.image = PARTICLE_IMAGE;
         this.srcRect.x = angle*10;
         this.srcRect.width = 10;
         

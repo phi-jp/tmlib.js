@@ -12,7 +12,7 @@ tm.controller = tm.controller || {};
      * pad
      */
     tm.controller.Pad = tm.createClass({
-        superClass: tm.app.Sprite,
+        superClass: tm.app.Shape,
         
         isTouching: false,
         circle: null,
@@ -33,7 +33,7 @@ tm.controller = tm.controller || {};
         },
         
         _createCircle: function() {
-            var circle = this.circle = tm.app.Sprite(80, 80);
+            var circle = this.circle = tm.app.Shape(80, 80);
             this.addChild(circle);
             
             var c = circle.canvas;

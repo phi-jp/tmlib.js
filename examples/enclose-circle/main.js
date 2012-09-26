@@ -118,7 +118,7 @@ tm.main(function() {
  * サークルクラス
  */
 var Circle = tm.createClass({
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function(color) {
         this.superInit(CIRCLE_RADIUS+15, CIRCLE_RADIUS+15);
@@ -164,7 +164,7 @@ var Circle = tm.createClass({
  * タップエフェクトクラス
  */
 var TapEffect = tm.createClass({
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function(radius) {
         this.superInit(TAP_RANGE*2+15, TAP_RANGE*2+15);
@@ -281,10 +281,10 @@ var TitleScene = tm.createClass({
             window.open("https://twitter.com/#!/search/%23enclosecircle%23tmlibjs", "_self");
         };
         
-        this.tmlibIconButton.setImage( tm.graphics.TextureManager.get("tmlibIcon") );
+        this.tmlibIconButton.image = tm.graphics.TextureManager.get("tmlibIcon");
         this.tmlibIconButton.onpointingend = function() { window.open("https://github.com/phi1618/tmlib.js", "_self"); };
         
-        this.blogIconButton.setImage( tm.graphics.TextureManager.get("blogIcon") );
+        this.blogIconButton.image = tm.graphics.TextureManager.get("blogIcon");
         this.blogIconButton.onpointingend = function() { window.open("http://tmlife.net", "_self"); };
         
         
@@ -399,7 +399,7 @@ var PauseScene = tm.createClass({
         this.superInit();
         this.interaction;
         
-        var filter = tm.app.Sprite(SCREEN_WIDTH, SCREEN_HEIGHT);
+        var filter = tm.app.Shape(SCREEN_WIDTH, SCREEN_HEIGHT);
         filter.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
         filter.canvas.clearColor("rgba(0, 0, 0, 0.75)");
         this.addChild(filter);

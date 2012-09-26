@@ -23,7 +23,6 @@ tm.app = tm.app || {};
             this.alpha = tm.app.LabelButton.DEFAULT_ALPHA;
             this.setAlign("center").setBaseline("middle");
             
-            
             this.interaction.enabled = true;
             this.interaction.boundingType = "rect";
             
@@ -74,7 +73,6 @@ tm.app = tm.app || {};
             
             this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
             
-            
             this.interaction.enabled = true;
             this.interaction.boundingType = "rect";
             this.addEventListener("pointingover", function() {
@@ -98,7 +96,7 @@ tm.app = tm.app || {};
      * iPhone button
      */
     tm.app.iPhoneButton = tm.createClass({
-        superClass: tm.app.Sprite,
+        superClass: tm.app.Shape,
         
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
@@ -121,17 +119,6 @@ tm.app = tm.app || {};
             this.label.setAlign("center").setBaseline("middle");
             
             this._refresh();
-        },
-        
-        
-        setSize: function(width, height) {
-            tm.app.Sprite.prototype.setSize.call(this, width, height);
-            
-            this.srcRect.width = width;
-            this.srcRect.height = height;
-            this._refresh();
-            
-            return this;
         },
         
         setBackgroundColor: function(backgroundColor) {

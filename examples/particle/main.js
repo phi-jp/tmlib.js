@@ -12,7 +12,7 @@ var STIR_DIST       = SCREEN_WIDTH*0.125;
 var BLOW_DIST       = SCREEN_WIDTH*0.4;
 
 var Particle = tm.createClass({
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function(color) {
         this.superInit(10, 10);

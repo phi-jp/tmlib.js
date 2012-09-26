@@ -151,7 +151,7 @@ var Player = tm.createClass({
     init: function() {
         this.superInit(40, 40);
         
-        this.setImage(playerImage);
+        this.image = playerImage;
         this.velocity = tm.geom.Vector2(0, 0);
         this.speed  =  0;               // スピード
         
@@ -239,7 +239,7 @@ var Bullet = tm.createClass({
         // 親のコンストラクタを実行
         this.superInit(10, 10);
         
-        this.setImage(bulletImage);
+        this.image = bulletImage;
         this.velocity = tm.geom.Vector2(0, 0);  // 速度
         this.radius = 5;                        // 半径
     },
@@ -296,7 +296,7 @@ var Crash = tm.createClass({
             var particle = tm.app.Sprite(40, 40);
             particle.scaleX = particle.scaleY = 0.5;
             particle.v = tm.geom.Vector2.random(0, 360, 2);
-            particle.setImage(enemyImage);
+            particle.image = enemyImage;
             particle.blendMode = "lighter";
             particle.update = function() {
                 this.x += this.v.x;

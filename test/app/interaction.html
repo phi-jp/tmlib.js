@@ -42,6 +42,7 @@
         <script src="../../src/geom/vector2.js"></script>
         <script src="../../src/geom/vector3.js"></script>
         <script src="../../src/geom/matrix33.js"></script>
+        <script src="../../src/geom/rect.js"></script>
         
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
@@ -60,6 +61,7 @@
         <script src="../../src/app/element.js"></script>
         <script src="../../src/app/canvaselement.js"></script>
         <script src="../../src/app/sprite.js"></script>
+        <script src="../../src/app/shape.js"></script>
         <script src="../../src/app/scene.js"></script>
         <script src="../../src/app/canvasapp.js"></script>
         <script src="../../src/app/interaction.js"></script>
@@ -70,7 +72,7 @@
         <script id="test-script">
             
             var Circle = tm.createClass({
-                superClass: tm.app.Sprite,
+                superClass: tm.app.Shape,
                 
                 init: function() {
                     this.superInit(100, 100);
@@ -80,7 +82,7 @@
             });
             
             var Rect = tm.createClass({
-                superClass: tm.app.Sprite,
+                superClass: tm.app.Shape,
                 
                 init: function() {
                     this.superInit(100, 100);
@@ -111,7 +113,6 @@
                 rect.interaction.boundingType = "rect";
                 rect.onmouseover = function(e) { this.alpha = 1.0; };
                 rect.onmouseout  = function(e) { this.alpha = 0.5; };
-                
                 
                 
                 

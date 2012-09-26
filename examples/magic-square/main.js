@@ -15,7 +15,7 @@ var SCREEN_HEIGHT   = 640;
  */
 var MagicSquareSprite = tm.createClass({
     
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function() {
         this.superInit(150, 150);

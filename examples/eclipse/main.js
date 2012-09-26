@@ -42,7 +42,7 @@ var SunAxis = tm.createClass({
 });
 
 var Sun = tm.createClass({
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function() {
         this.superInit(SUN_RADIUS*3, SUN_RADIUS*3);
@@ -69,7 +69,7 @@ var Sun = tm.createClass({
 });
 
 var Moon = tm.createClass({
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function() {
         this.superInit(MOON_RADIUS*3, MOON_RADIUS*3);

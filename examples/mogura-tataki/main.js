@@ -100,7 +100,7 @@ var Mogura = tm.createClass({
 });
 
 var CrashEffect = tm.createClass({
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function() {
         this.superInit(100, 100);
@@ -245,10 +245,12 @@ var EndScene = tm.createClass({
         label.align = "center";
         label.addChildTo(this);
         
+        /*
         var tweetButton = tm.twitter.TweetButton("test");
         tweetButton.setPosition(SCREEN_WIDTH/2, 470);
         tweetButton.interaction.setBoundingType("rect");
         tweetButton.addChildTo(this);
+        */
         
         this.addChild( tm.fade.FadeIn(
             SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {
@@ -286,7 +288,7 @@ var PauseScene = tm.createClass({
         this.superInit();
         this.interaction;
         
-        var filter = tm.app.Sprite(SCREEN_WIDTH, SCREEN_HEIGHT);
+        var filter = tm.app.Shape(SCREEN_WIDTH, SCREEN_HEIGHT);
         filter.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
         filter.canvas.clearColor("rgba(0, 0, 0, 0.75)");
         this.addChild(filter);

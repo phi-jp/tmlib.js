@@ -59,7 +59,7 @@ tm.graphics.Canvas.prototype.strokeKoch = function(x0, y0, x1, y1, n) {
 
 var Snow = tm.createClass({
     
-    superClass: tm.app.Sprite,
+    superClass: tm.app.Shape,
     
     init: function(x, y, scale) {
         this.superInit(32, 32);

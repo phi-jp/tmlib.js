@@ -124,6 +124,6 @@ var UnitCircle = tm.createClass({
     
     init: function() {
         this.superInit(SCREEN_WIDTH, SCREEN_HEIGHT);
-        this.setImage(UNIT_CIRCLE_IMAGE);
+        this.image = UNIT_CIRCLE_IMAGE;
     },
 });
