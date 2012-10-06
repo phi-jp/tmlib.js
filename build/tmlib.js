@@ -794,7 +794,11 @@ var tm = tm || {};
      */
     Array.defineInstanceMethod("shuffle", function() {
         for (var i=0,len=this.length; i<len; ++i) {
-            this.swap(i, Math.rand(0, len));
+            var j = Math.rand(0, len-1);
+            
+            if (i != j) {
+                this.swap(i, j);
+            }
         }
         
         return this;
