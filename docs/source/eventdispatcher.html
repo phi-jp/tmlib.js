@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * eventdispatcher.js
+ */
+
+tm.event = tm.event || {};
+
+(function() {
+    
+<span id='tm-event-EventDispatcher'>    /**
+</span>     * @class
+     * Event Dispatcher
+     * ### Reference
+     * -(EventDispatcher - ActionScript 3.0 コンポーネントリファレンスガイド)[http://livedocs.adobe.com/flash/9.0_jp/ActionScriptLangRefV3/flash/events/EventDispatcher.html]
+     */
+    tm.event.EventDispatcher = tm.createClass({
+        
+        init: function() {
+            this._listeners = {};
+        },
+        
+        /**
+         * イベントリスナー追加
+<span id='tm-event-EventDispatcher-method-addEventListener'>         */
+</span>        addEventListener: function(type, listener) {
+            if (this._listeners[type] === undefined) {
+                this._listeners[type] = [];
+            }
+            
+            this._listeners[type].push(listener);
+            return this;
+        },
+        
+        /**
+         * イベント起動
+         */
+<span id='tm-event-EventDispatcher-method-dispatchEvent'>        dispatchEvent: function(e) {
+</span>            e.target = this;
+            var oldEventName = 'on' + e.type;
+            if (this[oldEventName]) this[oldEventName](e);
+            
+            var listeners = this._listeners[e.type];
+            if (listeners) {
+                for (var i=0,len=listeners.length; i&lt;len; ++i) {
+                    listeners[i].call(this, e);
+                }
+            }
+        },
+        
+        /**
+         * 登録されたイベントがあるかをチェック
+         */
+<span id='tm-event-EventDispatcher-method-hasEventListener'>        hasEventListener: function(type) {
+</span>            
+        },
+        
+        /**
+         * リスナーを削除
+         */
+        removeEventListener: function(type, listener) {
+<span id='tm-event-EventDispatcher-method-removeEventListener'>            // TODO: 
+</span>            return this;
+        },
+        
+        /**
+         * リスナーを全てクリア
+         */
+        clearEventListener: function(type) {
+<span id='tm-event-EventDispatcher-method-clearEventListener'>            this._listeners[type] = [];
+</span>            return this;
+        },
+    });
+    
+})();
+</pre>
+</body>
+</html>

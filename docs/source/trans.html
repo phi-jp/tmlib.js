@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * trans.js
+ */
+
+tm.dom = tm.dom || {};
+
+
+
+(function(){
+    
+<span id='tm-dom-Trans'>    /**
+</span>     * @class
+     * スタイル
+     */
+    tm.dom.Trans = tm.createClass({
+        
+        element: null,
+        
+        /**
+<span id='tm-dom-Trans-method-init'>         * 初期化
+</span>         */
+        init: function(element) {
+            this.element = element;
+        },
+        
+        setProp: function(prop) {
+            var style = this.element.style;
+            var prop_list = [];
+            
+            for (var key in prop) {
+                var name = _checkStyleProperty(key);
+                prop_list.push( name.toDash() );
+                style[name] = prop[key];
+            }
+            
+            style[tm.dom.Trans.PROPERTY] = prop_list.join(', ');   // none;
+            
+            return this;
+        },
+        
+        setDuration: function(t) {
+            var style = this.element.style;
+            style[tm.dom.Trans.DURATION] = t;
+            return this;
+        },
+        
+        setTimingFunction: function(func) {
+            var style = this.element.style;
+            style[tm.dom.Trans.TIMING_FUNCTION] = func;
+            return this;
+        },
+        
+        resetProp: function() {
+            var style = this.element.style;
+            style[tm.dom.Trans.PROPERTY] = &quot;none&quot;;
+            return this;
+        },
+        
+        setEndFunction: function(fn) {
+            this.dom.event.add(tm.dom.Trans.END_EVENT, fn);
+            return this;
+        },
+    });
+    
+    tm.dom.Trans.PROPERTY        = tm.VENDER_PREFIX + &quot;TransitionProperty&quot;;
+    tm.dom.Trans.DURATION        = tm.VENDER_PREFIX + &quot;TransitionDuration&quot;;
+    tm.dom.Trans.TIMING_FUNCTION = tm.VENDER_PREFIX + &quot;TransitionTimingFunction&quot;;
+    tm.dom.Trans.DELAY           = tm.VENDER_PREFIX + &quot;TransitionDelay&quot;;
+    tm.dom.Trans.END_EVENT       = (function(){
+        return {
+            &quot;webkit&quot;: &quot;webkitTransitionEnd&quot;,
+            &quot;moz&quot;   : &quot;transitionend&quot;,
+            &quot;o&quot;     : &quot;oTransitionEnd&quot;,
+        }[tm.VENDER_PREFIX];
+    })();
+    
+    /**
+<span id='tm-dom-Trans-property-trans'>     * Trans クラス
+</span>     * @property    trans
+     */
+    tm.dom.Element.prototype.getter(&quot;trans&quot;, function(){
+        return this._trans || ( this._trans = tm.dom.Trans(this.element) );
+    });
+    
+    var _styleList = {
+        &quot;transform&quot;: true,
+    };
+    var _checkStyleProperty = function(name)
+    {
+        if (_styleList[name] === true) {
+            return '-'+tm.VENDER_PREFIX + name.capitalizeFirstLetter();
+        }
+        return name;
+    };
+})();
+
+</pre>
+</body>
+</html>

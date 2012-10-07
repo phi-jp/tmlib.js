@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * element.js
+ */
+
+
+(function() {
+    
+    // innerText 対応 ( moz では textContent なので innerText に統一 )
+    var temp = document.createElement(&quot;div&quot;);
+    if (temp.innerText === undefined) {
+        HTMLElement.prototype.accessor(&quot;innerText&quot;, {
+            &quot;get&quot;: function()   { return this.textContent; },
+            &quot;set&quot;: function(d)  { this.textContent = d; }
+        });
+    }
+    
+})();
+
+tm.dom = tm.dom || {};
+
+(function() {
+    
+    /**
+     * @class
+<span id='tm-dom-Element'>     * Element クラス
+</span>     */
+    tm.dom.Element = tm.createClass({
+        
+        element: null,
+        
+        /**
+         * 初期化
+<span id='tm-dom-Element-method-init'>         */
+</span>        init: function() {
+            this.set.apply(this, arguments);
+        },
+        
+        /**
+         * セッター
+         */
+<span id='tm-dom-Element-method-set'>        set: function(q) {
+</span>            if (typeof q === &quot;string&quot;) {
+                this.element = document.querySelector(q);
+            }
+            else if (q != undefined) {
+                this.element = q;
+            }
+            else {
+                // デフォルトはドキュメント
+                this.element = document;
+            }
+        },
+        
+
+        /**
+         * 子供の最後尾に追加
+         */
+<span id='tm-dom-Element-method-append'>        append: function(child) {
+</span>            this.element.appendChild(child.element);
+            return this;
+        },
+        
+        /**
+         * 子供の先頭に追加
+         */
+        prepend: function(child) {
+<span id='tm-dom-Element-method-prepend'>            this.element.insertBefore(child.element, this.element.firstChild);
+</span>            return this;
+        },
+        
+        /**
+         * 自分の後に追加
+         */
+        after: function(child) {
+<span id='tm-dom-Element-method-after'>            this.element.parentNode.insertBefore(child.element, this.element.nextSibling);
+</span>            return this;
+        },
+        
+        /**
+         * 自分の前に追加
+         */
+        before: function(child) {
+<span id='tm-dom-Element-method-before'>            this.element.parentNode.insertBefore(child.element, this.element);
+</span>            return this;
+        },
+        
+        /**
+         * 引数に渡された要素に自分を append
+         */
+        appendTo: function(parent) {
+            parent.append(this);
+<span id='tm-dom-Element-method-appendTo'>            return this;
+</span>        },
+        
+        /**
+         * 引数に渡された要素に自分を prepend
+         */
+        prependTo: function(parent) {
+            parent.prepend(this);
+            return this;
+<span id='tm-dom-Element-method-prependTo'>        },
+</span>        
+        clone: function() {
+            return tm.dom.Element(this.element.cloneNode(true));
+        },
+        
+        /**
+         * 親から自分を引っぺがす
+         */
+        remove: function() {
+            this.element.parentNode.removeChild(this.element);
+            return this;
+        },
+        
+<span id='tm-dom-Element-method-remove'>        /**
+</span>         * 要素生成
+         */
+        create: function(tag, addFuncName) {
+            // 要素を生成
+            var element = tm.dom.Element(document.createElement(tag));
+<span id='tm-dom-Element-method-create'>            // デフォルトの追加方法は append
+</span>            if (!addFuncName) { addFuncName=&quot;append&quot;; }
+            // 自分の子供として追加
+            this[addFuncName](element);
+            
+            return element;
+        },
+        
+        /**
+         * query
+         */
+        query: function(query, index) {
+            var elm = (index) ?
+                this.element.querySelectorAll(query)[index] : 
+                this.element.querySelector(query);
+            
+<span id='tm-dom-Element-method-query'>            return tm.dom.Element(elm);
+</span>        },
+        
+        /**
+         * queryAll
+         */
+        queryAll: function(query) {
+            var list = this.element.querySelectorAll(query);
+            return tm.dom.ElementList(list);
+        },
+        
+        /**
+         * 固定化
+         */
+<span id='tm-dom-Element-method-queryAll'>        fixed: function(x, y, width, height) {
+</span>            this.style.set(&quot;position&quot;, &quot;fixed&quot;);
+            if (x) this.x = x;
+            if (y) this.y = y;
+            if (width) this.width = width;
+<span id='tm-dom-Element-method-fixed'>            if (height) this.height = height;
+</span>            return this;
+        },
+        
+        /**
+         * absolute 化
+         */
+        absolute: function(x, y, width, height) {
+            this.style.set(&quot;position&quot;, &quot;absolute&quot;);
+            if (x) this.x = x;
+            if (y) this.y = y;
+            if (width) this.width = width;
+<span id='tm-dom-Element-method-absolute'>            if (height) this.height = height;
+</span>            return this;
+        },
+        
+        /**
+         * フルスクリーン化
+         */
+        fullScreen: function() {
+            this.element.webkitRequestFullScreen();
+        },
+        
+        /**
+         * 文字列化
+         */
+        toString: function() {
+            return &quot;tm.dom.element&quot;;
+        },
+<span id='tm-dom-Element-method-fullScreen'>        
+</span>        getElement: function() {
+            return this.element;
+        },
+        
+    });
+    
+    
+    
+    /**
+     * @property    html
+     * html の値
+<span id='tm-dom-Element-method-toString'>     */
+</span>    tm.dom.Element.prototype.accessor(&quot;html&quot;, {
+        &quot;get&quot;: function()       { return this.element.innerHTML; },
+        &quot;set&quot;: function(html)   { this.element.innerHTML = html; }
+    });
+    
+    
+    /**
+     * @property    value
+<span id='tm-dom-Element-property-html'>     * value の値
+</span>     */
+    tm.dom.Element.prototype.accessor(&quot;value&quot;, {
+        &quot;get&quot;: function()       { return this.element.value; },
+        &quot;set&quot;: function(value)   { this.element.value = value; }
+    });
+    
+    
+    /**
+     * @property    x
+     * x値
+<span id='tm-dom-Element-property-value'>     */
+</span>    tm.dom.Element.prototype.accessor(&quot;x&quot;, {
+        &quot;get&quot;: function()   { return Number( this.element.style.left.replace(&quot;px&quot;, '') ); },
+        &quot;set&quot;: function(x)  { this.element.style.left = x+&quot;px&quot;; }
+    });
+    
+    /**
+     * @property    y
+<span id='tm-dom-Element-property-x'>     * y値
+</span>     */
+    tm.dom.Element.prototype.accessor(&quot;y&quot;, {
+        &quot;get&quot;: function()   { return Number( this.element.style.top.replace(&quot;px&quot;, '') ); },
+        &quot;set&quot;: function(y)  { this.element.style.top = y+&quot;px&quot;; }
+    });
+    
+    
+    /**
+     * @property    width
+<span id='tm-dom-Element-property-y'>     * 幅
+</span>     */
+    tm.dom.Element.prototype.accessor(&quot;width&quot;, {
+        &quot;get&quot;: function()   { return Number( this.element.style.width.replace(&quot;px&quot;, '') ); },
+        &quot;set&quot;: function(w)  { this.element.style.width = w+&quot;px&quot;; }
+    });
+    
+    
+    /**
+<span id='tm-dom-Element-property-width'>     * @property    height
+</span>     * 高さ
+     */
+    tm.dom.Element.prototype.accessor(&quot;height&quot;, {
+        &quot;get&quot;: function()   { return Number( this.element.style.height.replace(&quot;px&quot;, '') ); },
+        &quot;set&quot;: function(h)  { this.element.style.height = h+&quot;px&quot;; }
+    });
+    
+    
+    /**
+<span id='tm-dom-Element-property-height'>     * @property    color
+</span>     * 色
+     */
+    tm.dom.Element.prototype.accessor(&quot;color&quot;, {
+        &quot;get&quot;: function()       { return this.element.style.color; },
+        &quot;set&quot;: function(color)  { this.element.style.color = color; }
+    });
+    
+    
+    /**
+     * @property    backgroundColor
+     * 背景色
+<span id='tm-dom-Element-property-color'>     */
+</span>    tm.dom.Element.prototype.accessor(&quot;backgroundColor&quot;, {
+        &quot;get&quot;: function()       { return this.element.style.backgroundColor; },
+        &quot;set&quot;: function(color)  { this.element.style.backgroundColor = color; }
+    });
+    
+    /**
+<span id='tm-dom-Element-property-backgroundColor'>     * @property    visible
+</span>     * 表示/非表示
+     */
+    tm.dom.Element.prototype.accessor(&quot;visible&quot;, {
+        &quot;get&quot;: function()   { return this.element.style.visibility != &quot;hidden&quot;; },
+        &quot;set&quot;: function(v)  { this.element.style.visibility = (v==true) ? &quot;visible&quot; : &quot;hidden&quot;; }
+    });
+    
+    /**
+<span id='tm-dom-Element-property-visible'>     * @property    text
+</span>     * テキスト
+     */
+    tm.dom.Element.prototype.accessor(&quot;text&quot;, {
+        &quot;get&quot;: function()   { return this.element.innerText; },
+        &quot;set&quot;: function(v)  { this.element.innerText = v; }
+    });
+    
+    
+    tm.dom.Element.prototype.getter(&quot;parent&quot;, function(){
+<span id='tm-dom-Element-property-text'>        return (this.element.parent != undefined) ? tm.dom.Element(this.element.parent) : null;
+</span>    });
+    tm.dom.Element.prototype.getter(&quot;prev&quot;, function(){
+        return (this.element.previousSibling != undefined) ? tm.dom.Element(this.element.previousSibling) : null;
+    });
+    tm.dom.Element.prototype.getter(&quot;next&quot;, function(){
+        return (this.element.nextSibling != undefined) ? tm.dom.Element(this.element.nextSibling) : null;
+    });
+    tm.dom.Element.prototype.getter(&quot;children&quot;, function(){
+        return tm.dom.ElementList(this.element.children);
+    });
+    
+    
+})();
+
+
+
+
+
+(function(){
+    
+    /**
+     * @class
+     * エレメントリスト
+     */
+    tm.dom.ElementList = tm.createClass({
+        superClass: Array,
+        
+        /**
+         * TM.DOM.Element 用配列
+         * @constructs
+         */
+        init: function(arr) {
+            if (typeof arguments[0] == &quot;string&quot;) {
+                var query = arguments[0];
+<span id='tm-dom-ElementList'>                arr = document.querySelectorAll(query);
+</span>            }
+            else if (arr == undefined) {
+                return ;
+            }
+<span id='tm-dom-ElementList-method-init'>            
+</span>            for (var i=0,len=arr.length; i&lt;len; ++i) {
+                this.push( tm.dom.Element(arr[i]) );
+            }
+        },
+        
+        toString: function() {
+            return &quot;&quot;;
+        }
+    });
+    
+})();
+
+</pre>
+</body>
+</html>

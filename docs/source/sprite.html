@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * sprite.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+(function() {
+    
+<span id='tm-app-Sprite'>    /**
+</span>     * @class
+     * Sprite
+     */
+    tm.app.Sprite = tm.createClass({
+        
+        superClass: tm.app.CanvasElement,
+        
+<span id='tm-app-Sprite-method-init'>        /**
+</span>         * 初期化
+         */
+        init: function(width, height, texture)
+        {
+            this.superInit();
+            
+            width = width   || 64;
+            height= height  || 64;
+            
+            this.srcRect = tm.geom.Rect(0, 0, this.width, this.height);
+            
+            this.width  = width;
+            this.height = height;
+            if (texture) {
+                this.image  = texture;
+            }
+        },
+        
+        /**
+<span id='tm-app-Sprite-method-draw'>         * 描画
+</span>         */
+        draw: function(canvas) {
+            var srcRect = this.srcRect;
+            var element = this._image.element;
+            
+            canvas.drawImage(element,
+                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
+                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+            
+        },
+        
+        setFrameIndex: function(index, width, height) {
+            var w   = width || this.width;
+            var h   = width || this.height;
+            var row = ~~(this.image.width / w)
+            var x   = index%row;
+            var y   = ~~(index/row);
+            this.srcRect.x = x*w;
+            this.srcRect.y = y*h;
+            this.srcRect.width  = w;
+            this.srcRect.height = h;
+        },
+        
+        _refreshSize: function() {
+            
+        },
+    });
+    
+    /**
+<span id='tm-app-Sprite-property-height'>     * @property    height
+</span>     * 高さ
+     */
+    tm.app.Sprite.prototype.accessor(&quot;image&quot;, {
+        &quot;get&quot;: function()   {
+            return this._image;
+        },
+        &quot;set&quot;: function(image)  {
+            if (typeof texture == &quot;string&quot;) texture = tm.graphics.TextureManager.get(texture);
+            
+            this._image = image;
+            this.srcRect.x = 0;
+            this.srcRect.y = 0;
+            this.srcRect.width  = image.element.width;
+            this.srcRect.height = image.element.height;
+        }
+    });
+    
+})();
+</pre>
+</body>
+</html>

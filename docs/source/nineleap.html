@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * nineleap.js
+ */
+
+tm.social = tm.social || {};
+
+
+(function() {
+    
+<span id='tm-social-Nineleap'>    /**
+</span>     * @class
+     * 9leap ネームスペース
+     */
+    tm.social.Nineleap = tm.social.Nineleap || {};
+    
+    var BASE_URL = &quot;http://9leap.net/games/{id}/result?score={score}&amp;result={result}&quot;;
+    
+    tm.social.Nineleap.createURL = function(id, score, result) {
+        return BASE_URL.format({
+            id      : id,
+            score   : score,
+            result  : result
+        });
+    };
+    
+    tm.social.Nineleap.postRanking = function(score, result) {
+        if (location.hostname == 'r.jsgames.jp') {
+            var id = location.pathname.match(/^\/games\/(\d+)/)[1]; 
+            location.replace( this.createURL(id, score, result) );
+        }
+        else {
+            console.warn(&quot;9leap に投稿されていません!&quot;);
+        }
+    };
+    
+})();
+
+</pre>
+</body>
+</html>

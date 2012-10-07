@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * matrix33.js
+ */
+
+tm.geom = tm.geom || {};
+
+(function() {
+    
+<span id='tm-geom-Matrix33'>    /**
+</span>     * @class
+     * 3*3 マトリックスクラス
+     */
+    tm.geom.Matrix33 = tm.createClass({
+        /**
+         * 要素
+<span id='tm-geom-Matrix33-property-m'>         */
+</span>        m: null,
+        
+        /**
+         * 初期化
+<span id='tm-geom-Matrix33-method-init'>         */
+</span>        init: function() {
+            this.m = [];
+            if (arguments.length &gt;= 9) {
+                this.set.apply(this, arguments);
+            }
+            else {
+                this.identity();
+            }
+        },
+        
+        /**
+         * クローン
+<span id='tm-geom-Matrix33-method-clone'>         */
+</span>        clone: function() {
+            var m = this.m;
+            return tm.geom.Matrix33(
+                m[0], m[3], m[6],
+                m[1], m[4], m[7],
+                m[2], m[5], m[8]
+            );
+        },
+        
+        /**
+         * セッター
+         */
+<span id='tm-geom-Matrix33-method-set'>        set: function(m00, m01, m02, m10, m11, m12, m20, m21, m22)
+</span>        {
+            console.assert(arguments.length&gt;=9, &quot;&quot;);
+            
+            // |m00, m01, m02|
+            // |m10, m11, m12|
+            // |m20, m21, m22|
+            
+            // |m[0], m[3], m[6]|
+            // |m[1], m[4], m[7]|
+            // |m[2], m[5], m[8]|
+            
+            // |a, b, tx|
+            // |c, d, ty|
+            // |0, 0,  1|
+            
+            this.m00 = m00; this.m01 = m01; this.m02 = m02;
+            this.m10 = m10; this.m11 = m11; this.m12 = m12;
+            this.m20 = m20; this.m21 = m21; this.m22 = m22;
+            
+            return this;
+        },
+        
+        /**
+         * 配列からセット
+         */
+<span id='tm-geom-Matrix33-method-setArray'>        setArray: function(arr)
+</span>        {
+            this.set(
+                arr[0], arr[3], arr[6],
+                arr[1], arr[4], arr[7],
+                arr[2], arr[5], arr[8]
+            );
+            
+            return this;
+        },
+        
+        /**
+         * オブジェクトからセット
+         */
+<span id='tm-geom-Matrix33-method-setObject'>        setObject: function(obj)
+</span>        {
+            this.set(
+                obj.m00, obj.m01, obj.m02,
+                obj.m10, obj.m11, obj.m12,
+                obj.m20, obj.m21, obj.m22
+            );
+            
+            return this;
+        },
+        
+        /**
+         * 単位行列
+         */
+        identity: function() {
+<span id='tm-geom-Matrix33-method-identity'>            var m = this.m;
+</span>            
+            m[0] = 1; m[3] = 0; m[6] = 0;
+            m[1] = 0; m[4] = 1; m[7] = 0;
+            m[2] = 0; m[5] = 0; m[8] = 1;
+            
+            return this;
+        },
+        
+        /**
+         * 転地
+         */
+        transpose: function() {
+<span id='tm-geom-Matrix33-method-transpose'>            this.m.swap(1, 3);
+</span>            this.m.swap(2, 6);
+            this.m.swap(5, 7);
+            
+            return this;
+        },
+        
+        /**
+         * 逆行列
+         */
+        invert: function() {
+            var m = this.m;
+<span id='tm-geom-Matrix33-method-invert'>            var m00 = m[0], m01 = m[3], m02 = m[6];
+</span>            var m10 = m[1], m11 = m[4], m12 = m[7];
+            var m20 = m[2], m21 = m[5], m22 = m[8];
+            var det = this.determinant();
+            
+            // |m00, m01, m02|
+            // |m10, m11, m12|
+            // |m20, m21, m22|
+            
+            this.m00 = (m11*m22-m12*m21)/det;
+            this.m01 = (m10*m22-m12*m20)/det*-1;
+            this.m02 = (m10*m21-m11*m20)/det;
+            
+            this.m10 = (m01*m22-m02*m21)/det*-1;
+            this.m11 = (m00*m22-m02*m20)/det;
+            this.m12 = (m00*m21-m01*m20)/det*-1;
+            
+            this.m20 = (m01*m12-m02*m11)/det;
+            this.m21 = (m00*m12-m02*m10)/det*-1;
+            this.m22 = (m00*m11-m01*m10)/det;
+            
+            this.transpose();
+            
+            return this;
+        },
+        
+        determinant: function() {
+            var m = this.m;
+            
+            var m00 = m[0], m01 = m[3], m02 = m[6];
+            var m10 = m[1], m11 = m[4], m12 = m[7];
+            var m20 = m[2], m21 = m[5], m22 = m[8];
+            
+            return m00*m11*m22 + m10*m21*m02 + m01*m12*m20 - m02*m11*m20 - m01*m10*m22 - m12*m21*m00;
+        },
+        
+        /**
+         * ゼロクリア
+         */
+        zero: function() {
+            this.set(
+<span id='tm-geom-Matrix33-method-zero'>                0, 0, 0,
+</span>                0, 0, 0,
+                0, 0, 0
+            );
+            
+            return this;
+        },
+        
+        /**
+         * 移動
+         */
+        translate: function(x, y) {
+            var m = this.m;
+            
+<span id='tm-geom-Matrix33-method-translate'>            m[6] = m[0] * x + m[3] * y + m[6];
+</span>            m[7] = m[1] * x + m[4] * y + m[7];
+            m[8] = m[2] * x + m[5] * y + m[8];
+            
+            return this;
+            
+            return this.multiply( tm.geom.Matrix33.translate(x, y) );
+        },
+        
+        /**
+         * X軸回転
+         */
+        rotateX: function(rad) {
+<span id='tm-geom-Matrix33-method-rotateX'>            return this.multiply( tm.geom.Matrix33.rotateX(rad) );
+</span>        },
+        
+        /**
+         * Y軸回転
+         */
+        rotateY: function(rad) {
+<span id='tm-geom-Matrix33-method-rotateY'>            return this.multiply( tm.geom.Matrix33.rotateY(rad) );
+</span>        },
+        
+        /**
+         * Z軸回転
+         */
+        rotateZ: function(rad) {
+            var s = Math.sin(rad);
+<span id='tm-geom-Matrix33-method-rotateZ'>            var c = Math.cos(rad);
+</span>            var m = this.m;
+            
+            var m00 = m[0];
+            var m10 = m[1];
+            var m20 = m[2];
+            var m01 = m[3];
+            var m11 = m[4];
+            var m21 = m[5];
+            
+            
+            return this.multiply( tm.geom.Matrix33.rotateZ(rad) );
+        },
+        
+        /**
+         * スケーリング
+         */
+        scale: function(x, y) {
+            var m = this.m;
+            
+<span id='tm-geom-Matrix33-method-scale'>            m[0] *= x; m[3] *= y;
+</span>            m[1] *= x; m[4] *= y;
+            m[2] *= x; m[5] *= y;
+            
+            return this;
+            return this.multiply( tm.geom.Matrix33.scale(x, y) );
+        },
+        
+        /**
+         * 掛け算
+         */
+        multiply: function(mat)
+        {
+            var tm = this.m;
+            var om = mat.m;
+<span id='tm-geom-Matrix33-method-multiply'>            
+</span>            var a00 = tm[0], a01 = tm[3], a02 = tm[6];
+            var a10 = tm[1], a11 = tm[4], a12 = tm[7];
+            var a20 = tm[2], a21 = tm[5], a22 = tm[8];
+            var b00 = om[0], b01 = om[3], b02 = om[6];
+            var b10 = om[1], b11 = om[4], b12 = om[7];
+            var b20 = om[2], b21 = om[5], b22 = om[8];
+            
+            
+            tm[0] = a00*b00 + a01*b10 + a02*b20;
+            tm[3] = a00*b01 + a01*b11 + a02*b21;
+            tm[6] = a00*b02 + a01*b12 + a02*b22;
+            
+            tm[1] = a10*b00 + a11*b10 + a12*b20;
+            tm[4] = a10*b01 + a11*b11 + a12*b21;
+            tm[7] = a10*b02 + a11*b12 + a12*b22;
+            
+            tm[2] = a20*b00 + a21*b10 + a22*b20;
+            tm[5] = a20*b01 + a21*b11 + a22*b21;
+            tm[8] = a20*b02 + a21*b12 + a22*b22;
+            
+            return this;
+        },
+        
+        /**
+         * ベクトルとの掛け算
+         */
+        multiplyVector2: function(v)
+        {
+            var vx = this.m00*v.x + this.m01*v.y + this.m02;
+<span id='tm-geom-Matrix33-method-multiplyVector2'>            var vy = this.m10*v.x + this.m11*v.y + this.m12;
+</span>            
+            return tm.geom.Vector2(vx, vy);
+        },
+        
+        /**
+         * ベクトルとの掛け算
+         */
+        multiplyVector3: function(v)
+        {
+            var vx = this.m00*v.x + this.m01*v.y + this.m02*v.z;
+<span id='tm-geom-Matrix33-method-multiplyVector3'>            var vy = this.m10*v.x + this.m11*v.y + this.m12*v.z;
+</span>            var vz = this.m20*v.x + this.m21*v.y + this.m22*v.z;
+            
+            return tm.geom.Vector3(vx, vy, vz);
+        },
+        
+        /**
+         * 配列に変換
+         */
+        toArray: function() {
+            return this.m.slice();
+        },
+        
+        /**
+         * 文字列化
+         */
+<span id='tm-geom-Matrix33-method-toArray'>        toString: function() {
+</span>            return &quot;|{m00}, {m01}, {m02}|\n|{m10}, {m11}, {m12}|\n|{m20}, {m21}, {m22}|&quot;.format(this);
+        },
+        
+    });
+<span id='tm-geom-Matrix33-method-toString'>    
+</span>    
+    
+    /**
+     * @property    m00
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;m00&quot;, {
+        &quot;get&quot;: function()   { return this.m[0]; },
+        &quot;set&quot;: function(v)  { this.m[0] = v;    }
+<span id='tm-geom-Matrix33-property-m00'>    });
+</span>    /**
+     * @property    m10
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;m10&quot;, {
+        &quot;get&quot;: function()   { return this.m[1]; },
+        &quot;set&quot;: function(v)  { this.m[1] = v;    }
+    });
+<span id='tm-geom-Matrix33-property-m10'>    /**
+</span>     * @property    m20
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;m20&quot;, {
+        &quot;get&quot;: function()   { return this.m[2]; },
+        &quot;set&quot;: function(v)  { this.m[2] = v;    }
+    });
+    
+<span id='tm-geom-Matrix33-property-m20'>    /**
+</span>     * @property    m01
+     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;m01&quot;, {
+        &quot;get&quot;: function()   { return this.m[3]; },
+        &quot;set&quot;: function(v)  { this.m[3] = v;    }
+    });
+    /**
+<span id='tm-geom-Matrix33-property-m01'>     * @property    m11
+</span>     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;m11&quot;, {
+        &quot;get&quot;: function()   { return this.m[4]; },
+        &quot;set&quot;: function(v)  { this.m[4] = v;    }
+    });
+    /**
+<span id='tm-geom-Matrix33-property-m11'>     * @property    m21
+</span>     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;m21&quot;, {
+        &quot;get&quot;: function()   { return this.m[5]; },
+        &quot;set&quot;: function(v)  { this.m[5] = v;    }
+    });
+    
+    /**
+<span id='tm-geom-Matrix33-property-m21'>     * @property    m02
+</span>     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;m02&quot;, {
+        &quot;get&quot;: function()   { return this.m[6]; },
+        &quot;set&quot;: function(v)  { this.m[6] = v;    }
+    });
+    /**
+<span id='tm-geom-Matrix33-property-m02'>     * @property    m12
+</span>     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;m12&quot;, {
+        &quot;get&quot;: function()   { return this.m[7]; },
+        &quot;set&quot;: function(v)  { this.m[7] = v;    }
+    });
+    /**
+<span id='tm-geom-Matrix33-property-m12'>     * @property    m22
+</span>     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;m22&quot;, {
+        &quot;get&quot;: function()   { return this.m[8]; },
+        &quot;set&quot;: function(v)  { this.m[8] = v;    }
+    });
+
+    /**
+<span id='tm-geom-Matrix33-property-m22'>     * @property    a
+</span>     * 要素
+     */
+    tm.geom.Matrix33.prototype.accessor(&quot;a&quot;, {
+        &quot;get&quot;: function()   { return this.m[0]; },
+        &quot;set&quot;: function(v)  { this.m[0] = v;    }
+    });
+    /**
+     * @property    b
+<span id='tm-geom-Matrix33-property-a'>     * 要素
+</span>     */
+    tm.geom.Matrix33.prototype.accessor(&quot;b&quot;, {
+        &quot;get&quot;: function()   { return this.m[3]; },
+        &quot;set&quot;: function(v)  { this.m[3] = v;    }
+    });
+    /**
+     * @property    c
+     * 要素
+<span id='tm-geom-Matrix33-property-b'>     */
+</span>    tm.geom.Matrix33.prototype.accessor(&quot;c&quot;, {
+        &quot;get&quot;: function()   { return this.m[1]; },
+        &quot;set&quot;: function(v)  { this.m[1] = v;    }
+    });
+    /**
+     * @property    d
+     * 要素
+<span id='tm-geom-Matrix33-property-c'>     */
+</span>    tm.geom.Matrix33.prototype.accessor(&quot;d&quot;, {
+        &quot;get&quot;: function()   { return this.m[4]; },
+        &quot;set&quot;: function(v)  { this.m[4] = v;    }
+    });
+    /**
+     * @property    tx
+     * 要素
+     */
+<span id='tm-geom-Matrix33-property-d'>    tm.geom.Matrix33.prototype.accessor(&quot;tx&quot;, {
+</span>        &quot;get&quot;: function()   { return this.m[6]; },
+        &quot;set&quot;: function(v)  { this.m[6] = v;    }
+    });
+    /**
+     * @property    ty
+     * 要素
+     */
+<span id='tm-geom-Matrix33-property-tx'>    tm.geom.Matrix33.prototype.accessor(&quot;ty&quot;, {
+</span>        &quot;get&quot;: function()   { return this.m[7]; },
+        &quot;set&quot;: function(v)  { this.m[7] = v;    }
+    });
+    
+
+    /**
+     * @static
+     * @method
+     * 移動
+<span id='tm-geom-Matrix33-property-ty'>     */
+</span>    tm.geom.Matrix33.translate = function(x, y) {
+        return tm.geom.Matrix33(
+            1, 0, x,
+            0, 1, y,
+            0, 0, 1
+        );
+    };
+    
+    /**
+     * @static
+     * @method
+<span id='tm-geom-Matrix33-static-method-translate'>     * X軸回転
+</span>     */
+    tm.geom.Matrix33.rotateX = function(rad) {
+        var c = Math.cos(rad);
+        var s = Math.sin(rad);
+        
+        return tm.geom.Matrix33(
+            1, 0, 0,
+            0, c,-s,
+<span id='tm-geom-Matrix33-static-method-rotateX'>            0, s, c
+</span>        );
+    };
+    
+    /**
+     * @static
+     * @method
+     * Y軸回転
+     */
+    tm.geom.Matrix33.rotateY = function(rad) {
+        var c = Math.cos(rad);
+        var s = Math.sin(rad);
+        
+        return tm.geom.Matrix33(
+             c, 0, s,
+             0, 1, 0,
+            -s, 0, c
+<span id='tm-geom-Matrix33-static-method-rotateY'>        );
+</span>    };
+    
+    /**
+     * @static
+     * @method
+     * Z軸回転
+     */
+    tm.geom.Matrix33.rotateZ = function(rad) {
+        var c = Math.cos(rad);
+        var s = Math.sin(rad);
+        
+        return tm.geom.Matrix33(
+            c,-s, 0,
+            s, c, 0,
+            0, 0, 1
+        );
+<span id='tm-geom-Matrix33-static-method-rotateZ'>    };
+</span>    
+    /**
+     * @static
+     * @method
+     * スケーリング
+     */
+    tm.geom.Matrix33.scale = function(x, y) {
+        var mat = tm.geom.Matrix33();
+        
+        if (y == undefined) y = x;
+        
+        mat.set(
+            x, 0, 0,
+            0, y, 0,
+            0, 0, 1
+        );
+<span id='tm-geom-Matrix33-static-method-scale'>        
+</span>        return mat;
+    };
+    
+})();
+
+
+
+
+
+
+
+
+
+</pre>
+</body>
+</html>

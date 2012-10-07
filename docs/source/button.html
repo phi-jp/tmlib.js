@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * button.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+
+
+(function() {
+    
+<span id='tm-app-LabelButton'>    /**
+</span>     * @class
+     * LabelButton
+     */
+    tm.app.LabelButton = tm.createClass({
+        superClass: tm.app.Label,
+        
+        init: function(text) {
+            this.superInit(text);
+            
+            this.alpha = tm.app.LabelButton.DEFAULT_ALPHA;
+            this.setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
+            
+            this.interaction.enabled = true;
+            this.interaction.boundingType = &quot;rect&quot;;
+            
+            this.addEventListener(&quot;pointingover&quot;, function() {
+                this.animation.fade(1.0, 250);
+            });
+            this.addEventListener(&quot;pointingout&quot;, function() {
+                this.animation.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+            });
+            
+            /*
+            var d = this.draw;
+            this.draw = function(canvas) {
+                d.call(this, canvas);
+                this.drawBoundingRect(canvas);
+            }
+            /*
+            */
+        }
+    });
+    
+    tm.app.LabelButton.DEFAULT_ALPHA = 0.5;
+    
+})();
+
+
+(function() {
+    
+<span id='tm-app-IconButton'>    /**
+</span>     * @class
+     * IconButton
+     */
+    tm.app.IconButton = tm.createClass({
+        
+        superClass: tm.app.Sprite,
+        
+<span id='tm-app-IconButton-method-init'>        /**
+</span>         * 初期化
+         */
+        init: function(texture)
+        {
+            if (texture) {
+                this.superInit(texture.width, texture.height, texture);
+            }
+            else {
+                this.superInit();
+            }
+            
+            this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
+            
+            this.interaction.enabled = true;
+            this.interaction.boundingType = &quot;rect&quot;;
+            this.addEventListener(&quot;pointingover&quot;, function() {
+                this.animation.fade(1.0, 250);
+            });
+            this.addEventListener(&quot;pointingout&quot;, function() {
+                this.animation.fade(tm.app.IconButton.DEFAULT_ALPHA, 250);
+            });
+        },
+    });
+    
+    tm.app.IconButton.DEFAULT_ALPHA = 0.5;
+    
+})();
+
+
+(function() {
+    
+    /**
+<span id='tm-app-iPhoneButton'>     * @class
+</span>     * iPhone button
+     */
+    tm.app.iPhoneButton = tm.createClass({
+        superClass: tm.app.Shape,
+        
+        init: function(width, height, backgroundColor, text) {
+            this.superInit(width, height);
+            
+            text  = text  || &quot;Button&quot;;
+            this.backgroundColor = backgroundColor || &quot;black&quot;;
+            this.alpha = tm.app.iPhoneButton.DEFAULT_ALPHA;
+            
+            this.interaction.enabled = true;
+            this.interaction.boundingType = &quot;rect&quot;;
+            this.addEventListener(&quot;pointingover&quot;, function() {
+                this.animation.fade(1.0, 250);
+            });
+            this.addEventListener(&quot;pointingout&quot;, function() {
+                this.animation.fade(tm.app.iPhoneButton.DEFAULT_ALPHA, 250);
+            });
+            
+            // ラベル
+            this.label = tm.app.Label(text || &quot;&quot;).addChildTo(this);
+            this.label.setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
+            
+            this._refresh();
+        },
+        
+        setBackgroundColor: function(backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            
+            this._refresh();
+            
+            return this;
+        },
+        
+        _refresh: function() {
+            // ボタン描画
+            var c = this.canvas;
+            c.resize(this.width, this.height);
+            c.fillStyle = this.backgroundColor;
+            c.fillRoundRect(2, 2, this.width-4, this.height-4, 10);
+            c.strokeStyle   = &quot;rgba(100,100,100,0.75)&quot;;
+            c.lineWidth     = 2;
+            c.strokeRoundRect(2, 2, this.width-4, this.height-4, 10);
+            
+            // テカリ
+            c.roundRect(2, 2, this.width-4, this.height-4, 10);
+            c.clip();
+            
+            var grad = tm.graphics.LinearGradient(0, 0, 0, this.height);
+            
+            // grad.addColorStop(0.0, &quot;hsl(  0, 75%, 50%)&quot;);
+            // grad.addColorStop(0.5, &quot;hsl(120, 75%, 50%)&quot;);
+            // grad.addColorStop(1.0, &quot;hsl(240, 75%, 50%)&quot;);
+            grad.addColorStop(0.0, &quot;rgba(255,255,255,0.9)&quot;);
+            grad.addColorStop(0.5, &quot;rgba(255,255,255,0.5)&quot;);
+            grad.addColorStop(0.51, &quot;rgba(255,255,255,0.2)&quot;);
+            grad.addColorStop(1.0, &quot;rgba(255,255,255,0.0)&quot;);
+            c.setGradient(grad);
+            c.fillRect(2, 2, this.width-4, this.height-4, 10);
+            
+            // ラベルのサイズをリセット
+            this.label.setSize(this.width, this.height);
+        },
+    });
+    
+    
+    tm.app.iPhoneButton.DEFAULT_ALPHA = 0.5;
+    
+    
+})();
+
+
+
+
+
+</pre>
+</body>
+</html>

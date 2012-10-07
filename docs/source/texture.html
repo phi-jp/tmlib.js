@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * texture.js
+ */
+
+tm.graphics = tm.graphics || {};
+
+(function() {
+    
+<span id='tm-graphics-Texture'>    /**
+</span>     * @class
+     * テクスチャクラス
+     */
+    tm.graphics.Texture = tm.createClass({
+        
+        element: null,
+        loaded: false,
+        
+        /**
+<span id='tm-graphics-Texture-method-init'>         * 初期化
+</span>         */
+        init: function(src) {
+            this.element = new Image();
+            this.element.src = src;
+            
+            var self = this;
+            this.element.onload = function() {
+                self.loaded = true;
+            };
+        },
+        
+        getElement: function() {
+            return this.element;
+        },
+        
+    });
+    
+    /**
+<span id='tm-graphics-Texture-property-width'>     * @property    width
+</span>     * 幅
+     */
+    tm.graphics.Texture.prototype.getter(&quot;width&quot;, function() {
+        return this.element.width;
+    });
+    
+    /**
+<span id='tm-graphics-Texture-property-height'>     * @property    height
+</span>     * 高さ
+     */
+    tm.graphics.Texture.prototype.getter(&quot;height&quot;, function() {
+        return this.element.height;
+    });
+    
+})();
+
+(function(){
+    
+    /**
+     * @class
+<span id='tm-graphics-TextureManager'>     * テクスチャマネージャクラス
+</span>     */
+    tm.graphics.TextureManager = {
+        textures: {},
+        loaded: true,
+    };
+    
+    /**
+     * @static
+     * @method
+     * 追加
+     */
+<span id='tm-graphics-TextureManager-static-method-add'>    tm.graphics.TextureManager.add = function(name, src)
+</span>    {
+        if (src === undefined) { src = name; }
+        
+        this.textures[name] = tm.graphics.Texture(src);
+        this.loaded = false;
+    };
+    
+    /**
+     * @static
+     * @method
+     * 取得
+     */
+<span id='tm-graphics-TextureManager-static-method-get'>    tm.graphics.TextureManager.get = function(name)
+</span>    {
+        return this.textures[name];
+    };
+    
+    /**
+     * ロードチェック
+     */
+<span id='tm-graphics-TextureManager-method-isLoaded'>    tm.graphics.TextureManager.isLoaded = function()
+</span>    {
+        for (var key in this.textures) {
+            if (this.textures[key].loaded == false) {
+                return false;
+            }
+        }
+        return true;
+    };
+    
+    tm.addLoadCheckList(tm.graphics.TextureManager);
+    
+})();
+
+
+</pre>
+</body>
+</html>

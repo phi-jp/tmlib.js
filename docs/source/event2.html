@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * event/event.js
+ */
+
+tm.event = tm.event || {};
+
+(function() {
+    
+<span id='tm-event-Event'>    /**
+</span>     * @class
+     * イベントクラス
+     */
+    tm.event.Event = tm.createClass({
+        
+        /**
+<span id='tm-event-Event-property-type'>         * タイプ
+</span>         */
+        type: null,
+        
+        /**
+         * 初期化
+<span id='tm-event-Event-method-init'>         */
+</span>        init: function(type) {
+            this.type = type;
+        },
+        
+    });
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class
+<span id='tm-event-TweenEvent'>     * Tween Event
+</span>     */
+    tm.event.TweenEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, time, now) {
+            this.superInit(type);
+            
+            this.time = time;
+            this.now  = now;
+        }
+        
+    });
+    
+    tm.event.TweenEvent.CHANGE    = &quot;change&quot;;
+    tm.event.TweenEvent.FINISH    = &quot;finish&quot;;
+    tm.event.TweenEvent.LOOP      = &quot;loop&quot;;
+    tm.event.TweenEvent.RESUME    = &quot;resume&quot;;
+    tm.event.TweenEvent.START     = &quot;start&quot;;
+    tm.event.TweenEvent.STOP      = &quot;stop&quot;;
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+<span id='tm-event-MouseEvent'>     * Pointing Event
+</span>     */
+    tm.event.MouseEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, app) {
+            this.superInit(type);
+            
+            this.app = app;
+        }
+        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+<span id='tm-event-TouchEvent'>     * Pointing Event
+</span>     */
+    tm.event.TouchEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, app) {
+            this.superInit(type);
+            
+            this.app = app;
+        }
+        
+    });
+    
+})();
+
+
+
+(function() {
+    
+    /**
+     * @class
+<span id='tm-event-PointingEvent'>     * Pointing Event
+</span>     */
+    tm.event.PointingEvent = tm.createClass({
+        
+        superClass: tm.event.Event,
+        
+        init: function(type, app) {
+            this.superInit(type);
+            
+            this.app = app;
+        }
+        
+    });
+    
+    // tm.event.PointingEvent.CHANGE    = &quot;change&quot;;
+    // tm.event.PointingEvent.FINISH    = &quot;finish&quot;;
+    // tm.event.PointingEvent.LOOP      = &quot;loop&quot;;
+    // tm.event.PointingEvent.RESUME    = &quot;resume&quot;;
+    // tm.event.PointingEvent.START     = &quot;start&quot;;
+    // tm.event.PointingEvent.STOP      = &quot;stop&quot;;
+    
+})();
+
+
+</pre>
+</body>
+</html>

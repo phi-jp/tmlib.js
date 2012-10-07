@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * phi
+ */
+
+
+tm.input = tm.input || {};
+
+
+(function() {
+    
+<span id='tm-input-Mouse'>    /**
+</span>     * @class
+     * マウスクラス
+     */
+    tm.input.Mouse = tm.createClass({
+        
+        
+        element: null,
+        
+        /**
+<span id='tm-input-Mouse-method-init'>         * 初期化
+</span>         */
+        init: function(element) {
+            this.element = element || window.document;
+            
+            this.position       = tm.geom.Vector2(0, 0);
+            this.deltaPosition  = tm.geom.Vector2(0, 0);
+            this.prevPosition   = tm.geom.Vector2(0, 0);
+            
+            var self = this;
+            this.element.addEventListener(&quot;mousemove&quot;, function(e){
+                // 座標更新
+                self._mousemove(e);
+            });
+            this.element.addEventListener(&quot;mousedown&quot;, function(e){
+                self.button |= 1&lt;&lt;e.button;
+            });
+            this.element.addEventListener(&quot;mouseup&quot;, function(e){
+                self.button &amp;= ~(1&lt;&lt;e.button);
+            });
+        },
+        
+        /**
+         * run
+<span id='tm-input-Mouse-method-run'>         * 自動でマウス情報を更新したい際に使用する
+</span>         */
+        run: function(fps) {
+            var self = this;
+            fps = fps || 30;
+            
+            tm.setLoop(function() {
+                self.update();
+            }, 1000/fps);
+            
+            return this;
+        },
+        
+        /**
+         * 情報更新処理
+         * マイフレーム呼んで下さい.
+         */
+<span id='tm-input-Mouse-method-update'>        update: function() {
+</span>            this.last = this.press;
+            
+            this.press = this.button;
+            
+            this.down = (this.press ^ this.last) &amp; this.press;
+            this.up   = (this.press ^ this.last) &amp; this.last;
+            
+            // 変化値を保存
+            this.deltaPosition.setObject(this.position).sub(this.prevPosition);
+            
+            // 前回の座標を保存
+            this.prevPosition.setObject(this.position);
+        },
+        
+        /**
+         * ボタン取得
+         */
+        getButton: function(button) {
+            if (typeof(button) == &quot;string&quot;) {
+<span id='tm-input-Mouse-method-getButton'>                button = BUTTON_MAP[button];
+</span>            }
+            
+            return (this.press &amp; button) != 0;
+        },
+        
+        /**
+         * ボタンダウン取得
+         */
+        getButtonDown: function(button) {
+            if (typeof(button) == &quot;string&quot;) {
+<span id='tm-input-Mouse-method-getButtonDown'>                button = BUTTON_MAP[button];
+</span>            }
+            
+            return (this.down &amp; button) != 0;
+        },
+        
+        /**
+         * ボタンアップ取得
+         */
+        getButtonUp: function(button) {
+            if (typeof(button) == &quot;string&quot;) {
+<span id='tm-input-Mouse-method-getButtonUp'>                button = BUTTON_MAP[button];
+</span>            }
+            
+            return (this.up &amp; button) != 0;
+        },
+        
+        _mousemove: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this.x = e.clientX - rect.left;
+            this.y = e.clientY - rect.top;
+        },
+        
+        _mousemoveNormal: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this.x = e.clientX - rect.left;
+            this.y = e.clientY - rect.top;
+        },
+        
+        _mousemoveScale: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this.x = e.clientX - rect.left;
+            this.y = e.clientY - rect.top;
+            
+            //if (e.target instanceof HTMLCanvasElement) {
+                // スケールを考慮した拡縮
+                if (e.target.style.width) {
+                    this.x *= e.target.width / parseInt(e.target.style.width);
+                }
+                if (e.target.style.height) {
+                    this.y *= e.target.height / parseInt(e.target.style.height);
+                }
+            //}
+        },
+        
+    });
+    
+    
+    tm.input.Mouse.BUTTON_LEFT      = 0x1;
+    tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
+    tm.input.Mouse.BUTTON_RIGHT     = 0x4;
+    
+    var BUTTON_MAP = {
+        &quot;left&quot;  : tm.input.Mouse.BUTTON_LEFT,
+        &quot;middle&quot;: tm.input.Mouse.BUTTON_MIDDLE,
+        &quot;right&quot; : tm.input.Mouse.BUTTON_RIGHT
+    };
+    
+    
+    /**
+     * @property    x
+     * x座標値
+     */
+    tm.input.Mouse.prototype.accessor(&quot;x&quot;, {
+        &quot;get&quot;: function()   { return this.position.x; },
+<span id='tm-input-Mouse-property-x'>        &quot;set&quot;: function(v)  { this.position.x = v; }
+</span>    });
+    
+    /**
+     * @property    y
+     * y座標値
+     */
+    tm.input.Mouse.prototype.accessor(&quot;y&quot;, {
+        &quot;get&quot;: function()   { return this.position.y; },
+<span id='tm-input-Mouse-property-y'>        &quot;set&quot;: function(v)  { this.position.y = v; }
+</span>    });
+    
+    /**
+     * @property    dx
+     * dx値
+     */
+    tm.input.Mouse.prototype.accessor(&quot;dx&quot;, {
+        &quot;get&quot;: function()   { return this.deltaPosition.x; },
+<span id='tm-input-Mouse-property-dx'>        &quot;set&quot;: function(v)  { this.deltaPosition.x = v; }
+</span>    });
+    
+    /**
+     * @property    dy
+     * dy値
+     */
+    tm.input.Mouse.prototype.accessor(&quot;dy&quot;, {
+        &quot;get&quot;: function()   { return this.deltaPosition.y; },
+<span id='tm-input-Mouse-property-dy'>        &quot;set&quot;: function(v)  { this.deltaPosition.y = v; }
+</span>    });
+    
+    
+    /**
+     * @method
+     * ポインティング状態取得(touch との差異対策)
+     */
+    tm.input.Mouse.prototype.getPointing        = function() { return this.getButton(&quot;left&quot;); };
+    /**
+     * @method
+<span id='tm-input-Mouse-method-getPointing'>     * ポインティングを開始したかを取得(touch との差異対策)
+</span>     */
+    tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown(&quot;left&quot;); };
+    /**
+     * @method
+     * ポインティングを終了したかを取得(touch との差異対策)
+     */
+<span id='tm-input-Mouse-method-getPointingStart'>    tm.input.Mouse.prototype.getPointingEnd     = function() { return this.getButtonUp(&quot;left&quot;); };
+</span>    
+    
+})();
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * accelerometer.js
+ */
+
+
+tm.input = tm.input || {};
+
+
+(function() {
+    
+<span id='tm-input-Accelerometer'>    /**
+</span>     * @class
+     * タッチクラス
+     */
+    tm.input.Accelerometer = tm.createClass({
+        
+        /**
+<span id='tm-input-Accelerometer-method-init'>         * @constructs
+</span>         * @see         &lt;a href=&quot;http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html&quot;&gt;Test Program&lt;/a&gt;.
+         * 
+         * ### Reference
+         * - &lt;http://tmlife.net/programming/javascript/javascript-iphone-acceleration.html&gt;
+         * - &lt;http://hidekatsu.com/html5/archives/113&gt;
+         * - &lt;http://d.hatena.ne.jp/nakamura001/20110209/1297229062&gt;
+         * - &lt;http://d.hatena.ne.jp/nakamura001/20101128/1290946966&gt;
+         */
+        init: function(element) {
+            
+            this.gravity        = tm.geom.Vector3(0, 0, 0);
+            this.acceleration   = tm.geom.Vector3(0, 0, 0);
+            this.orientation    = tm.geom.Vector3(0, 0, 0);
+            
+            var self = this;
+            window.addEventListener(&quot;devicemotion&quot;, function(e) {
+                var acceleration = self.acceleration;
+                var gravity = self.gravity;
+                
+                acceleration.x = e.acceleration.x;
+                acceleration.y = e.acceleration.y;
+                acceleration.z = e.acceleration.z;
+                
+                gravity.x = e.accelerationIncludingGravity.x;
+                gravity.y = e.accelerationIncludingGravity.y;
+                gravity.z = e.accelerationIncludingGravity.z;
+            });
+            
+            window.addEventListener(&quot;deviceorientation&quot;, function(e) {
+                var orientation = self.orientation;
+                orientation.alpha   = e.alpha;  // z(0~360)
+                orientation.beta    = e.beta;   // x(-180~180)
+                orientation.gamma   = e.gamma;  // y(-90~90)
+            });
+        },
+        
+    });
+    
+})();
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * label.js
+ */
+
+tm.app = tm.app || {};
+
+
+(function() {
+    
+<span id='tm-app-Label'>    /**
+</span>     * @class
+     * Label
+     */
+    tm.app.Label = tm.createClass({
+        
+        superClass: tm.app.CanvasElement,
+        
+<span id='tm-app-Label-property-fill'>        /**
+</span>         * 塗りつぶしフラグ
+         */
+        fill: true,
+        /**
+<span id='tm-app-Label-property-stroke'>         * ストロークフラグ
+</span>         */
+        stroke: false,
+        debugBox: false,
+        
+        /**
+         * 初期化
+         */
+<span id='tm-app-Label-method-init'>        init: function(text, size) {
+</span>            this.superInit();
+            
+            this.text       = text || &quot;HOGE&quot;;
+            this.fontSize   = size || 24;
+            this.fontFamily = &quot;'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;;
+            this.align      = &quot;start&quot;;
+            this.baseline   = &quot;alphabetic&quot;;
+        },
+        
+        /**
+         * 描画
+         */
+<span id='tm-app-Label-method-draw'>        draw: function(canvas) {
+</span>            canvas.setText(this.fontStyle, this.align, this.baseline);
+            if (this.fill) {
+                canvas.fillText(this.text, 0, 0, this.width);
+            }
+            if (this.stroke) {
+                canvas.strokeText(this.text, 0, 0, this.width);
+            }
+            
+            if (this.debugBox) {
+                canvas.strokeRect(0, 0, this.width, -this.size);
+            }
+        },
+        
+        setAlign: function(align) {
+            this.align = align;
+            return this;
+        },
+        
+        setBaseline: function(baseline) {
+            this.baseline = baseline;
+            return this;
+        },
+        
+        setFontSize: function(size) {
+            this.fontSize = size;
+            return this;
+        },
+        
+        setFontFamily: function(family) {
+            this.fontFamily= family;
+            return this;
+        },
+        
+        _updateFont: function() {
+            this.fontStyle = &quot;{fontSize}px {fontFamily}&quot;.format(this);
+        }
+        
+    });
+    
+    
+        
+    /**
+     * @property    size
+     * サイズ
+     */
+<span id='tm-app-Label-property-size'>    tm.app.Label.prototype.accessor(&quot;fontSize&quot;, {
+</span>        &quot;get&quot;: function() { return this._fontSize; },
+        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
+    });
+    
+    /**
+     * @property    font
+     * フォント
+     */
+<span id='tm-app-Label-property-font'>    tm.app.Label.prototype.accessor(&quot;fontFamily&quot;, {
+</span>        &quot;get&quot;: function() { return this._fontFamily; },
+        &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
+    });
+    
+})();
+
+</pre>
+</body>
+</html>

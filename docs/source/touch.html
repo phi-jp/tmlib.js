@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * phi
+ */
+
+
+tm.input = tm.input || {};
+
+
+(function() {
+    
+<span id='tm-input-Touch'>    /**
+</span>     * @class
+     * タッチクラス
+     */
+    tm.input.Touch = tm.createClass({
+        
+        element: null,
+        touched: false,
+        
+        /**
+<span id='tm-input-Touch-method-init'>         * @constructs
+</span>         * @see         &lt;a href=&quot;http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html&quot;&gt;Test Program&lt;/a&gt;.
+         */
+        init: function(element) {
+            this.element = element || window.document;
+            
+            this.position       = tm.geom.Vector2(0, 0);
+            this.deltaPosition  = tm.geom.Vector2(0, 0);
+            this.prevPosition   = tm.geom.Vector2(0, 0);
+            
+            var self = this;
+            this.element.addEventListener(&quot;touchstart&quot;, function(e){
+                self._touchmove(e);
+                self.touched = true;
+            });
+            this.element.addEventListener(&quot;touchend&quot;, function(e){
+                self.touched = false;
+            });
+            this.element.addEventListener(&quot;touchmove&quot;, function(e){
+                self._touchmove(e);
+                // 画面移動を止める
+                e.stop();
+            });
+        },
+        
+        /**
+         * run.
+<span id='tm-input-Touch-method-run'>         * 自動でマウス情報を更新したい際に使用する
+</span>         */
+        run: function(fps) {
+            var self = this;
+            fps = fps || 30;
+            
+            tm.setLoop(function() {
+                
+                self.update();
+                
+            }, 1000/fps);
+            
+            return this;
+        },
+        
+        /**
+         * 情報更新処理
+         * マイフレーム呼んで下さい.
+         */
+<span id='tm-input-Touch-method-update'>        update: function() {
+</span>            this.last   = this.now;
+            this.now    = this.touched;
+            
+            this.start  = (this.now ^ this.last) &amp; this.now;
+            this.end    = (this.now ^ this.last) &amp; this.last;
+            
+            // 変化値を保存
+            this.deltaPosition.setObject(this.position).sub(this.prevPosition);
+            
+            // 前回の座標を保存
+            this.prevPosition.setObject(this.position);
+        },
+        
+        /**
+         * タッチしているかを判定
+         */
+        getTouch: function() {
+            return this.touched != 0;
+        },
+        
+<span id='tm-input-Touch-method-getTouch'>        /**
+</span>         * タッチ開始時に true
+         */
+        getTouchStart: function() {
+            return this.start != 0;
+        },
+        
+        /**
+<span id='tm-input-Touch-method-getTouchStart'>         * タッチ終了時に true
+</span>         */
+        getTouchEnd: function() {
+            return this.end != 0;
+        },
+        
+        _touchmove: function(e) {
+<span id='tm-input-Touch-method-getTouchEnd'>            var t = e.touches[0];
+</span>            this.x = t.pageX;
+            this.y = t.pageY;
+        },
+        
+        _touchmoveScale: function(e) {
+            var t = e.touches[0];
+            this.x = t.pageX;
+            this.y = t.pageY;
+            
+            if (e.target.style.width) {
+                this.x *= e.target.width / parseInt(e.target.style.width);
+            }
+            if (e.target.style.height) {
+                this.y *= e.target.height / parseInt(e.target.style.height);
+            }
+        },
+        
+    });
+    
+    
+
+    /**
+     * @property    x
+     * x座標値
+     */
+    tm.input.Touch.prototype.accessor(&quot;x&quot;, {
+        &quot;get&quot;: function()   { return this.position.x; },
+<span id='tm-input-Touch-property-x'>        &quot;set&quot;: function(v)  { this.position.x = v; }
+</span>    });
+    
+    /**
+     * @property    y
+     * y座標値
+     */
+    tm.input.Touch.prototype.accessor(&quot;y&quot;, {
+        &quot;get&quot;: function()   { return this.position.y; },
+<span id='tm-input-Touch-property-y'>        &quot;set&quot;: function(v)  { this.position.y = v; }
+</span>    });
+    
+    /**
+     * @property    dx
+     * dx値
+     */
+    tm.input.Touch.prototype.accessor(&quot;dx&quot;, {
+        &quot;get&quot;: function()   { return this.deltaPosition.x; },
+<span id='tm-input-Touch-property-dx'>        &quot;set&quot;: function(v)  { this.deltaPosition.x = v; }
+</span>    });
+    
+    /**
+     * @property    dy
+     * dy値
+     */
+    tm.input.Touch.prototype.accessor(&quot;dy&quot;, {
+        &quot;get&quot;: function()   { return this.deltaPosition.y; },
+<span id='tm-input-Touch-property-dy'>        &quot;set&quot;: function(v)  { this.deltaPosition.y = v; }
+</span>    });
+    
+    
+    
+    /**
+     * @method
+     * ポインティング状態取得(mouse との差異対策)
+     */
+    tm.input.Touch.prototype.getPointing        = tm.input.Touch.prototype.getTouch;
+    /**
+     * @method
+<span id='tm-input-Touch-method-getPointing'>     * ポインティングを開始したかを取得(mouse との差異対策)
+</span>     */
+    tm.input.Touch.prototype.getPointingStart   = tm.input.Touch.prototype.getTouchStart;
+    /**
+     * @method
+     * ポインティングを終了したかを取得(mouse との差異対策)
+     */
+<span id='tm-input-Touch-method-getPointingStart'>    tm.input.Touch.prototype.getPointingEnd     = tm.input.Touch.prototype.getTouchEnd;
+</span>    
+})();
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * color.js
+ */
+
+/*
+ * 
+ */
+tm.graphics = tm.graphics || {};
+
+(function() {
+    
+<span id='tm-graphics-Color'>    /**
+</span>     * @class   カラークラス
+     */
+    tm.graphics.Color = tm.createClass({
+        
+        /**
+<span id='tm-graphics-Color-property-r'>         * R値
+</span>         */
+        r: 255,
+        
+        /**
+<span id='tm-graphics-Color-property-g'>         * G値
+</span>         */
+        g: 255,
+        
+        /**
+<span id='tm-graphics-Color-property-b'>         * B値
+</span>         */
+        b: 255,
+        
+        /**
+         * A値
+<span id='tm-graphics-Color-property-a'>         */
+</span>        a: 1.0,
+        
+        /**
+<span id='tm-graphics-Color-method-constructor'>         * @constructor
+</span>         * 初期化
+         */
+        init: function(r, g, b, a) {
+            
+            this.canvas             = canvas || document.createElement(&quot;canvas&quot;);
+            this.context            = this.canvas.getContext(&quot;2d&quot;);
+            this.context.lineCap    = &quot;round&quot;;
+            this.context.lineJoin   = &quot;round&quot;;
+        },
+        
+        /**
+<span id='tm-graphics-Color-method-toCSSValue'>         * CSS 用 RGBA 文字列に変換
+</span>         */
+        toCSSValue: function() {
+            return &quot;rgba({r},{g},{b},{a})&quot;.format(this);
+        },
+        
+    });
+    
+})();
+</pre>
+</body>
+</html>

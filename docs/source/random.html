@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * random.js
+ */
+
+tm.util = tm.util || {};
+
+(function() {
+    
+<span id='tm-util-Random'>    /**
+</span>     * @class
+     * ランダムクラス
+     * ## Reference
+     * - &lt;http://www.python.jp/doc/2.5/lib/module-random.html&gt;
+     * - &lt;http://www.yukun.info/blog/2008/06/python-random.html&gt;
+     * - &lt;http://www.python-izm.com/contents/application/random.shtml&gt;
+     * - &lt;http://libcinder.org/docs/v0.8.3/classcinder_1_1_rand.html&gt;
+     * - &lt;http://libcinder.org/docs/v0.8.3/_rand_8h_source.html&gt;
+     */
+    tm.util.Random = {
+        
+        /**
+<span id='tm-util-Random-method-randint'>         * Dummy
+</span>         */
+        randint: function(min, max) {
+            return window.Math.floor( Math.random()*(max-min+1) ) + min;
+        },
+        
+        /**
+<span id='tm-util-Random-method-randfloat'>         * Dummy
+</span>         */
+        randfloat: function(min, max) {
+            return window.Math.random()*(max-min)+min;
+        },
+        
+        /**
+<span id='tm-util-Random-method-randbool'>         * Dummy
+</span>         */
+        randbool: function() {
+            return this.randint(0, 1) === 1;
+        },
+    };
+    
+})();
+</pre>
+</body>
+</html>

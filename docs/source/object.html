@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * object.js
+ */
+
+(function() {
+    
+<span id='Object'>    /**
+</span>     * @class Object
+     * オブジェクト
+     */
+    
+    /**
+<span id='Object-method-defineVariable'>     * @method defineVariable
+</span>     * 変数を追加
+     * @param   {String} key name
+     * @param   {Object} param
+     */
+    Object.defineProperty(Object.prototype, &quot;defineVariable&quot;, {
+        value: function(name, val) {
+            Object.defineProperty(this, name, {
+                value: val,
+                enumerable: true
+            });
+        }
+    });
+    
+    /**
+<span id='Object-method-defineFunction'>     * @method defineFunction
+</span>     * 関数を追加
+     * @param   {String} key name
+     * @param   {Function} function
+     */
+    Object.defineProperty(Object.prototype, &quot;defineFunction&quot;, {
+        value: function(name, fn) {
+            Object.defineProperty(this, name, {
+                value: fn,
+                enumerable: false
+            });
+        }
+    });
+    
+    
+    Object.prototype.defineFunction(&quot;defineInstanceVariable&quot;, function(name, val){
+        Object.defineProperty(this.prototype, name, {
+            value: val,
+            enumerable: true
+        });
+    });
+    
+    Object.prototype.defineFunction(&quot;defineInstanceMethod&quot;, function(name, fn){
+        Object.defineProperty(this.prototype, name, {
+            value: fn,
+            enumerable: false
+        });
+    });
+    
+    Object.defineInstanceMethod(&quot;setter&quot;, function(name, fn){
+        Object.defineProperty(this, name, {
+            set: fn,
+            enumerable: false
+        });
+        // this.__defineSetter__(name, fn);
+    });
+    
+    Object.defineInstanceMethod(&quot;getter&quot;, function(name, fn){
+        Object.defineProperty(this, name, {
+            get: fn,
+            enumerable: false
+        });
+        // this.__defineGetter__(name, fn);
+    });
+    
+    Object.defineInstanceMethod(&quot;accessor&quot;, function(name, param)
+    {
+        Object.defineProperty(this, name, {
+            set: param[&quot;set&quot;],
+            get: param[&quot;get&quot;],
+            enumerable: false
+        });
+        // (param[&quot;get&quot;]) &amp;&amp; this.getter(name, param[&quot;get&quot;]);
+        // (param[&quot;set&quot;]) &amp;&amp; this.setter(name, param[&quot;set&quot;]);
+    });
+    
+    Object.defineInstanceMethod(&quot;extend&quot;, function() {
+        for (var i=0,len=arguments.length; i&lt;len; ++i) {
+            var source = arguments[i];
+            for (var property in source) {
+                this[property] = source[property];
+            }
+        }
+        return this;
+    });
+    
+    /**
+     * @method  extendSafe
+<span id='Object-method-extendSafe'>     * 安全拡張
+</span>     * 上書きしない
+     */
+    Object.defineInstanceMethod(&quot;extendSafe&quot;, function(source) {
+        for (var property in source) {
+            if (!this[property]) {
+                this[property] = source[property];
+            }
+        }
+        return this;
+    });
+    
+    
+    /**
+     * @method  extendStrict
+     * 厳格拡張
+<span id='Object-method-extendStrict'>     * すでにあった場合は警告
+</span>     */
+    Object.defineInstanceMethod(&quot;extendStrict&quot;, function(source) {
+        for (var property in source) {
+            console.assert(!this[property], &quot;TM Error: {0} is Already&quot;.format(property));
+            this[property] = source[property];
+        }
+        
+        return this;
+    });
+    
+    if (window) {
+        /**
+         * @method  globalize
+         * グローバル化
+         */
+<span id='Object-method-globalize'>        Object.defineInstanceMethod(&quot;globalize&quot;, function(key) {
+</span>            if (key) {
+                window[key] = this[key];
+            }
+            else {
+                window.extendStrict(this);
+            }
+            return this;
+        });
+    }
+    
+    
+    
+})();
+
+</pre>
+</body>
+</html>

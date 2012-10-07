@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * file.js
+ */
+
+tm.util = tm.util || {};
+
+(function() {
+    
+    tm.util.File = tm.createClass({
+        
+        init: function(params) {
+            this.loaded = false;
+            if (arguments.length == 1) {
+                this.loadFile(params);
+            }
+        },
+        
+        loadFile: function(params) {
+            if (typeof params == &quot;string&quot;) {
+                var url = params;
+                params = { url: url, };
+            }
+            
+            var self = this;
+            params.success = function(data) {
+                self.loaded = true;
+                self.data = data;
+            };
+            tm.util.Ajax.load(params);
+        },
+        
+        loadLocalStorage: function() {
+            
+        },
+        
+    });
+    
+    
+})();
+
+
+
+(function() {
+    
+<span id='tm-util-FileManager'>    /**
+</span>     * @class
+     * ファイルマネージャ
+     */
+    tm.util.FileManager = {
+        files: {}
+    };
+    
+    tm.util.FileManager.load = function(key, params)
+    {
+        var file = tm.util.File(params);
+        this.files[key] = file;
+        return file;
+    };
+    
+    tm.util.FileManager.get = function(key) {
+        return this.files[key];
+    };
+    
+    /**
+<span id='tm-util-FileManager-static-method-isLoaded'>     * @static
+</span>     * @method  isLoaded
+     * ロードチェック
+     */
+    tm.util.FileManager.isLoaded = function()
+    {
+        for (var key in this.files) {
+            var file = this.files[key];
+            
+            if (file.loaded == false) {
+                return false;
+            }
+        }
+        return true;
+    };
+    
+    tm.addLoadCheckList(tm.util.FileManager);
+    
+})();</pre>
+</body>
+</html>

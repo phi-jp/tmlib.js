@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * scene.js
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+<span id='tm-app-Scene'>    /**
+</span>     * @class
+     * シーンとして使用するゲームエレメントクラス
+     */
+    tm.app.Scene = tm.createClass({
+        
+        superClass: tm.app.CanvasElement,
+        
+        /**
+         * 初期化
+         */
+<span id='tm-app-Scene-method-init'>        init: function() {
+</span>            this.superInit();
+            
+            // タッチに反応させる
+            this.interaction.enabled = true;
+            this.interaction.boundingType = &quot;none&quot;;
+        },
+    });
+    
+    tm.app.StartScene = tm.createClass({
+        
+        superClass: tm.app.Scene,
+        
+        init: function() {
+            this.superInit();
+            
+        },
+        
+        onenter: function(e) {
+            var label = tm.app.Label(&quot;Start&quot;);
+            label.x = e.app.canvas.width/2;
+            label.y = e.app.canvas.height/2;
+            label.width = e.app.canvas.width;
+            label.align     = &quot;center&quot;;
+            label.baseline  = &quot;middle&quot;;
+            this.addChild(label);
+            
+            // 幅高さをセット
+            this.width  = e.app.canvas.width;
+            this.height = e.app.canvas.height;
+            
+            this.app = e.app;
+        },
+    });
+    
+    
+    tm.app.EndScene = tm.createClass({
+        
+        superClass: tm.app.Scene,
+        
+        init: function() {
+            this.superInit();
+        },
+        
+        onenter: function(e) {
+            var label = tm.app.Label(&quot;end&quot;);
+            label.x = e.app.canvas.width/2;
+            label.y = e.app.canvas.height/2;
+            label.width = e.app.canvas.width;
+            label.align     = &quot;center&quot;;
+            label.baseline  = &quot;middle&quot;;
+            this.addChild(label);
+            
+            // 幅高さをセット
+            this.width  = e.app.canvas.width;
+            this.height = e.app.canvas.height;
+            
+            this.app = e.app;
+        },
+    });
+    
+})();
+</pre>
+</body>
+</html>

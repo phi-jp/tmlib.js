@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * anim.js
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+<span id='tm-app-Animation'>    /**
+</span>     * @class
+     * アニメーションクラス
+     */
+    tm.app.Animation = tm.createClass({
+        
+        isAnimation: false,
+        
+        /**
+         * 初期化
+<span id='tm-app-Animation-method-init'>         */
+</span>        init: function(elm) {
+            this.element    = elm;
+            this.tweens     = [];
+        },
+        
+        /**
+         * @method
+<span id='tm-app-Animation-method-update'>         * 更新
+</span>         */
+        update: function(app) {
+            var tweens = this.tweens.clone();
+            for (var i=0,len=tweens.length; i&lt;len; ++i) {
+                var tween = tweens[i];
+                
+                // 待ちチェック
+                if (tween.delay &gt; 0) {
+                    tween.delay -= 1000/app.fps;
+                    continue;
+                }
+                
+                var time = tween.time + 1000/app.fps;
+                tween._setTime(time);
+                
+                if (tween.time &gt;= tween.duration) {
+                    // 削除
+                    this.tweens.erase(tween);
+                    
+                    // 全てのアニメーション終了チェック
+                    if (this.tweens.length &lt;= 0) {
+                        this.isAnimation = false;
+                        var e = tm.event.Event(&quot;animationend&quot;);
+                        this.element.dispatchEvent(e);
+                    }
+                }
+                else {
+                    tween.update();
+                }
+            }
+        },
+        
+        addTween: function(param)
+        {
+            if (!param.target) param.target = this.element;
+            
+            var tween = tm.anim.Tween(param);
+            tween.delay = param.delay || 0;
+            this.tweens.push(tween);
+            
+            if (this.isAnimation == false) {
+                this.isAnimation = true;
+                var e = tm.event.Event(&quot;animationstart&quot;);
+                this.element.dispatchEvent(e);
+            }
+            
+            return tween;
+        },
+        
+        addTweens: function(args)
+        {
+            for (var i=0,len=arguments.length; i&lt;len; ++i) {
+                var param = arguments[i];
+                this.addTween(param);
+            }
+            
+            return this;
+        },
+        
+        fade: function(value, duration) {
+            duration = (duration !== undefined) ? duration : 1000;
+            
+            this.addTween({
+                prop: &quot;alpha&quot;,
+                begin: this.element.alpha,
+                finish: value,
+                duration: duration,
+            });
+            return this;
+        },
+        
+        move: function(x, y, duration, fn)
+        {
+            duration = (duration !== undefined) ? duration : 1000;
+            fn       = fn || &quot;linear&quot;;
+            
+            this.addTween({
+                prop: &quot;x&quot;,
+                begin: this.element.x,
+                finish: this.element.x + x,
+                duration: duration,
+                func: fn,
+            });
+            this.addTween({
+                prop: &quot;y&quot;,
+                begin: this.element.y,
+                finish: this.element.y + y,
+                duration: duration,
+                func: fn,
+            });
+            
+            return this;
+        },
+        
+        moveTo: function(x, y, duration, fn)
+        {
+            duration = (duration !== undefined) ? duration : 1000;
+            fn       = fn || &quot;linear&quot;;
+            
+            this.addTween({
+                prop: &quot;x&quot;,
+                begin: this.element.x,
+                finish: x,
+                duration: duration,
+                func: fn,
+            });
+            this.addTween({
+                prop: &quot;y&quot;,
+                begin: this.element.y,
+                finish: y,
+                duration: duration,
+                func: fn,
+            });
+            
+            return this;
+        },
+        
+        scale: function(value, duration)
+        {
+            duration = (duration !== undefined) ? duration : 1000;
+            
+            this.addTween({
+                prop: &quot;scaleX&quot;,
+                begin: this.element.scaleX,
+                finish: value,
+                duration: duration,
+            });
+            this.addTween({
+                prop: &quot;scaleY&quot;,
+                begin: this.element.scaleY,
+                finish: value,
+                duration: duration,
+            });
+            
+            return this;
+        },
+        
+        fadeIn: function(duration)
+        {
+            return this.fade(1.0, duration);
+        },
+        
+        fadeOut: function(duration)
+        {
+            return this.fade(0.0, duration);
+        },
+        
+        clear: function() {
+            this.tweens = [];
+            return this;
+        },
+    });
+    
+    
+    /**
+     * @property    animation
+     * アニメーション
+     */
+<span id='tm-app-Animation-property-animation'>    tm.app.Element.prototype.getter(&quot;animation&quot;, function() {
+</span>        if (!this._animation) {
+            this._animation = tm.app.Animation(this);
+            this.addEventListener(&quot;enterframe&quot;, function(e){
+                this._animation.update(e.app);
+            });
+        }
+        
+        return this._animation;
+    });
+    
+})();
+
+
+
+</pre>
+</body>
+</html>

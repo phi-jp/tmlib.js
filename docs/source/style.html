@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * style.js
+ */
+
+tm.dom = tm.dom || {};
+
+
+
+(function(){
+    
+<span id='tm-dom-Style'>    /**
+</span>     * @class
+     * スタイル
+     */
+    tm.dom.Style = tm.createClass({
+        
+        element: null,
+        
+        /**
+<span id='tm-dom-Style-method-init'>         * 初期化
+</span>         */
+        init: function(element) {
+            this.element = element;
+        },
+        
+        /**
+<span id='tm-dom-Style-method-set'>         * セット
+</span>         */
+        set: function(name, value) {
+            this.element.style[name] = value;
+            return this;
+        },
+        
+        /**
+         * 削除
+<span id='tm-dom-Style-method-remove'>         */
+</span>        remove: function(name) {
+            this.element.style.removeProperty(name);
+            // delete this.element.style[name];
+            return this;
+        },
+        
+        /**
+         * クリア
+<span id='tm-dom-Style-method-clear'>         */
+</span>        clear: function(name) {
+            
+            return this;
+        },
+        
+        /**
+         * 取得
+         */
+<span id='tm-dom-Style-method-get'>        get: function(name) {
+</span>            return this.element.style[name];
+        },
+        
+        /**
+         * CSS の値も考慮した上での値を取得
+<span id='tm-dom-Style-method-getPropValue'>         */
+</span>        getPropValue: function(prop_name) {
+            return document.defaultView.getComputedStyle(this.element, '').getPropertyValue(prop_name);
+        },
+    });
+    
+    /**
+     * スタイルクラス
+     * @property    style
+     */
+<span id='tm-dom-Style-property-style'>    tm.dom.Element.prototype.getter(&quot;style&quot;, function(){
+</span>        return this._style || ( this._style = tm.dom.Style(this.element) );
+    });
+    
+})();
+
+</pre>
+</body>
+</html>

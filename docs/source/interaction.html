@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * interactive.js
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+<span id='tm-app-Interaction'>    /**
+</span>     * @class
+     * インタラクティブクラス
+     */
+    tm.app.Interaction = tm.createClass({
+        
+        hitFlag: false,
+        downFlag: false,
+        enabled: true,
+        hitTestFunc: null,
+        
+        _boundingType: &quot;circle&quot;,
+        
+        init: function(element) {
+            this.element = element;
+            this.setBoundingType(&quot;circle&quot;);
+        },
+        
+        update: function(app) {
+            if (this.enabled === false) return ;
+            
+            var elm = this.element;
+            var p   = app.pointing;
+            
+            var prevHitFlag = this.hitFlag;
+            
+            this.hitFlag    = this.hitTestFunc.call(elm, p.x, p.y);
+            
+            
+            if (!prevHitFlag &amp;&amp; this.hitFlag) {
+                elm.dispatchEvent( tm.event.MouseEvent(&quot;mouseover&quot;, app) );
+                elm.dispatchEvent( tm.event.TouchEvent(&quot;touchover&quot;, app) );
+                elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingover&quot;, app) );
+            }
+            
+            if (prevHitFlag &amp;&amp; !this.hitFlag) {
+                elm.dispatchEvent( tm.event.MouseEvent(&quot;mouseout&quot;, app) );
+                elm.dispatchEvent( tm.event.TouchEvent(&quot;touchout&quot;, app) );
+                elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingout&quot;, app) );
+            }
+            
+            if (this.hitFlag) {
+                if (p.getPointingStart()) {
+                    elm.dispatchEvent( tm.event.MouseEvent(&quot;mousedown&quot;, app) );
+                    elm.dispatchEvent( tm.event.TouchEvent(&quot;touchstart&quot;, app) );
+                    elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingstart&quot;, app) );
+                    this.downFlag = true;
+                }
+            }
+            
+            if (this.downFlag) {
+                elm.dispatchEvent( tm.event.MouseEvent(&quot;mousemove&quot;, app) );
+                elm.dispatchEvent( tm.event.TouchEvent(&quot;touchmove&quot;, app) );
+                elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingmove&quot;, app) );
+            }
+            
+            if (this.downFlag==true &amp;&amp; p.getPointingEnd()) {
+                elm.dispatchEvent( tm.event.MouseEvent(&quot;mouseup&quot;, app) );
+                elm.dispatchEvent( tm.event.TouchEvent(&quot;touchend&quot;, app) );
+                elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingend&quot;, app) );
+                this.downFlag = false;
+            }
+        },
+        
+        setBoundingType: function(type) { this.boundingType = type; },
+        
+        _setHitTestFunc: function() {
+            if (this.boundingType == &quot;rect&quot;) {
+                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRectHierarchy;
+            }
+            else if (this.boundingType == &quot;circle&quot;) {
+                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircleHierarchy;
+            }
+            else {
+                this.hitTestFunc = function() { return true };
+            }
+            return this;
+        },
+        
+    });
+    
+    /**
+<span id='tm-app-Interaction-property-boundingType'>     * @property    boundingType
+</span>     * バウンディングタイプ
+     */
+    tm.app.Interaction.prototype.accessor(&quot;boundingType&quot;, {
+        &quot;get&quot;: function()   { return this._boundingType; },
+        &quot;set&quot;: function(v)  { this._boundingType = v; this._setHitTestFunc(); }
+    });
+    
+    
+    /**
+     * @member      tm.app.Element
+<span id='tm-app-Element-property-interaction'>     * @property    interaction
+</span>     * インタラクション
+     */
+    tm.app.Element.prototype.getter(&quot;interaction&quot;, function() {
+        if (!this._interaction) {
+            this._interaction = tm.app.Interaction(this);
+            this.addEventListener(&quot;enterframe&quot;, function(e){
+                this._interaction.update(e.app);
+            });
+        }
+        
+        return this._interaction;
+    });
+    
+})();
+
+
+
+
+
+
+</pre>
+</body>
+</html>

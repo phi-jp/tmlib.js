@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * math.js
+ */
+
+
+(function() {
+    
+<span id='Math'>    /**
+</span>     * @class Math
+     * 数学
+     */
+    
+    /**
+<span id='Math-method-clamp'>     * クランプ
+</span>     */
+    Math.clamp = function(x, a, b) {
+        return (x &lt; a) ? a : ( (x &gt; b) ? b : x );
+    };
+    
+    /**
+<span id='Math-property-DEG_TO_RAD'>     * @property    DEG_TO_RAD
+</span>     * Degree to Radian.
+     */
+    Math.DEG_TO_RAD = Math.PI/180;
+    
+    
+    /**
+<span id='Math-property-RAD_TO_DEG'>     * @property    RAD_TO_DEG
+</span>     * Radian to Degree.
+     */
+    Math.RAD_TO_DEG = 180/Math.PI;
+    
+    /**
+<span id='Math-method-degToRad'>     * @method
+</span>     * Degree を Radian に変換
+     */
+    Math.degToRad = function(deg) {
+        return deg * Math.DEG_TO_RAD;
+    };
+    
+    /**
+     * @method
+<span id='Math-method-radToDeg'>     * Radian を Degree に変換
+</span>     */
+    Math.radToDeg = function(rad) {
+        return rad * Math.RAD_TO_DEG;
+    };
+    
+    
+    
+    /**
+     * @method
+<span id='Math-method-rand'>     * ランダムな値を指定された範囲内で生成
+</span>     */
+    Math.rand = function(min, max) {
+        return window.Math.floor( Math.random()*(max-min+1) ) + min;
+    };
+    
+    /**
+     * @method
+     * ランダムな値を指定された範囲内で生成
+     */
+<span id='Math-method-randf'>    Math.randf= function(min, max) {
+</span>        return window.Math.random()*(max-min)+min;
+    };
+
+    /**
+     * @method
+     * 長さを取得
+     */
+    Math.magnitude = function() {
+<span id='Math-method-magnitude'>        return Math.sqrt(Math.magnitudeSq.apply(null, arguments));
+</span>    };
+    
+    
+    /**
+     * @method
+     * 長さの２乗を取得
+     */
+    Math.magnitudeSq = function() {
+        var n = 0;
+        
+<span id='Math-method-magnitudeSq'>        for (var i=0,len=arguments.length; i&lt;len; ++i) {
+</span>            n += arguments[i]*arguments[i];
+        }
+        
+        return n;
+    };
+    
+})();
+
+</pre>
+</body>
+</html>

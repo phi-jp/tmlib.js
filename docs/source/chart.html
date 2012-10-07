@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * chart.js
+ */
+
+tm.google = tm.google || {};
+
+
+(function() {
+    
+<span id='tm-google-Chart'>    /**
+</span>     * @class
+     * チャートネームスペース
+     */
+    tm.google.Chart = tm.google.Chart || {};
+    
+    var DYNAMIC_ICONS_BASE_URL  = &quot;https://chart.googleapis.com/chart?chst={type}&amp;chld={data}&quot;;
+    var QR_CODE_BASE_URL        = &quot;https://chart.googleapis.com/chart?chs={size}&amp;cht={type}&amp;chl={text}&amp;chco={color}&quot;;
+    
+    /**
+     * ダイナミックアイコン
+<span id='tm-google-Chart-method-createDynamicIcons'>     * @param {string}  type    d_bubble_text_small OR d_fnote_title OR chst=d_fnote etc...
+</span>     * @param {string}  data    
+     * ### Example
+     *      tm.google.Chart.createDynamicIcons(&quot;d_bubble_icon_text_small&quot;, &quot;ski|bb|Hello, world!|FFFFFF|000000&quot;);
+     *      tm.google.Chart.createDynamicIcons(&quot;d_fnote&quot;, &quot;balloon|1|000000|l|Hello, world!&quot;);
+     *      tm.google.Chart.createDynamicIcons(&quot;d_fnote&quot;, &quot;pinned_c|1|000000|l|Hello, world!&quot;);
+     *      tm.google.Chart.createDynamicIcons(&quot;d_weather&quot;, &quot;taped_y|sunny|Barcelona|max+25°C|min+15°C&quot;);
+     *      tm.google.Chart.createDynamicIcons(&quot;d_simple_text_icon_left&quot;, &quot;flag_jp|14|000|flag_jp|24|000|FFF&quot;);
+     */
+    tm.google.Chart.createDynamicIcons = function(type, data) {
+        // data = encodeURIComponent(data);
+        return DYNAMIC_ICONS_BASE_URL.format({
+            type:type,
+            data:data
+        });
+    };
+    
+    /**
+     * QRCode 生成
+<span id='tm-google-Chart-method-createQRCode'>     * @param {Object} prop
+</span>     * ### Reference
+     * - &lt;https://developers.google.com/chart/?hl=ja#qrcodes&gt;
+     * - &lt;https://developers.google.com/chart/infographics/?hl=ja&gt;
+     * - &lt;https://google-developers.appspot.com/chart/infographics/docs/overview&gt;
+     * ### Example
+     *      tm.google.Chart.createQRCode(&quot;160x160&quot;, &quot;http://tmlife.net&quot;);
+     *      tm.google.Chart.createQRCode(&quot;160x160&quot;, &quot;Hello, world&quot;);
+     */
+    tm.google.Chart.createQRCode = function(size, text, color) {
+        text = encodeURIComponent(text);
+        
+        return QR_CODE_BASE_URL.format({
+            type:&quot;qr&quot;,
+            size:size,
+            text:text,
+        });
+    };
+    
+    /**
+     * Tex 生成
+     */
+<span id='tm-google-Chart-method-createTeX'>    tm.google.Chart.createTeX = function() {
+</span>        //&amp;chco=ff0000ff
+    };
+    
+})();
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * collision.js
+ */
+
+tm.app = tm.app || {};
+
+
+
+(function() {
+    
+<span id='tm-app-Collision'>    /**
+</span>     * @class
+     * 衝突管理クラス
+     */
+    tm.app.Collision = tm.createClass({
+        
+        collideList: null,
+        
+        /**
+<span id='tm-app-Collision-method-init'>         * 初期化
+</span>         */
+        init: function(elm) {
+            this.element = elm;
+            this.collideList = [];
+        },
+        
+        /**
+<span id='tm-app-Collision-method-update'>         * @method
+</span>         * 更新
+         */
+        update: function(app) {
+            var cl  = this.collideList.clone();
+            var elm = this.element;
+            
+            for (var i=0,len=cl.length; i&lt;len; ++i) {
+                var c = cl[i];
+                if (elm.isHitElement(c.element)) {
+                    // 最初の衝突だった場合は collisionenter を呼ぶ
+                    if (c.collide === false) {
+                        var e = tm.event.Event(&quot;collisionenter&quot;);
+                        e.other = c.element;
+                        elm.dispatchEvent(e);
+                    }
+                    // 通常の衝突イベント
+                    var e = tm.event.Event(&quot;collisionstay&quot;);
+                    e.other = c.element;
+                    elm.dispatchEvent(e);
+                    
+                    c.collide = true;
+                }
+                else {
+                    if (c.collide == true) {
+                        var e = tm.event.Event(&quot;collisionexit&quot;);
+                        e.other = c.element;
+                        elm.dispatchEvent(e);
+                    }
+                    c.collide = false;
+                }
+            }
+        },
+        
+        /**
+         * 追加
+         */
+        add: function(elm) {
+<span id='tm-app-Collision-method-add'>            this.collideList.push({
+</span>                element: elm,
+                collide: false,
+            });
+        },
+        
+        /**
+         * 削除
+         */
+        remove: function(elm) {
+<span id='tm-app-Collision-method-remove'>            this.collideList.eraseIf(function(v) {
+</span>                return v.element == elm;
+            });
+        },
+        
+    });
+    
+    
+    /**
+     * @member      tm.app.Element
+     * @property    collision
+<span id='tm-app-Element-property-collision'>     * コリジョン
+</span>     */
+    tm.app.Element.prototype.getter(&quot;collision&quot;, function() {
+        if (!this._collision) {
+            this._collision = tm.app.Collision(this);
+            this.addEventListener(&quot;enterframe&quot;, function(e){
+                this._collision.update(e.app);
+            });
+        }
+        
+        return this._collision;
+    });
+    
+    
+})();</pre>
+</body>
+</html>

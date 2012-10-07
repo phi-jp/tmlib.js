@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sencha Docs - Ext JS</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="fragment" content="!">
+
+  <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
+  <link rel="stylesheet" href="resources/css/app.css" type="text/css" />
+  <link rel="stylesheet" href="resources/prettify/prettify.css" type="text/css" />
+
+  <!-- Async script to not block while loading TypeKit fonts -->
+  <!-- TypeKit font-set is only registered for sencha.com and localhost -->
+  <script type="text/javascript">
+  (function() {
+    if (/sencha.com$|localhost$/.test(window.location.hostname)) {
+      var TypekitConfig = {
+        kitId: 'uxj6dew'
+      };
+      var tk = document.createElement('script');
+      tk.src = '//use.typekit.com/' + TypekitConfig.kitId + '.js';
+      tk.type = 'text/javascript';
+      tk.async = 'true';
+      tk.onload = tk.onreadystatechange = function() {
+        var rs = this.readyState;
+        if (rs && rs != 'complete' && rs != 'loaded') return;
+        try { Typekit.load(TypekitConfig); } catch (e) {}
+      };
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(tk, s);
+    }
+  })();
+  </script>
+
+  <script type="text/javascript" src="extjs/ext-all.js"></script>
+  <script type="text/javascript" src="data.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+  <script type="text/javascript" src="resources/prettify/prettify.js"></script>
+
+  
+
+</head>
+<body id="ext-body">
+
+  <div id="loading"><span class="title"></span><span class="logo"></span></div>
+
+  <form id="history-form" class="x-hide-display">
+      <input type="hidden" id="x-history-field" />
+      <iframe id="x-history-frame"></iframe>
+  </form>
+
+  <div id="header-content"><strong>Sencha Docs</strong> Ext JS</div>
+  
+          <div id='categories-content' style='display:none'>
+            <div class='section'>
+<h1>tm</h1>
+<div class='left-column'>
+<h3>app</h3>
+<div class='links'>
+<a href="#!/api/tm.app.Animation" rel="tm.app.Animation" class="docClass">tm.app.Animation</a>
+<a href="#!/api/tm.app.CanvasApp" rel="tm.app.CanvasApp" class="docClass">tm.app.CanvasApp</a>
+<a href="#!/api/tm.app.CanvasElement" rel="tm.app.CanvasElement" class="docClass">tm.app.CanvasElement</a>
+<a href="#!/api/tm.app.CircleShape" rel="tm.app.CircleShape" class="docClass">tm.app.CircleShape</a>
+<a href="#!/api/tm.app.Collision" rel="tm.app.Collision" class="docClass">tm.app.Collision</a>
+<a href="#!/api/tm.app.Element" rel="tm.app.Element" class="docClass">tm.app.Element</a>
+<a href="#!/api/tm.app.IconButton" rel="tm.app.IconButton" class="docClass">tm.app.IconButton</a>
+<a href="#!/api/tm.app.Interaction" rel="tm.app.Interaction" class="docClass">tm.app.Interaction</a>
+<a href="#!/api/tm.app.Label" rel="tm.app.Label" class="docClass">tm.app.Label</a>
+<a href="#!/api/tm.app.LabelButton" rel="tm.app.LabelButton" class="docClass">tm.app.LabelButton</a>
+<a href="#!/api/tm.app.PolygonShape" rel="tm.app.PolygonShape" class="docClass">tm.app.PolygonShape</a>
+<a href="#!/api/tm.app.RectangleShape" rel="tm.app.RectangleShape" class="docClass">tm.app.RectangleShape</a>
+<a href="#!/api/tm.app.Scene" rel="tm.app.Scene" class="docClass">tm.app.Scene</a>
+<a href="#!/api/tm.app.Shape" rel="tm.app.Shape" class="docClass">tm.app.Shape</a>
+<a href="#!/api/tm.app.Sprite" rel="tm.app.Sprite" class="docClass">tm.app.Sprite</a>
+<a href="#!/api/tm.app.StarShape" rel="tm.app.StarShape" class="docClass">tm.app.StarShape</a>
+<a href="#!/api/tm.app.TriangleShape" rel="tm.app.TriangleShape" class="docClass">tm.app.TriangleShape</a>
+<a href="#!/api/tm.app.iPhoneButton" rel="tm.app.iPhoneButton" class="docClass">tm.app.iPhoneButton</a>
+</div>
+<h3>dom</h3>
+<div class='links'>
+<a href="#!/api/tm.dom.Anim" rel="tm.dom.Anim" class="docClass">tm.dom.Anim</a>
+<a href="#!/api/tm.dom.Attr" rel="tm.dom.Attr" class="docClass">tm.dom.Attr</a>
+<a href="#!/api/tm.dom.Element" rel="tm.dom.Element" class="docClass">tm.dom.Element</a>
+<a href="#!/api/tm.dom.ElementList" rel="tm.dom.ElementList" class="docClass">tm.dom.ElementList</a>
+<a href="#!/api/tm.dom.Event" rel="tm.dom.Event" class="docClass">tm.dom.Event</a>
+<a href="#!/api/tm.dom.Style" rel="tm.dom.Style" class="docClass">tm.dom.Style</a>
+<a href="#!/api/tm.dom.Trans" rel="tm.dom.Trans" class="docClass">tm.dom.Trans</a>
+</div>
+</div>
+<div class='middle-column'>
+<h3>event</h3>
+<div class='links'>
+<a href="#!/api/tm.event.Event" rel="tm.event.Event" class="docClass">tm.event.Event</a>
+<a href="#!/api/tm.event.EventDispatcher" rel="tm.event.EventDispatcher" class="docClass">tm.event.EventDispatcher</a>
+<a href="#!/api/tm.event.MouseEvent" rel="tm.event.MouseEvent" class="docClass">tm.event.MouseEvent</a>
+<a href="#!/api/tm.event.PointingEvent" rel="tm.event.PointingEvent" class="docClass">tm.event.PointingEvent</a>
+<a href="#!/api/tm.event.TouchEvent" rel="tm.event.TouchEvent" class="docClass">tm.event.TouchEvent</a>
+<a href="#!/api/tm.event.TweenEvent" rel="tm.event.TweenEvent" class="docClass">tm.event.TweenEvent</a>
+</div>
+<h3>geom</h3>
+<div class='links'>
+<a href="#!/api/tm.geom.Circle" rel="tm.geom.Circle" class="docClass">tm.geom.Circle</a>
+<a href="#!/api/tm.geom.Matrix33" rel="tm.geom.Matrix33" class="docClass">tm.geom.Matrix33</a>
+<a href="#!/api/tm.geom.Matrix44" rel="tm.geom.Matrix44" class="docClass">tm.geom.Matrix44</a>
+<a href="#!/api/tm.geom.Rect" rel="tm.geom.Rect" class="docClass">tm.geom.Rect</a>
+<a href="#!/api/tm.geom.Vector2" rel="tm.geom.Vector2" class="docClass">tm.geom.Vector2</a>
+<a href="#!/api/tm.geom.Vector3" rel="tm.geom.Vector3" class="docClass">tm.geom.Vector3</a>
+</div>
+<h3>graphics</h3>
+<div class='links'>
+<a href="#!/api/tm.graphics.Bitmap" rel="tm.graphics.Bitmap" class="docClass">tm.graphics.Bitmap</a>
+<a href="#!/api/tm.graphics.BlurFilter" rel="tm.graphics.BlurFilter" class="docClass">tm.graphics.BlurFilter</a>
+<a href="#!/api/tm.graphics.Canvas" rel="tm.graphics.Canvas" class="docClass">tm.graphics.Canvas</a>
+<a href="#!/api/tm.graphics.Color" rel="tm.graphics.Color" class="docClass">tm.graphics.Color</a>
+<a href="#!/api/tm.graphics.ColorMatrixFilter" rel="tm.graphics.ColorMatrixFilter" class="docClass">tm.graphics.ColorMatrixFilter</a>
+<a href="#!/api/tm.graphics.LinearGradient" rel="tm.graphics.LinearGradient" class="docClass">tm.graphics.LinearGradient</a>
+<a href="#!/api/tm.graphics.MonochromeFilter" rel="tm.graphics.MonochromeFilter" class="docClass">tm.graphics.MonochromeFilter</a>
+<a href="#!/api/tm.graphics.RadialGradient" rel="tm.graphics.RadialGradient" class="docClass">tm.graphics.RadialGradient</a>
+<a href="#!/api/tm.graphics.ReverseFilter" rel="tm.graphics.ReverseFilter" class="docClass">tm.graphics.ReverseFilter</a>
+<a href="#!/api/tm.graphics.Texture" rel="tm.graphics.Texture" class="docClass">tm.graphics.Texture</a>
+<a href="#!/api/tm.graphics.TextureManager" rel="tm.graphics.TextureManager" class="docClass">tm.graphics.TextureManager</a>
+<a href="#!/api/tm.graphics.ToonFilter" rel="tm.graphics.ToonFilter" class="docClass">tm.graphics.ToonFilter</a>
+</div>
+</div>
+<div class='right-column'>
+<h3>input</h3>
+<div class='links'>
+<a href="#!/api/tm.input.Accelerometer" rel="tm.input.Accelerometer" class="docClass">tm.input.Accelerometer</a>
+<a href="#!/api/tm.input.Keyboard" rel="tm.input.Keyboard" class="docClass">tm.input.Keyboard</a>
+<a href="#!/api/tm.input.Mouse" rel="tm.input.Mouse" class="docClass">tm.input.Mouse</a>
+<a href="#!/api/tm.input.Touch" rel="tm.input.Touch" class="docClass">tm.input.Touch</a>
+</div>
+<h3>social</h3>
+<div class='links'>
+<a href="#!/api/tm.social.Nineleap" rel="tm.social.Nineleap" class="docClass">tm.social.Nineleap</a>
+<a href="#!/api/tm.social.Twitter" rel="tm.social.Twitter" class="docClass">tm.social.Twitter</a>
+</div>
+<h3>sound</h3>
+<div class='links'>
+<a href="#!/api/tm.sound.Sound" rel="tm.sound.Sound" class="docClass">tm.sound.Sound</a>
+<a href="#!/api/tm.sound.SoundManager" rel="tm.sound.SoundManager" class="docClass">tm.sound.SoundManager</a>
+</div>
+<h3>util</h3>
+<div class='links'>
+<a href="#!/api/tm.util.Ajax.DATA_CONVERTE_TABLE" rel="tm.util.Ajax.DATA_CONVERTE_TABLE" class="docClass">tm.util.Ajax.DATA_CONVERTE_TABLE</a>
+<a href="#!/api/tm.util.DataManager" rel="tm.util.DataManager" class="docClass">tm.util.DataManager</a>
+<a href="#!/api/tm.util.FileManager" rel="tm.util.FileManager" class="docClass">tm.util.FileManager</a>
+<a href="#!/api/tm.util.Random" rel="tm.util.Random" class="docClass">tm.util.Random</a>
+<a href="#!/api/tm.util.Timeline" rel="tm.util.Timeline" class="docClass">tm.util.Timeline</a>
+</div>
+<h3>Others...</h3>
+<div class='links'>
+<a href="#!/api/tm.BROWSER" rel="tm.BROWSER" class="docClass">tm.BROWSER</a>
+<a href="#!/api/tm.Item" rel="tm.Item" class="docClass">tm.Item</a>
+<a href="#!/api/tm.LIB_ROOT" rel="tm.LIB_ROOT" class="docClass">tm.LIB_ROOT</a>
+<a href="#!/api/tm.List" rel="tm.List" class="docClass">tm.List</a>
+<a href="#!/api/tm.VENDER_PREFIX" rel="tm.VENDER_PREFIX" class="docClass">tm.VENDER_PREFIX</a>
+<a href="#!/api/tm.VERSION" rel="tm.VERSION" class="docClass">tm.VERSION</a>
+<a href="#!/api/tm.anim.Tween" rel="tm.anim.Tween" class="docClass">tm.anim.Tween</a>
+<a href="#!/api/tm.google.Chart" rel="tm.google.Chart" class="docClass">tm.google.Chart</a>
+</div>
+</div>
+<div style='clear:both'></div>
+</div>
+<div class='section'>
+<h1>Others...</h1>
+<div class='left-column'>
+<h3>Others...</h3>
+<div class='links'>
+<a href="#!/api/Array" rel="Array" class="docClass">Array</a>
+<a href="#!/api/Date" rel="Date" class="docClass">Date</a>
+<a href="#!/api/Event" rel="Event" class="docClass">Event</a>
+<a href="#!/api/Function" rel="Function" class="docClass">Function</a>
+<a href="#!/api/KeyboardEvent" rel="KeyboardEvent" class="docClass">KeyboardEvent</a>
+<a href="#!/api/Math" rel="Math" class="docClass">Math</a>
+<a href="#!/api/MouseEvent" rel="MouseEvent" class="docClass">MouseEvent</a>
+<a href="#!/api/Number" rel="Number" class="docClass">Number</a>
+<a href="#!/api/Object" rel="Object" class="docClass">Object</a>
+<a href="#!/api/String" rel="String" class="docClass">String</a>
+<a href="#!/api/TouchEvent" rel="TouchEvent" class="docClass">TouchEvent</a>
+</div>
+</div>
+<div class='middle-column'>
+</div>
+<div class='right-column'>
+</div>
+<div style='clear:both'></div>
+</div>
+        </div>
+
+  
+  <div id='footer-content' style='display: none'>Generated with <a href='https://github.com/senchalabs/jsduck'>JSDuck</a> 3.9.0.</div>
+
+  
+
+</body>
+</html>

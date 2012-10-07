@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * twitter.js
+ */
+
+tm.social = tm.social || {};
+
+
+(function() {
+    
+<span id='tm-social-Twitter'>    /**
+</span>     * @class
+     * ツイッター関連ネームスペース
+     */
+    tm.social.Twitter = tm.social.Twitter || {};
+    
+    var BASE_URL = &quot;http://twitter.com/intent&quot;;
+    
+    
+    /**
+     * Tweet する
+<span id='tm-social-Twitter-method-createURL'>     * @param {Object} prop
+</span>     * ### Reference
+     * - &lt;https://dev.twitter.com/docs/intents&gt;
+     * ### Example
+     *      tm.social.Twitter.createURL({
+     *          type        : &quot;tweet&quot;,              // タイプ(tweet/retweet/favorite/user)
+     *          tweet_id    : &quot;210219483959263232&quot;, // 対象となる Tweet
+     *          in_reply_to : &quot;210219483959263232&quot;, // 返信する対象となる Tweet
+     *          text        : &quot;Test&quot;,               // テキスト
+     *          screen_name : &quot;phi_jp&quot;,             // スクリーンネーム
+     *          hashtags    : &quot;javascript,tmlibjs&quot;, // ハッシュタグ
+     *          url         : &quot;http://tmlife.net&quot;,  // url
+     *          via         : &quot;phi_jp&quot;,             // ～から
+     *          related     : &quot;tmlib.js tmlife&quot;,    // 関連ワード
+     *      });
+     */
+    tm.social.Twitter.createURL = function(prop)
+    {
+        var param_string_list = [];
+        for (var key in prop) {
+            if (key == &quot;type&quot;) continue;
+            var value = encodeURIComponent(prop[key]);
+            var param_string = key+&quot;=&quot;+value;
+            param_string_list.push(param_string);
+        }
+        
+        var url = &quot;{baseURL}/{type}?{param}&quot;.format({
+            baseURL : BASE_URL,
+            type    : prop.type,
+            param   : param_string_list.join('&amp;'),
+        });
+        
+        return url;
+    };
+    
+})();
+
+</pre>
+</body>
+</html>

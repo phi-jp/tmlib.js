@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * sound.js
+ */
+
+tm.sound = tm.sound || {};
+
+
+(function() {
+    
+    tm.sound.globalVolume = 1.0;
+    
+})();
+
+
+(function() {
+    
+<span id='tm-sound-Sound'>    /**
+</span>     * @class
+     * サウンドクラス
+     */
+    tm.sound.Sound = tm.createClass({
+        
+        element     : null,
+        loaded      : false,
+        isPlay      : false,
+        
+        /**
+<span id='tm-sound-Sound-method-init'>         * 初期化
+</span>         */
+        init: function(src) {
+            this.element = new Audio();
+            this.element.src = src;
+            this.element.load();
+            this.element.setAttribute(&quot;preload&quot;, &quot;auto&quot;);
+            
+            var self = this;
+            this.element.addEventListener(&quot;canplaythrough&quot;, function(){
+                self.loaded = true;
+            });
+            this.element.addEventListener(&quot;ended&quot;, function(){
+                self.isPlay = false;
+            });
+            this.element.addEventListener(&quot;error&quot;, function(){
+                console.warn(this.src + &quot;の読み込みに失敗しました&quot;);
+            });
+            
+            this.element.volume = 1.0;
+            
+            //? モバイル系は音が不安定なので一時対応
+            if (tm.isMobile) {
+                this.loaded = true;
+            }
+        },
+        
+        /**
+         * 再生
+         */
+        play: function() {
+<span id='tm-sound-Sound-method-play'>            this.element.play();
+</span>            this.isPlay = true;
+            return this;
+        },
+        
+        /**
+         * 停止
+         */
+        stop: function() {
+<span id='tm-sound-Sound-method-stop'>            this.element.pause();
+</span>            //? スマホだと止まるので応急対応
+            if (!tm.isMobile) {
+                this.element.currentTime = 0;
+            }
+            this.isPlay = false;
+            return this;
+        },
+        
+        /**
+         * 一時停止
+         */
+        pause: function() {
+            this.element.pause();
+<span id='tm-sound-Sound-method-pause'>            return this;
+</span>        },
+        
+        /**
+         * クローン
+         */
+        clone: function() {
+            return TM.App.Sound( this.element.src );
+        },
+<span id='tm-sound-Sound-method-clone'>        
+</span>    });
+    
+    
+    
+    /**
+     * @property    volume
+     * ボリューム
+     */
+    tm.sound.Sound.prototype.accessor(&quot;volume&quot;, {
+<span id='tm-sound-Sound-property-volume'>        &quot;get&quot;: function() { return this.element.volume; },
+</span>        &quot;set&quot;: function(v){ this.element.volume = v; }
+    });
+    
+    
+    if ((new Audio()).loop !== undefined) {
+    
+        /**
+         * @property    loop
+         * ループフラグ
+         */
+        tm.sound.Sound.prototype.accessor(&quot;loop&quot;, {
+<span id='tm-sound-Sound-property-loop'>            &quot;get&quot;: function() { return this.element.loop; },
+</span>            &quot;set&quot;: function(v){ this.element.loop = v; }
+        });
+    }
+    // firefox 対応
+    else {
+        var onLoopFunc = function() {
+            this.play();
+        }
+        tm.sound.Sound.prototype.accessor(&quot;loop&quot;, {
+            &quot;get&quot;: function() { return this.element.loop; },
+            &quot;set&quot;: function(v){
+                // ループが false の状態で ture が来た場合ループ用関数を登録する
+                if (this.element.loop != true &amp;&amp; v == true) {
+                    this.element.addEventListener(&quot;ended&quot;, onLoopFunc, false);
+                }
+                // 関数が登録されていて false が設定された場合ループ用関数を解除する
+                else if (this.element.loop == true &amp;&amp; v == false) {
+                    this.element.removeEventListener(&quot;ended&quot;, onLoopFunc, false);
+                }
+                this.element.loop = v;
+            }
+        });
+    }
+    
+    
+    /**
+     * @static
+     * @property    SUPPORT_EXT
+     * サポートしている拡張子
+     */
+    tm.sound.Sound.SUPPORT_EXT = (function(){
+        var ext     = &quot;&quot;;
+        var audio   = new Audio();
+        
+<span id='tm-sound-Sound-static-property-SUPPORT_EXT'>        if      (audio.canPlayType(&quot;audio/wav&quot;) == 'maybe') { ext=&quot;wav&quot;; }
+</span>        else if (audio.canPlayType(&quot;audio/mp3&quot;) == 'maybe') { ext=&quot;mp3&quot;; }
+        else if (audio.canPlayType(&quot;audio/ogg&quot;) == 'maybe') { ext=&quot;ogg&quot;; }
+        
+        return ext;
+    })();
+    
+})();
+
+
+(function(){
+    
+    //? モバイル系ブラウザ対応
+    var DEFAULT_CACHE_NUM = (tm.isMobile) ? 1 : 4;
+    
+    /**
+     * @class   サウンドマネージャクラス
+     * サウンドを管理するクラス
+     */
+    tm.sound.SoundManager = {
+        sounds: {}
+    };
+    
+    /**
+     * @static
+     * @method
+     * サウンドを追加
+     */
+    tm.sound.SoundManager.add = function(name, src, cache) {
+        cache = cache || DEFAULT_CACHE_NUM;
+        
+<span id='tm-sound-SoundManager'>        // 拡張子チェック
+</span>        if (src.split('/').at(-1).indexOf('.') == -1) {
+            src += &quot;.&quot; + tm.sound.Sound.SUPPORT_EXT;
+        }
+        
+<span id='tm-sound-SoundManager-static-method-add'>        var cacheList = this.sounds[name] = [];
+</span>        for (var i=0; i&lt;cache; ++i) {
+            var sound = tm.sound.Sound(src);
+            cacheList.push( sound );
+        }
+        
+        return this;
+    };
+    
+
+    
+    /**
+     * @static
+     * @method
+     * サウンドを取得
+     */
+    tm.sound.SoundManager.get = function(name) {
+        var cacheList = this.sounds[name];
+        for (var i=0,len=cacheList.length; i&lt;len; ++i) {
+            if (cacheList[i].isPlay == false) {
+                return cacheList[i];
+            }
+        }
+        // 仕方なく0番目を返す
+        return cacheList[0];
+    };
+    
+    
+<span id='tm-sound-SoundManager-static-method-get'>    /**
+</span>     * @static
+     * @method
+     * サウンドを取得(index 指定版)
+     */
+    tm.sound.SoundManager.getByIndex = function(name, index) {
+        return this.sounds[name][index];
+    };
+    
+    /**
+     * @static
+     * @method
+     * サウンドを削除
+     */
+    tm.sound.SoundManager.remove = function(name) {
+        // TODO:
+        
+        return this;
+    };
+    
+    /**
+     * @static
+     * @method
+     * ボリュームをセット
+<span id='tm-sound-SoundManager-static-method-getByIndex'>     */
+</span>    tm.sound.SoundManager.setVolume = function(name, volume) {
+        // TODO:
+        
+        return this;
+    };
+    
+    
+    
+    /**
+     * ロードチェック
+     */
+<span id='tm-sound-SoundManager-static-method-remove'>    tm.sound.SoundManager.isLoaded = function()
+</span>    {
+        for (var key in this.sounds) {
+            var soundList = this.sounds[key];
+            
+            for (var i=0,len=soundList.length; i&lt;len; ++i) {
+<span id='tm-sound-SoundManager-static-method-setVolume'>                if (soundList[i].loaded == false) {
+</span>                    return false;
+                }
+            }
+        }
+        return true;
+    };
+    
+    tm.addLoadCheckList(tm.sound.SoundManager);
+    
+})();
+
+</pre>
+</body>
+</html>

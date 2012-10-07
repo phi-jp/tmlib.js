@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * phi
+ */
+
+
+tm.input = tm.input || {};
+
+
+(function() {
+    
+<span id='tm-input-Keyboard'>    /**
+</span>     * @class
+     * キーボードクラス
+     */
+    tm.input.Keyboard = tm.createClass({
+        
+        
+        /**
+<span id='tm-input-Keyboard-property-element'>         * target element
+</span>         */
+        element: null,
+        
+        key: null,
+        
+        press   : null, // 押しているキー
+        down    : null, // 押したキー
+        up      : null, // 離したキー
+        last    : null, // 押していたキー
+        
+        /**
+         * @constructs
+<span id='tm-input-Keyboard-method-init'>         * @see         &lt;a href=&quot;http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html&quot;&gt;Test Program&lt;/a&gt;.
+</span>         * @example
+         * TM.loadScript(&quot;input&quot;, &quot;keyboard&quot;);
+         *  
+         * TM.main(function() {
+         *     var k = TM.$Key(document);
+         *     k.run();
+         *     TM.setLoop(function(){
+         *         if (k.getKey('a')) { console.log(&quot;press 'a'!!&quot;); }
+         *     });
+         * });
+         */
+        init: function(element) {
+            this.element = element || document;
+            
+            this.key = {};
+            
+            this.press  = {};
+            this.down   = {};
+            this.up     = {};
+            this.last   = {};
+            
+            var self = this;
+            this.element.addEventListener(&quot;keydown&quot;, function(e){
+                self.key[e.keyCode] = true;
+            });
+            this.element.addEventListener(&quot;keyup&quot;, function(e){
+                // delete self.key[e.keyCode];
+                self.key[e.keyCode] = false;
+                // self.button |= 1&lt;&lt;e.button;
+            });
+            this.element.addEventListener(&quot;keypress&quot;, function(e){
+                // self.button &amp;= ~(1&lt;&lt;e.button);
+            });
+        },
+        
+        /**
+         * run.
+         * 自動でマウス情報を更新したい際に使用する
+         */
+<span id='tm-input-Keyboard-method-run'>        run: function(fps) {
+</span>            var self = this;
+            fps = fps || 30;
+            tm.setLoop(function(){
+                self.update();
+            },　1000/fps);
+        },
+        
+        /**
+         * 情報更新処理
+         * マイフレーム呼んで下さい.
+         */
+        update: function() {
+<span id='tm-input-Keyboard-method-update'>            // TODO: 一括ビット演算で行うよう修正する
+</span>            for (var k in this.key) {
+                this.last[k]    = this.press[k];
+                this.press[k]   = this.key[k];
+                
+                this.down[k] = (this.press[k] ^ this.last[k]) &amp; this.press[k];
+                this.up[k] = (this.press[k] ^ this.last[k]) &amp; this.last[k];
+            }
+            
+            return this;
+        },
+        
+        /**
+         * キーを押しているかをチェック
+         * @param   {Number/String} key keyCode or keyName
+         * @returns {Boolean}   チェック結果
+         */
+        getKey: function(key) {
+<span id='tm-input-Keyboard-method-getKey'>            if (typeof(key) == &quot;string&quot;) {
+</span>                key = tm.keyCode[key];
+            }
+            return this.press[key] == true;
+        },
+        
+        /**
+         * キーを押したかをチェック
+         * @param   {Number/String} key keyCode or keyName
+         * @returns {Boolean}   チェック結果
+         */
+        getKeyDown: function(key) {
+<span id='tm-input-Keyboard-method-getKeyDown'>            if (typeof(key) == &quot;string&quot;) {
+</span>                key = tm.keyCode[key];
+            }
+            return this.down[key] == true;
+        },
+        
+        /**
+         * キーを離したかをチェック
+         * @param   {Number/String} key keyCode or keyName
+         * @returns {Boolean}   チェック結果
+         */
+        getKeyUp: function(key) {
+            if (typeof(key) == &quot;string&quot;) {
+<span id='tm-input-Keyboard-method-getKeyUp'>                key = tm.keyCode[key];
+</span>            }
+            return this.up[key] == true;
+        },
+        
+        /**
+         * キーの方向を Angle(Degree) で取得
+         * @returns {Boolean}   角度(Degree)
+         */
+        getKeyAngle: function() {
+            var angle = null;
+            var arrowBit =
+                (this.getKey(&quot;left&quot;)   &lt;&lt; 3) | // 1000
+<span id='tm-input-Keyboard-method-getKeyAngle'>                (this.getKey(&quot;up&quot;)     &lt;&lt; 2) | // 0100
+</span>                (this.getKey(&quot;right&quot;)  &lt;&lt; 1) | // 0010
+                (this.getKey(&quot;down&quot;));         // 0001
+            
+            if (arrowBit != 0 &amp;&amp; ARROW_BIT_TO_ANGLE_TABLE.hasOwnProperty(arrowBit)) {
+                angle = ARROW_BIT_TO_ANGLE_TABLE[arrowBit];
+            }
+            
+            return angle;
+        }
+        
+    });
+    
+    var ARROW_BIT_TO_ANGLE_TABLE = {
+        // 上下左右
+        0x01: 270,      // 下
+        0x02:   0,      // 右
+        0x04:  90,      // 上
+        0x08: 180,      // 左
+        // 斜め
+        0x06:  45,      // 右上
+        0x03: 315,      // 右下
+        0x0c: 135,      // 左上
+        0x09: 225,      // 左下
+        // 三方向同時押し対応
+        // 想定外の操作だが対応しといたほうが無難
+        0x0e:  90,      // 右上左
+        0x0d: 180,      // 上左下
+        0x0b: 270,      // 左下右
+        0x07:   0,      // 下右上
+    };
+    
+    
+})();
+
+</pre>
+</body>
+</html>
