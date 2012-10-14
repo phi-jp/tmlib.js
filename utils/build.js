@@ -22,6 +22,7 @@ var target = [
     "util/file.js",
     "util/timeline.js",
     "util/data.js",
+    "util/querystring.js",
     
     "geom/vector2.js",
     "geom/vector3.js",
