@@ -42,7 +42,7 @@ tm.util = tm.util || {};
             
             var strList = [];
             for (var key in obj) {
-                var value = obj[key];
+                var value = encodeURIComponent(obj[key]);
                 strList.push(key + eq + value);
             }
             

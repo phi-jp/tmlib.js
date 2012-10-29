@@ -59,6 +59,20 @@ tm.util = tm.util || {};
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
             httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
             httpRequest.send(null);
+        },
+        
+        loadJSONP: function(url, callback) {
+            var g = tm.global;
+            g.tmlib_js_dummy_func_count = tm.global.tmlib_js_dummy_func || 0;
+            var dummy_func_name = "tmlib_js_dummy_func" + (g.tmlib_js_dummy_func_count++);
+            g[dummy_func_name]  = callback;
+            
+            var elm = document.createElement("script");
+            elm.type = "text/javascript";
+            elm.charset = "UTF-8";
+            elm.src = url + "&callback=" + dummy_func_name;
+            elm.setAttribute("defer", true);
+            document.getElementsByTagName("head")[0].appendChild(elm);
         }
     };
     

@@ -13,7 +13,7 @@
  * tm namespace
  */
 var tm = tm || {};
-
+tm.global = window || global || this;
 
 (function() {
     
