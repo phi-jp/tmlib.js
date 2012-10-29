@@ -64,7 +64,7 @@
                 app.background = "rgba(0, 0, 0, 0.1)";  // 背景色をセット
                 
                 // 星スプライト
-                var star = tm.app.Sprite(64, 64);
+                var star = tm.app.Shape(64, 64);
                 star.canvas.setColorStyle("white", "yellow").fillStar(32, 32, 32, 5);
                 app.currentScene.addChild(star);    // シーンに追加
                 
