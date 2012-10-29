@@ -13,7 +13,7 @@
  * tm namespace
  */
 var tm = tm || {};
-
+tm.global = window || global || this;
 
 (function() {
     
@@ -1637,6 +1637,20 @@ tm.util = tm.util || {};
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
             httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
             httpRequest.send(null);
+        },
+        
+        loadJSONP: function(url, callback) {
+            var g = tm.global;
+            g.tmlib_js_dummy_func_count = tm.global.tmlib_js_dummy_func || 0;
+            var dummy_func_name = "tmlib_js_dummy_func" + (g.tmlib_js_dummy_func_count++);
+            g[dummy_func_name]  = callback;
+            
+            var elm = document.createElement("script");
+            elm.type = "text/javascript";
+            elm.charset = "UTF-8";
+            elm.src = url + "&callback=" + dummy_func_name;
+            elm.setAttribute("defer", true);
+            document.getElementsByTagName("head")[0].appendChild(elm);
         }
     };
     
@@ -1909,14 +1923,21 @@ tm.util = tm.util || {};
         data: {}
     };
     
-    tm.util.DataManager.save = function(key)
+    tm.util.DataManager.save = function()
     {
         // TODO: ローカルストレージ?
+        for (var key in this.data) {
+            var data = this.data[key];
+            localStorage[key] = JSON.stringify( data );
+        }
     };
     
-    tm.util.DataManager.load = function(key, params)
+    tm.util.DataManager.load = function(key)
     {
         // TODO: ローカルストレージ?
+        for (var key in localStorage) {
+            this.data[key] = JSON.parse(localStorage[key]);
+        }
     };
     
     tm.util.DataManager.set = function(key, value)
@@ -1978,7 +1999,7 @@ tm.util = tm.util || {};
             
             var strList = [];
             for (var key in obj) {
-                var value = obj[key];
+                var value = encodeURIComponent(obj[key]);
                 strList.push(key + eq + value);
             }
             
@@ -9279,7 +9300,7 @@ tm.app = tm.app || {};
             return this._image;
         },
         "set": function(image)  {
-            if (typeof texture == "string") texture = tm.graphics.TextureManager.get(texture);
+            if (typeof image == "string") image = tm.graphics.TextureManager.get(image);
             
             this._image = image;
             this.srcRect.x = 0;
@@ -11050,11 +11071,17 @@ tm.social = tm.social || {};
 
 (function() {
     
+    
     /**
      * @class
      * ツイッター関連ネームスペース
      */
     tm.social.Twitter = tm.social.Twitter || {};
+    
+    
+    tm.social.Twitter.API_URL = "http://api.twitter.com/1";    // version 1 は廃止予定らしい
+    
+    
     
     var BASE_URL = "http://twitter.com/intent";
     
@@ -11096,7 +11123,104 @@ tm.social = tm.social || {};
         return url;
     };
     
+    
 })();
+
+(function() {
+    
+    var BASE_URL = "http://api.twitter.com/1/{type}/{kind}.json";
+    
+    tm.social.Twitter.api = function(type, kind, param, callback) {
+        var url = BASE_URL.format({ type:type, kind:kind });
+        var qs  = tm.util.QueryString.stringify(param);
+        
+        tm.util.Ajax.loadJSONP(url + "?" + qs, callback);
+    };
+    
+})();
+
+
+
+(function() {
+    
+    var BASE_URL = "http://search.twitter.com/search.json";
+    
+    tm.social.Twitter.search = function(param, callback) {
+        var url = BASE_URL;
+        var qs  = tm.util.QueryString.stringify(param);
+        
+        tm.util.Ajax.loadJSONP(url + "?" + qs, callback);
+    };
+    
+})();
+
+
+(function() {
+    
+    /*
+     * format = xml or json
+     */
+    var BASE_URL = "http://api.twitter.com/1/statuses/followers.json";
+    //http://api.twitter.com/1/statuses/followers.json?id=tmlife_jp
+    
+    /**
+     * 
+     * user_id      ユーザーID
+     * screen_name  screen_name
+     * cursor       -1 を指定すると先頭から 100
+     * include_entities     true を指定すると entities を取得できる
+     * 
+     */
+    tm.social.Twitter.getFollowers = function(param, callback) {
+        tm.social.Twitter.api("statuses", "followers", param, callback);
+        
+        /*
+        tm.social.Twitter.api("statuses", "public_timeline", param, callback);
+        tm.social.Twitter.api("statuses", "home_timeline", param, callback);
+        tm.social.Twitter.api("statuses", "friends_timeline", param, callback);
+        tm.social.Twitter.api("statuses", "user_timeline", param, callback);
+        tm.social.Twitter.api("statuses", "replies", param, callback);
+        tm.social.Twitter.api("statuses", "mentions", param, callback);
+        */
+    };
+    
+    
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -45,6 +45,9 @@
         <script src="../../src/core/date.js"></script>
         <script src="../../src/core/math.js"></script>
         
+        <script src="../../src/util/ajax.js"></script>
+        <script src="../../src/util/querystring.js"></script>
+        
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/event.js"></script>
         
@@ -99,6 +102,36 @@
                 });
                 eFollow.href = url;
                 
+                // 検索結果
+                tm.social.Twitter.search({
+                    q: "%23tmlibjs",
+                    locale: "ja",
+                    rpp: 100,
+                    include_entities: true,
+                }, function(data) {
+                    console.dir(data);
+                    
+                    c.group("search");
+                    
+                    for (var i=0,len=data.results.length; i<len; ++i) {
+                        var t = data.results[i];
+                        c.log(i.padding(3), ":", t.text);
+                    }
+                    
+                    c.groupEnd("search");
+                });
+            });
+            
+            
+            tm.main(function() {
+                
+                /*
+                tm.social.Twitter.getFollowers({
+                    id: "tmlife_jp",
+                }, function(data, status) {
+                    console.dir(data);
+                });
+                /**/
             });
             
         </script>
