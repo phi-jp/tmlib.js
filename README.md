@@ -53,7 +53,7 @@
         <title>Starter Pack | tmlib.js</title>
         <link rel="apple-touch-icon-precomposed" href="icon.png" />
         
-        <script src="https://raw.github.com/phi1618/tmlib.js/0.1.0/build/tmlib.js"></script>
+        <script src="https://raw.github.com/phi1618/tmlib.js/0.1.3/build/tmlib.js"></script>
         <script>
             // メイン処理(ページ読み込み後に実行される)
             tm.main(function() {
@@ -64,7 +64,7 @@
                 app.background = "rgba(0, 0, 0, 0.1)";  // 背景色をセット
                 
                 // 星スプライト
-                var star = tm.app.Sprite(64, 64);
+                var star = tm.app.Shape(64, 64);
                 star.canvas.setColorStyle("white", "yellow").fillStar(32, 32, 32, 5);
                 app.currentScene.addChild(star);    // シーンに追加
                 
