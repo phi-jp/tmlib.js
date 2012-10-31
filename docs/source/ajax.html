@@ -76,6 +76,20 @@ tm.util = tm.util || {};
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
             httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
             httpRequest.send(null);
+        },
+        
+        loadJSONP: function(url, callback) {
+            var g = tm.global;
+            g.tmlib_js_dummy_func_count = tm.global.tmlib_js_dummy_func || 0;
+            var dummy_func_name = &quot;tmlib_js_dummy_func&quot; + (g.tmlib_js_dummy_func_count++);
+            g[dummy_func_name]  = callback;
+            
+            var elm = document.createElement(&quot;script&quot;);
+            elm.type = &quot;text/javascript&quot;;
+            elm.charset = &quot;UTF-8&quot;;
+            elm.src = url + &quot;&amp;callback=&quot; + dummy_func_name;
+            elm.setAttribute(&quot;defer&quot;, true);
+            document.getElementsByTagName(&quot;head&quot;)[0].appendChild(elm);
         }
     };
     

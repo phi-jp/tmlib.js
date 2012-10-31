@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * querystring.js
+ */
+
+tm.util = tm.util || {};
+
+(function() {
+    
+    /*
+     * 
+     */
+    tm.util.QueryString = {
+        /*
+         * 
+         */
+        parse: function(str, sep, eq) {
+            sep = sep || '&amp;';
+            eq  = eq  || '=';
+            
+            var obj = {};
+            var params = str.split(sep);
+            for (var i=0,len=params.length; i&lt;len; ++i) {
+                var param = params[i];
+                var pos = param.indexOf(eq);
+                if (pos&gt;0) {
+                    var key = param.substring(0, pos);
+                    var val = param.substring(pos+1);
+                    obj[key] = val;
+                }
+            }
+            
+            return obj;
+        },
+        
+        /*
+         * 
+         */
+        stringify: function(obj, sep, eq) {
+            sep = sep || '&amp;';
+            eq  = eq  || '=';
+            
+            
+            var strList = [];
+            for (var key in obj) {
+                var value = encodeURIComponent(obj[key]);
+                strList.push(key + eq + value);
+            }
+            
+            return strList.join(sep);
+        },
+    };
+    
+})();
+
+
+
+</pre>
+</body>
+</html>

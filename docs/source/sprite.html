@@ -91,7 +91,7 @@ tm.app = tm.app || {};
             return this._image;
         },
         &quot;set&quot;: function(image)  {
-            if (typeof texture == &quot;string&quot;) texture = tm.graphics.TextureManager.get(texture);
+            if (typeof image == &quot;string&quot;) image = tm.graphics.TextureManager.get(image);
             
             this._image = image;
             this.srcRect.x = 0;
