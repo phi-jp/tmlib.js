@@ -20,6 +20,11 @@ var PARTICLE_HEIGHT     = 10;
 var PARTICLE_SPACE      = 15;
 var PARTICLE_IMAGE      = null;
 
+
+if (document.location.search) {
+    TEXT = decodeURI(document.location.search.substr(1));
+}
+
 var Filter = tm.createClass({
     superClass: tm.app.Shape,
     
