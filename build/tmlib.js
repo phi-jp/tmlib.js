@@ -408,7 +408,8 @@ tm.global = window || global || this;
         value: function(name, val) {
             Object.defineProperty(this, name, {
                 value: val,
-                enumerable: true
+                enumerable: true,
+                writable: true
             });
         }
     });
@@ -423,7 +424,8 @@ tm.global = window || global || this;
         value: function(name, fn) {
             Object.defineProperty(this, name, {
                 value: fn,
-                enumerable: false
+                enumerable: false,
+                writable: true
             });
         }
     });
@@ -432,14 +434,16 @@ tm.global = window || global || this;
     Object.prototype.defineFunction("defineInstanceVariable", function(name, val){
         Object.defineProperty(this.prototype, name, {
             value: val,
-            enumerable: true
+            enumerable: true,
+            writable: true
         });
     });
     
     Object.prototype.defineFunction("defineInstanceMethod", function(name, fn){
         Object.defineProperty(this.prototype, name, {
             value: fn,
-            enumerable: false
+            enumerable: false,
+            writable: true
         });
     });
     

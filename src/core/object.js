@@ -19,7 +19,8 @@
         value: function(name, val) {
             Object.defineProperty(this, name, {
                 value: val,
-                enumerable: true
+                enumerable: true,
+                writable: true
             });
         }
     });
@@ -34,7 +35,8 @@
         value: function(name, fn) {
             Object.defineProperty(this, name, {
                 value: fn,
-                enumerable: false
+                enumerable: false,
+                writable: true
             });
         }
     });
@@ -43,14 +45,16 @@
     Object.prototype.defineFunction("defineInstanceVariable", function(name, val){
         Object.defineProperty(this.prototype, name, {
             value: val,
-            enumerable: true
+            enumerable: true,
+            writable: true
         });
     });
     
     Object.prototype.defineFunction("defineInstanceMethod", function(name, fn){
         Object.defineProperty(this.prototype, name, {
             value: fn,
-            enumerable: false
+            enumerable: false,
+            writable: true
         });
     });
     
