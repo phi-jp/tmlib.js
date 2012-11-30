@@ -55,7 +55,6 @@ tm.main(function() {
         }
     }
     
-    /*
     // Stats
     app.enableStats();
     
@@ -75,7 +74,6 @@ tm.main(function() {
         gravityFolder.add(GRAVITY, "y", -2, 2, 0.1);
         gravityFolder.open();
     }
-    */
     
     app.update = function() {
         var scene = this.currentScene;
