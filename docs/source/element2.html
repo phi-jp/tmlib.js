@@ -304,12 +304,17 @@ tm.dom = tm.dom || {};
         &quot;set&quot;: function(v)  { this.element.innerText = v; }
     });
     
-    
+    /**
+     * @property    classList
+     * クラスリスト
+     */
+<span id='tm-dom-Element-property-text'>    tm.dom.Element.prototype.getter(&quot;classList&quot;, function()   { return this.element.classList; });
+</span>    
     tm.dom.Element.prototype.getter(&quot;parent&quot;, function(){
-<span id='tm-dom-Element-property-text'>        return (this.element.parent != undefined) ? tm.dom.Element(this.element.parent) : null;
-</span>    });
-    tm.dom.Element.prototype.getter(&quot;prev&quot;, function(){
-        return (this.element.previousSibling != undefined) ? tm.dom.Element(this.element.previousSibling) : null;
+        return (this.element.parent != undefined) ? tm.dom.Element(this.element.parent) : null;
+    });
+<span id='tm-dom-Element-property-classList'>    tm.dom.Element.prototype.getter(&quot;prev&quot;, function(){
+</span>        return (this.element.previousSibling != undefined) ? tm.dom.Element(this.element.previousSibling) : null;
     });
     tm.dom.Element.prototype.getter(&quot;next&quot;, function(){
         return (this.element.nextSibling != undefined) ? tm.dom.Element(this.element.nextSibling) : null;
@@ -346,9 +351,9 @@ tm.dom = tm.dom || {};
             else if (arr == undefined) {
                 return ;
             }
-<span id='tm-dom-ElementList-method-init'>            
-</span>            for (var i=0,len=arr.length; i&lt;len; ++i) {
-                this.push( tm.dom.Element(arr[i]) );
+            
+<span id='tm-dom-ElementList-method-init'>            for (var i=0,len=arr.length; i&lt;len; ++i) {
+</span>                this.push( tm.dom.Element(arr[i]) );
             }
         },
         
