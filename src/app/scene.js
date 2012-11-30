@@ -28,56 +28,114 @@ tm.app = tm.app || {};
         },
     });
     
-    tm.app.StartScene = tm.createClass({
-        
+})();
+    
+(function() {
+    
+    var DEFAULT_PARAM = {
+        title: "Time is money",
+        titleSize: 32,
+        width: 465,
+        height: 465,
+    };
+    
+    tm.app.TitleScene = tm.createClass({
         superClass: tm.app.Scene,
         
-        init: function() {
+        init: function(param) {
             this.superInit();
             
-        },
-        
-        onenter: function(e) {
-            var label = tm.app.Label("Start");
-            label.x = e.app.canvas.width/2;
-            label.y = e.app.canvas.height/2;
-            label.width = e.app.canvas.width;
+            param = param || {};
+            param.extendSafe(DEFAULT_PARAM);
+            
+            var label = tm.app.Label(param.title);
+            label.x = param.width/2;
+            label.y = param.height/2;
+            label.width = param.width;
             label.align     = "center";
             label.baseline  = "middle";
+            label.fontSize = param.titleSize;
             this.addChild(label);
-            
-            // 幅高さをセット
-            this.width  = e.app.canvas.width;
-            this.height = e.app.canvas.height;
-            
-            this.app = e.app;
+        },
+        onpointingstart: function() {
+            var e = tm.event.Event("nextscene");
+            this.dispatchEvent(e);
         },
     });
     
     
-    tm.app.EndScene = tm.createClass({
+})();
+
+(function() {
+    
+    
+    var DEFAULT_PARAM = {
+        score: 256,
+        msg: "tmlib.js のサンプルです!",
+        hashtags: "tmlibjs",
+        url: "https://github.com/phi1618/tmlib.js/",
+        width: 465,
+        height: 465,
+        related: "tmlib.js tmlife javascript",
+    };
+    
+    tm.app.ResultScene = tm.createClass({
         
         superClass: tm.app.Scene,
         
-        init: function() {
+        init: function(param) {
             this.superInit();
+            
+            param = param || {};
+            param.extendSafe(DEFAULT_PARAM);
+            
+            var text = "SCORE: {score}, {msg}".format(param);
+            var twitterURL = tm.social.Twitter.createURL({
+                type    : "tweet",
+                text    : text,
+                hashtags: param.hashtags,
+                url     : param.url, // or window.document.location.href
+            });
+            
+            
+            var scoreLabel = tm.app.Label("SCORE: {score}".format(param));
+            scoreLabel.x = param.width/2;
+            scoreLabel.y = param.height/2-70;
+            scoreLabel.width = param.width;
+            scoreLabel.align     = "center";
+            scoreLabel.baseline  = "middle";
+            scoreLabel.fontSize = 32;
+            this.addChild(scoreLabel);
+            
+            var msgLabel = tm.app.Label(param.msg);
+            msgLabel.x = param.width/2;
+            msgLabel.y = param.height/2-20;
+            msgLabel.width = param.width;
+            msgLabel.align     = "center";
+            msgLabel.baseline  = "middle";
+            msgLabel.fontSize = 16;
+            this.addChild(msgLabel);
+            
+            // ツイートボタン
+            var tweetButton = tm.app.iPhoneButton(120, 50, "blue", "Tweet").addChildTo(this);
+            tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
+            tweetButton.onpointingstart = function() { window.open(twitterURL, "_self"); };
+            
+            // 戻るボタン
+            var backButton = tm.app.iPhoneButton(120, 50, "black", "Back").addChildTo(this);
+            backButton.setPosition(param.width/2 + 65, param.height/2 + 50);
+            backButton.onpointingstart = function() {
+                var e = tm.event.Event("nextscene");
+                this.dispatchEvent(e);
+            }.bind(this);
         },
         
-        onenter: function(e) {
-            var label = tm.app.Label("end");
-            label.x = e.app.canvas.width/2;
-            label.y = e.app.canvas.height/2;
-            label.width = e.app.canvas.width;
-            label.align     = "center";
-            label.baseline  = "middle";
-            this.addChild(label);
-            
-            // 幅高さをセット
-            this.width  = e.app.canvas.width;
-            this.height = e.app.canvas.height;
-            
-            this.app = e.app;
+        /*
+        onpointingstart: function() {
+            var e = tm.event.Event("nextscene");
+            this.dispatchEvent(e);
         },
+        */
     });
     
 })();

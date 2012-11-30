@@ -33,7 +33,10 @@
         
         <script src="../src/event/event.js"></script>
         
+        <script src="../src/anim/tween.js"></script>
+        
         <script src="../src/graphics/canvas.js"></script>
+        <script src="../src/graphics/gradient.js"></script>
         <script src="../src/graphics/texture.js"></script>
         
         <script src="../src/sound/sound.js"></script>
@@ -42,11 +45,16 @@
         <script src="../src/app/canvaselement.js"></script>
         <script src="../src/app/sprite.js"></script>
         <script src="../src/app/label.js"></script>
+        <script src="../src/app/shape.js"></script>
+        <script src="../src/app/button.js"></script>
         <script src="../src/app/scene.js"></script>
+        <script src="../src/app/animation.js"></script>
         <script src="../src/app/canvasapp.js"></script>
         <script src="../src/app/interaction.js"></script>
         
         <script src="../src/google/chart.js"></script>
+        
+        <script src="../src/social/twitter.js"></script>
         
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
         <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
@@ -60,15 +68,18 @@
             
             tm.main(function() {
                 var app = tm.app.CanvasApp("#world");
-                app.resize(640, 480);
+                app.resize(465, 465);
                 app.enableStats();
                 app.background = "black";
                 
                 
                 
-                var startScene = tm.app.StartScene();
+                var startScene = tm.app.TitleScene({
+                    width: 465,
+                    height: 465,
+                });
                 app.replaceScene(startScene);
-                startScene.onpointingstart = function() {
+                startScene.onnextscene = function() {
                     app.replaceScene(mainScene);
                 };
                 
@@ -86,8 +97,8 @@
                 };
                 
                 
-                var endScene = tm.app.EndScene();
-                endScene.onpointingstart = function() {
+                var endScene = tm.app.ResultScene();
+                endScene.onnextscene = function() {
                     app.replaceScene(startScene);
                 };
                 
