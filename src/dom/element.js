@@ -287,6 +287,11 @@ tm.dom = tm.dom || {};
         "set": function(v)  { this.element.innerText = v; }
     });
     
+    /**
+     * @property    classList
+     * クラスリスト
+     */
+    tm.dom.Element.prototype.getter("classList", function()   { return this.element.classList; });
     
     tm.dom.Element.prototype.getter("parent", function(){
         return (this.element.parent != undefined) ? tm.dom.Element(this.element.parent) : null;
