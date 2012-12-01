@@ -1,0 +1,155 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>DOMElement Test | TM Lib</title>
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            .box {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                padding: 10px;
+                border: 1px solid black;
+            }
+            
+            #target {
+            }
+            .append-element {
+                border: 2px solid hsl(0, 50%, 50%);
+            }
+            .prepend-element {
+                border: 2px solid hsl(90, 50%, 50%);
+            }
+            .after-element {
+                border: 2px solid hsl(180, 50%, 50%);
+            }
+            .before-element {
+                border: 2px solid hsl(270, 50%, 50%);
+            }
+            
+            .absolute {
+                background : white;
+                color: black;
+            }
+            
+            .fixed {
+                background : black;
+                color: white;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/attr.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        <script src="../../src/dom/trans.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+
+        <script id="test-script">
+            
+            /*
+             * Test
+             */
+            window.onload = function()
+            {
+                var eTarget = tm.dom.Element( "#target" );
+                
+                // コンソール生成
+                // var c = console;
+                var c = tm.Console("#console");
+                
+                // 
+                c.group("queryAll test");
+                var boxList = tm.dom.Element(document).queryAll(".box");
+                for (var i=0,len=boxList.length; i<len; ++i) {
+                    c.log(i + ": " + boxList[i].text);
+                }
+                c.groupEnd();
+                
+                // 
+                eTarget.trans.setProp({
+                    margin: "50px",
+                    background: "red",
+                });
+                eTarget.trans.setDuration("1000ms");
+                eTarget.trans.setEndFunction(function() {
+                    c.log("end animation!");
+                });
+            };
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+        
+    </head>
+    
+    <body>
+         
+        <h1>DOMElement Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <h2>DOMElement Test</h2>
+                <section>
+                    <div id="target" class="box">
+                        Target
+                        <div class="box">Dummy00</div>
+                        <div class="box">Dummy01</div>
+                        <div class="box">Dummy02</div>
+                    </div>
+                </section>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
