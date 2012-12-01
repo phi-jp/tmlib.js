@@ -1,0 +1,152 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>DOMElement Test | TM Lib</title>
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            
+            #box-list {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            .box {
+                width: 100px;
+                height: 100px;
+                margin: 10px;
+                padding: 10px;
+                border: 1px solid black;
+                -webkit-user-select: none;
+                
+                color: black;
+                text-shadow: 1px 1px 2px white;
+                text-align: center;
+                line-height: 100px;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/attr.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        <script src="../../src/dom/trans.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+
+        <script id="test-script">
+            
+            /*
+             * Test
+             */
+            window.onload = function()
+            {
+                var eTarget = tm.dom.Element( "#target" );
+                
+                // コンソール生成
+                // var c = console;
+                var c = tm.Console("#console");
+                
+                // 要素を取得
+                var elm = tm.dom.Element("#event-target");
+                var eventCount = 0;
+                // click イベントをセット
+                elm.event.click(function() {
+                    ++eventCount;
+                    this.html = "Event: " + eventCount;
+                    
+                    c.log(this.html);
+                });
+                
+                // one イベント
+                var oneElm = tm.dom.Element("#one-target");
+                oneElm.event.one("click", function() {
+                    this.backgroundColor = "red";
+                    this.html = "もう押しても呼ばれないよん♪";
+                    this.style.set("lineHeight", "30px");
+                    c.log(this.html);
+                });
+                
+                // toggle イベント
+                var toggleElm = tm.dom.Element("#toggle-target");
+                toggleElm.event.toggle("click", [
+                    function() { this.html = this.backgroundColor = "red";  c.log(this.html); },
+                    function() { this.html = this.backgroundColor = "green";c.log(this.html); },
+                    function() { this.html = this.backgroundColor = "blue"; c.log(this.html); },
+                ]);
+            };
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+        
+    </head>
+    
+    <body>
+         
+        <h1>dom.Trans Test | tmlib.js</h1>
+        
+        <div id="content">
+            <section>
+                <p>クリックしてちょ!!</p>
+                <section id="box-list">
+                    <div id="event-target" class="box">Event</div>
+                    <div id="one-target" class="box">One</div>
+                    <div id="toggle-target" class="box">Toggle</div>
+                </section>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>

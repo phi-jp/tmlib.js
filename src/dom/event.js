@@ -224,7 +224,7 @@ tm.dom = tm.dom || {};
          */
         one: function(type, fn, id) {
             var self = this;
-            var elm  = TM.$DOMElement(this.element);
+            var elm  = tm.dom.Element(this.element);
             
             var temp_fn = function() {
                 var result = fn.apply(elm, arguments);
@@ -242,7 +242,7 @@ tm.dom = tm.dom || {};
          */
         toggle: function(type, fn_list) {
             var self = this;
-            var elm  = TM.$DOMElement(this.element);
+            var elm  = tm.dom.Element(this.element);
             var temp_list = [];
             
             for (var i=0; i<fn_list.length; ++i) {
