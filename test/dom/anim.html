@@ -1,0 +1,256 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>tm.dom.Anim Test | tmlib.js</title>
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            #console {
+                padding: 5px;
+                border: 1px solid black;
+            }
+            
+            #box-list {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            .box {
+                width: 100px;
+                height: 100px;
+                margin: 10px;
+                padding: 10px;
+                border: 1px solid black;
+                background-color: white;
+                box-shadow: 2px 2px 4px 0px #aaa;
+                -webkit-user-select: none;
+                
+                color: black;
+                text-shadow: 1px 1px 2px white;
+                text-align: center;
+                line-height: 100px;
+            }
+            
+            #target {
+                width: 100px;
+                height: 100px;
+            }
+            
+            @-webkit-keyframes 'trans' {
+                0% {
+                    -webkit-transform: translate(0px, 0px);
+                }
+                25% {
+                    -webkit-transform: translate(500px, 0px);
+                }
+                50% {
+                    -webkit-transform: translate(500px, 500px);
+                }
+                75% {
+                    -webkit-transform: translate(0px, 500px);
+                }
+            }
+            
+            @-webkit-keyframes 'rotate' {
+                0%  { -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+                25% { -webkit-transform: rotateX(360deg) rotateY(0deg) rotateZ(0deg); }
+                50% { -webkit-transform: rotateX(360deg) rotateY(360deg) rotateZ(0deg); }
+                75% { -webkit-transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+            }
+            
+            @-webkit-keyframes 'scale' {
+                0%  { -webkit-transform: scale(1, 1); }
+                25% { -webkit-transform: scale(4, 1); }
+                50% { -webkit-transform: scale(1, 4); }
+                75% { -webkit-transform: scale(4, 4); }
+            }
+            
+            @-webkit-keyframes 'color' {
+                0%  { background-color: white; }
+                25% { background-color: hsl(0, 100%, 75%); }
+                50% { background-color: hsl(120, 100%, 75%); }
+                75% { background-color: hsl(240, 100%, 75%); }
+            }
+            
+            @-webkit-keyframes 'loop' {
+                0% {
+                    background-color: white;
+                    -webkit-transform: rotateZ(0deg)
+                }
+                25% {
+                    background-color: hsl(0, 100%, 75%);
+                }
+                50% {
+                    background-color: hsl(120, 100%, 75%);
+                }
+                75% {
+                    background-color: hsl(240, 100%, 75%);
+                }
+                100% {
+                    -webkit-transform: rotateZ(360deg);
+                }
+            }
+            
+            @-webkit-keyframes 'show' {
+                1% {
+                    -webkit-transform: translate(1000px, 0px) rotateY(360deg);
+                }
+                0%, 100% {
+                    -webkit-transform: translate(0px, 0px) rotateY(0deg);
+                }
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/attr.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        <script src="../../src/dom/trans.js"></script>
+        <script src="../../src/dom/anim.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+
+        <script id="test-script">
+            
+            /*
+             * Test
+             */
+            window.onload = function()
+            {
+                var eTarget = tm.dom.Element( "#target" );
+                
+                // コンソール生成
+                // var c = console;
+                var c = tm.Console("#console");
+                
+                // star show animation
+                var boxes = tm.dom.ElementList(".box");
+                for (var i=0; i<boxes.length; ++i) {
+                    boxes[i].anim.setProperty({
+                        "Name": "show",
+                        "Duration": "2s",
+                        "Delay": 0.25*i + 's',
+                        "TimingFunction": "ease-out"
+                    }).start();
+                }
+                
+                // クリック時にトランスアニメーションを再生する
+                var eTrans = tm.dom.Element("#trans-anim-target");
+                eTrans.event.add("click", function(){
+                    this.anim.setProperty({
+                        "name": "trans",
+                        "duration": "2s",
+                        "timingFunction": "ease-in"
+                    }).start();
+                    c.log("start trans animation");
+                }, false);
+                
+                // クリック時にローテートアニメーションを再生する
+                var eRotate = tm.dom.Element("#rotate-anim-target");
+                eRotate.event.add("click", function(){
+                    this.anim.setProperty("rotate 2s ease-in").start();
+                    c.log("start rotate animation");
+                }, false);
+                
+                
+                // クリック時にスケールアニメーションを再生する
+                var eScale = tm.dom.Element("#scale-anim-target");
+                eScale.event.add("click", function(){
+                    this.anim.setProperty("scale 2s ease-in").start();
+                    c.log("start scale animation");
+                }, false);
+                
+                
+                // クリック時にカラーアニメーションを再生する
+                var eColor = tm.dom.Element("#color-anim-target");
+                eColor.event.add("click", function(){
+                    this.anim.setProperty("color 8s ease-in").start();
+                    c.log("start color animation");
+                }, false);
+                
+                
+                // 5秒後にループアニメ再生
+                
+                var eLoop = tm.dom.Element("#loop-anim-target");
+                setTimeout(function(){
+                    eLoop.anim.setProperty("loop 4s ease-in infinite").start();
+                    c.log("start color animation infinite");
+                }, 5000);
+            };
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+        
+    </head>
+    
+    <body>
+         
+        <h1>tm.dom.Anim Test | tmlib.js</h1>
+        
+        <div id="content">
+            <section>
+                <p>クリックしてちょ!!</p>
+                <section id="box-list">
+                    <div id="trans-anim-target" class="box">Trans</div>
+                    <div id="rotate-anim-target" class="box">Rotate</div>
+                    <div id="scale-anim-target" class="box">Scale</div>
+                    <div id="color-anim-target" class="box">Color</div>
+                    <div id="loop-anim-target" class="box">Loop</div>
+                </section>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
