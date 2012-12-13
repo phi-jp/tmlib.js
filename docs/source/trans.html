@@ -74,7 +74,8 @@ tm.dom = tm.dom || {};
         },
         
         setEndFunction: function(fn) {
-            this.dom.event.add(tm.dom.Trans.END_EVENT, fn);
+            var elm  = tm.dom.Element(this.element);
+            elm.event.add(tm.dom.Trans.END_EVENT, fn);
             return this;
         },
     });

@@ -1,4 +1,21 @@
-/*
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
  * animationsprite.js
  */
 
@@ -8,16 +25,16 @@ tm.app = tm.app || {};
 
 (function() {
     
-    /**
-     * @class
+<span id='tm-app-AnimationSprite'>    /**
+</span>     * @class
      * AnimationSprite
      */
     tm.app.AnimationSprite = tm.createClass({
 
         superClass: tm.app.CanvasElement,
 
-        /**
-         * 初期化
+<span id='tm-app-AnimationSprite-method-init'>        /**
+</span>         * 初期化
          */
         init: function(width, height, ss)
         {
@@ -33,16 +50,16 @@ tm.app = tm.app || {};
 
             this.currentAnimation = null;
 
-            this.addEventListener("enterframe", function(e) {
-                if (!this.paused && e.app.frame%this.currentAnimation.frequency === 0) {
+            this.addEventListener(&quot;enterframe&quot;, function(e) {
+                if (!this.paused &amp;&amp; e.app.frame%this.currentAnimation.frequency === 0) {
                     this._updateFrame();
                 }
             });
         },
 
         /**
-         * 描画
-         */
+<span id='tm-app-AnimationSprite-method-draw'>         * 描画
+</span>         */
         draw: function(canvas) {
             var srcRect = this.ss.getFrame(this.currentFrame);
             var element = this.ss.image.element;
@@ -76,7 +93,7 @@ tm.app = tm.app || {};
         _normalizeFrame: function() {
             var anim = this.currentAnimation;
             if (anim) {
-                if (this.currentFrameIndex < anim.frames.length) {
+                if (this.currentFrameIndex &lt; anim.frames.length) {
                     this.currentFrame = anim.frames[this.currentFrameIndex];
                 }
                 else {
@@ -89,7 +106,7 @@ tm.app = tm.app || {};
                         this.paused = true;
                     }
                     // dispatch animationend
-                    var e = tm.event.Event("animationend");
+                    var e = tm.event.Event(&quot;animationend&quot;);
                     this.dispatchEvent(e);
                 }
             }
@@ -122,7 +139,7 @@ tm.app = tm.app || {};
             var h = frame.height;
             var row = ~~(this.image.width / w);
 
-            for (var i=0,len=frame.count; i<len; ++i) {
+            for (var i=0,len=frame.count; i&lt;len; ++i) {
                 var x   = i%row;
                 var y   = (i/row)|0;
                 var rect = {
@@ -160,3 +177,6 @@ tm.app = tm.app || {};
     });
 
 })();
+</pre>
+</body>
+</html>

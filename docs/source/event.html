@@ -241,7 +241,7 @@ tm.dom = tm.dom || {};
          */
         one: function(type, fn, id) {
             var self = this;
-            var elm  = TM.$DOMElement(this.element);
+            var elm  = tm.dom.Element(this.element);
             
 <span id='tm-dom-Event-method-hover'>            var temp_fn = function() {
 </span>                var result = fn.apply(elm, arguments);
@@ -259,7 +259,7 @@ tm.dom = tm.dom || {};
          */
         toggle: function(type, fn_list) {
             var self = this;
-            var elm  = TM.$DOMElement(this.element);
+            var elm  = tm.dom.Element(this.element);
             var temp_list = [];
             
             for (var i=0; i&lt;fn_list.length; ++i) {

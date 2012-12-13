@@ -20,7 +20,7 @@ tm.global = window || global || this;
     /**
      * バージョン
      */
-    tm.VERSION = "0.1.1";
+    tm.VERSION = "0.1.4";
     
     /**
      * tmlib.js のルートパス
@@ -9413,7 +9413,9 @@ tm.app = tm.app || {};
                         this.currentFrame = anim.frames[this.currentFrameIndex];
                         this.paused = true;
                     }
-                    // TODO: dispatch onanimationend
+                    // dispatch animationend
+                    var e = tm.event.Event("animationend");
+                    this.dispatchEvent(e);
                 }
             }
         },
