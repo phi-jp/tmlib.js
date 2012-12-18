@@ -53,6 +53,8 @@ tm.app = tm.app || {};
         },
 
         gotoAndPlay: function(name) {
+            name = name || "default";
+            
             this.paused = false;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
@@ -61,6 +63,8 @@ tm.app = tm.app || {};
         },
 
         gotoAndStop: function(name) {
+            name = name || "default";
+            
             this.paused = true;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
@@ -114,13 +118,20 @@ tm.app = tm.app || {};
         getFrame: function(index) {
             return this.frames[index];
         },
-
+        
+        getAnimation: function(name) {
+            return this.animations[name];
+        },
+        
         _calcFrames: function(frame) {
             var frames = this.frames = [];
             
             var w = frame.width;
             var h = frame.height;
             var row = ~~(this.image.width / w);
+            var col = ~~(this.image.height/ h);
+            
+            if (!frame.count) frame.count = row*col;
 
             for (var i=0,len=frame.count; i<len; ++i) {
                 var x   = i%row;
@@ -155,6 +166,13 @@ tm.app = tm.app || {};
                     };
                 }
             }
+            
+            // デフォルトアニメーション
+            this.animations["default"] = {
+                frames: [].range(0, this.frame.count),
+                next: "default",
+                frequency: 1,
+            };
         }
 
     });
