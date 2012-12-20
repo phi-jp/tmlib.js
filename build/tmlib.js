@@ -1,5 +1,5 @@
 /*
- * tmlib.js v0.1.3
+ * tmlib.js v0.1.4
  * http://github.com/phi1618/tmlib.js
  * MIT licensed
  * 
@@ -5129,7 +5129,7 @@ tm.dom = tm.dom || {};
         add: function(name, value) {
             var now = this.get(name);
             value = (now) ? now + ' ' + value : value;
-            this.element.setAttribte(name, value);
+            this.element.setAttribute(name, value);
         },
         
         /**
@@ -5903,6 +5903,11 @@ tm.input = tm.input || {};
             this.element.addEventListener("mouseup", function(e){
                 self.button &= ~(1<<e.button);
             });
+            this.element.addEventListener("mouseover", function(e){
+                // 座標更新
+                self._mousemove(e);
+                self.prevPosition.setObject(self.position);
+            });
         },
         
         /**
@@ -6105,6 +6110,7 @@ tm.input = tm.input || {};
             var self = this;
             this.element.addEventListener("touchstart", function(e){
                 self._touchmove(e);
+                self.prevPosition.setObject(self.position);
                 self.touched = true;
             });
             this.element.addEventListener("touchend", function(e){
