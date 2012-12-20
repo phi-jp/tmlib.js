@@ -37,7 +37,7 @@ tm.dom = tm.dom || {};
         add: function(name, value) {
             var now = this.get(name);
             value = (now) ? now + ' ' + value : value;
-            this.element.setAttribte(name, value);
+            this.element.setAttribute(name, value);
         },
         
         /**
