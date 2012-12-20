@@ -31,6 +31,7 @@ tm.input = tm.input || {};
             var self = this;
             this.element.addEventListener("touchstart", function(e){
                 self._touchmove(e);
+                self.prevPosition.setObject(self.position);
                 self.touched = true;
             });
             this.element.addEventListener("touchend", function(e){

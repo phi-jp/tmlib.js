@@ -118,7 +118,7 @@
                     if (p.getPointingStart() == true) {
                         var crash = tm.app.AnimationSprite(128, 128, ss);
                         crash.position.set(p.x, p.y);
-                        crash.gotoAndPlay();
+                        crash.gotoAndPlay("crash");
 //                        crash.gotoAndStop("hoge");
                         crash.blendMode = "lighter";
                         this.addChild(crash);
