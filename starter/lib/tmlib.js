@@ -1,5 +1,5 @@
 /*
- * tmlib.js v0.1.3
+ * tmlib.js v0.1.4
  * http://github.com/phi1618/tmlib.js
  * MIT licensed
  * 
@@ -20,7 +20,7 @@ tm.global = window || global || this;
     /**
      * バージョン
      */
-    tm.VERSION = "0.1.1";
+    tm.VERSION = "0.1.4";
     
     /**
      * tmlib.js のルートパス
@@ -408,7 +408,8 @@ tm.global = window || global || this;
         value: function(name, val) {
             Object.defineProperty(this, name, {
                 value: val,
-                enumerable: true
+                enumerable: true,
+                writable: true
             });
         }
     });
@@ -423,7 +424,8 @@ tm.global = window || global || this;
         value: function(name, fn) {
             Object.defineProperty(this, name, {
                 value: fn,
-                enumerable: false
+                enumerable: false,
+                writable: true
             });
         }
     });
@@ -432,14 +434,16 @@ tm.global = window || global || this;
     Object.prototype.defineFunction("defineInstanceVariable", function(name, val){
         Object.defineProperty(this.prototype, name, {
             value: val,
-            enumerable: true
+            enumerable: true,
+            writable: true
         });
     });
     
     Object.prototype.defineFunction("defineInstanceMethod", function(name, fn){
         Object.defineProperty(this.prototype, name, {
             value: fn,
-            enumerable: false
+            enumerable: false,
+            writable: true
         });
     });
     
@@ -4730,6 +4734,11 @@ tm.dom = tm.dom || {};
         "set": function(v)  { this.element.innerText = v; }
     });
     
+    /**
+     * @property    classList
+     * クラスリスト
+     */
+    tm.dom.Element.prototype.getter("classList", function()   { return this.element.classList; });
     
     tm.dom.Element.prototype.getter("parent", function(){
         return (this.element.parent != undefined) ? tm.dom.Element(this.element.parent) : null;
@@ -5013,7 +5022,7 @@ tm.dom = tm.dom || {};
          */
         one: function(type, fn, id) {
             var self = this;
-            var elm  = TM.$DOMElement(this.element);
+            var elm  = tm.dom.Element(this.element);
             
             var temp_fn = function() {
                 var result = fn.apply(elm, arguments);
@@ -5031,7 +5040,7 @@ tm.dom = tm.dom || {};
          */
         toggle: function(type, fn_list) {
             var self = this;
-            var elm  = TM.$DOMElement(this.element);
+            var elm  = tm.dom.Element(this.element);
             var temp_list = [];
             
             for (var i=0; i<fn_list.length; ++i) {
@@ -5120,7 +5129,7 @@ tm.dom = tm.dom || {};
         add: function(name, value) {
             var now = this.get(name);
             value = (now) ? now + ' ' + value : value;
-            this.element.setAttribte(name, value);
+            this.element.setAttribute(name, value);
         },
         
         /**
@@ -5425,7 +5434,8 @@ tm.dom = tm.dom || {};
         },
         
         setEndFunction: function(fn) {
-            this.dom.event.add(tm.dom.Trans.END_EVENT, fn);
+            var elm  = tm.dom.Element(this.element);
+            elm.event.add(tm.dom.Trans.END_EVENT, fn);
             return this;
         },
     });
@@ -5893,6 +5903,11 @@ tm.input = tm.input || {};
             this.element.addEventListener("mouseup", function(e){
                 self.button &= ~(1<<e.button);
             });
+            this.element.addEventListener("mouseover", function(e){
+                // 座標更新
+                self._mousemove(e);
+                self.prevPosition.setObject(self.position);
+            });
         },
         
         /**
@@ -6095,6 +6110,7 @@ tm.input = tm.input || {};
             var self = this;
             this.element.addEventListener("touchstart", function(e){
                 self._touchmove(e);
+                self.prevPosition.setObject(self.position);
                 self.touched = true;
             });
             this.element.addEventListener("touchend", function(e){
@@ -9314,6 +9330,188 @@ tm.app = tm.app || {};
 
 
 /*
+ * animationsprite.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * AnimationSprite
+     */
+    tm.app.AnimationSprite = tm.createClass({
+
+        superClass: tm.app.CanvasElement,
+
+        /**
+         * 初期化
+         */
+        init: function(width, height, ss)
+        {
+            this.superInit();
+            
+            this.width  = width || 64;
+            this.height = height|| 64;
+            
+            this.ss = ss;
+            this.currentFrame = 0;
+            this.currentFrameIndex = 0;
+            this.paused = true;
+
+            this.currentAnimation = null;
+
+            this.addEventListener("enterframe", function(e) {
+                if (!this.paused && e.app.frame%this.currentAnimation.frequency === 0) {
+                    this._updateFrame();
+                }
+            });
+        },
+
+        /**
+         * 描画
+         */
+        draw: function(canvas) {
+            var srcRect = this.ss.getFrame(this.currentFrame);
+            var element = this.ss.image.element;
+
+            canvas.drawImage(element,
+                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
+                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+        },
+
+        gotoAndPlay: function(name) {
+            name = name || "default";
+            
+            this.paused = false;
+            this.currentAnimation = this.ss.animations[name];
+            this.currentFrame = 0;
+            this.currentFrameIndex = 0;
+            this._normalizeFrame();
+        },
+
+        gotoAndStop: function(name) {
+            name = name || "default";
+            
+            this.paused = true;
+            this.currentAnimation = this.ss.animations[name];
+            this.currentFrame = 0;
+            this.currentFrameIndex = 0;
+            this._normalizeFrame();
+        },
+
+        _updateFrame: function() {
+            this.currentFrameIndex += 1;
+            this._normalizeFrame();
+        },
+
+        _normalizeFrame: function() {
+            var anim = this.currentAnimation;
+            if (anim) {
+                if (this.currentFrameIndex < anim.frames.length) {
+                    this.currentFrame = anim.frames[this.currentFrameIndex];
+                }
+                else {
+                    if (anim.next) {
+                        this.gotoAndPlay(anim.next);
+                    }
+                    else {
+                        this.currentFrameIndex = anim.frames.length - 1;
+                        this.currentFrame = anim.frames[this.currentFrameIndex];
+                        this.paused = true;
+                    }
+                    // dispatch animationend
+                    var e = tm.event.Event("animationend");
+                    this.dispatchEvent(e);
+                }
+            }
+        },
+
+    });
+
+})();
+
+
+(function() {
+    
+    tm.app.SpriteSheet = tm.createClass({
+        init: function(param) {
+            this.frame = param.frame;
+            this.image = tm.graphics.TextureManager.get(param.image);
+
+            this._calcFrames(param.frame);
+            this._calcAnim(param.animations);
+        },
+
+        getFrame: function(index) {
+            return this.frames[index];
+        },
+        
+        getAnimation: function(name) {
+            return this.animations[name];
+        },
+        
+        _calcFrames: function(frame) {
+            var frames = this.frames = [];
+            
+            var w = frame.width;
+            var h = frame.height;
+            var row = ~~(this.image.width / w);
+            var col = ~~(this.image.height/ h);
+            
+            if (!frame.count) frame.count = row*col;
+
+            for (var i=0,len=frame.count; i<len; ++i) {
+                var x   = i%row;
+                var y   = (i/row)|0;
+                var rect = {
+                    x:x*w,
+                    y:y*h,
+                    width: w,
+                    height: h
+                };
+                frames.push(rect);
+            }
+        },
+
+        _calcAnim: function(animations) {
+            this.animations = [];
+            for (var key in animations) {
+                var anim = animations[key];
+
+                if (anim instanceof Array) {
+                    this.animations[key] = {
+                        frames: [].range(anim[0], anim[1]),
+                        next: anim[2],
+                        frequency: anim[3] || 1
+                    };
+                }
+                else {
+                    this.animations[key] = {
+                        frames: anim.frames,
+                        next: anim.next,
+                        frequency: anim.frequency || 1
+                    };
+                }
+            }
+            
+            // デフォルトアニメーション
+            this.animations["default"] = {
+                frames: [].range(0, this.frame.count),
+                next: "default",
+                frequency: 1,
+            };
+        }
+
+    });
+
+})();
+
+
+/*
  * sprite.js
  */
 
@@ -9996,56 +10194,114 @@ tm.app = tm.app || {};
         },
     });
     
-    tm.app.StartScene = tm.createClass({
-        
+})();
+    
+(function() {
+    
+    var DEFAULT_PARAM = {
+        title: "Time is money",
+        titleSize: 32,
+        width: 465,
+        height: 465,
+    };
+    
+    tm.app.TitleScene = tm.createClass({
         superClass: tm.app.Scene,
         
-        init: function() {
+        init: function(param) {
             this.superInit();
             
-        },
-        
-        onenter: function(e) {
-            var label = tm.app.Label("Start");
-            label.x = e.app.canvas.width/2;
-            label.y = e.app.canvas.height/2;
-            label.width = e.app.canvas.width;
+            param = param || {};
+            param.extendSafe(DEFAULT_PARAM);
+            
+            var label = tm.app.Label(param.title);
+            label.x = param.width/2;
+            label.y = param.height/2;
+            label.width = param.width;
             label.align     = "center";
             label.baseline  = "middle";
+            label.fontSize = param.titleSize;
             this.addChild(label);
-            
-            // 幅高さをセット
-            this.width  = e.app.canvas.width;
-            this.height = e.app.canvas.height;
-            
-            this.app = e.app;
+        },
+        onpointingstart: function() {
+            var e = tm.event.Event("nextscene");
+            this.dispatchEvent(e);
         },
     });
     
     
-    tm.app.EndScene = tm.createClass({
+})();
+
+(function() {
+    
+    
+    var DEFAULT_PARAM = {
+        score: 256,
+        msg: "tmlib.js のサンプルです!",
+        hashtags: "tmlibjs",
+        url: "https://github.com/phi1618/tmlib.js/",
+        width: 465,
+        height: 465,
+        related: "tmlib.js tmlife javascript",
+    };
+    
+    tm.app.ResultScene = tm.createClass({
         
         superClass: tm.app.Scene,
         
-        init: function() {
+        init: function(param) {
             this.superInit();
+            
+            param = param || {};
+            param.extendSafe(DEFAULT_PARAM);
+            
+            var text = "SCORE: {score}, {msg}".format(param);
+            var twitterURL = tm.social.Twitter.createURL({
+                type    : "tweet",
+                text    : text,
+                hashtags: param.hashtags,
+                url     : param.url, // or window.document.location.href
+            });
+            
+            
+            var scoreLabel = tm.app.Label("SCORE: {score}".format(param));
+            scoreLabel.x = param.width/2;
+            scoreLabel.y = param.height/2-70;
+            scoreLabel.width = param.width;
+            scoreLabel.align     = "center";
+            scoreLabel.baseline  = "middle";
+            scoreLabel.fontSize = 32;
+            this.addChild(scoreLabel);
+            
+            var msgLabel = tm.app.Label(param.msg);
+            msgLabel.x = param.width/2;
+            msgLabel.y = param.height/2-20;
+            msgLabel.width = param.width;
+            msgLabel.align     = "center";
+            msgLabel.baseline  = "middle";
+            msgLabel.fontSize = 16;
+            this.addChild(msgLabel);
+            
+            // ツイートボタン
+            var tweetButton = tm.app.iPhoneButton(120, 50, "blue", "Tweet").addChildTo(this);
+            tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
+            tweetButton.onpointingstart = function() { window.open(twitterURL, "_self"); };
+            
+            // 戻るボタン
+            var backButton = tm.app.iPhoneButton(120, 50, "black", "Back").addChildTo(this);
+            backButton.setPosition(param.width/2 + 65, param.height/2 + 50);
+            backButton.onpointingstart = function() {
+                var e = tm.event.Event("nextscene");
+                this.dispatchEvent(e);
+            }.bind(this);
         },
         
-        onenter: function(e) {
-            var label = tm.app.Label("end");
-            label.x = e.app.canvas.width/2;
-            label.y = e.app.canvas.height/2;
-            label.width = e.app.canvas.width;
-            label.align     = "center";
-            label.baseline  = "middle";
-            this.addChild(label);
-            
-            // 幅高さをセット
-            this.width  = e.app.canvas.width;
-            this.height = e.app.canvas.height;
-            
-            this.app = e.app;
+        /*
+        onpointingstart: function() {
+            var e = tm.event.Event("nextscene");
+            this.dispatchEvent(e);
         },
+        */
     });
     
 })();
