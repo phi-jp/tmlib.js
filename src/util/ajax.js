@@ -38,7 +38,7 @@ tm.util = tm.util || {};
                     // 成功
                     if (httpRequest.status === 200) {
                         // タイプ別に変換をかける
-                        var data = conv_func[httpRequest.responseText];
+                        var data = conv_func(httpRequest.responseText);
                         params.success(data);
                     }
                     // status === 0 はローカルファイル用
