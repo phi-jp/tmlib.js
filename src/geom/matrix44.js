@@ -470,6 +470,30 @@ tm.geom = tm.geom || {};
             0.0, 0.0, 1.0, 0.0
         );
     };
+
+    /**
+     *
+     */
+    tm.geom.Matrix44.lookAt = function(eye, target, up) {
+        var zaxis = tm.geom.Vector3.sub(target, eye).normalize();
+        var xaxis = tm.geom.Vector3.cross(up, zaxis).normalize();
+        var yaxis = tm.geom.Vector3.cross(zaxis, xaxis).normalize();
+
+        var orientation = tm.geom.Matrix44(
+            xaxis.x, yaxis.x, zaxis.x, 0,
+            xaxis.y, yaxis.y, zaxis.y, 0,
+            xaxis.z, yaxis.z, zaxis.z, 0,
+            0, 0, 0, 1
+        );
+        var translation = tm.geom.Matrix44(
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            -eye.x, -eye.y, -eye.z, 1
+        );
+
+        return translation.multiply(orientation);
+    };
     
 })();
 

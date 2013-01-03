@@ -57,12 +57,15 @@
         <script src="../../src/graphics/canvas.js"></script>
         <script src="../../src/graphics/gradient.js"></script>
         <script src="../../src/graphics/graphics.js"></script>
+        <script src="../../src/graphics/texture.js"></script>
         
         <script src="../../plugins/console.tm.js"></script>
         
         <script id="test-script">
             
             tm.preload(function() {
+//                tm.graphics.TextureManager.add("img", "icon.png");
+                tm.graphics.TextureManager.add("img", "nehe.gif");
             });
             
             tm.main(function() {
@@ -98,17 +101,28 @@
                     1.0, 1.0, 1.0, 1.0,
                 ]);
 
+                var img = tm.graphics.TextureManager.get("img");
+                var tex = graphics.createTexture(img);
+                var gl = graphics.gl;
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, tex);
+                gl.uniform1i(graphics.program.samplerUniform, 0);
+
                 tm.setLoop(function() {
                     graphics.clear();
 
 //                    graphics._mvMatrix.translate(0.01, 0, 0);
-                    graphics._mvMatrix.rotateY(Math.degToRad(1));
+                    graphics._mvMatrix.rotateY(Math.degToRad(4));
+                    graphics._mvMatrix.rotateX(Math.degToRad(2));
                     graphics.drawArrays(vbo, colors);
                     
                     graphics.color4(0.0, 0.0, 1.0, 1.0);
                     graphics.drawRectangle(-0.25, -0.75, 0.5, 0.5);
                     graphics.color4(0.0, 1.0, 1.0, 1.0);
                     graphics.drawCircle(0.0, 0.5, 0.25);
+
+                    //graphics.drawPyramid();
+                    //graphics.drawCube();
                 }, 1000/30);
             });
             

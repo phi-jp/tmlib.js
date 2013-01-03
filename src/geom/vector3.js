@@ -408,7 +408,11 @@ tm.geom = tm.geom || {};
      * 外積
      */
     tm.geom.Vector3.cross = function(lhs, rhs) {
-        // TODO: 
+        return tm.geom.Vector3(
+            lhs.y*rhs.z - lhs.z*rhs.y,
+            lhs.z*rhs.x - lhs.x*rhs.z,
+            lhs.x*rhs.y - lhs.y*rhs.x
+        );
     };
     
     /**
@@ -466,7 +470,6 @@ tm.geom = tm.geom || {};
      * 0.5 で lhs と rhs の中間ベクトルを求めることができます.
      */
     tm.geom.Vector3.lerp = function(lhs, rhs, t) {
-        // TODO: 
         return tm.geom.Vector3(
             lhs.x + (rhs.x-lhs.x)*t,
             lhs.y + (rhs.y-lhs.y)*t,

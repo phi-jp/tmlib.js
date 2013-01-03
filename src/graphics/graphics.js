@@ -9,21 +9,37 @@ tm.graphics = tm.graphics || {};
     var VS = "\
         attribute vec3 position;\
         attribute vec4 color;\
+        attribute vec2 texCoord;\
         \
         uniform mat4 uMVMatrix;\
         uniform mat4 uPMatrix;\
+        uniform mat4 uCameraMatrix;\
         \
         varying vec4 vColor;\
+        varying vec2 vTextureCoord;\
         \
         void main() {\
-            gl_Position = uPMatrix * uMVMatrix * vec4(position, 1.0);\
+            gl_Position = uPMatrix * uMVMatrix * uCameraMatrix * vec4(position, 1.0);\
             vColor = color;\
+            vTextureCoord = texCoord;\
         }";
     var FS = "\
         precision mediump float;\
+        \
         varying vec4 vColor;\
+        varying vec2 vTextureCoord;\
+        \
+        uniform int renderType;\
+        uniform sampler2D uSampler;\
+        \
         void main(void) {\
-            gl_FragColor = vColor;\
+            if (renderType == 0) {\
+                gl_FragColor = vColor;\
+            }\
+            else {\
+                vec4 texColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));\
+                gl_FragColor = texColor;\
+            }\
         }";
 
     /**
@@ -71,6 +87,12 @@ tm.graphics = tm.graphics || {};
             this._mvMatrix     = tm.geom.Matrix44().identity();
             this._mvMatrix.translate(0, 0, 4);
             this._initGL();
+
+            this._cameraMatrix = tm.geom.Matrix44.lookAt(
+                tm.geom.Vector3(0, 5, 5),
+                tm.geom.Vector3(0, 0, 0),
+                tm.geom.Vector3(0, 1, 0)
+            );
         },
 
         resize: function(width, height) {
@@ -155,7 +177,6 @@ tm.graphics = tm.graphics || {};
          */
         clear: function() {
             var gl = this.gl;
-            console.dir(gl.viewportHeight);
             gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         },
@@ -163,7 +184,7 @@ tm.graphics = tm.graphics || {};
         /**
          *
          */
-        drawArrays: function(vbo, colors) {
+        drawArrays: function(vbo, colors, texCoords) {
             var gl = this.gl;
             var program = this.program;
             gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
@@ -172,8 +193,20 @@ tm.graphics = tm.graphics || {};
             gl.bindBuffer(gl.ARRAY_BUFFER, colors);
             gl.vertexAttribPointer(program.vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
 
+            if (texCoords) {
+                gl.uniform1i(program.renderType, 1);
+                gl.enableVertexAttribArray(program.textureCoordAttribute);
+                gl.bindBuffer(gl.ARRAY_BUFFER, texCoords);
+                gl.vertexAttribPointer(program.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);
+            }
+            else {
+                gl.uniform1i(program.renderType, 0);
+                gl.disableVertexAttribArray(program.textureCoordAttribute);
+            }
+
             gl.uniformMatrix4fv(program.pMatrixUniform, false, this._pMatrix.m);
             gl.uniformMatrix4fv(program.mvMatrixUniform, false, this._mvMatrix.m);
+            gl.uniformMatrix4fv(program.cameraMatrixUniform, false, this._cameraMatrix.m);
 
             gl.drawArrays(gl.TRIANGLES, 0, vbo._buffer.length/3);
         },
@@ -181,9 +214,17 @@ tm.graphics = tm.graphics || {};
         /**
          *
          */
+        drawMesh: function(mesh) {
+
+        },
+
+        /**
+         *
+         */
         beginDraw: function() {
-            this._vertices = [];
-            this._colors   = [];
+            this._vertices  = [];
+            this._colors    = [];
+            this._texCoords = [];
         },
 
         /**
@@ -220,17 +261,29 @@ tm.graphics = tm.graphics || {};
             return this;
         },
 
+        texCoord2: function(s, t) {
+            this._texCoords.push(s, t);
+
+            return this;
+        },
+
         /**
          *
          */
         endDraw: function() {
-            var vertices = this.createBuffer(this._vertices);
-            var colors   = this.createBuffer(this._colors);
+            var vertices    = this.createBuffer(this._vertices);
+            var colors      = this.createBuffer(this._colors);
+            var texCoords   = null;
 
-            this.drawArrays(vertices, colors);
+            if (this._texCoords.length > 0) {
+                texCoords = this.createBuffer(this._texCoords);
+            }
 
-            this._vertices = null;
-            this._colors   = null;
+            this.drawArrays(vertices, colors, texCoords);
+
+            this._vertices  = null;
+            this._colors    = null;
+            this._texCoords = null;
         },
 
         /**
@@ -245,12 +298,18 @@ tm.graphics = tm.graphics || {};
             
             this.beginDraw();
                 this.vertex3(left, top, 0.0);
+                this.texCoord2(0.0, 0.0);
                 this.vertex3(left, bottom, 0.0);
+                this.texCoord2(0.0, 1.0);
                 this.vertex3(right, bottom, 0.0);
+                this.texCoord2(1.0, 1.0);
                 
                 this.vertex3(right,  bottom, 0.0);
+                this.texCoord2(1.0, 1.0);
                 this.vertex3(right, top, 0.0);
+                this.texCoord2(1.0, 0.0);
                 this.vertex3(left, top, 0.0);
+                this.texCoord2(0.0, 0.0);
             this.endDraw();
         },
 
@@ -277,6 +336,177 @@ tm.graphics = tm.graphics || {};
             this.endDraw();
         },
 
+        /**
+         *
+         */
+        drawCube: function() {
+            var vertices = this.createBuffer([
+                // Front face
+                -1.0, -1.0,  1.0,
+                 1.0, -1.0,  1.0,
+                 1.0,  1.0,  1.0,
+                 1.0,  1.0,  1.0,
+                -1.0,  1.0,  1.0,
+                -1.0, -1.0,  1.0,
+
+                // Back face
+                -1.0, -1.0, -1.0,
+                -1.0,  1.0, -1.0,
+                 1.0,  1.0, -1.0,
+                 1.0,  1.0, -1.0,
+                 1.0, -1.0, -1.0,
+                -1.0, -1.0, -1.0,
+
+                // Top face
+                -1.0,  1.0, -1.0,
+                -1.0,  1.0,  1.0,
+                 1.0,  1.0,  1.0,
+                 1.0,  1.0,  1.0,
+                 1.0,  1.0, -1.0,
+                -1.0,  1.0, -1.0,
+
+                // Bottom face
+                -1.0, -1.0, -1.0,
+                 1.0, -1.0, -1.0,
+                 1.0, -1.0,  1.0,
+                 1.0, -1.0,  1.0,
+                -1.0, -1.0,  1.0,
+                -1.0, -1.0, -1.0,
+
+                // Right face
+                 1.0, -1.0, -1.0,
+                 1.0,  1.0, -1.0,
+                 1.0,  1.0,  1.0,
+                 1.0,  1.0,  1.0,
+                 1.0, -1.0,  1.0,
+                 1.0, -1.0, -1.0,
+
+                // Left face
+                -1.0, -1.0, -1.0,
+                -1.0, -1.0,  1.0,
+                -1.0,  1.0,  1.0,
+                -1.0,  1.0,  1.0,
+                -1.0, -1.0, -1.0,
+                -1.0,  1.0, -1.0
+            ]);
+
+            var colors = this.createBuffer([
+                // Front face
+                1.0, 0.0, 0.0, 1.0,
+                1.0, 0.0, 0.0, 1.0,
+                1.0, 0.0, 0.0, 1.0,
+                1.0, 0.0, 0.0, 1.0,
+                1.0, 0.0, 0.0, 1.0,
+                1.0, 0.0, 0.0, 1.0,
+
+                // Back face
+                0.0, 1.0, 0.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+
+                // Top face
+                0.0, 0.0, 1.0, 1.0,
+                0.0, 0.0, 1.0, 1.0,
+                0.0, 0.0, 1.0, 1.0,
+                0.0, 0.0, 1.0, 1.0,
+                0.0, 0.0, 1.0, 1.0,
+                0.0, 0.0, 1.0, 1.0,
+
+                // Bottom face
+                1.0, 1.0, 0.0, 1.0,
+                1.0, 1.0, 0.0, 1.0,
+                1.0, 1.0, 0.0, 1.0,
+                1.0, 1.0, 0.0, 1.0,
+                1.0, 1.0, 0.0, 1.0,
+                1.0, 1.0, 0.0, 1.0,
+
+                // Right face
+                1.0, 0.0, 1.0, 1.0,
+                1.0, 0.0, 1.0, 1.0,
+                1.0, 0.0, 1.0, 1.0,
+                1.0, 0.0, 1.0, 1.0,
+                1.0, 0.0, 1.0, 1.0,
+                1.0, 0.0, 1.0, 1.0,
+
+                // Left face
+                0.0, 1.0, 1.0, 1.0,
+                0.0, 1.0, 1.0, 1.0,
+                0.0, 1.0, 1.0, 1.0,
+                0.0, 1.0, 1.0, 1.0,
+                0.0, 1.0, 1.0, 1.0,
+                0.0, 1.0, 1.0, 1.0,
+            ]);
+
+            this.drawArrays(vertices, colors);
+
+        },
+
+        /**
+         *
+         */
+        drawPyramid: function() {
+            var vertices = this.createBuffer([
+                // Front face
+                0.0,  1.0,  0.0,
+                -1.0, -1.0,  1.0,
+                1.0, -1.0,  1.0,
+                // Right face
+                0.0,  1.0,  0.0,
+                1.0, -1.0,  1.0,
+                1.0, -1.0, -1.0,
+                // Back face
+                0.0,  1.0,  0.0,
+                1.0, -1.0, -1.0,
+                -1.0, -1.0, -1.0,
+                // Left face
+                0.0,  1.0,  0.0,
+                -1.0, -1.0, -1.0,
+                -1.0, -1.0,  1.0
+            ]);
+
+            var colors = this.createBuffer([
+                // Front face
+                1.0, 0.0, 0.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+                0.0, 0.0, 1.0, 1.0,
+
+                // Right face
+                1.0, 0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+
+                // Back face
+                1.0, 0.0, 0.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+                0.0, 0.0, 1.0, 1.0,
+
+                // Left face
+                1.0, 0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0, 1.0,
+                0.0, 1.0, 0.0, 1.0
+            ]);
+
+            this.drawArrays(vertices, colors);
+        },
+
+        createTexture: function(texture) {
+            var gl = this.gl;
+            var tex = gl.createTexture();
+            var element = texture.element;
+
+            gl.bindTexture(gl.TEXTURE_2D, tex);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, element);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.bindTexture(gl.TEXTURE_2D, null);
+
+            return tex;
+        },
+
         _initGL: function() {
             var gl = this.gl;
 
@@ -289,15 +519,37 @@ tm.graphics = tm.graphics || {};
             program.vertexColorAttribute = gl.getAttribLocation(program, "color");
             gl.enableVertexAttribArray(program.vertexColorAttribute);
 
+            program.textureCoordAttribute = gl.getAttribLocation(program, "texCoord");
+            gl.enableVertexAttribArray(program.textureCoordAttribute);
+
             program.pMatrixUniform = gl.getUniformLocation(program, "uPMatrix");
             program.mvMatrixUniform = gl.getUniformLocation(program, "uMVMatrix");
+            program.cameraMatrixUniform = gl.getUniformLocation(program, "uCameraMatrix");
+            program.samplerUniform = gl.getUniformLocation(program, "uSampler");
+
+            program.renderType     = gl.getUniformLocation( program, "renderType" );
 
             gl.clearColor(0.0, 0.0, 0.0, 1.0);
             gl.clearDepth(1.0);
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LEQUAL);
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
         },
 
     });
 
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
