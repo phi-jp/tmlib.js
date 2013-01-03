@@ -96,6 +96,20 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * 転置
+         */
+        transpose: function() {
+            this.m.swap(1, 4);
+            this.m.swap(2, 8);
+            this.m.swap(3, 12);
+            this.m.swap(6, 9);
+            this.m.swap(7, 13);
+            this.m.swap(11, 14);
+            
+            return this;
+        },
+        
+        /**
          * 移動
          */
         translate: function(x, y, z) {
@@ -439,7 +453,23 @@ tm.geom = tm.geom || {};
         
         return mat;
     };
-        
+
+    /**
+     * @static
+     * @method
+     * perspective
+     */
+    tm.geom.Matrix44.perspective = function(fovy, aspect, znear, zfar) {
+        var yscale = 1.0 / Math.tan(0.5*fovy*Math.PI/180);
+        var xscale = yscale / aspect;
+
+        return tm.geom.Matrix44(
+            xscale, 0.0, 0.0, 0.0,
+            0.0, yscale, 0.0, 0.0,
+            0.0, 0.0, zfar/(zfar-znear), znear*zfar/(znear-zfar),
+            0.0, 0.0, 1.0, 0.0
+        );
+    };
     
 })();
 

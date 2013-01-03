@@ -16,7 +16,7 @@ tm.graphics = tm.graphics || {};
         varying vec4 vColor;\
         \
         void main() {\
-            gl_Position = vec4(position, 1.0);\
+            gl_Position = uPMatrix * uMVMatrix * vec4(position, 1.0);\
             vColor = color;\
         }";
     var FS = "\
@@ -60,14 +60,26 @@ tm.graphics = tm.graphics || {};
             }
             this.element            = this.canvas;
 
-            this.gl = this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
+            var gl = this.gl = this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
             if (!this.gl) {
                 alert("could not initialized WebGL");
                 return ;
             }
 
             this._currentColor = [1.0, 1.0, 1.0, 1.0];
+            this._pMatrix      = tm.geom.Matrix44.perspective(45, this.canvas.width/this.canvas.height, 0.1, 1000.0);
+            this._mvMatrix     = tm.geom.Matrix44().identity();
+            this._mvMatrix.translate(0, 0, 4);
             this._initGL();
+        },
+
+        resize: function(width, height) {
+            this.canvas.width  = width;
+            this.canvas.height = height;
+            this.gl.viewportWidth  = width;
+            this.gl.viewportHeight = height;
+
+            this._pMatrix      = tm.geom.Matrix44.perspective(45, this.canvas.width/this.canvas.height, 0.1, 1000.0);
         },
 
         /**
@@ -143,6 +155,7 @@ tm.graphics = tm.graphics || {};
          */
         clear: function() {
             var gl = this.gl;
+            console.dir(gl.viewportHeight);
             gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         },
@@ -158,6 +171,9 @@ tm.graphics = tm.graphics || {};
 
             gl.bindBuffer(gl.ARRAY_BUFFER, colors);
             gl.vertexAttribPointer(program.vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
+
+            gl.uniformMatrix4fv(program.pMatrixUniform, false, this._pMatrix.m);
+            gl.uniformMatrix4fv(program.mvMatrixUniform, false, this._mvMatrix.m);
 
             gl.drawArrays(gl.TRIANGLES, 0, vbo._buffer.length/3);
         },
@@ -175,7 +191,7 @@ tm.graphics = tm.graphics || {};
          */
         vertex2: function(x, y) {
             var vertices = this._vertices;
-            vertices.push(x, y, 1.0);
+            vertices.push(x, y, 0.0);
 
             Array.prototype.push.apply(this._colors, this._currentColor);
         },

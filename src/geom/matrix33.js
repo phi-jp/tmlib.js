@@ -109,7 +109,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * 転地
+         * 転置
          */
         transpose: function() {
             this.m.swap(1, 3);

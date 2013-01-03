@@ -47,6 +47,7 @@
         
         <script src="../../src/geom/vector2.js"></script>
         <script src="../../src/geom/vector3.js"></script>
+        <script src="../../src/geom/matrix44.js"></script>
         <script src="../../src/geom/circle.js"></script>
         
         <script src="../../src/dom/element.js"></script>
@@ -67,10 +68,7 @@
             tm.main(function() {
                 var graphics = tm.graphics.Graphics("#world");
 
-                graphics.canvas.width = 640;
-                graphics.canvas.height = 480;
-                graphics.gl.viewportWidth  = graphics.canvas.width;
-                graphics.gl.viewportHeight = graphics.canvas.height;
+                graphics.resize(640, 480);
 
                 var vbo = graphics.createBuffer([
                     0.0,  0.25, 0.0,
@@ -102,6 +100,9 @@
 
                 tm.setLoop(function() {
                     graphics.clear();
+
+//                    graphics._mvMatrix.translate(0.01, 0, 0);
+                    graphics._mvMatrix.rotateY(Math.degToRad(1));
                     graphics.drawArrays(vbo, colors);
                     
                     graphics.color4(0.0, 0.0, 1.0, 1.0);
