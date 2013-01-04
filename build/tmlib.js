@@ -6525,8 +6525,6 @@ tm.graphics = tm.graphics || {};
          * 名前は仮. 検討する
          */
         fitWindow: function(everFlag) {
-            everFlag = everFlag || true;
-            
             var _fitFunc = function() {
                 var e = this.element;
                 var s = e.style;
