@@ -1620,7 +1620,7 @@ tm.util = tm.util || {};
                     // 成功
                     if (httpRequest.status === 200) {
                         // タイプ別に変換をかける
-                        var data = conv_func[httpRequest.responseText];
+                        var data = conv_func(httpRequest.responseText);
                         params.success(data);
                     }
                     // status === 0 はローカルファイル用
@@ -1707,6 +1707,7 @@ tm.util = tm.util || {};
     };
     
 })();
+
 
 /*
  * file.js
@@ -2960,7 +2961,11 @@ tm.geom = tm.geom || {};
      * 外積
      */
     tm.geom.Vector3.cross = function(lhs, rhs) {
-        // TODO: 
+        return tm.geom.Vector3(
+            lhs.y*rhs.z - lhs.z*rhs.y,
+            lhs.z*rhs.x - lhs.x*rhs.z,
+            lhs.x*rhs.y - lhs.y*rhs.x
+        );
     };
     
     /**
@@ -3018,7 +3023,6 @@ tm.geom = tm.geom || {};
      * 0.5 で lhs と rhs の中間ベクトルを求めることができます.
      */
     tm.geom.Vector3.lerp = function(lhs, rhs, t) {
-        // TODO: 
         return tm.geom.Vector3(
             lhs.x + (rhs.x-lhs.x)*t,
             lhs.y + (rhs.y-lhs.y)*t,
@@ -3226,7 +3230,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * 転地
+         * 転置
          */
         transpose: function() {
             this.m.swap(1, 3);
@@ -3739,6 +3743,20 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * 転置
+         */
+        transpose: function() {
+            this.m.swap(1, 4);
+            this.m.swap(2, 8);
+            this.m.swap(3, 12);
+            this.m.swap(6, 9);
+            this.m.swap(7, 13);
+            this.m.swap(11, 14);
+            
+            return this;
+        },
+        
+        /**
          * 移動
          */
         translate: function(x, y, z) {
@@ -4082,7 +4100,47 @@ tm.geom = tm.geom || {};
         
         return mat;
     };
-        
+
+    /**
+     * @static
+     * @method
+     * perspective
+     */
+    tm.geom.Matrix44.perspective = function(fovy, aspect, znear, zfar) {
+        var yscale = 1.0 / Math.tan(0.5*fovy*Math.PI/180);
+        var xscale = yscale / aspect;
+
+        return tm.geom.Matrix44(
+            xscale, 0.0, 0.0, 0.0,
+            0.0, yscale, 0.0, 0.0,
+            0.0, 0.0, zfar/(zfar-znear), znear*zfar/(znear-zfar),
+            0.0, 0.0, 1.0, 0.0
+        );
+    };
+
+    /**
+     *
+     */
+    tm.geom.Matrix44.lookAt = function(eye, target, up) {
+        var zaxis = tm.geom.Vector3.sub(target, eye).normalize();
+        var xaxis = tm.geom.Vector3.cross(up, zaxis).normalize();
+        var yaxis = tm.geom.Vector3.cross(zaxis, xaxis).normalize();
+
+        var orientation = tm.geom.Matrix44(
+            xaxis.x, yaxis.x, zaxis.x, 0,
+            xaxis.y, yaxis.y, zaxis.y, 0,
+            xaxis.z, yaxis.z, zaxis.z, 0,
+            0, 0, 0, 1
+        );
+        var translation = tm.geom.Matrix44(
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            -eye.x, -eye.y, -eye.z, 1
+        );
+
+        return translation.multiply(orientation);
+    };
     
 })();
 
@@ -5762,7 +5820,7 @@ tm.input = tm.input || {};
             fps = fps || 30;
             tm.setLoop(function(){
                 self.update();
-            },　1000/fps);
+            }, 1000/fps);
         },
         
         /**

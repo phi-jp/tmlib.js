@@ -74,7 +74,7 @@ tm.input = tm.input || {};
             fps = fps || 30;
             tm.setLoop(function(){
                 self.update();
-            },　1000/fps);
+            }, 1000/fps);
         },
         
         /**
