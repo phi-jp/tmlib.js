@@ -4117,12 +4117,40 @@ tm.geom = tm.geom || {};
             0.0, 0.0, 1.0, 0.0
         );
     };
+    
+    /**
+     * 
+     */
+    tm.geom.Matrix44.ortho = function(left, right, bottom, top, near, far) {
+        /*
+        var lr = 1 / (left - right),
+            bt = 1 / (bottom - top),
+            nf = 1 / (near - far);
+        
+        return tm.geom.Matrix44(
+            -2*lr, 0, 0, 0,
+            0, -2*bt, 0, 0,
+            0, 0, 2*nf, 0,
+            (left+right)*lr, (top+bottom)*bt, (far+near)*nf, 1
+        );
+        */
+        
+        var rl = (right - left),
+            tb = (top - bottom),
+            fn = (far - near);
+        return tm.geom.Matrix44(
+            2.0/rl,      0,     0, 0,
+               0.0, 2.0/tb,     0, 0,
+                 0,      0, -2.0/fn, 0,
+            -(left+right)/rl, -(top+bottom)/tb, -(far+near)/fn, 1
+        ).transpose();
+    };
 
     /**
      *
      */
     tm.geom.Matrix44.lookAt = function(eye, target, up) {
-        var zaxis = tm.geom.Vector3.sub(target, eye).normalize();
+        var zaxis = tm.geom.Vector3.sub(eye, target).normalize();
         var xaxis = tm.geom.Vector3.cross(up, zaxis).normalize();
         var yaxis = tm.geom.Vector3.cross(zaxis, xaxis).normalize();
 

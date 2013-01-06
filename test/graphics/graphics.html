@@ -70,9 +70,9 @@
             
             tm.main(function() {
                 var graphics = tm.graphics.Graphics("#world");
-
                 graphics.resize(640, 480);
-
+                graphics._pMatrix = tm.geom.Matrix44.perspective(45, 640/480, 0.1, 1000.0);
+                
                 var vbo = graphics.createBuffer([
                     0.0,  0.25, 0.0,
                     -0.25, -0.25, 0.0,
@@ -112,12 +112,15 @@
                     graphics.clear();
 
 //                    graphics._mvMatrix.translate(0.01, 0, 0);
+/*
                     graphics._mvMatrix.rotateY(Math.degToRad(4));
                     graphics._mvMatrix.rotateX(Math.degToRad(2));
+                    */
                     graphics.drawArrays(vbo, colors);
                     
                     graphics.color4(0.0, 0.0, 1.0, 1.0);
                     graphics.drawRectangle(-0.25, -0.75, 0.5, 0.5);
+                    graphics.drawRectangle(-1, -1, 2, 2);
                     graphics.color4(0.0, 1.0, 1.0, 1.0);
                     graphics.drawCircle(0.0, 0.5, 0.25);
 

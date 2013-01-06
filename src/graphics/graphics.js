@@ -89,7 +89,7 @@ tm.graphics = tm.graphics || {};
             this._initGL();
 
             this._cameraMatrix = tm.geom.Matrix44.lookAt(
-                tm.geom.Vector3(0, 5, 5),
+                tm.geom.Vector3(0, 4, 8),
                 tm.geom.Vector3(0, 0, 0),
                 tm.geom.Vector3(0, 1, 0)
             );
@@ -101,7 +101,7 @@ tm.graphics = tm.graphics || {};
             this.gl.viewportWidth  = width;
             this.gl.viewportHeight = height;
 
-            this._pMatrix      = tm.geom.Matrix44.perspective(45, this.canvas.width/this.canvas.height, 0.1, 1000.0);
+            this.setViewport(0, 0, width, height);
         },
 
         /**
@@ -177,8 +177,19 @@ tm.graphics = tm.graphics || {};
          */
         clear: function() {
             var gl = this.gl;
-            gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        },
+        
+        /**
+         * 
+         */
+        setViewport: function(x, y, width, height) {
+            this._viewportX = x !== undefined ? x : 0;
+            this._viewportY = y !== undefined ? y : 0;
+            this._viewportWidth = width  !== undefined ? width  : this.canvas.width;
+            this._viewportHeight= height !== undefined ? height : this.canvas.height;
+            
+            this.gl.viewport(this._viewportX, this._viewportY, this._viewportWidth, this._viewportHeight);
         },
 
         /**
