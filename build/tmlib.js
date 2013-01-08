@@ -9683,24 +9683,9 @@ tm.app = tm.app || {};
         },
         
         renderer: function(param) {
+            param.extendSafe(this.selfClass.DEFAULT_SHAPE_PARAM);
         },
         
-    });
-    
-    /**
-     * @property    lineWidth
-     * ライン幅設定
-     */
-    tm.app.Shape.prototype.accessor("shapeParam", {
-        "get": function()   { return this._shapeParam; },
-        "set": function(param)  {
-            // デフォルト値で拡張
-            param.extendSafe(this.selfClass.DEFAULT_SHAPE_PARAM);
-            // セット
-            this._shapeParam = param;
-            // 描画
-            this.renderer(param);
-        }
     });
     
 })();
@@ -9722,14 +9707,17 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
             this.superInit(width, height);
             
-            // セット & 描画
-            this.shapeParam = param || {};
+            // 描画
+            this.renderer(param);
         },
         
         /**
          * レンダラー
          */
         renderer: function(param) {
+            var param = param || {};
+            tm.app.Shape.prototype.renderer.call(this, param);
+
             var c = this.canvas;
             
             c.save();
@@ -9776,14 +9764,17 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
             this.superInit(width, height);
             
-            // セット & 描画
-            this.shapeParam = param || {};
+            // 描画
+            this.renderer(param);
         },
         
         /**
          * レンダラー
          */
         renderer: function(param) {
+            var param = param || {};
+            tm.app.Shape.prototype.renderer.call(this, param);
+            
             var c = this.canvas;
             
             c.save();
@@ -9830,14 +9821,17 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
             this.superInit(width, height);
             
-            // セット & 描画
-            this.shapeParam = param || {};
+            // 描画
+            this.renderer(param);
         },
         
         /**
          * レンダラー
          */
         renderer: function(param) {
+            var param = param || {};
+            tm.app.Shape.prototype.renderer.call(this, param);
+            
             var c = this.canvas;
             
             c.save();
@@ -9884,14 +9878,17 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
             this.superInit(width, height);
             
-            // セット & 描画
-            this.shapeParam = param || {};
+            // 描画
+            this.renderer(param);
         },
         
         /**
          * レンダラー
          */
         renderer: function(param) {
+            var param = param || {};
+            tm.app.Shape.prototype.renderer.call(this, param);
+            
             var c = this.canvas;
             
             c.save();
@@ -9946,14 +9943,17 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
             this.superInit(width, height);
             
-            // セット & 描画
-            this.shapeParam = param || {};
+            // 描画
+            this.renderer(param);
         },
         
         /**
          * レンダラー
          */
         renderer: function(param) {
+            var param = param || {};
+            tm.app.Shape.prototype.renderer.call(this, param);
+            
             var c = this.canvas;
             
             c.save();
