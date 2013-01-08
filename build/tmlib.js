@@ -4150,14 +4150,32 @@ tm.geom = tm.geom || {};
      *
      */
     tm.geom.Matrix44.lookAt = function(eye, target, up) {
-        var zaxis = tm.geom.Vector3.sub(eye, target).normalize();
-        var xaxis = tm.geom.Vector3.cross(up, zaxis).normalize();
-        var yaxis = tm.geom.Vector3.cross(zaxis, xaxis).normalize();
-
+        var axis_z = tm.geom.Vector3.sub(eye, target).normalize();
+        var axis_x = tm.geom.Vector3.cross(up, axis_z).normalize();
+        var axis_y = tm.geom.Vector3.cross(axis_z, axis_x).normalize();
+        
+        /*
+        return tm.geom.Matrix44(
+            axis_x.x, axis_x.y, axis_x.z, -tm.geom.Vector3.dot(eye, axis_x),
+            axis_y.x, axis_y.y, axis_y.z, -tm.geom.Vector3.dot(eye, axis_y),
+            axis_z.x, axis_z.y, axis_z.z, -tm.geom.Vector3.dot(eye, axis_z),
+            0, 0, 0, 1
+        );
+        */
+        
+        /*
+        return tm.geom.Matrix44(
+            axis_x.x, axis_y.x, axis_z.x, 0,
+            axis_x.y, axis_y.y, axis_z.y, 0,
+            axis_x.z, axis_y.z, axis_z.z, 0,
+            -tm.geom.Vector3.dot(eye, axis_x), -tm.geom.Vector3.dot(eye, axis_y), -tm.geom.Vector3.dot(eye, axis_z), 1
+        );
+        */
+        
         var orientation = tm.geom.Matrix44(
-            xaxis.x, yaxis.x, zaxis.x, 0,
-            xaxis.y, yaxis.y, zaxis.y, 0,
-            xaxis.z, yaxis.z, zaxis.z, 0,
+            axis_x.x, axis_y.x, axis_z.x, 0,
+            axis_x.y, axis_y.y, axis_z.y, 0,
+            axis_x.z, axis_y.z, axis_z.z, 0,
             0, 0, 0, 1
         );
         var translation = tm.geom.Matrix44(
@@ -6554,6 +6572,7 @@ tm.graphics = tm.graphics || {};
          */
         fitWindow: function(everFlag) {
             var _fitFunc = function() {
+                everFlag = everFlag === undefined ? true : everFlag;
                 var e = this.element;
                 var s = e.style;
                 
@@ -8921,14 +8940,14 @@ tm.app = tm.app || {};
         
         getFinalMatrix: function() {
             var matrix = tm.geom.Matrix33();
-            
+
             if (this.parent) {
                 matrix.multiply(this.parent.getFinalMatrix());
             }
-            matrix.translate(this.x, this.y);
+            matrix.translate(this.centerX, this.centerY);
             matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
             matrix.scale(this.scaleX, this.scaleY);
-            
+
             return matrix;
         },
         
@@ -9296,29 +9315,51 @@ tm.app = tm.app || {};
     tm.app.CanvasElement.prototype.getter("top", function() {
         return this.y - this.height*this.originY;
     });
-    
+
     /**
      * @property    right
      * 左
      */
     tm.app.CanvasElement.prototype.getter("right", function() {
-        return this.x + this.width*this.originX;
+        return this.x + this.width*(1-this.originX);
     });
-    
+
     /**
      * @property    bottom
      * 左
      */
     tm.app.CanvasElement.prototype.getter("bottom", function() {
-        return this.y + this.height*this.originY;
+        return this.y + this.height*(1-this.originY);
     });
-    
+
     /**
      * @property    left
      * 左
      */
     tm.app.CanvasElement.prototype.getter("left", function() {
         return this.x - this.width*this.originX;
+    });
+
+    /**
+     * @property    centerX
+     * centerX
+     */
+    tm.app.CanvasElement.prototype.accessor("centerX", {
+        "get": function()   { return this.x + this.width/2 - this.width*this.originX; },
+        "set": function(v)  {
+            // TODO: どうしようかな??
+        }
+    });
+
+    /**
+     * @property    centerY
+     * centerY
+     */
+    tm.app.CanvasElement.prototype.accessor("centerY", {
+        "get": function()   { return this.y + this.height/2 - this.height*this.originY; },
+        "set": function(v)  {
+            // TODO: どうしようかな??
+        }
     });
     
 })();
