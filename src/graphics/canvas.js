@@ -86,6 +86,7 @@ tm.graphics = tm.graphics || {};
          */
         fitWindow: function(everFlag) {
             var _fitFunc = function() {
+                everFlag = everFlag === undefined ? true : everFlag;
                 var e = this.element;
                 var s = e.style;
                 
