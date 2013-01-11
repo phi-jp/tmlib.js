@@ -84,7 +84,7 @@ tm.app = tm.app || {};
         shadowColor: "black",
         shadowOffsetX: 0,
         shadowOffsetY: 0,
-        shadowshadowBlur: 0,
+        shadowBlur: 0,
         
         _matrix: null,
         
