@@ -110,7 +110,7 @@
 
                 tm.setLoop(function() {
                     graphics.clear();
-
+                    
 //                    graphics._mvMatrix.translate(0.01, 0, 0);
 /*
                     graphics._mvMatrix.rotateY(Math.degToRad(4));
@@ -123,6 +123,10 @@
                     graphics.drawRectangle(-1, -1, 2, 2);
                     graphics.color4(0.0, 1.0, 1.0, 1.0);
                     graphics.drawCircle(0.0, 0.5, 0.25);
+                    
+//                    graphics.camera.eye.y += 0.1;
+                    graphics.camera.eye.z += 1;
+                    graphics.camera.lookAt();
 
                     //graphics.drawPyramid();
                     //graphics.drawCube();

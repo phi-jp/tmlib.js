@@ -503,14 +503,32 @@ tm.geom = tm.geom || {};
      *
      */
     tm.geom.Matrix44.lookAt = function(eye, target, up) {
-        var zaxis = tm.geom.Vector3.sub(eye, target).normalize();
-        var xaxis = tm.geom.Vector3.cross(up, zaxis).normalize();
-        var yaxis = tm.geom.Vector3.cross(zaxis, xaxis).normalize();
-
+        var axis_z = tm.geom.Vector3.sub(eye, target).normalize();
+        var axis_x = tm.geom.Vector3.cross(up, axis_z).normalize();
+        var axis_y = tm.geom.Vector3.cross(axis_z, axis_x).normalize();
+        
+        /*
+        return tm.geom.Matrix44(
+            axis_x.x, axis_x.y, axis_x.z, -tm.geom.Vector3.dot(eye, axis_x),
+            axis_y.x, axis_y.y, axis_y.z, -tm.geom.Vector3.dot(eye, axis_y),
+            axis_z.x, axis_z.y, axis_z.z, -tm.geom.Vector3.dot(eye, axis_z),
+            0, 0, 0, 1
+        );
+        */
+        
+        /*
+        return tm.geom.Matrix44(
+            axis_x.x, axis_y.x, axis_z.x, 0,
+            axis_x.y, axis_y.y, axis_z.y, 0,
+            axis_x.z, axis_y.z, axis_z.z, 0,
+            -tm.geom.Vector3.dot(eye, axis_x), -tm.geom.Vector3.dot(eye, axis_y), -tm.geom.Vector3.dot(eye, axis_z), 1
+        );
+        */
+        
         var orientation = tm.geom.Matrix44(
-            xaxis.x, yaxis.x, zaxis.x, 0,
-            xaxis.y, yaxis.y, zaxis.y, 0,
-            xaxis.z, yaxis.z, zaxis.z, 0,
+            axis_x.x, axis_y.x, axis_z.x, 0,
+            axis_x.y, axis_y.y, axis_z.y, 0,
+            axis_x.z, axis_y.z, axis_z.z, 0,
             0, 0, 0, 1
         );
         var translation = tm.geom.Matrix44(

@@ -19,6 +19,8 @@ tm.graphics = tm.graphics || {};
         varying vec2 vTextureCoord;\
         \
         void main() {\
+            /*vec4 p = uMVMatrix * vec4(position, 1.0);\
+            gl_Position = uPMatrix * uCameraMatrix * p;*/\
             gl_Position = uPMatrix * uMVMatrix * uCameraMatrix * vec4(position, 1.0);\
             vColor = color;\
             vTextureCoord = texCoord;\
@@ -87,12 +89,8 @@ tm.graphics = tm.graphics || {};
             this._mvMatrix     = tm.geom.Matrix44().identity();
             this._mvMatrix.translate(0, 0, 4);
             this._initGL();
-
-            this._cameraMatrix = tm.geom.Matrix44.lookAt(
-                tm.geom.Vector3(0, 4, 8),
-                tm.geom.Vector3(0, 0, 0),
-                tm.geom.Vector3(0, 1, 0)
-            );
+            
+            this.camera = tm.graphics.Camera();
         },
 
         resize: function(width, height) {
@@ -217,7 +215,7 @@ tm.graphics = tm.graphics || {};
 
             gl.uniformMatrix4fv(program.pMatrixUniform, false, this._pMatrix.m);
             gl.uniformMatrix4fv(program.mvMatrixUniform, false, this._mvMatrix.m);
-            gl.uniformMatrix4fv(program.cameraMatrixUniform, false, this._cameraMatrix.m);
+            gl.uniformMatrix4fv(program.cameraMatrixUniform, false, this.camera.getCameraMatrix().m);
 
             gl.drawArrays(gl.TRIANGLES, 0, vbo._buffer.length/3);
         },
@@ -550,6 +548,53 @@ tm.graphics = tm.graphics || {};
 
     });
 
+})();
+
+
+
+(function() {
+    
+    tm.graphics.Camera = tm.createClass({
+        init: function() {
+            this.projectionMatrix = tm.geom.Matrix44();
+            
+            this.eye    = tm.geom.Vector3(0, 2, 4);
+            this.target = tm.geom.Vector3(0, 0, 0);
+            this.up     = tm.geom.Vector3(0, 1, 0);
+            
+            this.lookAt();
+        },
+        
+        lookAt: function() {
+            this.cameraMatrix = tm.geom.Matrix44.lookAt(
+                this.eye,
+                this.target,
+                this.up
+            );
+        },
+        
+        getCameraMatrix: function() {
+            return this.cameraMatrix;
+        },
+    });
+    
+})();
+
+
+
+(function() {
+    
+    tm.graphics.PerspectiveCamera = tm.createClass({
+        superClass: tm.graphics.Camera,
+        
+        init: function() {
+            this.superInit();
+            
+            this.fovy = 45;
+            this.aspect = 640/480;
+        }
+    });
+    
 })();
 
 
