@@ -102,9 +102,8 @@ tm.graphics = tm.graphics || {};
          * 名前は仮. 検討する
          */
 <span id='tm-graphics-Canvas-method-fitWindow'>        fitWindow: function(everFlag) {
-</span>            everFlag = everFlag || true;
-            
-            var _fitFunc = function() {
+</span>            var _fitFunc = function() {
+                everFlag = everFlag === undefined ? true : everFlag;
                 var e = this.element;
                 var s = e.style;
                 

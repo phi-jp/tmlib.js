@@ -55,6 +55,11 @@ tm.input = tm.input || {};
             this.element.addEventListener(&quot;mouseup&quot;, function(e){
                 self.button &amp;= ~(1&lt;&lt;e.button);
             });
+            this.element.addEventListener(&quot;mouseover&quot;, function(e){
+                // 座標更新
+                self._mousemove(e);
+                self.prevPosition.setObject(self.position);
+            });
         },
         
         /**
@@ -172,36 +177,36 @@ tm.input = tm.input || {};
      */
     tm.input.Mouse.prototype.accessor(&quot;x&quot;, {
         &quot;get&quot;: function()   { return this.position.x; },
-<span id='tm-input-Mouse-property-x'>        &quot;set&quot;: function(v)  { this.position.x = v; }
-</span>    });
-    
+        &quot;set&quot;: function(v)  { this.position.x = v; }
+<span id='tm-input-Mouse-property-x'>    });
+</span>    
     /**
      * @property    y
      * y座標値
      */
     tm.input.Mouse.prototype.accessor(&quot;y&quot;, {
         &quot;get&quot;: function()   { return this.position.y; },
-<span id='tm-input-Mouse-property-y'>        &quot;set&quot;: function(v)  { this.position.y = v; }
-</span>    });
-    
+        &quot;set&quot;: function(v)  { this.position.y = v; }
+<span id='tm-input-Mouse-property-y'>    });
+</span>    
     /**
      * @property    dx
      * dx値
      */
     tm.input.Mouse.prototype.accessor(&quot;dx&quot;, {
         &quot;get&quot;: function()   { return this.deltaPosition.x; },
-<span id='tm-input-Mouse-property-dx'>        &quot;set&quot;: function(v)  { this.deltaPosition.x = v; }
-</span>    });
-    
+        &quot;set&quot;: function(v)  { this.deltaPosition.x = v; }
+<span id='tm-input-Mouse-property-dx'>    });
+</span>    
     /**
      * @property    dy
      * dy値
      */
     tm.input.Mouse.prototype.accessor(&quot;dy&quot;, {
         &quot;get&quot;: function()   { return this.deltaPosition.y; },
-<span id='tm-input-Mouse-property-dy'>        &quot;set&quot;: function(v)  { this.deltaPosition.y = v; }
-</span>    });
-    
+        &quot;set&quot;: function(v)  { this.deltaPosition.y = v; }
+<span id='tm-input-Mouse-property-dy'>    });
+</span>    
     
     /**
      * @method
@@ -210,9 +215,9 @@ tm.input = tm.input || {};
     tm.input.Mouse.prototype.getPointing        = function() { return this.getButton(&quot;left&quot;); };
     /**
      * @method
-<span id='tm-input-Mouse-method-getPointing'>     * ポインティングを開始したかを取得(touch との差異対策)
-</span>     */
-    tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown(&quot;left&quot;); };
+     * ポインティングを開始したかを取得(touch との差異対策)
+<span id='tm-input-Mouse-method-getPointing'>     */
+</span>    tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown(&quot;left&quot;); };
     /**
      * @method
      * ポインティングを終了したかを取得(touch との差異対策)

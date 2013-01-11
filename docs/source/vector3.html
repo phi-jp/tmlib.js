@@ -425,27 +425,31 @@ tm.geom = tm.geom || {};
      * 外積
      */
 <span id='tm-geom-Vector3-static-method-div'>    tm.geom.Vector3.cross = function(lhs, rhs) {
-</span>        // TODO: 
-    };
-    
+</span>        return tm.geom.Vector3(
+            lhs.y*rhs.z - lhs.z*rhs.y,
+            lhs.z*rhs.x - lhs.x*rhs.z,
+            lhs.x*rhs.y - lhs.y*rhs.x
+        );
+<span id='tm-geom-Vector3-static-method-dot'>    };
+</span>    
     /**
      * @method
      * @static
      * 反転
      */
     tm.geom.Vector3.negate = function(v) {
-<span id='tm-geom-Vector3-static-method-dot'>        return tm.geom.Vector3(-v.x, -v.y, -v.z);
-</span>    };
+        return tm.geom.Vector3(-v.x, -v.y, -v.z);
+    };
     
     /**
      * @method
      * @static
      * ２点間の距離を返す
      */
-    tm.geom.Vector3.distance = function(lhs, rhs) {
-        return Math.sqrt( Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2) );
-<span id='tm-geom-Vector3-static-method-cross'>    };
-</span>    
+<span id='tm-geom-Vector3-static-method-cross'>    tm.geom.Vector3.distance = function(lhs, rhs) {
+</span>        return Math.sqrt( Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2) );
+    };
+    
     /**
      * @method
      * @static
@@ -483,17 +487,16 @@ tm.geom = tm.geom || {};
 <span id='tm-geom-Vector3-static-method-manhattanDistance'>     * 0.5 で lhs と rhs の中間ベクトルを求めることができます.
 </span>     */
     tm.geom.Vector3.lerp = function(lhs, rhs, t) {
-        // TODO: 
         return tm.geom.Vector3(
             lhs.x + (rhs.x-lhs.x)*t,
             lhs.y + (rhs.y-lhs.y)*t,
             lhs.z + (rhs.z-lhs.z)*t
         );
-<span id='tm-geom-Vector3-static-method-reflect'>    };
-</span>    
+    };
     
-    /**
-     * @method
+    
+<span id='tm-geom-Vector3-static-method-reflect'>    /**
+</span>     * @method
      * @static
      * 補間
      */

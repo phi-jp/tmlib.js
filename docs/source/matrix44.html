@@ -113,6 +113,20 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * 転置
+         */
+        transpose: function() {
+            this.m.swap(1, 4);
+<span id='tm-geom-Matrix44-method-transpose'>            this.m.swap(2, 8);
+</span>            this.m.swap(3, 12);
+            this.m.swap(6, 9);
+            this.m.swap(7, 13);
+            this.m.swap(11, 14);
+            
+            return this;
+        },
+        
+        /**
          * 移動
          */
         translate: function(x, y, z) {
@@ -138,9 +152,9 @@ tm.geom = tm.geom || {};
          * Y軸を基軸に回転する
          */
         rotateY: function(rad) {
-<span id='tm-geom-Matrix44-method-rotateY'>            return this.multiply( tm.geom.Matrix44.rotateY(rad) );
-</span>        },
-        
+            return this.multiply( tm.geom.Matrix44.rotateY(rad) );
+<span id='tm-geom-Matrix44-method-rotateY'>        },
+</span>        
         /**
          * Z軸を基軸に回転する
          */
@@ -163,9 +177,9 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Matrix44-method-zero'>        /**
-</span>         * 乗算
-         * this * mat
+        /**
+<span id='tm-geom-Matrix44-method-zero'>         * 乗算
+</span>         * this * mat
          */
         multiply: function(mat)
         {
@@ -285,9 +299,9 @@ tm.geom = tm.geom || {};
         &quot;set&quot;: function(v)  { this.m[5] = v;    }
     });
     /**
-<span id='tm-geom-Matrix44-property-m11'>     * @property    m12
-</span>     * 要素
-     */
+     * @property    m12
+<span id='tm-geom-Matrix44-property-m11'>     * 要素
+</span>     */
     tm.geom.Matrix44.prototype.accessor(&quot;m21&quot;, {
         &quot;get&quot;: function()   { return this.m[6]; },
         &quot;set&quot;: function(v)  { this.m[6] = v;    }
@@ -320,17 +334,17 @@ tm.geom = tm.geom || {};
     /**
      * @property    m22
      * 要素
-<span id='tm-geom-Matrix44-property-m21'>     */
-</span>    tm.geom.Matrix44.prototype.accessor(&quot;m22&quot;, {
-        &quot;get&quot;: function()   { return this.m[10]; },
+     */
+<span id='tm-geom-Matrix44-property-m21'>    tm.geom.Matrix44.prototype.accessor(&quot;m22&quot;, {
+</span>        &quot;get&quot;: function()   { return this.m[10]; },
         &quot;set&quot;: function(v)  { this.m[10] = v;    }
     });
     /**
      * @property    m23
      * 要素
-<span id='tm-geom-Matrix44-property-m22'>     */
-</span>    tm.geom.Matrix44.prototype.accessor(&quot;m32&quot;, {
-        &quot;get&quot;: function()   { return this.m[11]; },
+     */
+<span id='tm-geom-Matrix44-property-m22'>    tm.geom.Matrix44.prototype.accessor(&quot;m32&quot;, {
+</span>        &quot;get&quot;: function()   { return this.m[11]; },
         &quot;set&quot;: function(v)  { this.m[11] = v;    }
     });
         
@@ -374,9 +388,9 @@ tm.geom = tm.geom || {};
     /**
      * @static
      * @method
-<span id='tm-geom-Matrix44-property-m33'>     * 移動
-</span>     */
-    tm.geom.Matrix44.translate = function(x, y, z) {
+     * 移動
+<span id='tm-geom-Matrix44-property-m33'>     */
+</span>    tm.geom.Matrix44.translate = function(x, y, z) {
         return tm.geom.Matrix44(
             1, 0, 0, x,
             0, 1, 0, y,
@@ -386,9 +400,9 @@ tm.geom = tm.geom || {};
     };
     
     /**
-<span id='tm-geom-Matrix44-static-method-translate'>     * @static
-</span>     * @method
-     * X軸回転
+     * @static
+<span id='tm-geom-Matrix44-static-method-translate'>     * @method
+</span>     * X軸回転
      */
     tm.geom.Matrix44.rotateX = function(rad) {
         var c = Math.cos(rad);
@@ -456,7 +470,93 @@ tm.geom = tm.geom || {};
         
         return mat;
     };
+
+    /**
+     * @static
+     * @method
+     * perspective
+     */
+    tm.geom.Matrix44.perspective = function(fovy, aspect, znear, zfar) {
+        var yscale = 1.0 / Math.tan(0.5*fovy*Math.PI/180);
+        var xscale = yscale / aspect;
+
+        return tm.geom.Matrix44(
+            xscale, 0.0, 0.0, 0.0,
+<span id='tm-geom-Matrix44-static-method-perspective'>            0.0, yscale, 0.0, 0.0,
+</span>            0.0, 0.0, zfar/(zfar-znear), znear*zfar/(znear-zfar),
+            0.0, 0.0, 1.0, 0.0
+        );
+    };
+    
+    /**
+     * 
+     */
+    tm.geom.Matrix44.ortho = function(left, right, bottom, top, near, far) {
+        /*
+        var lr = 1 / (left - right),
+            bt = 1 / (bottom - top),
+            nf = 1 / (near - far);
         
+        return tm.geom.Matrix44(
+            -2*lr, 0, 0, 0,
+            0, -2*bt, 0, 0,
+<span id='tm-geom-Matrix44-method-ortho'>            0, 0, 2*nf, 0,
+</span>            (left+right)*lr, (top+bottom)*bt, (far+near)*nf, 1
+        );
+        */
+        
+        var rl = (right - left),
+            tb = (top - bottom),
+            fn = (far - near);
+        return tm.geom.Matrix44(
+            2.0/rl,      0,     0, 0,
+               0.0, 2.0/tb,     0, 0,
+                 0,      0, -2.0/fn, 0,
+            -(left+right)/rl, -(top+bottom)/tb, -(far+near)/fn, 1
+        ).transpose();
+    };
+
+    /**
+     *
+     */
+    tm.geom.Matrix44.lookAt = function(eye, target, up) {
+        var axis_z = tm.geom.Vector3.sub(eye, target).normalize();
+        var axis_x = tm.geom.Vector3.cross(up, axis_z).normalize();
+        var axis_y = tm.geom.Vector3.cross(axis_z, axis_x).normalize();
+        
+        /*
+<span id='tm-geom-Matrix44-method-lookAt'>        return tm.geom.Matrix44(
+</span>            axis_x.x, axis_x.y, axis_x.z, -tm.geom.Vector3.dot(eye, axis_x),
+            axis_y.x, axis_y.y, axis_y.z, -tm.geom.Vector3.dot(eye, axis_y),
+            axis_z.x, axis_z.y, axis_z.z, -tm.geom.Vector3.dot(eye, axis_z),
+            0, 0, 0, 1
+        );
+        */
+        
+        /*
+        return tm.geom.Matrix44(
+            axis_x.x, axis_y.x, axis_z.x, 0,
+            axis_x.y, axis_y.y, axis_z.y, 0,
+            axis_x.z, axis_y.z, axis_z.z, 0,
+            -tm.geom.Vector3.dot(eye, axis_x), -tm.geom.Vector3.dot(eye, axis_y), -tm.geom.Vector3.dot(eye, axis_z), 1
+        );
+        */
+        
+        var orientation = tm.geom.Matrix44(
+            axis_x.x, axis_y.x, axis_z.x, 0,
+            axis_x.y, axis_y.y, axis_z.y, 0,
+            axis_x.z, axis_y.z, axis_z.z, 0,
+            0, 0, 0, 1
+        );
+        var translation = tm.geom.Matrix44(
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            -eye.x, -eye.y, -eye.z, 1
+        );
+
+        return translation.multiply(orientation);
+    };
     
 })();
 

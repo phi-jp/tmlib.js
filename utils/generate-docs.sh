@@ -1,1 +1,1 @@
-jsduck ../src --output ../docs
+jsduck ../src --output ../docs --title "tmlib.js docs"

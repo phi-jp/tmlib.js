@@ -2,8 +2,8 @@
 
 :Main
 
-rem jsduck ../src --builtin-classes --output ../docs
-jsduck ../src --output ../docs
+rem jsduck ../src --builtin-classes --output ../docs --title "tmlib.js docs"
+jsduck ../src --output ../docs --title "tmlib.js docs"
 
 
 pause
