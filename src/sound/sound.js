@@ -86,7 +86,7 @@ tm.sound = tm.sound || {};
          * クローン
          */
         clone: function() {
-            return TM.App.Sound( this.element.src );
+            return tm.sound.Sound( this.element.src );
         },
         
     });
