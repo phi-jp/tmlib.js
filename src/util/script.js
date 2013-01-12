@@ -29,8 +29,8 @@ tm.util = tm.util || {};
             
             var self = this;
             this.element.onload = function() {
-                self.loaded = true;
                 if (callback) callback.call(this);
+                self.loaded = true;
             };
         },
         
