@@ -166,11 +166,14 @@ tm.app = tm.app || {};
                 e = tm.event.Event("exit");
                 e.app = this;
                 this.currentScene.dispatchEvent(e);
+                this.currentScene.app = null;
             }
             e = tm.event.Event("enter");
             e.app = this;
             this.currentScene = scene;
             this.currentScene.dispatchEvent(e);
+
+            this.currentScene.app = this;
         },
         
         /**
@@ -189,6 +192,8 @@ tm.app = tm.app || {};
             e = tm.event.Event("enter");
             e.app = this;
             scene.dispatchEvent(e);
+
+            scene.app = this;
         },
         
         /**
@@ -203,6 +208,7 @@ tm.app = tm.app || {};
             e = tm.event.Event("exit");
             e.app = this;
             scene.dispatchEvent(e);
+            scene.app = null;
             
             // 
             e = tm.event.Event("enter");
