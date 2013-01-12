@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * script.js
+ */
+
+tm.util = tm.util || {};
+
+(function() {
+    
+<span id='tm-util-Script'>    /**
+</span>     * @class
+     * スクリプトクラス
+     */
+    tm.util.Script = tm.createClass({
+        
+        element: null,
+        loaded: false,
+        
+        /**
+<span id='tm-util-Script-method-init'>         * 初期化
+</span>         */
+        init: function(src, callback) {
+            this.loaded = false;
+            this.element = document.createElement(&quot;script&quot;);
+            this.element.type = &quot;text/javascript&quot;;
+            this.element.src = src;
+            this.element.charset = &quot;UTF-8&quot;;
+            this.element.setAttribute(&quot;defer&quot;, true);
+            document.head.appendChild(this.element);
+            
+            var self = this;
+            this.element.onload = function() {
+                self.loaded = true;
+                if (callback) callback.call(this);
+            };
+        },
+        
+        getElement: function() {
+            return this.element;
+        },
+        
+    });
+    
+})();
+
+(function(){
+    
+    /**
+     * @class
+<span id='tm-util-ScriptManager'>     * スクリプトマネージャクラス
+</span>     */
+    tm.util.ScriptManager = {
+        scriptList: {},
+        loaded: true,
+    };
+    
+    /**
+     * @static
+     * @method
+     * 追加
+<span id='tm-util-ScriptManager-static-method-load'>     */
+</span>    tm.util.ScriptManager.load = function(src, callback)
+    {
+        this.scriptList[src] = tm.util.Script(src, callback);
+    };
+    
+    /**
+     * ロードチェック
+     */
+<span id='tm-util-ScriptManager-method-isLoaded'>    tm.util.ScriptManager.isLoaded = function()
+</span>    {
+        if (this.scriptList.length &lt;= 0) return true;
+
+        for (var key in this.scriptList) {
+            if (this.scriptList[key].loaded == false) {
+                return false;
+            }
+        }
+        return true;
+    };
+    
+    tm.addLoadCheckList(tm.util.ScriptManager);
+    
+})();
+
+
+</pre>
+</body>
+</html>
