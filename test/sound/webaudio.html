@@ -1,0 +1,118 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>WebAudio Test | TM Lib</title>
+        
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            canvas {
+                box-shadow: 0px 0px 4px 0px #aaa;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        <script src="../../src/geom/circle.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+
+        <script src="../../src/sound/webaudio.js"></script>
+        
+        <script id="test-script">
+            
+            tm.preload(function() {
+                tm.sound.WebAudioManager.add("sample", "sample.mp3");
+            });
+            
+            tm.main(function() {
+                // コンソール
+                var c = tm.Console("#console");
+                //var c = console; // コンソールの方に出力
+
+                var webaudio = tm.sound.WebAudioManager.get("sample");
+
+                var play = tm.dom.Element("#play");
+                var stop = tm.dom.Element("#stop");
+                var volume = tm.dom.Element("#volume");
+
+                play.event.click(function() {
+                    webaudio.volume = parseFloat(volume.value);
+                    webaudio.play();
+                });
+                stop.event.click(function() {
+                    webaudio.stop();
+                });
+            });
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+    </head>
+    
+    <body>
+         
+        <h1>WebAudio Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <h2>Buttons</h2>
+                <p>
+                    <button id="play">play</button><button id="stop">stop</button><br/>
+                    volume: <input type="text" id="volume" value="0.8" />
+                </p>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
