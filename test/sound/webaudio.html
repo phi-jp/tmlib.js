@@ -45,10 +45,6 @@
         <script src="../../src/core/date.js"></script>
         <script src="../../src/core/math.js"></script>
         
-        <script src="../../src/geom/vector2.js"></script>
-        <script src="../../src/geom/vector3.js"></script>
-        <script src="../../src/geom/circle.js"></script>
-        
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
         <script src="../../src/dom/event.js"></script>
@@ -102,7 +98,11 @@
                 <h2>Buttons</h2>
                 <p>
                     <button id="play">play</button><button id="stop">stop</button><br/>
-                    volume: <input type="text" id="volume" value="0.8" />
+                    <span>volume(0.0 - 1.0)</span>:<input type="text" id="volume" value="0.8" /><br />
+                    <span>pan(-1.0 - +1.0)</span>:<input type="text" id="pan" value="0.0" /><br />
+                    <span>echo effect (delay time)</span>:input type="text" id="echo-delay" value="0.0" /><br />
+                    <span>echo effect (delay level)</span>:<input type="text" id="echo-delay" value="0.0" /><br />
+                    <span>echo effect (feedback)</span>:<input type="text" id="echo-delay" value="0.0" /><br />
                 </p>
                 <h2>Console</h2>
                 <pre id="console" class="prettyprint"></pre>
