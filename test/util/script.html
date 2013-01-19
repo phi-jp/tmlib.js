@@ -61,12 +61,39 @@
                 tm.util.ScriptManager.load("sample.js", function() {
                     console.log("b");
                 });
+                tm.util.ScriptManager.loadStats();
+                tm.util.ScriptManager.loadDatGUI();
+                tm.util.ScriptManager.loadThree();
             });
 
             /*
              * main
              */
             tm.main(function() {
+                // stats
+                var stats = new Stats();
+                stats.setMode(0); // 0: fps, 1: ms
+                stats.domElement.style.position = "absolute";
+                stats.domElement.style.left     = "0px";
+                stats.domElement.style.top      = "0px";
+                document.body.appendChild(stats.domElement);
+                setInterval(function() {
+                    stats.begin();
+
+                    // your code goes here
+//                    obj.noiseStrength+=0.1;
+
+                    stats.end();
+                }, 1000/60);
+
+                // gui
+                var gui = new dat.GUI();
+                var obj = {
+                    "message": "hoge",
+                    "noiseStrength": 0,
+                };
+                gui.add(obj, "message");
+                gui.add(obj, 'noiseStrength', 0, 100).listen();
             });
             
         </script>

@@ -62,6 +62,69 @@ tm.util = tm.util || {};
     {
         this.scriptList[src] = tm.util.Script(src, callback);
     };
+
+    /**
+     * @static
+     * @method
+     * stats.js を動的ロード
+     */
+    tm.util.ScriptManager.loadStats = function(version)
+    {
+        version = version || "r11";
+        var path = null;
+        if (["r6", "r7", "r8", "r9", "10"].indexOf(version) != -1) {
+            path = "https://raw.github.com/mrdoob/stats.js/" + version + "/build/Stats.js";
+        }
+        else {
+            path = "https://raw.github.com/mrdoob/stats.js/" + version + "/build/stats.min.js";
+        }
+        this.load(path);
+    };
+
+    /**
+     * @static
+     * @method
+     * Dat GUI を動的ロード
+     */
+    tm.util.ScriptManager.loadDatGUI = function(version)
+    {
+        // http://dat-gui.googlecode.com/git/build/dat.gui.min.js
+        // https://dat-gui.googlecode.com/git-history/0.5/build/dat.gui.min.js
+
+        version = version || "0.5";
+//        var path = "https://dat-gui.googlecode.com/git-history/" + version + "/build/dat.gui.min.js";
+//        var path = "http://dat-gui.googlecode.com/git/build/dat.gui.min.js";
+        var path = "http://dat-gui.googlecode.com/git/build/dat.gui.js";
+        this.load(path);
+    };
+
+    /**
+     * @static
+     * @method
+     * Three.js を動的ロード
+     */
+    tm.util.ScriptManager.loadThree = function(version) {
+        var THREE_JS_URL = "https://raw.github.com/mrdoob/three.js/{version}/build/three.js";
+//        var THREE_JS_URL = "https://raw.github.com/mrdoob/three.js/{version}/build/three.min.js";
+        version = version || "r55";
+
+        var path = THREE_JS_URL.format({version: version});
+
+        this.load(path);
+    };
+
+    /**
+     * @static
+     * @method
+     * BulletML を動的ロード
+     */
+    tm.util.ScriptManager.loadBulletML = function() {
+        var BULLETML_JS_URL         = "https://raw.github.com/daishihmr/bulletml.js/develop/src/main/bulletml.js";
+        var BULLETML_TMLIB_JS_URL   = "https://raw.github.com/daishihmr/bulletml.js/develop/src/main/bulletml.tmlib.js";
+
+        this.load(BULLETML_JS_URL);
+        this.load(BULLETML_TMLIB_JS_URL);
+    };
     
     /**
      * ロードチェック
