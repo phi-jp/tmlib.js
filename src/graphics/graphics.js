@@ -44,8 +44,11 @@ tm.graphics = tm.graphics || {};
             }\
         }";
 
+
     /**
-     * グラフィックス
+     * @class
+     * Graphics クラス
+     * WebGL を簡単に扱うためのラッパークラス
      */
     tm.graphics.Graphics = tm.createClass({
 
@@ -103,7 +106,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * シェーダーを生成
          */
         createShader: function(script, type) {
             var gl = this.gl;
@@ -133,7 +136,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * シェーダプログラムを生成
          */
         createProgram: function(vs, fs) {
             var gl = this.gl;
@@ -171,7 +174,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * 画面クリア
          */
         clear: function() {
             var gl = this.gl;
@@ -179,7 +182,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * 
+         * ビューポートをセット
          */
         setViewport: function(x, y, width, height) {
             this._viewportX = x !== undefined ? x : 0;
@@ -191,7 +194,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * 配列から描画
          */
         drawArrays: function(vbo, colors, texCoords) {
             var gl = this.gl;
@@ -221,14 +224,14 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * メッシュを秒gあ
          */
         drawMesh: function(mesh) {
 
         },
 
         /**
-         *
+         *　描画開始
          */
         beginDraw: function() {
             this._vertices  = [];
@@ -237,7 +240,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * vertex2
          */
         vertex2: function(x, y) {
             var vertices = this._vertices;
@@ -247,7 +250,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * vertex3
          */
         vertex3: function(x, y, z) {
             var vertices = this._vertices;
@@ -257,7 +260,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * color4
          */
         color4: function(r, g, b, a) {
             var currentColor = this._currentColor;
@@ -270,6 +273,10 @@ tm.graphics = tm.graphics || {};
             return this;
         },
 
+
+        /**
+         * texCoord2
+         */
         texCoord2: function(s, t) {
             this._texCoords.push(s, t);
 
@@ -277,7 +284,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * 描画終了
          */
         endDraw: function() {
             var vertices    = this.createBuffer(this._vertices);
@@ -296,7 +303,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * 矩形描画
          */
         drawRectangle: function(x, y, width, height) {
             var gl = this.gl;
@@ -323,7 +330,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         *　サークル描画
          */
         drawCircle: function(x, y, radius) {
             var radDiv = (Math.PI*2)/32;
@@ -346,7 +353,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         *　キューブ描画
          */
         drawCube: function() {
             var vertices = this.createBuffer([
@@ -454,7 +461,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         *　ピラミット描画
          */
         drawPyramid: function() {
             var vertices = this.createBuffer([
@@ -501,6 +508,9 @@ tm.graphics = tm.graphics || {};
             this.drawArrays(vertices, colors);
         },
 
+        /**
+         *　テクスチャを生成
+         */
         createTexture: function(texture) {
             var gl = this.gl;
             var tex = gl.createTexture();

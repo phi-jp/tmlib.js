@@ -102,6 +102,7 @@ tm.sound = tm.sound || {};
     /**
      * @static
      * @method
+     * 追加
      */
     tm.sound.WebAudioManager.add = function(name, src) {
         this.sounds[name] = tm.sound.WebAudio(src);
@@ -111,6 +112,7 @@ tm.sound = tm.sound || {};
     /**
      * @static
      * @method
+     * 取得
      */
     tm.sound.WebAudioManager.get = function(name) {
         return this.sounds[name];

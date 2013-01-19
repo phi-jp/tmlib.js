@@ -472,7 +472,9 @@ tm.geom = tm.geom || {};
     };
     
     /**
-     * 
+     * @static
+     * @method
+     * ortho
      */
     tm.geom.Matrix44.ortho = function(left, right, bottom, top, near, far) {
         /*
@@ -499,8 +501,11 @@ tm.geom = tm.geom || {};
         ).transpose();
     };
 
+    
     /**
-     *
+     * @static
+     * @method
+     * lookAt
      */
     tm.geom.Matrix44.lookAt = function(eye, target, up) {
         var axis_z = tm.geom.Vector3.sub(eye, target).normalize();
