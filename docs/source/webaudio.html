@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * webaudio.js
+ */
+
+tm.sound = tm.sound || {};
+
+(function() {
+
+<span id='tm-sound-WebAudio'>    /**
+</span>     * @class
+     * WebAudioクラス
+     */
+    tm.sound.WebAudio = tm.createClass({
+        loaded: false,
+        context: null,
+        buffer: null,
+
+        /**
+<span id='tm-sound-WebAudio-property-volume'>         * ボリューム
+</span>         */
+        volume: 1.0,
+
+        _playingSources: [],
+
+        /**
+<span id='tm-sound-WebAudio-method-init'>         *　初期化
+</span>         */
+        init: function(src) {
+            this.context = tm.sound.WebAudioManager.context;
+            if (src) {
+                this._load(src);
+            }
+        },
+
+        /**
+         * 再生
+<span id='tm-sound-WebAudio-method-play'>         */
+</span>        play: function() {
+            var source = this.context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(this.context.destination);
+            source.gain.value = this.volume;
+            source.start(0);
+
+            this._playingSources.push(source);
+        },
+
+        /**
+         * 停止
+<span id='tm-sound-WebAudio-method-stop'>         */
+</span>        stop: function() {
+            for (var i = this._playingSources.length; i--; ) {
+                this._playingSources[i].stop(0);
+            }
+            this._playingSources.splice(0);
+        },
+
+        /**
+         * 複製
+         */
+<span id='tm-sound-WebAudio-method-clone'>        clone: function() {
+</span>            var c = tm.sound.WebAudio();
+            c.loaded = true;
+            c.buffer = this.buffer;
+            c.volume = this.volume;
+            return c;
+        },
+        _load: function(src) {
+            var xhr = new XMLHttpRequest();
+            var self = this;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200 || xhr.status === 0) {
+                        self.context.decodeAudioData(xhr.response, function(buffer) {
+                            this.buffer = buffer;
+                            self.loaded = true;
+                        });
+                    } else {
+                        onsole.error(xhr);
+                    }
+                }
+            };
+            xhr.open(&quot;GET&quot;, src, true);
+            xhr.responseType = &quot;arraybuffer&quot;;
+            xhr.send();
+        }
+    });
+})();
+
+
+(function() {
+
+    /**
+<span id='WebAudio'>     * @class   WebAudioマネージャクラス
+</span>     * WebAudioを管理するクラス
+     */
+    tm.sound.WebAudioManager = {
+        context: webkitAudioContext ? new webkitAudioContext() : null,
+        sounds: {}
+    };
+
+    /**
+     * @static
+     * @method
+     * 追加
+     */
+<span id='WebAudio-static-method-add'>    tm.sound.WebAudioManager.add = function(name, src) {
+</span>        this.sounds[name] = tm.sound.WebAudio(src);
+        return this;
+    };
+
+    /**
+     * @static
+     * @method
+     * 取得
+     */
+<span id='WebAudio-static-method-get'>    tm.sound.WebAudioManager.get = function(name) {
+</span>        return this.sounds[name];
+    };
+
+    /**
+     * @static
+     * @method
+     * ロードチェック
+     */
+<span id='WebAudio-static-method-isLoaded'>    tm.sound.WebAudioManager.isLoaded = function() {
+</span>        for (var key in this.sounds) {
+            if (this.sounds[key].loaded === false) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    tm.addLoadCheckList(tm.sound.WebAudioManager);
+
+})();
+
+</pre>
+</body>
+</html>

@@ -489,7 +489,9 @@ tm.geom = tm.geom || {};
     };
     
     /**
-     * 
+     * @static
+     * @method
+     * ortho
      */
     tm.geom.Matrix44.ortho = function(left, right, bottom, top, near, far) {
         /*
@@ -498,10 +500,10 @@ tm.geom = tm.geom || {};
             nf = 1 / (near - far);
         
         return tm.geom.Matrix44(
-            -2*lr, 0, 0, 0,
-            0, -2*bt, 0, 0,
-<span id='tm-geom-Matrix44-method-ortho'>            0, 0, 2*nf, 0,
-</span>            (left+right)*lr, (top+bottom)*bt, (far+near)*nf, 1
+<span id='tm-geom-Matrix44-static-method-ortho'>            -2*lr, 0, 0, 0,
+</span>            0, -2*bt, 0, 0,
+            0, 0, 2*nf, 0,
+            (left+right)*lr, (top+bottom)*bt, (far+near)*nf, 1
         );
         */
         
@@ -516,17 +518,20 @@ tm.geom = tm.geom || {};
         ).transpose();
     };
 
+    
     /**
-     *
+     * @static
+     * @method
+     * lookAt
      */
     tm.geom.Matrix44.lookAt = function(eye, target, up) {
         var axis_z = tm.geom.Vector3.sub(eye, target).normalize();
         var axis_x = tm.geom.Vector3.cross(up, axis_z).normalize();
-        var axis_y = tm.geom.Vector3.cross(axis_z, axis_x).normalize();
-        
+<span id='tm-geom-Matrix44-static-method-lookAt'>        var axis_y = tm.geom.Vector3.cross(axis_z, axis_x).normalize();
+</span>        
         /*
-<span id='tm-geom-Matrix44-method-lookAt'>        return tm.geom.Matrix44(
-</span>            axis_x.x, axis_x.y, axis_x.z, -tm.geom.Vector3.dot(eye, axis_x),
+        return tm.geom.Matrix44(
+            axis_x.x, axis_x.y, axis_x.z, -tm.geom.Vector3.dot(eye, axis_x),
             axis_y.x, axis_y.y, axis_y.z, -tm.geom.Vector3.dot(eye, axis_y),
             axis_z.x, axis_z.y, axis_z.z, -tm.geom.Vector3.dot(eye, axis_z),
             0, 0, 0, 1

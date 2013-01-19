@@ -56,22 +56,291 @@ tm.graphics = tm.graphics || {};
 </span>         * 初期化
          */
         init: function(r, g, b, a) {
-            
-            this.canvas             = canvas || document.createElement(&quot;canvas&quot;);
-            this.context            = this.canvas.getContext(&quot;2d&quot;);
-            this.context.lineCap    = &quot;round&quot;;
-            this.context.lineJoin   = &quot;round&quot;;
+            this.set.apply(this, arguments);
+        },
+
+        /**
+         * セッター.
+<span id='tm-graphics-Color-method-set'>         */
+</span>        set: function(r, g, b, a) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+            this.a = (a !== undefined) ? a : 1.0;
+            return this;
         },
         
         /**
-<span id='tm-graphics-Color-method-toCSSValue'>         * CSS 用 RGBA 文字列に変換
-</span>         */
-        toCSSValue: function() {
+         * 数値によるセッター.
+<span id='tm-graphics-Color-method-setFromNumber'>         */
+</span>        setFromNumber: function(r, g, b, a) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+            this.a = (a !== undefined) ? a : 1.0;
+            return this;
+        },
+        
+        /**
+         * 配列によるセッター
+         */
+<span id='tm-graphics-Color-method-setFromArray'>        setFromArray: function(arr) {
+</span>            return this.set.apply(this, arr);
+        },
+        
+        /**
+         * オブジェクトによるセッター
+         */
+<span id='tm-graphics-Color-method-setFromObject'>        setFromObject: function(obj) {
+</span>            return this.set(obj.r, obj.g, obj.b, obj.a);
+        },
+        
+        /**
+         * 文字列によるセッター
+         */
+        setFromString: function(str) {
+<span id='tm-graphics-Color-method-setFromString'>            var color = tm.graphics.Color.stringToNumber(str);
+</span>            return this.set(color[0], color[1], color[2], color[3]);
+        },
+        
+        /**
+         * 賢いセッター
+         */
+        setSmart: function() {
+            var arg = arguments[0];
+<span id='tm-graphics-Color-method-setSmart'>            if (arguments.length &gt;= 3) {
+</span>                this.set(arguments.r, arguments.g, arguments.b, arguments.a);
+            }
+            else if (arg instanceof Array) {
+                this.setFromArray(arg);
+            }
+            else if (arg instanceof Object) {
+                this.setFromObject(arg);
+            }
+            else if (typeof(arg) == &quot;string&quot;) {
+                this.setFromString(arg);
+            }
+            return this;
+        },
+
+        /**
+         * CSS 用 16進数文字列に変換
+         */
+        toStyleAsHex: function() {
+            return &quot;#{0}{1}{2}&quot;.format(
+<span id='tm-graphics-Color-method-toStyleAsHex'>                this.r.toString(16).padding(2, '0'),
+</span>                this.g.toString(16).padding(2, '0'),
+                this.b.toString(16).padding(2, '0')
+            );
+        },
+        
+        /**
+         * CSS 用 RGB文字列に変換
+         */
+        toStyleAsRGB: function() {
+            return &quot;rgb({r},{g},{b})&quot;.format(this);
+        },
+<span id='tm-graphics-Color-method-toStyleAsRGB'>        
+</span>        
+        /**
+         * CSS 用 RGBA文字列に変換
+         */
+        toStyleAsRGBA: function() {
+            return &quot;rgba({r},{g},{b},{a})&quot;.format(this);
+        },
+
+<span id='tm-graphics-Color-method-toStyleAsRGBA'>        /**
+</span>         * CSS 用 RGBA 文字列に変換
+         */
+        toStyle: function() {
             return &quot;rgba({r},{g},{b},{a})&quot;.format(this);
         },
         
     });
     
+<span id='tm-graphics-Color-method-toStyle'>    var MATCH_SET_LIST = {
+</span>        &quot;hex111&quot;: {
+            reg: /^#(\w{1})(\w{1})(\w{1})$/,
+            exec: function(m) {
+                return [
+                    parseInt(m[1]+m[1], 16),
+                    parseInt(m[2]+m[2], 16),
+                    parseInt(m[3]+m[3], 16)
+                ];
+            }
+        },
+        &quot;hex222&quot;: {
+            reg: /^#(\w{2})(\w{2})(\w{2})$/,
+            exec: function(m) {
+                return [
+                    parseInt(m[1], 16),
+                    parseInt(m[2], 16),
+                    parseInt(m[3], 16)
+                ];
+            }
+        },
+        &quot;rgb&quot;: {
+            reg: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
+            exec: function(m) {
+                return [
+                    parseInt(m[1]),
+                    parseInt(m[2]),
+                    parseInt(m[3])
+                ];
+            }
+        },
+        &quot;rgba&quot;: {
+            reg: /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d{1}(\.{1}\d+)?)\)$/,
+            exec: function(m) {
+                return [
+                    parseInt(m[1]),
+                    parseInt(m[2]),
+                    parseInt(m[3]),
+                    parseFloat(m[4])
+                ];
+            }
+        },
+        &quot;hsl&quot;: {
+            reg: /^hsl\((\d{1,3}),\s*(\d{1,3})%,\s*(\d{1,3})%\)$/,
+            exec: function(m) {
+                return tm.graphics.Color.HSLtoRGB(m[1], m[2], m[3]);
+            }
+        },
+
+        &quot;hsla&quot;: {
+            reg: /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d{1}(\.{1}\d+)?)\)$/,
+            exec: function(m) {
+                return Color.HSLAtoRGBA(m[1], m[2], m[3], m[4]);
+            }
+        },
+    };
+
+
+    tm.graphics.Color.COLOR_LIST = {
+        &quot;black&quot;     : [0x00, 0x00, 0x00],
+        &quot;silver&quot;    : [0xc0, 0xc0, 0xc0],
+        &quot;gray&quot;      : [0x80, 0x80, 0x80],
+        &quot;white&quot;     : [0xff, 0xff, 0xff],
+        &quot;maroon&quot;    : [0x80, 0x00, 0x00],
+        &quot;red&quot;       : [0xff, 0x00, 0x00],
+        &quot;purple&quot;    : [0x80, 0x00, 0x80],
+        &quot;fuchsia&quot;   : [0xff, 0x00, 0xff],
+        &quot;green&quot;     : [0x00, 0x80, 0x00],
+        &quot;lime&quot;      : [0x00, 0xff, 0x00],
+        &quot;olive&quot;     : [0x80, 0x80, 0x00],
+        &quot;yellow&quot;    : [0xff, 0xff, 0x00],
+        &quot;navy&quot;      : [0x00, 0x00, 0x80],
+        &quot;blue&quot;      : [0x00, 0x00, 0xff],
+        &quot;teal&quot;      : [0x00, 0x80, 0x80],
+        &quot;aqua&quot;      : [0x00, 0xff, 0xff],
+    };
+
+    tm.graphics.Color.strToNum = tm.graphics.Color.stringToNumber = function(str){
+        var vlaue = null;
+        var type = null;
+        
+        if (str[0] === '#') {
+            type = (str.length == 4) ?  &quot;hex111&quot; : &quot;hex222&quot;;
+        }
+        else if (str[0] === 'r' &amp;&amp; str[1] === 'g' &amp;&amp; str[2] === 'b')
+        {
+            type = (str[3] == 'a') ? &quot;rgba&quot; : &quot;rgb&quot;;
+        }
+        else if (str[0] === 'h' &amp;&amp; str[1] === 's' &amp;&amp; str[2] === 'l')
+        {
+            type = (str[3] == 'a') ? &quot;hsla&quot; : &quot;hsl&quot;;
+        }
+        
+        if (type) {
+            var match_set = MATCH_SET_LIST[type];
+            var m = str.match( match_set.reg );
+            value = match_set.exec(m);
+        }
+        else if (Color.COLOR_LIST[str]){
+            value = Color.COLOR_LIST[str];
+        }
+        
+        return value;
+    };
+
+
+    tm.graphics.Color.HSLtoRGB = function(h, s, l)
+    {
+        var r, g, b;
+        
+        h%=360;
+        h+=360;
+        h%=360;
+        s *= 0.01;
+        l *= 0.01;
+        
+        if (s == 0) {
+            var l = Math.round(l * 255);
+            return [l, l, l];
+        }
+        var m2 = (l &lt; 0.5) ? l * (1+s) : l + s - l*s;
+        var m1 = l*2 - m2;
+        
+        // red
+        var temp = (h + 120)%360;
+        if      (temp &lt; 60) { r = m1 + (m2-m1) * temp/60; }
+        else if (temp &lt; 180){ r = m2; }
+        else                { r = m1; }
+        
+        // green
+        temp = h;
+        if      (temp &lt; 60) { g = m1 + (m2-m1) * temp/60; }
+        else if (temp &lt; 180){ g = m2; }
+        else if (temp &lt; 240){ g = m1 + (m2-m1) * (240-temp)/60; }
+        else                { g = m1; }
+        
+        // blue
+        temp = ((h-120)+360)%360;
+        if      (temp &lt; 60) { b = m1 + (m2-m1) * temp/60; }
+        else if (temp &lt; 180){ b = m2; }
+        else if (temp &lt; 240){ b = m1 + (m2-m1) * (240-temp)/60; }
+        else                { b = m1; }
+        
+        return [
+            parseInt(r*255),
+            parseInt(g*255),
+            parseInt(b*255)
+            ];
+    };
+    
+    tm.graphics.Color.HSLAtoRGBA = function(h, s, l, a)
+    {
+        var temp = Color.HSLtoRGB(h, s, l); temp[3] = a;
+        return rgb;
+    };
+
+    /**
+     * rgb 値を作成
+     */
+    tm.graphics.Color.createStyleRGB = function(r, g, b) {
+        return &quot;rgba(&quot; + r + &quot;,&quot; + g + &quot;,&quot; + b + &quot;)&quot;;
+    };
+    
+    /**
+     * rgba 値を作成
+     */
+<span id='tm-graphics-Color-method-createStyleRGB'>    tm.graphics.Color.createStyleRGBA = function(r, g, b, a) {
+</span>        return &quot;rgba(&quot; + r + &quot;,&quot; + g + &quot;,&quot; + b + &quot;,&quot; + a + &quot;)&quot;;
+    };
+
+    /**
+     * hsl 値を作成
+     */
+<span id='tm-graphics-Color-method-createStyleRGBA'>    tm.graphics.Color.createStyleHSL = function(h, s, l) {
+</span>        return &quot;hsl(&quot; + h + &quot;,&quot; + s + &quot;%,&quot; + l + &quot;%)&quot;;
+    };
+    
+    /**
+     * hsla 値を作成
+     */
+<span id='tm-graphics-Color-method-createStyleHSL'>    tm.graphics.Color.createStyleHSLA = function(h, s, l, a) {
+</span>        return &quot;hsla(&quot; + h + &quot;,&quot; + s + &quot;%,&quot; + l + &quot;%,&quot; + a + &quot;)&quot;;
+    };
 })();
 </pre>
 </body>

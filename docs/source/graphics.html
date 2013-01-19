@@ -61,31 +61,34 @@ tm.graphics = tm.graphics || {};
             }\
         }&quot;;
 
+
 <span id='tm-graphics-Graphics'>    /**
-</span>     * グラフィックス
+</span>     * @class
+     * Graphics クラス
+     * WebGL を簡単に扱うためのラッパークラス
      */
     tm.graphics.Graphics = tm.createClass({
 
         /**
-<span id='tm-graphics-Graphics-property-element'>         * 要素
-</span>         */
-        element: null,
-
+         * 要素
+         */
+<span id='tm-graphics-Graphics-property-element'>        element: null,
+</span>
         /**
-<span id='tm-graphics-Graphics-property-canvas'>         * キャンバス
-</span>         */
-        canvas: null,
-
+         * キャンバス
+         */
+<span id='tm-graphics-Graphics-property-canvas'>        canvas: null,
+</span>
         /**
          * gl
-<span id='tm-graphics-Graphics-property-gl'>         */
-</span>        gl: null,
+         */
+        gl: null,
 
-        /**
-         * @constructor
-<span id='tm-graphics-Graphics-method-constructor'>         * 初期化
-</span>         */
-        init: function(canvas) {
+<span id='tm-graphics-Graphics-property-gl'>        /**
+</span>         * @constructor
+         * 初期化
+<span id='tm-graphics-Graphics-method-constructor'>         */
+</span>        init: function(canvas) {
             this.canvas = null;
             if (typeof canvas == &quot;string&quot;) {
                 this.canvas = document.querySelector(canvas);
@@ -120,7 +123,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * シェーダーを生成
          */
 <span id='tm-graphics-Graphics-method-createShader'>        createShader: function(script, type) {
 </span>            var gl = this.gl;
@@ -150,7 +153,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * シェーダプログラムを生成
          */
 <span id='tm-graphics-Graphics-method-createProgram'>        createProgram: function(vs, fs) {
 </span>            var gl = this.gl;
@@ -172,11 +175,11 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-<span id='tm-graphics-Graphics-method-createBuffer'>         * Vertex Buffer Object
-</span>         */
+         * Vertex Buffer Object
+         */
         createBuffer: function(buffer) {
-            var gl = this.gl;
-            var buf = gl.createBuffer();
+<span id='tm-graphics-Graphics-method-createBuffer'>            var gl = this.gl;
+</span>            var buf = gl.createBuffer();
 
             gl.bindBuffer(gl.ARRAY_BUFFER, buf);
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buffer), gl.STATIC_DRAW);
@@ -188,19 +191,19 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * 画面クリア
          */
-<span id='tm-graphics-Graphics-method-clear'>        clear: function() {
-</span>            var gl = this.gl;
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        },
+        clear: function() {
+            var gl = this.gl;
+<span id='tm-graphics-Graphics-method-clear'>            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+</span>        },
         
         /**
-         * 
+         * ビューポートをセット
          */
-<span id='tm-graphics-Graphics-method-setViewport'>        setViewport: function(x, y, width, height) {
-</span>            this._viewportX = x !== undefined ? x : 0;
-            this._viewportY = y !== undefined ? y : 0;
+        setViewport: function(x, y, width, height) {
+<span id='tm-graphics-Graphics-method-setViewport'>            this._viewportX = x !== undefined ? x : 0;
+</span>            this._viewportY = y !== undefined ? y : 0;
             this._viewportWidth = width  !== undefined ? width  : this.canvas.width;
             this._viewportHeight= height !== undefined ? height : this.canvas.height;
             
@@ -208,12 +211,12 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * 配列から描画
          */
-<span id='tm-graphics-Graphics-method-drawArrays'>        drawArrays: function(vbo, colors, texCoords) {
-</span>            var gl = this.gl;
-            var program = this.program;
-            gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+        drawArrays: function(vbo, colors, texCoords) {
+            var gl = this.gl;
+<span id='tm-graphics-Graphics-method-drawArrays'>            var program = this.program;
+</span>            gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
             gl.vertexAttribPointer(program.vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
 
             gl.bindBuffer(gl.ARRAY_BUFFER, colors);
@@ -238,55 +241,59 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * メッシュを秒gあ
          */
-<span id='tm-graphics-Graphics-method-drawMesh'>        drawMesh: function(mesh) {
-</span>
+        drawMesh: function(mesh) {
+
         },
 
         /**
-         *
+         *　描画開始
          */
-<span id='tm-graphics-Graphics-method-beginDraw'>        beginDraw: function() {
+<span id='tm-graphics-Graphics-method-drawMesh'>        beginDraw: function() {
 </span>            this._vertices  = [];
             this._colors    = [];
-            this._texCoords = [];
-        },
+<span id='tm-graphics-Graphics-method-beginDraw'>            this._texCoords = [];
+</span>        },
 
         /**
-         *
+         * vertex2
          */
-<span id='tm-graphics-Graphics-method-vertex2'>        vertex2: function(x, y) {
-</span>            var vertices = this._vertices;
+        vertex2: function(x, y) {
+            var vertices = this._vertices;
             vertices.push(x, y, 0.0);
 
-            Array.prototype.push.apply(this._colors, this._currentColor);
-        },
+<span id='tm-graphics-Graphics-method-vertex2'>            Array.prototype.push.apply(this._colors, this._currentColor);
+</span>        },
 
         /**
-         *
+         * vertex3
          */
-<span id='tm-graphics-Graphics-method-vertex3'>        vertex3: function(x, y, z) {
-</span>            var vertices = this._vertices;
+        vertex3: function(x, y, z) {
+            var vertices = this._vertices;
             vertices.push(x, y, z);
 
-            Array.prototype.push.apply(this._colors, this._currentColor);
-        },
+<span id='tm-graphics-Graphics-method-vertex3'>            Array.prototype.push.apply(this._colors, this._currentColor);
+</span>        },
 
         /**
-         *
+         * color4
          */
-<span id='tm-graphics-Graphics-method-color4'>        color4: function(r, g, b, a) {
-</span>            var currentColor = this._currentColor;
+        color4: function(r, g, b, a) {
+            var currentColor = this._currentColor;
             
-            currentColor[0] = r;
-            currentColor[1] = g;
+<span id='tm-graphics-Graphics-method-color4'>            currentColor[0] = r;
+</span>            currentColor[1] = g;
             currentColor[2] = b;
             currentColor[3] = a;
 
             return this;
         },
 
+
+        /**
+         * texCoord2
+         */
         texCoord2: function(s, t) {
             this._texCoords.push(s, t);
 
@@ -294,12 +301,12 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
-         */
-<span id='tm-graphics-Graphics-method-endDraw'>        endDraw: function() {
-</span>            var vertices    = this.createBuffer(this._vertices);
-            var colors      = this.createBuffer(this._colors);
-            var texCoords   = null;
+<span id='tm-graphics-Graphics-method-texCoord2'>         * 描画終了
+</span>         */
+        endDraw: function() {
+            var vertices    = this.createBuffer(this._vertices);
+<span id='tm-graphics-Graphics-method-endDraw'>            var colors      = this.createBuffer(this._colors);
+</span>            var texCoords   = null;
 
             if (this._texCoords.length &gt; 0) {
                 texCoords = this.createBuffer(this._texCoords);
@@ -313,13 +320,13 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         * 矩形描画
          */
-<span id='tm-graphics-Graphics-method-drawRectangle'>        drawRectangle: function(x, y, width, height) {
-</span>            var gl = this.gl;
+        drawRectangle: function(x, y, width, height) {
+            var gl = this.gl;
             var left    = x;
-            var right   = x+width;
-            var top     = y;
+<span id='tm-graphics-Graphics-method-drawRectangle'>            var right   = x+width;
+</span>            var top     = y;
             var bottom  = y+height;
             
             this.beginDraw();
@@ -340,14 +347,14 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         *　サークル描画
          */
-<span id='tm-graphics-Graphics-method-drawCircle'>        drawCircle: function(x, y, radius) {
-</span>            var radDiv = (Math.PI*2)/32;
+        drawCircle: function(x, y, radius) {
+            var radDiv = (Math.PI*2)/32;
 
             this.beginDraw();
-            for (var i=0; i&lt;32; ++i) {
-                var rad = radDiv*i;
+<span id='tm-graphics-Graphics-method-drawCircle'>            for (var i=0; i&lt;32; ++i) {
+</span>                var rad = radDiv*i;
                 var rad2= radDiv*(i+1);
                 this.vertex2(x, y);
                 this.vertex2(
@@ -363,14 +370,14 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         *　キューブ描画
          */
-<span id='tm-graphics-Graphics-method-drawCube'>        drawCube: function() {
-</span>            var vertices = this.createBuffer([
+        drawCube: function() {
+            var vertices = this.createBuffer([
                 // Front face
                 -1.0, -1.0,  1.0,
-                 1.0, -1.0,  1.0,
-                 1.0,  1.0,  1.0,
+<span id='tm-graphics-Graphics-method-drawCube'>                 1.0, -1.0,  1.0,
+</span>                 1.0,  1.0,  1.0,
                  1.0,  1.0,  1.0,
                 -1.0,  1.0,  1.0,
                 -1.0, -1.0,  1.0,
@@ -471,14 +478,14 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *
+         *　ピラミット描画
          */
-<span id='tm-graphics-Graphics-method-drawPyramid'>        drawPyramid: function() {
-</span>            var vertices = this.createBuffer([
+        drawPyramid: function() {
+            var vertices = this.createBuffer([
                 // Front face
                 0.0,  1.0,  0.0,
-                -1.0, -1.0,  1.0,
-                1.0, -1.0,  1.0,
+<span id='tm-graphics-Graphics-method-drawPyramid'>                -1.0, -1.0,  1.0,
+</span>                1.0, -1.0,  1.0,
                 // Right face
                 0.0,  1.0,  0.0,
                 1.0, -1.0,  1.0,
@@ -518,13 +525,16 @@ tm.graphics = tm.graphics || {};
             this.drawArrays(vertices, colors);
         },
 
+        /**
+         *　テクスチャを生成
+         */
         createTexture: function(texture) {
             var gl = this.gl;
             var tex = gl.createTexture();
             var element = texture.element;
 
-            gl.bindTexture(gl.TEXTURE_2D, tex);
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+<span id='tm-graphics-Graphics-method-createTexture'>            gl.bindTexture(gl.TEXTURE_2D, tex);
+</span>            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, element);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
