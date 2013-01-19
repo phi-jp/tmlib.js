@@ -894,21 +894,41 @@ tm.graphics = tm.graphics || {};
         &quot;set&quot;: function(v)  { this.context.shadowColor = v;   }
     });
     
+
     /**
-<span id='tm-graphics-Canvas-property-globalAlpha'>     * @property    lineCap
-</span>     * ライン終端の描画方法
+<span id='tm-graphics-Canvas-property-globalAlpha'>     * @property    shadowOffsetX
+</span>     * シャドウオフセット X 
      */
-    tm.graphics.Canvas.prototype.accessor(&quot;lineCap&quot;, {
-        &quot;get&quot;: function()   { return this.context.lineCap; },
+    tm.graphics.Canvas.prototype.accessor(&quot;shadowOffsetX&quot;, {
+        &quot;get&quot;: function()   { return this.context.shadowOffsetX; },
+        &quot;set&quot;: function(v)  { this.context.shadowOffsetX = v;   }
+    });
+    
+
+    /**
+<span id='tm-graphics-Canvas-property-globalCompositeOperation'>     * @property    shadowOffsetY
+</span>     * シャドウオフセット Y
+     */
+    tm.graphics.Canvas.prototype.accessor(&quot;shadowOffsetY&quot;, {
+        &quot;get&quot;: function()   { return this.context.shadowOffsetY; },
+        &quot;set&quot;: function(v)  { this.context.shadowOffsetY = v;   }
+    });
+    
+    /**
+     * @property    lineCap
+     * ライン終端の描画方法
+     */
+<span id='tm-graphics-Canvas-property-shadowBlur'>    tm.graphics.Canvas.prototype.accessor(&quot;lineCap&quot;, {
+</span>        &quot;get&quot;: function()   { return this.context.lineCap; },
         &quot;set&quot;: function(v)  { this.context.lineCap = v;   }
     });
     
     /**
      * @property    lineJoin
-<span id='tm-graphics-Canvas-property-globalCompositeOperation'>     * ラインつなぎ目の描画方法
-</span>     */
-    tm.graphics.Canvas.prototype.accessor(&quot;lineJoin&quot;, {
-        &quot;get&quot;: function()   { return this.context.lineJoin; },
+     * ラインつなぎ目の描画方法
+     */
+<span id='tm-graphics-Canvas-property-shadowColor'>    tm.graphics.Canvas.prototype.accessor(&quot;lineJoin&quot;, {
+</span>        &quot;get&quot;: function()   { return this.context.lineJoin; },
         &quot;set&quot;: function(v)  { this.context.lineJoin = v;   }
     });
     
@@ -916,9 +936,9 @@ tm.graphics = tm.graphics || {};
      * @property    miterLimit
      * マイターリミット
      */
-<span id='tm-graphics-Canvas-property-shadowBlur'>    tm.graphics.Canvas.prototype.accessor(&quot;miterLimit&quot;, {
-</span>        &quot;get&quot;: function()   { return this.context.miterLimit; },
-        &quot;set&quot;: function(v)  { this.context.miterLimit = v;   }
+    tm.graphics.Canvas.prototype.accessor(&quot;miterLimit&quot;, {
+<span id='tm-graphics-Canvas-property-shadowOffsetX'>        &quot;get&quot;: function()   { return this.context.miterLimit; },
+</span>        &quot;set&quot;: function(v)  { this.context.miterLimit = v;   }
     });
     
     /**
@@ -926,7 +946,7 @@ tm.graphics = tm.graphics || {};
      * ライン幅設定
      */
     tm.graphics.Canvas.prototype.accessor(&quot;lineWidth&quot;, {
-<span id='tm-graphics-Canvas-property-shadowColor'>        &quot;get&quot;: function()   { return this.context.lineWidth; },
+<span id='tm-graphics-Canvas-property-shadowOffsetY'>        &quot;get&quot;: function()   { return this.context.lineWidth; },
 </span>        &quot;set&quot;: function(v)  { this.context.lineWidth = v;   }
     });
     

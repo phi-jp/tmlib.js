@@ -877,6 +877,26 @@ tm.graphics = tm.graphics || {};
         "set": function(v)  { this.context.shadowColor = v;   }
     });
     
+
+    /**
+     * @property    shadowOffsetX
+     * シャドウオフセット X 
+     */
+    tm.graphics.Canvas.prototype.accessor("shadowOffsetX", {
+        "get": function()   { return this.context.shadowOffsetX; },
+        "set": function(v)  { this.context.shadowOffsetX = v;   }
+    });
+    
+
+    /**
+     * @property    shadowOffsetY
+     * シャドウオフセット Y
+     */
+    tm.graphics.Canvas.prototype.accessor("shadowOffsetY", {
+        "get": function()   { return this.context.shadowOffsetY; },
+        "set": function(v)  { this.context.shadowOffsetY = v;   }
+    });
+    
     /**
      * @property    lineCap
      * ライン終端の描画方法
