@@ -70,6 +70,7 @@ var target = [
     "app/animation.js",
     
     "sound/sound.js",
+    "sound/webaudio.js",
     
     "social/twitter.js",
     "social/nineleap.js",
