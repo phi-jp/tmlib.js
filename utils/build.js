@@ -69,6 +69,8 @@ var target = [
     "app/collision.js",
     "app/animation.js",
     
+    "three/three.js",
+    
     "sound/sound.js",
     "sound/webaudio.js",
     
