@@ -62,7 +62,7 @@ tm.app = tm.app || {};
             return this;
         },
 
-        rendererCircle: function(param) {
+        renderCircle: function(param) {
             var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
             var c = this.canvas;
             
@@ -80,7 +80,7 @@ tm.app = tm.app || {};
             c.restore();
         },
 
-        rendererTriangle: function(param) {
+        renderTriangle: function(param) {
             var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
             var c = this.canvas;
             
@@ -98,7 +98,7 @@ tm.app = tm.app || {};
             c.restore();
         },
 
-        rendererRectangle: function(param) {
+        renderRectangle: function(param) {
             var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
             var c = this.canvas;
 
@@ -118,7 +118,7 @@ tm.app = tm.app || {};
             c.restore();
         },
 
-        rendererStar: function(param) {
+        renderStar: function(param) {
             var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
             var c = this.canvas;
             
@@ -143,7 +143,7 @@ tm.app = tm.app || {};
             c.restore();
         },
 
-        rendererPolygon: function(param) {
+        renderPolygon: function(param) {
             var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
             var c = this.canvas;
             
@@ -224,7 +224,7 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
 <span id='tm-app-CircleShape-method-init'>            this.superInit(width, height);
 </span>            // 描画
-            this.rendererCircle(param);
+            this.renderCircle(param);
         },
     });
     
@@ -249,7 +249,7 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
 <span id='tm-app-TriangleShape-method-init'>            this.superInit(width, height);
 </span>            // 描画
-            this.rendererTriangle(param);
+            this.renderTriangle(param);
         },
         
     });
@@ -275,7 +275,7 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
             this.superInit(width, height);
 <span id='tm-app-RectangleShape-method-init'>            // 描画
-</span>            this.rendererRectangle(param);
+</span>            this.renderRectangle(param);
         },
         
     });
@@ -299,7 +299,7 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
             this.superInit(width, height);
             // 描画
-<span id='tm-app-StarShape-method-init'>            this.rendererStar(param);
+<span id='tm-app-StarShape-method-init'>            this.renderStar(param);
 </span>        },
         
     });
@@ -324,7 +324,7 @@ tm.app = tm.app || {};
         init: function(width, height, param) {
             this.superInit(width, height);
             // 描画
-<span id='tm-app-PolygonShape-method-init'>            this.rendererPolygon(param);
+<span id='tm-app-PolygonShape-method-init'>            this.renderPolygon(param);
 </span>        },
         
     });
