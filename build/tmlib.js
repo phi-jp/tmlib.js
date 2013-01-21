@@ -11683,6 +11683,7 @@ tm.three = tm.three || {};
         resize: function(width, height) {
             this.width = width;
             this.height= height;
+            this.renderer.setSize(this.width, this.height);
             
             return this;
         },
@@ -12050,6 +12051,50 @@ tm.three = tm.three || {};
         }
     });
 
+
+    tm.three.PlaneElement = tm.createClass({
+        superClass: tm.three.MeshElement,
+
+        init: function(width, height) {
+            var geometry = new THREE.PlaneGeometry(width, height);
+            var material = new THREE.MeshNormalMaterial();
+
+            this.superInit(geometry, material);
+        }
+    });
+
+
+    tm.three.FloorElement = tm.createClass({
+        superClass: tm.three.MeshElement,
+
+        init: function(width, height) {
+            width  = width || 1000;
+            height = height || 1000;
+            var geometry = new THREE.PlaneGeometry(width, height);
+            var material = new THREE.MeshBasicMaterial();
+
+            this.superInit(geometry, material);
+
+            this.rotation.x = -Math.PI/2;
+            this._render();
+        },
+
+        _render: function() {
+            var c = tm.graphics.Canvas();
+            c.resize(128, 128);
+            c.clearColor("#444");
+            c.setFillStyle("white");
+            c.fillRect(0, 0, 64, 64);
+            c.fillRect(64, 64, 64, 64);
+
+            var texture = new THREE.Texture(c.element);
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(10, 10);
+            texture.needsUpdate = true;
+            this.material.map = texture;
+        }
+    });
+    
 
     tm.three.TextElement = tm.createClass({
         superClass: tm.three.MeshElement,

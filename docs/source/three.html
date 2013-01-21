@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * 
+ */
+
+tm.three = tm.three || {};
+
+
+
+(function() {
+
+    if (!tm.global.THREE) return ;
+    
+<span id='tm-three-ThreeApp'>    /**
+</span>     * @class
+     * キャンバスアプリケーション
+     */
+    tm.three.ThreeApp = tm.createClass({
+        
+        element     : null,
+        canvas      : null,
+        mouse       : null,
+        touch       : null,
+        pointing    : null,
+        keyboard    : null,
+        stats       : null,
+        frame       : 0,
+        fps         : 30,
+        background  : null,
+        isPlaying   : null,
+        
+        _scenes      : null,
+        _sceneIndex  : 0,
+        
+        /**
+         * 初期化
+<span id='tm-three-ThreeApp-method-init'>         */
+</span>        init: function(canvas)
+        {
+            if (canvas instanceof HTMLCanvasElement) {
+                this.element = canvas;
+            }
+            else if (typeof canvas == &quot;string&quot;) {
+                this.element = document.querySelector(canvas);
+            }
+            else {
+                this.element = document.createElement(&quot;canvas&quot;);
+                document.body.appendChild(this.element);
+            }
+            // レンダラーを生成
+//            this.renderer = new THREE.CanvasRenderer({ canvas: this.element });
+            this.renderer = new THREE.WebGLRenderer({ canvas: this.element, clearColor: 0x222222, clearAlpha: 1.0 });
+
+            this.renderer.setSize(this.element.width, this.element.height);
+            
+            // マウスを生成
+            this.mouse      = tm.input.Mouse(this.element);
+            // タッチを生成
+            this.touch      = tm.input.Touch(this.element);
+            // キーボードを生成
+            this.keyboard   = tm.input.Keyboard();
+            
+            // ポインティングをセット(PC では Mouse, Mobile では Touch)
+            this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
+            
+            // 加速度センサーを生成
+            this.accelerometer = tm.input.Accelerometer();
+            
+            // 再生フラグ
+            this.isPlaying = true;
+            
+            // カラー
+            this.background = &quot;black&quot;;
+            
+            // シーン周り
+            this._scenes = [ tm.three.Scene() ];
+            this._sceneIndex = 0;
+            
+            // 決定時の処理をオフにする(iPhone 時のちらつき対策)
+            this.element.addEventListener(&quot;touchstart&quot;, function(e) { e.stop(); });
+            
+            
+            // ウィンドウフォーカス時イベントリスナを登録
+            window.addEventListener(&quot;focus&quot;, function() {
+                this.currentScene.dispatchEvent(tm.event.Event(&quot;focus&quot;));
+            }.bind(this));
+            // ウィンドウブラー時イベントリスナを登録
+            window.addEventListener(&quot;blur&quot;, function() {
+                this.currentScene.dispatchEvent(tm.event.Event(&quot;blur&quot;));
+            }.bind(this));
+        },
+        
+        resize: function(width, height) {
+            this.width = width;
+            this.height= height;
+            this.renderer.setSize(this.width, this.height);
+            
+            return this;
+        },
+        
+        resizeWindow: function() {
+            this.width = innerWidth;
+            this.height= innerHeight;
+            
+            return this;
+        },
+        
+        /**
+         * 画面にフィットさせる
+         */
+        fitWindow: function(everFlag) {
+            // 画面にフィット
+            var _fitFunc = function() {
+                everFlag = everFlag === undefined ? true : everFlag;
+                var e = this.element;
+                var s = e.style;
+<span id='tm-three-ThreeApp-method-fitWindow'>                
+</span>                s.position = &quot;absolute&quot;;
+                s.left = &quot;0px&quot;;
+                s.top  = &quot;0px&quot;;
+                
+                var rateWidth = e.width/window.innerWidth;
+                var rateHeight= e.height/window.innerHeight;
+                var rate = e.height/e.width;
+                
+                if (rateWidth &gt; rateHeight) {
+                    s.width  = innerWidth+&quot;px&quot;;
+                    s.height = innerWidth*rate+&quot;px&quot;;
+                }
+                else {
+                    s.width  = innerHeight/rate+&quot;px&quot;;
+                    s.height = innerHeight+&quot;px&quot;;
+                }
+            }.bind(this);
+            
+            // 一度実行しておく
+            _fitFunc();
+            // リサイズ時のリスナとして登録しておく
+            if (everFlag) {
+                window.addEventListener(&quot;resize&quot;, _fitFunc, false);
+            }
+            
+            // マウスとタッチの座標更新関数をパワーアップ
+            this.mouse._mousemove = this.mouse._mousemoveScale;
+            this.touch._touchmove = this.touch._touchmoveScale;
+        },
+        
+        /**
+         * 実行
+         */
+        run: function()
+        {
+            var self = this;
+            
+            // // requestAnimationFrame version
+            // var fn = function() {
+                // self._loop();
+                // requestAnimationFrame(fn);
+            // }
+            // fn();
+            
+            tm.setLoop(function(){ self._loop(); }, 1000/this.fps);
+            
+<span id='tm-three-ThreeApp-method-run'>            return ;
+</span>            
+            if (true) {
+                setTimeout(arguments.callee.bind(this), 1000/this.fps);
+                this._loop();
+            }
+            
+            return ;
+            
+            var self = this;
+            // setInterval(function(){ self._loop(); }, 1000/self.fps);
+            tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
+        },
+        
+        _loop: function()
+        {
+            // stats update
+            if (this.stats) this.stats.begin();
+
+            // update
+            if (this.update) this.update();
+            this._update();
+            
+            // draw
+            if (this.draw) this.draw();
+            this._draw();
+            
+            // stats update
+            if (this.stats) this.stats.end();
+        },
+        
+        /**
+         * シーンを切り替える
+         * ## Reference
+         * - &lt;http://ameblo.jp/hash-r-1234/entry-10967942550.html&gt;
+         */
+        replaceScene: function(scene)
+        {
+            var e = null;
+            if (this.currentScene) {
+                e = tm.event.Event(&quot;exit&quot;);
+                e.app = this;
+                this.currentScene.dispatchEvent(e);
+                this.currentScene.app = null;
+<span id='tm-three-ThreeApp-method-replaceScene'>            }
+</span>            e = tm.event.Event(&quot;enter&quot;);
+            e.app = this;
+            this.currentScene = scene;
+            this.currentScene.dispatchEvent(e);
+
+            this.currentScene.app = this;
+        },
+        
+        /**
+         * シーンをプッシュする
+         * ポーズやオブション画面などで使用する
+         */
+        pushScene: function(scene)
+        {
+            e = tm.event.Event(&quot;exit&quot;);
+            e.app = this;
+            this.currentScene.dispatchEvent(e);
+            
+            this._scenes.push(scene);
+            ++this._sceneIndex;
+            
+            e = tm.event.Event(&quot;enter&quot;);
+            e.app = this;
+            scene.dispatchEvent(e);
+
+<span id='tm-three-ThreeApp-method-pushScene'>            scene.app = this;
+</span>        },
+        
+        /**
+         * シーンをポップする
+         * ポーズやオブション画面などで使用する
+         */
+        popScene: function()
+        {
+            var scene = this._scenes.pop(scene);
+            --this._sceneIndex;
+            
+            e = tm.event.Event(&quot;exit&quot;);
+            e.app = this;
+            scene.dispatchEvent(e);
+            scene.app = null;
+            
+            // 
+            e = tm.event.Event(&quot;enter&quot;);
+            e.app = this;
+            this.currentScene.dispatchEvent(e);
+            
+<span id='tm-three-ThreeApp-method-popScene'>            return scene;
+</span>        },
+        
+        enableStats: function() {
+            if (window[&quot;Stats&quot;]) {
+                // Stats
+                var stats = this.stats = new Stats();
+                // 右上に設定
+                stats.setMode(0); // 0: fps, 1: ms
+                stats.domElement.style.position = &quot;fixed&quot;;
+                stats.domElement.style.left     = &quot;0px&quot;;
+                stats.domElement.style.top      = &quot;0px&quot;;
+                document.body.appendChild(stats.domElement);
+            }
+            else {
+                console.warn(&quot;not defined stats.&quot;);
+            }
+        },
+        
+        enableDatGUI: function() {
+            if (window.dat) {
+                var gui = new dat.GUI();
+                
+                return gui;
+            }
+        },
+        
+        start: function()
+        {
+            this.isPlaying = true;
+        },
+        
+        stop: function()
+        {
+            this.isPlaying = false;
+        },
+        
+        _update: function()
+        {
+            // デバイス系 Update
+            this.mouse.update();
+            this.keyboard.update();
+            this.touch.update();
+            
+            if (this.isPlaying) {
+                this.currentScene._update(this);
+                ++this.frame;
+            }
+        },
+        
+        _draw: function()
+        {
+            // 描画は全てのシーン行う
+            for (var i=0, len=this._scenes.length; i&lt;len; ++i) {
+                this.renderer.render(this.currentScene, this.currentScene.camera);
+            }
+        },
+        
+        getElement: function() {
+            return this.element;
+        },
+        
+    });
+    
+    
+    /**
+     * @property    width
+     * 幅
+     */
+    tm.three.ThreeApp.prototype.accessor(&quot;width&quot;, {
+        &quot;get&quot;: function()   { return this.element.width; },
+        &quot;set&quot;: function(v)  { this.element.width = v; }
+    });
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.three.ThreeApp.prototype.accessor(&quot;height&quot;, {
+        &quot;get&quot;: function()   { return this.element.height; },
+        &quot;set&quot;: function(v)  { this.element.height = v; }
+    });
+    
+    /**
+     * @property    currentScene
+     * カレントシーン
+     */
+<span id='tm-three-ThreeApp-property-width'>    tm.three.ThreeApp.prototype.accessor(&quot;currentScene&quot;, {
+</span>        &quot;get&quot;: function() { return this._scenes[this._sceneIndex]; },
+        &quot;set&quot;: function(v){ this._scenes[this._sceneIndex] = v; }
+    });
+    
+})();
+
+
+(function() {
+    
+    if (!tm.global.THREE) return ;
+
+    /**
+<span id='tm-three-ThreeApp-property-height'>     * @class
+</span>     * シーン
+     */
+    tm.three.Element = tm.createClass({
+
+        superClass: THREE.Object3D,
+
+        /**
+         * 初期化
+         */
+        init: function() {
+            // THREE.Object3D の初期化 
+            THREE.Object3D.call(this);
+
+<span id='tm-three-ThreeApp-property-currentScene'>            tm.event.EventDispatcher.prototype.init.call(this);
+</span>        },
+        
+        /**
+         * 更新処理
+         */
+        update: function() {},
+
+        _update: function(app) {
+            // 更新有効チェック
+            if (this.isUpdate == false) return ;
+            
+            this.update(app);
+            
+<span id='tm-three-Element'>            var e = tm.event.Event(&quot;enterframe&quot;);
+</span>            e.app = app;
+            this.dispatchEvent(e);
+            // 子供達も実行
+<span id='tm-three-Element-method-init'>            if (this.children.length &gt; 0) {
+</span>                var tempChildren = this.children.slice();
+                for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
+                    var child = tempChildren[i];
+<span id='tm-three-Element-method-update'>                    child._update &amp;&amp; child._update(app);
+</span>                }
+                //this.execChildren(arguments.callee, app);
+            }
+        },
+    });
+    
+    // tm.event.EventDispatcher を継承
+    tm.three.Element.prototype.extendSafe(tm.event.EventDispatcher.prototype);
+    
+})();
+
+(function() {
+    
+    if (!tm.global.THREE) return ;
+
+    /**
+     * @class
+     * Mesh
+     */
+    tm.three.MeshElement = tm.createClass({
+        
+        superClass: THREE.Mesh,
+        
+        /**
+         * 初期化
+         */
+        init: function(geometry, material) {
+            material = material || new THREE.MeshNormalMaterial();
+            // THREE.Mesh の初期化
+            THREE.Mesh.call(this, geometry, material);
+
+            tm.three.Element.prototype.init.call(this);
+        },
+    });
+    
+    // tm.three.Element を継承
+    tm.three.MeshElement.prototype.extendSafe(tm.three.Element.prototype);
+
+    
+    tm.three.CubeElement = tm.createClass({
+        superClass: tm.three.MeshElement,
+
+<span id='tm-three-MeshElement'>        init: function(width, height, depth) {
+</span>            width  = width || 100;
+            height = height || 100;
+            depth  = depth || 100;
+
+<span id='tm-three-MeshElement-method-init'>            var geometry = new THREE.CubeGeometry(width, height, depth);
+</span>            var material = new THREE.MeshNormalMaterial();
+
+            this.superInit(geometry, material);
+        }
+    });
+
+
+
+    tm.three.SphereElement = tm.createClass({
+        superClass: tm.three.MeshElement,
+
+        init: function(radius, widthSegments, heightSegments) {
+            radius          = radius || 45;
+            widthSegments   = widthSegments || 16;
+            heightSegments  = heightSegments || 12;
+
+            var geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
+            var material = new THREE.MeshNormalMaterial();
+
+            this.superInit(geometry, material);
+        }
+    });
+
+
+    tm.three.PlaneElement = tm.createClass({
+        superClass: tm.three.MeshElement,
+
+        init: function(width, height) {
+            var geometry = new THREE.PlaneGeometry(width, height);
+            var material = new THREE.MeshNormalMaterial();
+
+            this.superInit(geometry, material);
+        }
+    });
+
+
+    tm.three.FloorElement = tm.createClass({
+        superClass: tm.three.MeshElement,
+
+        init: function(width, height) {
+            width  = width || 1000;
+            height = height || 1000;
+            var geometry = new THREE.PlaneGeometry(width, height);
+            var material = new THREE.MeshBasicMaterial();
+
+            this.superInit(geometry, material);
+
+            this.rotation.x = -Math.PI/2;
+            this._render();
+        },
+
+        _render: function() {
+            var c = tm.graphics.Canvas();
+            c.resize(128, 128);
+            c.clearColor(&quot;#444&quot;);
+            c.setFillStyle(&quot;white&quot;);
+            c.fillRect(0, 0, 64, 64);
+            c.fillRect(64, 64, 64, 64);
+
+            var texture = new THREE.Texture(c.element);
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(10, 10);
+            texture.needsUpdate = true;
+            this.material.map = texture;
+        }
+    });
+    
+
+    tm.three.TextElement = tm.createClass({
+        superClass: tm.three.MeshElement,
+
+        init: function(text, param) {
+            var geometry = new THREE.TextGeometry(text, param);
+            var material = new THREE.MeshNormalMaterial();
+
+            this.superInit(geometry, material);
+        }
+    });
+
+
+
+})();
+
+(function() {
+    
+    if (!tm.global.THREE) return ;
+
+    /**
+     * @class
+     * シーン
+     */
+    tm.three.Scene = tm.createClass({
+        
+        superClass: THREE.Scene,
+        
+        /**
+         * 初期化
+         */
+        init: function(fov, aspect) {
+            fov = fov || 60;
+            aspect = aspect || 640/480;
+            // THREE.Scene の初期化
+            THREE.Scene.call(this);
+
+            // tm.three.Element を継承
+            tm.three.Element.prototype.init.call(this);
+
+            this.camera = new THREE.PerspectiveCamera(fov, aspect, 1, 10000);
+            this.camera.position.y = 100;
+            this.camera.position.z = 500;
+
+            this.projector = new THREE.Projector();
+        },
+
+<span id='tm-three-Scene'>        intersect: function(objects) {
+</span>            objects = objects || this.children;
+            var mouseX = this.app.pointing.x;
+<span id='tm-three-Scene-method-init'>            var mouseY = this.app.pointing.y;
+</span>
+            mouseX = (mouseX/this.app.width) *2-1;
+            mouseY =-(mouseY/this.app.height)*2+1;
+
+            var vector = new THREE.Vector3(mouseX, mouseY, 0.5);
+            this.projector.unprojectVector(vector, this.camera);
+
+            var raycaster = new THREE.Raycaster(
+                this.camera.position, vector.sub(this.camera.position).normalize()
+            );
+
+            return raycaster.intersectObjects(objects);
+        }
+    });
+    
+    // tm.three.Element を継承
+    tm.three.Scene.prototype.extendSafe(tm.three.Element.prototype);
+})();</pre>
+</body>
+</html>
