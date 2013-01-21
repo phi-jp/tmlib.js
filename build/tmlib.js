@@ -10617,9 +10617,9 @@ tm.app = tm.app || {};
     
     /**
      * @class
-     * iPhone button
+     * glossy button
      */
-    tm.app.iPhoneButton = tm.createClass({
+    tm.app.GlossyButton = tm.createClass({
         superClass: tm.app.Shape,
         
         init: function(width, height, backgroundColor, text) {
@@ -10627,7 +10627,7 @@ tm.app = tm.app || {};
             
             text  = text  || "Button";
             this.backgroundColor = backgroundColor || "black";
-            this.alpha = tm.app.iPhoneButton.DEFAULT_ALPHA;
+            this.alpha = tm.app.GlossyButton.DEFAULT_ALPHA;
             
             this.interaction.enabled = true;
             this.interaction.boundingType = "rect";
@@ -10635,7 +10635,7 @@ tm.app = tm.app || {};
                 this.animation.fade(1.0, 250);
             });
             this.addEventListener("pointingout", function() {
-                this.animation.fade(tm.app.iPhoneButton.DEFAULT_ALPHA, 250);
+                this.animation.fade(tm.app.GlossyButton.DEFAULT_ALPHA, 250);
             });
             
             // ラベル
@@ -10685,7 +10685,7 @@ tm.app = tm.app || {};
     });
     
     
-    tm.app.iPhoneButton.DEFAULT_ALPHA = 0.5;
+    tm.app.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     
 })();
@@ -10815,12 +10815,12 @@ tm.app = tm.app || {};
             this.addChild(msgLabel);
             
             // ツイートボタン
-            var tweetButton = tm.app.iPhoneButton(120, 50, "blue", "Tweet").addChildTo(this);
+            var tweetButton = tm.app.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
             tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
             tweetButton.onpointingstart = function() { window.open(twitterURL, "_self"); };
             
             // 戻るボタン
-            var backButton = tm.app.iPhoneButton(120, 50, "black", "Back").addChildTo(this);
+            var backButton = tm.app.GlossyButton(120, 50, "black", "Back").addChildTo(this);
             backButton.setPosition(param.width/2 + 65, param.height/2 + 50);
             backButton.onpointingstart = function() {
                 var e = tm.event.Event("nextscene");

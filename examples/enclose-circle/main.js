@@ -354,7 +354,7 @@ var ResultScene = tm.createClass({
             url     : "http://phi1618.github.com/tmlib.js/examples/enclose-circle/index.html",
         });
         // ツイートボタン
-        var tweetButton = tm.app.iPhoneButton(150, 50, "blue", "Tweet").addChildTo(this);
+        var tweetButton = tm.app.GlossyButton(150, 50, "blue", "Tweet").addChildTo(this);
         tweetButton.setPosition(SCREEN_WIDTH/2, 470);
         tweetButton.onpointingstart = function() { window.open(url, "_self"); };
         

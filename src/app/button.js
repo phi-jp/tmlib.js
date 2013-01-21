@@ -93,9 +93,9 @@ tm.app = tm.app || {};
     
     /**
      * @class
-     * iPhone button
+     * glossy button
      */
-    tm.app.iPhoneButton = tm.createClass({
+    tm.app.GlossyButton = tm.createClass({
         superClass: tm.app.Shape,
         
         init: function(width, height, backgroundColor, text) {
@@ -103,7 +103,7 @@ tm.app = tm.app || {};
             
             text  = text  || "Button";
             this.backgroundColor = backgroundColor || "black";
-            this.alpha = tm.app.iPhoneButton.DEFAULT_ALPHA;
+            this.alpha = tm.app.GlossyButton.DEFAULT_ALPHA;
             
             this.interaction.enabled = true;
             this.interaction.boundingType = "rect";
@@ -111,7 +111,7 @@ tm.app = tm.app || {};
                 this.animation.fade(1.0, 250);
             });
             this.addEventListener("pointingout", function() {
-                this.animation.fade(tm.app.iPhoneButton.DEFAULT_ALPHA, 250);
+                this.animation.fade(tm.app.GlossyButton.DEFAULT_ALPHA, 250);
             });
             
             // ラベル
@@ -161,7 +161,7 @@ tm.app = tm.app || {};
     });
     
     
-    tm.app.iPhoneButton.DEFAULT_ALPHA = 0.5;
+    tm.app.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     
 })();

@@ -117,12 +117,12 @@ tm.app = tm.app || {};
             this.addChild(msgLabel);
             
             // ツイートボタン
-            var tweetButton = tm.app.iPhoneButton(120, 50, "blue", "Tweet").addChildTo(this);
+            var tweetButton = tm.app.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
             tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
             tweetButton.onpointingstart = function() { window.open(twitterURL, "_self"); };
             
             // 戻るボタン
-            var backButton = tm.app.iPhoneButton(120, 50, "black", "Back").addChildTo(this);
+            var backButton = tm.app.GlossyButton(120, 50, "black", "Back").addChildTo(this);
             backButton.setPosition(param.width/2 + 65, param.height/2 + 50);
             backButton.onpointingstart = function() {
                 var e = tm.event.Event("nextscene");

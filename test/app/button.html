@@ -102,17 +102,17 @@
                 iconButton.setPosition(250, 200).setSize(100, 100);
                 iconButton.onpointingstart = function() { c.log("click icon button."); };
                 
-                var iphoneButton = tm.app.iPhoneButton(100, 50, "red").addChildTo(app.currentScene);
-                iphoneButton.setPosition(100, 300);
-                iphoneButton.onpointingstart = function() { c.log("click iphone button."); };
-                var iphoneButton = tm.app.iPhoneButton(100, 50, "green").addChildTo(app.currentScene);
-                iphoneButton.setPosition(250, 300);
-                iphoneButton.onpointingstart = function() { c.log("click iphone button."); };
-                var iphoneButton = tm.app.iPhoneButton().addChildTo(app.currentScene);
-                iphoneButton.setPosition(400, 300);
-                iphoneButton.onpointingstart = function() { c.log("click iphone button."); };
-                iphoneButton.setSize(100, 50);
-                iphoneButton.setBackgroundColor("blue");
+                var glossyButton = tm.app.GlossyButton(100, 50, "red").addChildTo(app.currentScene);
+                glossyButton.setPosition(100, 300);
+                glossyButton.onpointingstart = function() { c.log("click iphone button."); };
+                var glossyButton = tm.app.GlossyButton(100, 50, "green").addChildTo(app.currentScene);
+                glossyButton.setPosition(250, 300);
+                glossyButton.onpointingstart = function() { c.log("click iphone button."); };
+                var glossyButton = tm.app.GlossyButton().addChildTo(app.currentScene);
+                glossyButton.setPosition(400, 300);
+                glossyButton.onpointingstart = function() { c.log("click iphone button."); };
+                glossyButton.setSize(100, 50);
+                glossyButton.setBackgroundColor("blue");
                 
                 app.run();
             });
