@@ -31,6 +31,8 @@ var target = [
     "geom/matrix44.js",
     "geom/rect.js",
     "geom/circle.js",
+
+    "collision/collision.js",
     
     "dom/element.js",
     "dom/event.js",
