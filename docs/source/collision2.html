@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * collision.js
+ */
+
+
+tm.collision = tm.collision || {};
+ 
+
+(function() {
+    
+<span id='global-method-testCircleCircle'>    /**
+</span>     * 
+     */
+    tm.collision.testCircleCircle = function(circle0, circle1)
+    {
+        var distanceSquared = tm.geom.Vector2.distanceSquared(circle0, circle1);
+        return distanceSquared &lt;= Math.pow(circle0.radius + circle1.radius, 2);
+    }
+    
+<span id='global-method-testRectRect'>    /**
+</span>     * 
+     */
+    tm.collision.testRectRect = function(rect0, rect1)
+    {
+        return (rect0.left &lt; rect1.right) &amp;&amp; (rect0.right &gt; rect1.left) &amp;&amp;
+               (rect0.top &lt; rect1.bottom) &amp;&amp; (rect0.bottom &gt; rect1.top);
+    }
+ 
+})();</pre>
+</body>
+</html>

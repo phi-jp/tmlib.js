@@ -18,11 +18,11 @@
   <pre class="prettyprint lang-js">/*
  * 
  */
-
+ 
 tm.app = tm.app || {};
-
-
-
+ 
+ 
+ 
 (function() {
     
 <span id='tm-app-CanvasElement'>    /**
@@ -143,14 +143,14 @@ tm.app = tm.app || {};
         
         getFinalMatrix: function() {
             var matrix = tm.geom.Matrix33();
-
+ 
             if (this.parent) {
                 matrix.multiply(this.parent.getFinalMatrix());
             }
             matrix.translate(this.centerX, this.centerY);
             matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
             matrix.scale(this.scaleX, this.scaleY);
-
+ 
             return matrix;
         },
         
@@ -227,29 +227,57 @@ tm.app = tm.app || {};
             }
             return false;
         },
-        
+ 
+        /**
+         * 円同士の衝突判定
+         */
+        isHitElementCircle: function(elm) {
+            return tm.collision.testCircleCircle(this.getBoundingCircle(), elm.getBoundingCircle());
+        },
+ 
+        /**
+         * 円同士の衝突判定
+         */
+        isHitElementRect: function(elm) {
+<span id='tm-app-CanvasElement-method-isHitElementCircle'>            return tm.collision.testRectRect(this.getBoundingRect(), elm.getBoundingRect());    
+</span>        },
+ 
+        /**
+         * バウンディングサークル
+         */
+        getBoundingCircle: function() {
+<span id='tm-app-CanvasElement-method-isHitElementRect'>            return tm.geom.Circle(this.centerX, this.centerY, this.radius);
+</span>        },
+ 
+        /**
+         * バウンディングレクト
+         */
+        getBoundingRect: function() {
+<span id='tm-app-CanvasElement-method-getBoundingCircle'>            return tm.geom.Rect(this.left, this.top, this.width, this.height);
+</span>        },
+ 
         /**
          * ローカル座標をグローバル座標に変換
          */
         localToGlobal: function(p) {
             return this.getFinalMatrix().multiplyVector2(p);
         },
-        
-        /**
+<span id='tm-app-CanvasElement-method-getBoundingRect'>        
+</span>        /**
          * グローバル座標をローカル座標に変換
          */
         globalToLocal: function(p) {
-<span id='tm-app-CanvasElement-method-localToGlobal'>            var matrix = this.getFinalMatrix();
-</span>            matrix.invert();
+            var matrix = this.getFinalMatrix();
+            matrix.invert();
             
-            return matrix.multiplyVector2(p);
-        },
+<span id='tm-app-CanvasElement-method-localToGlobal'>            return matrix.multiplyVector2(p);
+</span>        },
         
         drawFillRect: function(ctx) {
-<span id='tm-app-CanvasElement-method-globalToLocal'>            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
-</span>            return this;
-        },
-        drawStrokeRect: function(ctx) {
+            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+            return this;
+<span id='tm-app-CanvasElement-method-globalToLocal'>        },
+</span>        drawStrokeRect: function(ctx) {
             ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
         },
@@ -464,108 +492,108 @@ tm.app = tm.app || {};
     });
     
     /**
-<span id='tm-app-CanvasElement-property-x'>     * @property    scaleX
-</span>     * スケールX値
+     * @property    scaleX
+     * スケールX値
      */
-    tm.app.CanvasElement.prototype.accessor(&quot;scaleX&quot;, {
-        &quot;get&quot;: function()   { return this.scale.x; },
+<span id='tm-app-CanvasElement-property-x'>    tm.app.CanvasElement.prototype.accessor(&quot;scaleX&quot;, {
+</span>        &quot;get&quot;: function()   { return this.scale.x; },
         &quot;set&quot;: function(v)  { this.scale.x = v; }
     });
     
     /**
-<span id='tm-app-CanvasElement-property-y'>     * @property    scaleY
-</span>     * スケールY値
+     * @property    scaleY
+     * スケールY値
      */
-    tm.app.CanvasElement.prototype.accessor(&quot;scaleY&quot;, {
-        &quot;get&quot;: function()   { return this.scale.y; },
+<span id='tm-app-CanvasElement-property-y'>    tm.app.CanvasElement.prototype.accessor(&quot;scaleY&quot;, {
+</span>        &quot;get&quot;: function()   { return this.scale.y; },
         &quot;set&quot;: function(v)  { this.scale.y = v; }
     });
     
     
     
     /**
-<span id='tm-app-CanvasElement-property-scaleX'>     * @property    width
-</span>     * width
+     * @property    width
+     * width
      */
-    tm.app.CanvasElement.prototype.accessor(&quot;width&quot;, {
-        &quot;get&quot;: function()   { return this._width; },
+<span id='tm-app-CanvasElement-property-scaleX'>    tm.app.CanvasElement.prototype.accessor(&quot;width&quot;, {
+</span>        &quot;get&quot;: function()   { return this._width; },
         &quot;set&quot;: function(v)  { this._width = v; this._refreshSize(); }
     });
     
-<span id='tm-app-CanvasElement-property-scaleY'>    
-</span>    /**
+    
+    /**
      * @property    height
      * height
      */
-    tm.app.CanvasElement.prototype.accessor(&quot;height&quot;, {
-        &quot;get&quot;: function()   { return this._height; },
+<span id='tm-app-CanvasElement-property-scaleY'>    tm.app.CanvasElement.prototype.accessor(&quot;height&quot;, {
+</span>        &quot;get&quot;: function()   { return this._height; },
         &quot;set&quot;: function(v)  { this._height = v; this._refreshSize(); }
     });
-<span id='tm-app-CanvasElement-property-width'>    
-</span>    /**
+    
+    /**
      * @property    radius
      * 半径
      */
-    tm.app.CanvasElement.prototype.accessor(&quot;radius&quot;, {
-        &quot;get&quot;: function()   { return this._radius || (this.width+this.height)/4; },
+<span id='tm-app-CanvasElement-property-width'>    tm.app.CanvasElement.prototype.accessor(&quot;radius&quot;, {
+</span>        &quot;get&quot;: function()   { return this._radius || (this.width+this.height)/4; },
         &quot;set&quot;: function(v)  { this._radius = v; }
-<span id='tm-app-CanvasElement-property-height'>    });
-</span>    
+    });
+    
     /**
      * @property    top
      * 左
      */
-    tm.app.CanvasElement.prototype.getter(&quot;top&quot;, function() {
-        return this.y - this.height*this.originY;
+<span id='tm-app-CanvasElement-property-height'>    tm.app.CanvasElement.prototype.getter(&quot;top&quot;, function() {
+</span>        return this.y - this.height*this.originY;
     });
-
+ 
     /**
      * @property    right
      * 左
      */
-<span id='tm-app-CanvasElement-property-radius'>    tm.app.CanvasElement.prototype.getter(&quot;right&quot;, function() {
-</span>        return this.x + this.width*(1-this.originX);
-    });
-
+    tm.app.CanvasElement.prototype.getter(&quot;right&quot;, function() {
+<span id='tm-app-CanvasElement-property-radius'>        return this.x + this.width*(1-this.originX);
+</span>    });
+ 
     /**
      * @property    bottom
      * 左
      */
     tm.app.CanvasElement.prototype.getter(&quot;bottom&quot;, function() {
-<span id='tm-app-CanvasElement-property-top'>        return this.y + this.height*(1-this.originY);
-</span>    });
-
+        return this.y + this.height*(1-this.originY);
+    });
+ 
     /**
      * @property    left
      * 左
-     */
-    tm.app.CanvasElement.prototype.getter(&quot;left&quot;, function() {
-<span id='tm-app-CanvasElement-property-right'>        return this.x - this.width*this.originX;
-</span>    });
-
+<span id='tm-app-CanvasElement-property-top'>     */
+</span>    tm.app.CanvasElement.prototype.getter(&quot;left&quot;, function() {
+        return this.x - this.width*this.originX;
+    });
+ 
     /**
      * @property    centerX
-     * centerX
-     */
+<span id='tm-app-CanvasElement-property-right'>     * centerX
+</span>     */
     tm.app.CanvasElement.prototype.accessor(&quot;centerX&quot;, {
-<span id='tm-app-CanvasElement-property-bottom'>        &quot;get&quot;: function()   { return this.x + this.width/2 - this.width*this.originX; },
+        &quot;get&quot;: function()   { return this.x + this.width/2 - this.width*this.originX; },
+<span id='tm-app-CanvasElement-property-bottom'>        &quot;set&quot;: function(v)  {
+</span>            // TODO: どうしようかな??
+        }
+    });
+ 
+    /**
+     * @property    centerY
+     * centerY
+     */
+    tm.app.CanvasElement.prototype.accessor(&quot;centerY&quot;, {
+<span id='tm-app-CanvasElement-property-left'>        &quot;get&quot;: function()   { return this.y + this.height/2 - this.height*this.originY; },
 </span>        &quot;set&quot;: function(v)  {
             // TODO: どうしようかな??
         }
     });
-
-    /**
-     * @property    centerY
-     * centerY
-<span id='tm-app-CanvasElement-property-left'>     */
-</span>    tm.app.CanvasElement.prototype.accessor(&quot;centerY&quot;, {
-        &quot;get&quot;: function()   { return this.y + this.height/2 - this.height*this.originY; },
-<span id='tm-app-CanvasElement-property-centerX'>        &quot;set&quot;: function(v)  {
-</span>            // TODO: どうしようかな??
-        }
-    });
     
 })();
-</pre>
+<span id='tm-app-CanvasElement-property-centerY'><span id='tm-app-CanvasElement-property-centerX'> </span></span></pre>
 </body>
 </html>
