@@ -1,11 +1,11 @@
 /*
  * 
  */
-
+ 
 tm.app = tm.app || {};
-
-
-
+ 
+ 
+ 
 (function() {
     
     /**
@@ -126,14 +126,14 @@ tm.app = tm.app || {};
         
         getFinalMatrix: function() {
             var matrix = tm.geom.Matrix33();
-
+ 
             if (this.parent) {
                 matrix.multiply(this.parent.getFinalMatrix());
             }
             matrix.translate(this.centerX, this.centerY);
             matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
             matrix.scale(this.scaleX, this.scaleY);
-
+ 
             return matrix;
         },
         
@@ -210,7 +210,35 @@ tm.app = tm.app || {};
             }
             return false;
         },
-        
+ 
+        /**
+         * 円同士の衝突判定
+         */
+        isHitElementCircle: function(elm) {
+            return tm.collision.testCircleCircle(this.getBoundingCircle(), elm.getBoundingCircle());
+        },
+ 
+        /**
+         * 円同士の衝突判定
+         */
+        isHitElementRect: function(elm) {
+            return tm.collision.testRectRect(this.getBoundingRect(), elm.getBoundingRect());    
+        },
+ 
+        /**
+         * バウンディングサークル
+         */
+        getBoundingCircle: function() {
+            return tm.geom.Circle(this.centerX, this.centerY, this.radius);
+        },
+ 
+        /**
+         * バウンディングレクト
+         */
+        getBoundingRect: function() {
+            return tm.geom.Rect(this.left, this.top, this.width, this.height);
+        },
+ 
         /**
          * ローカル座標をグローバル座標に変換
          */
@@ -501,7 +529,7 @@ tm.app = tm.app || {};
     tm.app.CanvasElement.prototype.getter("top", function() {
         return this.y - this.height*this.originY;
     });
-
+ 
     /**
      * @property    right
      * 左
@@ -509,7 +537,7 @@ tm.app = tm.app || {};
     tm.app.CanvasElement.prototype.getter("right", function() {
         return this.x + this.width*(1-this.originX);
     });
-
+ 
     /**
      * @property    bottom
      * 左
@@ -517,7 +545,7 @@ tm.app = tm.app || {};
     tm.app.CanvasElement.prototype.getter("bottom", function() {
         return this.y + this.height*(1-this.originY);
     });
-
+ 
     /**
      * @property    left
      * 左
@@ -525,7 +553,7 @@ tm.app = tm.app || {};
     tm.app.CanvasElement.prototype.getter("left", function() {
         return this.x - this.width*this.originX;
     });
-
+ 
     /**
      * @property    centerX
      * centerX
@@ -536,7 +564,7 @@ tm.app = tm.app || {};
             // TODO: どうしようかな??
         }
     });
-
+ 
     /**
      * @property    centerY
      * centerY
@@ -549,3 +577,4 @@ tm.app = tm.app || {};
     });
     
 })();
+ 
