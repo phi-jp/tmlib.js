@@ -10911,10 +10911,9 @@ tm.app = tm.app || {};
      * @class
      * キャンバスアプリケーション
      */
-    tm.app.CanvasApp = tm.createClass({
+    tm.app.BaseApp = tm.createClass({
         
         element     : null,
-        canvas      : null,
         mouse       : null,
         touch       : null,
         pointing    : null,
@@ -10922,7 +10921,6 @@ tm.app = tm.app || {};
         stats       : null,
         frame       : 0,
         fps         : 30,
-        background  : null,
         isPlaying   : null,
         
         _scenes      : null,
@@ -10931,21 +10929,10 @@ tm.app = tm.app || {};
         /**
          * 初期化
          */
-        init: function(canvas)
+        init: function(elm)
         {
-            if (canvas instanceof HTMLCanvasElement) {
-                this.element = canvas;
-            }
-            else if (typeof canvas == "string") {
-                this.element = document.querySelector(canvas);
-            }
-            else {
-                this.element = document.createElement("canvas");
-                document.body.appendChild(this.element);
-            }
-            // グラフィックスを生成
-            this.canvas = tm.graphics.Canvas(this.element);
-            
+            this.element = elm;
+
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
@@ -10962,16 +10949,12 @@ tm.app = tm.app || {};
             // 再生フラグ
             this.isPlaying = true;
             
-            // カラー
-            this.background = "black";
-            
             // シーン周り
             this._scenes = [ tm.app.Scene() ];
             this._sceneIndex = 0;
             
             // 決定時の処理をオフにする(iPhone 時のちらつき対策)
             this.element.addEventListener("touchstart", function(e) { e.stop(); });
-            
             
             // ウィンドウフォーカス時イベントリスナを登録
             window.addEventListener("focus", function() {
@@ -10981,32 +10964,6 @@ tm.app = tm.app || {};
             window.addEventListener("blur", function() {
                 this.currentScene.dispatchEvent(tm.event.Event("blur"));
             }.bind(this));
-        },
-        
-        resize: function(width, height) {
-            this.width = width;
-            this.height= height;
-            
-            return this;
-        },
-        
-        resizeWindow: function() {
-            this.width = innerWidth;
-            this.height= innerHeight;
-            
-            return this;
-        },
-        
-        /**
-         * 画面にフィットさせる
-         */
-        fitWindow: function(everFlag) {
-            // 画面にフィット
-            this.canvas.fitWindow(everFlag);
-            
-            // マウスとタッチの座標更新関数をパワーアップ
-            this.mouse._mousemove = this.mouse._mousemoveScale;
-            this.touch._touchmove = this.touch._touchmoveScale;
         },
         
         /**
@@ -11165,6 +11122,107 @@ tm.app = tm.app || {};
         
         _draw: function()
         {
+
+        },
+        
+        getElement: function() {
+            return this.element;
+        },
+        
+    });
+    
+    /**
+     * @property    currentScene
+     * カレントシーン
+     */
+    tm.app.BaseApp.prototype.accessor("currentScene", {
+        "get": function() { return this._scenes[this._sceneIndex]; },
+        "set": function(v){ this._scenes[this._sceneIndex] = v; }
+    });
+    
+})();
+
+(function() {
+
+    /**
+     * @class
+     * キャンバスアプリケーション
+     */
+    tm.app.CanvasApp = tm.createClass({
+
+        superClass: tm.app.BaseApp,
+        
+        element     : null,
+        canvas      : null,
+        mouse       : null,
+        touch       : null,
+        pointing    : null,
+        keyboard    : null,
+        stats       : null,
+        frame       : 0,
+        fps         : 30,
+        background  : null,
+        isPlaying   : null,
+        
+        _scenes      : null,
+        _sceneIndex  : 0,
+        
+        /**
+         * 初期化
+         */
+        init: function(canvas)
+        {
+            if (canvas instanceof HTMLCanvasElement) {
+                this.element = canvas;
+            }
+            else if (typeof canvas == "string") {
+                this.element = document.querySelector(canvas);
+            }
+            else {
+                this.element = document.createElement("canvas");
+            }
+
+            // 親の初期化
+            this.superInit(this.element);
+
+            // グラフィックスを生成
+            this.canvas = tm.graphics.Canvas(this.element);
+            
+            // カラー
+            this.background = "black";
+            
+            // シーン周り
+            this._scenes = [ tm.app.Scene() ];
+        },
+        
+        resize: function(width, height) {
+            this.width = width;
+            this.height= height;
+            
+            return this;
+        },
+        
+        resizeWindow: function() {
+            this.width = innerWidth;
+            this.height= innerHeight;
+            
+            return this;
+        },
+        
+        /**
+         * 画面にフィットさせる
+         */
+        fitWindow: function(everFlag) {
+            // 画面にフィット
+            this.canvas.fitWindow(everFlag);
+            
+            // マウスとタッチの座標更新関数をパワーアップ
+            this.mouse._mousemove = this.mouse._mousemoveScale;
+            this.touch._touchmove = this.touch._touchmoveScale;
+        },
+        
+        _draw: function()
+        {
             this.canvas.clearColor(this.background, 0, 0);
             
             this.canvas.fillStyle   = "white";
@@ -11176,10 +11234,6 @@ tm.app = tm.app || {};
             }
             
             //this.currentScene._draw(this.canvas);
-        },
-        
-        getElement: function() {
-            return this.element;
         },
         
     });
@@ -11202,18 +11256,8 @@ tm.app = tm.app || {};
         "get": function()   { return this.canvas.height; },
         "set": function(v)  { this.canvas.height = v; }
     });
-    
-    /**
-     * @property    currentScene
-     * カレントシーン
-     */
-    tm.app.CanvasApp.prototype.accessor("currentScene", {
-        "get": function() { return this._scenes[this._sceneIndex]; },
-        "set": function(v){ this._scenes[this._sceneIndex] = v; }
-    });
-    
-})();
 
+})();
 
 /*
  * interactive.js
@@ -11664,6 +11708,8 @@ tm.three = tm.three || {};
      * キャンバスアプリケーション
      */
     tm.three.ThreeApp = tm.createClass({
+
+        superClass: tm.app.BaseApp,
         
         element     : null,
         canvas      : null,
@@ -11695,47 +11741,18 @@ tm.three = tm.three || {};
                 this.element = document.createElement("canvas");
                 document.body.appendChild(this.element);
             }
+
+            // 親の初期化
+            this.superInit(this.element);
+
             // レンダラーを生成
 //            this.renderer = new THREE.CanvasRenderer({ canvas: this.element });
             this.renderer = new THREE.WebGLRenderer({ canvas: this.element, clearColor: 0x222222, clearAlpha: 1.0 });
 
             this.renderer.setSize(this.element.width, this.element.height);
             
-            // マウスを生成
-            this.mouse      = tm.input.Mouse(this.element);
-            // タッチを生成
-            this.touch      = tm.input.Touch(this.element);
-            // キーボードを生成
-            this.keyboard   = tm.input.Keyboard();
-            
-            // ポインティングをセット(PC では Mouse, Mobile では Touch)
-            this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
-            
-            // 加速度センサーを生成
-            this.accelerometer = tm.input.Accelerometer();
-            
-            // 再生フラグ
-            this.isPlaying = true;
-            
-            // カラー
-            this.background = "black";
-            
             // シーン周り
             this._scenes = [ tm.three.Scene() ];
-            this._sceneIndex = 0;
-            
-            // 決定時の処理をオフにする(iPhone 時のちらつき対策)
-            this.element.addEventListener("touchstart", function(e) { e.stop(); });
-            
-            
-            // ウィンドウフォーカス時イベントリスナを登録
-            window.addEventListener("focus", function() {
-                this.currentScene.dispatchEvent(tm.event.Event("focus"));
-            }.bind(this));
-            // ウィンドウブラー時イベントリスナを登録
-            window.addEventListener("blur", function() {
-                this.currentScene.dispatchEvent(tm.event.Event("blur"));
-            }.bind(this));
         },
         
         resize: function(width, height) {
@@ -11749,6 +11766,7 @@ tm.three = tm.three || {};
         resizeWindow: function() {
             this.width = innerWidth;
             this.height= innerHeight;
+            this.renderer.setSize(this.width, this.height);
             
             return this;
         },
@@ -11823,144 +11841,12 @@ tm.three = tm.three || {};
             tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
         },
         
-        _loop: function()
-        {
-            // stats update
-            if (this.stats) this.stats.begin();
-
-            // update
-            if (this.update) this.update();
-            this._update();
-            
-            // draw
-            if (this.draw) this.draw();
-            this._draw();
-            
-            // stats update
-            if (this.stats) this.stats.end();
-        },
-        
-        /**
-         * シーンを切り替える
-         * ## Reference
-         * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
-         */
-        replaceScene: function(scene)
-        {
-            var e = null;
-            if (this.currentScene) {
-                e = tm.event.Event("exit");
-                e.app = this;
-                this.currentScene.dispatchEvent(e);
-                this.currentScene.app = null;
-            }
-            e = tm.event.Event("enter");
-            e.app = this;
-            this.currentScene = scene;
-            this.currentScene.dispatchEvent(e);
-
-            this.currentScene.app = this;
-        },
-        
-        /**
-         * シーンをプッシュする
-         * ポーズやオブション画面などで使用する
-         */
-        pushScene: function(scene)
-        {
-            e = tm.event.Event("exit");
-            e.app = this;
-            this.currentScene.dispatchEvent(e);
-            
-            this._scenes.push(scene);
-            ++this._sceneIndex;
-            
-            e = tm.event.Event("enter");
-            e.app = this;
-            scene.dispatchEvent(e);
-
-            scene.app = this;
-        },
-        
-        /**
-         * シーンをポップする
-         * ポーズやオブション画面などで使用する
-         */
-        popScene: function()
-        {
-            var scene = this._scenes.pop(scene);
-            --this._sceneIndex;
-            
-            e = tm.event.Event("exit");
-            e.app = this;
-            scene.dispatchEvent(e);
-            scene.app = null;
-            
-            // 
-            e = tm.event.Event("enter");
-            e.app = this;
-            this.currentScene.dispatchEvent(e);
-            
-            return scene;
-        },
-        
-        enableStats: function() {
-            if (window["Stats"]) {
-                // Stats
-                var stats = this.stats = new Stats();
-                // 右上に設定
-                stats.setMode(0); // 0: fps, 1: ms
-                stats.domElement.style.position = "fixed";
-                stats.domElement.style.left     = "0px";
-                stats.domElement.style.top      = "0px";
-                document.body.appendChild(stats.domElement);
-            }
-            else {
-                console.warn("not defined stats.");
-            }
-        },
-        
-        enableDatGUI: function() {
-            if (window.dat) {
-                var gui = new dat.GUI();
-                
-                return gui;
-            }
-        },
-        
-        start: function()
-        {
-            this.isPlaying = true;
-        },
-        
-        stop: function()
-        {
-            this.isPlaying = false;
-        },
-        
-        _update: function()
-        {
-            // デバイス系 Update
-            this.mouse.update();
-            this.keyboard.update();
-            this.touch.update();
-            
-            if (this.isPlaying) {
-                this.currentScene._update(this);
-                ++this.frame;
-            }
-        },
-        
         _draw: function()
         {
             // 描画は全てのシーン行う
             for (var i=0, len=this._scenes.length; i<len; ++i) {
                 this.renderer.render(this.currentScene, this.currentScene.camera);
             }
-        },
-        
-        getElement: function() {
-            return this.element;
         },
         
     });
@@ -11982,15 +11868,6 @@ tm.three = tm.three || {};
     tm.three.ThreeApp.prototype.accessor("height", {
         "get": function()   { return this.element.height; },
         "set": function(v)  { this.element.height = v; }
-    });
-    
-    /**
-     * @property    currentScene
-     * カレントシーン
-     */
-    tm.three.ThreeApp.prototype.accessor("currentScene", {
-        "get": function() { return this._scenes[this._sceneIndex]; },
-        "set": function(v){ this._scenes[this._sceneIndex] = v; }
     });
     
 })();
@@ -12152,7 +12029,7 @@ tm.three = tm.three || {};
             this.material.map = texture;
         }
     });
-    
+
 
     tm.three.TextElement = tm.createClass({
         superClass: tm.three.MeshElement,
