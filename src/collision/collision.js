@@ -3,6 +3,9 @@
  */
 
 
+tm.collision = tm.collision || {};
+ 
+
 (function() {
     
     /**

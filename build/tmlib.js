@@ -4709,6 +4709,9 @@ tm.geom = tm.geom || {};
  */
 
 
+tm.collision = tm.collision || {};
+ 
+
 (function() {
     
     /**
