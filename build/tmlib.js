@@ -12013,6 +12013,20 @@ tm.three = tm.three || {};
     });
 
 
+    tm.three.CanvasTexture = tm.createClass({
+        superClass: THREE.Texture,
+
+        canvas: null,
+
+        init: function() {
+            this.canvas = tm.graphics.Canvas();
+
+            THREE.Texture.call(this, this.canvas.element);
+            this.needsUpdate = true;
+        }
+
+    });
+
 
 })();
 

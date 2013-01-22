@@ -438,16 +438,15 @@
 
                 init: function() {
                     this.superInit();
-
-                    var canvas = tm.graphics.Canvas();
+                    
+                    var texture = tm.three.CanvasTexture();
+                    var canvas = texture.canvas;
                     canvas.resize(512, 256);
 
                     canvas.clearColor("orange");
                     canvas.fillStyle = "red";
                     canvas.setTransformCenter();
                     canvas.fillStar(0, 0, 16, 5);
-                    var texture = new THREE.Texture( canvas.element );
-                    texture.needsUpdate = true;
                     var material = new THREE.MeshPhongMaterial({
                         color: 0xffffff,
                         map: texture,
@@ -484,7 +483,7 @@
                     */
                 }
             });
-            
+
         </script>
         
         <script>
