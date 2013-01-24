@@ -42,6 +42,7 @@
         <script src="../../src/geom/vector2.js"></script>
         <script src="../../src/geom/vector3.js"></script>
         <script src="../../src/geom/matrix33.js"></script>
+        <script src="../../src/geom/rect.js"></script>
         
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
@@ -57,6 +58,7 @@
         
         <script src="../../src/graphics/canvas.js"></script>
         <script src="../../src/graphics/gradient.js"></script>
+        <script src="../../src/graphics/texture.js"></script>
         
         <script src="../../src/app/element.js"></script>
         <script src="../../src/app/canvaselement.js"></script>
@@ -87,33 +89,44 @@
                     { type: "PolygonShape", name: "polygon", x: 500, y: 100 },
                 ],
             };
+
+            var app = null;
+
+            tm.preload(function() {
+                tm.graphics.TextureManager.add("title-bg", "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg");
+                tm.graphics.TextureManager.add("result-bg", "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg");
+
+                // キャンバスアプリケーション
+                app = tm.app.CanvasApp("#world");
+
+                app.replaceScene(new tm.app.LoadingScene({width:640, height:480}));
+                
+                app.run();
+            });
             
             /*
              * Test
              */
             tm.main(function() {
-                // キャンバスアプリケーション
-                var app = tm.app.CanvasApp("#world");
                 
                 var titleScene = tm.app.TitleScene({
                     width: 640,
-                    height: 480
+                    height: 480,
+                    backgroundImage: "title-bg"
                 });
                 titleScene.onnextscene = function() {
                     app.replaceScene(resultScene);
                 };
                 var resultScene = tm.app.ResultScene({
                     width: 640,
-                    height: 480
-                    
+                    height: 480,
+                    backgroundImage: "result-bg"
                 });
                 resultScene.onnextscene = function() {
                     app.replaceScene(titleScene);
                 };
                 
                 app.replaceScene(titleScene);
-                
-                app.run();
             });
             
         </script>

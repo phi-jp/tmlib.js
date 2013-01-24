@@ -439,14 +439,19 @@
                 init: function() {
                     this.superInit();
                     
+                    // テクスチャを作成
                     var texture = tm.three.CanvasTexture();
                     var canvas = texture.canvas;
                     canvas.resize(512, 256);
-
                     canvas.clearColor("orange");
                     canvas.fillStyle = "red";
                     canvas.setTransformCenter();
-                    canvas.fillStar(0, 0, 16, 5);
+                    canvas.fillStar(-20, -20, 12, 5);
+                    canvas.fillStar(-20, 20, 12, 5);
+                    canvas.fillStar(20, -20, 12, 5);
+                    canvas.fillStar(20, 20, 12, 5);
+
+                    // マテリアルを作成
                     var material = new THREE.MeshPhongMaterial({
                         color: 0xffffff,
                         map: texture,
@@ -455,21 +460,26 @@
                         shiness: 50,
                         metal: true,
                     });
+
+                    // 球体を作成
                     var sphere = tm.three.SphereElement();
                     sphere.material = material;
                     sphere.rotation.y = Math.degToRad(-90);
                     this.add(sphere);
                     sphere.update = function(app) {
                         var point = app.pointing;
+                        // マウスで回転
                         if (point.getPointing()) {
                             this.rotation.y += point.deltaPosition.x*0.01;
                             this.rotation.x += point.deltaPosition.y*0.01;
                         }
                     };
 
+                    // カメラを設定
                     this.camera.position.y = 0;
                     this.camera.position.z = 200;
 
+                    // ライトを設定
                     var light = new THREE.DirectionalLight(0xffffff);
                     light.position = {x:100, y:1000, z:1000};
                     light._update = function() {};
