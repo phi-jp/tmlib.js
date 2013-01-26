@@ -104,7 +104,7 @@ tm.sound = tm.sound || {};
      * WebAudioを管理するクラス
      */
     tm.sound.WebAudioManager = {
-        context: webkitAudioContext ? new webkitAudioContext() : null,
+        context: tm.global.webkitAudioContext ? new webkitAudioContext() : null,
         sounds: {}
     };
 
