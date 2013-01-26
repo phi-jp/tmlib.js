@@ -20,7 +20,7 @@ tm.global = window || global || this;
     /**
      * バージョン
      */
-    tm.VERSION = "0.1.4";
+    tm.VERSION = "0.1.5";
     
     /**
      * tmlib.js のルートパス
