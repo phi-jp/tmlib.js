@@ -40,7 +40,7 @@ tm.app = tm.app || {};
             var srcRect = this.srcRect;
             canvas.drawImage(
                 this.canvas.canvas,
-                0, 0, this.width, this.height,
+                0, 0, this.canvas.width, this.canvas.height,
                 -this.width*this.originX, -this.height*this.originY, this.width, this.height);
             return this;
         },
