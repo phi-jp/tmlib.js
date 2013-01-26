@@ -40,7 +40,11 @@ tm.sound = tm.sound || {};
             source.buffer = this.buffer;
             source.connect(this.context.destination);
             source.gain.value = this.volume;
-            source.start(0);
+            if (source.start) {
+                source.start(0);
+            } else {
+                source.noteOn(0);
+            }
 
             this._playingSources.push(source);
         },
@@ -50,7 +54,12 @@ tm.sound = tm.sound || {};
          */
         stop: function() {
             for (var i = this._playingSources.length; i--; ) {
-                this._playingSources[i].stop(0);
+                var source = this._playingSources[i]
+                if (source.stop) {
+                    source.stop(0);
+                } else {
+                    source.noteOff(0);
+                }
             }
             this._playingSources.splice(0);
         },
