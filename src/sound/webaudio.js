@@ -37,7 +37,7 @@ tm.sound = tm.sound || {};
          */
         play: function() {
             var source = this.context.createBufferSource();
-            source.buffer = buffer;
+            source.buffer = this.buffer;
             source.connect(this.context.destination);
             source.gain.value = this.volume;
             source.start(0);
@@ -72,7 +72,7 @@ tm.sound = tm.sound || {};
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200 || xhr.status === 0) {
                         self.context.decodeAudioData(xhr.response, function(buffer) {
-                            this.buffer = buffer;
+                            self.buffer = buffer;
                             self.loaded = true;
                         });
                     } else {
