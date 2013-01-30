@@ -50,8 +50,8 @@ tm.event = tm.event || {};
          * 登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
-            if (this._listeners in type) return true;
-            return false;
+            if (this._listeners[type] === undefined) return false;
+            return true;
         },
         
         /**
