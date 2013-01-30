@@ -50,14 +50,24 @@ tm.event = tm.event || {};
          * 登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
-            
+            var listeners = this._listeners[type];
+            for (var i = 0, len = listeners.length; i < len; i++) {
+                if (listeners[i] == listener)return true;
+            }
+            return false;
         },
         
         /**
          * リスナーを削除
          */
         removeEventListener: function(type, listener) {
-            // TODO: 
+            var listeners = this._listeners[type];
+            for (var i = 0, len = listeners.length; i < len; i++) {
+                if (listeners[i] == listener) {
+                    listeners.splice(i,1);
+                    return this;
+                }
+            }
             return this;
         },
         
