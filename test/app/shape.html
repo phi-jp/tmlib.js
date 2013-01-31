@@ -80,6 +80,7 @@
                     { type: "RectangleShape", name: "rectangle", x: 300, y: 100 },
                     { type: "StarShape", name: "star", x: 400, y: 100 },
                     { type: "PolygonShape", name: "polygon", x: 500, y: 100 },
+                    { type: "HeartShape", init: [50, 50], name: "heart", x: 300, y: 200 },
                 ],
             };
             
@@ -92,7 +93,6 @@
                 
                 // json load
                 app.currentScene.fromJSON(UI_DATA);
-                
                 
                 var player = tm.app.CanvasElement();
                 player.radius = 4;

@@ -70,6 +70,7 @@ var target = [
     "app/interaction.js",
     "app/collision.js",
     "app/animation.js",
+    "app/userinterface.js",
     
     "three/three.js",
     

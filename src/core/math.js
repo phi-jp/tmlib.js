@@ -14,6 +14,7 @@
      * クランプ
      */
     Math.clamp = function(x, a, b) {
+//        return ( Math.max( Math.min(x, ), min ) )
         return (x < a) ? a : ( (x > b) ? b : x );
     };
     
@@ -85,6 +86,15 @@
         }
         
         return n;
+    };
+
+
+    /**
+     * @method
+     * a <= x <= b のとき true を返す
+     */
+    Math.inside = function(x, a, b) {
+        return (x >= a) && (x) <= b;
     };
     
 })();

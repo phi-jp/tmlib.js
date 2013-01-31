@@ -148,6 +148,24 @@ tm.app = tm.app || {};
             
             c.restore();
         },
+
+        renderHeart: function(param) {
+            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
+            var c = this.canvas;
+            
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle     = param.fillStyle;
+            c.strokeStyle   = param.strokeStyle;
+            c.lineWidth     = param.lineWidth;
+            
+            // 描画
+            c.fillHeart(this.width/2, this.height/2*0.7, this.radius, param.angle);
+            c.strokeHeart(this.width/2, this.height/2*0.7, this.radius-Number(c.lineWidth)/2, param.angle);
+            
+            c.restore();
+        },
         
     });
 
@@ -186,6 +204,14 @@ tm.app = tm.app || {};
         
         sides: 5,
         offsetAngle: undefined,
+    };
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART = {
+        fillStyle: "pink",
+        strokeStyle: "white",
+        lineWidth: "4",
+        
+        angle: 45,
     };
     
 })();
@@ -308,6 +334,32 @@ tm.app = tm.app || {};
             this.superInit(width, height);
             // 描画
             this.renderPolygon(param);
+        },
+        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * HeartShape
+     */
+    tm.app.HeartShape = tm.createClass({
+        
+        superClass: tm.app.Shape,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderHeart(param);
         },
         
     });

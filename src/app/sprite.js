@@ -66,7 +66,7 @@ tm.app = tm.app || {};
     });
     
     /**
-     * @property    height
+     * @property    image
      * 高さ
      */
     tm.app.Sprite.prototype.accessor("image", {

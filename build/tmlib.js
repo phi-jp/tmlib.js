@@ -996,6 +996,7 @@ tm.global = window || global || this;
      * クランプ
      */
     Math.clamp = function(x, a, b) {
+//        return ( Math.max( Math.min(x, ), min ) )
         return (x < a) ? a : ( (x > b) ? b : x );
     };
     
@@ -1067,6 +1068,15 @@ tm.global = window || global || this;
         }
         
         return n;
+    };
+
+
+    /**
+     * @method
+     * a <= x <= b のとき true を返す
+     */
+    Math.inside = function(x, a, b) {
+        return (x >= a) && (x) <= b;
     };
     
 })();
@@ -7393,7 +7403,45 @@ tm.graphics = tm.graphics || {};
         strokeStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).stroke();
         },
-        
+
+        /*
+         * heart
+         */
+        heart: function(x, y, radius, angle) {
+            var half_radius = radius*0.5;
+            var rad = (angle === undefined) ? Math.PI/4 : Math.degToRad(angle);
+
+            // 半径 half_radius の角度 angle 上の点との接線を求める
+            var p = Math.cos(rad)*half_radius;
+            var q = Math.sin(rad)*half_radius;
+
+            // 円の接線の方程式 px + qy = r^2 より y = (r^2-px)/q
+            var x2 = -half_radius;
+            var y2 = (half_radius*half_radius-p*x2)/q;
+
+            // パスをセット
+            this.moveTo(0+x, y2+y);
+
+            this.arc(-half_radius+x, 0+y, half_radius, Math.PI-rad, Math.PI*2);
+            this.arc(half_radius+x, 0+y, half_radius, Math.PI, rad);
+            this.closePath();
+
+            return this;
+        },
+
+        /*
+         * fill heart
+         */
+        fillHeart: function(x, y, radius, angle) {
+            return this.beginPath().heart(x, y, radius, angle).fill();
+        },
+
+        /*
+         * stroke heart
+         */
+        strokeHeart: function(x, y, radius, angle) {
+            return this.beginPath().heart(x, y, radius, angle).stroke();
+        },
         
         /**
          * 円のパスを設定
@@ -9636,8 +9684,9 @@ tm.app = tm.app || {};
                 if (key == "children") {
                     for (var i=0,len=value.length; i<len; ++i) {
                         var data = value[i];
+                        var init = data["init"] || [];
                         var _class = window[data.type] || tm.app[data.type];
-                        var elm = _class().addChildTo(this);
+                        var elm = _class.apply(null, init).addChildTo(this);
                         elm.fromJSON(data);
                         this[data.name] = elm;
                     }
@@ -9935,7 +9984,7 @@ tm.app = tm.app || {};
     });
     
     /**
-     * @property    height
+     * @property    image
      * 高さ
      */
     tm.app.Sprite.prototype.accessor("image", {
@@ -10288,6 +10337,24 @@ tm.app = tm.app || {};
             
             c.restore();
         },
+
+        renderHeart: function(param) {
+            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
+            var c = this.canvas;
+            
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle     = param.fillStyle;
+            c.strokeStyle   = param.strokeStyle;
+            c.lineWidth     = param.lineWidth;
+            
+            // 描画
+            c.fillHeart(this.width/2, this.height/2*0.7, this.radius, param.angle);
+            c.strokeHeart(this.width/2, this.height/2*0.7, this.radius-Number(c.lineWidth)/2, param.angle);
+            
+            c.restore();
+        },
         
     });
 
@@ -10326,6 +10393,14 @@ tm.app = tm.app || {};
         
         sides: 5,
         offsetAngle: undefined,
+    };
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART = {
+        fillStyle: "pink",
+        strokeStyle: "white",
+        lineWidth: "4",
+        
+        angle: 45,
     };
     
 })();
@@ -10448,6 +10523,32 @@ tm.app = tm.app || {};
             this.superInit(width, height);
             // 描画
             this.renderPolygon(param);
+        },
+        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * HeartShape
+     */
+    tm.app.HeartShape = tm.createClass({
+        
+        superClass: tm.app.Shape,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderHeart(param);
         },
         
     });
@@ -11753,6 +11854,166 @@ tm.app = tm.app || {};
     
 })();
 
+
+
+
+
+/*
+ * userinterface.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+(function() {
+
+	/**
+	 * @class
+	 * Gauge
+	 */
+	tm.app.Gauge = tm.createClass({
+        superClass: tm.app.RectangleShape,
+
+        init: function(width, height, color, direction) {
+            this.superInit(width, height, {
+                fillStyle: color || "red",
+                strokeStyle: "rgba(255, 255, 255, 0)"
+            });
+
+            this._reset(direction);
+        },
+
+        isFull: function() {
+            return this.targetProp === this._maxValue;
+        },
+
+        isEmpty: function() {
+            return this.targetProp == 0;
+        },
+
+        _reset: function(direction) {
+            this.direction = direction || "left";
+            switch (this.direction) {
+                case "left":
+                    this.originX = 0;
+                    this._targetPropName = "width";
+                    this._value     = this.width;
+                    this._value = this._maxValue = this.width;
+                    break;
+                case "right":
+                    this.originX = 1;
+                    this._targetPropName = "width";
+                    this._value = this._maxValue = this.width;
+                    break;
+                case "up":
+                    this.originY = 1;
+                    this._targetPropName = "height";
+                    this._value     = this.height;
+                    this._value = this._maxValue = this.height;
+                    break;
+                case "down":
+                    this.originY = 0;
+                    this._targetPropName = "height";
+                    this._value     = this.height;
+                    this._value = this._maxValue = this.height;
+                    break;
+            }
+        },
+
+        setValue: function(value, anim) {
+        	value= Math.clamp(value, 0, this._maxValue);
+            anim = (anim !== undefined) ? anim : true;
+
+            this._value = value;
+            this._targetValue = (value/this._maxValue)*this._maxValue;
+
+            if (this._targetValue == this.targetProp) return ;
+
+            this.animation.clear();
+            if (anim) {
+                this.animation.addTween({
+                    prop: this._targetPropName,
+                    begin: this.targetProp,
+                    finish: this._targetValue,
+                    duration: Math.abs(this._targetValue-this.targetProp)*10,
+                });
+            }
+            else {
+                this.targetProp = this._targetValue;
+            }
+
+            return this;
+        },
+        getValue: function() {
+            return this.value;
+        },
+
+        setPercent: function(percent, anim) {
+            this.setValue(this._maxValue*percent*0.01, anim);
+        },
+        getPercent: function() {
+            return (this._value/this._maxValue)*100;
+        },
+
+        setRatio: function(ratio) {
+            this.setValue(this._maxValue*percent, anim);
+        },
+        getRatio: function() {
+            return this._value/this._maxValue;
+        },
+    });
+    
+    /**
+     * @property    value
+     */
+    tm.app.Gauge.prototype.accessor("value", {
+        get: function() {
+            return this._value;
+        },
+        set: function(v) {
+            this.setValue(v);
+        },
+    });
+
+    /**
+     * @property    percent
+     */
+    tm.app.Gauge.prototype.accessor("percent", {
+        get: function() {
+            return this.getPercent();
+        },
+        set: function(v) {
+            this.setPercent(v);
+        },
+    });
+    
+    
+    /**
+     * @property    ratio
+     */
+    tm.app.Gauge.prototype.accessor("ratio", {
+        get: function() {
+            return this.getRatio();
+        },
+        set: function(v) {
+            this.setRatio(v);
+        },
+    });
+    
+    /**
+     * @property    targetProp
+     */
+    tm.app.Gauge.prototype.accessor("targetProp", {
+        get: function() {
+            return this[this._targetPropName];
+        },
+        set: function(v) {
+            this[this._targetPropName] = v;
+        },
+    });
+    
+})();
 
 
 
