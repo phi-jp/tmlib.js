@@ -59,11 +59,9 @@ tm.event = tm.event || {};
          */
         removeEventListener: function(type, listener) {
             var listeners = this._listeners[type];
-            for (var i = 0, len = listeners.length; i < len; i++) {
-                if (listeners[i] == listener) {
-                    listeners.splice(i,1);
-                    return this;
-                }
+            var index = listeners.indexOf(listener);
+            if (index != -1) {
+                listeners.splice(index,1);
             }
             return this;
         },
