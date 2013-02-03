@@ -4723,9 +4723,16 @@ tm.collision = tm.collision || {};
  
 
 (function() {
+
+    /**
+     * @class
+     * 衝突判定
+     */
+    tm.collision;
     
     /**
-     * 
+     * @method
+     * 円同士の衝突判定
      */
     tm.collision.testCircleCircle = function(circle0, circle1)
     {
@@ -4734,7 +4741,7 @@ tm.collision = tm.collision || {};
     }
     
     /**
-     * 
+     * 矩形同士の衝突判定
      */
     tm.collision.testRectRect = function(rect0, rect1)
     {
@@ -7419,11 +7426,15 @@ tm.graphics = tm.graphics || {};
             var x2 = -half_radius;
             var y2 = (half_radius*half_radius-p*x2)/q;
 
-            // パスをセット
-            this.moveTo(0+x, y2+y);
+            // 中心位置調整
+            var height = y2 + half_radius;
+            var offsetY = half_radius-height/2;
 
-            this.arc(-half_radius+x, 0+y, half_radius, Math.PI-rad, Math.PI*2);
-            this.arc(half_radius+x, 0+y, half_radius, Math.PI, rad);
+            // パスをセット
+            this.moveTo(0+x, y2+y+offsetY);
+
+            this.arc(-half_radius+x, 0+y+offsetY, half_radius, Math.PI-rad, Math.PI*2);
+            this.arc(half_radius+x, 0+y+offsetY, half_radius, Math.PI, rad);
             this.closePath();
 
             return this;
@@ -10350,8 +10361,8 @@ tm.app = tm.app || {};
             c.lineWidth     = param.lineWidth;
             
             // 描画
-            c.fillHeart(this.width/2, this.height/2*0.7, this.radius, param.angle);
-            c.strokeHeart(this.width/2, this.height/2*0.7, this.radius-Number(c.lineWidth)/2, param.angle);
+            c.fillHeart(this.width/2, this.height/2, this.radius, param.angle);
+            c.strokeHeart(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, param.angle);
             
             c.restore();
         },
@@ -11966,6 +11977,7 @@ tm.app = tm.app || {};
     
     /**
      * @property    value
+     * 値
      */
     tm.app.Gauge.prototype.accessor("value", {
         get: function() {
@@ -11978,6 +11990,7 @@ tm.app = tm.app || {};
 
     /**
      * @property    percent
+     * パーセント
      */
     tm.app.Gauge.prototype.accessor("percent", {
         get: function() {
@@ -11991,6 +12004,7 @@ tm.app = tm.app || {};
     
     /**
      * @property    ratio
+     * 比率
      */
     tm.app.Gauge.prototype.accessor("ratio", {
         get: function() {
@@ -12003,6 +12017,7 @@ tm.app = tm.app || {};
     
     /**
      * @property    targetProp
+     * ターゲット
      */
     tm.app.Gauge.prototype.accessor("targetProp", {
         get: function() {
