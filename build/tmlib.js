@@ -5969,14 +5969,19 @@ tm.event = tm.event || {};
          * 登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
-            
+            if (this._listeners[type] === undefined) return false;
+            return true;
         },
         
         /**
          * リスナーを削除
          */
         removeEventListener: function(type, listener) {
-            // TODO: 
+            var listeners = this._listeners[type];
+            var index = listeners.indexOf(listener);
+            if (index != -1) {
+                listeners.splice(index,1);
+            }
             return this;
         },
         
@@ -9241,6 +9246,9 @@ tm.app = tm.app || {};
             if (child.parent) child.remove();
             child.parent = this;
             this.children.push(child);
+
+            var e = tm.event.Event("added");
+            child.dispatchEvent(e);
             
             return child;
         },
@@ -9284,7 +9292,11 @@ tm.app = tm.app || {};
         removeChild: function(child)
         {
             var index = this.children.indexOf(child);
-            if (index != -1) this.children.splice(index, 1);
+            if (index != -1) {
+                this.children.splice(index, 1);
+                var e = tm.event.Event("removed");
+                child.dispatchEvent(e);
+            }
         },
         
         /**
@@ -12709,6 +12721,7 @@ tm.sound = tm.sound || {};
         loaded: false,
         context: null,
         buffer: null,
+        panner: null,
 
         /**
          * ボリューム
@@ -12722,6 +12735,7 @@ tm.sound = tm.sound || {};
          */
         init: function(src) {
             this.context = tm.sound.WebAudioManager.context;
+            this.panner = this.context.createPanner();
             if (src) {
                 this._load(src);
             }
@@ -12733,7 +12747,8 @@ tm.sound = tm.sound || {};
         play: function() {
             var source = this.context.createBufferSource();
             source.buffer = this.buffer;
-            source.connect(this.context.destination);
+            source.connect(this.panner);
+            this.panner.connect(this.context.destination);
             source.gain.value = this.volume;
             if (source.start) {
                 source.start(0);
@@ -12789,7 +12804,17 @@ tm.sound = tm.sound || {};
             xhr.send();
         }
     });
+
+    /**
+     * @property    pan
+     * 左右へパン（- ← 0 → +)
+     */
+    tm.sound.WebAudio.prototype.accessor("position", {
+        "set": function(v)  { this.panner.setPosition(v, 0, 0); }
+    });
+    
 })();
+
 
 
 (function() {
