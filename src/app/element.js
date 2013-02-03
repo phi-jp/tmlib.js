@@ -47,6 +47,9 @@ tm.app = tm.app || {};
             if (child.parent) child.remove();
             child.parent = this;
             this.children.push(child);
+
+            var e = tm.event.Event("added");
+            child.dispatchEvent(e);
             
             return child;
         },
@@ -90,7 +93,11 @@ tm.app = tm.app || {};
         removeChild: function(child)
         {
             var index = this.children.indexOf(child);
-            if (index != -1) this.children.splice(index, 1);
+            if (index != -1) {
+                this.children.splice(index, 1);
+                var e = tm.event.Event("removed");
+                child.dispatchEvent(e);
+            }
         },
         
         /**

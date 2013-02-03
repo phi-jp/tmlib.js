@@ -14,6 +14,7 @@ tm.sound = tm.sound || {};
         loaded: false,
         context: null,
         buffer: null,
+        panner: null,
 
         /**
          * ボリューム
@@ -27,6 +28,7 @@ tm.sound = tm.sound || {};
          */
         init: function(src) {
             this.context = tm.sound.WebAudioManager.context;
+            this.panner = this.context.createPanner();
             if (src) {
                 this._load(src);
             }
@@ -38,7 +40,8 @@ tm.sound = tm.sound || {};
         play: function() {
             var source = this.context.createBufferSource();
             source.buffer = this.buffer;
-            source.connect(this.context.destination);
+            source.connect(this.panner);
+            this.panner.connect(this.context.destination);
             source.gain.value = this.volume;
             if (source.start) {
                 source.start(0);
@@ -94,7 +97,17 @@ tm.sound = tm.sound || {};
             xhr.send();
         }
     });
+
+    /**
+     * @property    pan
+     * 左右へパン（- ← 0 → +)
+     */
+    tm.sound.WebAudio.prototype.accessor("position", {
+        "set": function(v)  { this.panner.setPosition(v, 0, 0); }
+    });
+    
 })();
+
 
 
 (function() {
