@@ -106,6 +106,7 @@ tm.app = tm.app || {};
     
     /**
      * @property    value
+     * 値
      */
     tm.app.Gauge.prototype.accessor("value", {
         get: function() {
@@ -118,6 +119,7 @@ tm.app = tm.app || {};
 
     /**
      * @property    percent
+     * パーセント
      */
     tm.app.Gauge.prototype.accessor("percent", {
         get: function() {
@@ -131,6 +133,7 @@ tm.app = tm.app || {};
     
     /**
      * @property    ratio
+     * 比率
      */
     tm.app.Gauge.prototype.accessor("ratio", {
         get: function() {
@@ -143,6 +146,7 @@ tm.app = tm.app || {};
     
     /**
      * @property    targetProp
+     * ターゲット
      */
     tm.app.Gauge.prototype.accessor("targetProp", {
         get: function() {

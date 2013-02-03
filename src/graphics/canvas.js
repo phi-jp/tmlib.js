@@ -469,11 +469,15 @@ tm.graphics = tm.graphics || {};
             var x2 = -half_radius;
             var y2 = (half_radius*half_radius-p*x2)/q;
 
-            // パスをセット
-            this.moveTo(0+x, y2+y);
+            // 中心位置調整
+            var height = y2 + half_radius;
+            var offsetY = half_radius-height/2;
 
-            this.arc(-half_radius+x, 0+y, half_radius, Math.PI-rad, Math.PI*2);
-            this.arc(half_radius+x, 0+y, half_radius, Math.PI, rad);
+            // パスをセット
+            this.moveTo(0+x, y2+y+offsetY);
+
+            this.arc(-half_radius+x, 0+y+offsetY, half_radius, Math.PI-rad, Math.PI*2);
+            this.arc(half_radius+x, 0+y+offsetY, half_radius, Math.PI, rad);
             this.closePath();
 
             return this;

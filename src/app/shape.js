@@ -161,8 +161,8 @@ tm.app = tm.app || {};
             c.lineWidth     = param.lineWidth;
             
             // 描画
-            c.fillHeart(this.width/2, this.height/2*0.7, this.radius, param.angle);
-            c.strokeHeart(this.width/2, this.height/2*0.7, this.radius-Number(c.lineWidth)/2, param.angle);
+            c.fillHeart(this.width/2, this.height/2, this.radius, param.angle);
+            c.strokeHeart(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, param.angle);
             
             c.restore();
         },
