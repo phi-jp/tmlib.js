@@ -119,8 +119,8 @@ tm.util = tm.util || {};
      * BulletML を動的ロード
      */
     tm.util.ScriptManager.loadBulletML = function() {
-        var BULLETML_JS_URL         = "https://raw.github.com/daishihmr/bulletml.js/develop/src/main/bulletml.js";
-        var BULLETML_TMLIB_JS_URL   = "https://raw.github.com/daishihmr/bulletml.js/develop/src/main/bulletml.tmlib.js";
+        var BULLETML_JS_URL         = "https://raw.github.com/daishihmr/bulletml.js/master/src/main/bulletml.js";
+        var BULLETML_TMLIB_JS_URL   = "https://raw.github.com/daishihmr/bulletml.js/master/src/main/bulletml.tmlib.js";
 
         this.load(BULLETML_JS_URL);
         this.load(BULLETML_TMLIB_JS_URL);
