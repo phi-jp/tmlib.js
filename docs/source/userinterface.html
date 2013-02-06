@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * userinterface.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+(function() {
+
+<span id='tm-app-Gauge'>	/**
+</span>	 * @class
+	 * Gauge
+	 */
+	tm.app.Gauge = tm.createClass({
+        superClass: tm.app.RectangleShape,
+
+        init: function(width, height, color, direction) {
+            this.superInit(width, height, {
+                fillStyle: color || &quot;red&quot;,
+                strokeStyle: &quot;rgba(255, 255, 255, 0)&quot;
+            });
+
+            this._reset(direction);
+        },
+
+        isFull: function() {
+            return this.targetProp === this._maxValue;
+        },
+
+        isEmpty: function() {
+            return this.targetProp == 0;
+        },
+
+        _reset: function(direction) {
+            this.direction = direction || &quot;left&quot;;
+            switch (this.direction) {
+                case &quot;left&quot;:
+                    this.originX = 0;
+                    this._targetPropName = &quot;width&quot;;
+                    this._value     = this.width;
+                    this._value = this._maxValue = this.width;
+                    break;
+                case &quot;right&quot;:
+                    this.originX = 1;
+                    this._targetPropName = &quot;width&quot;;
+                    this._value = this._maxValue = this.width;
+                    break;
+                case &quot;up&quot;:
+                    this.originY = 1;
+                    this._targetPropName = &quot;height&quot;;
+                    this._value     = this.height;
+                    this._value = this._maxValue = this.height;
+                    break;
+                case &quot;down&quot;:
+                    this.originY = 0;
+                    this._targetPropName = &quot;height&quot;;
+                    this._value     = this.height;
+                    this._value = this._maxValue = this.height;
+                    break;
+            }
+        },
+
+        setValue: function(value, anim) {
+        	value= Math.clamp(value, 0, this._maxValue);
+            anim = (anim !== undefined) ? anim : true;
+
+            this._value = value;
+            this._targetValue = (value/this._maxValue)*this._maxValue;
+
+            if (this._targetValue == this.targetProp) return ;
+
+            this.animation.clear();
+            if (anim) {
+                this.animation.addTween({
+                    prop: this._targetPropName,
+                    begin: this.targetProp,
+                    finish: this._targetValue,
+                    duration: Math.abs(this._targetValue-this.targetProp)*10,
+                });
+            }
+            else {
+                this.targetProp = this._targetValue;
+            }
+
+            return this;
+        },
+        getValue: function() {
+            return this.value;
+        },
+
+        setPercent: function(percent, anim) {
+            this.setValue(this._maxValue*percent*0.01, anim);
+        },
+        getPercent: function() {
+            return (this._value/this._maxValue)*100;
+        },
+
+        setRatio: function(ratio) {
+            this.setValue(this._maxValue*percent, anim);
+        },
+        getRatio: function() {
+            return this._value/this._maxValue;
+        },
+    });
+    
+<span id='tm-app-Gauge-property-value'>    /**
+</span>     * @property    value
+     * 値
+     */
+    tm.app.Gauge.prototype.accessor(&quot;value&quot;, {
+        get: function() {
+            return this._value;
+        },
+        set: function(v) {
+            this.setValue(v);
+        },
+    });
+
+<span id='tm-app-Gauge-property-percent'>    /**
+</span>     * @property    percent
+     * パーセント
+     */
+    tm.app.Gauge.prototype.accessor(&quot;percent&quot;, {
+        get: function() {
+            return this.getPercent();
+        },
+        set: function(v) {
+            this.setPercent(v);
+        },
+    });
+    
+    
+    /**
+<span id='tm-app-Gauge-property-ratio'>     * @property    ratio
+</span>     * 比率
+     */
+    tm.app.Gauge.prototype.accessor(&quot;ratio&quot;, {
+        get: function() {
+            return this.getRatio();
+        },
+        set: function(v) {
+            this.setRatio(v);
+        },
+    });
+    
+    /**
+<span id='tm-app-Gauge-property-targetProp'>     * @property    targetProp
+</span>     * ターゲット
+     */
+    tm.app.Gauge.prototype.accessor(&quot;targetProp&quot;, {
+        get: function() {
+            return this[this._targetPropName];
+        },
+        set: function(v) {
+            this[this._targetPropName] = v;
+        },
+    });
+    
+})();
+
+
+</pre>
+</body>
+</html>

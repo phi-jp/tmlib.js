@@ -365,8 +365,9 @@ tm.app = tm.app || {};
                 if (key == &quot;children&quot;) {
                     for (var i=0,len=value.length; i&lt;len; ++i) {
                         var data = value[i];
+                        var init = data[&quot;init&quot;] || [];
                         var _class = window[data.type] || tm.app[data.type];
-                        var elm = _class().addChildTo(this);
+                        var elm = _class.apply(null, init).addChildTo(this);
                         elm.fromJSON(data);
                         this[data.name] = elm;
                     }

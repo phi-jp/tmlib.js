@@ -57,64 +57,59 @@
         
         <script src="../../plugins/console.tm.js"></script>
         
-        <script id="test-script">
-            
-            /*
-             * main
-             */
-            tm.main(function() {
-                // コンソール
-                var c = tm.Console("#console");
+<script id="test-script">
+tm.main(function() {
+    // コンソール
+    var c = tm.Console("#console");
 
-                var URL = "ws://echo.websocket.org";
+    var URL = "ws://echo.websocket.org";
 
-                var websocket = tm.net.WebSocket(URL);
+    var websocket = tm.net.WebSocket(URL);
 
-                websocket.addEventListener("open", function() {
-                    c.log("open");
-                });
-                websocket.addEventListener("message", function(e) {
-                    c.log("received data.message = " + e.getData().message);
-                    c.log("received data.timestamp = " + e.getData().timestamp);
-                    console.dir(e.getData());
-                });
-                websocket.addEventListener("close", function() {
-                    c.log("close");
-                });
-                websocket.addEventListener("error", function(e) {
-                    c.log("error");
-                    console.log(e.data);
-                });
+    websocket.addEventListener("open", function() {
+        c.log("open");
+    });
+    websocket.addEventListener("message", function(e) {
+        c.log("received data.message = " + e.getData().message);
+        c.log("received data.timestamp = " + e.getData().timestamp);
+        console.dir(e.getData());
+    });
+    websocket.addEventListener("close", function() {
+        c.log("close");
+    });
+    websocket.addEventListener("error", function(e) {
+        c.log("error");
+        console.log(e.data);
+    });
 
-                // 接続
-                tm.dom.Element("#connect").event.click(function() {
-                    websocket.connect();
-                });
+    // 接続
+    tm.dom.Element("#connect").event.click(function() {
+        websocket.connect();
+    });
 
-                // 送信
-                var message = tm.dom.Element("#message");
-                tm.dom.Element("#send").event.click(function() {
-                    if (websocket.isOpen()) {
-                        var data = {
-                            message: message.value,
-                            timestamp: Date.now()
-                        };
-                        websocket.sendData(data);
-                        c.log("sent     data.message = " + data.message);
-                        c.log("sent     data.timestamp = " + data.timestamp);
-                    } else {
-                        c.log("connection is closed.");
-                    }
-                });
+    // 送信
+    var message = tm.dom.Element("#message");
+    tm.dom.Element("#send").event.click(function() {
+        if (websocket.isOpen()) {
+            var data = {
+                message: message.value,
+                timestamp: Date.now()
+            };
+            websocket.sendData(data);
+            c.log("sent     data.message = " + data.message);
+            c.log("sent     data.timestamp = " + data.timestamp);
+        } else {
+            c.log("connection is closed.");
+        }
+    });
 
-                // 切断
-                tm.dom.Element("#disconnect").event.click(function() {
-                    websocket.disconnect();
-                });
+    // 切断
+    tm.dom.Element("#disconnect").event.click(function() {
+        websocket.disconnect();
+    });
 
-            });
-            
-        </script>
+});
+</script>
         
         <script>
             tm.dom.Element(window).event.add("load", function() {

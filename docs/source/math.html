@@ -31,6 +31,7 @@
 <span id='Math-method-clamp'>     * クランプ
 </span>     */
     Math.clamp = function(x, a, b) {
+//        return ( Math.max( Math.min(x, ), min ) )
         return (x &lt; a) ? a : ( (x &gt; b) ? b : x );
     };
     
@@ -103,6 +104,15 @@
         
         return n;
     };
+
+
+    /**
+     * @method
+     * a &lt;= x &lt;= b のとき true を返す
+     */
+    Math.inside = function(x, a, b) {
+<span id='Math-method-inside'>        return (x &gt;= a) &amp;&amp; (x) &lt;= b;
+</span>    };
     
 })();
 

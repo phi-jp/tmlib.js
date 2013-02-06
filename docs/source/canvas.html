@@ -470,7 +470,49 @@ tm.graphics = tm.graphics || {};
         strokeStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).stroke();
         },
-        
+
+        /*
+         * heart
+         */
+        heart: function(x, y, radius, angle) {
+            var half_radius = radius*0.5;
+            var rad = (angle === undefined) ? Math.PI/4 : Math.degToRad(angle);
+
+            // 半径 half_radius の角度 angle 上の点との接線を求める
+            var p = Math.cos(rad)*half_radius;
+            var q = Math.sin(rad)*half_radius;
+
+            // 円の接線の方程式 px + qy = r^2 より y = (r^2-px)/q
+            var x2 = -half_radius;
+            var y2 = (half_radius*half_radius-p*x2)/q;
+
+            // 中心位置調整
+            var height = y2 + half_radius;
+            var offsetY = half_radius-height/2;
+
+            // パスをセット
+            this.moveTo(0+x, y2+y+offsetY);
+
+            this.arc(-half_radius+x, 0+y+offsetY, half_radius, Math.PI-rad, Math.PI*2);
+            this.arc(half_radius+x, 0+y+offsetY, half_radius, Math.PI, rad);
+            this.closePath();
+
+            return this;
+        },
+
+        /*
+         * fill heart
+         */
+        fillHeart: function(x, y, radius, angle) {
+            return this.beginPath().heart(x, y, radius, angle).fill();
+        },
+
+        /*
+         * stroke heart
+         */
+        strokeHeart: function(x, y, radius, angle) {
+            return this.beginPath().heart(x, y, radius, angle).stroke();
+        },
         
         /**
          * 円のパスを設定
@@ -496,19 +538,19 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-<span id='tm-graphics-Canvas-method-circle'>         * ストローク円を描画
-</span>         */
+         * ストローク円を描画
+         */
         strokeCircle: function(x, y, radius)
-        {
-            return this.beginPath().circle(x, y, radius).stroke();
+<span id='tm-graphics-Canvas-method-circle'>        {
+</span>            return this.beginPath().circle(x, y, radius).stroke();
         },
         
         
         /**
          * 円弧のパスを設定
-<span id='tm-graphics-Canvas-method-fillCircle'>         */
-</span>        arc: function(x, y, radius, startAngle, endAngle, anticlockwise)
-        {
+         */
+<span id='tm-graphics-Canvas-method-fillCircle'>        arc: function(x, y, radius, startAngle, endAngle, anticlockwise)
+</span>        {
             this.context.arc(x, y, radius, startAngle, endAngle, anticlockwise);
             return this;
         },
@@ -518,11 +560,11 @@ tm.graphics = tm.graphics || {};
          */
         fillArc: function(x, y, radius, startAngle, endAngle, anticlockwise)
         {
-<span id='tm-graphics-Canvas-method-strokeCircle'>            return this.beginPath().arc(x, y, radius, startAngle, endAngle, anticlockwise).fill();
-</span>        },
+            return this.beginPath().arc(x, y, radius, startAngle, endAngle, anticlockwise).fill();
+        },
         
-        /**
-         * ストローク円弧を描画
+<span id='tm-graphics-Canvas-method-strokeCircle'>        /**
+</span>         * ストローク円弧を描画
          */
         strokeArc: function(x, y, radius, startAngle, endAngle, anticlockwise)
         {
@@ -534,79 +576,79 @@ tm.graphics = tm.graphics || {};
          */
         triangle: function(x0, y0, x1, y1, x2, y2)
         {
-<span id='tm-graphics-Canvas-method-fillArc'>            this.moveTo(x0, y0).lineTo(x1, y1).lineTo(x2, y2);
-</span>            this.closePath();
+            this.moveTo(x0, y0).lineTo(x1, y1).lineTo(x2, y2);
+            this.closePath();
             return this;
-        },
-        
+<span id='tm-graphics-Canvas-method-fillArc'>        },
+</span>        
         /**
          * 塗りつぶし三角形を描画
          */
         fillTriangle: function(x0, y0, x1, y1, x2, y2)
         {
-<span id='tm-graphics-Canvas-method-strokeArc'>            return this.beginPath().triangle(x0, y0, x1, y1, x2, y2).fill();
-</span>        },
+            return this.beginPath().triangle(x0, y0, x1, y1, x2, y2).fill();
+        },
         
         /**
          * ストローク三角形を描画
          */
-        strokeTriangle: function(x0, y0, x1, y1, x2, y2)
-        {
+<span id='tm-graphics-Canvas-method-strokeArc'>        strokeTriangle: function(x0, y0, x1, y1, x2, y2)
+</span>        {
             return this.beginPath().triangle(x0, y0, x1, y1, x2, y2).stroke();
         },
         
 
         /**
-<span id='tm-graphics-Canvas-method-triangle'>         * 塗りつぶしテキストを描画
-</span>         */
+         * 塗りつぶしテキストを描画
+         */
         fillText: function(text, x, y)
         {
-            return this.context.fillText.apply(this.context, arguments);
-        },
+<span id='tm-graphics-Canvas-method-triangle'>            return this.context.fillText.apply(this.context, arguments);
+</span>        },
         
         /**
          * ストロークテキスト
          */
         strokeText: function(text, x, y)
         {
-<span id='tm-graphics-Canvas-method-fillTriangle'>            return this.context.strokeText.apply(this.context, arguments);
-</span>        },
-        
+            return this.context.strokeText.apply(this.context, arguments);
+<span id='tm-graphics-Canvas-method-fillTriangle'>        },
+</span>        
         /**
          * 塗りつぶしテキスト
          */
         fillTextList: function(text_list, x, y, offsetX, offsetY)
         {
-<span id='tm-graphics-Canvas-method-strokeTriangle'>            offsetX = offsetX || 0;
-</span>            offsetY = offsetY || 20;
+            offsetX = offsetX || 0;
+            offsetY = offsetY || 20;
             
-            for (var i=0,len=text_list.length; i&lt;len; ++i) {
-                this.fillText(text_list[i], x+offsetX*i, y+offsetY*i);
+<span id='tm-graphics-Canvas-method-strokeTriangle'>            for (var i=0,len=text_list.length; i&lt;len; ++i) {
+</span>                this.fillText(text_list[i], x+offsetX*i, y+offsetY*i);
             }
             
-<span id='tm-graphics-Canvas-method-fillText'>            return this;
-</span>        },
+            return this;
+        },
         
         /**
          * ストロークテキストリスト
-         */
-        strokeTextList: function(text_list, x, y, offsetX, offsetY)
+<span id='tm-graphics-Canvas-method-fillText'>         */
+</span>        strokeTextList: function(text_list, x, y, offsetX, offsetY)
         {
             offsetX = offsetX || 0;
-<span id='tm-graphics-Canvas-method-strokeText'>            offsetY = offsetY || 20;
-</span>            
-            for (var i=0,len=text_list.length; i&lt;len; ++i) {
-                this.strokeText(x+offsetX*i, y+offsetY*i, text_list[i]);
+            offsetY = offsetY || 20;
+            
+<span id='tm-graphics-Canvas-method-strokeText'>            for (var i=0,len=text_list.length; i&lt;len; ++i) {
+</span>                this.strokeText(x+offsetX*i, y+offsetY*i, text_list[i]);
             }
             
-<span id='tm-graphics-Canvas-method-fillTextList'>            return this;
-</span>        },
+            return this;
+        },
                 
         /**
          * 画像描画
          */
-        drawImage: function(image, x, y)
-        {
+<span id='tm-graphics-Canvas-method-fillTextList'>        drawImage: function(image, x, y)
+</span>        {
             this.context.drawImage.apply(this.context, arguments);
             return ;
             
@@ -615,9 +657,9 @@ tm.graphics = tm.graphics || {};
             this.context.drawImage(image, x, y);
             return this;
             // ctx.drawImage(this.image.canvas,
-<span id='tm-graphics-Canvas-method-strokeTextList'>                // 0, 0, this.width, this.height,
-</span>                // -this.width/2, -this.height/2, this.width, this.height);
-        },
+                // 0, 0, this.width, this.height,
+<span id='tm-graphics-Canvas-method-strokeTextList'>                // -this.width/2, -this.height/2, this.width, this.height);
+</span>        },
         
         /**
          * テクスチャ描画
@@ -633,11 +675,11 @@ tm.graphics = tm.graphics || {};
         /**
          * ビットマップ描画
          */
-<span id='tm-graphics-Canvas-method-drawImage'>        drawBitmap: function(bitmap, x, y)
-</span>        {
+        drawBitmap: function(bitmap, x, y)
+        {
             arguments[0] = bitmap.imageData;
-            this.context.putImageData.apply(this.context, arguments);
-            
+<span id='tm-graphics-Canvas-method-drawImage'>            this.context.putImageData.apply(this.context, arguments);
+</span>            
             return ;
         },
         
@@ -656,9 +698,9 @@ tm.graphics = tm.graphics || {};
          */
         resetTransform: function()
         {
-<span id='tm-graphics-Canvas-method-drawTexture'>            this.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
-</span>            return this;
-        },
+            this.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+<span id='tm-graphics-Canvas-method-drawTexture'>            return this;
+</span>        },
         
         
         /**
@@ -666,13 +708,13 @@ tm.graphics = tm.graphics || {};
          */
         setTransformCenter: function()
         {
-<span id='tm-graphics-Canvas-method-drawBitmap'>            this.context.setTransform(1, 0, 0, 1, this.width/2, this.height/2);
-</span>            return this;
+            this.context.setTransform(1, 0, 0, 1, this.width/2, this.height/2);
+            return this;
         },
         
         /**
-         * 行列を掛ける
-         */
+<span id='tm-graphics-Canvas-method-drawBitmap'>         * 行列を掛ける
+</span>         */
         transform: function(m11, m12, m21, m22, dx, dy)
         {
             this.context.transform(m11, m12, m21, m22, dx, dy);
@@ -680,12 +722,12 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-<span id='tm-graphics-Canvas-method-setTransform'>         * 保存
-</span>         */
+         * 保存
+         */
         save: function()
         {
-            this.context.save();
-            return this;
+<span id='tm-graphics-Canvas-method-setTransform'>            this.context.save();
+</span>            return this;
         },
         
         /**
@@ -693,68 +735,68 @@ tm.graphics = tm.graphics || {};
          */
         restore: function()
         {
-<span id='tm-graphics-Canvas-method-resetTransform'>            this.context.restore();
-</span>            return this;
+            this.context.restore();
+            return this;
         },
         
         /**
          * 移動
-         */
-        translate: function(x, y)
+<span id='tm-graphics-Canvas-method-resetTransform'>         */
+</span>        translate: function(x, y)
         {
             this.context.translate(x, y);
             return this;
         },
-<span id='tm-graphics-Canvas-method-setTransformCenter'>        
-</span>        /**
+        
+        /**
          * 回転
          */
         rotate: function(rotation)
-        {
-            this.context.rotate(rotation);
+<span id='tm-graphics-Canvas-method-setTransformCenter'>        {
+</span>            this.context.rotate(rotation);
             return this;
         },
         
         /**
          * スケール
          */
-<span id='tm-graphics-Canvas-method-transform'>        scale: function(scaleX, scaleY)
-</span>        {
-            this.context.scale(scaleX, scaleY);
-            return this;
+        scale: function(scaleX, scaleY)
+        {
+<span id='tm-graphics-Canvas-method-transform'>            this.context.scale(scaleX, scaleY);
+</span>            return this;
         },
         
         /**
          * 画像として保存
          */
         saveAsImage: function(mime_type) {
-<span id='tm-graphics-Canvas-method-save'>            mime_type = mime_type || tm.graphics.Canvas.MIME_TYPE_PNG;
-</span>            var data_url = this.canvas.toDataURL(mime_type);
-<span id='tm-graphics-Canvas-method-restore'>            // data_url = data_url.replace(mime_type, &quot;image/octet-stream&quot;);
-</span>            window.open(data_url, &quot;save&quot;);
-            
+            mime_type = mime_type || tm.graphics.Canvas.MIME_TYPE_PNG;
+<span id='tm-graphics-Canvas-method-save'>            var data_url = this.canvas.toDataURL(mime_type);
+</span>            // data_url = data_url.replace(mime_type, &quot;image/octet-stream&quot;);
+<span id='tm-graphics-Canvas-method-restore'>            window.open(data_url, &quot;save&quot;);
+</span>            
             // toDataURL を使えば下記のようなツールが作れるかも!!
-<span id='tm-graphics-Canvas-method-translate'>            // TODO: プログラムで絵をかいて保存できるツール
-</span>        },
+            // TODO: プログラムで絵をかいて保存できるツール
+        },
         
-        setCompositing: function(alpha, compositeOperation)
-        {
+<span id='tm-graphics-Canvas-method-translate'>        setCompositing: function(alpha, compositeOperation)
+</span>        {
             // TODO
         },
         
-<span id='tm-graphics-Canvas-method-rotate'>        setFillStyle: function(style)
-</span>        {
+        setFillStyle: function(style)
+        {
             this.context.fillStyle = style;
-            return this;
-        },
+<span id='tm-graphics-Canvas-method-rotate'>            return this;
+</span>        },
         
         setStrokeStyle: function(style)
         {
-<span id='tm-graphics-Canvas-method-scale'>            this.context.strokeStyle = style;
-</span>            return this;
+            this.context.strokeStyle = style;
+            return this;
         },
-        
-        /**
+<span id='tm-graphics-Canvas-method-scale'>        
+</span>        /**
          * 
 <span id='tm-graphics-Canvas-method-saveAsImage'>         * @see &lt;a href=&quot;http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles&quot;&gt;http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles&lt;/a&gt;
 </span>         */
@@ -784,10 +826,10 @@ tm.graphics = tm.graphics || {};
          */
         setLineStyle: function(width, cap, join, miter) {
             with(this.context) {
-<span id='tm-graphics-Canvas-method-setColorStyle'>                lineWidth   = width || 1;
-</span>                lineCap     = cap   || &quot;round&quot;;
-                lineJoin    = join  || &quot;round&quot;;
-                miterLimit  = miter || 10.0;
+                lineWidth   = width || 1;
+                lineCap     = cap   || &quot;round&quot;;
+<span id='tm-graphics-Canvas-method-setColorStyle'>                lineJoin    = join  || &quot;round&quot;;
+</span>                miterLimit  = miter || 10.0;
             }
             return this;
         },
@@ -797,20 +839,20 @@ tm.graphics = tm.graphics || {};
          * - &lt;http://www.html5.jp/canvas/ref/property/shadowColor.html&gt;
          * - &lt;http://www.w3.org/TR/2010/WD-2dcontext-20100624/#shadows&gt;
          */
-<span id='tm-graphics-Canvas-method-setText'>        setShadow: function(color, offsetX, offsetY, blur) {
-</span>            var ctx = this.context;
+        setShadow: function(color, offsetX, offsetY, blur) {
+            var ctx = this.context;
             
-            ctx.shadowColor     = color     || &quot;black&quot;;
-            ctx.shadowOffsetX   = offsetX   || 0;
+<span id='tm-graphics-Canvas-method-setText'>            ctx.shadowColor     = color     || &quot;black&quot;;
+</span>            ctx.shadowOffsetX   = offsetX   || 0;
             ctx.shadowOffsetY   = offsetY   || 0;
             ctx.shadowBlur      = blur      || 0;
             
-<span id='tm-graphics-Canvas-method-setLineStyle'>            return this;
-</span>        },
+            return this;
+        },
         
         getElement: function() {
-            return this.element;
-        },
+<span id='tm-graphics-Canvas-method-setLineStyle'>            return this.element;
+</span>        },
         
     });
     
@@ -828,12 +870,12 @@ tm.graphics = tm.graphics || {};
     });
     
     /**
-<span id='tm-graphics-Canvas-method-setShadow'>     * @property    height
-</span>     * 高さ
+     * @property    height
+     * 高さ
      */
     tm.graphics.Canvas.prototype.accessor(&quot;height&quot;, {
-        &quot;get&quot;: function()   { return this.canvas.height; },
-        &quot;set&quot;: function(v)  { this.canvas.height = v;   }
+<span id='tm-graphics-Canvas-method-setShadow'>        &quot;get&quot;: function()   { return this.canvas.height; },
+</span>        &quot;set&quot;: function(v)  { this.canvas.height = v;   }
     });
     
     /**
@@ -860,57 +902,57 @@ tm.graphics = tm.graphics || {};
      * @property    globalAlpha
      * アルファ指定
      */
-<span id='tm-graphics-Canvas-property-width'>    tm.graphics.Canvas.prototype.accessor(&quot;globalAlpha&quot;, {
-</span>        &quot;get&quot;: function()   { return this.context.globalAlpha; },
-        &quot;set&quot;: function(v)  { this.context.globalAlpha = v;   }
+    tm.graphics.Canvas.prototype.accessor(&quot;globalAlpha&quot;, {
+<span id='tm-graphics-Canvas-property-width'>        &quot;get&quot;: function()   { return this.context.globalAlpha; },
+</span>        &quot;set&quot;: function(v)  { this.context.globalAlpha = v;   }
     });
     
     
     /**
-<span id='tm-graphics-Canvas-property-height'>     * @property    globalCompositeOperation
-</span>     * ブレンド指定
+     * @property    globalCompositeOperation
+     * ブレンド指定
      */
-    tm.graphics.Canvas.prototype.accessor(&quot;globalCompositeOperation&quot;, {
-        &quot;get&quot;: function()   { return this.context.globalCompositeOperation; },
-<span id='tm-graphics-Canvas-property-fillStyle'>        &quot;set&quot;: function(v)  { this.context.globalCompositeOperation = v;   }
-</span>    });
+<span id='tm-graphics-Canvas-property-height'>    tm.graphics.Canvas.prototype.accessor(&quot;globalCompositeOperation&quot;, {
+</span>        &quot;get&quot;: function()   { return this.context.globalCompositeOperation; },
+        &quot;set&quot;: function(v)  { this.context.globalCompositeOperation = v;   }
+    });
 
     /**
      * @property    shadowBlur
      * シャドウブラー
-     */
-    tm.graphics.Canvas.prototype.accessor(&quot;shadowBlur&quot;, {
+<span id='tm-graphics-Canvas-property-fillStyle'>     */
+</span>    tm.graphics.Canvas.prototype.accessor(&quot;shadowBlur&quot;, {
         &quot;get&quot;: function()   { return this.context.shadowBlur; },
         &quot;set&quot;: function(v)  { this.context.shadowBlur = v;   }
     });
     
 
-<span id='tm-graphics-Canvas-property-strokeStyle'>    /**
-</span>     * @property    shadowColor
+    /**
+     * @property    shadowColor
      * シャドウブラーカラー
      */
-    tm.graphics.Canvas.prototype.accessor(&quot;shadowColor&quot;, {
-        &quot;get&quot;: function()   { return this.context.shadowColor; },
+<span id='tm-graphics-Canvas-property-strokeStyle'>    tm.graphics.Canvas.prototype.accessor(&quot;shadowColor&quot;, {
+</span>        &quot;get&quot;: function()   { return this.context.shadowColor; },
         &quot;set&quot;: function(v)  { this.context.shadowColor = v;   }
     });
     
 
     /**
-<span id='tm-graphics-Canvas-property-globalAlpha'>     * @property    shadowOffsetX
-</span>     * シャドウオフセット X 
+     * @property    shadowOffsetX
+     * シャドウオフセット X 
      */
-    tm.graphics.Canvas.prototype.accessor(&quot;shadowOffsetX&quot;, {
-        &quot;get&quot;: function()   { return this.context.shadowOffsetX; },
+<span id='tm-graphics-Canvas-property-globalAlpha'>    tm.graphics.Canvas.prototype.accessor(&quot;shadowOffsetX&quot;, {
+</span>        &quot;get&quot;: function()   { return this.context.shadowOffsetX; },
         &quot;set&quot;: function(v)  { this.context.shadowOffsetX = v;   }
     });
     
 
     /**
-<span id='tm-graphics-Canvas-property-globalCompositeOperation'>     * @property    shadowOffsetY
-</span>     * シャドウオフセット Y
+     * @property    shadowOffsetY
+     * シャドウオフセット Y
      */
-    tm.graphics.Canvas.prototype.accessor(&quot;shadowOffsetY&quot;, {
-        &quot;get&quot;: function()   { return this.context.shadowOffsetY; },
+<span id='tm-graphics-Canvas-property-globalCompositeOperation'>    tm.graphics.Canvas.prototype.accessor(&quot;shadowOffsetY&quot;, {
+</span>        &quot;get&quot;: function()   { return this.context.shadowOffsetY; },
         &quot;set&quot;: function(v)  { this.context.shadowOffsetY = v;   }
     });
     
@@ -918,18 +960,18 @@ tm.graphics = tm.graphics || {};
      * @property    lineCap
      * ライン終端の描画方法
      */
-<span id='tm-graphics-Canvas-property-shadowBlur'>    tm.graphics.Canvas.prototype.accessor(&quot;lineCap&quot;, {
-</span>        &quot;get&quot;: function()   { return this.context.lineCap; },
-        &quot;set&quot;: function(v)  { this.context.lineCap = v;   }
+    tm.graphics.Canvas.prototype.accessor(&quot;lineCap&quot;, {
+<span id='tm-graphics-Canvas-property-shadowBlur'>        &quot;get&quot;: function()   { return this.context.lineCap; },
+</span>        &quot;set&quot;: function(v)  { this.context.lineCap = v;   }
     });
     
     /**
      * @property    lineJoin
      * ラインつなぎ目の描画方法
      */
-<span id='tm-graphics-Canvas-property-shadowColor'>    tm.graphics.Canvas.prototype.accessor(&quot;lineJoin&quot;, {
-</span>        &quot;get&quot;: function()   { return this.context.lineJoin; },
-        &quot;set&quot;: function(v)  { this.context.lineJoin = v;   }
+    tm.graphics.Canvas.prototype.accessor(&quot;lineJoin&quot;, {
+<span id='tm-graphics-Canvas-property-shadowColor'>        &quot;get&quot;: function()   { return this.context.lineJoin; },
+</span>        &quot;set&quot;: function(v)  { this.context.lineJoin = v;   }
     });
     
     /**
@@ -937,18 +979,18 @@ tm.graphics = tm.graphics || {};
      * マイターリミット
      */
     tm.graphics.Canvas.prototype.accessor(&quot;miterLimit&quot;, {
-<span id='tm-graphics-Canvas-property-shadowOffsetX'>        &quot;get&quot;: function()   { return this.context.miterLimit; },
-</span>        &quot;set&quot;: function(v)  { this.context.miterLimit = v;   }
-    });
+        &quot;get&quot;: function()   { return this.context.miterLimit; },
+<span id='tm-graphics-Canvas-property-shadowOffsetX'>        &quot;set&quot;: function(v)  { this.context.miterLimit = v;   }
+</span>    });
     
     /**
      * @property    lineWidth
      * ライン幅設定
      */
     tm.graphics.Canvas.prototype.accessor(&quot;lineWidth&quot;, {
-<span id='tm-graphics-Canvas-property-shadowOffsetY'>        &quot;get&quot;: function()   { return this.context.lineWidth; },
-</span>        &quot;set&quot;: function(v)  { this.context.lineWidth = v;   }
-    });
+        &quot;get&quot;: function()   { return this.context.lineWidth; },
+<span id='tm-graphics-Canvas-property-shadowOffsetY'>        &quot;set&quot;: function(v)  { this.context.lineWidth = v;   }
+</span>    });
     
     /**
      * @property    font
@@ -956,44 +998,44 @@ tm.graphics = tm.graphics || {};
      */
     tm.graphics.Canvas.prototype.accessor(&quot;font&quot;, {
         &quot;get&quot;: function()   { return this.context.font; },
-<span id='tm-graphics-Canvas-property-lineCap'>        &quot;set&quot;: function(v)  { this.context.font = v;   }
-</span>    });
+        &quot;set&quot;: function(v)  { this.context.font = v;   }
+    });
     
     /**
      * @property    textAlign
-     * テキストのアラインメント
-     */
+<span id='tm-graphics-Canvas-property-lineCap'>     * テキストのアラインメント
+</span>     */
     tm.graphics.Canvas.prototype.accessor(&quot;textAlign&quot;, {
         &quot;get&quot;: function()   { return this.context.textAlign; },
-<span id='tm-graphics-Canvas-property-lineJoin'>        &quot;set&quot;: function(v)  { this.context.textAlign = v;   }
-</span>    });
+        &quot;set&quot;: function(v)  { this.context.textAlign = v;   }
+    });
     
     /**
      * @property    textBaseline
-     * テキストのベースライン
-     */
+<span id='tm-graphics-Canvas-property-lineJoin'>     * テキストのベースライン
+</span>     */
     tm.graphics.Canvas.prototype.accessor(&quot;textBaseline&quot;, {
         &quot;get&quot;: function()   { return this.context.textBaseline; },
-<span id='tm-graphics-Canvas-property-miterLimit'>        &quot;set&quot;: function(v)  { this.context.textBaseline = v;   }
-</span>    });
+        &quot;set&quot;: function(v)  { this.context.textBaseline = v;   }
+    });
     
     /**
      * @property    centerX
      * センターX
      */
-    tm.graphics.Canvas.prototype.getter(&quot;centerX&quot;, function() {
-        return this.canvas.width/2;
+<span id='tm-graphics-Canvas-property-miterLimit'>    tm.graphics.Canvas.prototype.getter(&quot;centerX&quot;, function() {
+</span>        return this.canvas.width/2;
     });
     
     /**
      * @property    centerY
      * センターY
      */
-<span id='tm-graphics-Canvas-property-lineWidth'>    tm.graphics.Canvas.prototype.getter(&quot;centerY&quot;, function(){
-</span>        return this.canvas.height/2;
+    tm.graphics.Canvas.prototype.getter(&quot;centerY&quot;, function(){
+        return this.canvas.height/2;
     });
-    
-})();
+<span id='tm-graphics-Canvas-property-lineWidth'>    
+</span>})();
 
 
 

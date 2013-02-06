@@ -1,0 +1,72 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Canvas Test | TM Lib</title>
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        <script src="../../src/geom/circle.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../src/graphics/canvas.js"></script>
+        <script src="../../src/graphics/gradient.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+        
+        <script id="test-script">
+            
+            tm.preload(function() {
+            });
+            
+            tm.main(function() {
+                // キャンバス取得
+                var canvas = tm.graphics.Canvas("#world");
+                canvas.resize(465, 465);
+                canvas.clearColor("black");
+                canvas.fitWindow();
+                
+                // setup
+                canvas.setFillStyle("pink");
+                canvas.setStrokeStyle("pink");
+                canvas.setTransformCenter();
+
+                // ハート
+                canvas.fillHeart(-100, -100, 50, 65);
+                canvas.fillHeart(0, -100, 50, 60);
+                canvas.fillHeart(100, -100, 50, 55);
+
+                canvas.fillHeart(-100, 0, 50, 50);
+                canvas.strokeCircle(0, 0, 50);
+                canvas.fillHeart(0, 0, 50); // 45
+                canvas.fillHeart(100, 0, 50, 40);
+
+                canvas.fillHeart(-100, 100, 50, 35);
+                canvas.fillHeart(0, 100, 50, 30);
+                canvas.fillHeart(100, 100, 50, 25);
+            });
+            
+        </script>
+    </head>
+    
+    <body>
+        <canvas id="world"></canvas>
+    </body>
+</html>
