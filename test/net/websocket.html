@@ -1,0 +1,143 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>WebSocket Test | TM Lib</title>
+        
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            canvas {
+                box-shadow: 0px 0px 4px 0px #aaa;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/util/ajax.js"></script>
+        <script src="../../src/util/querystring.js"></script>
+
+        <script src="../../src/event/event.js"></script>
+        <script src="../../src/event/eventdispatcher.js"></script>
+        <script src="../../src/net/websocket.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+        
+<script id="test-script">
+tm.main(function() {
+    // コンソール
+    var c = tm.Console("#console");
+
+    var URL = "ws://echo.websocket.org";
+
+    var websocket = tm.net.WebSocket(URL);
+
+    websocket.addEventListener("open", function() {
+        c.log("open");
+    });
+    websocket.addEventListener("message", function(e) {
+        c.log("received data.message = " + e.getData().message);
+        c.log("received data.timestamp = " + e.getData().timestamp);
+        console.dir(e.getData());
+    });
+    websocket.addEventListener("close", function() {
+        c.log("close");
+    });
+    websocket.addEventListener("error", function(e) {
+        c.log("error");
+        console.log(e.data);
+    });
+
+    // 接続
+    tm.dom.Element("#connect").event.click(function() {
+        websocket.connect();
+    });
+
+    // 送信
+    var message = tm.dom.Element("#message");
+    tm.dom.Element("#send").event.click(function() {
+        if (websocket.isOpen()) {
+            var data = {
+                message: message.value,
+                timestamp: Date.now()
+            };
+            websocket.sendData(data);
+            c.log("sent     data.message = " + data.message);
+            c.log("sent     data.timestamp = " + data.timestamp);
+        } else {
+            c.log("connection is closed.");
+        }
+    });
+
+    // 切断
+    tm.dom.Element("#disconnect").event.click(function() {
+        websocket.disconnect();
+    });
+
+});
+</script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+    </head>
+    
+    <body>
+        
+        <h1>WebSocket Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <button type="button" id="connect">connect</button><br />
+                <input type="text" id="message" value="Hello" />
+                <button type="button" id="send">send message</button><br />
+                <button type="button" id="disconnect">disconnect</button><br />
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
