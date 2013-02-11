@@ -64,6 +64,9 @@ tm.app = tm.app || {};
 </span>            if (child.parent) child.remove();
             child.parent = this;
             this.children.push(child);
+
+            var e = tm.event.Event(&quot;added&quot;);
+            child.dispatchEvent(e);
             
             return child;
         },
@@ -107,8 +110,12 @@ tm.app = tm.app || {};
 <span id='tm-app-Element-method-getChildAt'>        removeChild: function(child)
 </span>        {
             var index = this.children.indexOf(child);
-<span id='tm-app-Element-method-removeChild'>            if (index != -1) this.children.splice(index, 1);
-</span>        },
+            if (index != -1) {
+<span id='tm-app-Element-method-removeChild'>                this.children.splice(index, 1);
+</span>                var e = tm.event.Event(&quot;removed&quot;);
+                child.dispatchEvent(e);
+            }
+        },
         
         /**
          * すべての child を離す

@@ -31,6 +31,7 @@ tm.sound = tm.sound || {};
         loaded: false,
         context: null,
         buffer: null,
+        panner: null,
 
         /**
 <span id='tm-sound-WebAudio-property-volume'>         * ボリューム
@@ -44,6 +45,7 @@ tm.sound = tm.sound || {};
 </span>         */
         init: function(src) {
             this.context = tm.sound.WebAudioManager.context;
+            this.panner = this.context.createPanner();
             if (src) {
                 this._load(src);
             }
@@ -55,7 +57,8 @@ tm.sound = tm.sound || {};
 </span>        play: function() {
             var source = this.context.createBufferSource();
             source.buffer = this.buffer;
-            source.connect(this.context.destination);
+            source.connect(this.panner);
+            this.panner.connect(this.context.destination);
             source.gain.value = this.volume;
             if (source.start) {
                 source.start(0);
@@ -111,15 +114,25 @@ tm.sound = tm.sound || {};
             xhr.send();
         }
     });
+
+    /**
+     * @property    pan
+<span id='tm-sound-WebAudio-property-pan'>     * 左右へパン（- ← 0 → +)
+</span>     */
+    tm.sound.WebAudio.prototype.accessor(&quot;position&quot;, {
+        &quot;set&quot;: function(v)  { this.panner.setPosition(v, 0, 0); }
+    });
+    
 })();
+
 
 
 (function() {
 
     /**
-<span id='WebAudio'>     * @class   WebAudioマネージャクラス
-</span>     * WebAudioを管理するクラス
-     */
+     * @class   WebAudioマネージャクラス
+<span id='WebAudio'>     * WebAudioを管理するクラス
+</span>     */
     tm.sound.WebAudioManager = {
         context: tm.global.webkitAudioContext ? new webkitAudioContext() : null,
         sounds: {}

@@ -124,6 +124,16 @@
         return this;
     });
     
+    
+    /**
+     * @method  using
+     */
+    Object.defineInstanceMethod("using", function(source) {
+        // TODO:
+        
+        return this;
+    });
+    
     if (window) {
         /**
          * @method  globalize

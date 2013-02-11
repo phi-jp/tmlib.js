@@ -122,6 +122,7 @@ tm.global = window || global || this;
                 // 元に戻す
                 this.__proto__ = temp_proto;
             };
+            tm_class.prototype.constructor = tm_class;
         }
         
         tm_class.prototype.selfClass = tm_class;
@@ -138,150 +139,101 @@ tm.global = window || global || this;
         
         return tm_class;
     };
-    
-    
+
     /**
-     * 使用する
+     * クラス定義
+     * phi クラス定義 &lt;http://jsdo.it/phi/eEmj&gt;
+     * new と apply を同時に使う &lt;http://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible&gt;
      */
-    tm.using = function() {
-        for (var key in tm) {
-            window[key] = tm[key];
+<span id='tm-VENDER_PREFIX-method-class'>    tm.class = function(path, prop) {
+</span>        var index       = path.lastIndexOf(&quot;.&quot;);
+        var nsName      = path.substring(0, index);
+        var ns          = (nsName) ? tm.using(nsName) : tm.global;
+        var className   = (nsName) ? path.substring(index+1) : path;
+        var bind        = Function.prototype.bind;
+        var unshift     = Array.prototype.unshift;
+
+        _class = ns[className] = function _class() {
+            if (this === tm.global) {
+                unshift.call(arguments, null);
+                return new (bind.apply(_class, arguments));
+            }
+            else {
+                return this.init.apply(this, arguments);
+            }
+        };
+        _class._name = className;
+
+        if (prop.superClass) {
+            _class.prototype = Object.create(prop.superClass.prototype);
+            _class.prototype.superInit = function() {
+                // 一時的に superClass として扱われるようにする
+                var temp_proto = this.__proto__;
+                this.__proto__ = prop.superClass.prototype;
+                // 親の初期化を呼び出す
+                prop.superClass.prototype.init.apply(this, arguments);
+                // 元に戻す
+                this.__proto__ = temp_proto;
+            };
+            _class.prototype.constructor = _class;
         }
+        
+        for (var key in prop) {
+            _class.prototype[key] = prop[key];
+        }
+
+        return _class;
+    };
+    
+
+    /**
+     * 名前空間
+     * typescript の mudle 機能を参考
+     * https://sites.google.com/site/jun1sboardgames/programming/typescript
+     */
+    tm.namespace = function(ns, fn) {
+        var ns = tm.using(ns);
+
+        fn.call(ns, ns);
+    };
+
+    /**
+     * 使用
+     */
+    tm.using = function(ns) {
+<span id='tm-VENDER_PREFIX-method-namespace'>        var path = ns.split(/[,.\/ ]|::/);
+</span>        var current = tm.global;
+        
+        for (var i=0,len=path.length; i&lt;len; ++i) {
+            var dir = path[i];
+            current = current[dir] || (current[dir] = {});
+        }
+
+        return current;
     };
     
     /**
-     * ループ
-     */
+<span id='tm-VENDER_PREFIX-method-using'>     * ループ
+</span>     */
     tm.setLoop = function(fn, delay) {
-<span id='tm-VENDER_PREFIX-method-using'>        var temp = function() {
-</span>            // 開始時間
+        var temp = function() {
+            // 開始時間
             var start = (new Date()).getTime();
             
             // 実行
             fn();
             
-<span id='tm-VENDER_PREFIX-method-setLoop'>            // 経過時間
-</span>            var progress = (new Date()).getTime() - start;
+            // 経過時間
+            var progress = (new Date()).getTime() - start;
             // 次回までの待ち時間を計算
-            var newDelay = delay-progress;
-            newDelay = (newDelay &gt; 0) ? newDelay : 0;
+<span id='tm-VENDER_PREFIX-method-setLoop'>            var newDelay = delay-progress;
+</span>            newDelay = (newDelay &gt; 0) ? newDelay : 0;
             
             // 次回呼び出し登録
             setTimeout(arguments.callee, newDelay);
         };
         setTimeout(temp, delay);
     };
-    
-    /**
-     * キーコード
-     */
-    tm.keyCode = {
-        &quot;backspace&quot; : 8,
-        &quot;tab&quot;       : 9,
-        &quot;enter&quot;     : 13, &quot;return&quot;    : 13,
-        &quot;shift&quot;     : 16,
-        &quot;ctrl&quot;      : 17,
-        &quot;alt&quot;       : 18,
-        &quot;pause&quot;     : 19,
-        &quot;capslock&quot;  : 20,
-        &quot;escape&quot;    : 27,
-<span id='tm-VENDER_PREFIX-property-keyCode'>        &quot;pageup&quot;    : 33,
-</span>        &quot;pagedown&quot;  : 34,
-        &quot;end&quot;       : 35,
-        &quot;home&quot;      : 36,
-        &quot;left&quot;      : 37,
-        &quot;up&quot;        : 38,
-        &quot;right&quot;     : 39,
-        &quot;down&quot;      : 40,
-        &quot;insert&quot;    : 45,
-        &quot;delete&quot;    : 46,
-        
-        &quot;0&quot; : 48,
-        &quot;1&quot; : 49,
-        &quot;2&quot; : 50,
-        &quot;3&quot; : 51,
-        &quot;4&quot; : 52,
-        &quot;5&quot; : 53,
-        &quot;6&quot; : 54,
-        &quot;7&quot; : 55,
-        &quot;8&quot; : 56,
-        &quot;9&quot; : 57,
-        
-        &quot;a&quot; : 65, &quot;A&quot; : 65,
-        &quot;b&quot; : 66, &quot;B&quot; : 66,
-        &quot;c&quot; : 67, &quot;C&quot; : 67,
-        &quot;d&quot; : 68, &quot;D&quot; : 68,
-        &quot;e&quot; : 69, &quot;E&quot; : 69,
-        &quot;f&quot; : 70, &quot;F&quot; : 70,
-        &quot;g&quot; : 71, &quot;G&quot; : 71,
-        &quot;h&quot; : 72, &quot;H&quot; : 72,
-        &quot;i&quot; : 73, &quot;I&quot; : 73,
-        &quot;j&quot; : 74, &quot;J&quot; : 74,
-        &quot;k&quot; : 75, &quot;K&quot; : 75,
-        &quot;l&quot; : 76, &quot;L&quot; : 76,
-        &quot;m&quot; : 77, &quot;M&quot; : 77,
-        &quot;n&quot; : 78, &quot;N&quot; : 78,
-        &quot;o&quot; : 79, &quot;O&quot; : 79,
-        &quot;p&quot; : 80, &quot;P&quot; : 80,
-        &quot;q&quot; : 81, &quot;Q&quot; : 81,
-        &quot;r&quot; : 82, &quot;R&quot; : 82,
-        &quot;s&quot; : 83, &quot;S&quot; : 83,
-        &quot;t&quot; : 84, &quot;T&quot; : 84,
-        &quot;u&quot; : 85, &quot;U&quot; : 85,
-        &quot;v&quot; : 86, &quot;V&quot; : 86,
-        &quot;w&quot; : 87, &quot;W&quot; : 87,
-        &quot;x&quot; : 88, &quot;X&quot; : 88,
-        &quot;y&quot; : 89, &quot;Y&quot; : 89,
-        &quot;z&quot; : 90, &quot;Z&quot; : 90,
-        
-        &quot;numpad0&quot; : 96,
-        &quot;numpad1&quot; : 97,
-        &quot;numpad2&quot; : 98,
-        &quot;numpad3&quot; : 99,
-        &quot;numpad4&quot; : 100,
-        &quot;numpad5&quot; : 101,
-        &quot;numpad6&quot; : 102,
-        &quot;numpad7&quot; : 103,
-        &quot;numpad8&quot; : 104,
-        &quot;numpad9&quot; : 105,
-        &quot;multiply&quot;      : 106,
-        &quot;add&quot;           : 107,
-        &quot;subtract&quot;      : 109,
-        &quot;decimalpoint&quot;  : 110,
-        &quot;divide&quot;        : 111,
-        
-        &quot;f1&quot;    : 112,
-        &quot;f2&quot;    : 113,
-        &quot;f3&quot;    : 114,
-        &quot;f4&quot;    : 115,
-        &quot;f5&quot;    : 116,
-        &quot;f6&quot;    : 117,
-        &quot;f7&quot;    : 118,
-        &quot;f8&quot;    : 119,
-        &quot;f9&quot;    : 120,
-        &quot;f10&quot;   : 121,
-        &quot;f11&quot;   : 122,
-        &quot;f12&quot;   : 123,
-        
-        &quot;numlock&quot;   : 144,
-        &quot;scrolllock&quot;: 145,
-        &quot;semicolon&quot; : 186,
-        &quot;equalsign&quot; : 187,
-        &quot;comma&quot;     : 188,
-        &quot;dash&quot;      : 189,
-        &quot;period&quot;    : 190,
-        &quot;forward slash&quot; : 191,  &quot;/&quot;: 191,
-        &quot;grave accent&quot;  : 192,
-        &quot;open bracket&quot;  : 219,
-        &quot;back slash&quot;    : 220,
-        &quot;close braket&quot;  : 221,
-        &quot;single quote&quot;  : 222,
-        
-        
-        
-        &quot;space&quot;         : 32
-    };
-    
     
     tm.inform = function(parent){
         parent = parent || document.body;

@@ -67,15 +67,20 @@ tm.event = tm.event || {};
          * 登録されたイベントがあるかをチェック
          */
 <span id='tm-event-EventDispatcher-method-hasEventListener'>        hasEventListener: function(type) {
-</span>            
+</span>            if (this._listeners[type] === undefined) return false;
+            return true;
         },
         
         /**
          * リスナーを削除
          */
         removeEventListener: function(type, listener) {
-<span id='tm-event-EventDispatcher-method-removeEventListener'>            // TODO: 
-</span>            return this;
+<span id='tm-event-EventDispatcher-method-removeEventListener'>            var listeners = this._listeners[type];
+</span>            var index = listeners.indexOf(listener);
+            if (index != -1) {
+                listeners.splice(index,1);
+            }
+            return this;
         },
         
         /**

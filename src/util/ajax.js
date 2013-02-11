@@ -8,7 +8,7 @@ tm.util = tm.util || {};
 (function() {
     
     var AJAX_DEFAULT_SETTINGS = {
-        type :"POST",
+        type :"GET",
         async: true,
         data: null,
         contentType: 'application/x-www-form-urlencoded',
