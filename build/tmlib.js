@@ -2052,12 +2052,11 @@ tm.util = tm.util || {};
      * @method
      * BulletML を動的ロード
      */
-    tm.util.ScriptManager.loadBulletML = function() {
-        var BULLETML_JS_URL         = "https://raw.github.com/daishihmr/bulletml.js/develop/src/main/bulletml.js";
-        var BULLETML_TMLIB_JS_URL   = "https://raw.github.com/daishihmr/bulletml.js/develop/src/main/bulletml.tmlib.js";
-
-        this.load(BULLETML_JS_URL);
-        this.load(BULLETML_TMLIB_JS_URL);
+    tm.util.ScriptManager.loadBulletML = function(version) {
+        var BULLETML_FOR_TMLIB_JS_URL   = "https://raw.github.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js";
+        version = version || "v0.4.1";
+        var path = BULLETML_FOR_TMLIB_JS_URL.format({version: version});        
+        this.load(path);
     };
     
     /**
