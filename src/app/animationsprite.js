@@ -111,7 +111,14 @@ tm.app = tm.app || {};
             this.frame = param.frame;
             this.image = tm.graphics.TextureManager.get(param.image);
 
-            this._calcFrames(param.frame);
+            if (this.image.loaded === false) {
+                this.image.element.addEventListener("load", function() {
+                    this._calcFrames(param.frame);
+                }.bind(this), false);
+            }
+            else {
+                this._calcFrames(param.frame);
+            }
             this._calcAnim(param.animations);
         },
 

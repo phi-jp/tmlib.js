@@ -74,12 +74,26 @@
         <script src="../../plugins/console.tm.js"></script>
 
         <script id="test-script">
+
+            var PLAYER_SPRITE_SHEET = null;
             
             /*
              * 
              */
             tm.preload(function() {
                 tm.graphics.TextureManager.add("crash", "../../resource/img/crash/01.png");
+                PLAYER_SPRITE_SHEET = tm.app.SpriteSheet({
+                    image: "crash",
+                    frame: {
+                        width: 64,
+                        height: 64,
+                        count: 64
+                    },
+                    animations: {
+                        "crash": [0, 32, "crash"],
+                        "hoge": [32, 0, "crash", 5],
+                    }
+                });
             });
             
             /*
@@ -100,23 +114,10 @@
                     canvas.fillCircle(0, 0, this.radius);
                 };
                 
-                var ss = tm.app.SpriteSheet({
-                    image: "crash",
-                    frame: {
-                        width: 64,
-                        height: 64,
-                        count: 64
-                    },
-                    animations: {
-                        "crash": [0, 32, "crash"],
-                        "hoge": [32, 0, "crash", 5],
-                    }
-                });
-                
                 app.currentScene.update = function(app) {
                     var p = app.pointing;
                     if (p.getPointingStart() == true) {
-                        var crash = tm.app.AnimationSprite(128, 128, ss);
+                        var crash = tm.app.AnimationSprite(128, 128, PLAYER_SPRITE_SHEET);
                         crash.position.set(p.x, p.y);
                         crash.gotoAndPlay("crash");
 //                        crash.gotoAndStop("hoge");
