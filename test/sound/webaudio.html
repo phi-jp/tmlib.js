@@ -80,7 +80,6 @@
 
                     tm.setLoop(function() {
                         webaudio.analyser.getByteFrequencyData(analyzedData);
-                        console.log(analyzedData.length);
                     }, 60);
                 });
                 stop.event.click(function() {
