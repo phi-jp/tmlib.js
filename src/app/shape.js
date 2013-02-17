@@ -112,8 +112,6 @@ tm.app = tm.app || {};
             c.strokeStyle = param.strokeStyle;
             c.lineWidth = param.lineWidth;
 
-            console.dir(param);
-            
             // 描画
             var lw          = Number(c.lineWidth);
             var lw_half     = lw/2;

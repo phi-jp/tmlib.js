@@ -10399,8 +10399,6 @@ tm.app = tm.app || {};
             c.strokeStyle = param.strokeStyle;
             c.lineWidth = param.lineWidth;
 
-            console.dir(param);
-            
             // 描画
             var lw          = Number(c.lineWidth);
             var lw_half     = lw/2;
@@ -12809,8 +12807,10 @@ tm.sound = tm.sound || {};
          *　初期化
          */
         init: function(src) {
-            this.context = tm.sound.WebAudioManager.context;
-            this.panner = this.context.createPanner();
+            this.context    = tm.sound.WebAudioManager.context;
+            this.panner     = this.context.createPanner();
+            this.analyser   = this.context.createAnalyser();
+
             if (src) {
                 this._load(src);
             }
@@ -12822,9 +12822,15 @@ tm.sound = tm.sound || {};
         play: function() {
             var source = this.context.createBufferSource();
             source.buffer = this.buffer;
+            
             source.connect(this.panner);
             this.panner.connect(this.context.destination);
+
             source.gain.value = this.volume;
+
+            source.connect(this.analyser);
+            this.analyser.connect(this.context.destination);
+
             if (source.start) {
                 source.start(0);
             } else {
@@ -12859,6 +12865,25 @@ tm.sound = tm.sound || {};
             c.volume = this.volume;
             return c;
         },
+        /**
+         * dummy
+         */
+        setPosition: function(x, y, z) {
+            this.panner.setPosition(x, y||0, z||0);
+        },
+        /**
+         * dummy
+         */
+        setVelocity: function(x, y, z) {
+            this.panner.setVelocity(x, y||0, z||0);
+        },
+        /**
+         * dummy
+         */
+        setOrientation: function(x, y, z) {
+            this.panner.setOrientation(x, y||0, z||0);
+        },
+
         _load: function(src) {
             var xhr = new XMLHttpRequest();
             var self = this;
