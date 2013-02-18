@@ -19,7 +19,7 @@ tm.sound = tm.sound || {};
         /**
          * ボリューム
          */
-        volume: 1.0,
+        volume: 0.8,
 
         _playingSources: [],
 
@@ -43,6 +43,8 @@ tm.sound = tm.sound || {};
          * 再生
          */
         play: function() {
+            this.source.gain.value = this.volume;
+
             if (this.source.start) {
                 this.source.start(0);
             } else {
