@@ -64,16 +64,15 @@
                 var c = tm.Console("#console");
                 //var c = console; // コンソールの方に出力
 
-                var webaudio = tm.sound.WebAudioManager.get("sample");
-
                 var play = tm.dom.Element("#play");
                 var stop = tm.dom.Element("#stop");
                 var volume = tm.dom.Element("#volume");
                 var position = tm.dom.Element("#position");
 
                 play.event.click(function() {
+                    var webaudio = tm.sound.WebAudioManager.get("sample");
                     webaudio.volume = parseFloat(volume.value);
-                    webaudio.position = parseFloat(position.value);
+                    webaudio.setPosition( parseFloat(position.value) );
                     webaudio.play();
 
                     var analyzedData = new Uint8Array(webaudio.analyser.frequencyBinCount);
