@@ -36,46 +36,46 @@ tm.sound = tm.sound || {};
         /**
 <span id='tm-sound-WebAudio-property-volume'>         * ボリューム
 </span>         */
-        volume: 1.0,
-
-        _playingSources: [],
+        volume: 0.8,
 
         /**
 <span id='tm-sound-WebAudio-method-init'>         *　初期化
 </span>         */
         init: function(src_or_buffer) {
             this.context = tm.sound.WebAudioManager.context;
+            var type = typeof(src_or_buffer);
 
-            if (typeof(src_or_buffer)===&quot;string&quot;) {
+            if (type===&quot;string&quot;) {
+                this.loaded = false;
                 this._load(src_or_buffer);
             }
-            else {
+            else if (type===&quot;object&quot;) {
+                this._setup();
                 this.buffer = src_or_buffer;
                 this.loaded = true;
+            }
+            else {
                 this._setup();
+                this.loaded = false;
             }
         },
 
         /**
          * 再生
 <span id='tm-sound-WebAudio-method-play'>         */
-</span>        play: function() {
-            if (this.source.start) {
-                this.source.start(0);
-            } else {
-                this.source.noteOn(0);
-            }
+</span>        play: function(time) {
+            if (time === undefined) time = 0;
+
+            this.source.noteOn(time);
         },
 
         /**
          * 停止
 <span id='tm-sound-WebAudio-method-stop'>         */
-</span>        stop: function() {
-            if (this.source.stop) {
-                this.source.stop(0);
-            } else {
-                this.source.noteOff(0);
-            }
+</span>        stop: function(time) {
+            if (time === undefined) time = 0;
+
+            this.source.noteOff(0);
         },
 
         /**
@@ -112,9 +112,9 @@ tm.sound = tm.sound || {};
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200 || xhr.status === 0) {
                         self.context.decodeAudioData(xhr.response, function(buffer) {
+                            self._setup();
                             self.buffer = buffer;
                             self.loaded = true;
-                            self._setup();
                         });
                     } else {
                         onsole.error(xhr);
@@ -127,22 +127,56 @@ tm.sound = tm.sound || {};
         },
 
         _setup: function() {
-            this.source = this.context.createBufferSource();
+            this.source     = this.context.createBufferSource();
+//            this.gainNode   = this.context.createGainNode();
             this.panner     = this.context.createPanner();
             this.analyser   = this.context.createAnalyser();
 
-            this.source.buffer = this.buffer;
-            
             this.source.connect(this.panner);
-            this.panner.connect(this.context.destination);
-
-            this.source.gain.value = this.volume;
-
-            this.source.connect(this.analyser);
+            this.panner.connect(this.analyser);
             this.analyser.connect(this.context.destination);
-        }
+        },
+
+        tone: function(hertz, seconds) {
+            // handle parameter
+            hertz   = hertz !== undefined ? hertz : 200;
+            seconds = seconds !== undefined ? seconds : 1;
+            // set default value    
+            var nChannels   = 1;
+            var sampleRate  = 44100;
+            var amplitude   = 2;
+            // create the buffer
+            var buffer  = this.context.createBuffer(nChannels, seconds*sampleRate, sampleRate);
+            var fArray  = buffer.getChannelData(0);
+            // fill the buffer
+            for(var i = 0; i &lt; fArray.length; i++){
+                var time    = i / buffer.sampleRate;
+                var angle   = hertz * time * Math.PI;
+                fArray[i]   = Math.sin(angle)*amplitude;
+            }
+            // set the buffer
+            this.buffer = buffer;
+            return this;    // for chained API
+        },
     });
-    
+
+    tm.sound.WebAudio.prototype.accessor(&quot;buffer&quot;, {
+        get: function()  { return this.source.buffer; },
+        set: function(v) { this.source.buffer = v; }
+    });
+
+    tm.sound.WebAudio.prototype.accessor(&quot;loop&quot;, {
+        get: function()  { return this.source.loop; },
+        set: function(v) { this.source.loop = v; }
+    });
+
+    tm.sound.WebAudio.prototype.accessor(&quot;volume&quot;, {
+        get: function()  { return this.source.gain.value; },
+        set: function(v) { this.source.gain.value = v; }
+    });
+
+    tm.sound.WebAudio.isAvailable = tm.global.webkitAudioContext ? true : false;
+
 })();
 
 
@@ -154,7 +188,7 @@ tm.sound = tm.sound || {};
 </span>     * WebAudioを管理するクラス
      */
     tm.sound.WebAudioManager = {
-        context: tm.global.webkitAudioContext ? new webkitAudioContext() : null,
+        context: tm.sound.WebAudio.isAvailable ? new webkitAudioContext() : null,
         sounds: {}
     };
 
@@ -193,8 +227,6 @@ tm.sound = tm.sound || {};
 
     tm.addLoadCheckList(tm.sound.WebAudioManager);
 
-})();
-
-</pre>
+})();</pre>
 </body>
 </html>

@@ -3,23 +3,23 @@
     <head> 
         <meta charset="utf-8"> 
         <title>WebAudio Test | TM Lib</title>
-        
-        
+
+
         <!-- prettify -->
         <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
         <script src="../../plugins/prettify/prettify.js"></script>
-        
-        
+
+
         <style>
             body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
-            
+
             #content {
                 display: -webkit-box;
                 display: -moz-box;
                 display: -o-box;
                 display: box;
             }
-            
+
             #content>* {
                 padding: 10px 20px;
                 width: 50%;
@@ -28,15 +28,15 @@
                 -o-box-sizing: border-box;
                 box-sizing: border-box;
             }
-            
+
             canvas {
                 box-shadow: 0px 0px 4px 0px #aaa;
             }
-            
+
         </style>
-        
+
         <script src="../../src/tmlib.js"></script>
-        
+
         <script src="../../src/core/object.js"></script>
         <script src="../../src/core/string.js"></script>
         <script src="../../src/core/number.js"></script>
@@ -44,50 +44,163 @@
         <script src="../../src/core/function.js"></script>
         <script src="../../src/core/date.js"></script>
         <script src="../../src/core/math.js"></script>
-        
+
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
         <script src="../../src/dom/event.js"></script>
-        
+        <script src="../../src/dom/attr.js"></script>
+        <script src="../../src/util/querystring.js"></script>
+
         <script src="../../plugins/console.tm.js"></script>
 
+
         <script src="../../src/sound/webaudio.js"></script>
-        
+        <!--
+        <script src="../../src/sound/webaudio2.js"></script>
+    -->
+
         <script id="test-script">
-            
+
             tm.preload(function() {
                 tm.sound.WebAudioManager.add("sample", "sample.mp3");
             });
-            
+
             tm.main(function() {
-                // コンソール
-                var c = tm.Console("#console");
-                //var c = console; // コンソールの方に出力
+                var query = tm.util.QueryString.parse(location.search.substr(1));
+                var testFuncName = query["test"] || "playTest";
+                tests[testFuncName]();
 
-                var play = tm.dom.Element("#play");
-                var stop = tm.dom.Element("#stop");
-                var volume = tm.dom.Element("#volume");
-                var position = tm.dom.Element("#position");
+                var testsElm = tm.dom.Element("#tests");
+                for (var key in tests) {
+                    var li = testsElm.create("li");
+                    var a  = li.create("a");
 
-                play.event.click(function() {
-                    var webaudio = tm.sound.WebAudioManager.get("sample");
-                    webaudio.volume = parseFloat(volume.value);
-                    webaudio.setPosition( parseFloat(position.value) );
-                    webaudio.play();
+                    var value = tests[key];
 
-                    var analyzedData = new Uint8Array(webaudio.analyser.frequencyBinCount);
-
-                    tm.setLoop(function() {
-                        webaudio.analyser.getByteFrequencyData(analyzedData);
-                    }, 60);
-                });
-                stop.event.click(function() {
-                    webaudio.stop();
-                });
+                    a.html = key;
+                    a.attr.set("href", "?test=" + key);
+                }
             });
-            
+
+
+            var tests = {
+                playTest: function() {
+                    // コンソール
+                    var c = tm.Console("#console");
+                    //var c = console; // コンソールの方に出力
+
+                    var play = tm.dom.Element("#play");
+                    var stop = tm.dom.Element("#stop");
+                    var volume = tm.dom.Element("#volume");
+                    var position = tm.dom.Element("#position");
+                    var webaudio = null;
+
+                    play.event.click(function() {
+                        webaudio = tm.sound.WebAudioManager.get("sample");
+                        webaudio.volume = parseFloat(volume.value);
+                        webaudio.setPosition( parseFloat(position.value), 0, 0 );
+                        webaudio.play();
+                    });
+
+                    stop.event.click(function() {
+                        webaudio.stop();
+                    });
+                },
+
+                f1Test: function() {
+                    // コンソール
+                    var c = tm.Console("#console");
+                    //var c = console; // コンソールの方に出力
+
+                    var play = tm.dom.Element("#play");
+                    var stop = tm.dom.Element("#stop");
+                    var volume = tm.dom.Element("#volume");
+
+                    play.event.click(function() {
+                        var position = 10;
+                        webaudio = tm.sound.WebAudioManager.get("sample");
+                        webaudio.volume = parseFloat(volume.value);
+                        webaudio.setPosition(position, 0, 0 );
+                        webaudio.play();
+
+                        var id = setInterval(function() {
+                            position -= 1;
+                            webaudio.setPosition( parseFloat(position), 0, 0 );
+
+                            if (webaudio.source.playbackState == 3) {
+                                clearInterval(id);
+                            }
+                        }, 60);
+                    });
+
+                    stop.event.click(function() {
+                        webaudio.stop();
+                    });
+
+                },
+
+                analyserTest: function() {
+                    // コンソール
+                    var c = tm.Console("#console");
+                    //var c = console; // コンソールの方に出力
+
+                    var play = tm.dom.Element("#play");
+                    var stop = tm.dom.Element("#stop");
+                    var volume = tm.dom.Element("#volume");
+                    var position = tm.dom.Element("#position");
+                    var webaudio = null;
+
+                    play.event.click(function() {
+                        webaudio = tm.sound.WebAudioManager.get("sample");
+                        webaudio.volume = parseFloat(volume.value);
+                        webaudio.setPosition( parseFloat(position.value), 0, 0 );
+                        webaudio.play();
+
+                        var analyzedData = new Uint8Array(webaudio.analyser.frequencyBinCount);
+                        c.clear();
+                        var id = setInterval(function() {
+                            webaudio.analyser.getByteFrequencyData(analyzedData);
+                            c.log(analyzedData[0]);
+
+                            if (webaudio.source.playbackState == 3) {
+                                clearInterval(id);
+                            }
+                        }, 60);
+                    });
+
+                    stop.event.click(function() {
+                        webaudio.stop();
+                    });
+                },
+
+                toneTest: function() {
+                    // コンソール
+                    var c = tm.Console("#console");
+                    //var c = console; // コンソールの方に出力
+
+                    var play = tm.dom.Element("#play");
+                    var stop = tm.dom.Element("#stop");
+                    var volume = tm.dom.Element("#volume");
+                    var position = tm.dom.Element("#position");
+                    var webaudio = null;
+
+                    play.event.click(function() {
+                        webaudio = tm.sound.WebAudioManager.get("sample");
+                        webaudio.volume = parseFloat(volume.value);
+                        webaudio.setPosition( parseFloat(position.value), 0, 0 );
+                        webaudio.tone();
+                        webaudio.play();
+                    });
+
+                    stop.event.click(function() {
+                        webaudio.stop();
+                    });
+                }
+            };
+
+
         </script>
-        
+
         <script>
             tm.dom.Element(window).event.add("load", function() {
                 tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
@@ -95,11 +208,11 @@
             });
         </script>
     </head>
-    
+
     <body>
-         
+
         <h1>WebAudio Test | TM Lib</h1>
-        
+
         <div id="content">
             <section>
                 <h2>Buttons</h2>
@@ -111,6 +224,9 @@
                     <span>echo effect (delay level)</span>:<input type="text" id="echo-delay" value="0.0" /><br />
                     <span>echo effect (feedback)</span>:<input type="text" id="echo-delay" value="0.0" /><br />
  -->                </p>
+                <h2>Tests</h2>
+                <ul id="tests">
+                </ul>
                 <h2>Console</h2>
                 <pre id="console" class="prettyprint"></pre>
             </section>
@@ -119,7 +235,7 @@
                 <pre id="code" class="prettyprint"></pre>
             </section>
         </div>
-        
-        
+
+
     </body>
 </html>
