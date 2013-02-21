@@ -65,8 +65,10 @@
                 tm.sound.WebAudioManager.add("sample", "sample.mp3");
             });
 
+            var query = null;
+
             tm.main(function() {
-                var query = tm.util.QueryString.parse(location.search.substr(1));
+                query = tm.util.QueryString.parse(location.search.substr(1));
                 var testFuncName = query["test"] || "playTest";
                 tests[testFuncName]();
 
@@ -185,17 +187,98 @@
                     var webaudio = null;
 
                     play.event.click(function() {
-                        webaudio = tm.sound.WebAudioManager.get("sample");
+                        var webaudio = tm.sound.WebAudio();
+                        webaudio.tone();
                         webaudio.volume = parseFloat(volume.value);
                         webaudio.setPosition( parseFloat(position.value), 0, 0 );
-                        webaudio.tone();
                         webaudio.play();
                     });
 
                     stop.event.click(function() {
                         webaudio.stop();
                     });
-                }
+                },
+
+                oscillatorTest: function() {
+                    var types = {
+                        "0": 0,
+                        "1": 1,
+                        "2": 2,
+                        "3": 3,
+                        "sine": 0,
+                        "square": 1,
+                        "sawtooth": 2,
+                        "triangle": 3,
+                    };
+                    var context = new webkitAudioContext();
+                    var source = context.createOscillator(2);
+                    console.log(types[query.type || 0]);
+                    source.type = types[query.type || 0];
+                    source.frequency.value = 261;
+
+                    source.connect(context.destination);
+
+                    source.noteOn(0);
+                    source.noteOff(1);
+                },
+
+                oscillatorTest2: function() {
+                    var types = {
+                        "0": 0,
+                        "1": 1,
+                        "2": 2,
+                        "3": 3,
+                        "sine": 0,
+                        "square": 1,
+                        "sawtooth": 2,
+                        "triangle": 3,
+                    };
+                    var context = new webkitAudioContext();
+                    var source = context.createOscillator(2);
+                    console.log(types[query.type || 0]);
+                    source.type = types[query.type || 0];
+                    source.frequency.value = 261;
+
+                    var gainNode = context.createGainNode();
+                    var now = context.currentTime;
+                    gainNode.gain.setValueAtTime(0.5, now);
+                    gainNode.gain.linearRampToValueAtTime(0, now+0.8);
+
+                    source.connect(gainNode);
+                    gainNode.connect(context.destination);
+
+                    source.noteOn(0);
+                },
+
+                /*
+                 * ## ref
+                 * http://developer.apple.com/library/safari/#documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/PlayingandSynthesizingSounds/PlayingandSynthesizingSounds.html
+                 * http://docs.webplatform.org/wiki/apis/webaudio/OscillatorNode/setWaveTable
+                 */
+                waveTableTest: function() {
+                    var context = new webkitAudioContext();
+                    var source = context.createOscillator();
+
+                    source.type = 0;
+                    source.connect(context.destination);
+
+                    var curveLength = 100;
+                    var curve1 = new Float32Array(curveLength);
+                    var curve2 = new Float32Array(curveLength);
+
+                    for (var i=0; i<curveLength; ++i) {
+                        curve1[i] = Math.sin(Math.PI*i/curveLength);
+                    }
+                    for (var i=0; i<curveLength; ++i) {
+                        curve2[i] = Math.cos(Math.PI*i/curveLength);
+                    }
+
+                    var waveTable = context.createWaveTable(curve1, curve2);
+                    source.setWaveTable(waveTable);
+
+                    source.noteOn(0);
+                    source.noteOff(1);
+                },
             };
 
 

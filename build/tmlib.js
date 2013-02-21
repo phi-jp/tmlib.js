@@ -12828,8 +12828,7 @@ tm.sound = tm.sound || {};
          */
         play: function(time) {
             if (time === undefined) time = 0;
-
-            this.source.noteOn(time);
+            this.source.noteOn(this.context.currentTime + time);
         },
 
         /**
@@ -12837,8 +12836,25 @@ tm.sound = tm.sound || {};
          */
         stop: function(time) {
             if (time === undefined) time = 0;
+            this.source.noteOff(this.context.currentTime + time);
+            
+            var buffer = this.buffer;
+            var volume = this.volume;
+            var loop   = this.loop;
+            
+            this.source = this.context.createBufferSource();
+            this.source.connect(this.panner);
+            this.buffer = buffer;
+            this.volume = volume;
+            this.loop = loop;
+        },
 
-            this.source.noteOff(0);
+        pause: function() {
+            this.source.disconnect();
+        },
+
+        resume: function() {
+            this.source.connect(this.panner);
         },
 
         /**
