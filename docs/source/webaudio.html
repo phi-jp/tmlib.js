@@ -65,8 +65,9 @@ tm.sound = tm.sound || {};
 <span id='tm-sound-WebAudio-method-play'>         */
 </span>        play: function(time) {
             if (time === undefined) time = 0;
+            this.source.noteOn(this.context.currentTime + time);
 
-            this.source.noteOn(time);
+            return this;
         },
 
         /**
@@ -74,8 +75,31 @@ tm.sound = tm.sound || {};
 <span id='tm-sound-WebAudio-method-stop'>         */
 </span>        stop: function(time) {
             if (time === undefined) time = 0;
+            this.source.noteOff(this.context.currentTime + time);
+            
+            var buffer = this.buffer;
+            var volume = this.volume;
+            var loop   = this.loop;
+            
+            this.source = this.context.createBufferSource();
+            this.source.connect(this.panner);
+            this.buffer = buffer;
+            this.volume = volume;
+            this.loop = loop;
 
-            this.source.noteOff(0);
+            return this;
+        },
+
+        pause: function() {
+            this.source.disconnect();
+
+            return this;
+        },
+
+        resume: function() {
+            this.source.connect(this.panner);
+
+            return this;
         },
 
         /**
@@ -91,18 +115,62 @@ tm.sound = tm.sound || {};
          */
 <span id='tm-sound-WebAudio-method-setPosition'>        setPosition: function(x, y, z) {
 </span>            this.panner.setPosition(x, y||0, z||0);
+
+            return this;
         },
         /**
          * dummy
          */
 <span id='tm-sound-WebAudio-method-setVelocity'>        setVelocity: function(x, y, z) {
 </span>            this.panner.setVelocity(x, y||0, z||0);
+
+            return this;
         },
         /**
          * dummy
          */
 <span id='tm-sound-WebAudio-method-setOrientation'>        setOrientation: function(x, y, z) {
 </span>            this.panner.setOrientation(x, y||0, z||0);
+
+            return this;
+        },
+
+        /**
+         * dummy
+<span id='tm-sound-WebAudio-method-setBuffer'>         * チェーンメソッド用
+</span>         */
+        setBuffer: function(v) {
+            this.buffer = v;
+            return this;
+        },
+
+
+        /**
+         * dummy
+         * チェーンメソッド用
+         */
+<span id='tm-sound-WebAudio-method-setLoop'>        setLoop: function(v) {
+</span>            this.loop = v;
+            return this;
+        },
+
+
+        /**
+         * dummy
+         * チェーンメソッド用
+         */
+<span id='tm-sound-WebAudio-method-setVolume'>        setVolume: function(v) {
+</span>            this.volume = v;
+            return this;
+        },
+
+
+        /**
+         * チェーンメソッド用
+         */
+        setPlaybackRate: function(v) {
+<span id='tm-sound-WebAudio-method-setPlaybackRate'>            this.playbackRate = v;
+</span>            return this;
         },
 
         _load: function(src) {
@@ -175,6 +243,11 @@ tm.sound = tm.sound || {};
         set: function(v) { this.source.gain.value = v; }
     });
 
+    tm.sound.WebAudio.prototype.accessor(&quot;playbackRate&quot;, {
+        get: function()  { return this.source.playbackRate.value; },
+        set: function(v) { this.source.playbackRate.value = v; }
+    });
+
     tm.sound.WebAudio.isAvailable = tm.global.webkitAudioContext ? true : false;
 
 })();
@@ -184,12 +257,12 @@ tm.sound = tm.sound || {};
 (function() {
 
     /**
-<span id='WebAudio'>     * @class   WebAudioマネージャクラス
-</span>     * WebAudioを管理するクラス
+     * @class   WebAudioマネージャクラス
+     * WebAudioを管理するクラス
      */
     tm.sound.WebAudioManager = {
-        context: tm.sound.WebAudio.isAvailable ? new webkitAudioContext() : null,
-        sounds: {}
+<span id='WebAudio'>        context: tm.sound.WebAudio.isAvailable ? new webkitAudioContext() : null,
+</span>        sounds: {}
     };
 
     /**
@@ -197,9 +270,9 @@ tm.sound = tm.sound || {};
      * @method
      * 追加
      */
-<span id='WebAudio-static-method-add'>    tm.sound.WebAudioManager.add = function(name, src) {
-</span>        this.sounds[name] = tm.sound.WebAudio(src);
-        return this;
+    tm.sound.WebAudioManager.add = function(name, src) {
+<span id='WebAudio-static-method-add'>        this.sounds[name] = tm.sound.WebAudio(src);
+</span>        return this;
     };
 
     /**
@@ -207,18 +280,18 @@ tm.sound = tm.sound || {};
      * @method
      * 取得
      */
-<span id='WebAudio-static-method-get'>    tm.sound.WebAudioManager.get = function(name) {
-</span>        return this.sounds[name].clone();
-    };
+    tm.sound.WebAudioManager.get = function(name) {
+<span id='WebAudio-static-method-get'>        return this.sounds[name].clone();
+</span>    };
 
     /**
      * @static
      * @method
      * ロードチェック
      */
-<span id='WebAudio-static-method-isLoaded'>    tm.sound.WebAudioManager.isLoaded = function() {
-</span>        for (var key in this.sounds) {
-            if (this.sounds[key].loaded === false) {
+    tm.sound.WebAudioManager.isLoaded = function() {
+<span id='WebAudio-static-method-isLoaded'>        for (var key in this.sounds) {
+</span>            if (this.sounds[key].loaded === false) {
                 return false;
             }
         }

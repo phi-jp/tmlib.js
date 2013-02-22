@@ -12829,6 +12829,8 @@ tm.sound = tm.sound || {};
         play: function(time) {
             if (time === undefined) time = 0;
             this.source.noteOn(this.context.currentTime + time);
+
+            return this;
         },
 
         /**
@@ -12847,14 +12849,20 @@ tm.sound = tm.sound || {};
             this.buffer = buffer;
             this.volume = volume;
             this.loop = loop;
+
+            return this;
         },
 
         pause: function() {
             this.source.disconnect();
+
+            return this;
         },
 
         resume: function() {
             this.source.connect(this.panner);
+
+            return this;
         },
 
         /**
@@ -12870,18 +12878,62 @@ tm.sound = tm.sound || {};
          */
         setPosition: function(x, y, z) {
             this.panner.setPosition(x, y||0, z||0);
+
+            return this;
         },
         /**
          * dummy
          */
         setVelocity: function(x, y, z) {
             this.panner.setVelocity(x, y||0, z||0);
+
+            return this;
         },
         /**
          * dummy
          */
         setOrientation: function(x, y, z) {
             this.panner.setOrientation(x, y||0, z||0);
+
+            return this;
+        },
+
+        /**
+         * dummy
+         * チェーンメソッド用
+         */
+        setBuffer: function(v) {
+            this.buffer = v;
+            return this;
+        },
+
+
+        /**
+         * dummy
+         * チェーンメソッド用
+         */
+        setLoop: function(v) {
+            this.loop = v;
+            return this;
+        },
+
+
+        /**
+         * dummy
+         * チェーンメソッド用
+         */
+        setVolume: function(v) {
+            this.volume = v;
+            return this;
+        },
+
+
+        /**
+         * チェーンメソッド用
+         */
+        setPlaybackRate: function(v) {
+            this.playbackRate = v;
+            return this;
         },
 
         _load: function(src) {
@@ -12952,6 +13004,11 @@ tm.sound = tm.sound || {};
     tm.sound.WebAudio.prototype.accessor("volume", {
         get: function()  { return this.source.gain.value; },
         set: function(v) { this.source.gain.value = v; }
+    });
+
+    tm.sound.WebAudio.prototype.accessor("playbackRate", {
+        get: function()  { return this.source.playbackRate.value; },
+        set: function(v) { this.source.playbackRate.value = v; }
     });
 
     tm.sound.WebAudio.isAvailable = tm.global.webkitAudioContext ? true : false;
