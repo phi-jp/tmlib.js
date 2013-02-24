@@ -769,6 +769,30 @@ tm.global = window || global || this;
         
         return this;
     });
+
+    /**
+     * @method  合計
+     */
+    Array.defineInstanceMethod("sum", function() {
+        var sum = 0;
+        for (var i=0,len=this.length; i<len; ++i) {
+            sum += this[i];
+        }
+        return sum;
+    });
+
+    /**
+     * @method  平均
+     */
+    Array.defineInstanceMethod("average", function() {
+        var sum = 0;
+        var len = this.length;
+        for (var i=0; i<len; ++i) {
+            sum += this[i];
+        }
+        return sum/len;
+    });
+
     
     /**
      * @method  toULElement
@@ -12825,10 +12849,16 @@ tm.sound = tm.sound || {};
 
         /**
          * 再生
+         * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
          */
         play: function(time) {
             if (time === undefined) time = 0;
             this.source.noteOn(this.context.currentTime + time);
+            /*
+            this.source.noteGrainOn(this.context.currentTime + time, 0, this.buffer.duration);
+            console.dir(this.buffer.duration);
+            console.dir(this.context.currentTime)
+            */
 
             return this;
         },

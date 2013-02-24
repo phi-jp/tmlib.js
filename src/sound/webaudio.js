@@ -45,10 +45,16 @@ tm.sound = tm.sound || {};
 
         /**
          * 再生
+         * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
          */
         play: function(time) {
             if (time === undefined) time = 0;
             this.source.noteOn(this.context.currentTime + time);
+            /*
+            this.source.noteGrainOn(this.context.currentTime + time, 0, this.buffer.duration);
+            console.dir(this.buffer.duration);
+            console.dir(this.context.currentTime)
+            */
 
             return this;
         },

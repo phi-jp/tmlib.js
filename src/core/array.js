@@ -270,6 +270,30 @@
         
         return this;
     });
+
+    /**
+     * @method  合計
+     */
+    Array.defineInstanceMethod("sum", function() {
+        var sum = 0;
+        for (var i=0,len=this.length; i<len; ++i) {
+            sum += this[i];
+        }
+        return sum;
+    });
+
+    /**
+     * @method  平均
+     */
+    Array.defineInstanceMethod("average", function() {
+        var sum = 0;
+        var len = this.length;
+        for (var i=0; i<len; ++i) {
+            sum += this[i];
+        }
+        return sum/len;
+    });
+
     
     /**
      * @method  toULElement
