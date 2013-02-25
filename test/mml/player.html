@@ -1,0 +1,139 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Rect Test | TM Lib</title>
+        
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            
+            #content {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -o-box;
+                display: box;
+            }
+            
+            #content>* {
+                padding: 10px 20px;
+                width: 50%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            canvas {
+                box-shadow: 0px 0px 4px 0px #aaa;
+            }
+            
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        <script src="../../src/geom/rect.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/event.js"></script>
+
+        <script src="../../src/sound/webaudio.js"></script>
+
+        <script src="../../src/mml/player.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+        
+        <script id="test-script">
+            
+            /*
+             * Color Test
+             */
+            window.onload = function()
+            {
+                // コンソール
+                var c = tm.Console("#console");
+                //var c = console; // コンソールの方に出力
+
+                var val = tm.dom.Element("#mml-draque").html;
+
+                var audio = tm.mml.Driver.compile(val);
+                audio.play();
+                /*
+                sequencer.compile(
+                    "cdefedcrefgagferc4c4c4c4cdefedc;" + 
+                    "r1cdefedcrefgagferc4c4c4c4cdefedc;" + 
+                    "r1r1cdefedcrefgagferc4c4c4c4cdefedc;"
+                );
+*/
+            };
+            
+        </script>
+
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+    </head>
+    
+    <body>
+         
+        <h1>Rect Test | TM Lib</h1>
+        
+        <div id="content">
+            <section>
+                <h2>Source</h2>
+                <script id="mml-draque" type="text">
+t135 l8 o5 q10 v10
+%1 @4
+ar16.a32aggg fgab-agab- <cdfdc>b-a gr16.g32gar16.a32a afag1
+;
+t135 l8 o5 q10 v8
+%1 @4
+fr16.f32fccc >a<cfgfcfg ab-<d>b-agf cr16.c32cfr16.f32f f>a<fc1
+;
+
+                </script>
+
+
+                <script id="mml-zebius" type="text">
+T150 O6 L16 @2 @E1,0,0,127,10
+/:8
+c<c>b<cec>b<c> c<c>b-<cec>b-<c>
+c<c>a<cec>a<c> c<c>a-<cec>a-<c>
+:/
+                </script>
+                <script id="mml-kaeru" type="text">
+cdefedcrefgagferc4c4c4c4cdefedc;
+r1cdefedcrefgagferc4c4c4c4cdefedc;
+r1r1cdefedcrefgagferc4c4c4c4cdefedc;
+                </script>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>
