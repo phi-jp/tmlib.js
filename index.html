@@ -26,7 +26,274 @@
             }
             */
         </style>
-        
+
+        <script type="text/template" id="header">
+            <div class="page-header">
+                <h1>{header} <small></small></h1>
+            </div>
+        </script>
+
+        <script type="text/template" id="cell">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4>{name}</h4>
+                    <p>{description}</p>
+                    <p class="text-center">
+                        <img alt="screenshot" src="{icon}" class="img-rounded" />
+                    </p>
+                    <p>
+                        <a href="{url}" class="btn btn-large btn-block btn-inverse">
+                            View Demo »
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </script>
+
+        <script src="build/tmlib.js"></script>
+        <script>
+            var data = {
+                examples: {
+                    header: "Examples",
+                    data: [
+                        {
+                            name: 'Circle',
+                            description: 'dummy',
+                            url: 'examples/circle/index.html',
+                            icon: 'examples/circle/icon.png',
+                        },
+                        {
+                            name: 'Circle Collision',
+                            description: '',
+                            url: 'examples/circle-collision/index.html',
+                            icon: 'examples/circle-collision/icon.png',
+                        },
+                        {
+                            name: 'Filter',
+                            description: '',
+                            url: 'examples/filter/index.html',
+                            icon: 'examples/filter/icon.png',
+                        },
+                        {
+                            name: 'Juggling',
+                            description: '',
+                            url: 'examples/juggling/index.html',
+                            icon: 'examples/juggling/icon.png',
+                        },
+                        {
+                            name: 'Magic Square',
+                            description: '',
+                            url: 'examples/magic-square/index.html',
+                            icon: 'examples/magic-square/icon.png',
+                        },
+                        {
+                            name: 'Paint',
+                            description: '',
+                            url: 'examples/paint/index.html',
+                            icon: 'examples/paint/icon.png',
+                        },
+                        {
+                            name: 'Piano',
+                            description: '',
+                            url: 'examples/piano/index.html',
+                            icon: 'examples/piano/icon.png',
+                        },
+                        {
+                            name: 'Pursuit',
+                            description: '',
+                            url: 'examples/pursuit/index.html',
+                            icon: 'examples/pursuit/icon.png',
+                        },
+                        {
+                            name: 'Snow',
+                            description: '',
+                            url: 'examples/snow/index.html',
+                            icon: 'examples/snow/icon.png',
+                        },
+                        {
+                            name: 'Torne Interface',
+                            description: '',
+                            url: 'examples/torne-interface/index.html',
+                            icon: 'examples/torne-interface/icon.png',
+                        },
+                        {
+                            name: 'Unit Circle',
+                            description: '',
+                            url: 'examples/unit-circle/index.html',
+                            icon: 'examples/unit-circle/icon.png',
+                        },
+                        {
+                            name: 'Particle',
+                            description: '',
+                            url: 'examples/particle/index.html',
+                            icon: 'examples/particle/icon.png',
+                        },
+                        {
+                            name: 'Text Effect',
+                            description: '',
+                            url: 'examples/text-effect/index.html',
+                            icon: 'examples/text-effect/icon.png',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                    ]
+
+                },
+                game: {
+                    header: "Game",
+                    data: [
+                        {
+                            name: 'Shooting',
+                            description: 'サンプルとして作ったシューティングゲーム',
+                            url: 'examples/shooting/index.html',
+                            icon: 'examples/shooting/icon.png',
+                        },
+                        {
+                            name: 'Web Reverse Reverse',
+                            description: '<a href="https://twitter.com/Rosetta_Halt">@Rosetta_Halt</a> が iPhone アプリとして作っていたものを tmlib.js を使って Web に完全移植!! アプリ並のクォリティです.',
+                            url: 'http://webrxr.github.com/RxR/',
+                            icon: 'https://raw.github.com/webrxr/RxR/master/img/icon/Icon@2x.png',
+                        },
+                        {
+                            name: 'GL-Shooter',
+                            description: '<a href="https://twitter.com/daishi_hmr">@daishi_hmr</a> san が作られた 本格弾幕シューティング! tmlib.js を使って作られたゲーム, いや Web 上で作られたゲームの中でもトップクラス!!?',
+                            url: 'http://9leap.net/games/2877',
+                            icon: 'http://9leap.net/screenshots//140x140/2877_140',
+                        },
+                    ],
+                },
+                "Three.js": {
+                    header: "Three.js",
+                    data: [
+                        {
+                            name: 'Circle',
+                            description: 'dummy',
+                            url: 'examples/circle/index.html',
+                            icon: 'examples/circle/icon.png',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                    ]
+                },
+                webaudio: {
+                    header: "WebAudio API",
+                    data: [
+                        {
+                            name: 'Circle',
+                            description: 'dummy',
+                            url: 'examples/circle/index.html',
+                            icon: 'examples/circle/icon.png',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                    ]
+                },
+            };
+
+            window.onload = function() {
+                var container = tm.dom.Element("body > .container");
+
+                for (var key in data) {
+                    var d = data[key];
+
+                    renderHeader(d, container);
+
+                    var tempData = dataToTable(d.data, 4);
+                    renderThumbnails(tempData, container);
+                }
+
+            };
+
+            var renderHeader = function(data, container) {
+                var template = tm.dom.Element("#header").html;
+
+                container.html += template.format(data);
+            };
+
+            var dataToTable = function(data, row) {
+                row = row || 4;
+                var list = [];
+                var temp = null;
+
+                for (var i=0; i<data.length; ++i) {
+                    if ((i%row) == 0) {
+                        temp = [];
+                        list.push(temp);
+                    }
+                    temp.push(data[i]);
+                }
+                return list;
+            };
+
+            var renderThumbnails = function(data, container) {
+                var template = tm.dom.Element("#cell").html;
+
+                for (var i=0; i<data.length; ++i) {
+                    var cell = data[i];
+                    var rowSize = (12/cell.length)|0;
+
+                    var row = container.create("div");
+                    row.classList.add("row-fluid");
+                    var ul = row.create("ul");
+                    ul.classList.add("thumbnails");
+
+                    for (var j=0; j<cell.length; ++j) {
+                        var d = cell[j];
+                        var li = ul.create("li");
+                        li.classList.add("span" + rowSize);
+                        li.html = template.format(d);
+                    }
+                }
+            };
+        </script>
     </head>
     
     <body>
@@ -72,362 +339,6 @@
                         </p>
                     </div>
                 </div>
-            </div>
-
-            <div class="page-header" id="examples">
-                <h1>Examples <small></small></h1>
-            </div>
-
-            <div class="row-fluid">
-                <ul class="thumbnails">
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Circle</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/circle/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/circle/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/circle/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Circle Collision</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/circle-collision/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/circle-collision/icon.png" />
-                                    </a>
-                                </p>
-                                    <a href="examples/circle-collision/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Filter</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/filter/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/filter/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/filter/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Juggling</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/juggling/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/juggling/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/juggling/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="row-fluid">
-                <ul class="thumbnails">
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Magic Square</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/magic-square/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/magic-square/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/magic-square/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Paint</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/paint/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/paint/icon.png" />
-                                    </a>
-                                </p>
-                                    <a href="examples/paint/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Piano</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/piano/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/piano/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/piano/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Pursuit</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/pursuit/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/pursuit/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/pursuit/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="row-fluid">
-                <ul class="thumbnails">
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Snow</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/snow/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/snow/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/snow/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Text Effect</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/text-effect/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/text-effect/icon.png" />
-                                    </a>
-                                </p>
-                                    <a href="examples/text-effect/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Torne Interface</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/torne-interface/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/torne-interface/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/torne-interface/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Unit Circle</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/unit-circle/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/unit-circle/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/unit-circle/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="row-fluid">
-                <ul class="thumbnails">
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Particle</h4>
-                                <p>
-                                    dummy
-                                </p>
-                                <p>
-                                    <a href="examples/particle/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/particle/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/particle/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-
-            <div class="page-header" id="examples">
-                <h1>Game <small></small></h1>
-            </div>
-            <div class="row-fluid">
-                <ul class="thumbnails">
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Shooting</h4>
-                                <p>
-                                    サンプルとして作ったシューティングゲーム
-                                </p>
-                                <p>
-                                    <a href="examples/shooting/index.html" class="btn">
-                                        <img alt="screenshot" src="examples/shooting/icon.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="examples/shooting/index.html" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span4">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>Web Reverse Reverse</h4>
-                                <p>
-                                    <a href="https://twitter.com/Rosetta_Halt">@Rosetta_Halt</a> が iPhone アプリとして作っていたものを
-                                    tmlib.js を使って Web に完全移植!! アプリ並のクォリティです.
-                                </p>
-                                <p>
-                                    <a href="http://webrxr.github.com/RxR/" class="btn btn-block">
-                                        <img alt="screenshot" src="https://raw.github.com/webrxr/RxR/master/img/icon/Icon@2x.png" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <a href="http://webrxr.github.com/RxR/" class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="span4">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h4>GL-Shooter</h4>
-                                <p>
-                                    <a href="https://twitter.com/daishi_hmr">@daishi_hmr</a> san が作られた
-                                    本格弾幕シューティング!
-                                    tmlib.js を使って作られたゲーム, いや Web 上で作られたゲームの中でもトップクラス!!?
-                                </p>
-                                <p>
-                                    <!--
-                                    <a href="http://static.dev7.jp/test/glshooter/" class="btn">
-                                    -->
-                                    <a href="http://9leap.net/games/2877"  class="btn btn-block">
-                                        <img alt="screenshot" src="http://9leap.net/screenshots//140x140/2877_140" />
-                                    </a>
-                                </p>
-                                <p>
-                                    <!--
-                                    <a href="http://static.dev7.jp/test/glshooter/" class="btn btn-large btn-block btn-inverse">
-                                    -->
-                                    <a href="http://9leap.net/games/2877"  class="btn btn-large btn-block btn-inverse">
-                                        View Demo »
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
             </div>
         </div>
 
