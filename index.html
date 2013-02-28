@@ -34,13 +34,15 @@
         </script>
 
         <script type="text/template" id="cell">
-            <div class="thumbnail">
+            <div class="thumbnail tm-thumbnail">
                 <div class="caption">
                     <h4>{name}</h4>
-                    <p>{description}</p>
-                    <p class="text-center">
-                        <img alt="screenshot" src="{icon}" class="img-rounded" />
-                    </p>
+                    <div class="thumbnail-img">
+                        <p class="text-center">
+                            <img alt="screenshot" src="{icon}" class="img-rounded" />
+                        </p>
+                        <p class="description">{description}</p>
+                    </div>
                     <p>
                         <a href="{url}" class="btn btn-large btn-block btn-inverse">
                             View Demo »
@@ -58,7 +60,7 @@
                     data: [
                         {
                             name: 'Circle',
-                            description: 'dummy',
+                            description: 'dummy dummy dummy dummy dummy dummy dummy dummy',
                             url: 'examples/circle/index.html',
                             icon: 'examples/circle/icon.png',
                         },
@@ -289,6 +291,7 @@
                         var d = cell[j];
                         var li = ul.create("li");
                         li.classList.add("span" + rowSize);
+                        if (!d.description) d.description = "dummy dummy dummy dummy dummy dummy dummy dummy";
                         li.html = template.format(d);
                     }
                 }
