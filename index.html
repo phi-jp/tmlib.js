@@ -4,7 +4,6 @@
     
     <head>
         <meta charset="UTF-8" />
-
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,6 +14,14 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
         <link rel="stylesheet/less" type="text/css" href="css/style.less" />
         <script src="css/less-1.3.0.min.js"></script>
+        <script src="https://gist.github.com/phi1618/5064134/raw/7ae5464dc510e2e2646dfce5679daf8ce01a45ac/watcher.tm.js"></script>
+        <script>
+        if (tm.Watcher.isLocal) {
+            tm.Watcher.watch([
+                "index.html",
+            ]);
+        }
+        </script>
         <style>
         /*
             img {
@@ -44,7 +51,7 @@
                         <p class="description">{description}</p>
                     </div>
                     <p>
-                        <a href="{url}" class="btn btn-large btn-block btn-inverse">
+                        <a href="{url}" class="btn btn-large btn-block btn-inverse" target="_blank">
                             View Demo »
                         </a>
                     </p>
@@ -60,79 +67,79 @@
                     data: [
                         {
                             name: 'Circle',
-                            description: 'dummy dummy dummy dummy dummy dummy dummy dummy',
+                            description: '円を表示するサンプル. クリック or タッチすると円が出現してポンポンします.',
                             url: 'examples/circle/index.html',
                             icon: 'examples/circle/icon.png',
                         },
                         {
                             name: 'Circle Collision',
-                            description: '',
+                            description: '円同士の衝突判定サンプル. クリックで投げたりパラメータを調整して遊んでください♪',
                             url: 'examples/circle-collision/index.html',
                             icon: 'examples/circle-collision/icon.png',
                         },
                         {
                             name: 'Filter',
-                            description: '',
+                            description: 'フィルターツールです. 画像をモノクロにしたりカラーフィルターを当てたり.',
                             url: 'examples/filter/index.html',
                             icon: 'examples/filter/icon.png',
                         },
                         {
                             name: 'Juggling',
-                            description: '',
+                            description: 'ジャグリングです. タッチしてボールが落ちないようにするやつ.',
                             url: 'examples/juggling/index.html',
                             icon: 'examples/juggling/icon.png',
                         },
                         {
                             name: 'Magic Square',
-                            description: '',
+                            description: '魔方陣サンプル. 結構きれい.',
                             url: 'examples/magic-square/index.html',
                             icon: 'examples/magic-square/icon.png',
                         },
                         {
                             name: 'Paint',
-                            description: '',
+                            description: 'ペイントツール. 絵を描くことができます.',
                             url: 'examples/paint/index.html',
                             icon: 'examples/paint/icon.png',
                         },
                         {
                             name: 'Piano',
-                            description: '',
+                            description: 'ピアノ.',
                             url: 'examples/piano/index.html',
                             icon: 'examples/piano/icon.png',
                         },
                         {
                             name: 'Pursuit',
-                            description: '',
+                            description: '追尾',
                             url: 'examples/pursuit/index.html',
                             icon: 'examples/pursuit/icon.png',
                         },
                         {
                             name: 'Snow',
-                            description: '',
+                            description: '雪',
                             url: 'examples/snow/index.html',
                             icon: 'examples/snow/icon.png',
                         },
                         {
                             name: 'Torne Interface',
-                            description: '',
+                            description: 'トルネっぽいインターフェース',
                             url: 'examples/torne-interface/index.html',
                             icon: 'examples/torne-interface/icon.png',
                         },
                         {
                             name: 'Unit Circle',
-                            description: '',
+                            description: '単位円を学ぼう♪',
                             url: 'examples/unit-circle/index.html',
                             icon: 'examples/unit-circle/icon.png',
                         },
                         {
                             name: 'Particle',
-                            description: '',
+                            description: 'パーティクル',
                             url: 'examples/particle/index.html',
                             icon: 'examples/particle/icon.png',
                         },
                         {
                             name: 'Text Effect',
-                            description: '',
+                            description: 'テキストエフェクト',
                             url: 'examples/text-effect/index.html',
                             icon: 'examples/text-effect/icon.png',
                         },
@@ -154,12 +161,24 @@
                             url: '',
                             icon: '',
                         },
-                    ]
-
+                    ],
+                    cols: 4
                 },
                 game: {
                     header: "Game",
                     data: [
+                        {
+                            name: 'Enclose Circle',
+                            description: '',
+                            url: 'examples/enclose-circle/index.html',
+                            icon: 'examples/enclose-circle/icon.png',
+                        },
+                        {
+                            name: 'Mogura Tataki',
+                            description: '',
+                            url: 'examples/mogura-tataki/index.html',
+                            icon: 'examples/mogura-tataki/icon.png',
+                        },
                         {
                             name: 'Shooting',
                             description: 'サンプルとして作ったシューティングゲーム',
@@ -178,29 +197,36 @@
                             url: 'http://9leap.net/games/2877',
                             icon: 'http://9leap.net/screenshots//140x140/2877_140',
                         },
+                        {"name":"TongTong Z","url":"http://9leap.net/games/3005","icon":"http://9leap.net/screenshots/300x300/3005_300.png"},
+                        {"name":"Diving Girl","url":"http://9leap.net/games/2986","icon":"http://9leap.net/screenshots/300x300/2986_300.png"},
+                        {"name":"HeartRunner","url":"http://9leap.net/games/3004","icon":"http://9leap.net/screenshots/300x300/3004_300.png"},
+                        {"name":"PompPompPomp!","url":"http://9leap.net/games/2991","icon":"http://9leap.net/screenshots/300x300/2991_300.png"},
+                        {"name":"Survival Land","url":"http://9leap.net/games/2989","icon":"http://9leap.net/screenshots/300x300/2989_300.png"},
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
+                        {
+                            name: '',
+                            description: '',
+                            url: '',
+                            icon: '',
+                        },
                     ],
+                    cols: 3
                 },
                 "Three.js": {
                     header: "Three.js",
                     data: [
-                        {
-                            name: 'Circle',
-                            description: 'dummy',
-                            url: 'examples/circle/index.html',
-                            icon: 'examples/circle/icon.png',
-                        },
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
+                        {"name":"template","url":"http://jsdo.it/phi/4U6h","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/4/U/6/4U6h.jpg?t=1358684880"},
+                        {"name":"Cube","url":"http://jsdo.it/phi/52o9h","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/5/2/o/52o9h.jpg?t=1358684944"},
+                        {"name":"3D Text","url":"http://jsdo.it/phi/tDjm","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/t/D/j/tDjm.jpg?t=1358684944"},
+                        {"name":"ParticleSystem","url":"http://jsdo.it/phi/wEU7","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/w/E/U/wEU7.jpg?t=1358684944"},
+                        {"name":"Color Particle","url":"http://jsdo.it/phi/jOEV","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/j/O/E/jOEV.jpg?t=1358684944"},
+                        {"name":"Heart Particle","url":"http://jsdo.it/phi/6CEk","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/6/C/E/6CEk.jpg?t=1358684944"},
+                        {"name":"DRAGON Ball","url":"http://jsdo.it/phi/4oyL","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/4/o/y/4oyL.jpg?t=1358684944"},
                         {
                             name: '',
                             description: '',
@@ -212,24 +238,13 @@
                 webaudio: {
                     header: "WebAudio API",
                     data: [
-                        {
-                            name: 'Circle',
-                            description: 'dummy',
-                            url: 'examples/circle/index.html',
-                            icon: 'examples/circle/icon.png',
-                        },
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
+                        {"name":"Visualizer","url":"http://jsdo.it/phi/aJRp","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/a/J/R/aJRp.jpg?t=1358684880"},
+                        {"name":"Heart Visualizer","url":"http://jsdo.it/phi/b8Pt","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/b/8/P/b8Pt.jpg?t=1358684880"},
+                        {"name":"F1 効果","url":"http://jsdo.it/phi/vU84","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/v/U/8/vU84.jpg?t=1358684880"},
+                        {"name":"左右それぞれ違う音","url":"http://jsdo.it/phi/rfdr","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/r/f/d/rfdr.jpg?t=1358684880"},
+                        {"name":"音源位置設定","url":"http://jsdo.it/phi/ijtS","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/i/j/t/ijtS.jpg?t=1358684880"},
+                        {"name":"MML","url":"http://jsdo.it/phi/dOWk","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/d/O/W/dOWk.jpg?t=1358684880"},
+                        {"name":"circle visualizer","url":"http://jsdo.it/omatoro/wGJN","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/w/G/J/wGJN.jpg?t=1358684880"},
                         {
                             name: '',
                             description: '',
@@ -248,7 +263,7 @@
 
                     renderHeader(d, container);
 
-                    var tempData = dataToTable(d.data, 4);
+                    var tempData = dataToTable(d.data, d.cols);
                     renderThumbnails(tempData, container);
                 }
 
