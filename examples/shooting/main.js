@@ -167,8 +167,8 @@ var Player = tm.createClass({
         }
         
         if (pad.isTouching) {
-            this.velocity.setDegree(pad.angle, 1);
-            this.speed      = 8;
+            this.velocity = pad.direction;
+            this.speed    = 8;
         }
         
         // マウスによる移動
@@ -185,7 +185,9 @@ var Player = tm.createClass({
         */
         
         // 移動
-        this.position.add( tm.geom.Vector2.mul(this.velocity, this.speed) );
+        if (this.velocity.length() > 0.2) {
+            this.position.add( tm.geom.Vector2.mul(this.velocity, this.speed) );
+        }
         
         // 摩擦的な
         this.speed *= 0.5;
