@@ -294,7 +294,7 @@ tm.dom = tm.dom || {};
     tm.dom.Element.prototype.getter("classList", function()   { return this.element.classList; });
     
     tm.dom.Element.prototype.getter("parent", function(){
-        return (this.element.parent != undefined) ? tm.dom.Element(this.element.parent) : null;
+        return (this.element.parentNode != undefined) ? tm.dom.Element(this.element.parentNode) : null;
     });
     tm.dom.Element.prototype.getter("prev", function(){
         return (this.element.previousSibling != undefined) ? tm.dom.Element(this.element.previousSibling) : null;

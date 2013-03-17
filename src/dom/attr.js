@@ -43,8 +43,11 @@ tm.dom = tm.dom || {};
         /**
          * 属性を削除
          */
-        remove: function(name) {
-            this.element.removeAttribute(name);
+        remove: function(name, value) {
+            var now = this.get(name);
+            var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
+            this.element.setAttribute(name, next.trim());
+//            this.element.removeAttribute(name);
         },
         
         /**
@@ -52,6 +55,30 @@ tm.dom = tm.dom || {};
          */
         get: function(name) {
             return this.element.getAttribute(name);
+        },
+
+        /**
+         * 属性の存在チェック
+         */
+        contains: function(name, value) {
+            var now = this.get(name);
+            if (arguments.length == 1) {
+                return now != null;
+            }
+            else if (arguments.length == 2) {
+                return (' '+now+' ').indexOf(' '+value+' ') > -1;
+            }
+
+            return false;
+        },
+
+        toggle: function(name, value) {
+            if (this.contains(name, value)) {
+                this.remove(name, value);
+            } else {
+                this.add(name, value);
+            }
+            return this;
         }
     });
     
@@ -60,7 +87,7 @@ tm.dom = tm.dom || {};
      * @property    attr
      */
     tm.dom.Element.prototype.getter("attr", function(){
-        return this._trans || ( this._attr = tm.dom.Attr(this.element) );
+        return this._attr || ( this._attr = tm.dom.Attr(this.element) );
     });
     
 })();
