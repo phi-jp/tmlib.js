@@ -62,10 +62,16 @@ tm.sound = tm.sound || {};
 
         /**
          * 再生
-<span id='tm-sound-WebAudio-method-play'>         */
-</span>        play: function(time) {
+<span id='tm-sound-WebAudio-method-play'>         * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
+</span>         */
+        play: function(time) {
             if (time === undefined) time = 0;
             this.source.noteOn(this.context.currentTime + time);
+            /*
+            this.source.noteGrainOn(this.context.currentTime + time, 0, this.buffer.duration);
+            console.dir(this.buffer.duration);
+            console.dir(this.context.currentTime)
+            */
 
             return this;
         },

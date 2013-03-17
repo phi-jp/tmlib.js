@@ -60,8 +60,11 @@ tm.dom = tm.dom || {};
         /**
          * 属性を削除
          */
-<span id='tm-dom-Attr-method-remove'>        remove: function(name) {
-</span>            this.element.removeAttribute(name);
+<span id='tm-dom-Attr-method-remove'>        remove: function(name, value) {
+</span>            var now = this.get(name);
+            var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
+            this.element.setAttribute(name, next.trim());
+//            this.element.removeAttribute(name);
         },
         
         /**
@@ -69,6 +72,30 @@ tm.dom = tm.dom || {};
          */
 <span id='tm-dom-Attr-method-get'>        get: function(name) {
 </span>            return this.element.getAttribute(name);
+        },
+
+        /**
+         * 属性の存在チェック
+         */
+<span id='tm-dom-Attr-method-contains'>        contains: function(name, value) {
+</span>            var now = this.get(name);
+            if (arguments.length == 1) {
+                return now != null;
+            }
+            else if (arguments.length == 2) {
+                return (' '+now+' ').indexOf(' '+value+' ') &gt; -1;
+            }
+
+            return false;
+        },
+
+        toggle: function(name, value) {
+            if (this.contains(name, value)) {
+                this.remove(name, value);
+            } else {
+                this.add(name, value);
+            }
+            return this;
         }
     });
     
@@ -77,7 +104,7 @@ tm.dom = tm.dom || {};
      * @property    attr
      */
 <span id='tm-dom-Attr-property-attr'>    tm.dom.Element.prototype.getter(&quot;attr&quot;, function(){
-</span>        return this._trans || ( this._attr = tm.dom.Attr(this.element) );
+</span>        return this._attr || ( this._attr = tm.dom.Attr(this.element) );
     });
     
 })();

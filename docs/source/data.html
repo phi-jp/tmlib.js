@@ -16,51 +16,52 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * data.js
+ * phi
  */
 
-tm.util = tm.util || {};
-
-(function() {
+(function(){
     
-<span id='tm-util-DataManager'>    /**
-</span>     * @class
-     * データマネージャ
+<span id='tm-dom-Data'>    /**
+</span>     * @class tm.dom.Data
+     * スタイル
      */
-    tm.util.DataManager = {
-        data: {}
-    };
+    tm.define(&quot;tm.dom.Data&quot;, {
+        element: null,
+        
+        /**
+<span id='tm-dom-Data-method-init'>         * 初期化
+</span>         */
+        init: function(element) {
+            this.element = element;
+        },
+        
+        /**
+<span id='tm-dom-Data-method-set'>         * 属性をセット
+</span>         */
+        set: function(name, value) {
+        	var key = &quot;data-&quot; + name.toDash();
+            this.element.setAttribute(key, value);
+
+            return this;
+        },
+        
+        /**
+         * 属性をゲット
+<span id='tm-dom-Data-method-get'>         */
+</span>        get: function(name, value) {
+        	var key = &quot;data-&quot; + name.toDash();
+        	return this.element.attributes[key].value;
+        },
+    });
     
-    tm.util.DataManager.save = function()
-    {
-        // TODO: ローカルストレージ?
-        for (var key in this.data) {
-            var data = this.data[key];
-            localStorage[key] = JSON.stringify( data );
-        }
-    };
-    
-    tm.util.DataManager.load = function(key)
-    {
-        // TODO: ローカルストレージ?
-        for (var key in localStorage) {
-            this.data[key] = JSON.parse(localStorage[key]);
-        }
-    };
-    
-    tm.util.DataManager.set = function(key, value)
-    {
-        this.data[key] = value;
-        return this;
-    };
-    
-    tm.util.DataManager.get = function(key) {
-        return this.data[key];
-    };
-    
-    
-    // tm.addLoadCheckList(tm.util.DataManager);
-    
+    /**
+     * Attr クラス
+<span id='tm-dom-Data-property-data'>     * @property    data
+</span>     */
+    tm.dom.Element.prototype.getter(&quot;data&quot;, function(){
+        return this._data || ( this._data = tm.dom.Data(this.element) );
+    });
+
 })();</pre>
 </body>
 </html>

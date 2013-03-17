@@ -311,7 +311,7 @@ tm.dom = tm.dom || {};
 <span id='tm-dom-Element-property-text'>    tm.dom.Element.prototype.getter(&quot;classList&quot;, function()   { return this.element.classList; });
 </span>    
     tm.dom.Element.prototype.getter(&quot;parent&quot;, function(){
-        return (this.element.parent != undefined) ? tm.dom.Element(this.element.parent) : null;
+        return (this.element.parentNode != undefined) ? tm.dom.Element(this.element.parentNode) : null;
     });
 <span id='tm-dom-Element-property-classList'>    tm.dom.Element.prototype.getter(&quot;prev&quot;, function(){
 </span>        return (this.element.previousSibling != undefined) ? tm.dom.Element(this.element.previousSibling) : null;

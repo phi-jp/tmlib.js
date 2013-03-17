@@ -287,18 +287,44 @@
         
         return this;
     });
+
+    /**
+     * @method  sum
+     * 合計
+     */
+<span id='Array-method-shuffle'>    Array.defineInstanceMethod(&quot;sum&quot;, function() {
+</span>        var sum = 0;
+        for (var i=0,len=this.length; i&lt;len; ++i) {
+            sum += this[i];
+        }
+        return sum;
+    });
+
+    /**
+     * @method  average
+     * 平均
+     */
+    Array.defineInstanceMethod(&quot;average&quot;, function() {
+        var sum = 0;
+        var len = this.length;
+        for (var i=0; i&lt;len; ++i) {
+<span id='Array-method-sum'>            sum += this[i];
+</span>        }
+        return sum/len;
+    });
+
     
     /**
      * @method  toULElement
      * ULElement に変換
      */
-<span id='Array-method-shuffle'>    Array.defineInstanceMethod(&quot;toULElement&quot;, function(){
-</span>        // TODO: 
+    Array.defineInstanceMethod(&quot;toULElement&quot;, function(){
+        // TODO: 
     });
 
     /**
-     * @method  toOLElement
-     * OLElement に変換
+<span id='Array-method-average'>     * @method  toOLElement
+</span>     * OLElement に変換
      */
     Array.defineInstanceMethod(&quot;toOLElement&quot;, function(){
         // TODO:

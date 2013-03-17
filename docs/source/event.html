@@ -87,17 +87,19 @@ tm.dom = tm.dom || {};
      * マウスのX座標.
      */
 <span id='MouseEvent'>    MouseEvent.prototype.getter(&quot;pointX&quot;, function() {
-</span><span id='MouseEvent-property-pointX'>        return this.pageX - this.target.getBoundingClientRect().left;
-</span>    });
+</span><span id='MouseEvent-property-pointX'>        return this.clientX - this.target.getBoundingClientRect().left;
+</span>//        return this.pageX - this.target.getBoundingClientRect().left - window.scrollX;
+    });
     
     /**
      * @property    pointY
      * マウスのY座標.
      */
     MouseEvent.prototype.getter(&quot;pointY&quot;, function() {
-        return this.pageY - this.target.getBoundingClientRect().top;
-<span id='MouseEvent-property-pointY'>    });
-</span>    
+        return this.clientY - this.target.getBoundingClientRect().top;
+<span id='MouseEvent-property-pointY'>//        return this.pageY - this.target.getBoundingClientRect().top - window.scrollY;
+</span>    });
+    
 })();
 
 
@@ -119,28 +121,29 @@ tm.dom = tm.dom || {};
      * タッチイベント.
      */
     TouchEvent.prototype.getter(&quot;pointX&quot;, function() {
-<span id='TouchEvent'>        return this.touches[0].pageX;
+<span id='TouchEvent'>        return this.touches[0].clientX - this.target.getBoundingClientRect().left;
+</span><span id='TouchEvent-property-pointX'>//        return this.touches[0].pageX - this.target.getBoundingClientRect().left - tm.global.scrollX;
 </span>    });
     
     /**
      * @property    pointY
-<span id='TouchEvent-property-pointX'>     * タッチイベント.
-</span>     */
+     * タッチイベント.
+     */
     TouchEvent.prototype.getter(&quot;pointY&quot;, function() {
-        return this.touches[0].pageY;
-    });
+        return this.touches[0].clientY - this.target.getBoundingClientRect().top;
+<span id='TouchEvent-property-pointY'>//        return this.touches[0].pageY - this.target.getBoundingClientRect().top - tm.global.scrollY;
+</span>    });
     
     
 })();
-
 
 
 (function() {
     
     /**
      * @class
-<span id='TouchEvent-property-pointY'>     * Event クラス
-</span>     */
+     * Event クラス
+     */
     tm.dom.Event = tm.createClass({
         element     : null,
         funcList    : null,

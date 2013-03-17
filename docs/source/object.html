@@ -78,7 +78,7 @@
     Object.defineInstanceMethod(&quot;setter&quot;, function(name, fn){
         Object.defineProperty(this, name, {
             set: fn,
-            enumerable: false
+            enumerable: false,
         });
         // this.__defineSetter__(name, fn);
     });
@@ -86,7 +86,7 @@
     Object.defineInstanceMethod(&quot;getter&quot;, function(name, fn){
         Object.defineProperty(this, name, {
             get: fn,
-            enumerable: false
+            enumerable: false,
         });
         // this.__defineGetter__(name, fn);
     });
@@ -96,7 +96,7 @@
         Object.defineProperty(this, name, {
             set: param[&quot;set&quot;],
             get: param[&quot;get&quot;],
-            enumerable: false
+            enumerable: false,
         });
         // (param[&quot;get&quot;]) &amp;&amp; this.getter(name, param[&quot;get&quot;]);
         // (param[&quot;set&quot;]) &amp;&amp; this.setter(name, param[&quot;set&quot;]);
@@ -144,6 +144,7 @@
     
     /**
      * @method  using
+     * 使う
      */
 <span id='Object-method-using'>    Object.defineInstanceMethod(&quot;using&quot;, function(source) {
 </span>        // TODO:

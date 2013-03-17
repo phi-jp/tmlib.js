@@ -1,0 +1,122 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>DOMElement Test | TM Lib</title>
+        
+        <!-- prettify -->
+        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
+        <script src="../../plugins/prettify/prettify.js"></script>
+        
+        <style>
+            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+        </style>
+        
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/attr.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        <script src="../../src/dom/trans.js"></script>
+        <script src="../../src/dom/data.js"></script>
+        
+        <script src="../../plugins/console.tm.js"></script>
+
+        <script id="test-script">
+            
+            /*
+             * Test
+             */
+            window.onload = function()
+            {
+                // コンソール生成
+                // var c = console;
+                var c = tm.Console("#console");
+                var eTarget = tm.dom.Element( "#test" );
+
+                console.dir(eTarget.data);
+
+                eTarget.data.set("yahoo", "hoge");
+                c.log(eTarget.data.get("yahoo"));
+
+                return ;
+
+                eTarget.dataset.add("class", "foo");
+                c.log(eTarget.attr.get("class"));
+
+                eTarget.dataset.add("class", "bar");
+                c.log(eTarget.attr.get("class"));
+
+                eTarget.dataset.add("class", "buz");
+                c.log(eTarget.attr.get("class"));
+
+                eTarget.dataset.remove("class", "foo");
+                c.log(eTarget.attr.get("class"));
+
+                c.log(eTarget.attr.contains("class", "foo"));
+
+                console.dir(eTarget.element);
+
+                // toggle
+                eTarget.attr.toggle("class", "hoge");
+                c.log(eTarget.attr.get("class"));
+
+                eTarget.attr.toggle("class", "hoge");
+                c.log(eTarget.attr.get("class"));
+
+                eTarget.attr.toggle("class", "hoge");
+                c.log(eTarget.attr.get("class"));
+
+                eTarget.attr.toggle("class", "hoge");
+                c.log(eTarget.attr.get("class"));
+
+                eTarget.attr.toggle("class", "hoge");
+                c.log(eTarget.attr.get("class"));
+
+                eTarget.attr.toggle("class", "hoge");
+                c.log(eTarget.attr.get("class"));
+            };
+            
+        </script>
+        
+        <script>
+            tm.dom.Element(window).event.add("load", function() {
+                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
+                prettyPrint();
+            });
+        </script>
+        
+    </head>
+    
+    <body>
+         
+        <h1>dom.Trans Test | tmlib.js</h1>
+        
+        <div id="content">
+            <section>
+                <p id="test" data-hoge="100">クリックしてちょ!!</p>
+                <h2>Console</h2>
+                <pre id="console" class="prettyprint"></pre>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <pre id="code" class="prettyprint"></pre>
+            </section>
+        </div>
+        
+        
+    </body>
+</html>

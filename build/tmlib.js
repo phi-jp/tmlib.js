@@ -418,7 +418,7 @@ tm.global = window || global || this;
     Object.defineInstanceMethod("setter", function(name, fn){
         Object.defineProperty(this, name, {
             set: fn,
-            enumerable: false
+            enumerable: false,
         });
         // this.__defineSetter__(name, fn);
     });
@@ -426,7 +426,7 @@ tm.global = window || global || this;
     Object.defineInstanceMethod("getter", function(name, fn){
         Object.defineProperty(this, name, {
             get: fn,
-            enumerable: false
+            enumerable: false,
         });
         // this.__defineGetter__(name, fn);
     });
@@ -436,7 +436,7 @@ tm.global = window || global || this;
         Object.defineProperty(this, name, {
             set: param["set"],
             get: param["get"],
-            enumerable: false
+            enumerable: false,
         });
         // (param["get"]) && this.getter(name, param["get"]);
         // (param["set"]) && this.setter(name, param["set"]);
@@ -484,6 +484,7 @@ tm.global = window || global || this;
     
     /**
      * @method  using
+     * 使う
      */
     Object.defineInstanceMethod("using", function(source) {
         // TODO:
@@ -787,7 +788,8 @@ tm.global = window || global || this;
     });
 
     /**
-     * @method  合計
+     * @method  sum
+     * 合計
      */
     Array.defineInstanceMethod("sum", function() {
         var sum = 0;
@@ -798,7 +800,8 @@ tm.global = window || global || this;
     });
 
     /**
-     * @method  平均
+     * @method  average
+     * 平均
      */
     Array.defineInstanceMethod("average", function() {
         var sum = 0;
@@ -3289,10 +3292,10 @@ tm.geom = tm.geom || {};
 (function() {
     
     /**
-     * @class
+     * @class   tm.geom.Matrix33
      * 3*3 マトリックスクラス
      */
-    tm.geom.Matrix33 = tm.createClass({
+    tm.define("tm.geom.Matrix33", {
         /**
          * 要素
          */
@@ -4591,10 +4594,10 @@ tm.geom = tm.geom || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.geom.Circle
      * 円クラス
      */
-    tm.geom.Circle = tm.createClass({
+    tm.define("tm.geom.Circle", {
         x: 0,
         y: 0,
         radius: 0,
@@ -5048,7 +5051,7 @@ tm.dom = tm.dom || {};
     tm.dom.Element.prototype.getter("classList", function()   { return this.element.classList; });
     
     tm.dom.Element.prototype.getter("parent", function(){
-        return (this.element.parent != undefined) ? tm.dom.Element(this.element.parent) : null;
+        return (this.element.parentNode != undefined) ? tm.dom.Element(this.element.parentNode) : null;
     });
     tm.dom.Element.prototype.getter("prev", function(){
         return (this.element.previousSibling != undefined) ? tm.dom.Element(this.element.previousSibling) : null;
@@ -5175,7 +5178,8 @@ tm.dom = tm.dom || {};
      * マウスのX座標.
      */
     MouseEvent.prototype.getter("pointX", function() {
-        return this.pageX - this.target.getBoundingClientRect().left;
+        return this.clientX - this.target.getBoundingClientRect().left;
+//        return this.pageX - this.target.getBoundingClientRect().left - window.scrollX;
     });
     
     /**
@@ -5183,7 +5187,8 @@ tm.dom = tm.dom || {};
      * マウスのY座標.
      */
     MouseEvent.prototype.getter("pointY", function() {
-        return this.pageY - this.target.getBoundingClientRect().top;
+        return this.clientY - this.target.getBoundingClientRect().top;
+//        return this.pageY - this.target.getBoundingClientRect().top - window.scrollY;
     });
     
 })();
@@ -5207,7 +5212,8 @@ tm.dom = tm.dom || {};
      * タッチイベント.
      */
     TouchEvent.prototype.getter("pointX", function() {
-        return this.touches[0].pageX;
+        return this.touches[0].clientX - this.target.getBoundingClientRect().left;
+//        return this.touches[0].pageX - this.target.getBoundingClientRect().left - tm.global.scrollX;
     });
     
     /**
@@ -5215,12 +5221,12 @@ tm.dom = tm.dom || {};
      * タッチイベント.
      */
     TouchEvent.prototype.getter("pointY", function() {
-        return this.touches[0].pageY;
+        return this.touches[0].clientY - this.target.getBoundingClientRect().top;
+//        return this.touches[0].pageY - this.target.getBoundingClientRect().top - tm.global.scrollY;
     });
     
     
 })();
-
 
 
 (function() {
@@ -5442,8 +5448,11 @@ tm.dom = tm.dom || {};
         /**
          * 属性を削除
          */
-        remove: function(name) {
-            this.element.removeAttribute(name);
+        remove: function(name, value) {
+            var now = this.get(name);
+            var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
+            this.element.setAttribute(name, next.trim());
+//            this.element.removeAttribute(name);
         },
         
         /**
@@ -5451,6 +5460,30 @@ tm.dom = tm.dom || {};
          */
         get: function(name) {
             return this.element.getAttribute(name);
+        },
+
+        /**
+         * 属性の存在チェック
+         */
+        contains: function(name, value) {
+            var now = this.get(name);
+            if (arguments.length == 1) {
+                return now != null;
+            }
+            else if (arguments.length == 2) {
+                return (' '+now+' ').indexOf(' '+value+' ') > -1;
+            }
+
+            return false;
+        },
+
+        toggle: function(name, value) {
+            if (this.contains(name, value)) {
+                this.remove(name, value);
+            } else {
+                this.add(name, value);
+            }
+            return this;
         }
     });
     
@@ -5459,7 +5492,7 @@ tm.dom = tm.dom || {};
      * @property    attr
      */
     tm.dom.Element.prototype.getter("attr", function(){
-        return this._trans || ( this._attr = tm.dom.Attr(this.element) );
+        return this._attr || ( this._attr = tm.dom.Attr(this.element) );
     });
     
 })();
@@ -5780,6 +5813,55 @@ tm.dom = tm.dom || {};
 })();
 
 
+
+/*
+ * phi
+ */
+
+(function(){
+    
+    /**
+     * @class tm.dom.Data
+     * スタイル
+     */
+    tm.define("tm.dom.Data", {
+        element: null,
+        
+        /**
+         * 初期化
+         */
+        init: function(element) {
+            this.element = element;
+        },
+        
+        /**
+         * 属性をセット
+         */
+        set: function(name, value) {
+        	var key = "data-" + name.toDash();
+            this.element.setAttribute(key, value);
+
+            return this;
+        },
+        
+        /**
+         * 属性をゲット
+         */
+        get: function(name, value) {
+        	var key = "data-" + name.toDash();
+        	return this.element.attributes[key].value;
+        },
+    });
+    
+    /**
+     * Attr クラス
+     * @property    data
+     */
+    tm.dom.Element.prototype.getter("data", function(){
+        return this._data || ( this._data = tm.dom.Data(this.element) );
+    });
+
+})();
 
 /*
  * event/event.js
