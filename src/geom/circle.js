@@ -7,10 +7,10 @@ tm.geom = tm.geom || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.geom.Circle
      * 円クラス
      */
-    tm.geom.Circle = tm.createClass({
+    tm.define("tm.geom.Circle", {
         x: 0,
         y: 0,
         radius: 0,

@@ -7,10 +7,10 @@ tm.geom = tm.geom || {};
 (function() {
     
     /**
-     * @class
+     * @class   tm.geom.Matrix33
      * 3*3 マトリックスクラス
      */
-    tm.geom.Matrix33 = tm.createClass({
+    tm.define("tm.geom.Matrix33", {
         /**
          * 要素
          */
