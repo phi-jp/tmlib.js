@@ -1,1 +1,3 @@
-node build.js
+
+cd ../
+grunt

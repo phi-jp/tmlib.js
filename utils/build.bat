@@ -1,5 +1,4 @@
 @echo off
 
-node build.js
-
-pause
+cd ../
+grunt
