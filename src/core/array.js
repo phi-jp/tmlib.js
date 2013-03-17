@@ -272,7 +272,8 @@
     });
 
     /**
-     * @method  合計
+     * @method  sum
+     * 合計
      */
     Array.defineInstanceMethod("sum", function() {
         var sum = 0;
@@ -283,7 +284,8 @@
     });
 
     /**
-     * @method  平均
+     * @method  average
+     * 平均
      */
     Array.defineInstanceMethod("average", function() {
         var sum = 0;
