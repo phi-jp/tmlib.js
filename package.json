@@ -1,0 +1,38 @@
+{
+  "name": "tmlib.js",
+  "version": "0.1.5",
+  "description": "javascript library for game programming.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "preinstall": "npm install -g grunt-cli",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/phi1618/tmlib.js.git"
+  },
+  "keywords": [
+    "javascript",
+    "game"
+  ],
+  "author": "phi",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "52af6f02efb6ad0697bcddd67c27dc13882ac22c",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-coffee": "~0.6.0",
+    "grunt-contrib-watch": "~0.3.1",
+    "grunt-contrib-less": "~0.5.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-cssmin": "~0.5.0",
+    "grunt-contrib-jade": "~0.5.0",
+    "grunt-contrib-htmlmin": "~0.1.1",
+    "grunt-contrib-concat": "~0.1.3"
+  }
+}
