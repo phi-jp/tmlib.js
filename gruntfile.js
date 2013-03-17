@@ -98,7 +98,7 @@ module.exports = function(grunt) {
 
         },
         files: {
-          '<%= buildDir %>/test.min.js': [ 'js/test.js' ]
+          '<%= buildDir %>/tmlib.min.js': [ '<%= buildDir %>/tmlib.js' ]
         },
       },
     },
