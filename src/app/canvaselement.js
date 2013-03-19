@@ -151,7 +151,16 @@ tm.app = tm.app || {};
             }
             return false;
         },
-        
+
+        isHitPointCircle: function(x, y) {
+            var lenX = this.x - x;
+            var lenY = this.y - y;
+            if (((lenX)*(lenX)+(lenY)*(lenY)) < (this.radius*this.radius)) {
+                return true;
+            }
+            return false;
+        },
+
         isHitPointRect: function(x, y) {
             // ここから下のバージョンは四角形
             var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;

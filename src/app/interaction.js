@@ -76,10 +76,10 @@ tm.app = tm.app || {};
         
         _setHitTestFunc: function() {
             if (this.boundingType == "rect") {
-                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRectHierarchy;
+                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRect;
             }
             else if (this.boundingType == "circle") {
-                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircleHierarchy;
+                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircle;
             }
             else {
                 this.hitTestFunc = function() { return true };
