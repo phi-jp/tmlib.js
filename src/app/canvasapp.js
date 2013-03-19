@@ -182,7 +182,7 @@ tm.app = tm.app || {};
                 // 右上に設定
                 this.stats.domElement.style.position = "fixed";
                 this.stats.domElement.style.left     = "5px";
-                this.stats.domElement.style.top      = "5px";
+                this.stats.domElement.style.top      = "20px";
                 document.body.appendChild(this.stats.domElement);
             }
             else {
