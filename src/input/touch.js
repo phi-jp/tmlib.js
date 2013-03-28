@@ -67,7 +67,7 @@ tm.input = tm.input || {};
          */
         update: function() {
             this.last   = this.now;
-            this.now    = this.touched;
+            this.now    = Number(this.touched);
             
             this.start  = (this.now ^ this.last) & this.now;
             this.end    = (this.now ^ this.last) & this.last;
@@ -102,14 +102,16 @@ tm.input = tm.input || {};
         
         _touchmove: function(e) {
             var t = e.touches[0];
-            this.x = t.pageX;
-            this.y = t.pageY;
+            var r = e.target.getBoundingClientRect();
+            this.x = t.clientX - r.left;
+            this.y = t.clientY - r.top;
         },
         
         _touchmoveScale: function(e) {
             var t = e.touches[0];
-            this.x = t.pageX;
-            this.y = t.pageY;
+            var r = e.target.getBoundingClientRect();
+            this.x = t.clientX - r.left;
+            this.y = t.clientY - r.top;
             
             if (e.target.style.width) {
                 this.x *= e.target.width / parseInt(e.target.style.width);
