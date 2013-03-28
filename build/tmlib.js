@@ -6613,7 +6613,7 @@ tm.input = tm.input || {};
          */
         update: function() {
             this.last   = this.now;
-            this.now    = this.touched;
+            this.now    = Number(this.touched);
             
             this.start  = (this.now ^ this.last) & this.now;
             this.end    = (this.now ^ this.last) & this.last;
@@ -6648,14 +6648,16 @@ tm.input = tm.input || {};
         
         _touchmove: function(e) {
             var t = e.touches[0];
-            this.x = t.pageX;
-            this.y = t.pageY;
+            var r = e.target.getBoundingClientRect();
+            this.x = t.clientX - r.left;
+            this.y = t.clientY - r.top;
         },
         
         _touchmoveScale: function(e) {
             var t = e.touches[0];
-            this.x = t.pageX;
-            this.y = t.pageY;
+            var r = e.target.getBoundingClientRect();
+            this.x = t.clientX - r.left;
+            this.y = t.clientY - r.top;
             
             if (e.target.style.width) {
                 this.x *= e.target.width / parseInt(e.target.style.width);
@@ -7206,9 +7208,12 @@ tm.graphics = tm.graphics || {};
                 var s = e.style;
                 
                 s.position = "absolute";
+                s.margin = "auto";
                 s.left = "0px";
                 s.top  = "0px";
-                
+                s.bottom = "0px";
+                s.right = "0px";
+
                 var rateWidth = e.width/window.innerWidth;
                 var rateHeight= e.height/window.innerHeight;
                 var rate = e.height/e.width;
@@ -9604,6 +9609,7 @@ tm.app = tm.app || {};
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
             this.eventFlags = {};
+            this.boundingType = "circle";
         },
         
         /**
@@ -9951,7 +9957,6 @@ tm.app = tm.app || {};
         
         
         _checkEvent: function(check_func, event_name) {
-            
             if (check_func(this) === true) {
                 this.eventFlags[event_name] = true;
                 if (this[event_name]) this[event_name]();
@@ -9966,7 +9971,6 @@ tm.app = tm.app || {};
         },
         
         _refreshSize: function() {},
-        
         
     });
     
@@ -10090,9 +10094,75 @@ tm.app = tm.app || {};
             // TODO: どうしようかな??
         }
     });
-    
+
+    /**
+     * @property    boundingType
+     * boundingType
+     */
+    tm.app.CanvasElement.prototype.accessor("boundingType", {
+        "get": function() {
+            return this._boundingType;
+        },
+        "set": function(v) {
+            this._boundingType = v;
+            this._setIsHitFunc();
+        },
+    });
+ 
+    /**
+     * @property    checkHierarchy
+     * checkHierarchy
+     */
+    tm.app.CanvasElement.prototype.accessor("checkHierarchy", {
+        "get": function()   { return this._checkHierarchy; },
+        "set": function(v)  {
+            this._checkHierarchy = v;
+            this._setIsHitFunc();
+        }
+    });
+
+
+    var _isHitFuncMap = {
+        "rect": tm.app.CanvasElement.prototype.isHitPointRect,
+        "circle": tm.app.CanvasElement.prototype.isHitPointCircle,
+        "true": function() { return true; },
+        "false": function() { return false; },
+    };
+
+    var _isHitFuncMapHierarchy = {
+        "rect": tm.app.CanvasElement.prototype.isHitPointRectHierarchy,
+        "circle": tm.app.CanvasElement.prototype.isHitPointCircleHierarchy,
+        "true": function() { return true; },
+        "false": function() { return false; },
+    };
+
+    tm.app.CanvasElement.prototype._setIsHitFunc = function() {
+        var isHitFuncMap = (this.checkHierarchy) ? _isHitFuncMapHierarchy : _isHitFuncMap;
+        var boundingType = this.boundingType;
+        var isHitFunc = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap["true"]);
+
+        this.isHitPoint = isHitFunc;
+    };
+
 })();
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
  * sprite.js
  */
@@ -11626,7 +11696,6 @@ tm.app = tm.app || {};
         
         init: function(element) {
             this.element = element;
-            this.setBoundingType("circle");
         },
         
         update: function(app) {
@@ -11637,8 +11706,7 @@ tm.app = tm.app || {};
             
             var prevHitFlag = this.hitFlag;
             
-            this.hitFlag    = this.hitTestFunc.call(elm, p.x, p.y);
-            
+            this.hitFlag    = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
                 elm.dispatchEvent( tm.event.MouseEvent("mouseover", app) );
@@ -11676,31 +11744,8 @@ tm.app = tm.app || {};
         },
         
         setBoundingType: function(type) { this.boundingType = type; },
-        
-        _setHitTestFunc: function() {
-            if (this.boundingType == "rect") {
-                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRect;
-            }
-            else if (this.boundingType == "circle") {
-                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircle;
-            }
-            else {
-                this.hitTestFunc = function() { return true };
-            }
-            return this;
-        },
-        
     });
-    
-    /**
-     * @property    boundingType
-     * バウンディングタイプ
-     */
-    tm.app.Interaction.prototype.accessor("boundingType", {
-        "get": function()   { return this._boundingType; },
-        "set": function(v)  { this._boundingType = v; this._setHitTestFunc(); }
-    });
-    
+
     
     /**
      * @member      tm.app.Element
@@ -13027,7 +13072,7 @@ tm.sound = tm.sound || {};
                             self.loaded = true;
                         });
                     } else {
-                        onsole.error(xhr);
+                        console.error(xhr);
                     }
                 }
             };
@@ -13113,6 +13158,11 @@ tm.sound = tm.sound || {};
      * 追加
      */
     tm.sound.WebAudioManager.add = function(name, src) {
+        // 拡張子チェック
+        if (src.split('/').at(-1).indexOf('.') == -1) {
+            src += "." + tm.sound.Sound.SUPPORT_EXT;
+        }
+        
         this.sounds[name] = tm.sound.WebAudio(src);
         return this;
     };
@@ -13409,3 +13459,24 @@ tm.google = tm.google || {};
     
 })();
 
+
+;(function() {
+
+    tm.app.Interaction.prototype.setBoundingType = function(type) {
+        this.boundingType = type;
+    };
+
+    /**
+     * @property    boundingType
+     * バウンディングタイプ
+     */
+    tm.app.Interaction.prototype.accessor("boundingType", {
+        "get": function()   {
+            return this.element.boundingType;
+        },
+        "set": function(v)  {
+            this.element.boundingType = v;
+        }
+    });
+
+})();

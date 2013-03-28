@@ -79,6 +79,8 @@ module.exports = function(grunt) {
     "src/social/nineleap.js",
 
     "src/google/chart.js",
+
+    "src/dirty.js",
   ];
 
   grunt.initConfig({
