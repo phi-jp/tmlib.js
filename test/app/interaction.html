@@ -27,6 +27,7 @@
                 -o-box-sizing: border-box;
                 box-sizing: border-box;
             }
+
         </style>
         
         <script src="../../src/tmlib.js"></script>
@@ -66,6 +67,8 @@
         <script src="../../src/app/canvasapp.js"></script>
         <script src="../../src/app/interaction.js"></script>
         <script src="../../src/app/collision.js"></script>
+
+        <script src="../../src/dirty.js"></script>
         
         <script src="../../plugins/console.tm.js"></script>
 
@@ -101,20 +104,18 @@
                 var circle = Circle().addChildTo(app.currentScene);
                 circle.position.set(100, 100);
                 circle.alpha = 0.5;
+                circle.boundingType = "circle";
                 circle.interaction.enabled = true;
-                circle.interaction.boundingType = "circle";
                 circle.onmouseover = function(e) { this.alpha = 1.0; };
                 circle.onmouseout  = function(e) { this.alpha = 0.5; };
                 
                 var rect = Rect().addChildTo(app.currentScene);
                 rect.position.set(100, 300);
                 rect.alpha = 0.5;
+                rect.boundingType = "rect";
                 rect.interaction.enabled = true;
-                rect.interaction.boundingType = "rect";
                 rect.onmouseover = function(e) { this.alpha = 1.0; };
                 rect.onmouseout  = function(e) { this.alpha = 0.5; };
-                
-                
                 
                 
                 var group = tm.app.CanvasElement().addChildTo(app.currentScene);
@@ -125,19 +126,21 @@
                 var circle = Circle().addChildTo(group);
                 circle.position.set(100, 100);
                 circle.alpha = 0.5;
+                circle.boundingType = "circle";
+                circle.checkHierarchy = true;
                 circle.interaction.enabled = true;
-                circle.interaction.boundingType = "circle";
                 circle.onmouseover = function(e) { this.alpha = 1.0; };
                 circle.onmouseout  = function(e) { this.alpha = 0.5; };
                 
                 var rect = Rect().addChildTo(group);
                 rect.position.set(100, 300);
                 rect.alpha = 0.5;
+                rect.boundingType = "rect";
+                rect.checkHierarchy = true;
                 rect.interaction.enabled = true;
-                rect.interaction.boundingType = "rect";
                 rect.onpointingover = function(e) { this.alpha = 1.0; };
                 rect.onpointingout  = function(e) { this.alpha = 0.5; };
-                
+
                 app.run();
             });
             

@@ -99,6 +99,7 @@ tm.app = tm.app || {};
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
             this.eventFlags = {};
+            this.boundingType = "circle";
         },
         
         /**
@@ -446,7 +447,6 @@ tm.app = tm.app || {};
         
         
         _checkEvent: function(check_func, event_name) {
-            
             if (check_func(this) === true) {
                 this.eventFlags[event_name] = true;
                 if (this[event_name]) this[event_name]();
@@ -461,7 +461,6 @@ tm.app = tm.app || {};
         },
         
         _refreshSize: function() {},
-        
         
     });
     
@@ -585,6 +584,71 @@ tm.app = tm.app || {};
             // TODO: どうしようかな??
         }
     });
-    
+
+    /**
+     * @property    boundingType
+     * boundingType
+     */
+    tm.app.CanvasElement.prototype.accessor("boundingType", {
+        "get": function() {
+            return this._boundingType;
+        },
+        "set": function(v) {
+            this._boundingType = v;
+            this._setIsHitFunc();
+        },
+    });
+ 
+    /**
+     * @property    checkHierarchy
+     * checkHierarchy
+     */
+    tm.app.CanvasElement.prototype.accessor("checkHierarchy", {
+        "get": function()   { return this._checkHierarchy; },
+        "set": function(v)  {
+            this._checkHierarchy = v;
+            this._setIsHitFunc();
+        }
+    });
+
+
+    var _isHitFuncMap = {
+        "rect": tm.app.CanvasElement.prototype.isHitPointRect,
+        "circle": tm.app.CanvasElement.prototype.isHitPointCircle,
+        "true": function() { return true; },
+        "false": function() { return false; },
+    };
+
+    var _isHitFuncMapHierarchy = {
+        "rect": tm.app.CanvasElement.prototype.isHitPointRectHierarchy,
+        "circle": tm.app.CanvasElement.prototype.isHitPointCircleHierarchy,
+        "true": function() { return true; },
+        "false": function() { return false; },
+    };
+
+    tm.app.CanvasElement.prototype._setIsHitFunc = function() {
+        var isHitFuncMap = (this.checkHierarchy) ? _isHitFuncMapHierarchy : _isHitFuncMap;
+        var boundingType = this.boundingType;
+        var isHitFunc = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap["true"]);
+
+        this.isHitPoint = isHitFunc;
+    };
+
 })();
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

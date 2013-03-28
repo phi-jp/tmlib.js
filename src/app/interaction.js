@@ -23,7 +23,6 @@ tm.app = tm.app || {};
         
         init: function(element) {
             this.element = element;
-            this.setBoundingType("circle");
         },
         
         update: function(app) {
@@ -34,8 +33,7 @@ tm.app = tm.app || {};
             
             var prevHitFlag = this.hitFlag;
             
-            this.hitFlag    = this.hitTestFunc.call(elm, p.x, p.y);
-            
+            this.hitFlag    = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
                 elm.dispatchEvent( tm.event.MouseEvent("mouseover", app) );
@@ -73,31 +71,8 @@ tm.app = tm.app || {};
         },
         
         setBoundingType: function(type) { this.boundingType = type; },
-        
-        _setHitTestFunc: function() {
-            if (this.boundingType == "rect") {
-                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRect;
-            }
-            else if (this.boundingType == "circle") {
-                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircle;
-            }
-            else {
-                this.hitTestFunc = function() { return true };
-            }
-            return this;
-        },
-        
     });
-    
-    /**
-     * @property    boundingType
-     * バウンディングタイプ
-     */
-    tm.app.Interaction.prototype.accessor("boundingType", {
-        "get": function()   { return this._boundingType; },
-        "set": function(v)  { this._boundingType = v; this._setHitTestFunc(); }
-    });
-    
+
     
     /**
      * @member      tm.app.Element
