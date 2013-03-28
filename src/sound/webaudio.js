@@ -174,7 +174,7 @@ tm.sound = tm.sound || {};
                             self.loaded = true;
                         });
                     } else {
-                        onsole.error(xhr);
+                        console.error(xhr);
                     }
                 }
             };
@@ -260,6 +260,11 @@ tm.sound = tm.sound || {};
      * 追加
      */
     tm.sound.WebAudioManager.add = function(name, src) {
+        // 拡張子チェック
+        if (src.split('/').at(-1).indexOf('.') == -1) {
+            src += "." + tm.sound.Sound.SUPPORT_EXT;
+        }
+        
         this.sounds[name] = tm.sound.WebAudio(src);
         return this;
     };
