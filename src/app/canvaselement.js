@@ -626,12 +626,20 @@ tm.app = tm.app || {};
         "false": function() { return false; },
     };
 
+    var _isHitElementMap = {
+        "rect": tm.app.CanvasElement.prototype.isHitElementRect,
+        "circle": tm.app.CanvasElement.prototype.isHitElementCircle,
+        "true": function() { return true; },
+        "false": function() { return false; },
+    };
+
     tm.app.CanvasElement.prototype._setIsHitFunc = function() {
         var isHitFuncMap = (this.checkHierarchy) ? _isHitFuncMapHierarchy : _isHitFuncMap;
         var boundingType = this.boundingType;
         var isHitFunc = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap["true"]);
 
-        this.isHitPoint = isHitFunc;
+        this.isHitPoint   = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap["true"]);
+        this.isHitElement = (_isHitElementMap[boundingType]) ? (_isHitElementMap[boundingType]) : (_isHitElementMap["true"]);
     };
 
 })();
