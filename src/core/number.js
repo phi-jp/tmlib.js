@@ -61,14 +61,6 @@
     });
     
     /**
-     * @method  toUnsigned
-     * unsigned 型に変換する
-     */
-    Number.defineInstanceMethod("toUnsigned",  function() {
-        return this >>> 0;
-    });
-    
-    /**
      * @method  toHex
      * 16進数化
      */
@@ -84,6 +76,14 @@
         return this.toString(2);
     });
     
+    
+    /**
+     * @method  toUnsigned
+     * unsigned 型に変換する
+     */
+    Number.defineInstanceMethod("toUnsigned",  function() {
+        return this >>> 0;
+    });
     
     /**
      * @method  padding

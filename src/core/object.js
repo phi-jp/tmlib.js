@@ -124,6 +124,79 @@
         return this;
     });
     
+    /**
+     * @method  isObject
+     * is object
+     */
+    Object.defineInstanceMethod("isObject", function() {
+        return this === Object(this);
+    });
+    
+    /**
+     * @method  isArguments
+     * is arguments
+     */
+    Object.defineInstanceMethod("isArguments", function() {
+        return Object.prototype.toString.call(this) == '[object Arguments]';
+    });
+    
+    /**
+     * @method  isFunction
+     * is function
+     */
+    Object.defineInstanceMethod("isFunction", function() {
+        return Object.prototype.toString.call(this) == '[object Function]';
+    });
+    
+    /**
+     * @method  isString
+     * is string
+     */
+    Object.defineInstanceMethod("isString", function() {
+        return Object.prototype.toString.call(this) == '[object String]';
+    });
+    
+    /**
+     * @method  isNumber
+     * is number
+     */
+    Object.defineInstanceMethod("isNumber", function() {
+        return Object.prototype.toString.call(this) == '[object Number]';
+    });
+    
+    /**
+     * @method  isDate
+     * is date
+     */
+    Object.defineInstanceMethod("isDate", function() {
+        return Object.prototype.toString.call(this) == '[object Date]';
+    });
+    
+    /**
+     * @method  isRegExp
+     * is regexp
+     */
+    Object.defineInstanceMethod("isRegExp", function() {
+        return Object.prototype.toString.call(this) == '[object RegExp]';
+    });
+    
+    /**
+     * @method  isArray
+     * is array
+     */
+    Object.defineInstanceMethod("isArray", function() {
+        return Object.prototype.toString.call(this) == '[object Array]';
+    });
+    
+    /**
+     * @method  isEmpty
+     * is empty
+     */
+    Object.defineInstanceMethod("isEmpty", function() {
+        if (!this) return true;
+        if (this.isArray() || this.isString()) return this.length === 0;
+        return false;
+    });
     
     /**
      * @method  using

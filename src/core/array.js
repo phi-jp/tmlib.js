@@ -10,29 +10,6 @@
      * 配列
      */
     
-
-    /**
-     * @static
-     * @method  flatten
-     * フラット.
-     * Ruby のやつ.
-     */
-    Array.flatten = function(array, deep) {
-        var arr = [];
-        
-        for (var i=0,len=array.length; i<len; ++i) {
-            var value = array[i];
-            if (value instanceof Array) {
-                arr = arr.concat(Array.flatten(value));
-            }
-            else {
-                arr.push(value);
-            }
-        }
-        return arr;
-    };
-    
-    
     
     /**
      * @property    first
@@ -58,8 +35,8 @@
      * 渡された配列と等しいかどうかをチェック
      */
     Array.defineInstanceMethod("equals", function(arr) {
-        // // 長さもチェックするかを検討
-        // if (this.length !== arr.length) return false;
+        // 長さチェック
+        if (this.length !== arr.length) return false;
         
         for (var i=0,len=this.length; i<len; ++i) {
             if (this[i] !== arr[i]) {
@@ -75,6 +52,9 @@
      * equalsDeep にするか検討. (Java では deepEquals なのでとりあえず合わせとく)
      */
     Array.defineInstanceMethod("deepEquals", function(arr) {
+        // 長さチェック
+        if (this.length !== arr.length) return false;
+        
         for (var i=0,len=this.length; i<len; ++i) {
             var result = (this[i].deepEquals) ? this[i].deepEquals(arr[i]) : (this[i] === arr[i]);
             if (result === false) {
@@ -147,6 +127,19 @@
     });
     
     /**
+     * @method  eraseIfAll
+     * 条件にマッチした要素を削除
+     */
+    Array.defineInstanceMethod("eraseIfAll", function(fn) {
+        for (var i=0,len=this.length; i<len; ++i) {
+            if ( fn(this[i], i, this) ) {
+                this.splice(i, 1);
+            }
+        }
+        return this;
+    });
+    
+    /**
      * @method  random
      * 要素の中からランダムで取り出す
      */
@@ -156,6 +149,15 @@
         return this[ Math.rand(min, max) ];
     });
     
+    /**
+     * @method  pickup
+     * 要素の中からランダムで取り出す
+     */
+    Array.defineInstanceMethod("pickup", function(min, max) {
+        min = min || 0;
+        max = max || this.length-1;
+        return this[ Math.rand(min, max) ];
+    });
     
     /**
      * @method  uniq
@@ -311,6 +313,55 @@
      */
     Array.defineInstanceMethod("toOLElement", function(){
         // TODO:
+    });
+
+
+    
+    /**
+     * @method  uniq
+     * 重複削除
+     */
+    Array.defineFunction("uniq", function(arr) {
+        var temp = [];
+        for (var i=0,len=arr.length; i<len; ++i) {
+            var value = arr[i];
+            if (temp.indexOf(value) == -1) {
+                temp.push(value);
+            }
+        }
+        return temp;
+    });
+
+    
+    /**
+     * @static
+     * @method  flatten
+     * フラット.
+     * Ruby のやつ.
+     */
+    Array.flatten = function(array, deep) {
+        var arr = [];
+        
+        for (var i=0,len=array.length; i<len; ++i) {
+            var value = array[i];
+            if (value instanceof Array) {
+                arr = arr.concat(Array.flatten(value));
+            }
+            else {
+                arr.push(value);
+            }
+        }
+        return arr;
+    };
+
+    
+    /**
+     * @static
+     * @method  range
+     * range
+     */
+    Array.defineFunction("range", function(start, end, step) {
+        return Array.prototype.range.apply([], arguments);
     });
     
 })();

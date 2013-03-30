@@ -94,7 +94,7 @@
      * ハッシュ値に変換
      */
     String.prototype.toHash= function() {
-        return TM.crc32(this);
+        return this.toCRC32();
     };
     
     /**
