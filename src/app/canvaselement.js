@@ -445,21 +445,6 @@ tm.app = tm.app || {};
             // canvas.strokeCircle(this.x, this.y, this.radius);
         },
         
-        
-        _checkEvent: function(check_func, event_name) {
-            if (check_func(this) === true) {
-                this.eventFlags[event_name] = true;
-                if (this[event_name]) this[event_name]();
-            }
-            else {
-                this.eventFlags[event_name] = false;
-            }
-            
-            for (var i=0; i<this.children.length; ++i) {
-                this.children[i]._checkEvent(check_func, event_name);
-            }
-        },
-        
         _refreshSize: function() {},
         
     });
