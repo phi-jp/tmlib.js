@@ -3,30 +3,10 @@
     <head> 
         <meta charset="utf-8"> 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Anim Test | TM Lib</title>
-        
-        <!-- prettify -->
-        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
-        <script src="../../plugins/prettify/prettify.js"></script>
+        <title>Test | tmlib.js</title>
         
         <style>
             body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
-            
-            #content {
-                display: -webkit-box;
-                display: -moz-box;
-                display: -o-box;
-                display: box;
-            }
-            
-            #content>* {
-                padding: 10px 20px;
-                width: 50%;
-                -webkit-box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                -o-box-sizing: border-box;
-                box-sizing: border-box;
-            }
         </style>
         
         <script src="../../src/tmlib.js"></script>
@@ -42,6 +22,7 @@
         <script src="../../src/geom/vector2.js"></script>
         <script src="../../src/geom/vector3.js"></script>
         <script src="../../src/geom/matrix33.js"></script>
+        <script src="../../src/geom/rect.js"></script>
         
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
@@ -60,6 +41,7 @@
         <script src="../../src/app/element.js"></script>
         <script src="../../src/app/canvaselement.js"></script>
         <script src="../../src/app/sprite.js"></script>
+        <script src="../../src/app/shape.js"></script>
         <script src="../../src/app/scene.js"></script>
         <script src="../../src/app/canvasapp.js"></script>
         <script src="../../src/app/collision.js"></script>
@@ -68,149 +50,31 @@
         
         <script src="../../src/anim/tween.js"></script>
         
-        <script src="../../plugins/console.tm.js"></script>
+        <script src="animation.js"></script>
 
         <script id="test-script">
-            
-            var Effect = tm.createClass({
-                superClass: tm.app.CanvasElement,
-                
-                init: function(x, y) {
-                    this.superInit();
-                    
-                    this.startX = x;
-                    this.startY = y;
-                    
-                    this.x = x;
-                    this.y = y;
-                    
-                    this.startAnim();
-                },
-                
-                draw: function(canvas) {
-                    canvas.fillCircle(0, 0, this.radius);
-                    //canvas.fillRect(0, 0, this.width, this.height);
-                },
-                
-                startAnim: function() {
-                    this.animation.addTween({
-                        prop: "x",
-                        begin: this.startX,
-                        finish: this.startX + 300,
-                        duration: 1000,
-                    });
-                    this.x = this.startX;
-                    
-                    this.animation.addTween({
-                        prop: "y",
-                        begin: this.startY,
-                        finish: this.startY + 300,
-                        duration: 1000,
-                        delay: 500,
-                    });
-                    this.y = this.startY;
-                    
-                    this.animation.addTween({
-                        prop: "alpha",
-                        begin: 1,
-                        finish: 0,
-                        duration: 1000,
-                    });
-                    
-                    /*
-                    this.anim.addTween({
-                        prop: "scaleX",
-                        begin: 1,
-                        finish: 2,
-                        duration: 1000,
-                    });
-                    
-                    this.anim.addTween({
-                        prop: "scaleY",
-                        begin: 1,
-                        finish: 2,
-                        duration: 1000,
-                    });
-                    */
-                },
-                
-                onanimationend: function() {
-                    this.startAnim();
-                },
-            });
             
             /*
              * Test
              */
             tm.main(function() {
-                var c = tm.Console("#console");
-                
                 var app = tm.app.CanvasApp("#world");
-                
-                var player = tm.app.CanvasElement();
-                player.radius = 4;
-                app.currentScene.addChild(player);
-                player.update = function(app) {
-                    this.x = app.pointing.x;
-                    this.y = app.pointing.y;
-                };
-                player.draw = function(canvas) {
-                    canvas.fillCircle(0, 0, this.radius);
-                };
-                
-                app.currentScene.update = function(app) {
-                    var p = app.pointing;
-                    if (p.getPointingStart() == true) {
-                        var circle = Effect(p.x, p.y);
-                        this.addChild(circle);
-                    };
-                    
-                    // フェードアウト
-                    if (p.getPointingStart()) {
-                        // var fadeout = tm.app.Sprite(app.width, app.height);
-                        // fadeout.originX = fadeout.originY = 0;
-                        // fadeout.canvas.clearColor("white");
-                        // fadeout.addChildTo(this);
-                        // fadeout.anim.addTween({
-                            // prop: "alpha",
-                            // begin: 0,
-                            // finish: 1.0,
-                            // duration: 1500,
-                        // });
-                        // fadeout.onanimationend = function() {
-                            // this.remove();
-                        // }
-                    }
-                };
+
+                app.replaceScene(TestScene());
                 
                 app.run();
             });
             
         </script>
-        
-        <script>
-            tm.dom.Element(window).event.add("load", function() {
-                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
-                prettyPrint();
-            });
-        </script>
-        
     </head>
     
     <body>
          
-        <h1>Anim Test | TM Lib</h1>
+        <h1>Test | tmlib.js</h1>
         
         <div id="content">
             <section>
-                <h2>Canvas</h2>
                 <canvas id="world" width="640" height="480"></canvas>
-                <h2>Console</h2>
-                <pre id="console" class="prettyprint"></pre>
-            </section>
-            <section>
-                <h2>Code</h2>
-                <pre id="code" class="prettyprint"></pre>
             </section>
         </div>
         

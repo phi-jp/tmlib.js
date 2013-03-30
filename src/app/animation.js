@@ -14,14 +14,18 @@ tm.app = tm.app || {};
      */
     tm.app.Animation = tm.createClass({
         
+        superClass: tm.event.EventDispatcher,
+
         isAnimation: false,
         
         /**
          * 初期化
          */
         init: function(elm) {
-            this.element    = elm;
+            this.superInit();
+
             this.tweens     = [];
+            this.setTarget(elm);
         },
         
         /**
@@ -51,6 +55,7 @@ tm.app = tm.app || {};
                         this.isAnimation = false;
                         var e = tm.event.Event("animationend");
                         this.element.dispatchEvent(e);
+                        this.dispatchEvent(e);
                     }
                 }
                 else {
@@ -87,14 +92,7 @@ tm.app = tm.app || {};
         },
         
         fade: function(value, duration) {
-            duration = (duration !== undefined) ? duration : 1000;
-            
-            this.addTween({
-                prop: "alpha",
-                begin: this.element.alpha,
-                finish: value,
-                duration: duration,
-            });
+            this._to("alpha", value, duration);
             return this;
         },
         
@@ -102,22 +100,10 @@ tm.app = tm.app || {};
         {
             duration = (duration !== undefined) ? duration : 1000;
             fn       = fn || "linear";
-            
-            this.addTween({
-                prop: "x",
-                begin: this.element.x,
-                finish: this.element.x + x,
-                duration: duration,
-                func: fn,
-            });
-            this.addTween({
-                prop: "y",
-                begin: this.element.y,
-                finish: this.element.y + y,
-                duration: duration,
-                func: fn,
-            });
-            
+        
+            this._by("x", x, duration, fn);
+            this._by("y", y, duration, fn);
+
             return this;
         },
         
@@ -125,21 +111,9 @@ tm.app = tm.app || {};
         {
             duration = (duration !== undefined) ? duration : 1000;
             fn       = fn || "linear";
-            
-            this.addTween({
-                prop: "x",
-                begin: this.element.x,
-                finish: x,
-                duration: duration,
-                func: fn,
-            });
-            this.addTween({
-                prop: "y",
-                begin: this.element.y,
-                finish: y,
-                duration: duration,
-                func: fn,
-            });
+
+            this._to("x", x, duration, fn);
+            this._to("y", y, duration, fn);
             
             return this;
         },
@@ -147,7 +121,8 @@ tm.app = tm.app || {};
         scale: function(value, duration)
         {
             duration = (duration !== undefined) ? duration : 1000;
-            
+                        this._to("rotation", value, duration);
+
             this.addTween({
                 prop: "scaleX",
                 begin: this.element.scaleX,
@@ -161,6 +136,11 @@ tm.app = tm.app || {};
                 duration: duration,
             });
             
+            return this;
+        },
+
+        rotate: function(value, duration) {
+            this._to("rotation", value, duration);
             return this;
         },
         
@@ -178,6 +158,41 @@ tm.app = tm.app || {};
             this.tweens = [];
             return this;
         },
+
+        setTarget: function(target) {
+            if (this._fn) {
+                this.element.removeEventListener("enterframe", this._fn);
+            }
+
+            this.element = target;
+            this._fn = function(e) { this.update(e.app); }.bind(this);
+            this.element.addEventListener("enterframe", this._fn);
+        },
+        getTarget: function(target) {
+            return this.element;
+        },
+
+        _by: function(prop, value, duration, fn) {
+            duration = (duration !== undefined) ? duration : 1000;
+            this.addTween({
+                prop: prop,
+                begin: this.element[prop],
+                finish: this.element[prop] + value,
+                duration: duration,
+                func: fn,
+            });
+        },
+
+        _to: function(prop, value, duration, fn) {
+            duration = (duration !== undefined) ? duration : 1000;
+            this.addTween({
+                prop: prop,
+                begin: this.element[prop],
+                finish: value,
+                duration: duration,
+                func: fn,
+            });
+        }
     });
     
     
@@ -188,9 +203,6 @@ tm.app = tm.app || {};
     tm.app.Element.prototype.getter("animation", function() {
         if (!this._animation) {
             this._animation = tm.app.Animation(this);
-            this.addEventListener("enterframe", function(e){
-                this._animation.update(e.app);
-            });
         }
         
         return this._animation;
