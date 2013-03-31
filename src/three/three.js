@@ -199,7 +199,7 @@ tm.three = tm.three || {};
     });
     
     // tm.event.EventDispatcher を継承
-    tm.three.Element.prototype.extendSafe(tm.event.EventDispatcher.prototype);
+    tm.three.Element.prototype.$safe(tm.event.EventDispatcher.prototype);
     
 })();
 
@@ -228,7 +228,7 @@ tm.three = tm.three || {};
     });
     
     // tm.three.Element を継承
-    tm.three.MeshElement.prototype.extendSafe(tm.three.Element.prototype);
+    tm.three.MeshElement.prototype.$safe(tm.three.Element.prototype);
 
     
     tm.three.CubeElement = tm.createClass({
@@ -388,5 +388,9 @@ tm.three = tm.three || {};
     });
     
     // tm.three.Element を継承
-    tm.three.Scene.prototype.extendSafe(tm.three.Element.prototype);
+    tm.three.Scene.prototype.$safe(tm.three.Element.prototype);
 })();
+
+
+
+

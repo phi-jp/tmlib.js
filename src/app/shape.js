@@ -46,8 +46,8 @@ tm.app = tm.app || {};
         },
 
         renderCircle: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
             
             c.save();
             
@@ -64,8 +64,8 @@ tm.app = tm.app || {};
         },
 
         renderTriangle: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
             
             c.save();
             
@@ -82,8 +82,8 @@ tm.app = tm.app || {};
         },
 
         renderRectangle: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
 
             c.save();
             
@@ -102,8 +102,8 @@ tm.app = tm.app || {};
         },
 
         renderStar: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
             
             c.save();
             
@@ -125,8 +125,8 @@ tm.app = tm.app || {};
         },
 
         renderPolygon: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
             
             c.save();
             
@@ -148,9 +148,9 @@ tm.app = tm.app || {};
         },
 
         renderHeart: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
             var c = this.canvas;
-            
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
+
             c.save();
             
             // パラメータセット

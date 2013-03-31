@@ -84,146 +84,111 @@
         // (param["get"]) && this.getter(name, param["get"]);
         // (param["set"]) && this.setter(name, param["set"]);
     });
-    
-    Object.defineInstanceMethod("extend", function() {
-        for (var i=0,len=arguments.length; i<len; ++i) {
-            var source = arguments[i];
+
+    /**
+     * @method  $pick
+     * text
+     */
+    Object.defineInstanceMethod("$has", function(key) {
+        return this.hasOwnProperty(key);
+    });
+
+    /**
+     * @method  $extend
+     * 他のライブラリと競合しちゃうので extend -> $extend としました
+     */
+    Object.defineInstanceMethod("$extend", function() {
+        Array.prototype.forEach.call(arguments, function(source) {
             for (var property in source) {
                 this[property] = source[property];
             }
-        }
+        }, this);
         return this;
     });
     
     /**
-     * @method  extendSafe
+     * @method  $safe
      * 安全拡張
      * 上書きしない
      */
-    Object.defineInstanceMethod("extendSafe", function(source) {
-        for (var property in source) {
-            if (!this[property]) {
-                this[property] = source[property];
+    Object.defineInstanceMethod("$safe", function(source) {
+        Array.prototype.forEach.call(arguments, function(source) {
+            for (var property in source) {
+                if (!this[property]) this[property] = source[property];
             }
-        }
+        }, this);
         return this;
     });
     
     
     /**
-     * @method  extendStrict
+     * @method  $strict
      * 厳格拡張
      * すでにあった場合は警告
      */
-    Object.defineInstanceMethod("extendStrict", function(source) {
-        for (var property in source) {
-            console.assert(!this[property], "TM Error: {0} is Already".format(property));
-            this[property] = source[property];
-        }
-        
+    Object.defineInstanceMethod("$strict", function(source) {
+        Array.prototype.forEach.call(arguments, function(source) {
+            for (var property in source) {
+                console.assert(!this[property], "tm error: {0} is Already".format(property));
+                this[property] = source[property];
+            }
+        }, this);
         return this;
     });
-    
+
     /**
-     * @method  isObject
-     * is object
+     * @method  $pick
+     * text
      */
-    Object.defineInstanceMethod("isObject", function() {
-        return this === Object(this);
+    Object.defineInstanceMethod("$pick", function() {
+        var temp = {};
+
+        Array.prototype.forEach.call(arguments, function(key) {
+            if (key in this) temp[key] = this[key];
+        }, this);
+
+        return temp;
     });
-    
+
     /**
-     * @method  isArguments
-     * is arguments
+     * @method  $omit
+     * text
      */
-    Object.defineInstanceMethod("isArguments", function() {
-        return Object.prototype.toString.call(this) == '[object Arguments]';
-    });
-    
-    /**
-     * @method  isFunction
-     * is function
-     */
-    Object.defineInstanceMethod("isFunction", function() {
-        return Object.prototype.toString.call(this) == '[object Function]';
-    });
-    
-    /**
-     * @method  isString
-     * is string
-     */
-    Object.defineInstanceMethod("isString", function() {
-        return Object.prototype.toString.call(this) == '[object String]';
-    });
-    
-    /**
-     * @method  isNumber
-     * is number
-     */
-    Object.defineInstanceMethod("isNumber", function() {
-        return Object.prototype.toString.call(this) == '[object Number]';
-    });
-    
-    /**
-     * @method  isDate
-     * is date
-     */
-    Object.defineInstanceMethod("isDate", function() {
-        return Object.prototype.toString.call(this) == '[object Date]';
-    });
-    
-    /**
-     * @method  isRegExp
-     * is regexp
-     */
-    Object.defineInstanceMethod("isRegExp", function() {
-        return Object.prototype.toString.call(this) == '[object RegExp]';
-    });
-    
-    /**
-     * @method  isArray
-     * is array
-     */
-    Object.defineInstanceMethod("isArray", function() {
-        return Object.prototype.toString.call(this) == '[object Array]';
-    });
-    
-    /**
-     * @method  isEmpty
-     * is empty
-     */
-    Object.defineInstanceMethod("isEmpty", function() {
-        if (!this) return true;
-        if (this.isArray() || this.isString()) return this.length === 0;
-        return false;
+    Object.defineInstanceMethod("$omit", function() {
+        var temp = {};
+
+        for (var key in this) {
+            if (Array.prototype.indexOf.call(arguments, key) == -1) {
+                temp[key] = this[key];
+            }
+        }
+
+        return temp;
     });
     
     /**
      * @method  using
      * 使う
      */
-    Object.defineInstanceMethod("using", function(source) {
+    Object.defineInstanceMethod("$using", function(source) {
         // TODO:
         
         return this;
     });
     
-    if (window) {
-        /**
-         * @method  globalize
-         * グローバル化
-         */
-        Object.defineInstanceMethod("globalize", function(key) {
-            if (key) {
-                window[key] = this[key];
-            }
-            else {
-                window.extendStrict(this);
-            }
-            return this;
-        });
-    }
-    
+    /**
+     * @method  globalize
+     * グローバル化
+     */
+    Object.defineInstanceMethod("$globalize", function(key) {
+        if (key) {
+            tm.global[key] = this[key];
+        }
+        else {
+            tm.global.$strict(this);
+        }
+        return this;
+    });
     
     
 })();

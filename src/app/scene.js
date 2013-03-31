@@ -43,8 +43,7 @@ tm.app = tm.app || {};
         init: function(param) {
             this.superInit();
             
-            param = param || {};
-            param.extendSafe(DEFAULT_PARAM);
+            param = {}.$extend(DEFAULT_PARAM, param);
             
             var label = tm.app.Label("Loading");
             label.x = param.width/2;
@@ -100,8 +99,7 @@ tm.app = tm.app || {};
         init: function(param) {
             this.superInit();
             
-            param = param || {};
-            param.extendSafe(DEFAULT_PARAM);
+            param = {}.$extend(DEFAULT_PARAM, param);
 
             if (param.backgroundImage) {
                 this._backgroundImage = tm.app.Sprite(param.width, param.height, param.backgroundImage);
@@ -147,8 +145,7 @@ tm.app = tm.app || {};
         init: function(param) {
             this.superInit();
             
-            param = param || {};
-            param.extendSafe(DEFAULT_PARAM);
+            param = {}.$extend(DEFAULT_PARAM, param);
             
             var text = "SCORE: {score}, {msg}".format(param);
             var twitterURL = tm.social.Twitter.createURL({
