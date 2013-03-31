@@ -21,6 +21,7 @@ module.exports = function(grunt) {
     "src/util/data.js",
     "src/util/script.js",
     "src/util/querystring.js",
+    "src/util/type.js",
 
     "src/geom/vector2.js",
     "src/geom/vector3.js",
@@ -104,13 +105,33 @@ module.exports = function(grunt) {
         },
       },
     },
+    shell: {
+      tmlib: {
+        command: 'jsduck ./src --output ./docs --title "tmlib.js docs"'
+      }
+    }
   });
 
   for (var key in pkg.devDependencies) {
-    if (/grunt-contrib/.test(key)) {
+//    if (/grunt-contrib/.test(key)) {
+    if (/grunt-/.test(key)) {
       grunt.loadNpmTasks(key);
     }
   }
 
   grunt.registerTask('default', ['concat', 'uglify']);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

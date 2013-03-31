@@ -440,73 +440,111 @@ tm.global = window || global || this;
         // (param["get"]) && this.getter(name, param["get"]);
         // (param["set"]) && this.setter(name, param["set"]);
     });
-    
-    Object.defineInstanceMethod("extend", function() {
-        for (var i=0,len=arguments.length; i<len; ++i) {
-            var source = arguments[i];
+
+    /**
+     * @method  $pick
+     * text
+     */
+    Object.defineInstanceMethod("$has", function(key) {
+        return this.hasOwnProperty(key);
+    });
+
+    /**
+     * @method  $extend
+     * 他のライブラリと競合しちゃうので extend -> $extend としました
+     */
+    Object.defineInstanceMethod("$extend", function() {
+        Array.prototype.forEach.call(arguments, function(source) {
             for (var property in source) {
                 this[property] = source[property];
             }
-        }
+        }, this);
         return this;
     });
     
     /**
-     * @method  extendSafe
+     * @method  $safe
      * 安全拡張
      * 上書きしない
      */
-    Object.defineInstanceMethod("extendSafe", function(source) {
-        for (var property in source) {
-            if (!this[property]) {
-                this[property] = source[property];
+    Object.defineInstanceMethod("$safe", function(source) {
+        Array.prototype.forEach.call(arguments, function(source) {
+            for (var property in source) {
+                if (!this[property]) this[property] = source[property];
             }
-        }
+        }, this);
         return this;
     });
     
     
     /**
-     * @method  extendStrict
+     * @method  $strict
      * 厳格拡張
      * すでにあった場合は警告
      */
-    Object.defineInstanceMethod("extendStrict", function(source) {
-        for (var property in source) {
-            console.assert(!this[property], "TM Error: {0} is Already".format(property));
-            this[property] = source[property];
-        }
-        
+    Object.defineInstanceMethod("$strict", function(source) {
+        Array.prototype.forEach.call(arguments, function(source) {
+            for (var property in source) {
+                console.assert(!this[property], "tm error: {0} is Already".format(property));
+                this[property] = source[property];
+            }
+        }, this);
         return this;
     });
-    
+
+    /**
+     * @method  $pick
+     * text
+     */
+    Object.defineInstanceMethod("$pick", function() {
+        var temp = {};
+
+        Array.prototype.forEach.call(arguments, function(key) {
+            if (key in this) temp[key] = this[key];
+        }, this);
+
+        return temp;
+    });
+
+    /**
+     * @method  $omit
+     * text
+     */
+    Object.defineInstanceMethod("$omit", function() {
+        var temp = {};
+
+        for (var key in this) {
+            if (Array.prototype.indexOf.call(arguments, key) == -1) {
+                temp[key] = this[key];
+            }
+        }
+
+        return temp;
+    });
     
     /**
      * @method  using
      * 使う
      */
-    Object.defineInstanceMethod("using", function(source) {
+    Object.defineInstanceMethod("$using", function(source) {
         // TODO:
         
         return this;
     });
     
-    if (window) {
-        /**
-         * @method  globalize
-         * グローバル化
-         */
-        Object.defineInstanceMethod("globalize", function(key) {
-            if (key) {
-                window[key] = this[key];
-            }
-            else {
-                window.extendStrict(this);
-            }
-            return this;
-        });
-    }
-    
+    /**
+     * @method  globalize
+     * グローバル化
+     */
+    Object.defineInstanceMethod("$globalize", function(key) {
+        if (key) {
+            tm.global[key] = this[key];
+        }
+        else {
+            tm.global.$strict(this);
+        }
+        return this;
+    });
     
     
 })();
@@ -523,29 +561,6 @@ tm.global = window || global || this;
      * @class   Array
      * 配列
      */
-    
-
-    /**
-     * @static
-     * @method  flatten
-     * フラット.
-     * Ruby のやつ.
-     */
-    Array.flatten = function(array, deep) {
-        var arr = [];
-        
-        for (var i=0,len=array.length; i<len; ++i) {
-            var value = array[i];
-            if (value instanceof Array) {
-                arr = arr.concat(Array.flatten(value));
-            }
-            else {
-                arr.push(value);
-            }
-        }
-        return arr;
-    };
-    
     
     
     /**
@@ -572,8 +587,8 @@ tm.global = window || global || this;
      * 渡された配列と等しいかどうかをチェック
      */
     Array.defineInstanceMethod("equals", function(arr) {
-        // // 長さもチェックするかを検討
-        // if (this.length !== arr.length) return false;
+        // 長さチェック
+        if (this.length !== arr.length) return false;
         
         for (var i=0,len=this.length; i<len; ++i) {
             if (this[i] !== arr[i]) {
@@ -589,6 +604,9 @@ tm.global = window || global || this;
      * equalsDeep にするか検討. (Java では deepEquals なのでとりあえず合わせとく)
      */
     Array.defineInstanceMethod("deepEquals", function(arr) {
+        // 長さチェック
+        if (this.length !== arr.length) return false;
+        
         for (var i=0,len=this.length; i<len; ++i) {
             var result = (this[i].deepEquals) ? this[i].deepEquals(arr[i]) : (this[i] === arr[i]);
             if (result === false) {
@@ -661,6 +679,19 @@ tm.global = window || global || this;
     });
     
     /**
+     * @method  eraseIfAll
+     * 条件にマッチした要素を削除
+     */
+    Array.defineInstanceMethod("eraseIfAll", function(fn) {
+        for (var i=0,len=this.length; i<len; ++i) {
+            if ( fn(this[i], i, this) ) {
+                this.splice(i, 1);
+            }
+        }
+        return this;
+    });
+    
+    /**
      * @method  random
      * 要素の中からランダムで取り出す
      */
@@ -670,6 +701,15 @@ tm.global = window || global || this;
         return this[ Math.rand(min, max) ];
     });
     
+    /**
+     * @method  pickup
+     * 要素の中からランダムで取り出す
+     */
+    Array.defineInstanceMethod("pickup", function(min, max) {
+        min = min || 0;
+        max = max || this.length-1;
+        return this[ Math.rand(min, max) ];
+    });
     
     /**
      * @method  uniq
@@ -825,6 +865,55 @@ tm.global = window || global || this;
      */
     Array.defineInstanceMethod("toOLElement", function(){
         // TODO:
+    });
+
+
+    
+    /**
+     * @method  uniq
+     * 重複削除
+     */
+    Array.defineFunction("uniq", function(arr) {
+        var temp = [];
+        for (var i=0,len=arr.length; i<len; ++i) {
+            var value = arr[i];
+            if (temp.indexOf(value) == -1) {
+                temp.push(value);
+            }
+        }
+        return temp;
+    });
+
+    
+    /**
+     * @static
+     * @method  flatten
+     * フラット.
+     * Ruby のやつ.
+     */
+    Array.flatten = function(array, deep) {
+        var arr = [];
+        
+        for (var i=0,len=array.length; i<len; ++i) {
+            var value = array[i];
+            if (value instanceof Array) {
+                arr = arr.concat(Array.flatten(value));
+            }
+            else {
+                arr.push(value);
+            }
+        }
+        return arr;
+    };
+
+    
+    /**
+     * @static
+     * @method  range
+     * range
+     */
+    Array.defineFunction("range", function(start, end, step) {
+        return Array.prototype.range.apply([], arguments);
     });
     
 })();
@@ -1145,14 +1234,6 @@ tm.global = window || global || this;
     });
     
     /**
-     * @method  toUnsigned
-     * unsigned 型に変換する
-     */
-    Number.defineInstanceMethod("toUnsigned",  function() {
-        return this >>> 0;
-    });
-    
-    /**
      * @method  toHex
      * 16進数化
      */
@@ -1168,6 +1249,14 @@ tm.global = window || global || this;
         return this.toString(2);
     });
     
+    
+    /**
+     * @method  toUnsigned
+     * unsigned 型に変換する
+     */
+    Number.defineInstanceMethod("toUnsigned",  function() {
+        return this >>> 0;
+    });
     
     /**
      * @method  padding
@@ -1282,7 +1371,7 @@ tm.global = window || global || this;
      * ハッシュ値に変換
      */
     String.prototype.toHash= function() {
-        return TM.crc32(this);
+        return this.toCRC32();
     };
     
     /**
@@ -2165,6 +2254,107 @@ tm.util = tm.util || {};
 
 
 
+
+/*
+ * phi
+ */
+
+    
+/**
+ * @class tm.util.Type
+ * 型チェック
+ */
+tm.namespace("tm.util.Type", function() {
+    var self = this;
+    var toString = Object.prototype.toString;
+
+    /**
+     * @static
+     * @method  isObject
+     * is object
+     */
+    this.defineFunction("isObject", function(obj) {
+        return obj === Object(obj);
+    });
+
+    /**
+     * @static
+     * @method  isArray
+     * is array
+     */
+    this.defineFunction("isArray", function(obj) {
+        return toString.call(obj) == '[object Array]';
+    });
+
+    /**
+     * @static
+     * @method  isArguments
+     * is arguments
+     */
+    this.defineFunction("isArguments", function(obj) {
+        return toString.call(obj) == '[object Arguments]';
+    });
+
+    /**
+     * @static
+     * @method  isFunction
+     * is function
+     */
+    this.defineFunction("isFunction", function(obj) {
+        return toString.call(obj) == '[object Function]';
+    });
+
+    /**
+     * @static
+     * @method  isString
+     * is string
+     */
+    this.defineFunction("isString", function(obj) {
+        return toString.call(obj) == '[object String]';
+    });
+
+    /**
+     * @static
+     * @method  isNumber
+     * is number
+     */
+    this.defineFunction("isNumber", function(obj) {
+        return toString.call(obj) == '[object Number]';
+    });
+
+    /**
+     * @static
+     * @method  isDate
+     * is date
+     */
+    this.defineFunction("isDate", function(obj) {
+        return toString.call(obj) == '[object Date]';
+    });
+
+    /**
+     * @static
+     * @method  isRegExp
+     * is RegExp
+     */
+    this.defineFunction("isRegExp", function(obj) {
+        return toString.call(obj) == '[object RegExp]';
+    });
+
+    /**
+     * @static
+     * @method  isEmpty
+     * is empty
+     */
+    this.defineFunction("isEmpty", function(obj) {
+        if (!obj) return true;
+        if (self.isArray(obj) || self.isString(obj) || self.isArguments(obj)) return obj.length === 0;
+        for (var key in obj) {
+            if (key) return false;
+        }
+        return true;
+    });
+
+});
 
 /*
  * vector2.js
@@ -9955,21 +10145,6 @@ tm.app = tm.app || {};
             // canvas.strokeCircle(this.x, this.y, this.radius);
         },
         
-        
-        _checkEvent: function(check_func, event_name) {
-            if (check_func(this) === true) {
-                this.eventFlags[event_name] = true;
-                if (this[event_name]) this[event_name]();
-            }
-            else {
-                this.eventFlags[event_name] = false;
-            }
-            
-            for (var i=0; i<this.children.length; ++i) {
-                this.children[i]._checkEvent(check_func, event_name);
-            }
-        },
-        
         _refreshSize: function() {},
         
     });
@@ -10136,12 +10311,20 @@ tm.app = tm.app || {};
         "false": function() { return false; },
     };
 
+    var _isHitElementMap = {
+        "rect": tm.app.CanvasElement.prototype.isHitElementRect,
+        "circle": tm.app.CanvasElement.prototype.isHitElementCircle,
+        "true": function() { return true; },
+        "false": function() { return false; },
+    };
+
     tm.app.CanvasElement.prototype._setIsHitFunc = function() {
         var isHitFuncMap = (this.checkHierarchy) ? _isHitFuncMapHierarchy : _isHitFuncMap;
         var boundingType = this.boundingType;
         var isHitFunc = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap["true"]);
 
-        this.isHitPoint = isHitFunc;
+        this.isHitPoint   = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap["true"]);
+        this.isHitElement = (_isHitElementMap[boundingType]) ? (_isHitElementMap[boundingType]) : (_isHitElementMap["true"]);
     };
 
 })();
@@ -10487,8 +10670,8 @@ tm.app = tm.app || {};
         },
 
         renderCircle: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
             
             c.save();
             
@@ -10505,8 +10688,8 @@ tm.app = tm.app || {};
         },
 
         renderTriangle: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
             
             c.save();
             
@@ -10523,8 +10706,8 @@ tm.app = tm.app || {};
         },
 
         renderRectangle: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
 
             c.save();
             
@@ -10543,8 +10726,8 @@ tm.app = tm.app || {};
         },
 
         renderStar: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
             
             c.save();
             
@@ -10566,8 +10749,8 @@ tm.app = tm.app || {};
         },
 
         renderPolygon: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
             var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
             
             c.save();
             
@@ -10589,9 +10772,9 @@ tm.app = tm.app || {};
         },
 
         renderHeart: function(param) {
-            var param = {}.extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
             var c = this.canvas;
-            
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
+
             c.save();
             
             // パラメータセット
@@ -11147,8 +11330,7 @@ tm.app = tm.app || {};
         init: function(param) {
             this.superInit();
             
-            param = param || {};
-            param.extendSafe(DEFAULT_PARAM);
+            param = {}.$extend(DEFAULT_PARAM, param);
             
             var label = tm.app.Label("Loading");
             label.x = param.width/2;
@@ -11204,8 +11386,7 @@ tm.app = tm.app || {};
         init: function(param) {
             this.superInit();
             
-            param = param || {};
-            param.extendSafe(DEFAULT_PARAM);
+            param = {}.$extend(DEFAULT_PARAM, param);
 
             if (param.backgroundImage) {
                 this._backgroundImage = tm.app.Sprite(param.width, param.height, param.backgroundImage);
@@ -11251,8 +11432,7 @@ tm.app = tm.app || {};
         init: function(param) {
             this.superInit();
             
-            param = param || {};
-            param.extendSafe(DEFAULT_PARAM);
+            param = {}.$extend(DEFAULT_PARAM, param);
             
             var text = "SCORE: {score}, {msg}".format(param);
             var twitterURL = tm.social.Twitter.createURL({
@@ -11888,14 +12068,18 @@ tm.app = tm.app || {};
      */
     tm.app.Animation = tm.createClass({
         
+        superClass: tm.event.EventDispatcher,
+
         isAnimation: false,
         
         /**
          * 初期化
          */
         init: function(elm) {
-            this.element    = elm;
+            this.superInit();
+
             this.tweens     = [];
+            this.setTarget(elm);
         },
         
         /**
@@ -11925,6 +12109,7 @@ tm.app = tm.app || {};
                         this.isAnimation = false;
                         var e = tm.event.Event("animationend");
                         this.element.dispatchEvent(e);
+                        this.dispatchEvent(e);
                     }
                 }
                 else {
@@ -11961,14 +12146,7 @@ tm.app = tm.app || {};
         },
         
         fade: function(value, duration) {
-            duration = (duration !== undefined) ? duration : 1000;
-            
-            this.addTween({
-                prop: "alpha",
-                begin: this.element.alpha,
-                finish: value,
-                duration: duration,
-            });
+            this._to("alpha", value, duration);
             return this;
         },
         
@@ -11976,22 +12154,10 @@ tm.app = tm.app || {};
         {
             duration = (duration !== undefined) ? duration : 1000;
             fn       = fn || "linear";
-            
-            this.addTween({
-                prop: "x",
-                begin: this.element.x,
-                finish: this.element.x + x,
-                duration: duration,
-                func: fn,
-            });
-            this.addTween({
-                prop: "y",
-                begin: this.element.y,
-                finish: this.element.y + y,
-                duration: duration,
-                func: fn,
-            });
-            
+        
+            this._by("x", x, duration, fn);
+            this._by("y", y, duration, fn);
+
             return this;
         },
         
@@ -11999,21 +12165,9 @@ tm.app = tm.app || {};
         {
             duration = (duration !== undefined) ? duration : 1000;
             fn       = fn || "linear";
-            
-            this.addTween({
-                prop: "x",
-                begin: this.element.x,
-                finish: x,
-                duration: duration,
-                func: fn,
-            });
-            this.addTween({
-                prop: "y",
-                begin: this.element.y,
-                finish: y,
-                duration: duration,
-                func: fn,
-            });
+
+            this._to("x", x, duration, fn);
+            this._to("y", y, duration, fn);
             
             return this;
         },
@@ -12021,7 +12175,8 @@ tm.app = tm.app || {};
         scale: function(value, duration)
         {
             duration = (duration !== undefined) ? duration : 1000;
-            
+                        this._to("rotation", value, duration);
+
             this.addTween({
                 prop: "scaleX",
                 begin: this.element.scaleX,
@@ -12035,6 +12190,11 @@ tm.app = tm.app || {};
                 duration: duration,
             });
             
+            return this;
+        },
+
+        rotate: function(value, duration) {
+            this._to("rotation", value, duration);
             return this;
         },
         
@@ -12052,6 +12212,41 @@ tm.app = tm.app || {};
             this.tweens = [];
             return this;
         },
+
+        setTarget: function(target) {
+            if (this._fn) {
+                this.element.removeEventListener("enterframe", this._fn);
+            }
+
+            this.element = target;
+            this._fn = function(e) { this.update(e.app); }.bind(this);
+            this.element.addEventListener("enterframe", this._fn);
+        },
+        getTarget: function(target) {
+            return this.element;
+        },
+
+        _by: function(prop, value, duration, fn) {
+            duration = (duration !== undefined) ? duration : 1000;
+            this.addTween({
+                prop: prop,
+                begin: this.element[prop],
+                finish: this.element[prop] + value,
+                duration: duration,
+                func: fn,
+            });
+        },
+
+        _to: function(prop, value, duration, fn) {
+            duration = (duration !== undefined) ? duration : 1000;
+            this.addTween({
+                prop: prop,
+                begin: this.element[prop],
+                finish: value,
+                duration: duration,
+                func: fn,
+            });
+        }
     });
     
     
@@ -12062,9 +12257,6 @@ tm.app = tm.app || {};
     tm.app.Element.prototype.getter("animation", function() {
         if (!this._animation) {
             this._animation = tm.app.Animation(this);
-            this.addEventListener("enterframe", function(e){
-                this._animation.update(e.app);
-            });
         }
         
         return this._animation;
@@ -12439,7 +12631,7 @@ tm.three = tm.three || {};
     });
     
     // tm.event.EventDispatcher を継承
-    tm.three.Element.prototype.extendSafe(tm.event.EventDispatcher.prototype);
+    tm.three.Element.prototype.$safe(tm.event.EventDispatcher.prototype);
     
 })();
 
@@ -12468,7 +12660,7 @@ tm.three = tm.three || {};
     });
     
     // tm.three.Element を継承
-    tm.three.MeshElement.prototype.extendSafe(tm.three.Element.prototype);
+    tm.three.MeshElement.prototype.$safe(tm.three.Element.prototype);
 
     
     tm.three.CubeElement = tm.createClass({
@@ -12628,8 +12820,13 @@ tm.three = tm.three || {};
     });
     
     // tm.three.Element を継承
-    tm.three.Scene.prototype.extendSafe(tm.three.Element.prototype);
+    tm.three.Scene.prototype.$safe(tm.three.Element.prototype);
 })();
+
+
+
+
+
 /*
  * sound.js
  */
