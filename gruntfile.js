@@ -69,6 +69,7 @@ module.exports = function(grunt) {
     "src/app/interaction.js",
     "src/app/collision.js",
     "src/app/animation.js",
+    "src/app/tweener.js",
     "src/app/userinterface.js",
 
     "src/three/three.js",
