@@ -81,10 +81,27 @@
                 var obj = {
                     x: 10,
                     y: 10,
+                    alpha: 0.5,
                 };
                 
-                var tween = tm.anim.Tween(obj, "x", 10, 500, 1000);
+                var tween = tm.anim.Tween(obj, {x:500, y:100, alpha:1.0}, 1000);
+                /*
+                tween.to(obj, {x:500, y:100, alpha:1.0}, 1000);
+                tween.from(obj, {x:500, y:100, alpha:1.0}, 1000);
+                tween.fromTo(obj, {x:10, y:10, alpha:0}, {x:500, y:100, alpha:1.0}, 1000);
+                tween.to(obj, {"x":500}, 100, 1000);
+                */
                 tween.start();
+
+                tm.setLoop(function() {
+                    context.fillStyle = "black";
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    context.fillStyle = "white";
+                    context.globalAlpha = obj.alpha;
+                    context.fillRect(obj.x, obj.y, 100, 100);
+                }, 1000/30);
+                
                 tween.onchange = function() {
                     c.log(obj.x);
                 }
@@ -95,16 +112,8 @@
                     tween.setTransition(elm.value);
                     tween.start();
                     c.clear();
-                    //this.yoyo();
+//                    this.yoyo();
                 };
-                
-                tm.setLoop(function() {
-                    context.fillStyle = "black";
-                    context.fillRect(0, 0, canvas.width, canvas.height);
-                    
-                    context.fillStyle = "white";
-                    context.fillRect(obj.x, obj.y, 100, 100);
-                }, 1000/30);
                 
                 var fn = function() {
                     c.clear();

@@ -31,42 +31,70 @@ tm.anim = tm.anim || {};
          */
         fps     : 30,
         
-        init: function(target, prop, begin, finish, duration, func) {
+        init: function(target, finishProps, duration, func) {
             this.superInit();
             
-            if (arguments.length == 1) {
-                this.setObject(target);
-            }
-            else {
-                this.set.apply(this, arguments);
-            }
-            
             this.time = 0;
+            this.nowProps = {};
             this.isPlaying = false;
+
+            if (arguments.length > 0) {
+                this.to.apply(this, arguments);
+            }
         },
-        
-        set: function(target, prop, begin, finish, duration, func)
-        {
+
+        to: function(target, finishProps, duration, func) {
+            var beginProps = {};
+
+            for (var key in finishProps) {
+                beginProps[key] = target[key];
+            }
+
+            this.fromTo(target, beginProps, finishProps, duration, func);
+
+            return this;
+        },
+
+        by: function(target, props, duration, func) {
+            var beginProps = {};
+            var finishProps = {};
+
+            for (var key in props) {
+                beginProps[key] = target[key];
+                finishProps[key] = target[key] + props[key];
+            }
+
+            this.fromTo(target, beginProps, finishProps, duration, func);
+
+            return this;
+        },
+
+        fromTo: function(target, beginProps, finishProps, duration, func) {
             this.target = target;
-            this.prop   = prop;
-            this.begin  = begin;
-            this.finish = finish;
+            this.beginProps  = beginProps;
+            this.finishProps = finishProps;
             this.duration = duration;
             
             // setup
-            this.change = this.finish-this.begin;
-            this.setTransition(func);
-        },
-        
-        setObject: function(obj)
-        {
-            for (var key in obj) {
-                this[key] = obj[key];
+            this.changeProps = {};
+            for (var key in beginProps) {
+                this.changeProps[key] = finishProps[key] - beginProps[key];
             }
-            
-            // setup
-            this.change = this.finish-this.begin;
-            this.setTransition(this.func);
+            this.setTransition(func);
+
+            return this;
+        },
+
+        from: function(target, beginProps, duration, func) {
+            var finishProps = {};
+
+            for (var key in beginProps) {
+                finishProps[key] = target[key];
+            }
+
+            this.fromTo(target, beginProps, finishProps, duration, func);
+
+            return this;
         },
         
         setTransition: function(func) {
@@ -89,7 +117,7 @@ tm.anim = tm.anim || {};
             this.isPlaying = true;
             this._resumeTime();
             this._updateTime();
-            this.dispatchEvent(tm.event.TweenEvent("resume", this.time, this.now));
+            this.dispatchEvent(tm.event.TweenEvent("resume", this.time, this.nowProps));
         },
         
         /**
@@ -99,7 +127,7 @@ tm.anim = tm.anim || {};
             this.isPlaying = true;
             this._startTime();
             this._updateTime();
-            this.dispatchEvent(tm.event.TweenEvent("start", this.time, this.now));
+            this.dispatchEvent(tm.event.TweenEvent("start", this.time, this.nowProps));
         },
         
         /**
@@ -107,7 +135,7 @@ tm.anim = tm.anim || {};
          */
         stop: function() {
             this.isPlaying = false;
-            this.dispatchEvent(tm.event.TweenEvent("stop", this.time, this.now));
+            this.dispatchEvent(tm.event.TweenEvent("stop", this.time, this.nowProps));
         },
         
         /**
@@ -130,10 +158,12 @@ tm.anim = tm.anim || {};
          * ヨーヨー
          */
         yoyo: function() {
-            var temp = this.finish;
-            this.finish = this.begin;
-            this.begin  = temp;
-            this.change = this.finish-this.begin;
+            var temp = this.finishProps;
+            this.finishProps = this.beginProps;
+            this.beginProps  = temp;
+            for (var key in this.beginProps) {
+                this.changeProps[key] = this.finishProps[key] - this.beginProps[key];
+            }
             this.start();
         },
         
@@ -141,9 +171,11 @@ tm.anim = tm.anim || {};
          * 更新
          */
         update: function() {
-            this.now = this.func(this.time, this.begin, this.change, this.duration);
-            this.target[this.prop] = this.now;
-            this.dispatchEvent(tm.event.TweenEvent("change", this.time, this.now));
+            for (var key in this.changeProps) {
+                this.nowProps[key] = this.func(this.time, this.beginProps[key], this.changeProps[key], this.duration);
+                this.target[key] = this.nowProps[key];
+            }
+            this.dispatchEvent(tm.event.TweenEvent("change", this.time, this.nowProps));
         },
         
         _resumeTime: function() {
@@ -171,7 +203,7 @@ tm.anim = tm.anim || {};
                     // 座標を更新
                     this.update();
                     // イベント開始
-                    this.dispatchEvent(tm.event.TweenEvent("loop", this.time, this.now));
+                    this.dispatchEvent(tm.event.TweenEvent("loop", this.time, this.nowProps));
                 }
                 // 終了
                 else {
@@ -181,7 +213,7 @@ tm.anim = tm.anim || {};
                     // 停止
                     this.stop();
                     // イベント
-                    this.dispatchEvent(tm.event.TweenEvent("finish", this.time, this.now));
+                    this.dispatchEvent(tm.event.TweenEvent("finish", this.time, this.nowProps));
                 }
             }
             // 更新

@@ -47,6 +47,7 @@
         <script src="../../src/app/collision.js"></script>
         <script src="../../src/app/interaction.js"></script>
         <script src="../../src/app/animation.js"></script>
+        <script src="../../src/app/tweener.js"></script>
         
         <script src="../../src/anim/tween.js"></script>
         
@@ -60,7 +61,7 @@
             tm.main(function() {
                 var app = tm.app.CanvasApp("#world");
 
-                app.replaceScene(TestScene());
+                app.replaceScene(TweenerTestScene());
                 
                 app.run();
             });

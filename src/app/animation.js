@@ -68,7 +68,11 @@ tm.app = tm.app || {};
         {
             if (!param.target) param.target = this.element;
             
-            var tween = tm.anim.Tween(param);
+            var tween = tm.anim.Tween();
+            var begin = {}; begin[param.prop] = param.begin;
+            var finish= {}; finish[param.prop] = param.finish;
+            tween.fromTo(param.target, begin, finish, param.duration, param.func);
+            
             tween.delay = param.delay || 0;
             this.tweens.push(tween);
             
@@ -91,18 +95,13 @@ tm.app = tm.app || {};
             return this;
         },
         
-        fade: function(value, duration) {
-            this._to("alpha", value, duration);
-            return this;
-        },
-        
         move: function(x, y, duration, fn)
         {
             duration = (duration !== undefined) ? duration : 1000;
             fn       = fn || "linear";
         
-            this._by("x", x, duration, fn);
-            this._by("y", y, duration, fn);
+            this.by("x", x, duration, fn);
+            this.by("y", y, duration, fn);
 
             return this;
         },
@@ -112,46 +111,40 @@ tm.app = tm.app || {};
             duration = (duration !== undefined) ? duration : 1000;
             fn       = fn || "linear";
 
-            this._to("x", x, duration, fn);
-            this._to("y", y, duration, fn);
+            this.to("x", x, duration, fn);
+            this.to("y", y, duration, fn);
             
             return this;
         },
         
-        scale: function(value, duration)
+        scale: function(value, duration, delay)
         {
             duration = (duration !== undefined) ? duration : 1000;
-                        this._to("rotation", value, duration);
 
-            this.addTween({
-                prop: "scaleX",
-                begin: this.element.scaleX,
-                finish: value,
-                duration: duration,
-            });
-            this.addTween({
-                prop: "scaleY",
-                begin: this.element.scaleY,
-                finish: value,
-                duration: duration,
-            });
-            
+            this.to("scaleX", value, duration, delay);
+            this.to("scaleY", value, duration, delay);
+
             return this;
         },
 
-        rotate: function(value, duration) {
-            this._to("rotation", value, duration);
+        rotate: function(value, duration, delay) {
+            this.to("rotation", value, duration, delay);
             return this;
         },
         
-        fadeIn: function(duration)
+        fade: function(value, duration, delay) {
+            this.to("alpha", value, duration, delay);
+            return this;
+        },
+
+        fadeIn: function(duration, delay)
         {
-            return this.fade(1.0, duration);
+            return this.fade(1.0, duration, delay);
         },
         
-        fadeOut: function(duration)
+        fadeOut: function(duration, delay)
         {
-            return this.fade(0.0, duration);
+            return this.fade(0.0, duration, delay);
         },
         
         clear: function() {
@@ -172,26 +165,32 @@ tm.app = tm.app || {};
             return this.element;
         },
 
-        _by: function(prop, value, duration, fn) {
+        by: function(prop, value, duration, delay, fn) {
             duration = (duration !== undefined) ? duration : 1000;
             this.addTween({
                 prop: prop,
                 begin: this.element[prop],
                 finish: this.element[prop] + value,
                 duration: duration,
+                delay: delay,
                 func: fn,
             });
+
+            return this;
         },
 
-        _to: function(prop, value, duration, fn) {
+        to: function(prop, value, duration, delay, fn) {
             duration = (duration !== undefined) ? duration : 1000;
             this.addTween({
                 prop: prop,
                 begin: this.element[prop],
                 finish: value,
                 duration: duration,
+                delay: delay,
                 func: fn,
             });
+
+            return this;
         }
     });
     
@@ -209,6 +208,7 @@ tm.app = tm.app || {};
     });
     
 })();
+
 
 
 
