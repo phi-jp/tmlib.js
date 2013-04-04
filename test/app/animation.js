@@ -1,5 +1,5 @@
 
-tm.define("TestScene", {
+tm.define("tests.animation.DemoScene", {
     superClass: "tm.app.Scene",
 
     init: function() {
@@ -17,30 +17,10 @@ tm.define("TestScene", {
             this.addChild(circle);
 
             circle.startAnim = function() {
-
                 this.x = this.startX;
                 this.y = this.startY;
                 this.alpha = 1.0;
                 this.scaleX = this.scaleY = 1.0;
-
-                /*
-
-                this.tweener
-                    .set("alpha", 0.0)
-                    .fadeIn(500)
-                    .by({"x": 100}, 500)
-                    .moveBy(-100, -100, 500)
-                    .fadeOut(500)
-                    .wait(500)
-                    .fadeIn(500)
-                    .move(300, 300, 100)
-                    .fadeOut(500)
-                    .call(function() {
-                        this.tweener._index = 0;
-                    }.bind(this));
-
-                return ;
-                */
 
                 this.animation
                     .by("x", 300, 1000)
@@ -59,7 +39,7 @@ tm.define("TestScene", {
 });
 
 
-tm.define("FadeScene", {
+tm.define("tests.animation.FadeScene", {
     superClass: "tm.app.Scene",
 
     init: function() {
@@ -89,52 +69,3 @@ tm.define("FadeScene", {
     }
 });
 
-
-
-tm.define("TweenerTestScene", {
-    superClass: "tm.app.Scene",
-
-    init: function() {
-        this.superInit();
-    },
-
-    update: function(app) {
-        var p = app.pointing;
-        if (p.getPointingStart() == true) {
-            var circle = tm.app.CircleShape();
-            circle.blendMode = "lighter";
-            circle.startX = p.x;
-            circle.startY = p.y;
-            circle.setPosition(p.x, p.y);
-            this.addChild(circle);
-
-            circle.startAnim = function() {
-
-                this.x = this.startX;
-                this.y = this.startY;
-                this.alpha = 1.0;
-                this.scaleX = this.scaleY = 1.0;
-
-                this.tweener
-                    .set("alpha", 0.0)
-                    .fadeIn(500)
-                    .by({"x": 100}, 500)
-                    .moveBy(-100, -100, 500)
-                    .fadeOut(500)
-                    .wait(500)
-                    .fadeIn(500)
-                    .move(300, 300, 100)
-                    .fadeOut(500)
-                    .call(function() {
-                        this.tweener._index = 0;
-                    }.bind(this));
-            };
-            circle.startAnim();
-
-            circle.onanimationend = function() {
-                this.startAnim();
-            };
-
-        }
-    }
-});
