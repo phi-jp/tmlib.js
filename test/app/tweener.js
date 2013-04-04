@@ -125,12 +125,69 @@ tm.define("tests.tweener.FadeTestScene", {
                 this.alpha = 0.0;
 
                 this.tweener
-                	.fade(1.0, 500)
-                	.fadeOut(100)
-                	.fadeIn(1500);
+                    .fade(1.0, 500)
+                    .fadeOut(100)
+                    .fadeIn(1500);
             };
             star.startAnim();
         }
     }
+});
+
+tm.define("tests.tweener.Demo00Scene", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+
+        for (var i=0; i<18; ++i) {
+            var star = tm.app.Shape().addChildTo(this);
+            var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
+            star.x = i*40;
+            star.y = 200;
+
+            star.renderStar({
+                fillStyle: color
+            });
+
+            star.tweener
+                .wait(i*100)
+                .set({x:i*40, y:200, alpha:0})
+                .fadeIn(1000)
+                .by({y:-200})
+                .by({y:400})
+                .call(function() {
+                    this.tweener._index = 1;
+                }.bind(star));
+        }
+    },
+});
+
+tm.define("tests.tweener.Demo01Scene", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+
+        for (var i=0; i<18; ++i) {
+            var star = tm.app.Shape().addChildTo(this);
+            var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
+            star.x = i*40;
+            star.y = 200;
+
+            star.renderStar({
+                fillStyle: color
+            });
+
+            star.tweener
+                .set({x:Math.rand(0, 400), y:Math.rand(0, 400), alpha:0})
+                .wait(i*100)
+                .fadeIn(1000)
+                .moveBy(Math.rand(-200, 200), Math.rand(-200, 200))
+                .call(function() {
+                    this.tweener._index = 0;
+                }.bind(star));
+        }
+    },
 });
 
