@@ -11341,9 +11341,10 @@ tm.app = tm.app || {};
         init: function() {
             this.superInit();
             
+            this.boundingType = "none";
+            
             // タッチに反応させる
             this.interaction.enabled = true;
-            this.interaction.boundingType = "none";
         },
     });
     
