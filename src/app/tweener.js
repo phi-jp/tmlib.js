@@ -155,29 +155,6 @@
             return this;
         },
 
-        move: function(x, y, duration) {
-            return this.to({x:x, y:y}, duration);
-        },
-
-        moveBy: function(x, y, duration) {
-            return this.by({x:x, y:y}, duration);
-        },
-
-        fade: function(value, duration) {
-            this.to({"alpha":value}, duration);
-            return this;
-        },
-
-        fadeIn: function(duration) {
-            this.fade(1.0, duration);
-            return this;
-        },
-
-        fadeOut: function(duration) {
-            this.fade(0.0, duration);
-            return this;
-        },
-
         by: function(props, duration, fn) {
             this._addTweenTask({
                 props: props,
@@ -195,6 +172,37 @@
                 fn: fn,
                 type: "to"
             });
+            return this;
+        },
+
+        move: function(x, y, duration) {
+            return this.to({x:x, y:y}, duration);
+        },
+
+        moveBy: function(x, y, duration) {
+            return this.by({x:x, y:y}, duration);
+        },
+
+        rotate: function(rotation, duration) {
+            return this.to({rotation:rotation}, duration);
+        },
+
+        scale: function(scaleX, scaleY, duration) {
+            return this.to({scaleX:scaleX, scaleY:scaleY}, duration);
+        },
+
+        fade: function(value, duration) {
+            this.to({"alpha":value}, duration);
+            return this;
+        },
+
+        fadeIn: function(duration) {
+            this.fade(1.0, duration);
+            return this;
+        },
+
+        fadeOut: function(duration) {
+            this.fade(0.0, duration);
             return this;
         },
 
@@ -272,6 +280,7 @@
         rewind: function() {
             this._func = this._updateTask;
             this._index = 0;
+            this.play();
             return this;
         },
 
