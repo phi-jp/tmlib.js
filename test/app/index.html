@@ -5,10 +5,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Test | tmlib.js</title>
         
+        <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" />
         <style>
-            body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
+            body {
+                font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif;
+                margin-top: 50px;
+            }
         </style>
-        
+
         <script src="../../src/tmlib.js"></script>
         
         <script src="../../src/core/object.js"></script>
@@ -105,19 +109,42 @@
     </head>
     
     <body>
-         
-        <h1>Test | tmlib.js</h1>
-        
-        <div id="content" style="float:left;">
-            <section>
-                <canvas id="world" width="640" height="480"></canvas>
-            </section>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">tmlib.js</a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li><a href="https://github.com/phi1618/tmlib.js">Github</a></li>
+                            <li><a href="http://phi1618.github.com/tmlib.js/docs/index.html">Docs</a></li>
+                            <li><a href="http://tmlife.net">Blog</a></li>
+                            <li><a href="https://twitter.com/phi_jp">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div style="float:left; margin-left:20px">
-            <h2>Tests</h2>
-            <ul id="tests">
-            </ul>
+
+        <div class="container">
+            <div class="row">
+                <div class="span3">
+                    <h2>Test List</h2>
+                    <ul id="tests">
+                </div>
+                <div id="content" class="span9" style="position:fixed; margin-left: 260px">
+                    <h2>Canvas</h2>
+                    <canvas id="world" width="640" height="480"></canvas>
+                </div>
+            </div>
         </div>
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
     </body>
 </html>

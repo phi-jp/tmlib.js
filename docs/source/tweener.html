@@ -208,8 +208,8 @@
             return this.to({rotation:rotation}, duration);
         },
 
-        scale: function(scaleX, scaleY, duration) {
-            return this.to({scaleX:scaleX, scaleY:scaleY}, duration);
+        scale: function(scale, duration, fn) {
+            return this.to({scaleX:scale, scaleY:scale}, duration, fn);
         },
 
         fade: function(value, duration) {

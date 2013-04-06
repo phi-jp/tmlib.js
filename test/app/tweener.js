@@ -270,11 +270,12 @@ tm.define("tests.tweener.ScaleFadeScene", {
         var group = tm.app.CanvasElement().addChildTo(this);
         group.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
-        for (var i=0; i<32; ++i) {
+        for (var i=0; i<64; ++i) {
             var star = tm.app.Shape().addChildTo(group);
             var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
             star.x = Math.rand(-SCREEN_WIDTH/2, SCREEN_WIDTH/2);
             star.y = Math.rand(-SCREEN_HEIGHT/2, SCREEN_HEIGHT/2);
+            star.blendMode = "lighter";
 
             star.renderStar({
                 fillStyle: color,
@@ -282,11 +283,11 @@ tm.define("tests.tweener.ScaleFadeScene", {
 
             star.tweener
                 .set({x:star.x, y:star.y, alpha:0, rotation:0})
-                .wait(i*100)
+                .wait(i*50)
                 .fadeIn(1000)
-                .moveBy(Math.rand(-400, 400), Math.rand(-400, 400))
+                .moveBy(Math.rand(-400, 400), Math.rand(-400, 400), 500)
                 .rotate(360, 500)
-                .moveBy(Math.rand(-400, 400), Math.rand(-400, 400))
+                .moveBy(Math.rand(-400, 400), Math.rand(-400, 400), 500)
                 .fadeOut(1000)
                 .setLoop(true);
         }
