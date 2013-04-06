@@ -298,6 +298,16 @@
         return sum/len;
     });
 
+    /**
+     * @method  each
+     * 繰り返し
+     * チェーンメソッド対応
+     */
+    Array.defineInstanceMethod("each", function() {
+        this.forEach.apply(this, arguments);
+        return this;
+    });
+
     
     /**
      * @method  toULElement
