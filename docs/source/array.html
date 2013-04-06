@@ -101,6 +101,7 @@
         var temp = this[a];
         this[a] = this[b];
         this[b] = temp;
+        
         return this;
     });
     
@@ -344,8 +345,9 @@
 
 
     
-<span id='Array-method-uniq'>    /**
-</span>     * @method  uniq
+<span id='Array-static-method-uniq'>    /**
+</span>     * @static
+     * @method  uniq
      * 重複削除
      */
     Array.defineFunction(&quot;uniq&quot;, function(arr) {

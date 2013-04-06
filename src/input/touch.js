@@ -18,8 +18,7 @@ tm.input = tm.input || {};
         touched: false,
         
         /**
-         * @constructs
-         * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
+         * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
          */
         init: function(element) {
             this.element = element || window.document;

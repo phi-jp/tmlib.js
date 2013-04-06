@@ -84,6 +84,7 @@
         var temp = this[a];
         this[a] = this[b];
         this[b] = temp;
+        
         return this;
     });
     
@@ -328,6 +329,7 @@
 
     
     /**
+     * @static
      * @method  uniq
      * 重複削除
      */

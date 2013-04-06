@@ -318,7 +318,6 @@ tm.dom = tm.dom || {};
         
         /**
          * TM.DOM.Element 用配列
-         * @constructs
          */
         init: function(arr) {
             if (typeof arguments[0] == "string") {

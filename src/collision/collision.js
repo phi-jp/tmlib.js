@@ -9,13 +9,13 @@ tm.collision = tm.collision || {};
 (function() {
 
     /**
-     * @class
+     * @class tm.collision
      * 衝突判定
      */
     tm.collision;
     
     /**
-     * @method
+     * @method testCircleCircle
      * 円同士の衝突判定
      */
     tm.collision.testCircleCircle = function(circle0, circle1)
@@ -25,6 +25,7 @@ tm.collision = tm.collision || {};
     }
     
     /**
+     * @method testRectRect
      * 矩形同士の衝突判定
      */
     tm.collision.testRectRect = function(rect0, rect1)

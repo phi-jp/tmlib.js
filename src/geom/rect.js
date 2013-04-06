@@ -80,13 +80,13 @@ tm.geom = tm.geom || {};
         /**
          * パディング.
          * 縮めたりなど. 画面ハミ出しチェック時などに便利
-         * @example
-         * var circle = TM.$Circle(10, 10, 10);
-         * var windowRect = TM.$Rect(0, 0, window.innerWidth, window.innerHiehgt);
-         * windowRect.padding(circle.radius);
-         * if (circle.x < windowRect.left) {
-         *     // 左にはみ出した時の処理
-         * }
+         * ## example
+         *     var circle = TM.$Circle(10, 10, 10);
+         *     var windowRect = TM.$Rect(0, 0, window.innerWidth, window.innerHiehgt);
+         *     windowRect.padding(circle.radius);
+         *     if (circle.x < windowRect.left) {
+         *         // 左にはみ出した時の処理
+         *     }
          */
         padding: function(top, right, bottom, left)
         {

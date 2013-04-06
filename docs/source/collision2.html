@@ -25,14 +25,14 @@ tm.collision = tm.collision || {};
 
 (function() {
 
-<span id=''>    /**
-</span>     * @class
+<span id='tm-collision'>    /**
+</span>     * @class tm.collision
      * 衝突判定
      */
     tm.collision;
     
-<span id='-method-testCircleCircle'>    /**
-</span>     * @method
+<span id='tm-collision-method-testCircleCircle'>    /**
+</span>     * @method testCircleCircle
      * 円同士の衝突判定
      */
     tm.collision.testCircleCircle = function(circle0, circle1)
@@ -41,8 +41,9 @@ tm.collision = tm.collision || {};
         return distanceSquared &lt;= Math.pow(circle0.radius + circle1.radius, 2);
     }
     
-<span id='-property-'>    /**
-</span>     * 矩形同士の衝突判定
+<span id='tm-collision-method-testRectRect'>    /**
+</span>     * @method testRectRect
+     * 矩形同士の衝突判定
      */
     tm.collision.testRectRect = function(rect0, rect1)
     {

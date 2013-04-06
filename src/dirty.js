@@ -4,10 +4,6 @@
         this.boundingType = type;
     };
 
-    /**
-     * @property    boundingType
-     * バウンディングタイプ
-     */
     tm.app.Interaction.prototype.accessor("boundingType", {
         "get": function()   {
             return this.element.boundingType;

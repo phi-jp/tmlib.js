@@ -1,5 +1,9 @@
 (function() {
 
+    /**
+     * @class tm.app.Tweener
+     * トゥイーナークラス
+     */
     tm.define("tm.app.Tweener", {
         superClass: "tm.event.EventDispatcher",
 

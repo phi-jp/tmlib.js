@@ -86,7 +86,7 @@
     });
 
     /**
-     * @method  $pick
+     * @method  $has
      * text
      */
     Object.defineInstanceMethod("$has", function(key) {

@@ -16,10 +16,14 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">tm.namespace(&quot;tm.app&quot;, function() {
+<span id='tm-app-Timeline'>    /**
+</span>     * @class tm.app.Timeline
+     * タイムラインクラス
+     */
     tm.define(&quot;tm.app.Timeline&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
         
-<span id='global-method-init'>        /**
+<span id='tm-app-Timeline-method-init'>        /**
 </span>         * 初期化
          */
         init: function(elm) {
@@ -36,7 +40,7 @@
             this._actions = [];
         },
         
-<span id='global-method-update'>        /**
+<span id='tm-app-Timeline-method-update'>        /**
 </span>         * 更新
          */
         update: function(app) {
@@ -92,7 +96,7 @@
             }
         },
         
-<span id='global-method-to'>        /**
+<span id='tm-app-Timeline-method-to'>        /**
 </span>         * アニメーション
          */
         to: function(props, duration, delay, fn) {
@@ -106,7 +110,7 @@
             return this;
         },
         
-<span id='global-method-call'>        /**
+<span id='tm-app-Timeline-method-call'>        /**
 </span>         * 関数を実行
          */
         call: function(func, delay) {
@@ -118,7 +122,7 @@
             return this;
         },
         
-<span id='global-method-set'>        /**
+<span id='tm-app-Timeline-method-set'>        /**
 </span>         * プロパティをセット
          */
         set: function(props, delay) {
@@ -130,7 +134,7 @@
             return this;
         },
         
-<span id='global-method-setTarget'>        /**
+<span id='tm-app-Timeline-method-setTarget'>        /**
 </span>         * ターゲットをセット
          */
         setTarget: function(target) {
@@ -143,14 +147,14 @@
             this.element.addEventListener(&quot;enterframe&quot;, this._fn);
         },
         
-<span id='global-method-getTarget'>        /**
+<span id='tm-app-Timeline-method-getTarget'>        /**
 </span>         * ターゲットをゲット
          */
         getTarget: function(target) {
             return this.element;
         },
         
-<span id='global-method-gotoAndPlay'>        /**
+<span id='tm-app-Timeline-method-gotoAndPlay'>        /**
 </span>         * ターゲットをゲット
          */
         gotoAndPlay: function(frame) {
@@ -209,7 +213,7 @@
     
     
     
-<span id='global-property-animation'>    /**
+<span id='tm-app-Timeline-property-animation'>    /**
 </span>     * @property    animation
      * アニメーション
      */

@@ -90,7 +90,7 @@
     
     
     /**
-     * @method
+     * @method toHash
      * ハッシュ値に変換
      */
     String.prototype.toHash= function() {

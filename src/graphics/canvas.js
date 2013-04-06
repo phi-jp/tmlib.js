@@ -784,7 +784,7 @@ tm.graphics = tm.graphics || {};
         
         /**
          * 
-         * @see <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles</a>
+         * <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles</a>
          */
         setColorStyle: function(stroke, fill)
         {
@@ -808,7 +808,7 @@ tm.graphics = tm.graphics || {};
         
         /**
          * ラインスタイルを一括セット
-         * @see <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles</a>
+         * <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles</a>
          */
         setLineStyle: function(width, cap, join, miter) {
             with(this.context) {

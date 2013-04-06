@@ -28,9 +28,8 @@ tm.input = tm.input || {};
         last    : null, // 押していたキー
         
         /**
-         * @constructs
-         * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html">Test Program</a>.
-         * @example
+         * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html">Test Program</a>.
+         * ### Example
          * TM.loadScript("input", "keyboard");
          *  
          * TM.main(function() {

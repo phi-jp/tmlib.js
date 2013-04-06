@@ -15,8 +15,8 @@ tm.input = tm.input || {};
     tm.input.Accelerometer = tm.createClass({
         
         /**
-         * @constructs
-         * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
+         * ### Example
+         * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
          * 
          * ### Reference
          * - <http://tmlife.net/programming/javascript/javascript-iphone-acceleration.html>
