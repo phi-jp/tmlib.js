@@ -151,11 +151,15 @@ var Circle = tm.createClass({
     disappear: function() {
         this.update = null;
         var duration = tm.util.Random.randint(500, 1500);
-        this.animation.scale(4, duration).fadeOut(duration);
-    },
-    
-    onanimationend: function() {
-        this.remove();
+        this.tweener
+            .to({
+                scaleX: 4,
+                scaleY: 4,
+                alpha: 0.0
+            }, duration)
+            .call(function() {
+                this.remove();
+            }.bind(this));
     },
     
 });
@@ -178,10 +182,9 @@ var TapEffect = tm.createClass({
             .setTransformCenter()
             .strokeCircle(0, 0, this.radius);
         
-        this.animation.fade(0.0);
-    },
-    onanimationend: function() {
-        this.remove();
+        this.tweener.fadeOut(1000).call(function() {
+            this.remove();
+        }.bind(this));
     },
 });
 
@@ -296,12 +299,12 @@ var TitleScene = tm.createClass({
     
     onstartbuttondown: function(e) {
         tm.sound.SoundManager.get("decide").play();
-        
-        this.addChild( tm.fade.FadeOut(
-            SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 500, function() {
+
+        this.tweener
+            .fadeOut(500)
+            .call(function() {
                 app.replaceScene(MainScene());
-            })
-        );
+            });
     },
     
     onblur: function() {
@@ -366,11 +369,17 @@ var ResultScene = tm.createClass({
     onbackbuttondown: function() {
         tm.sound.SoundManager.get("decide").play();
         
-        var fadeout = tm.fade.FadeOut(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 500, function() {
-            app.replaceScene(TitleScene());
-        });
-        fadeout.blendMode = "lighter";
-        this.addChild( fadeout );
+        var shape = tm.app.Shape(SCREEN_WIDTH, SCREEN_HEIGHT).addChildTo(this);
+        shape.originX = shape.originY = 0;
+        shape.canvas.clearColor("#fff");
+        shape.blendMode = "lighter";
+        shape.alpha = 0;
+
+        shape.tweener
+            .fadeIn(500)
+            .call(function() {
+                app.replaceScene(TitleScene());
+            });
     },
     
     _onpointingstart: function() {

@@ -442,7 +442,7 @@ tm.global = window || global || this;
     });
 
     /**
-     * @method  $pick
+     * @method  $has
      * text
      */
     Object.defineInstanceMethod("$has", function(key) {
@@ -636,6 +636,7 @@ tm.global = window || global || this;
         var temp = this[a];
         this[a] = this[b];
         this[b] = temp;
+        
         return this;
     });
     
@@ -880,6 +881,7 @@ tm.global = window || global || this;
 
     
     /**
+     * @static
      * @method  uniq
      * 重複削除
      */
@@ -1377,7 +1379,7 @@ tm.global = window || global || this;
     
     
     /**
-     * @method
+     * @method toHash
      * ハッシュ値に変換
      */
     String.prototype.toHash= function() {
@@ -4647,13 +4649,13 @@ tm.geom = tm.geom || {};
         /**
          * パディング.
          * 縮めたりなど. 画面ハミ出しチェック時などに便利
-         * @example
-         * var circle = TM.$Circle(10, 10, 10);
-         * var windowRect = TM.$Rect(0, 0, window.innerWidth, window.innerHiehgt);
-         * windowRect.padding(circle.radius);
-         * if (circle.x < windowRect.left) {
-         *     // 左にはみ出した時の処理
-         * }
+         * ## example
+         *     var circle = TM.$Circle(10, 10, 10);
+         *     var windowRect = TM.$Rect(0, 0, window.innerWidth, window.innerHiehgt);
+         *     windowRect.padding(circle.radius);
+         *     if (circle.x < windowRect.left) {
+         *         // 左にはみ出した時の処理
+         *     }
          */
         padding: function(top, right, bottom, left)
         {
@@ -4907,13 +4909,13 @@ tm.collision = tm.collision || {};
 (function() {
 
     /**
-     * @class
+     * @class tm.collision
      * 衝突判定
      */
     tm.collision;
     
     /**
-     * @method
+     * @method testCircleCircle
      * 円同士の衝突判定
      */
     tm.collision.testCircleCircle = function(circle0, circle1)
@@ -4923,6 +4925,7 @@ tm.collision = tm.collision || {};
     }
     
     /**
+     * @method testRectRect
      * 矩形同士の衝突判定
      */
     tm.collision.testRectRect = function(rect0, rect1)
@@ -5252,7 +5255,6 @@ tm.dom = tm.dom || {};
         
         /**
          * TM.DOM.Element 用配列
-         * @constructs
          */
         init: function(arr) {
             if (typeof arguments[0] == "string") {
@@ -6272,9 +6274,8 @@ tm.input = tm.input || {};
         last    : null, // 押していたキー
         
         /**
-         * @constructs
-         * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html">Test Program</a>.
-         * @example
+         * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html">Test Program</a>.
+         * ### Example
          * TM.loadScript("input", "keyboard");
          *  
          * TM.main(function() {
@@ -6758,8 +6759,7 @@ tm.input = tm.input || {};
         touched: false,
         
         /**
-         * @constructs
-         * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
+         * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
          */
         init: function(element) {
             this.element = element || window.document;
@@ -6939,8 +6939,8 @@ tm.input = tm.input || {};
     tm.input.Accelerometer = tm.createClass({
         
         /**
-         * @constructs
-         * @see         <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
+         * ### Example
+         * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
          * 
          * ### Reference
          * - <http://tmlife.net/programming/javascript/javascript-iphone-acceleration.html>
@@ -8095,7 +8095,7 @@ tm.graphics = tm.graphics || {};
         
         /**
          * 
-         * @see <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles</a>
+         * <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles</a>
          */
         setColorStyle: function(stroke, fill)
         {
@@ -8119,7 +8119,7 @@ tm.graphics = tm.graphics || {};
         
         /**
          * ラインスタイルを一括セット
-         * @see <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles</a>
+         * <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles</a>
          */
         setLineStyle: function(width, cap, join, miter) {
             with(this.context) {
@@ -12319,6 +12319,10 @@ tm.app = tm.app || {};
 
 (function() {
 
+    /**
+     * @class tm.app.Tweener
+     * トゥイーナークラス
+     */
     tm.define("tm.app.Tweener", {
         superClass: "tm.event.EventDispatcher",
 
@@ -12506,8 +12510,8 @@ tm.app = tm.app || {};
             return this.to({rotation:rotation}, duration);
         },
 
-        scale: function(scaleX, scaleY, duration) {
-            return this.to({scaleX:scaleX, scaleY:scaleY}, duration);
+        scale: function(scale, duration, fn) {
+            return this.to({scaleX:scale, scaleY:scale}, duration, fn);
         },
 
         fade: function(value, duration) {
@@ -12625,6 +12629,10 @@ tm.app = tm.app || {};
 })();
 
 tm.namespace("tm.app", function() {
+    /**
+     * @class tm.app.Timeline
+     * タイムラインクラス
+     */
     tm.define("tm.app.Timeline", {
         superClass: "tm.event.EventDispatcher",
         
@@ -14227,10 +14235,6 @@ tm.google = tm.google || {};
         this.boundingType = type;
     };
 
-    /**
-     * @property    boundingType
-     * バウンディングタイプ
-     */
     tm.app.Interaction.prototype.accessor("boundingType", {
         "get": function()   {
             return this.element.boundingType;
