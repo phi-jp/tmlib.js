@@ -9,6 +9,8 @@ tm.namespace("tm.app", function() {
             this.superInit();
             
             this.setTarget(elm);
+
+            this.fps = 30;
             
             this.currentFrame = 0;
             this.duration = 0;
@@ -77,14 +79,12 @@ tm.namespace("tm.app", function() {
          * アニメーション
          */
         to: function(props, duration, delay, fn) {
-            delay = delay || 0;
-            var tween = tm.anim.Tween();
-            tween.to(this.element, props, duration, fn);
-            tween.delay = delay;
-            
-            this._tweens.push(tween);
-            
-            this._updateDuration(tween);
+            this._addTween({
+                props: props,
+                duration: duration,
+                fn: fn,
+                delay: delay
+            });
             
             return this;
         },
@@ -93,28 +93,23 @@ tm.namespace("tm.app", function() {
          * 関数を実行
          */
         call: function(func, delay) {
-            delay = delay || 0;
-            
-            this._actions.push({
+            this._addAction({
                 "type": "call",
                 func: func,
                 delay: delay,
             });
-            this._updateDuration(this._actions.last);
+            return this;
         },
         
         /**
          * プロパティをセット
          */
         set: function(props, delay) {
-            delay = delay || 0;
-            
-            this._actions.push({
+            this._addAction({
                 "type": "set",
                 props: props,
                 delay: delay,
             });
-            this._updateDuration(this._actions.last);
             return this;
         },
         
@@ -152,11 +147,37 @@ tm.namespace("tm.app", function() {
             this.isPlay = false;
             this._updateTween();
         },
+
+        _addTween: function(tween) {
+            tween.duration = tween.duration || 1000;
+            tween.duration = this._dirty(tween.duration);
+            tween.delay = tween.delay || 0;
+            tween.delay = this._dirty(tween.delay);
+
+            var tweenObj = tm.anim.Tween();
+            tweenObj.to(this.element, tween.props, tween.duration, tween.fn);
+            tweenObj.delay = tween.delay;
+
+            this._tweens.push(tweenObj);
+            this._updateDuration(tweenObj);
+        },
+
+        _addAction: function(action) {
+            action.delay = action.delay || 0;
+            action.delay = this._dirty(action.delay);
+
+            this._actions.push(action);
+            this._updateDuration(action);
+        },
         
         _updateDuration: function(task) {
             var duration = task.delay + (task.duration ? task.duration : 0);
             if (this.duration < duration) this.duration = duration;
             return this;
+        },
+
+        _dirty: function(t) {
+            return (t/this.fps).toInt();
         },
         
         clear: function() {

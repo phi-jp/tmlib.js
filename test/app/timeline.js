@@ -22,11 +22,11 @@ tm.define("tests.timeline.DemoScene", {
                 this.alpha = 0.5;
                 this.scaleX = this.scaleY = 1.0;
                 this.timeline
-                    .to({x: 200, "y": 400}, 30, 10)
-                    .to({"alpha": 1.0}, 30, 0)
+                    .to({x: 200, "y": 400}, 1000, 200)
+                    .to({"alpha": 1.0}, 1000, 0)
                     .call(function() {
                         console.log("finish");
-                    }, 40);
+                    }, 1500);
             };
             circle.startAnim();
  
@@ -48,9 +48,9 @@ tm.define("tests.timeline.ToTestScene", {
         shape.setPosition(100, 100);
         
         shape.timeline
-            .to({x:500}, 30, 0)
-            .to({y:400}, 30, 30)
-            .to({alpha:0}, 30, 60);
+            .to({x:500}, 1000, 0)
+            .to({y:400}, 1000, 1000)
+            .to({alpha:0}, 1000, 2000);
     },
 });
  
@@ -64,12 +64,12 @@ tm.define("tests.timeline.CallTestScene", {
         shape.setPosition(100, 100);
         
         shape.timeline
-            .to({x:500}, 30, 0)
-            .to({y:400}, 30, 30)
-            .to({alpha:0}, 30, 60)
+            .to({x:500}, 1000, 0)
+            .to({y:400}, 1000, 1000)
+            .to({alpha:0}, 1000, 2000)
             .call(function() {
                 alert("finish")
-            }, 90);
+            }, 3000);
     },
 });
  
@@ -83,14 +83,14 @@ tm.define("tests.timeline.SetTestScene", {
         shape.setPosition(100, 100);
         
         shape.timeline
-            .to({x:500}, 30, 0)
-            .to({y:400}, 30, 30)
-            .to({alpha:0}, 30, 60)
+            .to({x:500}, 1000, 0)
+            .to({y:400}, 1000, 1000)
+            .to({alpha:0}, 1000, 2000)
             .set({
             	x: 100,
             	y: 100,
             	alpha: 1.0,
-            }, 90);
+            }, 3000);
     },
 });
  
@@ -122,12 +122,12 @@ tm.define("tests.timeline.ConcentrationScene", {
                 this.scaleY = 0.2;
                 this.timeline
                     .set({alpha:0, scaleX:0.2, scaleY:0.2}, 0)
-                    .to({"alpha": 1.0}, 30, 0)
-                    .to({x: app.width/2, "y": app.height/2}, 15, 30)
-                    .to({scaleX: 1, scaleY: 1}, 15, 30)
+                    .to({"alpha": 1.0}, 1000, 0)
+                    .to({x: app.width/2, "y": app.height/2}, 500, 1000)
+                    .to({scaleX: 1, scaleY: 1}, 500, 1000)
                     .call(function() {
                         console.log("finish");
-                    }, 50);
+                    }, 2000);
                 
             };
             circle.startAnim();
