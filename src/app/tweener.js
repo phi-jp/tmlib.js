@@ -6,10 +6,15 @@
         init: function(elm) {
             this.superInit();
 
-            this._index = 0; // or seek
-            this._tasks = [];
             this.setTarget(elm);
+            this.loop = false;
 
+            this._init();
+        },
+
+        _init: function() {
+            this._index = 0;
+            this._tasks = [];
             this._func = this._updateTask;
             this.isPlaying = true;
         },
@@ -66,7 +71,17 @@
             if (!this.isPlaying) return ;
 
             var task = this._tasks[this._index];
-            if (!task) return ;
+            if (!task) {
+
+                if (this.loop === true) {
+                    this._index = 0;
+                }
+                else {
+                    this.isPlaying = false;
+                }
+
+                return ;
+            }
             this._index++;
 
             if (task.type == "tween") {
@@ -246,11 +261,29 @@
 
         play: function() {
             this.isPlaying = true;
+            return this;
         },
 
         pause: function() {
             this.isPlaying = false;
+            return this;
         },
+
+        rewind: function() {
+            this._func = this._updateTask;
+            this._index = 0;
+            return this;
+        },
+
+        setLoop: function(flag) {
+            this.loop = flag;
+            return this;
+        },
+
+        clear: function() {
+            this._init();
+            return this;
+        }
 
     });
 
