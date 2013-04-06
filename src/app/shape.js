@@ -170,25 +170,25 @@ tm.app = tm.app || {};
     tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
         fillStyle: "red",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
     };
 
     tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
         fillStyle: "green",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
     };
     
     tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
         fillStyle: "blue",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
     };
 
     tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR = {
         fillStyle: "yellow",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
         
         sides: 5,
         sideIndent: undefined,
@@ -198,7 +198,7 @@ tm.app = tm.app || {};
     tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
         fillStyle: "cyan",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
         
         sides: 5,
         offsetAngle: undefined,
@@ -207,7 +207,7 @@ tm.app = tm.app || {};
     tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART = {
         fillStyle: "pink",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
         
         angle: 45,
     };
