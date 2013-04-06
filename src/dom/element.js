@@ -3,19 +3,6 @@
  */
 
 
-(function() {
-    
-    // innerText 対応 ( moz では textContent なので innerText に統一 )
-    var temp = document.createElement("div");
-    if (temp.innerText === undefined) {
-        HTMLElement.prototype.accessor("innerText", {
-            "get": function()   { return this.textContent; },
-            "set": function(d)  { this.textContent = d; }
-        });
-    }
-    
-})();
-
 tm.dom = tm.dom || {};
 
 (function() {
@@ -283,9 +270,16 @@ tm.dom = tm.dom || {};
      * テキスト
      */
     tm.dom.Element.prototype.accessor("text", {
-        "get": function()   { return this.element.innerText; },
-        "set": function(v)  { this.element.innerText = v; }
+        "get": function()   { return this.element.innerText || this.element.textContent; },
+        "set": function(v)  {
+            if (this.element.innerText) {
+                this.element.innerText = v;
+            } else {
+                this.element.textContent = v;
+            }
+        }
     });
+    
     
     /**
      * @property    classList

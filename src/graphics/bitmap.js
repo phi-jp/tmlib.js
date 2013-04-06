@@ -18,6 +18,15 @@ tm.graphics = tm.graphics || {};
          * 初期化
          */
         init: function(imageData) {
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement("canvas");
+                dummyContext= dummyCanvas.getContext("2d");
+            }
+            this._init.apply(this, arguments);
+            this.init = this._init;
+        },
+
+        _init: function(imageData) {
             if (arguments.length == 1) {
                 this.imageData = imageData;
                 this.data = imageData.data;
@@ -310,9 +319,10 @@ tm.graphics = tm.graphics || {};
     tm.graphics.Canvas.prototype.createBitmap = function(width, height) {
         return tm.graphics.Bitmap(this.context.createImageData(width||this.width, height||this.height));
     };
+
+    var dummyCanvas = null;
+    var dummyContext = null;
     
-    var dummyCanvas = document.createElement("canvas");
-    var dummyContext= dummyCanvas.getContext("2d");
     
 })();
 
