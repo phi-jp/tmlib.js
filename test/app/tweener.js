@@ -261,6 +261,45 @@ tm.define("tests.tweener.TweenCirclesScene", {
 
 
 
+tm.define("tests.tweener.ScaleFadeScene", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+
+        var group = tm.app.CanvasElement().addChildTo(this);
+        group.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+
+        for (var i=0; i<32; ++i) {
+            var star = tm.app.Shape().addChildTo(group);
+            var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
+            star.x = Math.rand(-SCREEN_WIDTH/2, SCREEN_WIDTH/2);
+            star.y = Math.rand(-SCREEN_HEIGHT/2, SCREEN_HEIGHT/2);
+
+            star.renderStar({
+                fillStyle: color,
+            });
+
+            star.tweener
+                .set({x:star.x, y:star.y, alpha:0, rotation:0})
+                .wait(i*100)
+                .fadeIn(1000)
+                .moveBy(Math.rand(-400, 400), Math.rand(-400, 400))
+                .rotate(360, 500)
+                .moveBy(Math.rand(-400, 400), Math.rand(-400, 400))
+                .fadeOut(1000)
+                .setLoop(true);
+        }
+
+        group.tweener
+            .set({scaleX:0, scaleY:0})
+            .to({scaleX:1, scaleY:1, rotation:360}, 2000, "easeInOutCubic")
+            .wait(1000)
+            .scale(0, 1000, "easeInOutBounce")
+            .wait(100)
+            .scale(1, 1000, "easeInOutBounce");
+    },
+});
 
 
 
