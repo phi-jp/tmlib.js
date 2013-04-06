@@ -191,3 +191,92 @@ tm.define("tests.tweener.Demo01Scene", {
     },
 });
 
+
+
+
+tm.define("tests.tweener.SimpleTweenScene", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+
+        var shape = tm.app.StarShape().addChildTo(this);
+        shape.setPosition(200, -50);
+
+        var canvas = {
+            width: 640,
+            height: 480
+        };
+
+        shape.tweener.loop = true;
+        shape.tweener
+            .set({x:200,y:-50})
+            .to({x:shape.x, y:480 - 55, rotation:-360}, 1500, "easeOutBounce")
+            .wait(1000)
+            .to({x:640-55, rotation:360}, 2500, "easeOutBounce")
+            .wait(1000).call(function() {console.log("hoge")})
+            .to({scaleX:2, scaleY:2, x:canvas.width - 110, y:canvas.height-110}, 2500, "easeOutBounce")
+            .wait(1000)
+            .to({scaleX:.5, scaleY:.5, x:30, rotation:-360, y:canvas.height-30}, 2500, "easeOutBounce");
+    },
+ 
+});
+
+
+
+tm.define("tests.tweener.TweenCirclesScene", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+
+        var circleCount = 25;
+
+        for (var i=0; i<circleCount; ++i) {
+            var circle = tm.app.CircleShape((i+1)*4, (i+1)*4).addChildTo(this);
+            circle.x = Math.random()*550;
+            circle.y = Math.random()*550;
+            circle.alpha = 1-i*0.02;
+            circle.blendMode = "lighter";
+
+            circle.tweener.to({x:275,y:200}, (0.5+i*0.04)*1500, "easeOutBounce");
+        }
+    },
+
+    onpointingstart: function(e) {
+        var p = e.app.pointing;
+        var children = this.children;
+        children.each(function(elm, i) {
+            elm.tweener.clear();
+            elm.tweener.to({x:p.x, y:p.y}, (0.5+i*0.04)*1500, "easeOutBounce");
+        });
+    }
+ 
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
