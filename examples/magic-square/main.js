@@ -28,47 +28,16 @@ var MagicSquareSprite = tm.createClass({
     },
     
     setupAnim: function() {
-        this.animation.addTween({
-            prop: "alpha",
-            begin: 0,
-            finish: 1.0,
-            duration: 1000,
-        });
-        this.animation.addTween({
-            prop: "rotation",
-            begin: 0,
-            finish: 360,
-            duration: 1000,
-            func: "easeInOutQuad",
-        });
-        
-        this.animation.addTween({
-            prop: "scaleX",
-            begin: 1.0,
-            finish: 2.0,
-            duration: 1000,
-            delay: 1500,
-            func: "easeInOutBack",
-        });
-        this.animation.addTween({
-            prop: "scaleY",
-            begin: 1.0,
-            finish: 2.0,
-            duration: 1000,
-            delay: 1500,
-            func: "easeInOutBack",
-        });
-        this.animation.addTween({
-            prop: "alpha",
-            begin: 1.0,
-            finish: 0.0,
-            duration: 1000,
-            delay: 1500,
-        });
-        
-        this.onanimationend = function() {
-            this.remove();
-        };
+        this.alpha = 0;
+
+        this.tweener
+            .to({alpha:1, rotation: 360}, 1000, "easeInOutQuad")
+            .wait(500)
+            .to({scaleX:2.0, scaleY:2.0}, 1000, "easeInOutBack")
+            .to({alpha:0}, 1000)
+            .call(function() {
+                this.remove();
+            }.bind(this));
     },
     
     
