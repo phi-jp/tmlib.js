@@ -850,6 +850,16 @@ tm.global = window || global || this;
         return sum/len;
     });
 
+    /**
+     * @method  each
+     * 繰り返し
+     * チェーンメソッド対応
+     */
+    Array.defineInstanceMethod("each", function() {
+        this.forEach.apply(this, arguments);
+        return this;
+    });
+
     
     /**
      * @method  toULElement
@@ -4927,19 +4937,6 @@ tm.collision = tm.collision || {};
  */
 
 
-(function() {
-    
-    // innerText 対応 ( moz では textContent なので innerText に統一 )
-    var temp = document.createElement("div");
-    if (temp.innerText === undefined) {
-        HTMLElement.prototype.accessor("innerText", {
-            "get": function()   { return this.textContent; },
-            "set": function(d)  { this.textContent = d; }
-        });
-    }
-    
-})();
-
 tm.dom = tm.dom || {};
 
 (function() {
@@ -5207,9 +5204,16 @@ tm.dom = tm.dom || {};
      * テキスト
      */
     tm.dom.Element.prototype.accessor("text", {
-        "get": function()   { return this.element.innerText; },
-        "set": function(v)  { this.element.innerText = v; }
+        "get": function()   { return this.element.innerText || this.element.textContent; },
+        "set": function(v)  {
+            if (this.element.innerText) {
+                this.element.innerText = v;
+            } else {
+                this.element.textContent = v;
+            }
+        }
     });
+    
     
     /**
      * @property    classList
@@ -8474,6 +8478,15 @@ tm.graphics = tm.graphics || {};
          * 初期化
          */
         init: function(imageData) {
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement("canvas");
+                dummyContext= dummyCanvas.getContext("2d");
+            }
+            this._init.apply(this, arguments);
+            this.init = this._init;
+        },
+
+        _init: function(imageData) {
             if (arguments.length == 1) {
                 this.imageData = imageData;
                 this.data = imageData.data;
@@ -8766,9 +8779,10 @@ tm.graphics = tm.graphics || {};
     tm.graphics.Canvas.prototype.createBitmap = function(width, height) {
         return tm.graphics.Bitmap(this.context.createImageData(width||this.width, height||this.height));
     };
+
+    var dummyCanvas = null;
+    var dummyContext = null;
     
-    var dummyCanvas = document.createElement("canvas");
-    var dummyContext= dummyCanvas.getContext("2d");
     
 })();
 
@@ -9052,6 +9066,15 @@ tm.graphics = tm.graphics || {};
     tm.graphics.LinearGradient = tm.createClass({
         
         init: function(x, y, width, height) {
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement("canvas");
+                dummyContext= dummyCanvas.getContext("2d");
+            }
+            this._init(x, y, width, height);
+            this.init = this._init;
+        },
+
+        _init: function(x, y, width, height) {
             this.gradient = dummyContext.createLinearGradient(x, y, width, height);
         },
         
@@ -9074,24 +9097,25 @@ tm.graphics = tm.graphics || {};
         },
         
     });
-    
-    
-    var dummyCanvas = document.createElement("canvas");
-    var dummyContext= dummyCanvas.getContext("2d");
-    
-    
-})();
 
-
-(function() {
     
     /**
      * @class
      * 円形グラデーション
      */
     tm.graphics.RadialGradient = tm.createClass({
+
         
         init: function(x0, y0, r0, x1, y1, r1) {
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement("canvas");
+                dummyContext= dummyCanvas.getContext("2d");
+            }
+            this._init(x0, y0, r0, x1, y1, r1);
+            this.init = this._init;
+        },
+
+        _init: function(x0, y0, r0, x1, y1, r1) {
             this.gradient = dummyContext.createRadialGradient(x0, y0, r0, x1, y1, r1);
         },
         
@@ -9114,20 +9138,13 @@ tm.graphics = tm.graphics || {};
         },
         
     });
+
+
     
-    
-    var dummyCanvas = document.createElement("canvas");
-    var dummyContext= dummyCanvas.getContext("2d");
+    var dummyCanvas = null;
+    var dummyContext = null;
     
 })();
-
-
-
-
-
-
-
-
 
 
 
@@ -12308,10 +12325,15 @@ tm.app = tm.app || {};
         init: function(elm) {
             this.superInit();
 
-            this._index = 0; // or seek
-            this._tasks = [];
             this.setTarget(elm);
+            this.loop = false;
 
+            this._init();
+        },
+
+        _init: function() {
+            this._index = 0;
+            this._tasks = [];
             this._func = this._updateTask;
             this.isPlaying = true;
         },
@@ -12368,7 +12390,17 @@ tm.app = tm.app || {};
             if (!this.isPlaying) return ;
 
             var task = this._tasks[this._index];
-            if (!task) return ;
+            if (!task) {
+
+                if (this.loop === true) {
+                    this._index = 0;
+                }
+                else {
+                    this.isPlaying = false;
+                }
+
+                return ;
+            }
             this._index++;
 
             if (task.type == "tween") {
@@ -12548,11 +12580,29 @@ tm.app = tm.app || {};
 
         play: function() {
             this.isPlaying = true;
+            return this;
         },
 
         pause: function() {
             this.isPlaying = false;
+            return this;
         },
+
+        rewind: function() {
+            this._func = this._updateTask;
+            this._index = 0;
+            return this;
+        },
+
+        setLoop: function(flag) {
+            this.loop = flag;
+            return this;
+        },
+
+        clear: function() {
+            this._init();
+            return this;
+        }
 
     });
 
