@@ -39,10 +39,10 @@ tm.social = tm.social || {};
     var BASE_URL = &quot;http://twitter.com/intent&quot;;
     
     
-    /**
-     * Tweet する
-<span id='tm-social-Twitter-method-createURL'>     * @param {Object} prop
-</span>     * ### Reference
+<span id='tm-social-Twitter-method-createURL'>    /**
+</span>     * Tweet する
+     * @param {Object} prop
+     * ### Reference
      * - &lt;https://dev.twitter.com/docs/intents&gt;
      * ### Example
      *      tm.social.Twitter.createURL({
@@ -116,13 +116,13 @@ tm.social = tm.social || {};
     var BASE_URL = &quot;http://api.twitter.com/1/statuses/followers.json&quot;;
     //http://api.twitter.com/1/statuses/followers.json?id=tmlife_jp
     
-    /**
-     * 
+<span id='tm-social-Twitter-method-getFollowers'>    /**
+</span>     * 
      * user_id      ユーザーID
      * screen_name  screen_name
      * cursor       -1 を指定すると先頭から 100
-<span id='tm-social-Twitter-method-getFollowers'>     * include_entities     true を指定すると entities を取得できる
-</span>     * 
+     * include_entities     true を指定すると entities を取得できる
+     * 
      */
     tm.social.Twitter.getFollowers = function(param, callback) {
         tm.social.Twitter.api(&quot;statuses&quot;, &quot;followers&quot;, param, callback);

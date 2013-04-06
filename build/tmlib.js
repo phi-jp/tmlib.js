@@ -10843,25 +10843,25 @@ tm.app = tm.app || {};
     tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
         fillStyle: "red",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
     };
 
     tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
         fillStyle: "green",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
     };
     
     tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
         fillStyle: "blue",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
     };
 
     tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR = {
         fillStyle: "yellow",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
         
         sides: 5,
         sideIndent: undefined,
@@ -10871,7 +10871,7 @@ tm.app = tm.app || {};
     tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
         fillStyle: "cyan",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
         
         sides: 5,
         offsetAngle: undefined,
@@ -10880,7 +10880,7 @@ tm.app = tm.app || {};
     tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART = {
         fillStyle: "pink",
         strokeStyle: "white",
-        lineWidth: "4",
+        lineWidth: "2",
         
         angle: 45,
     };
@@ -12474,29 +12474,6 @@ tm.app = tm.app || {};
             return this;
         },
 
-        move: function(x, y, duration) {
-            return this.to({x:x, y:y}, duration);
-        },
-
-        moveBy: function(x, y, duration) {
-            return this.by({x:x, y:y}, duration);
-        },
-
-        fade: function(value, duration) {
-            this.to({"alpha":value}, duration);
-            return this;
-        },
-
-        fadeIn: function(duration) {
-            this.fade(1.0, duration);
-            return this;
-        },
-
-        fadeOut: function(duration) {
-            this.fade(0.0, duration);
-            return this;
-        },
-
         by: function(props, duration, fn) {
             this._addTweenTask({
                 props: props,
@@ -12514,6 +12491,37 @@ tm.app = tm.app || {};
                 fn: fn,
                 type: "to"
             });
+            return this;
+        },
+
+        move: function(x, y, duration) {
+            return this.to({x:x, y:y}, duration);
+        },
+
+        moveBy: function(x, y, duration) {
+            return this.by({x:x, y:y}, duration);
+        },
+
+        rotate: function(rotation, duration) {
+            return this.to({rotation:rotation}, duration);
+        },
+
+        scale: function(scaleX, scaleY, duration) {
+            return this.to({scaleX:scaleX, scaleY:scaleY}, duration);
+        },
+
+        fade: function(value, duration) {
+            this.to({"alpha":value}, duration);
+            return this;
+        },
+
+        fadeIn: function(duration) {
+            this.fade(1.0, duration);
+            return this;
+        },
+
+        fadeOut: function(duration) {
+            this.fade(0.0, duration);
             return this;
         },
 
@@ -12591,6 +12599,7 @@ tm.app = tm.app || {};
         rewind: function() {
             this._func = this._updateTask;
             this._index = 0;
+            this.play();
             return this;
         },
 

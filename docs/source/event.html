@@ -41,12 +41,12 @@ tm.dom = tm.dom || {};
         };
     }
     
-    /**
-     * @method
+<span id='Event-method-stop'>    /**
+</span>     * @method
      * イベントのデフォルト処理 &amp; 伝達を止める
      */
-<span id='Event-method-stop'>    Event.prototype.stop = function() {
-</span>        // イベントキャンセル
+    Event.prototype.stop = function() {
+        // イベントキャンセル
         this.preventDefault();
         // イベント伝達を止める
         this.stopPropagation();
@@ -57,48 +57,48 @@ tm.dom = tm.dom || {};
 
 (function() {
     
-    /**
-     * @class KeyboardEvent
+<span id='KeyboardEvent'>    /**
+</span>     * @class KeyboardEvent
      * 
      * KeyboardEvent クラス
      */
     
-    /**
-     * @property    character
+<span id='KeyboardEvent-property-character'>    /**
+</span>     * @property    character
      * 押したキーの文字を取得
-<span id='KeyboardEvent'>     */
-</span>    KeyboardEvent.prototype.getter(&quot;character&quot;, function(){
-<span id='KeyboardEvent-property-character'>        return String.fromCharCode(this.keyCode);
-</span>    });
+     */
+    KeyboardEvent.prototype.getter(&quot;character&quot;, function(){
+        return String.fromCharCode(this.keyCode);
+    });
     
 })();
 
 
 (function() {
     
-    /**
-     * @class MouseEvent
+<span id='MouseEvent'>    /**
+</span>     * @class MouseEvent
      * 
      * MouseEvent クラス
      */
     
-    /**
-     * @property    pointX
+<span id='MouseEvent-property-pointX'>    /**
+</span>     * @property    pointX
      * マウスのX座標.
      */
-<span id='MouseEvent'>    MouseEvent.prototype.getter(&quot;pointX&quot;, function() {
-</span><span id='MouseEvent-property-pointX'>        return this.clientX - this.target.getBoundingClientRect().left;
-</span>//        return this.pageX - this.target.getBoundingClientRect().left - window.scrollX;
+    MouseEvent.prototype.getter(&quot;pointX&quot;, function() {
+        return this.clientX - this.target.getBoundingClientRect().left;
+//        return this.pageX - this.target.getBoundingClientRect().left - window.scrollX;
     });
     
-    /**
-     * @property    pointY
+<span id='MouseEvent-property-pointY'>    /**
+</span>     * @property    pointY
      * マウスのY座標.
      */
     MouseEvent.prototype.getter(&quot;pointY&quot;, function() {
         return this.clientY - this.target.getBoundingClientRect().top;
-<span id='MouseEvent-property-pointY'>//        return this.pageY - this.target.getBoundingClientRect().top - window.scrollY;
-</span>    });
+//        return this.pageY - this.target.getBoundingClientRect().top - window.scrollY;
+    });
     
 })();
 
@@ -110,29 +110,29 @@ tm.dom = tm.dom || {};
     if (window.TouchEvent === undefined) { return ; }
     
     
-    /**
-     * @class TouchEvent
+<span id='TouchEvent'>    /**
+</span>     * @class TouchEvent
      * 
      * TouchEvent クラス
      */
     
-    /**
-     * @property    pointX
+<span id='TouchEvent-property-pointX'>    /**
+</span>     * @property    pointX
      * タッチイベント.
      */
     TouchEvent.prototype.getter(&quot;pointX&quot;, function() {
-<span id='TouchEvent'>        return this.touches[0].clientX - this.target.getBoundingClientRect().left;
-</span><span id='TouchEvent-property-pointX'>//        return this.touches[0].pageX - this.target.getBoundingClientRect().left - tm.global.scrollX;
-</span>    });
+        return this.touches[0].clientX - this.target.getBoundingClientRect().left;
+//        return this.touches[0].pageX - this.target.getBoundingClientRect().left - tm.global.scrollX;
+    });
     
-    /**
-     * @property    pointY
+<span id='TouchEvent-property-pointY'>    /**
+</span>     * @property    pointY
      * タッチイベント.
      */
     TouchEvent.prototype.getter(&quot;pointY&quot;, function() {
         return this.touches[0].clientY - this.target.getBoundingClientRect().top;
-<span id='TouchEvent-property-pointY'>//        return this.touches[0].pageY - this.target.getBoundingClientRect().top - tm.global.scrollY;
-</span>    });
+//        return this.touches[0].pageY - this.target.getBoundingClientRect().top - tm.global.scrollY;
+    });
     
     
 })();
@@ -140,8 +140,8 @@ tm.dom = tm.dom || {};
 
 (function() {
     
-    /**
-     * @class
+<span id='tm-dom-Event'>    /**
+</span>     * @class
      * Event クラス
      */
     tm.dom.Event = tm.createClass({
@@ -150,24 +150,24 @@ tm.dom = tm.dom || {};
         funcIndex   : 0,
         
         
-        /**
-         * 初期化
+<span id='tm-dom-Event-method-init'>        /**
+</span>         * 初期化
          */
-<span id='tm-dom-Event'>        init: function(element) {
-</span>            this.element = element;
+        init: function(element) {
+            this.element = element;
             this.funcList = {};
         },
         
-        /**
-         * イベントを追加
+<span id='tm-dom-Event-method-add'>        /**
+</span>         * イベントを追加
          */
         add: function(type, fn, id) {
-<span id='tm-dom-Event-method-init'>            var self = this;
-</span>            var elm  = tm.dom.Element(this.element);
+            var self = this;
+            var elm  = tm.dom.Element(this.element);
             
             var temp_fn = function(e) {
-<span id='tm-dom-Event-method-add'>                // return fn.apply(self, arguments);
-</span>                var result = fn.apply(elm, arguments);
+                // return fn.apply(self, arguments);
+                var result = fn.apply(elm, arguments);
                 
                 if (result === false) {
                     // デフォルトイベントをキャンセル
@@ -190,19 +190,19 @@ tm.dom = tm.dom || {};
             return this;
         },
         
-        /**
-         * イベントを解除
+<span id='tm-dom-Event-method-remove'>        /**
+</span>         * イベントを解除
          */
         remove: function(type, fn_or_id) {
             var id = (typeof(fn_or_id) === &quot;function&quot;) ? fn_or_id._id : fn_or_id;
             var fn = this.getFunc(type, id);
             
             this.element.removeEventListener(type, fn, false);
-<span id='tm-dom-Event-method-remove'>            delete this.funcList[type][id];
-</span>        },
+            delete this.funcList[type][id];
+        },
         
-        /**
-         * クリックイベント
+<span id='tm-dom-Event-method-click'>        /**
+</span>         * クリックイベント
          */
         click: function(fn, id) {
             this.add(&quot;click&quot;, fn, id);
@@ -215,11 +215,11 @@ tm.dom = tm.dom || {};
                     fn(e);
                 }
             }
-<span id='tm-dom-Event-method-click'>            this.add(&quot;click&quot;, temp_fn, id);
-</span>        },
+            this.add(&quot;click&quot;, temp_fn, id);
+        },
         
-        /**
-         * ポインティング
+<span id='tm-dom-Event-method-pointstart'>        /**
+</span>         * ポインティング
          */
         pointstart: function(fn, id) {
             this.add(tm.dom.Event.POINT_START, fn, id);
@@ -230,35 +230,35 @@ tm.dom = tm.dom || {};
         pointend: function(fn, id) {
             this.add(tm.dom.Event.POINT_END, fn, id);
         },
-<span id='tm-dom-Event-method-pointstart'>        
-</span>        /**
-         * ホバーイベント
+        
+<span id='tm-dom-Event-method-hover'>        /**
+</span>         * ホバーイベント
          */
         hover: function(fn, id) {
             this.add(&quot;mouseover&quot;, fn, id);
             return this;
         },
         
-        /**
-         * 一度だけ呼ばれるイベントを登録
+<span id='tm-dom-Event-method-one'>        /**
+</span>         * 一度だけ呼ばれるイベントを登録
          */
         one: function(type, fn, id) {
             var self = this;
             var elm  = tm.dom.Element(this.element);
             
-<span id='tm-dom-Event-method-hover'>            var temp_fn = function() {
-</span>                var result = fn.apply(elm, arguments);
+            var temp_fn = function() {
+                var result = fn.apply(elm, arguments);
                 self.remove(type, temp_fn);
                 return result;
             };
             
-<span id='tm-dom-Event-method-one'>            this.add(type, temp_fn, id);
-</span>            
+            this.add(type, temp_fn, id);
+            
             return this;
         },
         
-        /**
-         * トグルイベント登録
+<span id='tm-dom-Event-method-toggle'>        /**
+</span>         * トグルイベント登録
          */
         toggle: function(type, fn_list) {
             var self = this;
@@ -269,8 +269,8 @@ tm.dom = tm.dom || {};
                 var temp_fn = (function(i){
                     return function(){
                         var result = fn_list[i].apply(elm, arguments);
-<span id='tm-dom-Event-method-toggle'>                        
-</span>                        if (result !== false) {
+                        
+                        if (result !== false) {
                             var index = (i+1)%fn_list.length;
                             self.one(type, temp_list[index]);
                         }
@@ -284,8 +284,8 @@ tm.dom = tm.dom || {};
             return this;
         },
         
-        /**
-         * 指定したイベントタイプ &amp; id の関数を取得
+<span id='tm-dom-Event-method-getFunc'>        /**
+</span>         * 指定したイベントタイプ &amp; id の関数を取得
          */
         getFunc: function(type, id) {
             return this.funcList[type][id];
@@ -298,9 +298,9 @@ tm.dom = tm.dom || {};
     tm.dom.Event.POINT_END      = (tm.isMobile) ? &quot;touchend&quot; : &quot;mouseup&quot;;
     
     
-    /**
-<span id='tm-dom-Event-method-getFunc'>     * @property    event
-</span>     * スタイルクラス
+<span id='tm-dom-Event-property-event'>    /**
+</span>     * @property    event
+     * スタイルクラス
      */
     tm.dom.Element.prototype.getter(&quot;event&quot;, function(){
         return this._event || ( this._event = tm.dom.Event(this.element) );

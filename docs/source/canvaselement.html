@@ -33,103 +33,104 @@ tm.app = tm.app || {};
         
         superClass: tm.app.Element,
         
-        /**
-         * 位置
-<span id='tm-app-CanvasElement-property-position'>         */
-</span>        position: null,
-        /**
-         * 回転
-<span id='tm-app-CanvasElement-property-rotation'>         */
-</span>        rotation: 0,
-        /**
-         * スケール
-<span id='tm-app-CanvasElement-property-scale'>         */
-</span>        scale: null,
+<span id='tm-app-CanvasElement-property-position'>        /**
+</span>         * 位置
+         */
+        position: null,
+<span id='tm-app-CanvasElement-property-rotation'>        /**
+</span>         * 回転
+         */
+        rotation: 0,
+<span id='tm-app-CanvasElement-property-scale'>        /**
+</span>         * スケール
+         */
+        scale: null,
         
-        /**
-         * 幅
+<span id='tm-app-CanvasElement-property-_width'>        /**
+</span>         * 幅
          */
-<span id='tm-app-CanvasElement-property-_width'>        _width:  64,
-</span>        /**
-         * 高さ
+        _width:  64,
+<span id='tm-app-CanvasElement-property-_height'>        /**
+</span>         * 高さ
          */
-<span id='tm-app-CanvasElement-property-_height'>        _height: 64,
-</span>        
-        /**
-         * originX
+        _height: 64,
+        
+<span id='tm-app-CanvasElement-property-originX'>        /**
+</span>         * originX
          */
-<span id='tm-app-CanvasElement-property-originX'>        originX: 0.5,
-</span>        
-        /**
-         * originX
+        originX: 0.5,
+        
+<span id='tm-app-CanvasElement-property-originY'>        /**
+</span>         * originX
          */
-<span id='tm-app-CanvasElement-property-originY'>        originY: 0.5,
-</span>        
-        /**
-         * 更新フラグ
+        originY: 0.5,
+        
+<span id='tm-app-CanvasElement-property-isUpdate'>        /**
+</span>         * 更新フラグ
          */
-<span id='tm-app-CanvasElement-property-isUpdate'>        isUpdate: true,
-</span>        
-        /**
-         * 表示フラグ
+        isUpdate: true,
+        
+<span id='tm-app-CanvasElement-property-visible'>        /**
+</span>         * 表示フラグ
          */
-<span id='tm-app-CanvasElement-property-visible'>        visible: true,
-</span>        
-        /**
-         * fillStyle
+        visible: true,
+        
+<span id='tm-app-CanvasElement-property-fillStyle'>        /**
+</span>         * fillStyle
          */
-<span id='tm-app-CanvasElement-property-fillStyle'>        fillStyle: &quot;white&quot;,
-</span>        
-        /**
-         * strokeStyle
+        fillStyle: &quot;white&quot;,
+        
+<span id='tm-app-CanvasElement-property-strokeStyle'>        /**
+</span>         * strokeStyle
          */
-<span id='tm-app-CanvasElement-property-strokeStyle'>        strokeStyle: &quot;white&quot;,
-</span>        
-        /**
-         * アルファ
+        strokeStyle: &quot;white&quot;,
+        
+<span id='tm-app-CanvasElement-property-alpha'>        /**
+</span>         * アルファ
          */
         alpha: 1.0,
         
-<span id='tm-app-CanvasElement-property-alpha'>        /**
+<span id='tm-app-CanvasElement-property-blendMode'>        /**
 </span>         * ブレンドモード
          */
         blendMode: &quot;source-over&quot;,
-<span id='tm-app-CanvasElement-property-blendMode'>        
-</span>        /**
-         * シャドウカラー
+        
+<span id='tm-app-CanvasElement-property-shadowColor'>        /**
+</span>         * シャドウカラー
          */
         shadowColor: &quot;black&quot;,
-<span id='tm-app-CanvasElement-property-shadowColor'>        shadowOffsetX: 0,
-</span>        shadowOffsetY: 0,
+        shadowOffsetX: 0,
+        shadowOffsetY: 0,
         shadowBlur: 0,
         
         _matrix: null,
         
-        /**
-         * ゲーム用エレメントクラス
+<span id='tm-app-CanvasElement-method-init'>        /**
+</span>         * ゲーム用エレメントクラス
          */
         init: function() {
             this.superInit();
-<span id='tm-app-CanvasElement-method-init'>            this.position = tm.geom.Vector2(0, 0);
-</span>            this.scale    = tm.geom.Vector2(1, 1);
+            this.position = tm.geom.Vector2(0, 0);
+            this.scale    = tm.geom.Vector2(1, 1);
             this.pointing = tm.geom.Vector2(0, 0);
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
             this.eventFlags = {};
+            this.boundingType = &quot;circle&quot;;
         },
         
-        /**
-         * 更新処理
+<span id='tm-app-CanvasElement-method-update'>        /**
+</span>         * 更新処理
          */
         update: function() {},
-        /**
-         * 描画処理
+<span id='tm-app-CanvasElement-method-draw'>        /**
+</span>         * 描画処理
          */
-<span id='tm-app-CanvasElement-method-update'>        draw: function(canvas) {},
-</span>        
+        draw: function(canvas) {},
+        
         drawBoundingCircle: function(canvas) {
-<span id='tm-app-CanvasElement-method-draw'>            canvas.save();
-</span>            canvas.lineWidth = 2;
+            canvas.save();
+            canvas.lineWidth = 2;
             canvas.strokeCircle(0, 0, this.radius);
             canvas.restore();
         },
@@ -154,13 +155,13 @@ tm.app = tm.app || {};
             return matrix;
         },
         
-        /**
-         * 点と衝突しているかを判定
+<span id='tm-app-CanvasElement-method-isHitPoint'>        /**
+</span>         * 点と衝突しているかを判定
          */
         isHitPoint: function(x, y) {
             // 円判定
-<span id='tm-app-CanvasElement-method-isHitPoint'>            var p = this.globalToLocal(tm.geom.Vector2(x, y));
-</span>            this.pointing.x = p.x;
+            var p = this.globalToLocal(tm.geom.Vector2(x, y));
+            this.pointing.x = p.x;
             this.pointing.y = p.y;
             
             if (((p.x)*(p.x)+(p.y)*(p.y)) &lt; (this.radius*this.radius)) {
@@ -168,7 +169,16 @@ tm.app = tm.app || {};
             }
             return false;
         },
-        
+
+        isHitPointCircle: function(x, y) {
+            var lenX = this.x - x;
+            var lenY = this.y - y;
+            if (((lenX)*(lenX)+(lenY)*(lenY)) &lt; (this.radius*this.radius)) {
+                return true;
+            }
+            return false;
+        },
+
         isHitPointRect: function(x, y) {
             // ここから下のバージョンは四角形
             var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
@@ -184,14 +194,14 @@ tm.app = tm.app || {};
             return false;
         },
         
-        /**
-         * 階層を考慮した円衝突判定
+<span id='tm-app-CanvasElement-method-isHitPointCircleHierarchy'>        /**
+</span>         * 階層を考慮した円衝突判定
          */
         isHitPointCircleHierarchy: function(x, y) {
             // 円判定
             var p = this.globalToLocal(tm.geom.Vector2(x, y));
-<span id='tm-app-CanvasElement-method-isHitPointCircleHierarchy'>            this.pointing.x = p.x;
-</span>            this.pointing.y = p.y;
+            this.pointing.x = p.x;
+            this.pointing.y = p.y;
             
             if (((p.x)*(p.x)+(p.y)*(p.y)) &lt; (this.radius*this.radius)) {
                 return true;
@@ -199,15 +209,15 @@ tm.app = tm.app || {};
             return false;
         },
         
-        /**
-         * 階層を考慮した矩形衝突判定
+<span id='tm-app-CanvasElement-method-isHitPointRectHierarchy'>        /**
+</span>         * 階層を考慮した矩形衝突判定
          */
         isHitPointRectHierarchy: function(x, y) {
             var p = this.globalToLocal(tm.geom.Vector2(x, y));
             this.pointing.x = p.x;
             this.pointing.y = p.y;
-<span id='tm-app-CanvasElement-method-isHitPointRectHierarchy'>            
-</span>            var left   = -this.width*this.originX;
+            
+            var left   = -this.width*this.originX;
             var right  = +this.width*this.originX;
             var top    = -this.height*this.originY;
             var bottom = +this.height*this.originY;
@@ -217,67 +227,67 @@ tm.app = tm.app || {};
             return false;
         },
         
-        /**
-         * 要素と衝突しているかを判定
+<span id='tm-app-CanvasElement-method-isHitElement'>        /**
+</span>         * 要素と衝突しているかを判定
          */
         isHitElement: function(elm) {
             var selfGlobalPos  = this.parent.localToGlobal(this);
-<span id='tm-app-CanvasElement-method-isHitElement'>            if (((this.x-elm.x)*(this.x-elm.x)+(this.y-elm.y)*(this.y-elm.y)) &lt; (this.radius+elm.radius)*(this.radius+elm.radius)) {
-</span>                return true;
+            if (((this.x-elm.x)*(this.x-elm.x)+(this.y-elm.y)*(this.y-elm.y)) &lt; (this.radius+elm.radius)*(this.radius+elm.radius)) {
+                return true;
             }
             return false;
         },
  
-        /**
-         * 円同士の衝突判定
+<span id='tm-app-CanvasElement-method-isHitElementCircle'>        /**
+</span>         * 円同士の衝突判定
          */
         isHitElementCircle: function(elm) {
             return tm.collision.testCircleCircle(this.getBoundingCircle(), elm.getBoundingCircle());
         },
  
-        /**
-         * 円同士の衝突判定
+<span id='tm-app-CanvasElement-method-isHitElementRect'>        /**
+</span>         * 円同士の衝突判定
          */
         isHitElementRect: function(elm) {
-<span id='tm-app-CanvasElement-method-isHitElementCircle'>            return tm.collision.testRectRect(this.getBoundingRect(), elm.getBoundingRect());    
-</span>        },
+            return tm.collision.testRectRect(this.getBoundingRect(), elm.getBoundingRect());    
+        },
  
-        /**
-         * バウンディングサークル
+<span id='tm-app-CanvasElement-method-getBoundingCircle'>        /**
+</span>         * バウンディングサークル
          */
         getBoundingCircle: function() {
-<span id='tm-app-CanvasElement-method-isHitElementRect'>            return tm.geom.Circle(this.centerX, this.centerY, this.radius);
-</span>        },
+            return tm.geom.Circle(this.centerX, this.centerY, this.radius);
+        },
  
-        /**
-         * バウンディングレクト
+<span id='tm-app-CanvasElement-method-getBoundingRect'>        /**
+</span>         * バウンディングレクト
          */
         getBoundingRect: function() {
-<span id='tm-app-CanvasElement-method-getBoundingCircle'>            return tm.geom.Rect(this.left, this.top, this.width, this.height);
-</span>        },
+            return tm.geom.Rect(this.left, this.top, this.width, this.height);
+        },
  
-        /**
-         * ローカル座標をグローバル座標に変換
+<span id='tm-app-CanvasElement-method-localToGlobal'>        /**
+</span>         * ローカル座標をグローバル座標に変換
          */
         localToGlobal: function(p) {
             return this.getFinalMatrix().multiplyVector2(p);
         },
-<span id='tm-app-CanvasElement-method-getBoundingRect'>        
-</span>        /**
-         * グローバル座標をローカル座標に変換
+        
+<span id='tm-app-CanvasElement-method-globalToLocal'>        /**
+</span>         * グローバル座標をローカル座標に変換
          */
         globalToLocal: function(p) {
             var matrix = this.getFinalMatrix();
             matrix.invert();
             
-<span id='tm-app-CanvasElement-method-localToGlobal'>            return matrix.multiplyVector2(p);
-</span>        },
+            return matrix.multiplyVector2(p);
+        },
         
         drawFillRect: function(ctx) {
             ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
-<span id='tm-app-CanvasElement-method-globalToLocal'>        },
-</span>        drawStrokeRect: function(ctx) {
+        },
+        drawStrokeRect: function(ctx) {
             ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
         },
@@ -452,30 +462,13 @@ tm.app = tm.app || {};
             // canvas.strokeCircle(this.x, this.y, this.radius);
         },
         
-        
-        _checkEvent: function(check_func, event_name) {
-            
-            if (check_func(this) === true) {
-                this.eventFlags[event_name] = true;
-                if (this[event_name]) this[event_name]();
-            }
-            else {
-                this.eventFlags[event_name] = false;
-            }
-            
-            for (var i=0; i&lt;this.children.length; ++i) {
-                this.children[i]._checkEvent(check_func, event_name);
-            }
-        },
-        
         _refreshSize: function() {},
-        
         
     });
     
     
-    /**
-     * @property    x
+<span id='tm-app-CanvasElement-property-x'>    /**
+</span>     * @property    x
      * x座標値
      */
     tm.app.CanvasElement.prototype.accessor(&quot;x&quot;, {
@@ -483,8 +476,8 @@ tm.app = tm.app || {};
         &quot;set&quot;: function(v)  { this.position.x = v; }
     });
     
-    /**
-     * @property    y
+<span id='tm-app-CanvasElement-property-y'>    /**
+</span>     * @property    y
      * y座標値
      */
     tm.app.CanvasElement.prototype.accessor(&quot;y&quot;, {
@@ -492,109 +485,183 @@ tm.app = tm.app || {};
         &quot;set&quot;: function(v)  { this.position.y = v; }
     });
     
-    /**
-     * @property    scaleX
+<span id='tm-app-CanvasElement-property-scaleX'>    /**
+</span>     * @property    scaleX
      * スケールX値
      */
-<span id='tm-app-CanvasElement-property-x'>    tm.app.CanvasElement.prototype.accessor(&quot;scaleX&quot;, {
-</span>        &quot;get&quot;: function()   { return this.scale.x; },
+    tm.app.CanvasElement.prototype.accessor(&quot;scaleX&quot;, {
+        &quot;get&quot;: function()   { return this.scale.x; },
         &quot;set&quot;: function(v)  { this.scale.x = v; }
     });
     
-    /**
-     * @property    scaleY
+<span id='tm-app-CanvasElement-property-scaleY'>    /**
+</span>     * @property    scaleY
      * スケールY値
      */
-<span id='tm-app-CanvasElement-property-y'>    tm.app.CanvasElement.prototype.accessor(&quot;scaleY&quot;, {
-</span>        &quot;get&quot;: function()   { return this.scale.y; },
+    tm.app.CanvasElement.prototype.accessor(&quot;scaleY&quot;, {
+        &quot;get&quot;: function()   { return this.scale.y; },
         &quot;set&quot;: function(v)  { this.scale.y = v; }
     });
     
     
     
-    /**
-     * @property    width
+<span id='tm-app-CanvasElement-property-width'>    /**
+</span>     * @property    width
      * width
      */
-<span id='tm-app-CanvasElement-property-scaleX'>    tm.app.CanvasElement.prototype.accessor(&quot;width&quot;, {
-</span>        &quot;get&quot;: function()   { return this._width; },
+    tm.app.CanvasElement.prototype.accessor(&quot;width&quot;, {
+        &quot;get&quot;: function()   { return this._width; },
         &quot;set&quot;: function(v)  { this._width = v; this._refreshSize(); }
     });
     
     
-    /**
-     * @property    height
+<span id='tm-app-CanvasElement-property-height'>    /**
+</span>     * @property    height
      * height
      */
-<span id='tm-app-CanvasElement-property-scaleY'>    tm.app.CanvasElement.prototype.accessor(&quot;height&quot;, {
-</span>        &quot;get&quot;: function()   { return this._height; },
+    tm.app.CanvasElement.prototype.accessor(&quot;height&quot;, {
+        &quot;get&quot;: function()   { return this._height; },
         &quot;set&quot;: function(v)  { this._height = v; this._refreshSize(); }
     });
     
-    /**
-     * @property    radius
+<span id='tm-app-CanvasElement-property-radius'>    /**
+</span>     * @property    radius
      * 半径
      */
-<span id='tm-app-CanvasElement-property-width'>    tm.app.CanvasElement.prototype.accessor(&quot;radius&quot;, {
-</span>        &quot;get&quot;: function()   { return this._radius || (this.width+this.height)/4; },
+    tm.app.CanvasElement.prototype.accessor(&quot;radius&quot;, {
+        &quot;get&quot;: function()   { return this._radius || (this.width+this.height)/4; },
         &quot;set&quot;: function(v)  { this._radius = v; }
     });
     
-    /**
-     * @property    top
+<span id='tm-app-CanvasElement-property-top'>    /**
+</span>     * @property    top
      * 左
      */
-<span id='tm-app-CanvasElement-property-height'>    tm.app.CanvasElement.prototype.getter(&quot;top&quot;, function() {
-</span>        return this.y - this.height*this.originY;
+    tm.app.CanvasElement.prototype.getter(&quot;top&quot;, function() {
+        return this.y - this.height*this.originY;
     });
  
-    /**
-     * @property    right
+<span id='tm-app-CanvasElement-property-right'>    /**
+</span>     * @property    right
      * 左
      */
     tm.app.CanvasElement.prototype.getter(&quot;right&quot;, function() {
-<span id='tm-app-CanvasElement-property-radius'>        return this.x + this.width*(1-this.originX);
-</span>    });
+        return this.x + this.width*(1-this.originX);
+    });
  
-    /**
-     * @property    bottom
+<span id='tm-app-CanvasElement-property-bottom'>    /**
+</span>     * @property    bottom
      * 左
      */
     tm.app.CanvasElement.prototype.getter(&quot;bottom&quot;, function() {
         return this.y + this.height*(1-this.originY);
     });
  
-    /**
-     * @property    left
+<span id='tm-app-CanvasElement-property-left'>    /**
+</span>     * @property    left
      * 左
-<span id='tm-app-CanvasElement-property-top'>     */
-</span>    tm.app.CanvasElement.prototype.getter(&quot;left&quot;, function() {
+     */
+    tm.app.CanvasElement.prototype.getter(&quot;left&quot;, function() {
         return this.x - this.width*this.originX;
     });
  
-    /**
-     * @property    centerX
-<span id='tm-app-CanvasElement-property-right'>     * centerX
-</span>     */
+<span id='tm-app-CanvasElement-property-centerX'>    /**
+</span>     * @property    centerX
+     * centerX
+     */
     tm.app.CanvasElement.prototype.accessor(&quot;centerX&quot;, {
         &quot;get&quot;: function()   { return this.x + this.width/2 - this.width*this.originX; },
-<span id='tm-app-CanvasElement-property-bottom'>        &quot;set&quot;: function(v)  {
-</span>            // TODO: どうしようかな??
-        }
-    });
- 
-    /**
-     * @property    centerY
-     * centerY
-     */
-    tm.app.CanvasElement.prototype.accessor(&quot;centerY&quot;, {
-<span id='tm-app-CanvasElement-property-left'>        &quot;get&quot;: function()   { return this.y + this.height/2 - this.height*this.originY; },
-</span>        &quot;set&quot;: function(v)  {
+        &quot;set&quot;: function(v)  {
             // TODO: どうしようかな??
         }
     });
-    
+ 
+<span id='tm-app-CanvasElement-property-centerY'>    /**
+</span>     * @property    centerY
+     * centerY
+     */
+    tm.app.CanvasElement.prototype.accessor(&quot;centerY&quot;, {
+        &quot;get&quot;: function()   { return this.y + this.height/2 - this.height*this.originY; },
+        &quot;set&quot;: function(v)  {
+            // TODO: どうしようかな??
+        }
+    });
+
+<span id='tm-app-CanvasElement-property-boundingType'>    /**
+</span>     * @property    boundingType
+     * boundingType
+     */
+    tm.app.CanvasElement.prototype.accessor(&quot;boundingType&quot;, {
+        &quot;get&quot;: function() {
+            return this._boundingType;
+        },
+        &quot;set&quot;: function(v) {
+            this._boundingType = v;
+            this._setIsHitFunc();
+        },
+    });
+ 
+<span id='tm-app-CanvasElement-property-checkHierarchy'>    /**
+</span>     * @property    checkHierarchy
+     * checkHierarchy
+     */
+    tm.app.CanvasElement.prototype.accessor(&quot;checkHierarchy&quot;, {
+        &quot;get&quot;: function()   { return this._checkHierarchy; },
+        &quot;set&quot;: function(v)  {
+            this._checkHierarchy = v;
+            this._setIsHitFunc();
+        }
+    });
+
+
+    var _isHitFuncMap = {
+        &quot;rect&quot;: tm.app.CanvasElement.prototype.isHitPointRect,
+        &quot;circle&quot;: tm.app.CanvasElement.prototype.isHitPointCircle,
+        &quot;true&quot;: function() { return true; },
+        &quot;false&quot;: function() { return false; },
+    };
+
+    var _isHitFuncMapHierarchy = {
+        &quot;rect&quot;: tm.app.CanvasElement.prototype.isHitPointRectHierarchy,
+        &quot;circle&quot;: tm.app.CanvasElement.prototype.isHitPointCircleHierarchy,
+        &quot;true&quot;: function() { return true; },
+        &quot;false&quot;: function() { return false; },
+    };
+
+    var _isHitElementMap = {
+        &quot;rect&quot;: tm.app.CanvasElement.prototype.isHitElementRect,
+        &quot;circle&quot;: tm.app.CanvasElement.prototype.isHitElementCircle,
+        &quot;true&quot;: function() { return true; },
+        &quot;false&quot;: function() { return false; },
+    };
+
+    tm.app.CanvasElement.prototype._setIsHitFunc = function() {
+        var isHitFuncMap = (this.checkHierarchy) ? _isHitFuncMapHierarchy : _isHitFuncMap;
+        var boundingType = this.boundingType;
+        var isHitFunc = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap[&quot;true&quot;]);
+
+        this.isHitPoint   = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap[&quot;true&quot;]);
+        this.isHitElement = (_isHitElementMap[boundingType]) ? (_isHitElementMap[boundingType]) : (_isHitElementMap[&quot;true&quot;]);
+    };
+
 })();
-<span id='tm-app-CanvasElement-property-centerY'><span id='tm-app-CanvasElement-property-centerX'> </span></span></pre>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
 </body>
 </html>

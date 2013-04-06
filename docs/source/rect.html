@@ -33,17 +33,17 @@ tm.geom = tm.geom || {};
         width: 0,
         height: 0,
         
-        /**
-<span id='tm-geom-Rect-method-init'>         * 初期化
-</span>         */
+<span id='tm-geom-Rect-method-init'>        /**
+</span>         * 初期化
+         */
         init: function(x, y, width, height)
         {
             this.set(x, y, width, height);
         },
         
-        /**
-<span id='tm-geom-Rect-method-set'>         * セッター
-</span>         */
+<span id='tm-geom-Rect-method-set'>        /**
+</span>         * セッター
+         */
         set: function(x, y, width, height) {
             this.x = x;
             this.y = y;
@@ -54,52 +54,52 @@ tm.geom = tm.geom || {};
         },
         
 
-        /**
-         * 移動
-<span id='tm-geom-Rect-method-move'>         */
-</span>        move: function(x, y)
+<span id='tm-geom-Rect-method-move'>        /**
+</span>         * 移動
+         */
+        move: function(x, y)
         {
             this.x = x;
             this.y = y;
             return this;
         },
         
-        /**
-         * 現在位置を基準に移動
-<span id='tm-geom-Rect-method-moveBy'>         */
-</span>        moveBy: function(x, y)
+<span id='tm-geom-Rect-method-moveBy'>        /**
+</span>         * 現在位置を基準に移動
+         */
+        moveBy: function(x, y)
         {
             this.x += x;
             this.y += y;
             return this;
         },
         
-        /**
-         * リサイズ
+<span id='tm-geom-Rect-method-resize'>        /**
+</span>         * リサイズ
          */
-<span id='tm-geom-Rect-method-resize'>        resize: function(w, h)
-</span>        {
+        resize: function(w, h)
+        {
             this.width = w;
             this.height= h;
             return this;
         },
         
-        /**
-         * 現在のサイズを基準にリサイズ
+<span id='tm-geom-Rect-method-resizeBy'>        /**
+</span>         * 現在のサイズを基準にリサイズ
          */
-<span id='tm-geom-Rect-method-resizeBy'>        resizeBy: function(w, h)
-</span>        {
+        resizeBy: function(w, h)
+        {
             this.width += w;
             this.height+= h;
             return this;
         },
         
-        /**
-         * パディング.
+<span id='tm-geom-Rect-method-padding'>        /**
+</span>         * パディング.
          * 縮めたりなど. 画面ハミ出しチェック時などに便利
          * @example
-<span id='tm-geom-Rect-method-padding'>         * var circle = TM.$Circle(10, 10, 10);
-</span>         * var windowRect = TM.$Rect(0, 0, window.innerWidth, window.innerHiehgt);
+         * var circle = TM.$Circle(10, 10, 10);
+         * var windowRect = TM.$Rect(0, 0, window.innerWidth, window.innerHiehgt);
          * windowRect.padding(circle.radius);
          * if (circle.x &lt; windowRect.left) {
          *     // 左にはみ出した時の処理
@@ -153,62 +153,62 @@ tm.geom = tm.geom || {};
     });
     
     
-    /**
-     * @property    left
+<span id='tm-geom-Rect-property-left'>    /**
+</span>     * @property    left
      * left
      */
     tm.geom.Rect.prototype.accessor(&quot;left&quot;, {
         &quot;get&quot;: function()   { return this.x; },
-<span id='tm-geom-Rect-property-left'>        &quot;set&quot;: function(v)  { this.width -= v-this.x; this.x = v; }
-</span>    });
+        &quot;set&quot;: function(v)  { this.width -= v-this.x; this.x = v; }
+    });
     
-    /**
-     * @property    top
+<span id='tm-geom-Rect-property-top'>    /**
+</span>     * @property    top
      * top
      */
     tm.geom.Rect.prototype.accessor(&quot;top&quot;, {
         &quot;get&quot;: function()   { return this.y; },
-<span id='tm-geom-Rect-property-top'>        &quot;set&quot;: function(v)  { this.height -= v-this.y; this.y = v; }
-</span>    });
+        &quot;set&quot;: function(v)  { this.height -= v-this.y; this.y = v; }
+    });
     
-    /**
-     * @property    right
+<span id='tm-geom-Rect-property-right'>    /**
+</span>     * @property    right
      * right
      */
     tm.geom.Rect.prototype.accessor(&quot;right&quot;, {
         &quot;get&quot;: function()   { return this.x + this.width; },
-<span id='tm-geom-Rect-property-right'>        &quot;set&quot;: function(v)  { this.width += v-this.right; }
-</span>    });
+        &quot;set&quot;: function(v)  { this.width += v-this.right; }
+    });
     
-    /**
-     * @property    bottom
+<span id='tm-geom-Rect-property-bottom'>    /**
+</span>     * @property    bottom
      * bottom
      */
     tm.geom.Rect.prototype.accessor(&quot;bottom&quot;, {
         &quot;get&quot;: function()   { return this.y + this.height; },
-<span id='tm-geom-Rect-property-bottom'>        &quot;set&quot;: function(v)  { this.height += v-this.bottom; }
-</span>    });
+        &quot;set&quot;: function(v)  { this.height += v-this.bottom; }
+    });
     
-    /**
-     * @property    centerX
+<span id='tm-geom-Rect-property-centerX'>    /**
+</span>     * @property    centerX
      * centerX
      */
     tm.geom.Rect.prototype.accessor(&quot;centerX&quot;, {
         &quot;get&quot;: function()   { return this.x + this.width/2; },
         &quot;set&quot;: function(v)  {
-<span id='tm-geom-Rect-property-centerX'>            // TODO: どうしようかな??
-</span>        }
+            // TODO: どうしようかな??
+        }
     });
     
-    /**
-     * @property    centerY
+<span id='tm-geom-Rect-property-centerY'>    /**
+</span>     * @property    centerY
      * centerY
      */
     tm.geom.Rect.prototype.accessor(&quot;centerY&quot;, {
         &quot;get&quot;: function()   { return this.y + this.height/2; },
         &quot;set&quot;: function(v)  {
-<span id='tm-geom-Rect-property-centerY'>            // TODO: どうしようかな??
-</span>        }
+            // TODO: どうしようかな??
+        }
     });
     
 })();

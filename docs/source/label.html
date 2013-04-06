@@ -36,17 +36,17 @@ tm.app = tm.app || {};
 </span>         * 塗りつぶしフラグ
          */
         fill: true,
-        /**
-<span id='tm-app-Label-property-stroke'>         * ストロークフラグ
-</span>         */
+<span id='tm-app-Label-property-stroke'>        /**
+</span>         * ストロークフラグ
+         */
         stroke: false,
         debugBox: false,
         
-        /**
-         * 初期化
+<span id='tm-app-Label-method-init'>        /**
+</span>         * 初期化
          */
-<span id='tm-app-Label-method-init'>        init: function(text, size) {
-</span>            this.superInit();
+        init: function(text, size) {
+            this.superInit();
             
             this.text       = text || &quot;HOGE&quot;;
             this.fontSize   = size || 24;
@@ -55,11 +55,11 @@ tm.app = tm.app || {};
             this.baseline   = &quot;alphabetic&quot;;
         },
         
-        /**
-         * 描画
+<span id='tm-app-Label-method-draw'>        /**
+</span>         * 描画
          */
-<span id='tm-app-Label-method-draw'>        draw: function(canvas) {
-</span>            canvas.setText(this.fontStyle, this.align, this.baseline);
+        draw: function(canvas) {
+            canvas.setText(this.fontStyle, this.align, this.baseline);
             if (this.fill) {
                 canvas.fillText(this.text, 0, 0, this.width);
             }
@@ -100,21 +100,21 @@ tm.app = tm.app || {};
     
     
         
-    /**
-     * @property    size
+<span id='tm-app-Label-property-size'>    /**
+</span>     * @property    size
      * サイズ
      */
-<span id='tm-app-Label-property-size'>    tm.app.Label.prototype.accessor(&quot;fontSize&quot;, {
-</span>        &quot;get&quot;: function() { return this._fontSize; },
+    tm.app.Label.prototype.accessor(&quot;fontSize&quot;, {
+        &quot;get&quot;: function() { return this._fontSize; },
         &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
     });
     
-    /**
-     * @property    font
+<span id='tm-app-Label-property-font'>    /**
+</span>     * @property    font
      * フォント
      */
-<span id='tm-app-Label-property-font'>    tm.app.Label.prototype.accessor(&quot;fontFamily&quot;, {
-</span>        &quot;get&quot;: function() { return this._fontFamily; },
+    tm.app.Label.prototype.accessor(&quot;fontFamily&quot;, {
+        &quot;get&quot;: function() { return this._fontFamily; },
         &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
     });
     

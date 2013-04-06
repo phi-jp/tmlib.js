@@ -50,10 +50,10 @@ tm.three = tm.three || {};
         _scenes      : null,
         _sceneIndex  : 0,
         
-        /**
-         * 初期化
-<span id='tm-three-ThreeApp-method-init'>         */
-</span>        init: function(canvas)
+<span id='tm-three-ThreeApp-method-init'>        /**
+</span>         * 初期化
+         */
+        init: function(canvas)
         {
             if (canvas instanceof HTMLCanvasElement) {
                 this.element = canvas;
@@ -95,11 +95,11 @@ tm.three = tm.three || {};
             return this;
         },
         
-        /**
-         * 画面にフィットさせる
+<span id='tm-three-ThreeApp-method-fitWindow'>        /**
+</span>         * 画面にフィットさせる
          */
-<span id='tm-three-ThreeApp-method-fitWindow'>        fitWindow: function(everFlag) {
-</span>            // 画面にフィット
+        fitWindow: function(everFlag) {
+            // 画面にフィット
             var _fitFunc = function() {
                 everFlag = everFlag === undefined ? true : everFlag;
                 var e = this.element;
@@ -146,24 +146,24 @@ tm.three = tm.three || {};
     });
     
     
-    /**
-     * @property    width
+<span id='tm-three-ThreeApp-property-width'>    /**
+</span>     * @property    width
      * 幅
      */
     tm.three.ThreeApp.prototype.accessor(&quot;width&quot;, {
         &quot;get&quot;: function()   { return this.element.width; },
         &quot;set&quot;: function(v)  { this.element.width = v; }
-<span id='tm-three-ThreeApp-property-width'>    });
-</span>    
-    /**
-     * @property    height
+    });
+    
+<span id='tm-three-ThreeApp-property-height'>    /**
+</span>     * @property    height
      * 高さ
      */
     tm.three.ThreeApp.prototype.accessor(&quot;height&quot;, {
         &quot;get&quot;: function()   { return this.element.height; },
         &quot;set&quot;: function(v)  { this.element.height = v; }
-<span id='tm-three-ThreeApp-property-height'>    });
-</span>    
+    });
+    
 })();
 
 
@@ -171,27 +171,27 @@ tm.three = tm.three || {};
     
     if (!tm.global.THREE) return ;
 
-    /**
-     * @class
+<span id='tm-three-Element'>    /**
+</span>     * @class
      * シーン
      */
     tm.three.Element = tm.createClass({
 
         superClass: THREE.Object3D,
 
-        /**
-         * 初期化
+<span id='tm-three-Element-method-init'>        /**
+</span>         * 初期化
          */
         init: function() {
             // THREE.Object3D の初期化 
-<span id='tm-three-Element'>            THREE.Object3D.call(this);
-</span>
+            THREE.Object3D.call(this);
+
             tm.event.EventDispatcher.prototype.init.call(this);
         },
         
-        /**
-<span id='tm-three-Element-method-init'>         * 更新処理
-</span>         */
+<span id='tm-three-Element-method-update'>        /**
+</span>         * 更新処理
+         */
         update: function() {},
 
         _update: function(app) {
@@ -200,8 +200,8 @@ tm.three = tm.three || {};
             
             this.update(app);
             
-<span id='tm-three-Element-method-update'>            var e = tm.event.Event(&quot;enterframe&quot;);
-</span>            e.app = app;
+            var e = tm.event.Event(&quot;enterframe&quot;);
+            e.app = app;
             this.dispatchEvent(e);
             // 子供達も実行
             if (this.children.length &gt; 0) {
@@ -216,7 +216,7 @@ tm.three = tm.three || {};
     });
     
     // tm.event.EventDispatcher を継承
-    tm.three.Element.prototype.extendSafe(tm.event.EventDispatcher.prototype);
+    tm.three.Element.prototype.$safe(tm.event.EventDispatcher.prototype);
     
 })();
 
@@ -224,28 +224,28 @@ tm.three = tm.three || {};
     
     if (!tm.global.THREE) return ;
 
-    /**
-     * @class
+<span id='tm-three-MeshElement'>    /**
+</span>     * @class
      * Mesh
      */
     tm.three.MeshElement = tm.createClass({
         
         superClass: THREE.Mesh,
         
-        /**
-         * 初期化
+<span id='tm-three-MeshElement-method-init'>        /**
+</span>         * 初期化
          */
         init: function(geometry, material) {
             material = material || new THREE.MeshNormalMaterial();
-<span id='tm-three-MeshElement'>            // THREE.Mesh の初期化
-</span>            THREE.Mesh.call(this, geometry, material);
+            // THREE.Mesh の初期化
+            THREE.Mesh.call(this, geometry, material);
 
             tm.three.Element.prototype.init.call(this);
-<span id='tm-three-MeshElement-method-init'>        },
-</span>    });
+        },
+    });
     
     // tm.three.Element を継承
-    tm.three.MeshElement.prototype.extendSafe(tm.three.Element.prototype);
+    tm.three.MeshElement.prototype.$safe(tm.three.Element.prototype);
 
     
     tm.three.CubeElement = tm.createClass({
@@ -358,28 +358,28 @@ tm.three = tm.three || {};
     
     if (!tm.global.THREE) return ;
 
-    /**
-     * @class
+<span id='tm-three-Scene'>    /**
+</span>     * @class
      * シーン
      */
     tm.three.Scene = tm.createClass({
         
         superClass: THREE.Scene,
         
-        /**
-         * 初期化
+<span id='tm-three-Scene-method-init'>        /**
+</span>         * 初期化
          */
         init: function(fov, aspect) {
             fov = fov || 60;
             aspect = aspect || 640/480;
             // THREE.Scene の初期化
-<span id='tm-three-Scene'>            THREE.Scene.call(this);
-</span>
+            THREE.Scene.call(this);
+
             // tm.three.Element を継承
             tm.three.Element.prototype.init.call(this);
 
-<span id='tm-three-Scene-method-init'>            this.camera = new THREE.PerspectiveCamera(fov, aspect, 1, 10000);
-</span>            this.camera.position.y = 100;
+            this.camera = new THREE.PerspectiveCamera(fov, aspect, 1, 10000);
+            this.camera.position.y = 100;
             this.camera.position.z = 500;
 
             this.projector = new THREE.Projector();
@@ -405,7 +405,12 @@ tm.three = tm.three || {};
     });
     
     // tm.three.Element を継承
-    tm.three.Scene.prototype.extendSafe(tm.three.Element.prototype);
-})();</pre>
+    tm.three.Scene.prototype.$safe(tm.three.Element.prototype);
+})();
+
+
+
+
+</pre>
 </body>
 </html>

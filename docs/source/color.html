@@ -31,38 +31,38 @@ tm.graphics = tm.graphics || {};
      */
     tm.graphics.Color = tm.createClass({
         
-        /**
-<span id='tm-graphics-Color-property-r'>         * R値
-</span>         */
+<span id='tm-graphics-Color-property-r'>        /**
+</span>         * R値
+         */
         r: 255,
         
-        /**
-<span id='tm-graphics-Color-property-g'>         * G値
-</span>         */
+<span id='tm-graphics-Color-property-g'>        /**
+</span>         * G値
+         */
         g: 255,
         
-        /**
-<span id='tm-graphics-Color-property-b'>         * B値
-</span>         */
+<span id='tm-graphics-Color-property-b'>        /**
+</span>         * B値
+         */
         b: 255,
         
-        /**
-         * A値
-<span id='tm-graphics-Color-property-a'>         */
-</span>        a: 1.0,
+<span id='tm-graphics-Color-property-a'>        /**
+</span>         * A値
+         */
+        a: 1.0,
         
-        /**
-<span id='tm-graphics-Color-method-constructor'>         * @constructor
-</span>         * 初期化
+<span id='tm-graphics-Color-method-constructor'>        /**
+</span>         * @constructor
+         * 初期化
          */
         init: function(r, g, b, a) {
             this.set.apply(this, arguments);
         },
 
-        /**
-         * セッター.
-<span id='tm-graphics-Color-method-set'>         */
-</span>        set: function(r, g, b, a) {
+<span id='tm-graphics-Color-method-set'>        /**
+</span>         * セッター.
+         */
+        set: function(r, g, b, a) {
             this.r = r;
             this.g = g;
             this.b = b;
@@ -70,10 +70,10 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
-        /**
-         * 数値によるセッター.
-<span id='tm-graphics-Color-method-setFromNumber'>         */
-</span>        setFromNumber: function(r, g, b, a) {
+<span id='tm-graphics-Color-method-setFromNumber'>        /**
+</span>         * 数値によるセッター.
+         */
+        setFromNumber: function(r, g, b, a) {
             this.r = r;
             this.g = g;
             this.b = b;
@@ -81,35 +81,35 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
-        /**
-         * 配列によるセッター
+<span id='tm-graphics-Color-method-setFromArray'>        /**
+</span>         * 配列によるセッター
          */
-<span id='tm-graphics-Color-method-setFromArray'>        setFromArray: function(arr) {
-</span>            return this.set.apply(this, arr);
+        setFromArray: function(arr) {
+            return this.set.apply(this, arr);
         },
         
-        /**
-         * オブジェクトによるセッター
+<span id='tm-graphics-Color-method-setFromObject'>        /**
+</span>         * オブジェクトによるセッター
          */
-<span id='tm-graphics-Color-method-setFromObject'>        setFromObject: function(obj) {
-</span>            return this.set(obj.r, obj.g, obj.b, obj.a);
+        setFromObject: function(obj) {
+            return this.set(obj.r, obj.g, obj.b, obj.a);
         },
         
-        /**
-         * 文字列によるセッター
+<span id='tm-graphics-Color-method-setFromString'>        /**
+</span>         * 文字列によるセッター
          */
         setFromString: function(str) {
-<span id='tm-graphics-Color-method-setFromString'>            var color = tm.graphics.Color.stringToNumber(str);
-</span>            return this.set(color[0], color[1], color[2], color[3]);
+            var color = tm.graphics.Color.stringToNumber(str);
+            return this.set(color[0], color[1], color[2], color[3]);
         },
         
-        /**
-         * 賢いセッター
+<span id='tm-graphics-Color-method-setSmart'>        /**
+</span>         * 賢いセッター
          */
         setSmart: function() {
             var arg = arguments[0];
-<span id='tm-graphics-Color-method-setSmart'>            if (arguments.length &gt;= 3) {
-</span>                this.set(arguments.r, arguments.g, arguments.b, arguments.a);
+            if (arguments.length &gt;= 3) {
+                this.set(arguments.r, arguments.g, arguments.b, arguments.a);
             }
             else if (arg instanceof Array) {
                 this.setFromArray(arg);
@@ -123,33 +123,33 @@ tm.graphics = tm.graphics || {};
             return this;
         },
 
-        /**
-         * CSS 用 16進数文字列に変換
+<span id='tm-graphics-Color-method-toStyleAsHex'>        /**
+</span>         * CSS 用 16進数文字列に変換
          */
         toStyleAsHex: function() {
             return &quot;#{0}{1}{2}&quot;.format(
-<span id='tm-graphics-Color-method-toStyleAsHex'>                this.r.toString(16).padding(2, '0'),
-</span>                this.g.toString(16).padding(2, '0'),
+                this.r.toString(16).padding(2, '0'),
+                this.g.toString(16).padding(2, '0'),
                 this.b.toString(16).padding(2, '0')
             );
         },
         
-        /**
-         * CSS 用 RGB文字列に変換
+<span id='tm-graphics-Color-method-toStyleAsRGB'>        /**
+</span>         * CSS 用 RGB文字列に変換
          */
         toStyleAsRGB: function() {
             return &quot;rgb({r},{g},{b})&quot;.format(this);
         },
-<span id='tm-graphics-Color-method-toStyleAsRGB'>        
-</span>        
-        /**
-         * CSS 用 RGBA文字列に変換
+        
+        
+<span id='tm-graphics-Color-method-toStyleAsRGBA'>        /**
+</span>         * CSS 用 RGBA文字列に変換
          */
         toStyleAsRGBA: function() {
             return &quot;rgba({r},{g},{b},{a})&quot;.format(this);
         },
 
-<span id='tm-graphics-Color-method-toStyleAsRGBA'>        /**
+<span id='tm-graphics-Color-method-toStyle'>        /**
 </span>         * CSS 用 RGBA 文字列に変換
          */
         toStyle: function() {
@@ -158,8 +158,8 @@ tm.graphics = tm.graphics || {};
         
     });
     
-<span id='tm-graphics-Color-method-toStyle'>    var MATCH_SET_LIST = {
-</span>        &quot;hex111&quot;: {
+    var MATCH_SET_LIST = {
+        &quot;hex111&quot;: {
             reg: /^#(\w{1})(\w{1})(\w{1})$/,
             exec: function(m) {
                 return [
@@ -314,32 +314,32 @@ tm.graphics = tm.graphics || {};
         return rgb;
     };
 
-    /**
-     * rgb 値を作成
+<span id='tm-graphics-Color-method-createStyleRGB'>    /**
+</span>     * rgb 値を作成
      */
     tm.graphics.Color.createStyleRGB = function(r, g, b) {
         return &quot;rgba(&quot; + r + &quot;,&quot; + g + &quot;,&quot; + b + &quot;)&quot;;
     };
     
-    /**
-     * rgba 値を作成
+<span id='tm-graphics-Color-method-createStyleRGBA'>    /**
+</span>     * rgba 値を作成
      */
-<span id='tm-graphics-Color-method-createStyleRGB'>    tm.graphics.Color.createStyleRGBA = function(r, g, b, a) {
-</span>        return &quot;rgba(&quot; + r + &quot;,&quot; + g + &quot;,&quot; + b + &quot;,&quot; + a + &quot;)&quot;;
+    tm.graphics.Color.createStyleRGBA = function(r, g, b, a) {
+        return &quot;rgba(&quot; + r + &quot;,&quot; + g + &quot;,&quot; + b + &quot;,&quot; + a + &quot;)&quot;;
     };
 
-    /**
-     * hsl 値を作成
+<span id='tm-graphics-Color-method-createStyleHSL'>    /**
+</span>     * hsl 値を作成
      */
-<span id='tm-graphics-Color-method-createStyleRGBA'>    tm.graphics.Color.createStyleHSL = function(h, s, l) {
-</span>        return &quot;hsl(&quot; + h + &quot;,&quot; + s + &quot;%,&quot; + l + &quot;%)&quot;;
+    tm.graphics.Color.createStyleHSL = function(h, s, l) {
+        return &quot;hsl(&quot; + h + &quot;,&quot; + s + &quot;%,&quot; + l + &quot;%)&quot;;
     };
     
-    /**
-     * hsla 値を作成
+<span id='tm-graphics-Color-method-createStyleHSLA'>    /**
+</span>     * hsla 値を作成
      */
-<span id='tm-graphics-Color-method-createStyleHSL'>    tm.graphics.Color.createStyleHSLA = function(h, s, l, a) {
-</span>        return &quot;hsla(&quot; + h + &quot;,&quot; + s + &quot;%,&quot; + l + &quot;%,&quot; + a + &quot;)&quot;;
+    tm.graphics.Color.createStyleHSLA = function(h, s, l, a) {
+        return &quot;hsla(&quot; + h + &quot;,&quot; + s + &quot;%,&quot; + l + &quot;%,&quot; + a + &quot;)&quot;;
     };
 })();
 </pre>

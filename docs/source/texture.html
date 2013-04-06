@@ -32,9 +32,9 @@ tm.graphics = tm.graphics || {};
         element: null,
         loaded: false,
         
-        /**
-<span id='tm-graphics-Texture-method-init'>         * 初期化
-</span>         */
+<span id='tm-graphics-Texture-method-init'>        /**
+</span>         * 初期化
+         */
         init: function(src) {
             this.element = new Image();
             this.element.src = src;
@@ -51,17 +51,17 @@ tm.graphics = tm.graphics || {};
         
     });
     
-    /**
-<span id='tm-graphics-Texture-property-width'>     * @property    width
-</span>     * 幅
+<span id='tm-graphics-Texture-property-width'>    /**
+</span>     * @property    width
+     * 幅
      */
     tm.graphics.Texture.prototype.getter(&quot;width&quot;, function() {
         return this.element.width;
     });
     
-    /**
-<span id='tm-graphics-Texture-property-height'>     * @property    height
-</span>     * 高さ
+<span id='tm-graphics-Texture-property-height'>    /**
+</span>     * @property    height
+     * 高さ
      */
     tm.graphics.Texture.prototype.getter(&quot;height&quot;, function() {
         return this.element.height;
@@ -71,43 +71,43 @@ tm.graphics = tm.graphics || {};
 
 (function(){
     
-    /**
-     * @class
-<span id='tm-graphics-TextureManager'>     * テクスチャマネージャクラス
-</span>     */
+<span id='tm-graphics-TextureManager'>    /**
+</span>     * @class
+     * テクスチャマネージャクラス
+     */
     tm.graphics.TextureManager = {
-        textures: {},
-        loaded: true,
-    };
+<span id='tm-graphics-TextureManager-property-textures'>        textures: {},
+</span><span id='tm-graphics-TextureManager-property-loaded'>        loaded: true,
+</span>    };
     
-    /**
-     * @static
+<span id='tm-graphics-TextureManager-static-method-add'>    /**
+</span>     * @static
      * @method
      * 追加
      */
-<span id='tm-graphics-TextureManager-static-method-add'>    tm.graphics.TextureManager.add = function(name, src)
-</span>    {
+    tm.graphics.TextureManager.add = function(name, src)
+    {
         if (src === undefined) { src = name; }
         
         this.textures[name] = tm.graphics.Texture(src);
         this.loaded = false;
     };
     
-    /**
-     * @static
+<span id='tm-graphics-TextureManager-static-method-get'>    /**
+</span>     * @static
      * @method
      * 取得
      */
-<span id='tm-graphics-TextureManager-static-method-get'>    tm.graphics.TextureManager.get = function(name)
-</span>    {
+    tm.graphics.TextureManager.get = function(name)
+    {
         return this.textures[name];
     };
     
-    /**
-     * ロードチェック
+<span id='tm-graphics-TextureManager-method-isLoaded'>    /**
+</span>     * ロードチェック
      */
-<span id='tm-graphics-TextureManager-method-isLoaded'>    tm.graphics.TextureManager.isLoaded = function()
-</span>    {
+    tm.graphics.TextureManager.isLoaded = function()
+    {
         for (var key in this.textures) {
             if (this.textures[key].loaded == false) {
                 return false;

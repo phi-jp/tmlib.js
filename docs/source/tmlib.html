@@ -16,7 +16,7 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * tmlib.js v0.1.5
+ * tmlib.js v0.1.6
  * http://github.com/phi1618/tmlib.js
  * MIT licensed
  * 
@@ -39,9 +39,9 @@ tm.global = window || global || this;
      */
     tm.VERSION = &quot;0.1.5&quot;;
 
-    /**
-<span id='tm-LIB_ROOT'>     * tmlib.js のルートパス
-</span>     */
+<span id='tm-LIB_ROOT'>    /**
+</span>     * tmlib.js のルートパス
+     */
     tm.LIB_ROOT = (function(){
         if (!window.document) return ;
 
@@ -51,10 +51,10 @@ tm.global = window || global || this;
         }
     })();
 
-    /**
-     * ブラウザ
-<span id='tm-BROWSER'>     */
-</span>    tm.BROWSER = (function() {
+<span id='tm-BROWSER'>    /**
+</span>     * ブラウザ
+     */
+    tm.BROWSER = (function() {
         if (!window.navigator) return ;
 
         if      (/chrome/i.test(navigator.userAgent))   { return &quot;Chrome&quot;;  }
@@ -66,10 +66,10 @@ tm.global = window || global || this;
         else { return null; }
     })();
 
-    /**
-     * ベンダープレフィックス
-<span id='tm-VENDER_PREFIX'>     */
-</span>    tm.VENDER_PREFIX = (function() {
+<span id='tm-VENDER_PREFIX'>    /**
+</span>     * ベンダープレフィックス
+     */
+    tm.VENDER_PREFIX = (function() {
         if (!window) return ;
 
         var map = {
@@ -84,23 +84,23 @@ tm.global = window || global || this;
     })();
 
 
-    /**
-     * モバイルかどうかの判定フラグ
+<span id='tm-VENDER_PREFIX-property-isMobile'>    /**
+</span>     * モバイルかどうかの判定フラグ
      */
-<span id='tm-VENDER_PREFIX-property-isMobile'>    tm.isMobile = (function() {
-</span>        if (!window.navigator) return ;
+    tm.isMobile = (function() {
+        if (!window.navigator) return ;
 
         var ua = navigator.userAgent;
         return (ua.indexOf(&quot;iPhone&quot;) &gt; 0 || ua.indexOf(&quot;iPad&quot;) &gt; 0 || ua.indexOf(&quot;Android&quot;) &gt; 0);
     })();
 
 
-    /**
-     * クラス定義
+<span id='tm-VENDER_PREFIX-method-createClass'>    /**
+</span>     * クラス定義
      */
     tm.createClass = function(prop) {
-<span id='tm-VENDER_PREFIX-method-createClass'>        // デフォルト値
-</span>        prop.init = prop.init || function() {};
+        // デフォルト値
+        prop.init = prop.init || function() {};
         prop.superClass = prop.superClass || null;
 
         // クラス作成
@@ -146,14 +146,14 @@ tm.global = window || global || this;
     tm.classes = {};
     var _calssDefinedCallback = {};
 
-    /**
-     * クラス定義
+<span id='tm-VENDER_PREFIX-method-define'>    /**
+</span>     * クラス定義
      * phi クラス定義 &lt;http://jsdo.it/phi/eEmj&gt;
      * new と apply を同時に使う &lt;http://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible&gt;
      */
     tm.define = function(path, prop) {
-<span id='tm-VENDER_PREFIX-method-define'>        var index       = path.lastIndexOf(&quot;.&quot;);
-</span>        var nsName      = path.substring(0, index);
+        var index       = path.lastIndexOf(&quot;.&quot;);
+        var nsName      = path.substring(0, index);
         var ns          = (nsName) ? tm.using(nsName) : tm.global;
         var className   = (nsName) ? path.substring(index+1) : path;
         var bind        = Function.prototype.bind;
@@ -202,8 +202,8 @@ tm.global = window || global || this;
     };
 
 
-    /**
-     * 名前空間
+<span id='tm-VENDER_PREFIX-method-namespace'>    /**
+</span>     * 名前空間
      * typescript の mudle 機能を参考
      * https://sites.google.com/site/jun1sboardgames/programming/typescript
      */
@@ -213,14 +213,14 @@ tm.global = window || global || this;
         fn.call(ns, ns);
     };
 
-    /**
-     * 使用
+<span id='tm-VENDER_PREFIX-method-using'>    /**
+</span>     * 使用
      */
     tm.using = function(ns) {
         if (tm.classes[ns]) return tm.classes[ns];
 
-<span id='tm-VENDER_PREFIX-method-namespace'>        var path = ns.split(/[,.\/ ]|::/);
-</span>        var current = tm.global;
+        var path = ns.split(/[,.\/ ]|::/);
+        var current = tm.global;
 
         for (var i=0,len=path.length; i&lt;len; ++i) {
             var dir = path[i];
@@ -228,13 +228,13 @@ tm.global = window || global || this;
         }
 
         // キャッシュ
-<span id='tm-VENDER_PREFIX-method-using'>        tm.classes[ns] = current;
-</span>
+        tm.classes[ns] = current;
+
         return current;
     };
 
-    /**
-     * ループ
+<span id='tm-VENDER_PREFIX-method-setLoop'>    /**
+</span>     * ループ
      */
     tm.setLoop = function(fn, delay) {
         var temp = function() {
@@ -248,8 +248,8 @@ tm.global = window || global || this;
             var progress = (new Date()).getTime() - start;
             // 次回までの待ち時間を計算
             var newDelay = delay-progress;
-<span id='tm-VENDER_PREFIX-method-setLoop'>            newDelay = (newDelay &gt; 0) ? newDelay : 0;
-</span>
+            newDelay = (newDelay &gt; 0) ? newDelay : 0;
+
             // 次回呼び出し登録
             setTimeout(arguments.callee, newDelay);
         };

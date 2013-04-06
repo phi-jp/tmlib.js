@@ -33,15 +33,16 @@ tm.app = tm.app || {};
         
         superClass: tm.app.CanvasElement,
         
-        /**
-         * 初期化
+<span id='tm-app-Scene-method-init'>        /**
+</span>         * 初期化
          */
-<span id='tm-app-Scene-method-init'>        init: function() {
-</span>            this.superInit();
+        init: function() {
+            this.superInit();
+            
+            this.boundingType = &quot;none&quot;;
             
             // タッチに反応させる
             this.interaction.enabled = true;
-            this.interaction.boundingType = &quot;none&quot;;
         },
     });
     
@@ -60,8 +61,7 @@ tm.app = tm.app || {};
         init: function(param) {
             this.superInit();
             
-            param = param || {};
-            param.extendSafe(DEFAULT_PARAM);
+            param = {}.$extend(DEFAULT_PARAM, param);
             
             var label = tm.app.Label(&quot;Loading&quot;);
             label.x = param.width/2;
@@ -117,8 +117,7 @@ tm.app = tm.app || {};
         init: function(param) {
             this.superInit();
             
-            param = param || {};
-            param.extendSafe(DEFAULT_PARAM);
+            param = {}.$extend(DEFAULT_PARAM, param);
 
             if (param.backgroundImage) {
                 this._backgroundImage = tm.app.Sprite(param.width, param.height, param.backgroundImage);
@@ -164,8 +163,7 @@ tm.app = tm.app || {};
         init: function(param) {
             this.superInit();
             
-            param = param || {};
-            param.extendSafe(DEFAULT_PARAM);
+            param = {}.$extend(DEFAULT_PARAM, param);
             
             var text = &quot;SCORE: {score}, {msg}&quot;.format(param);
             var twitterURL = tm.social.Twitter.createURL({

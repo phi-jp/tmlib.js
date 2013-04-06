@@ -29,10 +29,10 @@ tm.dom = tm.dom || {};
      */
     tm.dom.Anim = tm.createClass({
         
-        /**
-         * 初期化
-<span id='tm-dom-Anim-method-init'>         */
-</span>        init: function(element) {
+<span id='tm-dom-Anim-method-init'>        /**
+</span>         * 初期化
+         */
+        init: function(element) {
             this.element = element;
             
             // アニメーションが終了したらステートを &quot;paused&quot; にする(何度も再生できるようにする為)
@@ -43,29 +43,29 @@ tm.dom = tm.dom || {};
         },
         
         
-        /**
-         * アニメーション開始
+<span id='tm-dom-Anim-method-start'>        /**
+</span>         * アニメーション開始
          */
         start: function() {
-<span id='tm-dom-Anim-method-start'>            this.element.style[&quot;webkitAnimationPlayState&quot;] = &quot;running&quot;;
-</span>            return this;
+            this.element.style[&quot;webkitAnimationPlayState&quot;] = &quot;running&quot;;
+            return this;
         },
         
-        /**
-         * アニメーション終了
+<span id='tm-dom-Anim-method-stop'>        /**
+</span>         * アニメーション終了
          */
         stop: function() {
-<span id='tm-dom-Anim-method-stop'>            this.element.style[&quot;webkitAnimationPlayState&quot;] = &quot;paused&quot;;
-</span>            return this;
+            this.element.style[&quot;webkitAnimationPlayState&quot;] = &quot;paused&quot;;
+            return this;
         },
         
-        /**
-         * プロパティをセット
+<span id='tm-dom-Anim-method-setProperty'>        /**
+</span>         * プロパティをセット
          */
         setProperty: function(prop) {
             if (typeof prop == &quot;string&quot;) {
-<span id='tm-dom-Anim-method-setProperty'>                this.element.style[&quot;webkitAnimation&quot;] = prop;
-</span>            }
+                this.element.style[&quot;webkitAnimation&quot;] = prop;
+            }
             else {
                 for (var key in prop) {
                     var fn = ANIM_SETTER_FUNC_NAME_MAP[key];
@@ -76,50 +76,50 @@ tm.dom = tm.dom || {};
             return this;
         },
         
-        /**
-         * 名前をセット
+<span id='tm-dom-Anim-method-setName'>        /**
+</span>         * 名前をセット
          */
         setName: function(name) {
             this.element.style[&quot;webkitAnimationName&quot;] = name;
-<span id='tm-dom-Anim-method-setName'>            return this;
-</span>        },
+            return this;
+        },
         
-        /**
-         * アニメーション時間の長さをセット
+<span id='tm-dom-Anim-method-setDuration'>        /**
+</span>         * アニメーション時間の長さをセット
          */
         setDuration: function(s) {
             this.element.style[&quot;webkitAnimationDuration&quot;] = s;
-<span id='tm-dom-Anim-method-setDuration'>            return this;
-</span>        },
+            return this;
+        },
         
-        /**
-         * 補間関数をセット
+<span id='tm-dom-Anim-method-setTimingFunction'>        /**
+</span>         * 補間関数をセット
          */
         setTimingFunction: function(func) {
             this.element.style[&quot;webkitAnimationTimingFunction&quot;] = func;
             return this;
         },
-<span id='tm-dom-Anim-method-setTimingFunction'>        
-</span>        /**
-         * イテレータカウントをセット
+        
+<span id='tm-dom-Anim-method-setIterationCount'>        /**
+</span>         * イテレータカウントをセット
          */
         setIterationCount: function(n) {
             this.element.style[&quot;webkitAnimationIterationCount&quot;] = n;
             return this;
         },
         
-        /**
-<span id='tm-dom-Anim-method-setIterationCount'>         * アニメーション開始待ち時間をセット
-</span>         */
+<span id='tm-dom-Anim-method-setDelay'>        /**
+</span>         * アニメーション開始待ち時間をセット
+         */
         setDelay: function(s) {
             this.element.style[&quot;webkitAnimationDelay&quot;] = s;
             return this;
         },
         
-        /**
-         * 判定再生させるかどうかを指定
-<span id='tm-dom-Anim-method-setDelay'>         * &quot;normal&quot; or &quot;alternate&quot;
-</span>         */
+<span id='tm-dom-Anim-method-setDirection'>        /**
+</span>         * 判定再生させるかどうかを指定
+         * &quot;normal&quot; or &quot;alternate&quot;
+         */
         setDirection: function(t) {
             this.element.style[&quot;webkitAnimationDirection&quot;] = t;
             return this;
@@ -127,8 +127,8 @@ tm.dom = tm.dom || {};
     });
     
     var ANIM_SETTER_FUNC_NAME_MAP = {
-<span id='tm-dom-Anim-method-setDirection'>        // 小文字対応
-</span>        &quot;name&quot;          : tm.dom.Anim.prototype.setName,
+        // 小文字対応
+        &quot;name&quot;          : tm.dom.Anim.prototype.setName,
         &quot;duration&quot;      : tm.dom.Anim.prototype.setDuration,
         &quot;timingFunction&quot;: tm.dom.Anim.prototype.setTimingFunction,
         &quot;iterationCount&quot;: tm.dom.Anim.prototype.setIterationCount,
@@ -142,8 +142,8 @@ tm.dom = tm.dom || {};
         &quot;Delay&quot;         : tm.dom.Anim.prototype.setDelay,
     };
     
-    /**
-     * @property    anim
+<span id='tm-dom-Anim-property-anim'>    /**
+</span>     * @property    anim
      * アニメーション
      */
     tm.dom.Element.prototype.getter(&quot;anim&quot;, function() {

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * phi
+ */
+
+    
+<span id='tm-util-Type'>/**
+</span> * @class tm.util.Type
+ * 型チェック
+ */
+tm.namespace(&quot;tm.util.Type&quot;, function() {
+    var self = this;
+    var toString = Object.prototype.toString;
+
+<span id='tm-util-Type-static-method-isObject'>    /**
+</span>     * @static
+     * @method  isObject
+     * is object
+     */
+    this.defineFunction(&quot;isObject&quot;, function(obj) {
+        return obj === Object(obj);
+    });
+
+<span id='tm-util-Type-static-method-isArray'>    /**
+</span>     * @static
+     * @method  isArray
+     * is array
+     */
+    this.defineFunction(&quot;isArray&quot;, function(obj) {
+        return toString.call(obj) == '[object Array]';
+    });
+
+<span id='tm-util-Type-static-method-isArguments'>    /**
+</span>     * @static
+     * @method  isArguments
+     * is arguments
+     */
+    this.defineFunction(&quot;isArguments&quot;, function(obj) {
+        return toString.call(obj) == '[object Arguments]';
+    });
+
+<span id='tm-util-Type-static-method-isFunction'>    /**
+</span>     * @static
+     * @method  isFunction
+     * is function
+     */
+    this.defineFunction(&quot;isFunction&quot;, function(obj) {
+        return toString.call(obj) == '[object Function]';
+    });
+
+<span id='tm-util-Type-static-method-isString'>    /**
+</span>     * @static
+     * @method  isString
+     * is string
+     */
+    this.defineFunction(&quot;isString&quot;, function(obj) {
+        return toString.call(obj) == '[object String]';
+    });
+
+<span id='tm-util-Type-static-method-isNumber'>    /**
+</span>     * @static
+     * @method  isNumber
+     * is number
+     */
+    this.defineFunction(&quot;isNumber&quot;, function(obj) {
+        return toString.call(obj) == '[object Number]';
+    });
+
+<span id='tm-util-Type-static-method-isDate'>    /**
+</span>     * @static
+     * @method  isDate
+     * is date
+     */
+    this.defineFunction(&quot;isDate&quot;, function(obj) {
+        return toString.call(obj) == '[object Date]';
+    });
+
+<span id='tm-util-Type-static-method-isRegExp'>    /**
+</span>     * @static
+     * @method  isRegExp
+     * is RegExp
+     */
+    this.defineFunction(&quot;isRegExp&quot;, function(obj) {
+        return toString.call(obj) == '[object RegExp]';
+    });
+
+<span id='tm-util-Type-static-method-isEmpty'>    /**
+</span>     * @static
+     * @method  isEmpty
+     * is empty
+     */
+    this.defineFunction(&quot;isEmpty&quot;, function(obj) {
+        if (!obj) return true;
+        if (self.isArray(obj) || self.isString(obj) || self.isArguments(obj)) return obj.length === 0;
+        for (var key in obj) {
+            if (key) return false;
+        }
+        return true;
+    });
+
+});
+</pre>
+</body>
+</html>

@@ -41,9 +41,9 @@ tm.sound = tm.sound || {};
         loaded      : false,
         isPlay      : false,
         
-        /**
-<span id='tm-sound-Sound-method-init'>         * 初期化
-</span>         */
+<span id='tm-sound-Sound-method-init'>        /**
+</span>         * 初期化
+         */
         init: function(src) {
             this.element = new Audio();
             this.element.src = src;
@@ -69,21 +69,21 @@ tm.sound = tm.sound || {};
             }
         },
         
-        /**
-         * 再生
+<span id='tm-sound-Sound-method-play'>        /**
+</span>         * 再生
          */
         play: function() {
-<span id='tm-sound-Sound-method-play'>            this.element.play();
-</span>            this.isPlay = true;
+            this.element.play();
+            this.isPlay = true;
             return this;
         },
         
-        /**
-         * 停止
+<span id='tm-sound-Sound-method-stop'>        /**
+</span>         * 停止
          */
         stop: function() {
-<span id='tm-sound-Sound-method-stop'>            this.element.pause();
-</span>            //? スマホだと止まるので応急対応
+            this.element.pause();
+            //? スマホだと止まるので応急対応
             if (!tm.isMobile) {
                 this.element.currentTime = 0;
             }
@@ -91,44 +91,44 @@ tm.sound = tm.sound || {};
             return this;
         },
         
-        /**
-         * 一時停止
+<span id='tm-sound-Sound-method-pause'>        /**
+</span>         * 一時停止
          */
         pause: function() {
             this.element.pause();
-<span id='tm-sound-Sound-method-pause'>            return this;
-</span>        },
+            return this;
+        },
         
-        /**
-         * クローン
+<span id='tm-sound-Sound-method-clone'>        /**
+</span>         * クローン
          */
         clone: function() {
             return tm.sound.Sound( this.element.src );
-<span id='tm-sound-Sound-method-clone'>        },
-</span>        
+        },
+        
     });
     
     
     
-    /**
-     * @property    volume
+<span id='tm-sound-Sound-property-volume'>    /**
+</span>     * @property    volume
      * ボリューム
      */
     tm.sound.Sound.prototype.accessor(&quot;volume&quot;, {
-<span id='tm-sound-Sound-property-volume'>        &quot;get&quot;: function() { return this.element.volume; },
-</span>        &quot;set&quot;: function(v){ this.element.volume = v; }
+        &quot;get&quot;: function() { return this.element.volume; },
+        &quot;set&quot;: function(v){ this.element.volume = v; }
     });
     
     
     if ((new Audio()).loop !== undefined) {
     
-        /**
-         * @property    loop
+<span id='tm-sound-Sound-property-loop'>        /**
+</span>         * @property    loop
          * ループフラグ
          */
         tm.sound.Sound.prototype.accessor(&quot;loop&quot;, {
-<span id='tm-sound-Sound-property-loop'>            &quot;get&quot;: function() { return this.element.loop; },
-</span>            &quot;set&quot;: function(v){ this.element.loop = v; }
+            &quot;get&quot;: function() { return this.element.loop; },
+            &quot;set&quot;: function(v){ this.element.loop = v; }
         });
     }
     // firefox 対応
@@ -153,8 +153,8 @@ tm.sound = tm.sound || {};
     }
     
     
-    /**
-     * @static
+<span id='tm-sound-Sound-static-property-SUPPORT_EXT'>    /**
+</span>     * @static
      * @property    SUPPORT_EXT
      * サポートしている拡張子
      */
@@ -162,8 +162,8 @@ tm.sound = tm.sound || {};
         var ext     = &quot;&quot;;
         var audio   = new Audio();
         
-<span id='tm-sound-Sound-static-property-SUPPORT_EXT'>        if      (audio.canPlayType(&quot;audio/wav&quot;) == 'maybe') { ext=&quot;wav&quot;; }
-</span>        else if (audio.canPlayType(&quot;audio/mp3&quot;) == 'maybe') { ext=&quot;mp3&quot;; }
+        if      (audio.canPlayType(&quot;audio/wav&quot;) == 'maybe') { ext=&quot;wav&quot;; }
+        else if (audio.canPlayType(&quot;audio/mp3&quot;) == 'maybe') { ext=&quot;mp3&quot;; }
         else if (audio.canPlayType(&quot;audio/ogg&quot;) == 'maybe') { ext=&quot;ogg&quot;; }
         
         return ext;
@@ -177,29 +177,29 @@ tm.sound = tm.sound || {};
     //? モバイル系ブラウザ対応
     var DEFAULT_CACHE_NUM = (tm.isMobile) ? 1 : 4;
     
-    /**
-     * @class   サウンドマネージャクラス
+<span id='tm-sound-SoundManager'>    /**
+</span>     * @class   サウンドマネージャクラス
      * サウンドを管理するクラス
      */
     tm.sound.SoundManager = {
-        sounds: {}
-    };
+<span id='tm-sound-SoundManager-property-sounds'>        sounds: {}
+</span>    };
     
-    /**
-     * @static
+<span id='tm-sound-SoundManager-static-method-add'>    /**
+</span>     * @static
      * @method
      * サウンドを追加
      */
     tm.sound.SoundManager.add = function(name, src, cache) {
         cache = cache || DEFAULT_CACHE_NUM;
         
-<span id='tm-sound-SoundManager'>        // 拡張子チェック
-</span>        if (src.split('/').at(-1).indexOf('.') == -1) {
+        // 拡張子チェック
+        if (src.split('/').at(-1).indexOf('.') == -1) {
             src += &quot;.&quot; + tm.sound.Sound.SUPPORT_EXT;
         }
         
-<span id='tm-sound-SoundManager-static-method-add'>        var cacheList = this.sounds[name] = [];
-</span>        for (var i=0; i&lt;cache; ++i) {
+        var cacheList = this.sounds[name] = [];
+        for (var i=0; i&lt;cache; ++i) {
             var sound = tm.sound.Sound(src);
             cacheList.push( sound );
         }
@@ -209,8 +209,8 @@ tm.sound = tm.sound || {};
     
 
     
-    /**
-     * @static
+<span id='tm-sound-SoundManager-static-method-get'>    /**
+</span>     * @static
      * @method
      * サウンドを取得
      */
@@ -226,7 +226,7 @@ tm.sound = tm.sound || {};
     };
     
     
-<span id='tm-sound-SoundManager-static-method-get'>    /**
+<span id='tm-sound-SoundManager-static-method-getByIndex'>    /**
 </span>     * @static
      * @method
      * サウンドを取得(index 指定版)
@@ -235,8 +235,8 @@ tm.sound = tm.sound || {};
         return this.sounds[name][index];
     };
     
-    /**
-     * @static
+<span id='tm-sound-SoundManager-static-method-remove'>    /**
+</span>     * @static
      * @method
      * サウンドを削除
      */
@@ -246,12 +246,12 @@ tm.sound = tm.sound || {};
         return this;
     };
     
-    /**
-     * @static
+<span id='tm-sound-SoundManager-static-method-setVolume'>    /**
+</span>     * @static
      * @method
      * ボリュームをセット
-<span id='tm-sound-SoundManager-static-method-getByIndex'>     */
-</span>    tm.sound.SoundManager.setVolume = function(name, volume) {
+     */
+    tm.sound.SoundManager.setVolume = function(name, volume) {
         // TODO:
         
         return this;
@@ -259,17 +259,17 @@ tm.sound = tm.sound || {};
     
     
     
-    /**
-     * ロードチェック
+<span id='tm-sound-SoundManager-method-isLoaded'>    /**
+</span>     * ロードチェック
      */
-<span id='tm-sound-SoundManager-static-method-remove'>    tm.sound.SoundManager.isLoaded = function()
-</span>    {
+    tm.sound.SoundManager.isLoaded = function()
+    {
         for (var key in this.sounds) {
             var soundList = this.sounds[key];
             
             for (var i=0,len=soundList.length; i&lt;len; ++i) {
-<span id='tm-sound-SoundManager-static-method-setVolume'>                if (soundList[i].loaded == false) {
-</span>                    return false;
+                if (soundList[i].loaded == false) {
+                    return false;
                 }
             }
         }

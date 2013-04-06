@@ -93,45 +93,45 @@ tm.util = tm.util || {};
         }
     };
     
-    /**
-     * データコンバータテーブル
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE'>    /**
+</span>     * データコンバータテーブル
      */
     tm.util.Ajax.DATA_CONVERTE_TABLE = {
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE'>        undefined: function(data) {
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-undefined'>        undefined: function(data) {
 </span>            return data;
         },
         
-        text: function(data) {
-            return data;
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-text'>        text: function(data) {
+</span>            return data;
         },
         
-        xml: function(data) {
-            var div = document.createElement(&quot;div&quot;);
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-xml'>        xml: function(data) {
+</span>            var div = document.createElement(&quot;div&quot;);
             div.innerHTML = data;
             return div;
         },
         
-        dom: function(data) {
-            var div = document.createElement(&quot;div&quot;);
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-dom'>        dom: function(data) {
+</span>            var div = document.createElement(&quot;div&quot;);
             div.innerHTML = data;
             return tm.dom.Element(div);
         },
         
-        json: function(data) {
-            return JSON.parse(data);
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-json'>        json: function(data) {
+</span>            return JSON.parse(data);
         },
         
-        script: function(data) {
-            eval(data);
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-script'>        script: function(data) {
+</span>            eval(data);
             return data;
         },
         
-        /**
-         * ### Reference
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-bin'>        /**
+</span>         * ### Reference
          * - &lt;http://efcl.info/adiary/Javascript/treat-binary&gt;
          * @param {Object} data
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-bin'>         */
-</span>        bin: function(data) {
+         */
+        bin: function(data) {
             var bytearray = [];
             for (var i=0, len=data.length; i&lt;len; ++i) {
                 bytearray[i] = data.charCodeAt(i) &amp; 0xff;

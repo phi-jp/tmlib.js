@@ -33,10 +33,10 @@ tm.google = tm.google || {};
     var DYNAMIC_ICONS_BASE_URL  = &quot;https://chart.googleapis.com/chart?chst={type}&amp;chld={data}&quot;;
     var QR_CODE_BASE_URL        = &quot;https://chart.googleapis.com/chart?chs={size}&amp;cht={type}&amp;chl={text}&amp;chco={color}&quot;;
     
-    /**
-     * ダイナミックアイコン
-<span id='tm-google-Chart-method-createDynamicIcons'>     * @param {string}  type    d_bubble_text_small OR d_fnote_title OR chst=d_fnote etc...
-</span>     * @param {string}  data    
+<span id='tm-google-Chart-method-createDynamicIcons'>    /**
+</span>     * ダイナミックアイコン
+     * @param {string}  type    d_bubble_text_small OR d_fnote_title OR chst=d_fnote etc...
+     * @param {string}  data    
      * ### Example
      *      tm.google.Chart.createDynamicIcons(&quot;d_bubble_icon_text_small&quot;, &quot;ski|bb|Hello, world!|FFFFFF|000000&quot;);
      *      tm.google.Chart.createDynamicIcons(&quot;d_fnote&quot;, &quot;balloon|1|000000|l|Hello, world!&quot;);
@@ -52,10 +52,10 @@ tm.google = tm.google || {};
         });
     };
     
-    /**
-     * QRCode 生成
-<span id='tm-google-Chart-method-createQRCode'>     * @param {Object} prop
-</span>     * ### Reference
+<span id='tm-google-Chart-method-createQRCode'>    /**
+</span>     * QRCode 生成
+     * @param {Object} prop
+     * ### Reference
      * - &lt;https://developers.google.com/chart/?hl=ja#qrcodes&gt;
      * - &lt;https://developers.google.com/chart/infographics/?hl=ja&gt;
      * - &lt;https://google-developers.appspot.com/chart/infographics/docs/overview&gt;
@@ -73,11 +73,11 @@ tm.google = tm.google || {};
         });
     };
     
-    /**
-     * Tex 生成
+<span id='tm-google-Chart-method-createTeX'>    /**
+</span>     * Tex 生成
      */
-<span id='tm-google-Chart-method-createTeX'>    tm.google.Chart.createTeX = function() {
-</span>        //&amp;chco=ff0000ff
+    tm.google.Chart.createTeX = function() {
+        //&amp;chco=ff0000ff
     };
     
 })();

@@ -35,10 +35,10 @@ tm.event = tm.event || {};
             this._listeners = {};
         },
         
-        /**
-         * イベントリスナー追加
-<span id='tm-event-EventDispatcher-method-addEventListener'>         */
-</span>        addEventListener: function(type, listener) {
+<span id='tm-event-EventDispatcher-method-addEventListener'>        /**
+</span>         * イベントリスナー追加
+         */
+        addEventListener: function(type, listener) {
             if (this._listeners[type] === undefined) {
                 this._listeners[type] = [];
             }
@@ -47,11 +47,11 @@ tm.event = tm.event || {};
             return this;
         },
         
-        /**
-         * イベント起動
+<span id='tm-event-EventDispatcher-method-dispatchEvent'>        /**
+</span>         * イベント起動
          */
-<span id='tm-event-EventDispatcher-method-dispatchEvent'>        dispatchEvent: function(e) {
-</span>            e.target = this;
+        dispatchEvent: function(e) {
+            e.target = this;
             var oldEventName = 'on' + e.type;
             if (this[oldEventName]) this[oldEventName](e);
             
@@ -63,32 +63,32 @@ tm.event = tm.event || {};
             }
         },
         
-        /**
-         * 登録されたイベントがあるかをチェック
+<span id='tm-event-EventDispatcher-method-hasEventListener'>        /**
+</span>         * 登録されたイベントがあるかをチェック
          */
-<span id='tm-event-EventDispatcher-method-hasEventListener'>        hasEventListener: function(type) {
-</span>            if (this._listeners[type] === undefined) return false;
+        hasEventListener: function(type) {
+            if (this._listeners[type] === undefined) return false;
             return true;
         },
         
-        /**
-         * リスナーを削除
+<span id='tm-event-EventDispatcher-method-removeEventListener'>        /**
+</span>         * リスナーを削除
          */
         removeEventListener: function(type, listener) {
-<span id='tm-event-EventDispatcher-method-removeEventListener'>            var listeners = this._listeners[type];
-</span>            var index = listeners.indexOf(listener);
+            var listeners = this._listeners[type];
+            var index = listeners.indexOf(listener);
             if (index != -1) {
                 listeners.splice(index,1);
             }
             return this;
         },
         
-        /**
-         * リスナーを全てクリア
+<span id='tm-event-EventDispatcher-method-clearEventListener'>        /**
+</span>         * リスナーを全てクリア
          */
         clearEventListener: function(type) {
-<span id='tm-event-EventDispatcher-method-clearEventListener'>            this._listeners[type] = [];
-</span>            return this;
+            this._listeners[type] = [];
+            return this;
         },
     });
     

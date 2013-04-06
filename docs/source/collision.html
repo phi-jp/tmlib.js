@@ -33,17 +33,17 @@ tm.app = tm.app || {};
         
         collideList: null,
         
-        /**
-<span id='tm-app-Collision-method-init'>         * 初期化
-</span>         */
+<span id='tm-app-Collision-method-init'>        /**
+</span>         * 初期化
+         */
         init: function(elm) {
             this.element = elm;
             this.collideList = [];
         },
         
-        /**
-<span id='tm-app-Collision-method-update'>         * @method
-</span>         * 更新
+<span id='tm-app-Collision-method-update'>        /**
+</span>         * @method
+         * 更新
          */
         update: function(app) {
             var cl  = this.collideList.clone();
@@ -76,33 +76,33 @@ tm.app = tm.app || {};
             }
         },
         
-        /**
-         * 追加
+<span id='tm-app-Collision-method-add'>        /**
+</span>         * 追加
          */
         add: function(elm) {
-<span id='tm-app-Collision-method-add'>            this.collideList.push({
-</span>                element: elm,
+            this.collideList.push({
+                element: elm,
                 collide: false,
             });
         },
         
-        /**
-         * 削除
+<span id='tm-app-Collision-method-remove'>        /**
+</span>         * 削除
          */
         remove: function(elm) {
-<span id='tm-app-Collision-method-remove'>            this.collideList.eraseIf(function(v) {
-</span>                return v.element == elm;
+            this.collideList.eraseIf(function(v) {
+                return v.element == elm;
             });
         },
         
     });
     
     
-    /**
-     * @member      tm.app.Element
+<span id='tm-app-Element-property-collision'>    /**
+</span>     * @member      tm.app.Element
      * @property    collision
-<span id='tm-app-Element-property-collision'>     * コリジョン
-</span>     */
+     * コリジョン
+     */
     tm.app.Element.prototype.getter(&quot;collision&quot;, function() {
         if (!this._collision) {
             this._collision = tm.app.Collision(this);

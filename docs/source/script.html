@@ -32,9 +32,9 @@ tm.util = tm.util || {};
         element: null,
         loaded: false,
         
-        /**
-<span id='tm-util-Script-method-init'>         * 初期化
-</span>         */
+<span id='tm-util-Script-method-init'>        /**
+</span>         * 初期化
+         */
         init: function(src, callback) {
             this.loaded = false;
             this.element = document.createElement(&quot;script&quot;);
@@ -61,30 +61,30 @@ tm.util = tm.util || {};
 
 (function(){
     
-    /**
-     * @class
-<span id='tm-util-ScriptManager'>     * スクリプトマネージャクラス
-</span>     */
+<span id='tm-util-ScriptManager'>    /**
+</span>     * @class
+     * スクリプトマネージャクラス
+     */
     tm.util.ScriptManager = {
-        scriptList: {},
-        loaded: true,
-    };
+<span id='tm-util-ScriptManager-property-scriptList'>        scriptList: {},
+</span><span id='tm-util-ScriptManager-property-loaded'>        loaded: true,
+</span>    };
     
-    /**
-     * @static
+<span id='tm-util-ScriptManager-static-method-load'>    /**
+</span>     * @static
      * @method
      * 追加
-<span id='tm-util-ScriptManager-static-method-load'>     */
-</span>    tm.util.ScriptManager.load = function(src, callback)
+     */
+    tm.util.ScriptManager.load = function(src, callback)
     {
         this.scriptList[src] = tm.util.Script(src, callback);
     };
 
-    /**
-     * @static
+<span id='tm-util-ScriptManager-static-method-loadStats'>    /**
+</span>     * @static
      * @method
-<span id='tm-util-ScriptManager-static-method-loadStats'>     * stats.js を動的ロード
-</span>     */
+     * stats.js を動的ロード
+     */
     tm.util.ScriptManager.loadStats = function(version)
     {
         version = version || &quot;r11&quot;;
@@ -98,13 +98,13 @@ tm.util = tm.util || {};
         this.load(path);
     };
 
-    /**
-     * @static
+<span id='tm-util-ScriptManager-static-method-loadDatGUI'>    /**
+</span>     * @static
      * @method
      * Dat GUI を動的ロード
      */
-<span id='tm-util-ScriptManager-static-method-loadDatGUI'>    tm.util.ScriptManager.loadDatGUI = function(version)
-</span>    {
+    tm.util.ScriptManager.loadDatGUI = function(version)
+    {
         // http://dat-gui.googlecode.com/git/build/dat.gui.min.js
         // https://dat-gui.googlecode.com/git-history/0.5/build/dat.gui.min.js
 
@@ -115,13 +115,13 @@ tm.util = tm.util || {};
         this.load(path);
     };
 
-    /**
-     * @static
+<span id='tm-util-ScriptManager-static-method-loadThree'>    /**
+</span>     * @static
      * @method
      * Three.js を動的ロード
      */
-<span id='tm-util-ScriptManager-static-method-loadThree'>    tm.util.ScriptManager.loadThree = function(version) {
-</span>        var THREE_JS_URL = &quot;https://raw.github.com/mrdoob/three.js/{version}/build/three.js&quot;;
+    tm.util.ScriptManager.loadThree = function(version) {
+        var THREE_JS_URL = &quot;https://raw.github.com/mrdoob/three.js/{version}/build/three.js&quot;;
 //        var THREE_JS_URL = &quot;https://raw.github.com/mrdoob/three.js/{version}/build/three.min.js&quot;;
         version = version || &quot;r55&quot;;
 
@@ -130,25 +130,25 @@ tm.util = tm.util || {};
         this.load(path);
     };
 
-    /**
-     * @static
+<span id='tm-util-ScriptManager-static-method-loadBulletML'>    /**
+</span>     * @static
      * @method
      * BulletML を動的ロード
      */
-<span id='tm-util-ScriptManager-static-method-loadBulletML'>    tm.util.ScriptManager.loadBulletML = function(version) {
-</span>        var BULLETML_FOR_TMLIB_JS_URL   = &quot;https://raw.github.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js&quot;;
+    tm.util.ScriptManager.loadBulletML = function(version) {
+        var BULLETML_FOR_TMLIB_JS_URL   = &quot;https://raw.github.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js&quot;;
         version = version || &quot;v0.4.1&quot;;
         var path = BULLETML_FOR_TMLIB_JS_URL.format({version: version});        
         this.load(path);
     };
     
-    /**
-     * ロードチェック
+<span id='tm-util-ScriptManager-method-isLoaded'>    /**
+</span>     * ロードチェック
      */
     tm.util.ScriptManager.isLoaded = function()
     {
-<span id='tm-util-ScriptManager-method-isLoaded'>        if (this.scriptList.length &lt;= 0) return true;
-</span>
+        if (this.scriptList.length &lt;= 0) return true;
+
         for (var key in this.scriptList) {
             if (this.scriptList[key].loaded == false) {
                 return false;

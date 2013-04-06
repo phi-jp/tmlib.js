@@ -40,7 +40,6 @@ tm.app = tm.app || {};
         
         init: function(element) {
             this.element = element;
-            this.setBoundingType(&quot;circle&quot;);
         },
         
         update: function(app) {
@@ -51,8 +50,7 @@ tm.app = tm.app || {};
             
             var prevHitFlag = this.hitFlag;
             
-            this.hitFlag    = this.hitTestFunc.call(elm, p.x, p.y);
-            
+            this.hitFlag    = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag &amp;&amp; this.hitFlag) {
                 elm.dispatchEvent( tm.event.MouseEvent(&quot;mouseover&quot;, app) );
@@ -90,36 +88,13 @@ tm.app = tm.app || {};
         },
         
         setBoundingType: function(type) { this.boundingType = type; },
-        
-        _setHitTestFunc: function() {
-            if (this.boundingType == &quot;rect&quot;) {
-                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointRectHierarchy;
-            }
-            else if (this.boundingType == &quot;circle&quot;) {
-                this.hitTestFunc = tm.app.CanvasElement.prototype.isHitPointCircleHierarchy;
-            }
-            else {
-                this.hitTestFunc = function() { return true };
-            }
-            return this;
-        },
-        
     });
+
     
-    /**
-<span id='tm-app-Interaction-property-boundingType'>     * @property    boundingType
-</span>     * バウンディングタイプ
-     */
-    tm.app.Interaction.prototype.accessor(&quot;boundingType&quot;, {
-        &quot;get&quot;: function()   { return this._boundingType; },
-        &quot;set&quot;: function(v)  { this._boundingType = v; this._setHitTestFunc(); }
-    });
-    
-    
-    /**
-     * @member      tm.app.Element
-<span id='tm-app-Element-property-interaction'>     * @property    interaction
-</span>     * インタラクション
+<span id='tm-app-Element-property-interaction'>    /**
+</span>     * @member      tm.app.Element
+     * @property    interaction
+     * インタラクション
      */
     tm.app.Element.prototype.getter(&quot;interaction&quot;, function() {
         if (!this._interaction) {

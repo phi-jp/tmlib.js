@@ -31,20 +31,24 @@ tm.app = tm.app || {};
      */
     tm.app.Animation = tm.createClass({
         
+        superClass: tm.event.EventDispatcher,
+
         isAnimation: false,
         
-        /**
-         * 初期化
-<span id='tm-app-Animation-method-init'>         */
-</span>        init: function(elm) {
-            this.element    = elm;
+<span id='tm-app-Animation-method-init'>        /**
+</span>         * 初期化
+         */
+        init: function(elm) {
+            this.superInit();
+
             this.tweens     = [];
+            this.setTarget(elm);
         },
         
-        /**
-         * @method
-<span id='tm-app-Animation-method-update'>         * 更新
-</span>         */
+<span id='tm-app-Animation-method-update'>        /**
+</span>         * @method
+         * 更新
+         */
         update: function(app) {
             var tweens = this.tweens.clone();
             for (var i=0,len=tweens.length; i&lt;len; ++i) {
@@ -68,6 +72,7 @@ tm.app = tm.app || {};
                         this.isAnimation = false;
                         var e = tm.event.Event(&quot;animationend&quot;);
                         this.element.dispatchEvent(e);
+                        this.dispatchEvent(e);
                     }
                 }
                 else {
@@ -80,7 +85,11 @@ tm.app = tm.app || {};
         {
             if (!param.target) param.target = this.element;
             
-            var tween = tm.anim.Tween(param);
+            var tween = tm.anim.Tween();
+            var begin = {}; begin[param.prop] = param.begin;
+            var finish= {}; finish[param.prop] = param.finish;
+            tween.fromTo(param.target, begin, finish, param.duration, param.func);
+            
             tween.delay = param.delay || 0;
             this.tweens.push(tween);
             
@@ -103,38 +112,14 @@ tm.app = tm.app || {};
             return this;
         },
         
-        fade: function(value, duration) {
-            duration = (duration !== undefined) ? duration : 1000;
-            
-            this.addTween({
-                prop: &quot;alpha&quot;,
-                begin: this.element.alpha,
-                finish: value,
-                duration: duration,
-            });
-            return this;
-        },
-        
         move: function(x, y, duration, fn)
         {
             duration = (duration !== undefined) ? duration : 1000;
             fn       = fn || &quot;linear&quot;;
-            
-            this.addTween({
-                prop: &quot;x&quot;,
-                begin: this.element.x,
-                finish: this.element.x + x,
-                duration: duration,
-                func: fn,
-            });
-            this.addTween({
-                prop: &quot;y&quot;,
-                begin: this.element.y,
-                finish: this.element.y + y,
-                duration: duration,
-                func: fn,
-            });
-            
+        
+            this.by(&quot;x&quot;, x, duration, fn);
+            this.by(&quot;y&quot;, y, duration, fn);
+
             return this;
         },
         
@@ -142,78 +127,105 @@ tm.app = tm.app || {};
         {
             duration = (duration !== undefined) ? duration : 1000;
             fn       = fn || &quot;linear&quot;;
-            
-            this.addTween({
-                prop: &quot;x&quot;,
-                begin: this.element.x,
-                finish: x,
-                duration: duration,
-                func: fn,
-            });
-            this.addTween({
-                prop: &quot;y&quot;,
-                begin: this.element.y,
-                finish: y,
-                duration: duration,
-                func: fn,
-            });
+
+            this.to(&quot;x&quot;, x, duration, fn);
+            this.to(&quot;y&quot;, y, duration, fn);
             
             return this;
         },
         
-        scale: function(value, duration)
+        scale: function(value, duration, delay)
         {
             duration = (duration !== undefined) ? duration : 1000;
-            
-            this.addTween({
-                prop: &quot;scaleX&quot;,
-                begin: this.element.scaleX,
-                finish: value,
-                duration: duration,
-            });
-            this.addTween({
-                prop: &quot;scaleY&quot;,
-                begin: this.element.scaleY,
-                finish: value,
-                duration: duration,
-            });
-            
+
+            this.to(&quot;scaleX&quot;, value, duration, delay);
+            this.to(&quot;scaleY&quot;, value, duration, delay);
+
+            return this;
+        },
+
+        rotate: function(value, duration, delay) {
+            this.to(&quot;rotation&quot;, value, duration, delay);
             return this;
         },
         
-        fadeIn: function(duration)
+        fade: function(value, duration, delay) {
+            this.to(&quot;alpha&quot;, value, duration, delay);
+            return this;
+        },
+
+        fadeIn: function(duration, delay)
         {
-            return this.fade(1.0, duration);
+            return this.fade(1.0, duration, delay);
         },
         
-        fadeOut: function(duration)
+        fadeOut: function(duration, delay)
         {
-            return this.fade(0.0, duration);
+            return this.fade(0.0, duration, delay);
         },
         
         clear: function() {
             this.tweens = [];
             return this;
         },
+
+        setTarget: function(target) {
+            if (this._fn) {
+                this.element.removeEventListener(&quot;enterframe&quot;, this._fn);
+            }
+
+            this.element = target;
+            this._fn = function(e) { this.update(e.app); }.bind(this);
+            this.element.addEventListener(&quot;enterframe&quot;, this._fn);
+        },
+        getTarget: function(target) {
+            return this.element;
+        },
+
+        by: function(prop, value, duration, delay, fn) {
+            duration = (duration !== undefined) ? duration : 1000;
+            this.addTween({
+                prop: prop,
+                begin: this.element[prop],
+                finish: this.element[prop] + value,
+                duration: duration,
+                delay: delay,
+                func: fn,
+            });
+
+            return this;
+        },
+
+        to: function(prop, value, duration, delay, fn) {
+            duration = (duration !== undefined) ? duration : 1000;
+            this.addTween({
+                prop: prop,
+                begin: this.element[prop],
+                finish: value,
+                duration: duration,
+                delay: delay,
+                func: fn,
+            });
+
+            return this;
+        }
     });
     
     
-    /**
-     * @property    animation
+<span id='tm-app-Animation-property-animation'>    /**
+</span>     * @property    animation
      * アニメーション
      */
-<span id='tm-app-Animation-property-animation'>    tm.app.Element.prototype.getter(&quot;animation&quot;, function() {
-</span>        if (!this._animation) {
+    tm.app.Element.prototype.getter(&quot;animation&quot;, function() {
+        if (!this._animation) {
             this._animation = tm.app.Animation(this);
-            this.addEventListener(&quot;enterframe&quot;, function(e){
-                this._animation.update(e.app);
-            });
         }
         
         return this._animation;
     });
     
 })();
+
 
 
 

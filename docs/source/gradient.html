@@ -38,6 +38,15 @@ tm.graphics = tm.graphics || {};
     tm.graphics.LinearGradient = tm.createClass({
         
         init: function(x, y, width, height) {
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement(&quot;canvas&quot;);
+                dummyContext= dummyCanvas.getContext(&quot;2d&quot;);
+            }
+            this._init(x, y, width, height);
+            this.init = this._init;
+        },
+
+        _init: function(x, y, width, height) {
             this.gradient = dummyContext.createLinearGradient(x, y, width, height);
         },
         
@@ -60,24 +69,25 @@ tm.graphics = tm.graphics || {};
         },
         
     });
-    
-    
-    var dummyCanvas = document.createElement(&quot;canvas&quot;);
-    var dummyContext= dummyCanvas.getContext(&quot;2d&quot;);
-    
-    
-})();
 
-
-(function() {
     
-    /**
-     * @class
-<span id='tm-graphics-RadialGradient'>     * 円形グラデーション
-</span>     */
+<span id='tm-graphics-RadialGradient'>    /**
+</span>     * @class
+     * 円形グラデーション
+     */
     tm.graphics.RadialGradient = tm.createClass({
+
         
         init: function(x0, y0, r0, x1, y1, r1) {
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement(&quot;canvas&quot;);
+                dummyContext= dummyCanvas.getContext(&quot;2d&quot;);
+            }
+            this._init(x0, y0, r0, x1, y1, r1);
+            this.init = this._init;
+        },
+
+        _init: function(x0, y0, r0, x1, y1, r1) {
             this.gradient = dummyContext.createRadialGradient(x0, y0, r0, x1, y1, r1);
         },
         
@@ -100,20 +110,13 @@ tm.graphics = tm.graphics || {};
         },
         
     });
+
+
     
-    
-    var dummyCanvas = document.createElement(&quot;canvas&quot;);
-    var dummyContext= dummyCanvas.getContext(&quot;2d&quot;);
+    var dummyCanvas = null;
+    var dummyContext = null;
     
 })();
-
-
-
-
-
-
-
-
 
 
 

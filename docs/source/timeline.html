@@ -15,123 +15,212 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">/*
- * tmline.js
- */
+  <pre class="prettyprint lang-js">tm.namespace(&quot;tm.app&quot;, function() {
+    tm.define(&quot;tm.app.Timeline&quot;, {
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+        
+<span id='global-method-init'>        /**
+</span>         * 初期化
+         */
+        init: function(elm) {
+            this.superInit();
+            
+            this.setTarget(elm);
 
-
-tm.util = tm.util || {};
-
-(function() {
-    
-    
-<span id='tm-util-Timeline'>    /**
-</span>     * @class
-     * タイムラインクラス
-     */
-    tm.util.Timeline = tm.createClass({
-        
-        target  : null,
-        tasks   : null,
-        
-        fps     : 30,
-        
-        /**
-<span id='tm-util-Timeline-method-init'>         * 初期化
-</span>         */
-        init: function() {
-            this.tasks = [];
-            this.time = 0;
+            this.fps = 30;
+            
+            this.currentFrame = 0;
+            this.duration = 0;
+            this.isPlay = true;
+            this._tweens  = [];
+            this._actions = [];
         },
         
-        at: function(time, action) {
-            this.tasks.push({
-                time: time,
-                action: action,
-            });
-            return this;
+<span id='global-method-update'>        /**
+</span>         * 更新
+         */
+        update: function(app) {
+            if (!this.isPlay) return ;
+            
+            if (this.currentFrame &gt; this.duration) {
+//                this.gotoAndPlay(0);
+            }
+            else {
+                this._updateTween();
+                this._updateAction();
+            }
+            
+            this.currentFrame++;
         },
         
-        after: function(time, action) {
-            this.at(this.time + time, action);
-            return this;
+        _updateTween: function() {
+            var tweens = this._tweens;
+            for (var i=0,len=tweens.length; i&lt;len; ++i) {
+                var tween = tweens[i];
+                
+                if (tween.delay &gt; this.currentFrame) {
+                    continue ;
+                }
+                
+                var time = this.currentFrame - tween.delay;
+                tween._setTime(time);
+                if (tween.time &gt;= tween.duration) {
+                }
+                else {
+                    tween.update();
+                }
+            }
         },
         
-        clear: function() {
-            this.tasks = [];
-            return this;
-        },
-        
-        removeTime: function(time) {
-            // TODO: 
-        },
-        
-        removeAction: function(action) {
-            // TODO: 
-        },
-        
-        start: function() {
-            this.isPlaying = true;
-            this._startTime();
-            this._updateTime();
-        },
-        
-        resume: function() {
-            this.isPlaying = true;
-            this._resumeTime();
-            this._updateTime();
-        },
-        
-        stop: function() {
-            this.isPlaying = false;
-        },
-        
-        rewind: function() {
-            this.time = 0;
-        },
-        
-        update: function() {
-            // タスク更新
-            if (this.tasks.length &gt; 0) {
-                for (var i=0,len=this.tasks.length; i&lt;len; ++i) {
-                    var task = this.tasks[i];
-                    if (this.prev &lt;= task.time &amp;&amp; task.time &lt; this.time) {
-                        task.action();
-                        // this.tasks.erase(task);
-                        // break;
+        _updateAction: function() {
+            var actions = this._actions;
+            
+            for (var i=0,len=actions.length; i&lt;len; ++i) {
+                var action = actions[i];
+                
+                if (action.delay == this.currentFrame) {
+                    if (action.type == &quot;call&quot;) {
+                        action.func();
+                    }
+                    else if (action.type == &quot;set&quot;) {
+                        var props = action.props;
+                        for (var key in props) {
+                            this.element[key] = props[key];
+                        }
                     }
                 }
             }
         },
         
-        _startTime: function() {
-            this.startTime = (new Date()).getTime();
+<span id='global-method-to'>        /**
+</span>         * アニメーション
+         */
+        to: function(props, duration, delay, fn) {
+            this._addTween({
+                props: props,
+                duration: duration,
+                fn: fn,
+                delay: delay
+            });
+            
+            return this;
         },
         
-        _resumeTime: function() {
-            this.startTime = (new Date()).getTime() - this.time;
+<span id='global-method-call'>        /**
+</span>         * 関数を実行
+         */
+        call: function(func, delay) {
+            this._addAction({
+                &quot;type&quot;: &quot;call&quot;,
+                func: func,
+                delay: delay,
+            });
+            return this;
         },
         
-        _updateTime: function() {
-            if (this.isPlaying) {
-                this._nextTime();
-                setTimeout(arguments.callee.bind(this), 1000/this.fps);
+<span id='global-method-set'>        /**
+</span>         * プロパティをセット
+         */
+        set: function(props, delay) {
+            this._addAction({
+                &quot;type&quot;: &quot;set&quot;,
+                props: props,
+                delay: delay,
+            });
+            return this;
+        },
+        
+<span id='global-method-setTarget'>        /**
+</span>         * ターゲットをセット
+         */
+        setTarget: function(target) {
+            if (this._fn) {
+                this.element.removeEventListener(&quot;enterframe&quot;, this._fn);
             }
+            
+            this.element = target;
+            this._fn = function(e) { this.update(e.app); }.bind(this);
+            this.element.addEventListener(&quot;enterframe&quot;, this._fn);
         },
         
-        _nextTime: function() {
-            // 前回の時間
-            this.prev = this.time;
-            // 今回の時間
-            this.time = (new Date()).getTime() - this.startTime;
-            // 更新
-            this.update();
+<span id='global-method-getTarget'>        /**
+</span>         * ターゲットをゲット
+         */
+        getTarget: function(target) {
+            return this.element;
         },
+        
+<span id='global-method-gotoAndPlay'>        /**
+</span>         * ターゲットをゲット
+         */
+        gotoAndPlay: function(frame) {
+            this.isPlay = true;
+            this.currentFrame = frame;
+            this._updateTween();
+        },
+        
+        gotoAndStop: function(frame) {
+            this.currentFrame = frame;
+            this.isPlay = false;
+            this._updateTween();
+        },
+
+        _addTween: function(tween) {
+            tween.duration = tween.duration || 1000;
+            tween.duration = this._dirty(tween.duration);
+            tween.delay = tween.delay || 0;
+            tween.delay = this._dirty(tween.delay);
+
+            var tweenObj = tm.anim.Tween();
+            tweenObj.to(this.element, tween.props, tween.duration, tween.fn);
+            tweenObj.delay = tween.delay;
+
+            this._tweens.push(tweenObj);
+            this._updateDuration(tweenObj);
+        },
+
+        _addAction: function(action) {
+            action.delay = action.delay || 0;
+            action.delay = this._dirty(action.delay);
+
+            this._actions.push(action);
+            this._updateDuration(action);
+        },
+        
+        _updateDuration: function(task) {
+            var duration = task.delay + (task.duration ? task.duration : 0);
+            if (this.duration &lt; duration) this.duration = duration;
+            return this;
+        },
+
+        _dirty: function(t) {
+            return (t/this.fps).toInt();
+        },
+        
+        clear: function() {
+            this.currentFrame = 0;
+            this.duration = 0;
+            this.isPlay = true;
+            this._tweens  = [];
+            this._actions = [];
+        }
         
     });
     
-})();
-
-</pre>
+    
+    
+<span id='global-property-animation'>    /**
+</span>     * @property    animation
+     * アニメーション
+     */
+    tm.app.Element.prototype.getter(&quot;timeline&quot;, function() {
+        if (!this._timeline) {
+            this._timeline = tm.app.Timeline(this);
+        }
+        
+        return this._timeline;
+    });
+    
+});</pre>
 </body>
 </html>

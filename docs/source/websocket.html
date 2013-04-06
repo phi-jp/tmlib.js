@@ -33,9 +33,9 @@ tm.net.event = tm.net.event || {};
             this.superInit();
             this.url = url;
         },
-        /**
-<span id='tm-net-WebSocket-method-connect'>         * 接続する.
-</span>         */
+<span id='tm-net-WebSocket-method-connect'>        /**
+</span>         * 接続する.
+         */
         connect: function() {
             if (this.isOpen()) {
                 return;
@@ -58,10 +58,10 @@ tm.net.event = tm.net.event || {};
                 self.dispatchEvent(tm.net.event.Error(e.data));
             };
         },
-        /**
-         * 切断する.
-<span id='tm-net-WebSocket-method-disconnect'>         */
-</span>        disconnect: function() {
+<span id='tm-net-WebSocket-method-disconnect'>        /**
+</span>         * 切断する.
+         */
+        disconnect: function() {
             if (this.isOpen()) {
                 this.socket.close();
                 this.socket = null;
@@ -83,28 +83,28 @@ tm.net.event = tm.net.event || {};
             }
             this.socket = null;
         },
-        /**
-<span id='tm-net-WebSocket-method-send'>         * テキストメッセージを送信する.  
-</span>         */
+<span id='tm-net-WebSocket-method-send'>        /**
+</span>         * テキストメッセージを送信する.  
+         */
         send: function(message) {
             if (this.isOpen()) {
                 this.socket.send(message);
             }
         },
-        /**
-         * オブジェクトを送信する.
+<span id='tm-net-WebSocket-method-sendData'>        /**
+</span>         * オブジェクトを送信する.
          *
-<span id='tm-net-WebSocket-method-sendData'>         * JSONに変換し、テキストメッセージとして送信する.
-</span>         */
+         * JSONに変換し、テキストメッセージとして送信する.
+         */
         sendData: function(object) {
             this.send(JSON.stringify(object));
         },
-        /**
-         * 接続中.
+<span id='tm-net-WebSocket-method-isOpen'>        /**
+</span>         * 接続中.
          */
         isOpen: function() {
-<span id='tm-net-WebSocket-method-isOpen'>            return this.socket !== null &amp;&amp; this.socket.readyState === WebSocket.OPEN;
-</span>        }
+            return this.socket !== null &amp;&amp; this.socket.readyState === WebSocket.OPEN;
+        }
     });
 
     tm.net.event.WebSocketEvent = tm.createClass({        
@@ -114,31 +114,31 @@ tm.net.event = tm.net.event || {};
         }
     });
 
-    /**
-     * 接続時に発生するイベント.
+<span id='tm-net-event-Open'>    /**
+</span>     * 接続時に発生するイベント.
      */
     tm.net.event.Open = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,
-<span id='tm-net-event-Open'>        init: function() {
-</span>            this.superInit(&quot;open&quot;);
+        init: function() {
+            this.superInit(&quot;open&quot;);
         }
     });
 
-    /**
-     * メッセージ受信時に発生するイベント.
+<span id='tm-net-event-Message'>    /**
+</span>     * メッセージ受信時に発生するイベント.
      */
     tm.net.event.Message = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,
-        /**
-<span id='tm-net-event-Message'>         * 受信したメッセージを文字列として取り出す.
-</span>         */
+<span id='tm-net-event-Message-property-message'>        /**
+</span>         * 受信したメッセージを文字列として取り出す.
+         */
         message: null,
         init: function(message) {
             this.superInit(&quot;message&quot;);
             this.message = message;
-<span id='tm-net-event-Message-property-message'>        },
-</span>        /**
-         * 受信したメッセージをオブジェクトとして取り出す.
+        },
+<span id='tm-net-event-Message-method-getData'>        /**
+</span>         * 受信したメッセージをオブジェクトとして取り出す.
          *
          * JSONとしてパースする.
          */
@@ -147,23 +147,23 @@ tm.net.event = tm.net.event || {};
         }
     });
 
-    /**
-     * 接続解除時に発生するイベント.
+<span id='tm-net-event-Close'>    /**
+</span>     * 接続解除時に発生するイベント.
      */
-<span id='tm-net-event-Message-method-getData'>    tm.net.event.Close = tm.createClass({
-</span>        superClass: tm.net.event.WebSocketEvent,
+    tm.net.event.Close = tm.createClass({
+        superClass: tm.net.event.WebSocketEvent,
         init: function() {
             this.superInit(&quot;close&quot;);
         }
     });
 
-    /**
-     * エラー時に発生するイベント.
+<span id='tm-net-event-Error'>    /**
+</span>     * エラー時に発生するイベント.
      */
-<span id='tm-net-event-Close'>    tm.net.event.Error = tm.createClass({
-</span>        superClass: tm.net.event.WebSocketEvent,
-        /**
-         * エラー情報.
+    tm.net.event.Error = tm.createClass({
+        superClass: tm.net.event.WebSocketEvent,
+<span id='tm-net-event-Error-property-data'>        /**
+</span>         * エラー情報.
          */
         data: null,
         init: function(data) {

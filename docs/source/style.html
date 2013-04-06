@@ -33,59 +33,59 @@ tm.dom = tm.dom || {};
         
         element: null,
         
-        /**
-<span id='tm-dom-Style-method-init'>         * 初期化
-</span>         */
+<span id='tm-dom-Style-method-init'>        /**
+</span>         * 初期化
+         */
         init: function(element) {
             this.element = element;
         },
         
-        /**
-<span id='tm-dom-Style-method-set'>         * セット
-</span>         */
+<span id='tm-dom-Style-method-set'>        /**
+</span>         * セット
+         */
         set: function(name, value) {
             this.element.style[name] = value;
             return this;
         },
         
-        /**
-         * 削除
-<span id='tm-dom-Style-method-remove'>         */
-</span>        remove: function(name) {
+<span id='tm-dom-Style-method-remove'>        /**
+</span>         * 削除
+         */
+        remove: function(name) {
             this.element.style.removeProperty(name);
             // delete this.element.style[name];
             return this;
         },
         
-        /**
-         * クリア
-<span id='tm-dom-Style-method-clear'>         */
-</span>        clear: function(name) {
+<span id='tm-dom-Style-method-clear'>        /**
+</span>         * クリア
+         */
+        clear: function(name) {
             
             return this;
         },
         
-        /**
-         * 取得
+<span id='tm-dom-Style-method-get'>        /**
+</span>         * 取得
          */
-<span id='tm-dom-Style-method-get'>        get: function(name) {
-</span>            return this.element.style[name];
+        get: function(name) {
+            return this.element.style[name];
         },
         
-        /**
-         * CSS の値も考慮した上での値を取得
-<span id='tm-dom-Style-method-getPropValue'>         */
-</span>        getPropValue: function(prop_name) {
+<span id='tm-dom-Style-method-getPropValue'>        /**
+</span>         * CSS の値も考慮した上での値を取得
+         */
+        getPropValue: function(prop_name) {
             return document.defaultView.getComputedStyle(this.element, '').getPropertyValue(prop_name);
         },
     });
     
-    /**
-     * スタイルクラス
+<span id='tm-dom-Style-property-style'>    /**
+</span>     * スタイルクラス
      * @property    style
      */
-<span id='tm-dom-Style-property-style'>    tm.dom.Element.prototype.getter(&quot;style&quot;, function(){
-</span>        return this._style || ( this._style = tm.dom.Style(this.element) );
+    tm.dom.Element.prototype.getter(&quot;style&quot;, function(){
+        return this._style || ( this._style = tm.dom.Style(this.element) );
     });
     
 })();

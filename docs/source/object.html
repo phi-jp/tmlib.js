@@ -26,9 +26,9 @@
      * オブジェクト
      */
     
-    /**
-<span id='Object-method-defineVariable'>     * @method defineVariable
-</span>     * 変数を追加
+<span id='Object-method-defineVariable'>    /**
+</span>     * @method defineVariable
+     * 変数を追加
      * @param   {String} key name
      * @param   {Object} param
      */
@@ -42,9 +42,9 @@
         }
     });
     
-    /**
-<span id='Object-method-defineFunction'>     * @method defineFunction
-</span>     * 関数を追加
+<span id='Object-method-defineFunction'>    /**
+</span>     * @method defineFunction
+     * 関数を追加
      * @param   {String} key name
      * @param   {Function} function
      */
@@ -101,73 +101,111 @@
         // (param[&quot;get&quot;]) &amp;&amp; this.getter(name, param[&quot;get&quot;]);
         // (param[&quot;set&quot;]) &amp;&amp; this.setter(name, param[&quot;set&quot;]);
     });
-    
-    Object.defineInstanceMethod(&quot;extend&quot;, function() {
-        for (var i=0,len=arguments.length; i&lt;len; ++i) {
-            var source = arguments[i];
+
+<span id='Object-method-S-pick'>    /**
+</span>     * @method  $pick
+     * text
+     */
+    Object.defineInstanceMethod(&quot;$has&quot;, function(key) {
+        return this.hasOwnProperty(key);
+    });
+
+<span id='Object-method-S-extend'>    /**
+</span>     * @method  $extend
+     * 他のライブラリと競合しちゃうので extend -&gt; $extend としました
+     */
+    Object.defineInstanceMethod(&quot;$extend&quot;, function() {
+        Array.prototype.forEach.call(arguments, function(source) {
             for (var property in source) {
                 this[property] = source[property];
             }
-        }
+        }, this);
         return this;
     });
     
-    /**
-     * @method  extendSafe
-<span id='Object-method-extendSafe'>     * 安全拡張
-</span>     * 上書きしない
+<span id='Object-method-S-safe'>    /**
+</span>     * @method  $safe
+     * 安全拡張
+     * 上書きしない
      */
-    Object.defineInstanceMethod(&quot;extendSafe&quot;, function(source) {
-        for (var property in source) {
-            if (!this[property]) {
+    Object.defineInstanceMethod(&quot;$safe&quot;, function(source) {
+        Array.prototype.forEach.call(arguments, function(source) {
+            for (var property in source) {
+                if (!this[property]) this[property] = source[property];
+            }
+        }, this);
+        return this;
+    });
+    
+    
+<span id='Object-method-S-strict'>    /**
+</span>     * @method  $strict
+     * 厳格拡張
+     * すでにあった場合は警告
+     */
+    Object.defineInstanceMethod(&quot;$strict&quot;, function(source) {
+        Array.prototype.forEach.call(arguments, function(source) {
+            for (var property in source) {
+                console.assert(!this[property], &quot;tm error: {0} is Already&quot;.format(property));
                 this[property] = source[property];
             }
-        }
+        }, this);
         return this;
     });
-    
-    
-    /**
-     * @method  extendStrict
-     * 厳格拡張
-<span id='Object-method-extendStrict'>     * すでにあった場合は警告
-</span>     */
-    Object.defineInstanceMethod(&quot;extendStrict&quot;, function(source) {
-        for (var property in source) {
-            console.assert(!this[property], &quot;TM Error: {0} is Already&quot;.format(property));
-            this[property] = source[property];
+
+<span id='Object-method-S-pick'>    /**
+</span>     * @method  $pick
+     * text
+     */
+    Object.defineInstanceMethod(&quot;$pick&quot;, function() {
+        var temp = {};
+
+        Array.prototype.forEach.call(arguments, function(key) {
+            if (key in this) temp[key] = this[key];
+        }, this);
+
+        return temp;
+    });
+
+<span id='Object-method-S-omit'>    /**
+</span>     * @method  $omit
+     * text
+     */
+    Object.defineInstanceMethod(&quot;$omit&quot;, function() {
+        var temp = {};
+
+        for (var key in this) {
+            if (Array.prototype.indexOf.call(arguments, key) == -1) {
+                temp[key] = this[key];
+            }
         }
-        
-        return this;
+
+        return temp;
     });
     
-    
-    /**
-     * @method  using
+<span id='Object-method-using'>    /**
+</span>     * @method  using
      * 使う
      */
-<span id='Object-method-using'>    Object.defineInstanceMethod(&quot;using&quot;, function(source) {
-</span>        // TODO:
+    Object.defineInstanceMethod(&quot;$using&quot;, function(source) {
+        // TODO:
         
         return this;
     });
     
-    if (window) {
-        /**
-         * @method  globalize
-         * グローバル化
-         */
-<span id='Object-method-globalize'>        Object.defineInstanceMethod(&quot;globalize&quot;, function(key) {
-</span>            if (key) {
-                window[key] = this[key];
-            }
-            else {
-                window.extendStrict(this);
-            }
-            return this;
-        });
-    }
-    
+<span id='Object-method-globalize'>    /**
+</span>     * @method  globalize
+     * グローバル化
+     */
+    Object.defineInstanceMethod(&quot;$globalize&quot;, function(key) {
+        if (key) {
+            tm.global[key] = this[key];
+        }
+        else {
+            tm.global.$strict(this);
+        }
+        return this;
+    });
     
     
 })();

@@ -43,47 +43,75 @@ tm.anim = tm.anim || {};
         isPlaying   : null,
         func        : Math.linear,
         
-        /**
-<span id='tm-anim-Tween-property-fps'>         * frame rate
-</span>         */
+<span id='tm-anim-Tween-property-fps'>        /**
+</span>         * frame rate
+         */
         fps     : 30,
         
-        init: function(target, prop, begin, finish, duration, func) {
+        init: function(target, finishProps, duration, func) {
             this.superInit();
             
-            if (arguments.length == 1) {
-                this.setObject(target);
-            }
-            else {
-                this.set.apply(this, arguments);
-            }
-            
             this.time = 0;
+            this.nowProps = {};
             this.isPlaying = false;
+
+            if (arguments.length &gt; 0) {
+                this.to.apply(this, arguments);
+            }
         },
-        
-        set: function(target, prop, begin, finish, duration, func)
-        {
+
+        to: function(target, finishProps, duration, func) {
+            var beginProps = {};
+
+            for (var key in finishProps) {
+                beginProps[key] = target[key];
+            }
+
+            this.fromTo(target, beginProps, finishProps, duration, func);
+
+            return this;
+        },
+
+        by: function(target, props, duration, func) {
+            var beginProps = {};
+            var finishProps = {};
+
+            for (var key in props) {
+                beginProps[key] = target[key];
+                finishProps[key] = target[key] + props[key];
+            }
+
+            this.fromTo(target, beginProps, finishProps, duration, func);
+
+            return this;
+        },
+
+        fromTo: function(target, beginProps, finishProps, duration, func) {
             this.target = target;
-            this.prop   = prop;
-            this.begin  = begin;
-            this.finish = finish;
+            this.beginProps  = beginProps;
+            this.finishProps = finishProps;
             this.duration = duration;
             
             // setup
-            this.change = this.finish-this.begin;
-            this.setTransition(func);
-        },
-        
-        setObject: function(obj)
-        {
-            for (var key in obj) {
-                this[key] = obj[key];
+            this.changeProps = {};
+            for (var key in beginProps) {
+                this.changeProps[key] = finishProps[key] - beginProps[key];
             }
-            
-            // setup
-            this.change = this.finish-this.begin;
-            this.setTransition(this.func);
+            this.setTransition(func);
+
+            return this;
+        },
+
+        from: function(target, beginProps, duration, func) {
+            var finishProps = {};
+
+            for (var key in beginProps) {
+                finishProps[key] = target[key];
+            }
+
+            this.fromTo(target, beginProps, finishProps, duration, func);
+
+            return this;
         },
         
         setTransition: function(func) {
@@ -99,68 +127,72 @@ tm.anim = tm.anim || {};
             return this;
         },
         
-        /**
-<span id='tm-anim-Tween-method-resume'>         * 再開
-</span>         */
+<span id='tm-anim-Tween-method-resume'>        /**
+</span>         * 再開
+         */
         resume: function() {
             this.isPlaying = true;
             this._resumeTime();
             this._updateTime();
-            this.dispatchEvent(tm.event.TweenEvent(&quot;resume&quot;, this.time, this.now));
+            this.dispatchEvent(tm.event.TweenEvent(&quot;resume&quot;, this.time, this.nowProps));
         },
         
-        /**
-<span id='tm-anim-Tween-method-start'>         * 開始
-</span>         */
+<span id='tm-anim-Tween-method-start'>        /**
+</span>         * 開始
+         */
         start: function() {
             this.isPlaying = true;
             this._startTime();
             this._updateTime();
-            this.dispatchEvent(tm.event.TweenEvent(&quot;start&quot;, this.time, this.now));
+            this.dispatchEvent(tm.event.TweenEvent(&quot;start&quot;, this.time, this.nowProps));
         },
         
-        /**
-<span id='tm-anim-Tween-method-stop'>         * ストップ
-</span>         */
+<span id='tm-anim-Tween-method-stop'>        /**
+</span>         * ストップ
+         */
         stop: function() {
             this.isPlaying = false;
-            this.dispatchEvent(tm.event.TweenEvent(&quot;stop&quot;, this.time, this.now));
+            this.dispatchEvent(tm.event.TweenEvent(&quot;stop&quot;, this.time, this.nowProps));
         },
         
-        /**
-<span id='tm-anim-Tween-method-rewind'>         * 開始位置まで戻る
-</span>         */
+<span id='tm-anim-Tween-method-rewind'>        /**
+</span>         * 開始位置まで戻る
+         */
         rewind: function() {
             this.time = 0;
             this.update();
         },
         
-        /**
-         * 最後位置まで早送り
+<span id='tm-anim-Tween-method-fforward'>        /**
+</span>         * 最後位置まで早送り
          */
-<span id='tm-anim-Tween-method-fforward'>        fforward: function() {
-</span>            this.time = this.duration;
+        fforward: function() {
+            this.time = this.duration;
             this.update();
         },
         
-        /**
-         * ヨーヨー
+<span id='tm-anim-Tween-method-yoyo'>        /**
+</span>         * ヨーヨー
          */
-<span id='tm-anim-Tween-method-yoyo'>        yoyo: function() {
-</span>            var temp = this.finish;
-            this.finish = this.begin;
-            this.begin  = temp;
-            this.change = this.finish-this.begin;
+        yoyo: function() {
+            var temp = this.finishProps;
+            this.finishProps = this.beginProps;
+            this.beginProps  = temp;
+            for (var key in this.beginProps) {
+                this.changeProps[key] = this.finishProps[key] - this.beginProps[key];
+            }
             this.start();
         },
         
-        /**
-         * 更新
+<span id='tm-anim-Tween-method-update'>        /**
+</span>         * 更新
          */
         update: function() {
-<span id='tm-anim-Tween-method-update'>            this.now = this.func(this.time, this.begin, this.change, this.duration);
-</span>            this.target[this.prop] = this.now;
-            this.dispatchEvent(tm.event.TweenEvent(&quot;change&quot;, this.time, this.now));
+            for (var key in this.changeProps) {
+                this.nowProps[key] = this.func(this.time, this.beginProps[key], this.changeProps[key], this.duration);
+                this.target[key] = this.nowProps[key];
+            }
+            this.dispatchEvent(tm.event.TweenEvent(&quot;change&quot;, this.time, this.nowProps));
         },
         
         _resumeTime: function() {
@@ -188,7 +220,7 @@ tm.anim = tm.anim || {};
                     // 座標を更新
                     this.update();
                     // イベント開始
-                    this.dispatchEvent(tm.event.TweenEvent(&quot;loop&quot;, this.time, this.now));
+                    this.dispatchEvent(tm.event.TweenEvent(&quot;loop&quot;, this.time, this.nowProps));
                 }
                 // 終了
                 else {
@@ -198,7 +230,7 @@ tm.anim = tm.anim || {};
                     // 停止
                     this.stop();
                     // イベント
-                    this.dispatchEvent(tm.event.TweenEvent(&quot;finish&quot;, this.time, this.now));
+                    this.dispatchEvent(tm.event.TweenEvent(&quot;finish&quot;, this.time, this.nowProps));
                 }
             }
             // 更新
@@ -219,12 +251,12 @@ tm.anim = tm.anim || {};
  */
 (function() {
     
-    /**
-     * イージング
+<span id='tm-anim-Tween-property-easing'>    /**
+</span>     * イージング
      * ### Reference
      * - &lt;http://coderepos.org/share/wiki/JSTweener&gt;
-<span id='tm-anim-Tween-property-easing'>     * - &lt;http://coderepos.org/share/browser/lang/javascript/jstweener/trunk/src/JSTweener.js&gt;
-</span>     * - &lt;http://gsgd.co.uk/sandbox/jquery/easing/jquery.easing.1.3.js&gt;
+     * - &lt;http://coderepos.org/share/browser/lang/javascript/jstweener/trunk/src/JSTweener.js&gt;
+     * - &lt;http://gsgd.co.uk/sandbox/jquery/easing/jquery.easing.1.3.js&gt;
      * - &lt;http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html&gt;
      */
     tm.anim.easing = {

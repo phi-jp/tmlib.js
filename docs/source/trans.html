@@ -33,9 +33,9 @@ tm.dom = tm.dom || {};
         
         element: null,
         
-        /**
-<span id='tm-dom-Trans-method-init'>         * 初期化
-</span>         */
+<span id='tm-dom-Trans-method-init'>        /**
+</span>         * 初期化
+         */
         init: function(element) {
             this.element = element;
         },
@@ -92,9 +92,9 @@ tm.dom = tm.dom || {};
         }[tm.VENDER_PREFIX];
     })();
     
-    /**
-<span id='tm-dom-Trans-property-trans'>     * Trans クラス
-</span>     * @property    trans
+<span id='tm-dom-Trans-property-trans'>    /**
+</span>     * Trans クラス
+     * @property    trans
      */
     tm.dom.Element.prototype.getter(&quot;trans&quot;, function(){
         return this._trans || ( this._trans = tm.dom.Trans(this.element) );
