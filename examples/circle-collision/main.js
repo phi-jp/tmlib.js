@@ -141,7 +141,7 @@ var Circle = tm.createClass({
         // 掴んでいるサークルが自分だった場合
         if (this === target) {
             var p = app.pointing;
-            this.position.set(this.x+this.pointing.x, this.y+this.pointing.y);
+            this.position.set(p.x + this.offsetX, p.y + this.offsetY);
             this.velocity.set(p.dx, p.dy);
             return ;
         }
@@ -194,19 +194,18 @@ var Circle = tm.createClass({
         other.velocity.add( V.mul(abVec, mb) );
     },
     
-    onpointingstart: function() {
-        console.log("a");
+    onpointingstart: function(e) {
+        var p = e.app.pointing;
         target = this;
         this.velocity.set(0, 0);
+        this.offsetX = this.x - p.x;
+        this.offsetY = this.y - p.y;
     },
     
     onpointingend: function() {
         target = null;
     },
 });
-
-
-
 
 
 

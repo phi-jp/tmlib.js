@@ -30,54 +30,15 @@ var Part = tm.createClass({
         this.rotation = tm.util.Random.randint(0, 359);
         this.scaleX = this.scaleY = 0.5;
         this.time = 0;
-        
+        this.alpha = 0;
+        this.x = tm.util.Random.randint(0, 600);
+        this.y = tm.util.Random.randint(0, 600);
+
         // アニメーション
-        this.animation.addTween({
-            prop: "alpha",
-            begin: 0,
-            finish: 1,
-            duration: 500,
-            func: "easeInOutQuad",
-        });
-        this.animation.addTween({
-            prop: "x",
-            begin: tm.util.Random.randint(0, 600),
-            finish: x,
-            duration: 500,
-            func: "easeInOutQuad",
-        });
-        this.animation.addTween({
-            prop: "y",
-            begin: tm.util.Random.randint(0, 600),
-            finish: y,
-            duration: 500,
-            func: "easeInOutQuad",
-        });
-        
-        this.animation.addTween({
-            prop: "scaleX",
-            begin: 0.5,
-            finish: 1,
-            duration: 500,
-            delay: 500,
-            func: "easeInOutQuad",
-        });
-        this.animation.addTween({
-            prop: "scaleY",
-            begin: 0.5,
-            finish: 1,
-            duration: 500,
-            delay: 500,
-            func: "easeInOutQuad",
-        });
-        this.animation.addTween({
-            prop: "rotation",
-            begin: this.rotation,
-            finish: 0,
-            duration: 1000,
-            delay: 1500,
-            func: "easeInOutQuad",
-        });
+        this.timeline
+            .to({alpha:1, x:x, y:y}, 500, "easeInOutQuad")
+            .to({scaleX: 1, scaleY: 1}, 1000, 500, "easeInOutQuad")
+            .to({rotation: 0}, 1000, 1500, "easeInOutQuad");
     },
 });
 

@@ -229,14 +229,12 @@ var MainScene = tm.createClass({
                 circle.update = function() {};
             }
             this.update = this.wait;
-            app.frame = 0;
+            this.update = function() {};
+
+            this.timeline.call(function() {
+                app.replaceScene(ResultScene());
+            }, 1000);
         };
-    },
-    
-    wait: function() {
-        if (app.frame > 120) { app.replaceScene(ResultScene()); }
-        
-        app.frame+=1;
     },
     
     onblur: function() {
@@ -292,14 +290,14 @@ var TitleScene = tm.createClass({
         
         
         // フェード
-        var fadein = tm.fade.FadeIn(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 2000);
-        fadein.blendMode = "lighter";
-        this.addChild( fadein );
+        this.alpha = 0;
+        this.tweener.fadeIn();
     },
     
     onstartbuttondown: function(e) {
         tm.sound.SoundManager.get("decide").play();
 
+        this.tweener.clear();
         this.tweener
             .fadeOut(500)
             .call(function() {
@@ -363,7 +361,8 @@ var ResultScene = tm.createClass({
         
         
         // フェード
-        this.addChild( tm.fade.FadeIn( SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000) );
+        this.alpha = 0.0;
+        this.tweener.fadeIn();
     },
     
     onbackbuttondown: function() {

@@ -85,38 +85,24 @@ var Snow = tm.createClass({
     
     fall: function() {
         var self = this;
-        var tremble = this.animation.addTween({
-            prop: "x",
-            begin: this.x,
-            finish: this.x+tm.util.Random.randint(-50, 50),
-            duration: 5000,
-            func: "easeInOutSine",
-        });
-        this.animation.addTween({
-            prop: "y",
-            begin: this.y,
-            finish: (SCREEN_HEIGHT-120) + 100*this.scaleY,
-            duration: 7500 - 2500*this.scaleY,
-            func: "swing",
-            onfinish: function() {
-                // self.animation.clear();
+
+        this.timeline
+            .to({x:this.x+tm.util.Random.randint(-50, 50)}, 5000, "easeInOutSine")
+            .to({y:(SCREEN_HEIGHT-120) + 100*this.scaleY}, 7500 - 2500*this.scaleY, "swing")
+            .call(function() {
                 self.melt();
-            }
-        });
+            }, 7500 - 2500*this.scaleY);
     },
     
     melt: function() {
         var self = this;
-        this.animation.addTween({
-            prop: "alpha",
-            begin: 1.0,
-            finish: 0.0,
-            duration: 1000,
-            func: "easeInOutSine",
-            onfinish: function() {
+
+        this.timeline.clear();
+        this.timeline
+            .to({alpha:0.0}, 2000, 1000, "easeInOutSine")
+            .call(function() {
                 self.remove();
-            }
-        });
+            }, 3000);
     },
 });
 

@@ -62,7 +62,8 @@ var Mogura = tm.createClass({
     },
     
     update: function() {
-    },
+    },
+
     
     draw: function(c) {
         c.save();
@@ -198,9 +199,16 @@ var StartScene = tm.createClass({
         
         //this.addChild( tm.fade.FadeIn(SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000) );
         
-        var fadein = tm.fade.FadeIn(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 2000);
-        fadein.blendMode = "lighter";
-        this.addChild( fadein );
+        var shape = tm.app.RectangleShape(SCREEN_WIDTH, SCREEN_HEIGHT, {
+            fillStyle: "white"
+        }).addChildTo(this);
+        shape.blendMode = "lighter";
+        shape.originX = shape.originY = 0;
+        shape.tweener
+            .fadeOut(2000)
+            .call(function() {
+                this.remove();
+            }.bind(shape));
     },
     
     onpointingstart: function() {
@@ -208,11 +216,18 @@ var StartScene = tm.createClass({
         
         this.onpointingstart = null;
         
-        this.addChild( tm.fade.FadeOut(
-            SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {
+        var shape = tm.app.RectangleShape(SCREEN_WIDTH, SCREEN_HEIGHT, {
+            fillStyle: "white"
+        }).addChildTo(this);
+        shape.blendMode = "lighter";
+        shape.originX = shape.originY = 0;
+        shape.alpha = 0;
+        shape.tweener
+            .fadeIn(1000)
+            .call(function() {
                 app.replaceScene(MainScene());
-            })
-        );
+            }.bind(shape));
+
     },
     
     onblur: function() {
@@ -252,21 +267,35 @@ var EndScene = tm.createClass({
         tweetButton.addChildTo(this);
         */
         
-        this.addChild( tm.fade.FadeIn(
-            SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {
+        var shape = tm.app.RectangleShape(SCREEN_WIDTH, SCREEN_HEIGHT, {
+            fillStyle: "white"
+        }).addChildTo(this);
+        shape.blendMode = "lighter";
+        shape.originX = shape.originY = 0;
+        shape.tweener
+            .fadeOut(2000)
+            .call(function() {
+                shape.remove();
                 this.onpointingstart = this._onpointingstart;
-            }.bind(this))
-        );
+            }.bind(this));
     },
     
     _onpointingstart: function() {
         tm.sound.SoundManager.get("decide").play();
-        
-        var fadeout = tm.fade.FadeOut(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 2000, function() {
-            app.replaceScene(StartScene());
-        });
-        fadeout.blendMode = "lighter";
-        this.addChild( fadeout );
+
+        var shape = tm.app.RectangleShape(SCREEN_WIDTH, SCREEN_HEIGHT, {
+            fillStyle: "white"
+        }).addChildTo(this);
+        shape.blendMode = "lighter";
+        shape.originX = shape.originY = 0;
+        shape.alpha = 0;
+        shape.tweener
+            .fadeIn(1000)
+            .call(function() {
+                app.replaceScene(StartScene());
+            }.bind(this));
+
+
         
         // this.addChild( tm.fade.FadeOut(
             // SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {

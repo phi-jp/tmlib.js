@@ -9,8 +9,8 @@ var SCREEN_HEIGHT   = 640;
 var SUN_RADIUS      = 200;
 // var MOON_RADIUS     = 200;  // total eclipse
 var MOON_RADIUS     = 150;  // annular eclipse
-var ECLIPSE_TIME    = 20000;
-var WAIT_TIME       = 5000;
+var ECLIPSE_TIME    = 5000;
+var WAIT_TIME       = 2000;
 
 var SunAxis = tm.createClass({
     superClass: tm.app.CanvasElement,
@@ -25,19 +25,11 @@ var SunAxis = tm.createClass({
         sun.y = -1000;
         sun.addChildTo(this);
         
-        this.animation.addTween({
-            prop: "rotation",
-            begin: 330,
-            finish: 360,
-            duration: ECLIPSE_TIME,
-        });
-        this.animation.addTween({
-            prop: "rotation",
-            begin: 360,
-            finish: 390,
-            duration: ECLIPSE_TIME,
-            delay: ECLIPSE_TIME+WAIT_TIME,
-        });
+        this.rotation = 330;
+        this.tweener
+            .rotate(360, ECLIPSE_TIME)
+            .wait(WAIT_TIME)
+            .rotate(390, ECLIPSE_TIME);
     },
 });
 
@@ -96,19 +88,11 @@ var MoonAxis = tm.createClass({
         moon.y = -400;
         moon.addChildTo(this);
         
-        this.animation.addTween({
-            prop: "rotation",
-            begin: 350,
-            finish: 360,
-            duration: ECLIPSE_TIME,
-        });
-        this.animation.addTween({
-            prop: "rotation",
-            begin: 360,
-            finish: 370,
-            duration: ECLIPSE_TIME,
-            delay: ECLIPSE_TIME+WAIT_TIME,
-        });
+        this.rotation = 350;
+        this.tweener
+            .rotate(360, ECLIPSE_TIME)
+            .wait(WAIT_TIME)
+            .rotate(370, ECLIPSE_TIME);
     },
 });
 

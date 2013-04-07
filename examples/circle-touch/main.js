@@ -131,19 +131,17 @@ var StartScene = tm.createClass({
         
         //this.addChild( tm.fade.FadeIn(SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000) );
         
-        var fadein = tm.fade.FadeIn(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 2000);
-        fadein.blendMode = "lighter";
-        this.addChild( fadein );
+        this.alpha = 0.0;
+        this.tweener.fadeIn(2000);
     },
     
     onpointingstart: function() {
         tm.sound.SoundManager.get("decide").play();
         
-        this.addChild( tm.fade.FadeOut(
-            SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {
-                app.replaceScene(MainScene());
-            })
-        );
+        this.tweener.clear();
+        this.tweener.fadeOut(1000).call(function() {
+            app.replaceScene(MainScene());
+        });
     },
     
     onblur: function() {
@@ -191,28 +189,20 @@ var EndScene = tm.createClass({
         tweetButton.addChildTo(this);
         */
         
-        this.addChild( tm.fade.FadeIn(
-            SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {
-                this.onpointingstart = this._onpointingstart;
-            }.bind(this))
-        );
+        this.alpha = 0.0;
+        this.tweener.fadeIn(500).call(function() {
+            this.onpointingstart = this._onpointingstart;
+        }.bind(this));
 
     },
     
     _onpointingstart: function() {
         tm.sound.SoundManager.get("decide").play();
         
-        var fadeout = tm.fade.FadeOut(SCREEN_WIDTH, SCREEN_HEIGHT, "#fff", 2000, function() {
+        this.tweener.clear();
+        this.tweener.fadeOut(1000).call(function() {
             app.replaceScene(StartScene());
         });
-        fadeout.blendMode = "lighter";
-        this.addChild( fadeout );
-
-        // this.addChild( tm.fade.FadeOut(
-            // SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000, function() {
-                // app.replaceScene(StartScene());
-            // })
-        // );
     },
     
     onblur: function() {

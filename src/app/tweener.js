@@ -107,7 +107,7 @@
                 this._func(app);
             }
             else if (task.type == "call") {
-                task.data.func();
+                task.data.func.apply(null, task.data.args);
             }
             else if (task.type == "set") {
                 this.element.$extend(task.data.values);
@@ -179,16 +179,16 @@
             return this;
         },
 
-        move: function(x, y, duration) {
-            return this.to({x:x, y:y}, duration);
+        move: function(x, y, duration, fn) {
+            return this.to({x:x, y:y}, duration, fn);
         },
 
-        moveBy: function(x, y, duration) {
-            return this.by({x:x, y:y}, duration);
+        moveBy: function(x, y, duration, fn) {
+            return this.by({x:x, y:y}, duration, fn);
         },
 
-        rotate: function(rotation, duration) {
-            return this.to({rotation:rotation}, duration);
+        rotate: function(rotation, duration, fn) {
+            return this.to({rotation:rotation}, duration, fn);
         },
 
         scale: function(scale, duration, fn) {
@@ -241,12 +241,13 @@
             return this;
         },
 
-        call: function(fn) {
+        call: function(fn, args) {
             this._tasks.push({
                 type: "call",
                 data: {
-                    func: fn
-                }
+                    func: fn,
+                    args: args,
+                },
             });
 
             return this;

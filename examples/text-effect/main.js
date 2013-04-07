@@ -105,21 +105,10 @@ var Particle = tm.createClass({
         this.srcRect.width  = 10;
         
         this.position.set(100, 100);
-        
-        this.animation.addTween({
-            prop: "x",
-            begin: tm.util.Random.randint(0, SCREEN_WIDTH),
-            finish: x,
-            duration: 1000,
-            func: "easeOutCirc",
-        });
-        this.animation.addTween({
-            prop: "y",
-            begin: tm.util.Random.randint(0, SCREEN_HEIGHT),
-            finish: y,
-            duration: 1000,
-            func: "easeOutCirc",
-        });
+        this.x = tm.util.Random.randint(0, SCREEN_WIDTH);
+        this.y = tm.util.Random.randint(0, SCREEN_HEIGHT);
+        this.tweener
+            .move(x, y, 1000, "easeOutCirc")
         this.rotation = 45;
         this.blendMode = "lighter";
     },

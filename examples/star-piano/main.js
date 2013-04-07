@@ -95,30 +95,11 @@ var Star = tm.createClass({
     },
     
     startAnim: function() {
-        this.animation.addTween({
-            prop: "alpha",
-            begin: 1,
-            finish: 0,
-            duration: 1000,
-        });
-        this.animation.addTween({
-            prop: "scaleX",
-            begin: 1,
-            finish: 2,
-            duration: 1000,
-        });
-        this.animation.addTween({
-            prop: "scaleY",
-            begin: 1,
-            finish: 2,
-            duration: 1000,
-        });
-        this.animation.addTween({
-            prop: "rotation",
-            begin: 0,
-            finish: 360,
-            duration: 1000,
-        });
+        this.tweener
+            .to({ alpha:0, scaleX:2, scaleY:2, rotation:360 })
+            .call(function() {
+                this.remove();
+            }.bind(this));
         
         // SE 再生
         tm.sound.SoundManager.get(this.soundKey).play();

@@ -27,11 +27,13 @@ tm.app = tm.app || {};
             this.interaction.boundingType = "rect";
             
             this.addEventListener("pointingover", function() {
-                this.animation.fade(1.0, 250);
-            });
+                this.tweener.clear();
+                this.tweener.fadeIn(250);
+            }.bind(this));
             this.addEventListener("pointingout", function() {
-                this.animation.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
-            });
+                this.tweener.clear();
+                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+            }.bind(this));
             
             /*
             var d = this.draw;
@@ -76,10 +78,12 @@ tm.app = tm.app || {};
             this.interaction.enabled = true;
             this.interaction.boundingType = "rect";
             this.addEventListener("pointingover", function() {
-                this.animation.fade(1.0, 250);
+                this.tweener.clear();
+                this.tweener.fade(1, 250);
             });
             this.addEventListener("pointingout", function() {
-                this.animation.fade(tm.app.IconButton.DEFAULT_ALPHA, 250);
+                this.tweener.clear();
+                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
             });
         },
     });
@@ -108,10 +112,12 @@ tm.app = tm.app || {};
             this.interaction.enabled = true;
             this.interaction.boundingType = "rect";
             this.addEventListener("pointingover", function() {
-                this.animation.fade(1.0, 250);
+                this.tweener.clear();
+                this.tweener.fade(1.0, 250);
             });
             this.addEventListener("pointingout", function() {
-                this.animation.fade(tm.app.GlossyButton.DEFAULT_ALPHA, 250);
+                this.tweener.clear();
+                this.tweener.fade(tm.app.GlossyButton.DEFAULT_ALPHA, 250);
             });
             
             // ラベル

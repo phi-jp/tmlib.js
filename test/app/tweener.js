@@ -107,6 +107,25 @@ tm.define("tests.tweener.ByTestScene", {
     }
 });
 
+tm.define("tests.tweener.CallTestScene", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+        var star = tm.app.StarShape().addChildTo(this);
+        star.blendMode = "lighter";
+
+        star.setPosition(100, 200);
+        star.alpha = 0.0;
+
+        star.tweener
+            .by({x:100, y:100, alpha:1.0}, 500)
+            .by({x:-150, y:-300, scaleX:-2, scaleY:-2}, 1000)
+            .by({x:200, y:100, scaleX:2, scaleY:2, rotation:Math.rand(0, 360)}, 1500)
+            .call(function(a) { console.log(a); }, ["finish"])
+    },
+});
+
 tm.define("tests.tweener.FadeTestScene", {
     superClass: "tm.app.Scene",
 
