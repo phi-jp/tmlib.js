@@ -324,6 +324,37 @@ tm.define("tests.tweener.ScaleFadeScene", {
 
 
 
+tm.define("tests.tweener.FadeScene", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+    },
+
+    update: function(app) {
+        var p = app.pointing;
+        // フェードアウト
+        if (p.getPointingStart()) {
+            var fadeout = tm.app.Shape(app.width, app.height).addChildTo(this);
+            fadeout.originX = fadeout.originY = 0;
+            fadeout.canvas.clearColor("white");
+            fadeout.alpha = 0.0;
+
+            /*
+            var anim = tm.app.Animation(fadeout);
+            anim.fadeIn(1500);
+            anim.onanimationend = function() { this.getTarget().remove(); };
+            */
+
+            fadeout.tweener.fadeIn(1500).call(function() {
+                fadeout.remove()
+            });
+        }
+    }
+});
+
+
+
 
 
 

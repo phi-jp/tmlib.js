@@ -139,3 +139,43 @@ tm.define("tests.timeline.ConcentrationScene", {
         }
     }
 });
+
+
+tm.define("tests.timeline.Demo22Scene", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+    },
+
+    update: function(app) {
+        var p = app.pointing;
+        if (p.getPointingStart() == true) {
+            var circle = tm.app.CircleShape();
+            circle.blendMode = "lighter";
+            circle.startX = p.x;
+            circle.startY = p.y;
+            circle.setPosition(p.x, p.y);
+            this.addChild(circle);
+
+            circle.startAnim = function() {
+                this.x = this.startX;
+                this.y = this.startY;
+                this.alpha = 1.0;
+                this.scaleX = this.scaleY = 1.0;
+
+                this.timeline
+                    .by({x:300}, 1000)
+                    .by({y:300}, 1000, 500)
+                    .to({alpha:0.0}, 1000, 500)
+                    .to({scaleX:2, scaleY:2}, 1000, 500)
+            };
+            circle.startAnim();
+
+            circle.onanimationend = function() {
+                this.startAnim();
+            };
+
+        }
+    }
+});

@@ -12514,6 +12514,23 @@ tm.namespace("tm.app", function() {
             
             return this;
         },
+
+        /**
+         * アニメーション
+         */
+        by: function(props, duration, delay, fn) {
+            for (var key in props) {
+                props[key] += this.element[key] || 0;
+            }
+            this._addTween({
+                props: props,
+                duration: duration,
+                fn: fn,
+                delay: delay
+            });
+            
+            return this;
+        },
         
         /**
          * 関数を実行
