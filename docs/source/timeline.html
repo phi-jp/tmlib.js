@@ -109,6 +109,23 @@
             
             return this;
         },
+
+<span id='tm-app-Timeline-method-by'>        /**
+</span>         * アニメーション
+         */
+        by: function(props, duration, delay, fn) {
+            for (var key in props) {
+                props[key] += this.element[key] || 0;
+            }
+            this._addTween({
+                props: props,
+                duration: duration,
+                fn: fn,
+                delay: delay
+            });
+            
+            return this;
+        },
         
 <span id='tm-app-Timeline-method-call'>        /**
 </span>         * 関数を実行
