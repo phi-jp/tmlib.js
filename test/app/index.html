@@ -22,6 +22,8 @@
         <script src="../../src/core/function.js"></script>
         <script src="../../src/core/date.js"></script>
         <script src="../../src/core/math.js"></script>
+
+        <script src="../../src/util/script.js"></script>
         
         <script src="../../src/geom/vector2.js"></script>
         <script src="../../src/geom/vector3.js"></script>
@@ -61,6 +63,7 @@
         
         <script src="../../src/anim/tween.js"></script>
         
+        <script src="benchmark.js"></script>
         <script src="animationsprite.js"></script>
         <script src="tweener.js"></script>
         <script src="button.js"></script>
@@ -78,6 +81,8 @@
                 setTableOfContents();
 
                 var app = tm.app.CanvasApp("#world");
+
+                tm.global.app = app;
 
                 var query = window.location.search.substr(1);
                 if (!query) query = "tests.tweener.DemoScene";

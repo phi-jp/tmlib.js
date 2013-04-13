@@ -330,9 +330,11 @@ tm.app = tm.app || {};
             this.canvas.strokeStyle = "white";
             
             // 描画は全てのシーン行う
+            this.canvas.save();
             for (var i=0, len=this._scenes.length; i<len; ++i) {
                 this._scenes[i]._draw(this.canvas);
             }
+            this.canvas.restore();
             
             //this.currentScene._draw(this.canvas);
         },
