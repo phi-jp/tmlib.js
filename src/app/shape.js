@@ -32,18 +32,6 @@ tm.app = tm.app || {};
             this.height = height;
             this.canvas.resize(width, height);
         },
-        
-        /**
-         * 描画
-         */
-        draw: function(canvas) {
-            var srcRect = this.srcRect;
-            canvas.drawImage(
-                this.canvas.canvas,
-                0, 0, this.canvas.width, this.canvas.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
-            return this;
-        },
 
         renderCircle: function(param) {
             var c = this.canvas;

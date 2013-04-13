@@ -38,23 +38,6 @@ tm.app = tm.app || {};
             this.baseline   = "alphabetic";
         },
         
-        /**
-         * 描画
-         */
-        draw: function(canvas) {
-            canvas.setText(this.fontStyle, this.align, this.baseline);
-            if (this.fill) {
-                canvas.fillText(this.text, 0, 0, this.width);
-            }
-            if (this.stroke) {
-                canvas.strokeText(this.text, 0, 0, this.width);
-            }
-            
-            if (this.debugBox) {
-                canvas.strokeRect(0, 0, this.width, -this.size);
-            }
-        },
-        
         setAlign: function(align) {
             this.align = align;
             return this;

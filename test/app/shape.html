@@ -61,11 +61,12 @@
         <script src="../../src/app/canvaselement.js"></script>
         <script src="../../src/app/sprite.js"></script>
         <script src="../../src/app/shape.js"></script>
+        <script src="../../src/app/label.js"></script>
         <script src="../../src/app/scene.js"></script>
         <script src="../../src/app/canvasapp.js"></script>
         <script src="../../src/app/collision.js"></script>
         <script src="../../src/app/interaction.js"></script>
-        <script src="../../src/app/animation.js"></script>
+        <script src="../../src/app/tweener.js"></script>
         
         <script src="../../src/anim/tween.js"></script>
         
@@ -108,11 +109,11 @@
                 app.currentScene.update = function(app) {
                     var p = app.pointing;
                     if (p.getPointing() == true) {
-                        this.circle.animation.moveTo(p.x, p.y, 1000, "easeInOutBounce");
-                        this.triangle.animation.moveTo(p.x, p.y, 800, "easeInOutBounce");
-                        this.rectangle.animation.moveTo(p.x, p.y, 600, "easeInOutBounce");
-                        this.star.animation.moveTo(p.x, p.y, 400, "easeInOutBounce");
-                        this.polygon.animation.moveTo(p.x, p.y, 200, "easeInOutBounce");
+                        this.circle.tweener.clear().to({x:p.x, y:p.y}, 1000, "easeInOutBounce");
+                        this.triangle.tweener.clear().to({x:p.x, y:p.y}, 800, "easeInOutBounce");
+                        this.rectangle.tweener.clear().to({x:p.x, y:p.y}, 600, "easeInOutBounce");
+                        this.star.tweener.clear().to({x:p.x, y:p.y}, 400, "easeInOutBounce");
+                        this.polygon.tweener.clear().to({x:p.x, y:p.y}, 200, "easeInOutBounce");
                     };
                 };
                 

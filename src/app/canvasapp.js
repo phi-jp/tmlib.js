@@ -288,6 +288,7 @@ tm.app = tm.app || {};
 
             // グラフィックスを生成
             this.canvas = tm.graphics.Canvas(this.element);
+            this.renderer = tm.app.CanvasRenderer(this.canvas);
             
             // カラー
             this.background = "black";
@@ -332,7 +333,8 @@ tm.app = tm.app || {};
             // 描画は全てのシーン行う
             this.canvas.save();
             for (var i=0, len=this._scenes.length; i<len; ++i) {
-                this._scenes[i]._draw(this.canvas);
+                this.renderer.render(this._scenes[i]);
+//                this._scenes[i]._draw(this.canvas);
             }
             this.canvas.restore();
             
@@ -361,3 +363,6 @@ tm.app = tm.app || {};
     });
 
 })();
+
+
+

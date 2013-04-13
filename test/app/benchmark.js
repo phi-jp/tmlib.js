@@ -53,6 +53,10 @@ tm.define("tests.benchmark.PiyoScene", {
         var CHILD_NUM = 10;
         var CHILD_RADIUS = 50;
 
+        var updateFunc = function() {
+        	this.rotation -= 10;
+        };
+
         for (var i = 0; i < maxCount; i++) {
             var container = new tm.app.CanvasElement();
             container.x = Math.random() * app.width;
@@ -70,6 +74,14 @@ tm.define("tests.benchmark.PiyoScene", {
                 child.rotation = rad;
                 child.scaleX = child.scaleY = j / CHILD_NUM + 0.5;
                 child.alpha = j / CHILD_NUM + 0.1;
+
+                child.update = updateFunc;
+                // child.hoge = function() {
+                // 	this.rotation -= 10;
+                // };
+                // child.draw = function(canvas) {
+                // 	canvas.fillCircle(0, 0, 10);
+                // };
                 container.addChild(child);
             }
         }

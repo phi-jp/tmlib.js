@@ -58,6 +58,7 @@ module.exports = function(grunt) {
     "src/anim/tween.js",
 
     "src/app/element.js",
+    "src/app/object2d.js",
     "src/app/canvaselement.js",
     "src/app/sprite.js",
     "src/app/animationsprite.js",
@@ -66,6 +67,7 @@ module.exports = function(grunt) {
     "src/app/button.js",
     "src/app/scene.js",
     "src/app/canvasapp.js",
+    "src/app/renderer.js",
     "src/app/interaction.js",
     "src/app/collision.js",
     "src/app/tweener.js",

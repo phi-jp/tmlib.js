@@ -9755,13 +9755,10 @@ tm.app = tm.app || {};
 })();
 
 /*
- * 
+ * phi
  */
- 
-tm.app = tm.app || {};
 
 
- 
 (function() {
     
     tm.define("tm.app.Object2D", {
@@ -9985,6 +9982,52 @@ tm.app = tm.app || {};
             this.height = height;
             return this;
         },
+        _dirtyCalc: function() {
+            if (!this.parent) {
+            	this._worldAlpha = this.alpha;
+            	return ;
+            }
+
+            // alpha
+            this._worldAlpha = this.parent._worldAlpha * this.alpha;
+
+            // 行列
+            if(this.rotation != this.rotationCache)
+            {
+                this.rotationCache = this.rotation;
+                var r = this.rotation*Math.DEG_TO_RAD;
+                this._sr =  Math.sin(r);
+                this._cr =  Math.cos(r);
+            }
+
+            var localTransform = this._matrix.m;
+            var parentTransform = this.parent._worldMatrix.m;
+            var worldTransform = this._worldMatrix.m;
+            //console.log(localTransform)
+            localTransform[0] = this._cr * this.scale.x;
+            localTransform[1] =-this._sr * this.scale.y
+            localTransform[3] = this._sr * this.scale.x;
+            localTransform[4] = this._cr * this.scale.y;
+
+            ///AAARR GETTER SETTTER!
+            localTransform[2] = this.position.x;
+            localTransform[5] = this.position.y;
+
+            // Cache the matrix values (makes for huge speed increases!)
+            var a00 = localTransform[0], a01 = localTransform[1], a02 = localTransform[2],
+                a10 = localTransform[3], a11 = localTransform[4], a12 = localTransform[5],
+
+                b00 = parentTransform[0], b01 = parentTransform[1], b02 = parentTransform[2],
+                b10 = parentTransform[3], b11 = parentTransform[4], b12 = parentTransform[5];
+
+            worldTransform[0] = b00 * a00 + b01 * a10;
+            worldTransform[1] = b00 * a01 + b01 * a11;
+            worldTransform[2] = b00 * a02 + b01 * a12 + b02;
+
+            worldTransform[3] = b10 * a00 + b11 * a10;
+            worldTransform[4] = b10 * a01 + b11 * a11;
+            worldTransform[5] = b10 * a02 + b11 * a12 + b12;
+        },
         
         
     });
@@ -10170,6 +10213,11 @@ tm.app = tm.app || {};
     
 })();
 
+/*
+ * 
+ */
+ 
+tm.app = tm.app || {};
 
  
 (function() {
@@ -10219,8 +10267,6 @@ tm.app = tm.app || {};
         shadowOffsetX: 0,
         shadowOffsetY: 0,
         shadowBlur: 0,
-        
-        _matrix: null,
         
         /**
          * ゲーム用エレメントクラス
@@ -10340,108 +10386,7 @@ tm.app = tm.app || {};
                 for (var i=0,len=tempChildren.length; i<len; ++i) {
                     tempChildren[i]._update(app);
                 }
-                //this.execChildren(arguments.callee, app);
             }
-        },
-        
-        _draw: function(canvas) {
-            // 表示有効チェック
-            if (this.visible === false) return ;
-            
-            var context = canvas.context;
-            
-//            context.save();
-            
-            this._dirtyCalc();
-
-            context.fillStyle      = this.fillStyle;
-            context.strokeStyle    = this.strokeStyle;
-//            context.globalAlpha    *= this.alpha;
-            context.globalAlpha    = this._worldAlpha;
-            context.globalCompositeOperation = this.blendMode;
-            
-            if (this.shadowBlur > 0) {
-                context.shadowColor     = this.shadowColor;
-                context.shadowOffsetX   = this.shadowOffsetX;
-                context.shadowOffsetY   = this.shadowOffsetY;
-                context.shadowBlur      = this.shadowBlur;
-            }
-
-            // 行列計算 (自前)
-            // var matrix = this.getFinalMatrix();
-            // var m = matrix.m;
-            // context.setTransform( m[0], m[1], m[3], m[4], m[6], m[7] );
-            
-            // 行列計算 (canvas & save, restore が必要)
-            // context.translate(this.position.x, this.position.y);
-            // context.rotate(this.rotation * Math.DEG_TO_RAD);
-            // context.scale(this.scale.x, this.scale.y);
-
-            // 行列計算 (pixi.js 参考)
-            var m = this._worldMatrix.m;
-            context.setTransform( m[0], m[3], m[1], m[4], m[2], m[5] );
-            
-            if (this.draw) this.draw(canvas);
-            
-            // 子供達も実行
-            if (this.children.length > 0) {
-                var tempChildren = this.children.slice();
-                for (var i=0,len=tempChildren.length; i<len; ++i) {
-                    tempChildren[i]._draw(canvas);
-                }
-                // this.execChildren(arguments.callee, canvas);
-            }
-            
-//            context.restore();
-            
-            // // 衝突バウンディングボックス
-            // canvas.strokeRect(this.left, this.top, this.width, this.height);
-            // // 衝突バウンディングサークル
-            // canvas.strokeCircle(this.x, this.y, this.radius);
-        },
-
-        _dirtyCalc: function() {
-            if (!this.parent) { return ; }
-
-            // alpha
-            this._worldAlpha = this.parent._worldAlpha * this.alpha;
-
-            // 行列
-            if(this.rotation != this.rotationCache)
-            {
-                this.rotationCache = this.rotation;
-                var r = this.rotation*Math.DEG_TO_RAD;
-                this._sr =  Math.sin(r);
-                this._cr =  Math.cos(r);
-            }
-
-            var localTransform = this._matrix.m;
-            var parentTransform = this.parent._worldMatrix.m;
-            var worldTransform = this._worldMatrix.m;
-            //console.log(localTransform)
-            localTransform[0] = this._cr * this.scale.x;
-            localTransform[1] = -this._sr * this.scale.y
-            localTransform[3] = this._sr * this.scale.x;
-            localTransform[4] = this._cr * this.scale.y;
-
-            ///AAARR GETTER SETTTER!
-            localTransform[2] = this.position.x;
-            localTransform[5] = this.position.y;
-
-            // Cache the matrix values (makes for huge speed increases!)
-            var a00 = localTransform[0], a01 = localTransform[1], a02 = localTransform[2],
-                a10 = localTransform[3], a11 = localTransform[4], a12 = localTransform[5],
-
-                b00 = parentTransform[0], b01 = parentTransform[1], b02 = parentTransform[2],
-                b10 = parentTransform[3], b11 = parentTransform[4], b12 = parentTransform[5];
-
-            worldTransform[0] = b00 * a00 + b01 * a10;
-            worldTransform[1] = b00 * a01 + b01 * a11;
-            worldTransform[2] = b00 * a02 + b01 * a12 + b02;
-
-            worldTransform[3] = b10 * a00 + b11 * a10;
-            worldTransform[4] = b10 * a01 + b11 * a11;
-            worldTransform[5] = b10 * a02 + b11 * a12 + b12;
         },
         
         _refreshSize: function() {},
@@ -10505,19 +10450,6 @@ tm.app = tm.app || {};
             }
         },
         
-        /**
-         * 描画
-         */
-        draw: function(canvas) {
-            var srcRect = this.srcRect;
-            var element = this._image.element;
-            
-            canvas.drawImage(element,
-                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
-            
-        },
-        
         setFrameIndex: function(index, width, height) {
             var w   = width || this.width;
             var h   = width || this.height;
@@ -10535,7 +10467,6 @@ tm.app = tm.app || {};
         },
 
         _update: tm.app.CanvasElement.prototype._update,
-        _draw: tm.app.CanvasElement.prototype._draw,
     });
     
     /**
@@ -10780,18 +10711,6 @@ tm.app = tm.app || {};
             this.width  = width;
             this.height = height;
             this.canvas.resize(width, height);
-        },
-        
-        /**
-         * 描画
-         */
-        draw: function(canvas) {
-            var srcRect = this.srcRect;
-            canvas.drawImage(
-                this.canvas.canvas,
-                0, 0, this.canvas.width, this.canvas.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
-            return this;
         },
 
         renderCircle: function(param) {
@@ -11169,23 +11088,6 @@ tm.app = tm.app || {};
             this.fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
             this.align      = "start";
             this.baseline   = "alphabetic";
-        },
-        
-        /**
-         * 描画
-         */
-        draw: function(canvas) {
-            canvas.setText(this.fontStyle, this.align, this.baseline);
-            if (this.fill) {
-                canvas.fillText(this.text, 0, 0, this.width);
-            }
-            if (this.stroke) {
-                canvas.strokeText(this.text, 0, 0, this.width);
-            }
-            
-            if (this.debugBox) {
-                canvas.strokeRect(0, 0, this.width, -this.size);
-            }
         },
         
         setAlign: function(align) {
@@ -11912,6 +11814,7 @@ tm.app = tm.app || {};
 
             // グラフィックスを生成
             this.canvas = tm.graphics.Canvas(this.element);
+            this.renderer = tm.app.CanvasRenderer(this.canvas);
             
             // カラー
             this.background = "black";
@@ -11956,7 +11859,8 @@ tm.app = tm.app || {};
             // 描画は全てのシーン行う
             this.canvas.save();
             for (var i=0, len=this._scenes.length; i<len; ++i) {
-                this._scenes[i]._draw(this.canvas);
+                this.renderer.render(this._scenes[i]);
+//                this._scenes[i]._draw(this.canvas);
             }
             this.canvas.restore();
             
@@ -11985,6 +11889,147 @@ tm.app = tm.app || {};
     });
 
 })();
+
+
+
+
+/*
+ * phi
+ */
+
+ 
+(function() {
+    
+    tm.define("tm.app.CanvasRenderer", {
+        canvas: null,
+
+        init: function(canvas) {
+            this.canvas = canvas;
+            this._context = this.canvas.context;
+        },
+
+        render: function(root) {
+            this.canvas.save();
+            this.renderObject(root);
+            this.canvas.restore();
+        },
+
+        renderObject: function(obj) {
+            obj._dirtyCalc();
+
+            if (obj.visible === false) return ;
+            var context = this._context;
+
+            if (!obj.draw) this._setRenderFunction(obj);
+
+            // 情報をセット
+            context.fillStyle      = obj.fillStyle;
+            context.strokeStyle    = obj.strokeStyle;
+            context.globalAlpha    = obj._worldAlpha;
+            context.globalCompositeOperation = obj.blendMode;
+            // 行列をセット
+            var m = obj._worldMatrix.m;
+            context.setTransform( m[0], m[3], m[1], m[4], m[2], m[5] );
+            
+            obj.draw(this.canvas);
+            
+            // 子供達も実行
+            if (obj.children.length > 0) {
+                var tempChildren = obj.children.slice();
+                for (var i=0,len=tempChildren.length; i<len; ++i) {
+                    this.renderObject(tempChildren[i]);
+                }
+            }
+        },
+
+        _setRenderFunction: function(obj) {
+            if (obj instanceof tm.app.Sprite) {
+                obj.draw = renderFuncList["sprite"];
+            }
+            else if (obj instanceof tm.app.Label) {
+                obj.draw = renderFuncList["label"];
+            }
+            else if (obj instanceof tm.app.Shape) {
+                obj.draw = renderFuncList["shape"];
+            }
+            else {
+                obj.draw = function() {};
+            }
+        }
+
+    });
+    
+    var renderFuncList = {
+        "sprite": function(canvas) {
+            var srcRect = this.srcRect;
+            var element = this._image.element;
+            
+            canvas.context.drawImage(element,
+                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
+                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+        },
+        "shape": function(canvas) {
+            var srcRect = this.srcRect;
+            canvas.drawImage(
+                this.canvas.canvas,
+                0, 0, this.canvas.width, this.canvas.height,
+                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+        },
+        "label": function(canvas) {
+            canvas.setText(this.fontStyle, this.align, this.baseline);
+            if (this.fill) {
+                canvas.fillText(this.text, 0, 0, this.width);
+            }
+            if (this.stroke) {
+                canvas.strokeText(this.text, 0, 0, this.width);
+            }
+            
+            if (this.debugBox) {
+                canvas.strokeRect(0, 0, this.width, -this.size);
+            }
+        }
+    };
+
+})();
+ 
+
+
+ 
+(function() {
+    
+    tm.define("tm.app.BoundingRectRenderer", {
+        superClass: "tm.app.CanvasRenderer",
+
+        init: function(canvas) {
+            this.superInit(canvas);
+        },
+
+        _setRenderFunction: function(obj) {
+            obj.draw = render;
+        }
+    });
+
+    var render = function(canvas) {
+        canvas.save();
+        canvas.lineWidth = 2;
+        canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
+        canvas.restore();
+    };
+
+})();
+ 
+
+
+
+
+
+
+
+
+
+
+
+
 /*
  * interactive.js
  */

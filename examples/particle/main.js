@@ -107,7 +107,7 @@ var Particle = tm.createClass({
 
 window.onload = function() {
     var app = tm.app.CanvasApp("#world");
-    app.fps = 30;
+    app.fps = 60;
     app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
     app.fitWindow();
     app.enableStats();

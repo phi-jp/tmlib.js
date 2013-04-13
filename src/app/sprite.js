@@ -35,19 +35,6 @@ tm.app = tm.app || {};
             }
         },
         
-        /**
-         * 描画
-         */
-        draw: function(canvas) {
-            var srcRect = this.srcRect;
-            var element = this._image.element;
-            
-            canvas.drawImage(element,
-                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
-            
-        },
-        
         setFrameIndex: function(index, width, height) {
             var w   = width || this.width;
             var h   = width || this.height;
@@ -65,7 +52,6 @@ tm.app = tm.app || {};
         },
 
         _update: tm.app.CanvasElement.prototype._update,
-        _draw: tm.app.CanvasElement.prototype._draw,
     });
     
     /**
