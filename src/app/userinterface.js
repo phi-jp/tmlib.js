@@ -70,14 +70,19 @@ tm.app = tm.app || {};
 
             if (this._targetValue == this.targetProp) return ;
 
-            this.animation.clear();
+            this.tweener.clear();
             if (anim) {
+                var props = {};
+                props[this._targetPropName] = this._targetValue;
+                this.tweener.to(props, Math.abs(this._targetValue-this.targetProp)*10);
+                /*
                 this.animation.addTween({
                     prop: this._targetPropName,
                     begin: this.targetProp,
                     finish: this._targetValue,
                     duration: Math.abs(this._targetValue-this.targetProp)*10,
                 });
+*/
             }
             else {
                 this.targetProp = this._targetValue;
