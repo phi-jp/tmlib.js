@@ -1,6 +1,9 @@
 tm.preload(function() {
 	tm.graphics.TextureManager.add("piyo", "piyo.png");
+	tm.graphics.TextureManager.add("9iIpS", "http://jsrun.it/assets/9/i/I/p/9iIpS.png");
+
 	tm.util.ScriptManager.loadStats();
+	tm.util.ScriptManager.loadDatGUI();
 });
 
 tm.define("tests.benchmark.PiyoScene", {
@@ -89,4 +92,94 @@ tm.define("tests.benchmark.PiyoScene", {
 //        textNumObj.innerHTML = String(maxCount * CHILD_NUM);    	
     },
 });
+
+
+
+/*
+ * http://jsdo.it/djankey/testpixijs
+ */
+tm.define("tests.benchmark.HogeScene", {
+    superClass: "tm.app.Scene",
  
+    init: function() {
+        this.superInit();
+
+        app.fps = 60;
+
+        this.TOTAL = 1000;
+        this.particles = [];
+        this._addParticle();
+
+        app.enableStats();
+        app.stats.domElement.style.zIndex = 1100;
+
+        var gui = app.enableDatGUI();
+        gui.add(this, "TOTAL", 500, 10000).step(500).name('Particles').onFinishChange(function() {
+        	this._addParticle();
+        }.bind(this));
+        gui.domElement.parentNode.style.zIndex = 20000;
+    },
+
+    update: function(app) {
+    	var p = app.pointing;
+    	var len = this.particles.length;
+	    for (var i = 0; i < len; i++) {
+			var ball = this.particles[i].sprite;
+			var dx = ball.position.x - p.x;
+			var dy = ball.position.y - p.y;
+			var vx = this.particles[i].vx;
+			var vy = this.particles[i].vy;     
+	       
+			if (dx * dx + dy * dy <= 10000) {
+				vx += dx * 0.01;
+				vy += dy * 0.01;
+			}
+			vx *= 0.95;
+			vy *= 0.95;
+
+			vx += Math.random() - 0.5;
+			vy += Math.random() - 0.5;
+
+			var x = ball.position.x += vx;
+			var y = ball.position.y += vy;
+
+			if (x < 0 || x > app.width || y < 0 || y > app.height) {
+				var r = Math.atan2(y - app.height / 2, x - app.width / 2);
+				vx = -Math.cos(r);
+				vy = -Math.sin(r);
+			}
+
+			this.particles[i].vx = vx;
+			this.particles[i].vy = vy;      
+		}
+    },
+
+    _addParticle: function() {
+    	this._removeAllBall();
+
+        for (i = 0; i < this.TOTAL; i++) {  
+            var ball = tm.app.Sprite(29, 29, "9iIpS");
+            ball.centerX = 0.5;
+            ball.centerY = 0.5;
+            ball.vx = 0;
+            ball.vy = 0;
+            ball.position.x = Math.random() * app.width;
+            ball.position.y = Math.random() * app.height;
+            this.addChild(ball);       
+                
+            this.particles.push({sprite:ball, vx:0, vy:0});  
+        }
+    },
+
+    _removeAllBall: function() {
+        var len = this.particles.length;        
+        for(i = 0; i<len; i++) {            
+            var old = this.particles[i].sprite;           
+            this.removeChild(old);    
+        }
+       
+        this.particles = [];
+    }
+});
+
+
