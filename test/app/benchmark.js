@@ -193,7 +193,7 @@ tm.define("tests.benchmark.CrashScene", {
         app.enableStats();
         app.stats.domElement.style.zIndex = 1100;
 
-        for (var i=0; i<256; ++i) {
+        for (var i=0; i<512; ++i) {
             var crash = tm.app.AnimationSprite(128, 128, PLAYER_SPRITE_SHEET).addChildTo(this);
             var x = tm.util.Random.randint(0, SCREEN_WIDTH);
             var y = tm.util.Random.randint(0, SCREEN_HEIGHT);
