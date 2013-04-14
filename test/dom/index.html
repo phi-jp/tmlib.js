@@ -1,0 +1,167 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Test | tmlib.js</title>
+        
+        <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" />
+        <style>
+            body {
+                font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif;
+                margin-top: 50px;
+            }
+            #target {
+            	border-color: red;
+            }
+            .box {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                padding: 10px;
+                border: 1px solid black;
+            }
+        </style>
+
+        <script src="../../src/tmlib.js"></script>
+        
+        <script src="../../src/core/object.js"></script>
+        <script src="../../src/core/string.js"></script>
+        <script src="../../src/core/number.js"></script>
+        <script src="../../src/core/array.js"></script>
+        <script src="../../src/core/function.js"></script>
+        <script src="../../src/core/date.js"></script>
+        <script src="../../src/core/math.js"></script>
+
+        <script src="../../src/util/random.js"></script>
+        <script src="../../src/util/ajax.js"></script>
+        <script src="../../src/util/file.js"></script>
+        <script src="../../src/util/script.js"></script>
+        <script src="../../src/util/timeline.js"></script>
+        <script src="../../src/util/data.js"></script>
+        <script src="../../src/util/script.js"></script>
+        <script src="../../src/util/querystring.js"></script>
+        <script src="../../src/util/type.js"></script>
+        
+        <script src="../../src/geom/vector2.js"></script>
+        <script src="../../src/geom/vector3.js"></script>
+        <script src="../../src/geom/matrix33.js"></script>
+        <script src="../../src/geom/matrix44.js"></script>
+        <script src="../../src/geom/rect.js"></script>
+        <script src="../../src/geom/circle.js"></script>
+
+        <script src="../../src/event/event.js"></script>
+        <script src="../../src/event/eventdispatcher.js"></script>
+        
+        <script src="../../src/collision/collision.js"></script>
+        
+        <script src="../../src/anim/tween.js"></script>
+
+        <script src="../../src/dom/element.js"></script>
+        <script src="../../src/dom/style.js"></script>
+        <script src="../../src/dom/event.js"></script>
+        <script src="../../src/dom/attr.js"></script>
+        
+        <script src="../../src/input/keyboard.js"></script>
+        <script src="../../src/input/mouse.js"></script>
+        <script src="../../src/input/touch.js"></script>
+        <script src="../../src/input/accelerometer.js"></script>
+        
+        <script src="../../src/graphics/canvas.js"></script>
+        <script src="../../src/graphics/texture.js"></script>
+        <script src="../../src/graphics/gradient.js"></script>
+
+
+        <script>
+            var SCREEN_WIDTH    = 640;
+            var SCREEN_HEIGHT   = 480;
+            var SCREEN_CENTER_X = SCREEN_WIDTH/2;
+            var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;
+            var tests = {};
+        </script>
+        <script src="element.js"></script>
+        <script>
+
+            /*
+             * Test
+             */
+            tm.main(function() {
+                setTableOfContents();
+
+                // テストを実行
+                var query = window.location.search.substr(1);
+                if (!query) query = "tests.element.append";
+
+                var fn = eval(query);
+                fn();
+            });
+
+            var setTableOfContents = function() {
+                var testsElement = tm.dom.Element("#tests");
+
+                for (var key in tests) {
+                    var li = testsElement.create("li");
+                    li.html = key;
+                    var ul = li.create("ul");
+
+                    for (var key2 in tests[key]) {
+                        var a = ul.create("li").create("a");
+                        a.html = key2;
+                        a.attr.set("href", "?" + ["tests", key, key2].join('.'));
+                    }
+                }
+            };
+            
+        </script>
+    </head>
+    
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">tmlib.js</a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li><a href="https://github.com/phi1618/tmlib.js">Github</a></li>
+                            <li><a href="http://phi1618.github.com/tmlib.js/docs/index.html">Docs</a></li>
+                            <li><a href="http://tmlife.net">Blog</a></li>
+                            <li><a href="https://twitter.com/phi_jp">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="span3">
+                    <h2>Test List</h2>
+                    <ul id="tests">
+                </div>
+                <div id="content" class="span9" style="position:fixed; margin-left: 260px">
+                    <h2>DOM</h2>
+                    <div id="target" class="box">
+                        Target
+                        <ul class="list">
+                        	<li class="item">Item00</li>
+                        	<li class="item">Item01</li>
+                        	<li class="item">Item02</li>
+                        	<li class="item">Item03</li>
+                        </ul>
+                        <form>
+                        	<input type="text" class="input" value="Hello, world!" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+    </body>
+</html>
