@@ -1,11 +1,3 @@
-/*
- * trans.js
- */
-
-tm.dom = tm.dom || {};
-
-
-
 (function(){
     
     /**
@@ -22,6 +14,82 @@ tm.dom = tm.dom || {};
         init: function(element) {
             this.element = element;
         },
+        
+        to: function(props, t) {
+            this.set(props).duration(t||1000);
+            return this;
+        },
+        
+        set: function(props) {
+            var style = this.element.style;
+            var names = [];
+            
+            for (var key in props) {
+                var name = _checkStyleProperty(key);
+                names.push( name.toDash() );
+                style[name] = props[key] + "";
+            }
+            
+            style[tm.dom.Trans.PROPERTY] = names.join(', ');   // none;
+            
+            return this;
+        },
+        
+        duration: function(t) {
+            var style = this.element.style;
+            if (typeof t == "number") t = t + "ms";
+            style[tm.dom.Trans.DURATION] = t;
+            return this;
+        },
+        
+        easing: function(ease) {
+            var style = this.element.style;
+            style[tm.dom.Trans.TIMING_FUNCTION] = func;
+            return this;
+        },
+        
+        end: function(fn) {
+            var elm  = tm.dom.Element(this.element);
+            elm.event.add(tm.dom.Trans.END_EVENT, fn);
+            return this;
+        },
+        
+        reset: function() {
+            var style = this.element.style;
+            style[tm.dom.Trans.PROPERTY] = "none";
+            return this;
+        },
+        
+        translate: function(x, y, t) {
+            this.to({"transform": "translate({0}px,{1}px)".format(x, y)}, t);
+            return this;
+        },
+        
+        translate3d: function(x, y, z, t) {
+            this.to({"transform": "translate3d({0}px,{1}px,{2}px)".format(x, y, z)}, t);
+            return this;
+        },
+        
+        rotate: function(deg, t) {
+            this.to({"transform": "rotate({0}deg)".format(deg)}, t);
+            return this;
+        },
+        
+        rotate3d: function(x, y, z, deg, t) {
+            this.to({"transform": "rotate3d({0},{1},{2},{3}deg)".format(x, y, z, deg)}, t);
+            return this;
+        },
+        
+        scale: function(x, y, t) {
+            this.to({"transform": "scale({0},{1})".format(x, y)}, t);
+            return this;
+        },
+        
+        transform: function() {
+            // TODO: 実装する
+        },
+        
+        // -------------------------------------
         
         setProp: function(prop) {
             var style = this.element.style;
@@ -94,4 +162,3 @@ tm.dom = tm.dom || {};
         return name;
     };
 })();
-

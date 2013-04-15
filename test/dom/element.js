@@ -121,7 +121,58 @@ tests.attr = {
 
 
 
-
+tests.trans = {
+    to: function() {
+        var target = tm.dom.Element( "#target" );
+        
+        target.trans.to({"opacity": 0}, 1000);
+    },
+    
+    set: function() {
+        var target = tm.dom.Element( "#target" );
+        target.trans.set({"background-color": "red"}).duration(1000);
+    },
+    
+    duration: function() {
+        var target = tm.dom.Element( "#target" );
+        target.trans.set({"background-color": "blue"}).duration(3000);
+    },
+    
+    end: function() {
+        var target = tm.dom.Element( "#target" );
+        target.trans.set({"background-color": "blue"}).duration(1000).end(function() {
+            alert("finish!");
+        });
+    },
+    
+    translate: function() {
+        var target = tm.dom.Element( "#target" );
+        target.trans.translate(100, 300, 1000);
+    },
+    
+    translate3d: function() {
+        var target = tm.dom.Element( "#target" );
+        target.parent.style.set("webkitPerspective", "600px");
+        target.trans.translate3d(100, 100, -500);
+    },
+    
+    rotate: function() {
+        var target = tm.dom.Element( "#target" );
+        target.trans.rotate(360, 4000);
+    },
+    
+    rotate3d: function() {
+        var target = tm.dom.Element( "#target" );
+        target.parent.style.set("webkitPerspective", "600px");
+        target.trans.rotate3d(0, 1, 0, 360, 4000);
+    },
+    
+    scale: function() {
+        var target = tm.dom.Element( "#target" );
+        target.trans.scale(0.5, 1.2);
+    },
+    
+};
 
 
 
