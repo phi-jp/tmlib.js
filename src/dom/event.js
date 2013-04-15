@@ -138,6 +138,7 @@ tm.dom = tm.dom || {};
          */
         init: function(element) {
             this.element = element;
+            this.domElement = element.element;
             this.funcList = {};
         },
         
@@ -146,7 +147,7 @@ tm.dom = tm.dom || {};
          */
         add: function(type, fn, id) {
             var self = this;
-            var elm  = tm.dom.Element(this.element);
+            var elm  = this.element;
             
             var temp_fn = function(e) {
                 // return fn.apply(self, arguments);
@@ -169,7 +170,7 @@ tm.dom = tm.dom || {};
             this.funcList[type][id] = temp_fn;
             fn._id = id;    // しれっと記録
             
-            this.element.addEventListener(type, temp_fn, false);
+            this.domElement.addEventListener(type, temp_fn, false);
             return this;
         },
         
@@ -180,7 +181,7 @@ tm.dom = tm.dom || {};
             var id = (typeof(fn_or_id) === "function") ? fn_or_id._id : fn_or_id;
             var fn = this.getFunc(type, id);
             
-            this.element.removeEventListener(type, fn, false);
+            this.domElement.removeEventListener(type, fn, false);
             delete this.funcList[type][id];
         },
         
@@ -227,7 +228,7 @@ tm.dom = tm.dom || {};
          */
         one: function(type, fn, id) {
             var self = this;
-            var elm  = tm.dom.Element(this.element);
+            var elm  = this.element;
             
             var temp_fn = function() {
                 var result = fn.apply(elm, arguments);
@@ -245,7 +246,7 @@ tm.dom = tm.dom || {};
          */
         toggle: function(type, fn_list) {
             var self = this;
-            var elm  = tm.dom.Element(this.element);
+            var elm  = this.element;
             var temp_list = [];
             
             for (var i=0; i<fn_list.length; ++i) {
@@ -286,7 +287,7 @@ tm.dom = tm.dom || {};
      * スタイルクラス
      */
     tm.dom.Element.prototype.getter("event", function(){
-        return this._event || ( this._event = tm.dom.Event(this.element) );
+        return this._event || ( this._event = tm.dom.Event(this) );
     });
     
 })();

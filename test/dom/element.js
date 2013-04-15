@@ -2,6 +2,52 @@
  * element.js
  */
 
+tests.event = {
+    add: function() {
+        var target = tm.dom.Element( "#target" );
+        target.event.add("click", function() {
+            alert("click");
+        });
+    },
+
+    remove: function() {
+        var target = tm.dom.Element( "#target" );
+        target.event.add("click", function() {
+            alert("click");
+            this.event.remove("click", arguments.callee);
+        });
+    },
+
+    click: function() {
+        var target = tm.dom.Element( "#target" );
+        target.event.click(function() {
+            alert("click");
+        });
+    },
+
+    one: function() {
+        var target = tm.dom.Element( "#target" );
+        target.event.one("click", function() {
+            alert("click");
+        });
+    },
+
+    toggle: function() {
+        var target = tm.dom.Element( "#target" );
+        target.event.toggle("click", [
+            function() {
+                this.backgroundColor = "red";
+            },
+            function() {
+                this.backgroundColor = "green";
+            },
+            function() {
+                this.backgroundColor = "blue";
+            },
+        ]);
+    }
+};
+
 
 tests.element = {
     default: function() {
