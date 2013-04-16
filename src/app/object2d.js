@@ -30,21 +30,12 @@
          */
         _height: 64,
         
-        /**
-         * originX
-         */
-        originX: 0.5,
-        
-        /**
-         * originX
-         */
-        originY: 0.5,
-        
         init: function() {
             this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
             this.pointing = tm.geom.Vector2(0, 0);
+            this.origin   = tm.geom.Vector2(0.5, 0.5);
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
             this.boundingType = "circle";
@@ -292,6 +283,24 @@
     tm.app.Object2D.prototype.accessor("y", {
         "get": function()   { return this.position.y; },
         "set": function(v)  { this.position.y = v; }
+    });
+ 
+    /**
+     * @property    originX
+     * x座標値
+     */
+    tm.app.Object2D.prototype.accessor("originX", {
+        "get": function()   { return this.origin.x; },
+        "set": function(v)  { this.origin.x = v; }
+    });
+    
+    /**
+     * @property    originY
+     * y座標値
+     */
+    tm.app.Object2D.prototype.accessor("originY", {
+        "get": function()   { return this.origin.y; },
+        "set": function(v)  { this.origin.y = v; }
     });
     
     /**

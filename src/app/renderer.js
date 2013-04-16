@@ -71,14 +71,14 @@
             
             canvas.context.drawImage(element,
                 srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
         },
         "shape": function(canvas) {
             var srcRect = this.srcRect;
             canvas.drawImage(
                 this.canvas.canvas,
                 0, 0, this.canvas.width, this.canvas.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
         },
         "label": function(canvas) {
             canvas.setText(this.fontStyle, this.align, this.baseline);
