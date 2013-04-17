@@ -98,6 +98,34 @@ tm.graphics = tm.graphics || {};
         }
         return true;
     };
+
+
+
+    /**
+     * @static
+     * @method
+     * ### ref
+     * http://dummyimage.com/
+     */
+    tm.graphics.TextureManager.loadDummy = function(key, param)
+    {
+        param = param || {};
+
+        var paths = ["http://dummyimage.com"];
+        paths.push(param.size || 256);
+        paths.push(param.bgColor || "aaa");
+        paths.push(param.color || "000");
+        paths.push(param.format || "png");
+
+        var src = paths.join('/');
+        if (param.text) {
+            src += '&text=' + param.text;
+        }
+
+        this.textures[key] = tm.graphics.Texture(src);
+        this.loaded = false;
+    };
+
     
     tm.addLoadCheckList(tm.graphics.TextureManager);
     
