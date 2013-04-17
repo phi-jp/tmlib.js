@@ -244,4 +244,15 @@ tm.define("tests.canvaselement.GaugeTest02Scene", {
 
 });
 
+tm.define("tests.Scene.ResultTest", {
+    superClass: "tm.app.ResultScene",
+ 
+    init: function() {
+        this.superInit({
+            
+        });
+    },
+
+});
+
 

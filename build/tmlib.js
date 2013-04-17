@@ -11573,7 +11573,7 @@ tm.app = tm.app || {};
             param = {}.$extend(DEFAULT_PARAM, param);
             
             var text = "SCORE: {score}, {msg}".format(param);
-            var twitterURL = tm.social.Twitter.createURL({
+            var twitterURL = this.tweetURL = tm.social.Twitter.createURL({
                 type    : "tweet",
                 text    : text,
                 hashtags: param.hashtags,
@@ -11605,9 +11605,11 @@ tm.app = tm.app || {};
             this.addChild(msgLabel);
             
             // ツイートボタン
-            var tweetButton = tm.app.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
+            var tweetButton = this.tweetButton = tm.app.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
             tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
-            tweetButton.onpointingstart = function() { window.open(twitterURL, "_self"); };
+            tweetButton.onpointingstart = function() {
+                window.open(twitterURL, "_self");
+            };
             
             // 戻るボタン
             var backButton = tm.app.GlossyButton(120, 50, "black", "Back").addChildTo(this);
@@ -11616,6 +11618,18 @@ tm.app = tm.app || {};
                 var e = tm.event.Event("nextscene");
                 this.dispatchEvent(e);
             }.bind(this);
+
+            this.addEventListener("enter", function() {
+                app.element.addEventListener("click", function(e) {
+                    if (tweetButton.isHitPoint(e.pointX, e.pointY)) {
+                        window.open(twitterURL);
+                    }
+                });
+            });
+
+            this.addEventListener("exit", function() {
+                app.element.removeEventListener("click");
+            });
         },
         
         /*
