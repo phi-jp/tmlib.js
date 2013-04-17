@@ -249,9 +249,13 @@ tm.define("tests.Scene.ResultTest", {
  
     init: function() {
         this.superInit({
-            
+
         });
     },
+
+    onnextscene: function() {
+        this.app.replaceScene(tm.app.Scene());
+    }
 
 });
 
