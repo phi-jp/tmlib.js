@@ -5425,6 +5425,7 @@ tm.dom = tm.dom || {};
          */
         init: function(element) {
             this.element = element;
+            this.domElement = element.element;
             this.funcList = {};
         },
         
@@ -5433,7 +5434,7 @@ tm.dom = tm.dom || {};
          */
         add: function(type, fn, id) {
             var self = this;
-            var elm  = tm.dom.Element(this.element);
+            var elm  = this.element;
             
             var temp_fn = function(e) {
                 // return fn.apply(self, arguments);
@@ -5456,7 +5457,7 @@ tm.dom = tm.dom || {};
             this.funcList[type][id] = temp_fn;
             fn._id = id;    // しれっと記録
             
-            this.element.addEventListener(type, temp_fn, false);
+            this.domElement.addEventListener(type, temp_fn, false);
             return this;
         },
         
@@ -5467,7 +5468,7 @@ tm.dom = tm.dom || {};
             var id = (typeof(fn_or_id) === "function") ? fn_or_id._id : fn_or_id;
             var fn = this.getFunc(type, id);
             
-            this.element.removeEventListener(type, fn, false);
+            this.domElement.removeEventListener(type, fn, false);
             delete this.funcList[type][id];
         },
         
@@ -5514,7 +5515,7 @@ tm.dom = tm.dom || {};
          */
         one: function(type, fn, id) {
             var self = this;
-            var elm  = tm.dom.Element(this.element);
+            var elm  = this.element;
             
             var temp_fn = function() {
                 var result = fn.apply(elm, arguments);
@@ -5532,7 +5533,7 @@ tm.dom = tm.dom || {};
          */
         toggle: function(type, fn_list) {
             var self = this;
-            var elm  = tm.dom.Element(this.element);
+            var elm  = this.element;
             var temp_list = [];
             
             for (var i=0; i<fn_list.length; ++i) {
@@ -5573,7 +5574,7 @@ tm.dom = tm.dom || {};
      * スタイルクラス
      */
     tm.dom.Element.prototype.getter("event", function(){
-        return this._event || ( this._event = tm.dom.Event(this.element) );
+        return this._event || ( this._event = tm.dom.Event(this) );
     });
     
 })();
@@ -5890,14 +5891,6 @@ tm.dom = tm.dom || {};
 })();
 
 
-/*
- * trans.js
- */
-
-tm.dom = tm.dom || {};
-
-
-
 (function(){
     
     /**
@@ -5914,6 +5907,82 @@ tm.dom = tm.dom || {};
         init: function(element) {
             this.element = element;
         },
+        
+        to: function(props, t) {
+            this.set(props).duration(t||1000);
+            return this;
+        },
+        
+        set: function(props) {
+            var style = this.element.style;
+            var names = [];
+            
+            for (var key in props) {
+                var name = _checkStyleProperty(key);
+                names.push( name.toDash() );
+                style[name] = props[key] + "";
+            }
+            
+            style[tm.dom.Trans.PROPERTY] = names.join(', ');   // none;
+            
+            return this;
+        },
+        
+        duration: function(t) {
+            var style = this.element.style;
+            if (typeof t == "number") t = t + "ms";
+            style[tm.dom.Trans.DURATION] = t;
+            return this;
+        },
+        
+        easing: function(ease) {
+            var style = this.element.style;
+            style[tm.dom.Trans.TIMING_FUNCTION] = func;
+            return this;
+        },
+        
+        end: function(fn) {
+            var elm  = tm.dom.Element(this.element);
+            elm.event.add(tm.dom.Trans.END_EVENT, fn);
+            return this;
+        },
+        
+        reset: function() {
+            var style = this.element.style;
+            style[tm.dom.Trans.PROPERTY] = "none";
+            return this;
+        },
+        
+        translate: function(x, y, t) {
+            this.to({"transform": "translate({0}px,{1}px)".format(x, y)}, t);
+            return this;
+        },
+        
+        translate3d: function(x, y, z, t) {
+            this.to({"transform": "translate3d({0}px,{1}px,{2}px)".format(x, y, z)}, t);
+            return this;
+        },
+        
+        rotate: function(deg, t) {
+            this.to({"transform": "rotate({0}deg)".format(deg)}, t);
+            return this;
+        },
+        
+        rotate3d: function(x, y, z, deg, t) {
+            this.to({"transform": "rotate3d({0},{1},{2},{3}deg)".format(x, y, z, deg)}, t);
+            return this;
+        },
+        
+        scale: function(x, y, t) {
+            this.to({"transform": "scale({0},{1})".format(x, y)}, t);
+            return this;
+        },
+        
+        transform: function() {
+            // TODO: 実装する
+        },
+        
+        // -------------------------------------
         
         setProp: function(prop) {
             var style = this.element.style;
@@ -5986,8 +6055,6 @@ tm.dom = tm.dom || {};
         return name;
     };
 })();
-
-
 /*
  * phi
  */
@@ -9786,21 +9853,12 @@ tm.app = tm.app || {};
          */
         _height: 64,
         
-        /**
-         * originX
-         */
-        originX: 0.5,
-        
-        /**
-         * originX
-         */
-        originY: 0.5,
-        
         init: function() {
             this.superInit();
             this.position = tm.geom.Vector2(0, 0);
             this.scale    = tm.geom.Vector2(1, 1);
             this.pointing = tm.geom.Vector2(0, 0);
+            this.origin   = tm.geom.Vector2(0.5, 0.5);
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
             this.boundingType = "circle";
@@ -10048,6 +10106,24 @@ tm.app = tm.app || {};
     tm.app.Object2D.prototype.accessor("y", {
         "get": function()   { return this.position.y; },
         "set": function(v)  { this.position.y = v; }
+    });
+ 
+    /**
+     * @property    originX
+     * x座標値
+     */
+    tm.app.Object2D.prototype.accessor("originX", {
+        "get": function()   { return this.origin.x; },
+        "set": function(v)  { this.origin.x = v; }
+    });
+    
+    /**
+     * @property    originY
+     * y座標値
+     */
+    tm.app.Object2D.prototype.accessor("originY", {
+        "get": function()   { return this.origin.y; },
+        "set": function(v)  { this.origin.y = v; }
     });
     
     /**
@@ -11966,14 +12042,14 @@ tm.app = tm.app || {};
             
             canvas.context.drawImage(element,
                 srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
         },
         "shape": function(canvas) {
             var srcRect = this.srcRect;
             canvas.drawImage(
                 this.canvas.canvas,
                 0, 0, this.canvas.width, this.canvas.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
         },
         "label": function(canvas) {
             canvas.setText(this.fontStyle, this.align, this.baseline);
