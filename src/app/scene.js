@@ -195,16 +195,16 @@ tm.app = tm.app || {};
                 this.dispatchEvent(e);
             }.bind(this);
 
-            this.addEventListener("enter", function() {
-                app.element.addEventListener("click", function(e) {
+            this.addEventListener("enter", function(e) {
+                e.app.element.addEventListener("click", function(e) {
                     if (tweetButton.isHitPoint(e.pointX, e.pointY)) {
                         window.open(twitterURL);
                     }
                 });
             });
 
-            this.addEventListener("exit", function() {
-                app.element.removeEventListener("click");
+            this.addEventListener("exit", function(e) {
+                e.app.element.removeEventListener("click");
             });
         },
         
