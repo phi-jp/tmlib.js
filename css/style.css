@@ -1,0 +1,47 @@
+/*
+ * phi
+ */
+body {
+  padding-top: 60px;
+  font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif;
+  font-size: 12px;
+}
+.hero-unit {
+  padding: 30px;
+}
+.tm-thumbnail {
+  padding: 0px 4px;
+  background-color: #fafafa;
+}
+.tm-thumbnail .thumbnail-img img {
+  width: 80%;
+  box-shadow: 0px 0px 4px 0px #aaa;
+}
+.tm-thumbnail p.description {
+  min-height: 60px;
+}
+.tm-thumbnail .caption {
+  padding: 0px 8px;
+}
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 70px;
+  border-top: 1px solid #e5e5e5;
+  background-color: #f5f5f5;
+}
+.footer p {
+  margin-bottom: 0;
+  color: #777;
+}
+.footer .footer-links {
+  margin: 10px 0;
+}
+.footer .footer-links li {
+  display: inline;
+  padding: 0 2px;
+}
+.footer .footer-links:first-child {
+  padding-left: 0;
+}

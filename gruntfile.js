@@ -108,6 +108,12 @@ module.exports = function(grunt) {
         },
       },
     },
+    less: {
+      tmlib: {
+        src: 'css/style.less',
+        dest: 'css/style.css',
+      }
+    },
     shell: {
       docs: {
         command: 'jsduck ./src --output ./docs --title "tmlib.js docs"',
