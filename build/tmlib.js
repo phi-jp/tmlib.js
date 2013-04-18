@@ -11700,7 +11700,7 @@ tm.app = tm.app || {};
                 this.currentScene.dispatchEvent(tm.event.Event("blur"));
             }.bind(this));
             // クリック
-            this.element.addEventListener("click", this._onclick.bind(this));
+            this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
         },
         
         /**
