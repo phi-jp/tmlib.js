@@ -183,8 +183,8 @@ tm.app = tm.app || {};
             // ツイートボタン
             var tweetButton = this.tweetButton = tm.app.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
             tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
-            tweetButton.onpointingstart = function() {
-                window.open(twitterURL, "_self");
+            tweetButton.onclick = function() {
+                window.open(twitterURL);
             };
             
             // 戻るボタン
@@ -195,19 +195,7 @@ tm.app = tm.app || {};
                 this.dispatchEvent(e);
             }.bind(this);
 
-            var _fn = function(e) {
-                if (tweetButton.isHitPoint(e.pointX, e.pointY)) {
-                    window.open(twitterURL);
-                }
-            };
 
-            this.addEventListener("enter", function(e) {
-                e.app.element.addEventListener("click", _fn);
-            });
-
-            this.addEventListener("exit", function(e) {
-                e.app.element.removeEventListener("click", _fn);
-            });
         },
         
         /*

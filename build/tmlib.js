@@ -11607,8 +11607,8 @@ tm.app = tm.app || {};
             // ツイートボタン
             var tweetButton = this.tweetButton = tm.app.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
             tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
-            tweetButton.onpointingstart = function() {
-                window.open(twitterURL, "_self");
+            tweetButton.onclick = function() {
+                window.open(twitterURL);
             };
             
             // 戻るボタン
@@ -11619,19 +11619,7 @@ tm.app = tm.app || {};
                 this.dispatchEvent(e);
             }.bind(this);
 
-            var _fn = function(e) {
-                if (tweetButton.isHitPoint(e.pointX, e.pointY)) {
-                    window.open(twitterURL);
-                }
-            };
 
-            this.addEventListener("enter", function(e) {
-                e.app.element.addEventListener("click", _fn);
-            });
-
-            this.addEventListener("exit", function(e) {
-                e.app.element.removeEventListener("click", _fn);
-            });
         },
         
         /*
@@ -11711,6 +11699,8 @@ tm.app = tm.app || {};
             window.addEventListener("blur", function() {
                 this.currentScene.dispatchEvent(tm.event.Event("blur"));
             }.bind(this));
+            // クリック
+            this.element.addEventListener("click", this._onclick.bind(this));
         },
         
         /**
@@ -11874,6 +11864,24 @@ tm.app = tm.app || {};
         
         getElement: function() {
             return this.element;
+        },
+
+        _onclick: function(e) {
+            var px = e.pointX;
+            var py = e.pointY;
+            var _fn = function(elm) {
+                if (elm.children.length > 0) {
+                    elm.children.each(function(elm) {
+                        if (elm.hasEventListener("click")) {
+                            if (elm.isHitPoint && elm.isHitPoint(px, py)) {
+                                elm.dispatchEvent(tm.event.Event("click"));
+                            }
+                        }
+                    });
+                }
+            };
+
+            _fn(this.currentScene);
         },
         
     });

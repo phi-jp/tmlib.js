@@ -65,6 +65,8 @@ tm.app = tm.app || {};
             window.addEventListener("blur", function() {
                 this.currentScene.dispatchEvent(tm.event.Event("blur"));
             }.bind(this));
+            // クリック
+            this.element.addEventListener("click", this._onclick.bind(this));
         },
         
         /**
@@ -228,6 +230,24 @@ tm.app = tm.app || {};
         
         getElement: function() {
             return this.element;
+        },
+
+        _onclick: function(e) {
+            var px = e.pointX;
+            var py = e.pointY;
+            var _fn = function(elm) {
+                if (elm.children.length > 0) {
+                    elm.children.each(function(elm) {
+                        if (elm.hasEventListener("click")) {
+                            if (elm.isHitPoint && elm.isHitPoint(px, py)) {
+                                elm.dispatchEvent(tm.event.Event("click"));
+                            }
+                        }
+                    });
+                }
+            };
+
+            _fn(this.currentScene);
         },
         
     });
