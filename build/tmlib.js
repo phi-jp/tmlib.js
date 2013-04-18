@@ -11871,10 +11871,10 @@ tm.app = tm.app || {};
             var py = e.pointY;
 
             if (this.element.style.width) {
-                x *= this.element.width / parseInt(this.element.style.width);
+                px *= this.element.width / parseInt(this.element.style.width);
             }
             if (this.element.style.height) {
-                y *= this.element.height / parseInt(this.element.style.height);
+                py *= this.element.height / parseInt(this.element.style.height);
             }
 
             var _fn = function(elm) {
