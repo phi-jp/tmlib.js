@@ -51,6 +51,9 @@
             if (obj instanceof tm.app.Sprite) {
                 obj.draw = renderFuncList["sprite"];
             }
+            else if (obj instanceof tm.app.MapSprite) {
+                obj.draw = renderFuncList["shape"];
+            }
             else if (obj instanceof tm.app.Label) {
                 obj.draw = renderFuncList["label"];
             }
