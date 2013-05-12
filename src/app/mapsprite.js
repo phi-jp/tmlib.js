@@ -4,13 +4,10 @@
 
 tm.app = tm.app || {};
 
-
 (function() {
-
     tm.app.MapSheetManager = {
         maps: {},
     };
-
 
     tm.app.MapSheetManager.load = function(key, path) {
         this.maps[key] = tm.app.MapSheet(path);
@@ -43,6 +40,8 @@ tm.app = tm.app || {};
             this.image.src = imgSrc;
 
             this.image.onload = function() {
+                this.map.xIndexMax = this.image.naturalWidth  / this.map.tilewidth;
+                this.map.yIndexMax = this.image.naturalHeight / this.map.tileheight;
                 this.loaded = true;
             }.bind(this);
 
@@ -56,7 +55,8 @@ tm.app = tm.app || {};
                 lines.each(function(line, i) {
                     temp[i] = [];
                     line.split(',').each(function(elm) {
-                        temp[i].push(elm);
+                        var num = parseInt(elm, 10) - 1;
+                        temp[i].push(num);
                     });
                 });
 
@@ -91,145 +91,59 @@ tm.app = tm.app || {};
 
 
 
-    tm.define("tm.app.ChipSheet", {
-        init: function(param) {
+})();
 
-        },
-        init: function(chipWidth, chipHeight, image) {
-            this.chipWidth  = chipWidth;
-            this.chipHeight = chipHeight;
-            this.image      = tm.graphics.TextureManager.get(image);
+(function() {
 
-            this.xIndexMax = this.image.width/this.chipWidth;
-            this.yIndexMax = this.image.height/this.chipHeight;
-            console.log(this.xIndexMax);
-        },
-        getFrame: function(index) {
-            return tm.geom.Rectangle(
-                index*this.chipWidth,
-                0,
-                this.chipWidth,
-                this.chipHeight
-                );
-        },
-    });
-
-
-    tm.define("tm.app.MapSprite2", {
+    tm.define("tm.app.MapSprite", {
         superClass: "tm.app.Shape",
 
         init: function(mapSheet) {
             this.superInit();
 
-            this.mapSheet = mapSheet;
-            this.canvas.resize(width, height);
-        },
-
-        render: function(width, height, mapData) {
-
-            for (var i=0,colLen=mapData.length; i<colLen; ++i) {
-                var colData = mapData[i];
-                for (var j=0,len=colData.length; j<len; ++j) {
-                    var type = colData[j];
-
-                    if (type == -1) continue ;
-                    type = Math.abs(type);
-
-                    var mx = (type%this.chipSheet.xIndexMax);
-                    var my = (type/this.chipSheet.xIndexMax)|0;
-
-                    var dx = j*width;
-                    var dy = i*height;
-
-                    this.canvas.drawTexture(
-                        this.chipSheet.image,
-                        mx*this.chipSheet.chipWidth,
-                        my*this.chipSheet.chipHeight,
-                        this.chipSheet.chipWidth,
-                        this.chipSheet.chipHeight,
-                        dx,
-                        dy,
-                        width,
-                        height
-                        );
-
-                    // var x = 
-                }
+            if (typeof mapSheet == "string") {
+                this.mapSheet = tm.app.MapSheetManager.get(mapSheet);
             }
-        },
-
-        _renderMap: function() {
-
-        },
-
-        _getChipRect: function(xIndex, yIndex) {
-            return tm.geom.Rectangle(
-                xIndex*this.chipWidth,
-                yIndex*this.chipHeight,
-                this.chipWidth,
-                this.chipHeight
-                );
-        },
-    });
-
-
-    tm.define("tm.app.MapSprite", {
-        superClass: "tm.app.Shape",
-
-        init: function(width, height, chipSheet) {
-            this.superInit();
-
-            this.chipSheet = chipSheet;
-            this.width  = width;
-            this.height = height;
-            this.canvas.resize(width, height);
-        },
-
-        render: function(width, height, mapData) {
-
-            for (var i=0,colLen=mapData.length; i<colLen; ++i) {
-                var colData = mapData[i];
-                for (var j=0,len=colData.length; j<len; ++j) {
-                    var type = colData[j];
-
-                    if (type == -1) continue ;
-                    type = Math.abs(type);
-
-                    var mx = (type%this.chipSheet.xIndexMax);
-                    var my = (type/this.chipSheet.xIndexMax)|0;
-
-                    var dx = j*width;
-                    var dy = i*height;
-
-                    this.canvas.drawTexture(
-                        this.chipSheet.image,
-                        mx*this.chipSheet.chipWidth,
-                        my*this.chipSheet.chipHeight,
-                        this.chipSheet.chipWidth,
-                        this.chipSheet.chipHeight,
-                        dx,
-                        dy,
-                        width,
-                        height
-                        );
-
-                    // var x = 
-                }
+            else {
+                this.mapSheet = mapSheet;
             }
+
+            this.originX = this.originY = 0;
+
+            this.width = 1200;
+            this.height= 1200;
+            this.canvas.resize(1200, 1200);
+
+            this.render();
         },
 
-        _renderMap: function() {
+        render: function() {
+            var self = this;
+            var mapSheet = this.mapSheet;
 
+            this.mapSheet.layers.each(function(layer) {
+                layer.each(function(line, yIndex) {
+                    line.each(function(type, xIndex) {
+                        if (type == -1) {
+                            return ;
+                        }
+                        type = Math.abs(type);
+
+                        var mx = (type%mapSheet.map.xIndexMax);
+                        var my = (type/mapSheet.map.xIndexMax)|0;
+
+                        var dx = xIndex*mapSheet.map.width;
+                        var dy = yIndex*mapSheet.map.height;
+
+                        self.canvas.drawImage(mapSheet.image,
+                            mx*mapSheet.map.tilewidth, my*mapSheet.map.tileheight, mapSheet.map.tilewidth, mapSheet.map.tileheight,
+                            dx, dy, mapSheet.map.width, mapSheet.map.height
+                            );
+                    });
+                });
+            });
         },
 
-        _getChipRect: function(xIndex, yIndex) {
-            return tm.geom.Rectangle(
-                xIndex*this.chipWidth,
-                yIndex*this.chipHeight,
-                this.chipWidth,
-                this.chipHeight
-                );
-        },
     });
 
 })();
