@@ -48,24 +48,59 @@ tm.app = tm.app || {};
             this.layers = [];
             var layers = xml.getElementsByTagName('layer');
             for (var i=0,len=layers.length; i<len; ++i) {
-                var layer = layers[i];
-                var lines = layers[i].getElementsByTagName('data')[0].textContent.split(',\n');
-                var temp = [];
+                var data = layers[i].getElementsByTagName('data')[0];
+                var encoding = data.getAttribute("encoding");
+                var layer = null;
 
-                lines.each(function(line, i) {
-                    temp[i] = [];
-                    line.split(',').each(function(elm) {
-                        var num = parseInt(elm, 10) - 1;
-                        temp[i].push(num);
-                    });
-                });
+                if (encoding == "csv") {
+                    layer = this._parseCSV(data.textContent);
+                }
+                else if (encoding == "base64") {
+                    layer = this._parseBase64(data.textContent);
+                }
 
-                this.layers.push(temp);
+                this.layers.push(layer);
+
             }
 
             var objects = xml.getElementsByTagName('object');
+        },
 
-            console.dir(this);
+        _parseCSV: function(data) {
+            var lines = data.split(',\n');
+            var layer = [];
+
+            lines.each(function(line, i) {
+                layer[i] = [];
+                line.split(',').each(function(elm) {
+                    var num = parseInt(elm, 10) - 1;
+                    layer[i].push(num);
+                });
+            });
+
+            return layer;
+        },
+
+        /**
+         * http://thekannon-server.appspot.com/herpity-derpity.appspot.com/pastebin.com/75Kks0WH
+         */
+        _parseBase64: function(data) {
+            var layer = atob(data.trim());
+
+            layer = layer.split('').map(function(e) {
+                return e.charCodeAt(0);
+            });
+
+            var lines = [];
+            for (var i=0; i<10; ++i) {
+                lines[i] = [];
+                for (var j=0; j<10; ++j) {
+                    var n =layer[(i*10+j)*4];
+                    lines[i][j] = parseInt(n, 10) - 1;
+                }
+            }
+
+            return lines;
         },
 
         _attrToJSON: function(source) {
@@ -84,7 +119,6 @@ tm.app = tm.app || {};
             for (var k = 0;k < properties.length;k++) {
                 obj[properties[k].getAttribute('name')] = properties[k].getAttribute('value');
             }
-            console.log(obj);
             return obj;
         },
     });
@@ -98,7 +132,7 @@ tm.app = tm.app || {};
     tm.define("tm.app.MapSprite", {
         superClass: "tm.app.Shape",
 
-        init: function(mapSheet) {
+        init: function(chipWidth, chipHeight, mapSheet) {
             this.superInit();
 
             if (typeof mapSheet == "string") {
@@ -108,11 +142,14 @@ tm.app = tm.app || {};
                 this.mapSheet = mapSheet;
             }
 
+            this.chipWidth  = chipWidth;
+            this.chipHeight = chipHeight;
+
             this.originX = this.originY = 0;
 
-            this.width = 1200;
-            this.height= 1200;
-            this.canvas.resize(1200, 1200);
+            this.width = chipWidth*this.mapSheet.map.width;
+            this.height= chipWidth*this.mapSheet.map.height;
+            this.canvas.resize(this.width, this.height);
 
             this.render();
         },
@@ -132,12 +169,12 @@ tm.app = tm.app || {};
                         var mx = (type%mapSheet.map.xIndexMax);
                         var my = (type/mapSheet.map.xIndexMax)|0;
 
-                        var dx = xIndex*mapSheet.map.width;
-                        var dy = yIndex*mapSheet.map.height;
+                        var dx = xIndex*self.chipWidth;
+                        var dy = yIndex*self.chipHeight;
 
                         self.canvas.drawImage(mapSheet.image,
                             mx*mapSheet.map.tilewidth, my*mapSheet.map.tileheight, mapSheet.map.tilewidth, mapSheet.map.tileheight,
-                            dx, dy, mapSheet.map.width, mapSheet.map.height
+                            dx, dy, self.chipWidth, self.chipHeight
                             );
                     });
                 });

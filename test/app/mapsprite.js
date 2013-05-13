@@ -11,7 +11,8 @@ tm.preload(function() {
 	tm.graphics.TextureManager.add("Grass1_pipo", "https://raw.github.com/omatoro/Rogue/master/rsc/%5BA%5DGrass1_pipo.png");
     tm.graphics.TextureManager.add("Water2_pipo", "https://raw.github.com/omatoro/Rogue/master/rsc/%5BA%5DWater2_pipo.png");
 
-    tm.app.MapSheetManager.load("map", "map1.tmx");
+    tm.app.MapSheetManager.load("map", "map2.tmx");
+    tm.app.MapSheetManager.load("hoge", "hoge.tmx");
 
     mapData = {
     	image: tm.graphics.TextureManager.get("mapImage2").element,
@@ -145,8 +146,8 @@ tm.define("tests.mapsprite.DemoScene", {
     init: function() {
         this.superInit();
 
-        tm.app.MapSprite("map").addChildTo(this);
-        this.map = tm.app.MapSprite(mapData).addChildTo(this);
+        tm.app.MapSprite(32, 32, "hoge").addChildTo(this);
+        this.map = tm.app.MapSprite(32, 32, mapData).addChildTo(this);
 
 		this.vx = 0;
 		this.vy = 0;
