@@ -21,61 +21,76 @@ tm.app = tm.app || {};
         init: function(path) {
             this.loaded = false;
 
-            tm.util.Ajax.load({
-                url: path,
-                success: function(e) {
-                    this._parse(e);
-                }.bind(this),
-            });
+            if (typeof path == "string") {
+                tm.util.Ajax.load({
+                    url: path,
+                    success: function(e) {
+                        var d = this._parse(e);
+                        this.$extend(d);
+                    }.bind(this),
+                });
+            }
+            else {
+                this.$extend(arguments[0]);
+            }
+
         },
 
         _parse: function(str) {
+            var data = {};
             var parser = new DOMParser();
             var xml = parser.parseFromString(str, 'text/xml');
+            var map = this._attrToJSON(xml.getElementsByTagName('map')[0]);
 
-            this.map = this._attrToJSON(xml.getElementsByTagName('map')[0]);
+            data.width = map.width;
+            data.height= map.height;
+            data.tilewidth = map.tilewidth;
+            data.tileheight= map.tileheight;
 
+            // tilesets(image)
+            data.tilesets = [];
+            // var tilesets =  xml.getElementsByTagName('tileset');
             var imgSrc = xml.getElementsByTagName('image')[0].getAttribute('source');
-            this.image = new Image(imgSrc);
-            this.image.src = imgSrc;
+            tm.graphics.TextureManager.add(imgSrc);
+            data.tilesets[0] = {
+                image: imgSrc
+            };
 
-            this.image.onload = function() {
-                this.map.xIndexMax = this.image.naturalWidth  / this.map.tilewidth;
-                this.map.yIndexMax = this.image.naturalHeight / this.map.tileheight;
-                this.loaded = true;
-            }.bind(this);
-
+            // layer
+            data.layers = [];
             this.layers = [];
+
             var layers = xml.getElementsByTagName('layer');
             for (var i=0,len=layers.length; i<len; ++i) {
-                var data = layers[i].getElementsByTagName('data')[0];
-                var encoding = data.getAttribute("encoding");
-                var layer = null;
+                var d = layers[i].getElementsByTagName('data')[0];
+                var encoding = d.getAttribute("encoding");
+                var layer = {};
 
                 if (encoding == "csv") {
-                    layer = this._parseCSV(data.textContent);
+                    layer.data = this._parseCSV(d.textContent);
                 }
                 else if (encoding == "base64") {
-                    layer = this._parseBase64(data.textContent);
+                    layer.data = this._parseBase64(d.textContent);
                 }
 
-                this.layers.push(layer);
+                data.layers.push(layer);
 
             }
 
             var objects = xml.getElementsByTagName('object');
+
+            console.dir(data);
+
+            return data;
         },
 
         _parseCSV: function(data) {
-            var lines = data.split(',\n');
+            var dataList = data.split(',');
             var layer = [];
 
-            lines.each(function(line, i) {
-                layer[i] = [];
-                line.split(',').each(function(elm) {
-                    var num = parseInt(elm, 10) - 1;
-                    layer[i].push(num);
-                });
+            dataList.each(function(elm, i) {
+                var num = parseInt(elm, 10) - 1;
+                layer.push(num);
             });
 
             return layer;
@@ -85,22 +100,19 @@ tm.app = tm.app || {};
          * http://thekannon-server.appspot.com/herpity-derpity.appspot.com/pastebin.com/75Kks0WH
          */
         _parseBase64: function(data) {
-            var layer = atob(data.trim());
+            var dataList = atob(data.trim());
+            var rst = [];
 
-            layer = layer.split('').map(function(e) {
+            dataList = dataList.split('').map(function(e) {
                 return e.charCodeAt(0);
             });
 
-            var lines = [];
-            for (var i=0; i<10; ++i) {
-                lines[i] = [];
-                for (var j=0; j<10; ++j) {
-                    var n =layer[(i*10+j)*4];
-                    lines[i][j] = parseInt(n, 10) - 1;
-                }
+            for (var i=0; i<100; ++i) {
+                var n = dataList[i*4];
+                rst[i] = parseInt(n, 10) - 1;
             }
-
-            return lines;
+            
+            return rst;
         },
 
         _attrToJSON: function(source) {
@@ -119,6 +131,7 @@ tm.app = tm.app || {};
             for (var k = 0;k < properties.length;k++) {
                 obj[properties[k].getAttribute('name')] = properties[k].getAttribute('value');
             }
+
             return obj;
         },
     });
@@ -147,8 +160,8 @@ tm.app = tm.app || {};
 
             this.originX = this.originY = 0;
 
-            this.width = chipWidth*this.mapSheet.map.width;
-            this.height= chipWidth*this.mapSheet.map.height;
+            this.width = chipWidth*this.mapSheet.width;
+            this.height= chipWidth*this.mapSheet.height;
             this.canvas.resize(this.width, this.height);
 
             this.render();
@@ -158,8 +171,33 @@ tm.app = tm.app || {};
             var self = this;
             var mapSheet = this.mapSheet;
 
-            this.mapSheet.layers.each(function(layer) {
-                layer.each(function(line, yIndex) {
+            var texture = tm.graphics.TextureManager.get(mapSheet.tilesets[0].image);
+            var xIndexMax = (texture.width/mapSheet.tilewidth)|0;
+
+            this.mapSheet.layers.each(function(layer, hoge) {
+                layer.data.each(function(d, index) {
+                    var type = d;
+                    if (type == -1) {
+                        return ;
+                    }
+                    type = Math.abs(type);
+
+                    var xIndex = index%mapSheet.width;
+                    var yIndex = (index/mapSheet.width)|0;
+
+                    var mx = (type%xIndexMax);
+                    var my = (type/xIndexMax)|0;
+
+                    var dx = xIndex*self.chipWidth;
+                    var dy = yIndex*self.chipHeight;
+
+
+                    self.canvas.drawTexture(texture,
+                        mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
+                        dx, dy, self.chipWidth, self.chipHeight
+                        );
+
+                    /*
                     line.each(function(type, xIndex) {
                         if (type == -1) {
                             return ;
@@ -177,6 +215,7 @@ tm.app = tm.app || {};
                             dx, dy, self.chipWidth, self.chipHeight
                             );
                     });
+*/
                 });
             });
         },
