@@ -11187,11 +11187,13 @@ tm.app = tm.app || {};
         init: function(text, size) {
             this.superInit();
             
-            this.text       = text || "HOGE";
+            this.text       = text || "";
             this.fontSize   = size || 24;
             this.fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
             this.align      = "start";
             this.baseline   = "alphabetic";
+
+            this.maxWidth   = null;
         },
         
         setAlign: function(align) {
@@ -11220,8 +11222,6 @@ tm.app = tm.app || {};
         
     });
     
-    
-        
     /**
      * @property    size
      * サイズ
@@ -12082,6 +12082,9 @@ tm.app = tm.app || {};
             if (obj instanceof tm.app.Sprite) {
                 obj.draw = renderFuncList["sprite"];
             }
+            else if (obj instanceof tm.app.MapSprite) {
+                obj.draw = renderFuncList["shape"];
+            }
             else if (obj instanceof tm.app.Label) {
                 obj.draw = renderFuncList["label"];
             }
@@ -12114,10 +12117,20 @@ tm.app = tm.app || {};
         "label": function(canvas) {
             canvas.setText(this.fontStyle, this.align, this.baseline);
             if (this.fill) {
-                canvas.fillText(this.text, 0, 0, this.width);
+                if (this.maxWidth) {
+                    canvas.fillText(this.text, 0, 0, this.maxWidth);
+                }
+                else {
+                    canvas.fillText(this.text, 0, 0);
+                }
             }
             if (this.stroke) {
-                canvas.strokeText(this.text, 0, 0, this.width);
+                if (this.maxWidth) {
+                    canvas.strokeText(this.text, 0, 0, this.maxWidth);
+                }
+                else {
+                    canvas.strokeText(this.text, 0, 0);
+                }
             }
             
             if (this.debugBox) {

@@ -260,3 +260,23 @@ tm.define("tests.Scene.ResultTest", {
 });
 
 
+tm.define("tests.label.DemoScene", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+
+        var label = tm.app.Label("hoge").addChildTo(this);
+        label.x = 100; label.y = 100;
+
+        var label = tm.app.Label("hogehogehogehoge").addChildTo(this);
+        label.x = 100; label.y = 140;
+
+        var label = tm.app.Label("hogehogehogehoge").addChildTo(this);
+        label.x = 100; label.y = 180;
+        label.maxWidth = 100;
+    },
+
+});
+
+

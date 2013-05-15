@@ -86,10 +86,20 @@
         "label": function(canvas) {
             canvas.setText(this.fontStyle, this.align, this.baseline);
             if (this.fill) {
-                canvas.fillText(this.text, 0, 0, this.width);
+                if (this.maxWidth) {
+                    canvas.fillText(this.text, 0, 0, this.maxWidth);
+                }
+                else {
+                    canvas.fillText(this.text, 0, 0);
+                }
             }
             if (this.stroke) {
-                canvas.strokeText(this.text, 0, 0, this.width);
+                if (this.maxWidth) {
+                    canvas.strokeText(this.text, 0, 0, this.maxWidth);
+                }
+                else {
+                    canvas.strokeText(this.text, 0, 0);
+                }
             }
             
             if (this.debugBox) {

@@ -31,11 +31,13 @@ tm.app = tm.app || {};
         init: function(text, size) {
             this.superInit();
             
-            this.text       = text || "HOGE";
+            this.text       = text || "";
             this.fontSize   = size || 24;
             this.fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
             this.align      = "start";
             this.baseline   = "alphabetic";
+
+            this.maxWidth   = null;
         },
         
         setAlign: function(align) {
@@ -64,8 +66,6 @@ tm.app = tm.app || {};
         
     });
     
-    
-        
     /**
      * @property    size
      * サイズ
