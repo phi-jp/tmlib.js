@@ -128,6 +128,40 @@ tm.app = tm.app || {};
             return this;
         },
         
+        load: function(data) {
+            var self = this;
+            
+            data.layers.forEach(function(layer) {
+                if (layer.type != "objectgroup") return ;
+                
+                var group = tm.app.CanvasElement().addChildTo(self);
+                group.width = layer.width;
+                group.height = layer.height;
+                
+                layer.objects.forEach(function(obj) {
+                    var _class  = window[obj.type] || tm.app[obj.type];
+                    var initParam = null;
+                    if (obj.properties.init) {
+                        initParam = JSON.parse(obj.properties.init);
+                    }
+                    var element = _class.apply(null, initParam).addChildTo(group);
+                    var props   = obj.properties;
+                    for (var key in props) {
+                        if (key == "init") continue ;
+                        var value = props[key];
+                        element[key] = value;
+                    }
+                    
+                    element.x = obj.x;
+                    element.y = obj.y;
+                    element.width = obj.width;
+                    element.height = obj.height;
+                });
+                
+                self[layer.name] = group;
+            });
+        },
+        
         fromJSON: function(data) {
             for (var key in data) {
                 var value = data[key];
