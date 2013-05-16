@@ -19,7 +19,7 @@ tm.preload(function() {
 
         tilesets: [
             {
-                image: "mapImage"
+                image: "http://assets.wonderfl.net/images/related_images/e/ef/ef41/ef415c45339b10ebe3697131179e72a5c864f3cb"
             }
         ],
 
