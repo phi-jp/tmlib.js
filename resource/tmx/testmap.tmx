@@ -13,11 +13,10 @@
     <property name="fontSize" value="60"/>
    </properties>
   </object>
-  <object name="hoge2" type="Sprite" x="192" y="128" width="192" height="160">
+  <object name="hoge2" type="StarShape" x="192" y="128" width="192" height="160">
    <properties>
     <property name="foo" value="1, 2, 3"/>
-    <property name="image" value="mapImage"/>
-    <property name="init" value="[100, 100, &quot;mapImage&quot;]"/>
+    <property name="init" value="[100, 100]"/>
     <property name="test" value="[1, 2, 3]"/>
    </properties>
    <ellipse/>
