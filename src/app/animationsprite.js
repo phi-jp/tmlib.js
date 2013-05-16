@@ -112,7 +112,7 @@ tm.app = tm.app || {};
             this.image = tm.graphics.TextureManager.get(param.image);
 
             if (this.image.loaded === false) {
-                this.image.element.addEventListener("load", function() {
+                this.image.addEventListener("load", function() {
                     this._calcFrames(param.frame);
                 }.bind(this), false);
             }

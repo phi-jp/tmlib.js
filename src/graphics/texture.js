@@ -11,6 +11,7 @@ tm.graphics = tm.graphics || {};
      * テクスチャクラス
      */
     tm.graphics.Texture = tm.createClass({
+        superClass: tm.event.EventDispatcher,
         
         element: null,
         loaded: false,
@@ -19,12 +20,16 @@ tm.graphics = tm.graphics || {};
          * 初期化
          */
         init: function(src) {
+            this.superInit();
+            
             this.element = new Image();
             this.element.src = src;
             
             var self = this;
             this.element.onload = function() {
                 self.loaded = true;
+                var e = tm.event.Event("load");
+                self.dispatchEvent(e);
             };
         },
         
@@ -74,6 +79,8 @@ tm.graphics = tm.graphics || {};
         
         this.textures[name] = tm.graphics.Texture(src);
         this.loaded = false;
+        
+        return this.textures[name];
     };
     
     /**

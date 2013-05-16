@@ -31,18 +31,15 @@ tm.app = tm.app || {};
                     success: function(e) {
                         var d = this._parse(e);
                         this.$extend(d);
-                        var e = tm.event.Event("load");
-                        this.dispatchEvent(e);
+                        this._checkImage();
                     }.bind(this),
                 });
             }
             else {
                 this.$extend(arguments[0]);
                 
-                var e = tm.event.Event("load");
-                this.dispatchEvent(e);
+                this._checkImage();
             }
-
         },
 
         _parse: function(str) {
@@ -65,12 +62,19 @@ tm.app = tm.app || {};
         
         _parseTilesets: function(xml) {
             var each = Array.prototype.forEach;
+            var self = this;
             var data = [];
             var tilesets = xml.getElementsByTagName('tileset');
             each.call(tilesets, function(tileset) {
                 var t = {};
-                t.image = tileset.getElementsByTagName('image')[0].getAttribute('source');
-                tm.graphics.TextureManager.add(t.image);
+                var props = self._propertiesToJson(tileset);
+                
+                if (props.src) {
+                    t.image = props.src;
+                }
+                else {
+                    t.image = tileset.getElementsByTagName('image')[0].getAttribute('source');
+                }
                 data.push(t);
             });
             
@@ -108,7 +112,7 @@ tm.app = tm.app || {};
                     if (elm.nodeType == 3) return ;
                     
                     var d = self._attrToJSON(elm);
-                    d.properties = self._paramsToJson(elm);
+                    d.properties = self._propertiesToJson(elm);
                     
                     layer.objects.push(d);
                 });
@@ -150,7 +154,7 @@ tm.app = tm.app || {};
             return rst;
         },
         
-        _paramsToJson: function(elm) {
+        _propertiesToJson: function(elm) {
             var obj = {};
             var properties = elm.getElementsByTagName('property');
             for (var k = 0;k < properties.length;k++) {
@@ -174,6 +178,41 @@ tm.app = tm.app || {};
             
             return obj;
         },
+        
+        _checkImage: function() {
+            if (this.tilesets) {
+                var i = 0;
+                var len = this.tilesets.length;
+                
+                var onloadimage = function() {
+                    i++;
+                    if (i==len) {
+                        this.loaded = true;
+                        var e = tm.event.Event("load");
+                        this.dispatchEvent(e);
+                    }
+                }.bind(this);
+                this.tilesets.each(function(elm) {
+                    var image = tm.graphics.TextureManager.get(elm.image)
+                    
+                    if (image && image.loaded) {
+                        // ロード済み
+                        ++i;
+                    }
+                    else {
+                        var texture = tm.graphics.TextureManager.add(elm.image);
+                        texture.addEventListener("load", onloadimage);
+                    }
+                });
+                
+            }
+            else {
+                this.loaded = true;
+                var e = tm.event.Event("load");
+                this.dispatchEvent(e);
+            }
+        },
+        
     });
 
 
@@ -210,7 +249,7 @@ tm.app = tm.app || {};
         _build: function() {
             var self = this;
             var mapSheet = this.mapSheet;
-
+            
             var texture = tm.graphics.TextureManager.get(mapSheet.tilesets[0].image);
             var xIndexMax = (texture.width/mapSheet.tilewidth)|0;
 
