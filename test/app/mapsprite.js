@@ -137,3 +137,73 @@ tm.define("tests.mapsprite.DemoScene02", {
         }
     },
 });
+
+
+
+tm.define("tests.mapsprite.DemoScene03", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+        
+        var mapSheet = tm.app.MapSheet("../../resource/tmx/testmap.tmx");
+        mapSheet.onload = function() {
+            this.map = tm.app.MapSprite(32, 32, mapSheet).addChildTo(this);
+            this.update = this._move;
+        }.bind(this);
+
+        var charaTexture = tm.graphics.Texture("../../resource/img/chara.png");
+
+        var ss = tm.app.SpriteSheet({
+            image: charaTexture,
+            frame: {
+                width: 32,
+                height: 48,
+                count: 120
+            },
+            animations: {
+                "forward": [0, 3, "forward2", 4],
+                "forward2": [2, -1, "forward", 4],
+                "backward": [0, 3, "backward"],
+                "left": [0, 3, "left"],
+                "right": [0, 3, "right"],
+            }
+        });
+
+        ss.onload = function() {
+            setTimeout(function() {
+                var player = tm.app.AnimationSprite(32, 48, ss).addChildTo(this);
+                player.origin.set(0, 0);
+                player.setPosition(32, 32);
+                player.gotoAndPlay("forward");
+                this.player = player;
+            }.bind(this), 100);
+        }.bind(this);
+
+        this.vx = 0;
+        this.vy = 0;
+    },
+
+    _move: function(app) {
+        var p = app.pointing;
+
+        if (this.player) {
+            var k = app.keyboard;
+
+            if (k.getKeyDown("left")) {
+                this.player.tweener.clear().moveBy(-32, 0, 200);
+            }
+            else if (k.getKeyDown("right")) {
+                this.player.tweener.clear().moveBy(32, 0, 200);
+            }
+            if (k.getKeyDown("up")) {
+                this.player.tweener.clear().moveBy(0, -32, 200);
+            }
+            else if (k.getKeyDown("down")) {
+                this.player.tweener.clear().moveBy(0, 32, 200);
+            }
+
+
+        }
+    },
+});

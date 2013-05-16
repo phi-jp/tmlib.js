@@ -107,18 +107,32 @@ tm.app = tm.app || {};
 (function() {
     
     tm.app.SpriteSheet = tm.createClass({
+        superClass: tm.event.EventDispatcher,
+
         init: function(param) {
+            this.superInit();
             this.frame = param.frame;
-            this.image = tm.graphics.TextureManager.get(param.image);
+
+            if (typeof param.image == "string") {
+                this.image = tm.graphics.TextureManager.get(param.image);
+            }
+            else {
+                this.image = param.image;
+            }
 
             if (this.image.loaded === false) {
                 this.image.addEventListener("load", function() {
                     this._calcFrames(param.frame);
+                    var e = tm.event.Event("load");
+                    this.dispatchEvent(e);
                 }.bind(this), false);
             }
             else {
                 this._calcFrames(param.frame);
+                var e = tm.event.Event("load");
+                this.dispatchEvent(e);
             }
+
             this._calcAnim(param.animations);
         },
 
