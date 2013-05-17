@@ -150,6 +150,7 @@ tm.define("tests.mapsprite.DemoScene03", {
         mapSheet.onload = function() {
             this.map = tm.app.MapSprite(32, 32, mapSheet).addChildTo(this);
             this.update = this._move;
+            console.dir(this.map);
         }.bind(this);
 
         var charaTexture = tm.graphics.Texture("../../resource/img/chara.png");
@@ -172,10 +173,33 @@ tm.define("tests.mapsprite.DemoScene03", {
 
         ss.onload = function() {
             setTimeout(function() {
-                var player = tm.app.AnimationSprite(32, 48, ss).addChildTo(this);
+                var player = tm.app.AnimationSprite(32, 48, ss).addChildTo(this.map.playerGroup);
                 player.origin.set(0, 0);
-                player.setPosition(32, 32);
+                player.position.set(320, 320);
                 player.gotoAndPlay("forward");
+                player.xIndex = 10;
+                player.yIndex = 10;
+                player.moveTilePos = function() {
+                    var x = player.xIndex*32;
+                    var y = player.yIndex*32;
+                    this.tweener.clear().move(x, y, 200);
+                };
+                player.update = function() {
+                    var targetX = player.xIndex*32;
+                    var targetY = player.yIndex*32;
+                    if (this.x < targetX) this.x+=4;
+                    else if (this.x > targetX) this.x-=4;
+                    if (this.y < targetY) this.y+=4;
+                    else if (this.y > targetY) this.y-=4;
+
+                    if (this.x == targetX && this.y == targetY) {
+                        this.isMoving = false;
+                    }
+                    else {
+                        this.isMoving = true;
+                    }
+                };
+                player.moveTilePos();
                 this.player = player;
             }.bind(this), 100);
         }.bind(this);
@@ -190,20 +214,30 @@ tm.define("tests.mapsprite.DemoScene03", {
         if (this.player) {
             var k = app.keyboard;
 
-            if (k.getKeyDown("left")) {
-                this.player.tweener.clear().moveBy(-32, 0, 200);
+            if (this.player.isMoving == false) {
+                if (k.getKey("left")) {
+                    this.player.xIndex -= 1;
+                }
+                else if (k.getKey("right")) {
+                    this.player.xIndex += 1;
+                }
+                if (k.getKey("up")) {
+                    this.player.yIndex -= 1;
+                }
+                else if (k.getKey("down")) {
+                    this.player.yIndex += 1;
+                }
             }
-            else if (k.getKeyDown("right")) {
-                this.player.tweener.clear().moveBy(32, 0, 200);
-            }
-            if (k.getKeyDown("up")) {
-                this.player.tweener.clear().moveBy(0, -32, 200);
-            }
-            else if (k.getKeyDown("down")) {
-                this.player.tweener.clear().moveBy(0, 32, 200);
-            }
-
-
         }
+
+        if (this.map && this.player) {
+            if (this.player.x > 32*10 && this.player.x < 32*24) {
+                this.map.x = - (this.player.x - 32*10);
+            }
+            if (this.player.y > 32*7 && this.player.y < 32*27) {
+                this.map.y = - (this.player.y - 32*7);
+            }
+        }
+
     },
 });

@@ -84,42 +84,52 @@ tm.app = tm.app || {};
         _parseLayers: function(xml) {
             var each = Array.prototype.forEach;
             var data = [];
-            
-            var layers = xml.getElementsByTagName('layer');
-            for (var i=0,len=layers.length; i<len; ++i) {
-                var d = layers[i].getElementsByTagName('data')[0];
-                var encoding = d.getAttribute("encoding");
-                var layer = {};
 
-                if (encoding == "csv") {
-                    layer.data = this._parseCSV(d.textContent);
+            var map = xml.getElementsByTagName("map")[0];
+            var layers = [];
+            each.call(map.childNodes, function(elm) {
+                if (elm.tagName == "layer" || elm.tagName == "objectgroup") {
+                    layers.push(elm);
                 }
-                else if (encoding == "base64") {
-                    layer.data = this._parseBase64(d.textContent);
-                }
-
-                data.push(layer);
-            }
-            
-            var self = this;
-            var objectgroups = xml.getElementsByTagName('objectgroup');
-            each.call(objectgroups, function(objectgroup) {
-                var layer = {
-                    type: "objectgroup",
-                    objects: [],
-                };
-                each.call(objectgroup.childNodes, function(elm) {
-                    if (elm.nodeType == 3) return ;
-                    
-                    var d = self._attrToJSON(elm);
-                    d.properties = self._propertiesToJson(elm);
-                    
-                    layer.objects.push(d);
-                });
-                
-                data.push(layer);
             });
-            
+
+            layers.each(function(layer) {
+                if (layer.tagName == "layer") {
+                    var d = layer.getElementsByTagName('data')[0];
+                    var encoding = d.getAttribute("encoding");
+                    var l = {
+                        type: "layer",
+                        name: layer.getAttribute("name"),
+                    };
+
+                    if (encoding == "csv") {
+                        l.data = this._parseCSV(d.textContent);
+                    }
+                    else if (encoding == "base64") {
+                        l.data = this._parseBase64(d.textContent);
+                    }
+
+                    data.push(l);
+                }
+                else if (layer.tagName == "objectgroup") {
+                    var l = {
+                        type: "objectgroup",
+                        objects: [],
+                        name: layer.getAttribute("name"),
+                    };
+                    each.call(layer.childNodes, function(elm) {
+                        if (elm.nodeType == 3) return ;
+                        
+                        var d = this._attrToJSON(elm);
+                        d.properties = this._propertiesToJson(elm);
+                        
+                        l.objects.push(d);
+                    }.bind(this));
+                    
+                    data.push(l);
+                }
+            }.bind(this));
+
             return data;
         },
 
@@ -248,57 +258,78 @@ tm.app = tm.app || {};
 
         _build: function() {
             var self = this;
-            var mapSheet = this.mapSheet;
-            
-            var texture = tm.graphics.TextureManager.get(mapSheet.tilesets[0].image);
-            var xIndexMax = (texture.width/mapSheet.tilewidth)|0;
 
             this.mapSheet.layers.each(function(layer, hoge) {
-                if (layer.type == "objectgroup") return ;
-                
-                layer.data.each(function(d, index) {
-                    var type = d;
-                    if (type == -1) {
-                        return ;
-                    }
-                    type = Math.abs(type);
-
-                    var xIndex = index%mapSheet.width;
-                    var yIndex = (index/mapSheet.width)|0;
-
-                    var mx = (type%xIndexMax);
-                    var my = (type/xIndexMax)|0;
-
-                    var dx = xIndex*self.chipWidth;
-                    var dy = yIndex*self.chipHeight;
-
-
-                    self.canvas.drawTexture(texture,
-                        mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
-                        dx, dy, self.chipWidth, self.chipHeight
-                        );
-
-                    /*
-                    line.each(function(type, xIndex) {
-                        if (type == -1) {
-                            return ;
-                        }
-                        type = Math.abs(type);
-
-                        var mx = (type%mapSheet.map.xIndexMax);
-                        var my = (type/mapSheet.map.xIndexMax)|0;
-
-                        var dx = xIndex*self.chipWidth;
-                        var dy = yIndex*self.chipHeight;
-
-                        self.canvas.drawImage(mapSheet.image,
-                            mx*mapSheet.map.tilewidth, my*mapSheet.map.tileheight, mapSheet.map.tilewidth, mapSheet.map.tileheight,
-                            dx, dy, self.chipWidth, self.chipHeight
-                            );
-                    });
-*/
-                });
+                if (layer.type == "objectgroup") {
+                    self._buildObject(layer);
+                }
+                else {
+                    self._buildLayer(layer);
+                }
             });
+        },
+
+        _buildLayer: function(layer) {
+            var self        = this;
+            var mapSheet    = this.mapSheet;
+            var texture     = tm.graphics.TextureManager.get(mapSheet.tilesets[0].image);
+            var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
+            var shape       = tm.app.Shape(this.width, this.height).addChildTo(this);
+            shape.origin.set(0, 0);
+
+            layer.data.each(function(d, index) {
+                var type = d;
+                if (type == -1) {
+                    return ;
+                }
+                type = Math.abs(type);
+
+                var xIndex = index%mapSheet.width;
+                var yIndex = (index/mapSheet.width)|0;
+
+                var mx = (type%xIndexMax);
+                var my = (type/xIndexMax)|0;
+
+                var dx = xIndex*self.chipWidth;
+                var dy = yIndex*self.chipHeight;
+
+                shape.canvas.drawTexture(texture,
+                    mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
+                    dx, dy, self.chipWidth, self.chipHeight
+                    );
+            }.bind(this));
+
+        },
+
+        _buildObject: function(layer) {
+            var self = this;
+            
+            var group = tm.app.CanvasElement().addChildTo(self);
+            group.width = layer.width;
+            group.height = layer.height;
+            
+            layer.objects.forEach(function(obj) {
+                var _class  = window[obj.type] || tm.app[obj.type];
+                var initParam = null;
+                if (obj.properties.init) {
+                    initParam = JSON.parse(obj.properties.init);
+                }
+                var element = _class.apply(null, initParam).addChildTo(group);
+                var props   = obj.properties;
+                for (var key in props) {
+                    if (key == "init") continue ;
+                    var value = props[key];
+                    element[key] = value;
+                }
+                
+                element.x = obj.x;
+                element.y = obj.y;
+                element.width = obj.width;
+                element.height = obj.height;
+            });
+
+            self[layer.name] = group;
+
         },
 
     });
