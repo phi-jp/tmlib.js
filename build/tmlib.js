@@ -8438,6 +8438,7 @@ tm.graphics = tm.graphics || {};
      * テクスチャクラス
      */
     tm.graphics.Texture = tm.createClass({
+        superClass: tm.event.EventDispatcher,
         
         element: null,
         loaded: false,
@@ -8446,12 +8447,16 @@ tm.graphics = tm.graphics || {};
          * 初期化
          */
         init: function(src) {
+            this.superInit();
+            
             this.element = new Image();
             this.element.src = src;
             
             var self = this;
             this.element.onload = function() {
                 self.loaded = true;
+                var e = tm.event.Event("load");
+                self.dispatchEvent(e);
             };
         },
         
@@ -8501,6 +8506,8 @@ tm.graphics = tm.graphics || {};
         
         this.textures[name] = tm.graphics.Texture(src);
         this.loaded = false;
+        
+        return this.textures[name];
     };
     
     /**
@@ -10447,6 +10454,40 @@ tm.app = tm.app || {};
             return this;
         },
         
+        load: function(data) {
+            var self = this;
+            
+            data.layers.forEach(function(layer) {
+                if (layer.type != "objectgroup") return ;
+                
+                var group = tm.app.CanvasElement().addChildTo(self);
+                group.width = layer.width;
+                group.height = layer.height;
+                
+                layer.objects.forEach(function(obj) {
+                    var _class  = window[obj.type] || tm.app[obj.type];
+                    var initParam = null;
+                    if (obj.properties.init) {
+                        initParam = JSON.parse(obj.properties.init);
+                    }
+                    var element = _class.apply(null, initParam).addChildTo(group);
+                    var props   = obj.properties;
+                    for (var key in props) {
+                        if (key == "init") continue ;
+                        var value = props[key];
+                        element[key] = value;
+                    }
+                    
+                    element.x = obj.x;
+                    element.y = obj.y;
+                    element.width = obj.width;
+                    element.height = obj.height;
+                });
+                
+                self[layer.name] = group;
+            });
+        },
+        
         fromJSON: function(data) {
             for (var key in data) {
                 var value = data[key];
@@ -10542,15 +10583,28 @@ tm.app = tm.app || {};
         {
             this.superInit();
             
-            width = width   || 64;
-            height= height  || 64;
+            this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             
-            this.srcRect = tm.geom.Rect(0, 0, this.width, this.height);
-            
-            this.width  = width;
-            this.height = height;
-            if (texture) {
-                this.image  = texture;
+            // 画像のみ渡された場合
+            if (arguments.length == 1) {
+                var texture = arguments[0];
+                if (typeof texture == "string") texture = tm.graphics.TextureManager.get(texture);
+                
+                this.width = texture.width;
+                this.height= texture.height;
+                
+                this.image = texture;
+            }
+            // その他
+            else {
+                width = width   || 64;
+                height= height  || 64;
+                
+                this.width  = width;
+                this.height = height;
+                if (texture) {
+                    this.image  = texture;
+                }
             }
         },
         
@@ -10703,18 +10757,32 @@ tm.app = tm.app || {};
 (function() {
     
     tm.app.SpriteSheet = tm.createClass({
+        superClass: tm.event.EventDispatcher,
+
         init: function(param) {
+            this.superInit();
             this.frame = param.frame;
-            this.image = tm.graphics.TextureManager.get(param.image);
+
+            if (typeof param.image == "string") {
+                this.image = tm.graphics.TextureManager.get(param.image);
+            }
+            else {
+                this.image = param.image;
+            }
 
             if (this.image.loaded === false) {
-                this.image.element.addEventListener("load", function() {
+                this.image.addEventListener("load", function() {
                     this._calcFrames(param.frame);
+                    var e = tm.event.Event("load");
+                    this.dispatchEvent(e);
                 }.bind(this), false);
             }
             else {
                 this._calcFrames(param.frame);
+                var e = tm.event.Event("load");
+                this.dispatchEvent(e);
             }
+
             this._calcAnim(param.animations);
         },
 

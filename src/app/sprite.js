@@ -23,15 +23,28 @@ tm.app = tm.app || {};
         {
             this.superInit();
             
-            width = width   || 64;
-            height= height  || 64;
+            this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             
-            this.srcRect = tm.geom.Rect(0, 0, this.width, this.height);
-            
-            this.width  = width;
-            this.height = height;
-            if (texture) {
-                this.image  = texture;
+            // 画像のみ渡された場合
+            if (arguments.length == 1) {
+                var texture = arguments[0];
+                if (typeof texture == "string") texture = tm.graphics.TextureManager.get(texture);
+                
+                this.width = texture.width;
+                this.height= texture.height;
+                
+                this.image = texture;
+            }
+            // その他
+            else {
+                width = width   || 64;
+                height= height  || 64;
+                
+                this.width  = width;
+                this.height = height;
+                if (texture) {
+                    this.image  = texture;
+                }
             }
         },
         
