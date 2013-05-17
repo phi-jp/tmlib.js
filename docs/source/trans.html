@@ -15,15 +15,7 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">/*
- * trans.js
- */
-
-tm.dom = tm.dom || {};
-
-
-
-(function(){
+  <pre class="prettyprint lang-js">(function(){
     
 <span id='tm-dom-Trans'>    /**
 </span>     * @class
@@ -39,6 +31,82 @@ tm.dom = tm.dom || {};
         init: function(element) {
             this.element = element;
         },
+        
+        to: function(props, t) {
+            this.set(props).duration(t||1000);
+            return this;
+        },
+        
+        set: function(props) {
+            var style = this.element.style;
+            var names = [];
+            
+            for (var key in props) {
+                var name = _checkStyleProperty(key);
+                names.push( name.toDash() );
+                style[name] = props[key] + &quot;&quot;;
+            }
+            
+            style[tm.dom.Trans.PROPERTY] = names.join(', ');   // none;
+            
+            return this;
+        },
+        
+        duration: function(t) {
+            var style = this.element.style;
+            if (typeof t == &quot;number&quot;) t = t + &quot;ms&quot;;
+            style[tm.dom.Trans.DURATION] = t;
+            return this;
+        },
+        
+        easing: function(ease) {
+            var style = this.element.style;
+            style[tm.dom.Trans.TIMING_FUNCTION] = func;
+            return this;
+        },
+        
+        end: function(fn) {
+            var elm  = tm.dom.Element(this.element);
+            elm.event.add(tm.dom.Trans.END_EVENT, fn);
+            return this;
+        },
+        
+        reset: function() {
+            var style = this.element.style;
+            style[tm.dom.Trans.PROPERTY] = &quot;none&quot;;
+            return this;
+        },
+        
+        translate: function(x, y, t) {
+            this.to({&quot;transform&quot;: &quot;translate({0}px,{1}px)&quot;.format(x, y)}, t);
+            return this;
+        },
+        
+        translate3d: function(x, y, z, t) {
+            this.to({&quot;transform&quot;: &quot;translate3d({0}px,{1}px,{2}px)&quot;.format(x, y, z)}, t);
+            return this;
+        },
+        
+        rotate: function(deg, t) {
+            this.to({&quot;transform&quot;: &quot;rotate({0}deg)&quot;.format(deg)}, t);
+            return this;
+        },
+        
+        rotate3d: function(x, y, z, deg, t) {
+            this.to({&quot;transform&quot;: &quot;rotate3d({0},{1},{2},{3}deg)&quot;.format(x, y, z, deg)}, t);
+            return this;
+        },
+        
+        scale: function(x, y, t) {
+            this.to({&quot;transform&quot;: &quot;scale({0},{1})&quot;.format(x, y)}, t);
+            return this;
+        },
+        
+        transform: function() {
+            // TODO: 実装する
+        },
+        
+        // -------------------------------------
         
         setProp: function(prop) {
             var style = this.element.style;
@@ -89,11 +157,11 @@ tm.dom = tm.dom || {};
             &quot;webkit&quot;: &quot;webkitTransitionEnd&quot;,
             &quot;moz&quot;   : &quot;transitionend&quot;,
             &quot;o&quot;     : &quot;oTransitionEnd&quot;,
-        }[tm.VENDER_PREFIX];
-    })();
+<span id='tm-dom-Trans-property-trans'>        }[tm.VENDER_PREFIX];
+</span>    })();
     
-<span id='tm-dom-Trans-property-trans'>    /**
-</span>     * Trans クラス
+    /**
+     * Trans クラス
      * @property    trans
      */
     tm.dom.Element.prototype.getter(&quot;trans&quot;, function(){
@@ -110,8 +178,6 @@ tm.dom = tm.dom || {};
         }
         return name;
     };
-})();
-
-</pre>
+})();</pre>
 </body>
 </html>

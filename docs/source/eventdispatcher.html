@@ -32,11 +32,11 @@ tm.event = tm.event || {};
     tm.event.EventDispatcher = tm.createClass({
         
         init: function() {
-            this._listeners = {};
-        },
+<span id='tm-event-EventDispatcher-method-addEventListener'>            this._listeners = {};
+</span>        },
         
-<span id='tm-event-EventDispatcher-method-addEventListener'>        /**
-</span>         * イベントリスナー追加
+        /**
+         * イベントリスナー追加
          */
         addEventListener: function(type, listener) {
             if (this._listeners[type] === undefined) {
@@ -44,11 +44,11 @@ tm.event = tm.event || {};
             }
             
             this._listeners[type].push(listener);
-            return this;
-        },
+<span id='tm-event-EventDispatcher-method-dispatchEvent'>            return this;
+</span>        },
         
-<span id='tm-event-EventDispatcher-method-dispatchEvent'>        /**
-</span>         * イベント起動
+        /**
+         * イベント起動
          */
         dispatchEvent: function(e) {
             e.target = this;
@@ -58,33 +58,33 @@ tm.event = tm.event || {};
             var listeners = this._listeners[e.type];
             if (listeners) {
                 for (var i=0,len=listeners.length; i&lt;len; ++i) {
-                    listeners[i].call(this, e);
-                }
+<span id='tm-event-EventDispatcher-method-hasEventListener'>                    listeners[i].call(this, e);
+</span>                }
             }
         },
         
-<span id='tm-event-EventDispatcher-method-hasEventListener'>        /**
-</span>         * 登録されたイベントがあるかをチェック
+        /**
+         * 登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
-            if (this._listeners[type] === undefined) return false;
-            return true;
+<span id='tm-event-EventDispatcher-method-removeEventListener'>            if (this._listeners[type] === undefined &amp;&amp; !this[&quot;on&quot; + type]) return false;
+</span>            return true;
         },
         
-<span id='tm-event-EventDispatcher-method-removeEventListener'>        /**
-</span>         * リスナーを削除
+        /**
+         * リスナーを削除
          */
         removeEventListener: function(type, listener) {
             var listeners = this._listeners[type];
             var index = listeners.indexOf(listener);
-            if (index != -1) {
-                listeners.splice(index,1);
+<span id='tm-event-EventDispatcher-method-clearEventListener'>            if (index != -1) {
+</span>                listeners.splice(index,1);
             }
             return this;
         },
         
-<span id='tm-event-EventDispatcher-method-clearEventListener'>        /**
-</span>         * リスナーを全てクリア
+        /**
+         * リスナーを全てクリア
          */
         clearEventListener: function(type) {
             this._listeners[type] = [];

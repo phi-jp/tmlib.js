@@ -40,29 +40,29 @@ tm.app = tm.app || {};
         {
             this.superInit();
             
-            width = width   || 64;
-            height= height  || 64;
+            this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             
-            this.srcRect = tm.geom.Rect(0, 0, this.width, this.height);
-            
-            this.width  = width;
-            this.height = height;
-            if (texture) {
-                this.image  = texture;
+            // 画像のみ渡された場合
+            if (arguments.length == 1) {
+                var texture = arguments[0];
+                if (typeof texture == &quot;string&quot;) texture = tm.graphics.TextureManager.get(texture);
+                
+                this.width = texture.width;
+                this.height= texture.height;
+                
+                this.image = texture;
             }
-        },
-        
-<span id='tm-app-Sprite-method-draw'>        /**
-</span>         * 描画
-         */
-        draw: function(canvas) {
-            var srcRect = this.srcRect;
-            var element = this._image.element;
-            
-            canvas.drawImage(element,
-                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
-            
+            // その他
+            else {
+                width = width   || 64;
+                height= height  || 64;
+                
+                this.width  = width;
+                this.height = height;
+                if (texture) {
+                    this.image  = texture;
+                }
+            }
         },
         
         setFrameIndex: function(index, width, height) {
@@ -80,10 +80,12 @@ tm.app = tm.app || {};
         _refreshSize: function() {
             
         },
-    });
+
+<span id='tm-app-Sprite-property-image'>        _update: tm.app.CanvasElement.prototype._update,
+</span>    });
     
-<span id='tm-app-Sprite-property-image'>    /**
-</span>     * @property    image
+    /**
+     * @property    image
      * 高さ
      */
     tm.app.Sprite.prototype.accessor(&quot;image&quot;, {
