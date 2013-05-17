@@ -40,9 +40,9 @@ tm.sound = tm.sound || {};
         element     : null,
         loaded      : false,
         isPlay      : false,
-        
-<span id='tm-sound-Sound-method-init'>        /**
-</span>         * 初期化
+<span id='tm-sound-Sound-method-init'>        
+</span>        /**
+         * 初期化
          */
         init: function(src) {
             this.element = new Audio();
@@ -64,45 +64,45 @@ tm.sound = tm.sound || {};
             this.element.volume = 1.0;
             
             //? モバイル系は音が不安定なので一時対応
-            if (tm.isMobile) {
-                this.loaded = true;
+<span id='tm-sound-Sound-method-play'>            if (tm.isMobile) {
+</span>                this.loaded = true;
             }
         },
         
-<span id='tm-sound-Sound-method-play'>        /**
-</span>         * 再生
+        /**
+         * 再生
          */
         play: function() {
             this.element.play();
-            this.isPlay = true;
-            return this;
+<span id='tm-sound-Sound-method-stop'>            this.isPlay = true;
+</span>            return this;
         },
         
-<span id='tm-sound-Sound-method-stop'>        /**
-</span>         * 停止
+        /**
+         * 停止
          */
         stop: function() {
             this.element.pause();
             //? スマホだと止まるので応急対応
             if (!tm.isMobile) {
-                this.element.currentTime = 0;
-            }
+<span id='tm-sound-Sound-method-pause'>                this.element.currentTime = 0;
+</span>            }
             this.isPlay = false;
             return this;
         },
         
-<span id='tm-sound-Sound-method-pause'>        /**
-</span>         * 一時停止
-         */
-        pause: function() {
+        /**
+         * 一時停止
+<span id='tm-sound-Sound-method-clone'>         */
+</span>        pause: function() {
             this.element.pause();
             return this;
         },
         
-<span id='tm-sound-Sound-method-clone'>        /**
-</span>         * クローン
-         */
-        clone: function() {
+        /**
+         * クローン
+<span id='tm-sound-Sound-property-volume'>         */
+</span>        clone: function() {
             return tm.sound.Sound( this.element.src );
         },
         
@@ -110,20 +110,20 @@ tm.sound = tm.sound || {};
     
     
     
-<span id='tm-sound-Sound-property-volume'>    /**
-</span>     * @property    volume
+    /**
+     * @property    volume
      * ボリューム
      */
     tm.sound.Sound.prototype.accessor(&quot;volume&quot;, {
-        &quot;get&quot;: function() { return this.element.volume; },
-        &quot;set&quot;: function(v){ this.element.volume = v; }
+<span id='tm-sound-Sound-property-loop'>        &quot;get&quot;: function() { return this.element.volume; },
+</span>        &quot;set&quot;: function(v){ this.element.volume = v; }
     });
     
     
     if ((new Audio()).loop !== undefined) {
     
-<span id='tm-sound-Sound-property-loop'>        /**
-</span>         * @property    loop
+        /**
+         * @property    loop
          * ループフラグ
          */
         tm.sound.Sound.prototype.accessor(&quot;loop&quot;, {
@@ -143,8 +143,8 @@ tm.sound = tm.sound || {};
                 if (this.element.loop != true &amp;&amp; v == true) {
                     this.element.addEventListener(&quot;ended&quot;, onLoopFunc, false);
                 }
-                // 関数が登録されていて false が設定された場合ループ用関数を解除する
-                else if (this.element.loop == true &amp;&amp; v == false) {
+<span id='tm-sound-Sound-static-property-SUPPORT_EXT'>                // 関数が登録されていて false が設定された場合ループ用関数を解除する
+</span>                else if (this.element.loop == true &amp;&amp; v == false) {
                     this.element.removeEventListener(&quot;ended&quot;, onLoopFunc, false);
                 }
                 this.element.loop = v;
@@ -153,8 +153,8 @@ tm.sound = tm.sound || {};
     }
     
     
-<span id='tm-sound-Sound-static-property-SUPPORT_EXT'>    /**
-</span>     * @static
+    /**
+     * @static
      * @property    SUPPORT_EXT
      * サポートしている拡張子
      */
@@ -163,9 +163,9 @@ tm.sound = tm.sound || {};
         var audio   = new Audio();
         
         if      (audio.canPlayType(&quot;audio/wav&quot;) == 'maybe') { ext=&quot;wav&quot;; }
-        else if (audio.canPlayType(&quot;audio/mp3&quot;) == 'maybe') { ext=&quot;mp3&quot;; }
-        else if (audio.canPlayType(&quot;audio/ogg&quot;) == 'maybe') { ext=&quot;ogg&quot;; }
-        
+<span id='tm-sound-SoundManager'>        else if (audio.canPlayType(&quot;audio/mp3&quot;) == 'maybe') { ext=&quot;mp3&quot;; }
+</span><span id='tm-sound-SoundManager-static-method-add'>        else if (audio.canPlayType(&quot;audio/ogg&quot;) == 'maybe') { ext=&quot;ogg&quot;; }
+</span>        
         return ext;
     })();
     
@@ -177,24 +177,24 @@ tm.sound = tm.sound || {};
     //? モバイル系ブラウザ対応
     var DEFAULT_CACHE_NUM = (tm.isMobile) ? 1 : 4;
     
-<span id='tm-sound-SoundManager'>    /**
-</span>     * @class   サウンドマネージャクラス
+    /**
+     * @class   サウンドマネージャクラス
      * サウンドを管理するクラス
      */
     tm.sound.SoundManager = {
 <span id='tm-sound-SoundManager-property-sounds'>        sounds: {}
 </span>    };
     
-<span id='tm-sound-SoundManager-static-method-add'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * サウンドを追加
      */
     tm.sound.SoundManager.add = function(name, src, cache) {
         cache = cache || DEFAULT_CACHE_NUM;
         
-        // 拡張子チェック
-        if (src.split('/').at(-1).indexOf('.') == -1) {
+<span id='tm-sound-SoundManager-static-method-get'>        // 拡張子チェック
+</span>        if (src.split('/').at(-1).indexOf('.') == -1) {
             src += &quot;.&quot; + tm.sound.Sound.SUPPORT_EXT;
         }
         
@@ -209,34 +209,34 @@ tm.sound = tm.sound || {};
     
 
     
-<span id='tm-sound-SoundManager-static-method-get'>    /**
+<span id='tm-sound-SoundManager-static-method-getByIndex'>    /**
 </span>     * @static
      * @method
      * サウンドを取得
      */
     tm.sound.SoundManager.get = function(name) {
         var cacheList = this.sounds[name];
-        for (var i=0,len=cacheList.length; i&lt;len; ++i) {
-            if (cacheList[i].isPlay == false) {
+<span id='tm-sound-SoundManager-static-method-remove'>        for (var i=0,len=cacheList.length; i&lt;len; ++i) {
+</span>            if (cacheList[i].isPlay == false) {
                 return cacheList[i];
             }
         }
-        // 仕方なく0番目を返す
-        return cacheList[0];
+<span id='tm-sound-SoundManager-static-method-setVolume'>        // 仕方なく0番目を返す
+</span>        return cacheList[0];
     };
     
     
-<span id='tm-sound-SoundManager-static-method-getByIndex'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * サウンドを取得(index 指定版)
      */
-    tm.sound.SoundManager.getByIndex = function(name, index) {
-        return this.sounds[name][index];
+<span id='tm-sound-SoundManager-method-isLoaded'>    tm.sound.SoundManager.getByIndex = function(name, index) {
+</span>        return this.sounds[name][index];
     };
     
-<span id='tm-sound-SoundManager-static-method-remove'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * サウンドを削除
      */
@@ -246,8 +246,8 @@ tm.sound = tm.sound || {};
         return this;
     };
     
-<span id='tm-sound-SoundManager-static-method-setVolume'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * ボリュームをセット
      */
@@ -259,8 +259,8 @@ tm.sound = tm.sound || {};
     
     
     
-<span id='tm-sound-SoundManager-method-isLoaded'>    /**
-</span>     * ロードチェック
+    /**
+     * ロードチェック
      */
     tm.sound.SoundManager.isLoaded = function()
     {

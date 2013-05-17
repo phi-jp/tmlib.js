@@ -66,6 +66,7 @@ module.exports = function(grunt) {
     "src/app/label.js",
     "src/app/button.js",
     "src/app/scene.js",
+    "src/app/mapsprite.js",
     "src/app/canvasapp.js",
     "src/app/renderer.js",
     "src/app/interaction.js",

@@ -37,10 +37,10 @@ tm.global = window || global || this;
 <span id='tm-VERSION'>    /**
 </span>     * バージョン
      */
-    tm.VERSION = &quot;0.1.5&quot;;
-
-<span id='tm-LIB_ROOT'>    /**
-</span>     * tmlib.js のルートパス
+<span id='tm-LIB_ROOT'>    tm.VERSION = &quot;0.1.5&quot;;
+</span>
+    /**
+     * tmlib.js のルートパス
      */
     tm.LIB_ROOT = (function(){
         if (!window.document) return ;
@@ -48,11 +48,11 @@ tm.global = window || global || this;
         var scripts = document.getElementsByTagName(&quot;script&quot;);
         for (var i=0, len=scripts.length; i&lt;len; ++i) {
 
-        }
-    })();
+<span id='tm-BROWSER'>        }
+</span>    })();
 
-<span id='tm-BROWSER'>    /**
-</span>     * ブラウザ
+    /**
+     * ブラウザ
      */
     tm.BROWSER = (function() {
         if (!window.navigator) return ;
@@ -63,11 +63,11 @@ tm.global = window || global || this;
         else if (/opera/i.test(navigator.userAgent))    { return &quot;Opera&quot;;   }
         else if (/getcko/i.test(navigator.userAgent))   { return &quot;Getcko&quot;;  }
         else if (/msie/i.test(navigator.userAgent))     { return &quot;IE&quot;;      }
-        else { return null; }
-    })();
+<span id='tm-VENDER_PREFIX'>        else { return null; }
+</span>    })();
 
-<span id='tm-VENDER_PREFIX'>    /**
-</span>     * ベンダープレフィックス
+    /**
+     * ベンダープレフィックス
      */
     tm.VENDER_PREFIX = (function() {
         if (!window) return ;
@@ -80,23 +80,23 @@ tm.global = window || global || this;
             &quot;IE&quot;        : &quot;ms&quot;
         };
 
-        return map[tm.BROWSER] || &quot;&quot;;
-    })();
+<span id='tm-VENDER_PREFIX-property-isMobile'>        return map[tm.BROWSER] || &quot;&quot;;
+</span>    })();
 
 
-<span id='tm-VENDER_PREFIX-property-isMobile'>    /**
-</span>     * モバイルかどうかの判定フラグ
+    /**
+     * モバイルかどうかの判定フラグ
      */
     tm.isMobile = (function() {
         if (!window.navigator) return ;
 
         var ua = navigator.userAgent;
-        return (ua.indexOf(&quot;iPhone&quot;) &gt; 0 || ua.indexOf(&quot;iPad&quot;) &gt; 0 || ua.indexOf(&quot;Android&quot;) &gt; 0);
-    })();
+<span id='tm-VENDER_PREFIX-method-createClass'>        return (ua.indexOf(&quot;iPhone&quot;) &gt; 0 || ua.indexOf(&quot;iPad&quot;) &gt; 0 || ua.indexOf(&quot;Android&quot;) &gt; 0);
+</span>    })();
 
 
-<span id='tm-VENDER_PREFIX-method-createClass'>    /**
-</span>     * クラス定義
+    /**
+     * クラス定義
      */
     tm.createClass = function(prop) {
         // デフォルト値
@@ -134,8 +134,8 @@ tm.global = window || global || this;
         }
 
         // クリエイタの生成
-        tm_class.prototype.creator = function() { return this; };
-        // クリエイタの継承
+<span id='tm-VENDER_PREFIX-method-define'>        tm_class.prototype.creator = function() { return this; };
+</span>        // クリエイタの継承
         tm_class.prototype.creator.prototype = tm_class.prototype;
 
         tm_class._class = true;
@@ -146,8 +146,8 @@ tm.global = window || global || this;
     tm.classes = {};
     var _calssDefinedCallback = {};
 
-<span id='tm-VENDER_PREFIX-method-define'>    /**
-</span>     * クラス定義
+    /**
+     * クラス定義
      * phi クラス定義 &lt;http://jsdo.it/phi/eEmj&gt;
      * new と apply を同時に使う &lt;http://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible&gt;
      */
@@ -187,14 +187,14 @@ tm.global = window || global || this;
             _class = tm.createClass(prop);
         }
 
-        // キャッシュしておく
-        ns[className] = tm.classes[path] = _class;
+<span id='tm-VENDER_PREFIX-method-namespace'>        // キャッシュしておく
+</span>        ns[className] = tm.classes[path] = _class;
 
         if (_calssDefinedCallback[path]) {
             var list = _calssDefinedCallback[path];
             for (var i=0,len=list.length; i&lt;len; ++i) {
-                list[i]();
-            }
+<span id='tm-VENDER_PREFIX-method-using'>                list[i]();
+</span>            }
             delete _calssDefinedCallback[path];
         }
 
@@ -202,8 +202,8 @@ tm.global = window || global || this;
     };
 
 
-<span id='tm-VENDER_PREFIX-method-namespace'>    /**
-</span>     * 名前空間
+    /**
+     * 名前空間
      * typescript の mudle 機能を参考
      * https://sites.google.com/site/jun1sboardgames/programming/typescript
      */
@@ -213,11 +213,11 @@ tm.global = window || global || this;
         fn.call(ns, ns);
     };
 
-<span id='tm-VENDER_PREFIX-method-using'>    /**
-</span>     * 使用
+    /**
+     * 使用
      */
-    tm.using = function(ns) {
-        if (tm.classes[ns]) return tm.classes[ns];
+<span id='tm-VENDER_PREFIX-method-setLoop'>    tm.using = function(ns) {
+</span>        if (tm.classes[ns]) return tm.classes[ns];
 
         var path = ns.split(/[,.\/ ]|::/);
         var current = tm.global;
@@ -233,8 +233,8 @@ tm.global = window || global || this;
         return current;
     };
 
-<span id='tm-VENDER_PREFIX-method-setLoop'>    /**
-</span>     * ループ
+    /**
+     * ループ
      */
     tm.setLoop = function(fn, delay) {
         var temp = function() {

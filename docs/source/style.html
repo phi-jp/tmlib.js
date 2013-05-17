@@ -39,49 +39,49 @@ tm.dom = tm.dom || {};
         init: function(element) {
             this.element = element;
         },
-        
-<span id='tm-dom-Style-method-set'>        /**
-</span>         * セット
+<span id='tm-dom-Style-method-set'>        
+</span>        /**
+         * セット
          */
         set: function(name, value) {
             this.element.style[name] = value;
             return this;
-        },
-        
-<span id='tm-dom-Style-method-remove'>        /**
-</span>         * 削除
+<span id='tm-dom-Style-method-remove'>        },
+</span>        
+        /**
+         * 削除
          */
         remove: function(name) {
             this.element.style.removeProperty(name);
             // delete this.element.style[name];
             return this;
-        },
-        
-<span id='tm-dom-Style-method-clear'>        /**
-</span>         * クリア
+<span id='tm-dom-Style-method-clear'>        },
+</span>        
+        /**
+         * クリア
          */
         clear: function(name) {
             
-            return this;
-        },
+<span id='tm-dom-Style-method-get'>            return this;
+</span>        },
         
-<span id='tm-dom-Style-method-get'>        /**
-</span>         * 取得
+        /**
+         * 取得
          */
         get: function(name) {
-            return this.element.style[name];
-        },
+<span id='tm-dom-Style-method-getPropValue'>            return this.element.style[name];
+</span>        },
         
-<span id='tm-dom-Style-method-getPropValue'>        /**
-</span>         * CSS の値も考慮した上での値を取得
+        /**
+         * CSS の値も考慮した上での値を取得
          */
         getPropValue: function(prop_name) {
-            return document.defaultView.getComputedStyle(this.element, '').getPropertyValue(prop_name);
-        },
+<span id='tm-dom-Style-property-style'>            return document.defaultView.getComputedStyle(this.element, '').getPropertyValue(prop_name);
+</span>        },
     });
     
-<span id='tm-dom-Style-property-style'>    /**
-</span>     * スタイルクラス
+    /**
+     * スタイルクラス
      * @property    style
      */
     tm.dom.Element.prototype.getter(&quot;style&quot;, function(){

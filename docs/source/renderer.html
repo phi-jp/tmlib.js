@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * phi
+ */
+
+ 
+(function() {
+    
+    tm.define(&quot;tm.app.CanvasRenderer&quot;, {
+        canvas: null,
+
+        init: function(canvas) {
+            this.canvas = canvas;
+            this._context = this.canvas.context;
+        },
+
+        render: function(root) {
+            this.canvas.save();
+            this.renderObject(root);
+            this.canvas.restore();
+        },
+
+        renderObject: function(obj) {
+            obj._dirtyCalc();
+
+            if (obj.visible === false) return ;
+            var context = this._context;
+
+            if (!obj.draw) this._setRenderFunction(obj);
+
+            // 情報をセット
+            context.fillStyle      = obj.fillStyle;
+            context.strokeStyle    = obj.strokeStyle;
+            context.globalAlpha    = obj._worldAlpha;
+            context.globalCompositeOperation = obj.blendMode;
+            // 行列をセット
+            var m = obj._worldMatrix.m;
+            context.setTransform( m[0], m[3], m[1], m[4], m[2], m[5] );
+            
+            obj.draw(this.canvas);
+            
+            // 子供達も実行
+            if (obj.children.length &gt; 0) {
+                var tempChildren = obj.children.slice();
+                for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
+                    this.renderObject(tempChildren[i]);
+                }
+            }
+        },
+
+        _setRenderFunction: function(obj) {
+            if (obj instanceof tm.app.Sprite) {
+                obj.draw = renderFuncList[&quot;sprite&quot;];
+            }
+            else if (obj instanceof tm.app.MapSprite) {
+                obj.draw = renderFuncList[&quot;shape&quot;];
+            }
+            else if (obj instanceof tm.app.Label) {
+                obj.draw = renderFuncList[&quot;label&quot;];
+            }
+            else if (obj instanceof tm.app.Shape) {
+                obj.draw = renderFuncList[&quot;shape&quot;];
+            }
+            else {
+                obj.draw = function() {};
+            }
+        }
+
+    });
+    
+    var renderFuncList = {
+        &quot;sprite&quot;: function(canvas) {
+            var srcRect = this.srcRect;
+            var element = this._image.element;
+            
+            canvas.context.drawImage(element,
+                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
+                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
+        },
+        &quot;shape&quot;: function(canvas) {
+            var srcRect = this.srcRect;
+            canvas.drawImage(
+                this.canvas.canvas,
+                0, 0, this.canvas.width, this.canvas.height,
+                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
+        },
+        &quot;label&quot;: function(canvas) {
+            canvas.setText(this.fontStyle, this.align, this.baseline);
+            if (this.fill) {
+                if (this.maxWidth) {
+                    canvas.fillText(this.text, 0, 0, this.maxWidth);
+                }
+                else {
+                    canvas.fillText(this.text, 0, 0);
+                }
+            }
+            if (this.stroke) {
+                if (this.maxWidth) {
+                    canvas.strokeText(this.text, 0, 0, this.maxWidth);
+                }
+                else {
+                    canvas.strokeText(this.text, 0, 0);
+                }
+            }
+            
+            if (this.debugBox) {
+                canvas.strokeRect(0, 0, this.width, -this.size);
+            }
+        }
+    };
+
+})();
+ 
+
+
+ 
+(function() {
+    
+    tm.define(&quot;tm.app.BoundingRectRenderer&quot;, {
+        superClass: &quot;tm.app.CanvasRenderer&quot;,
+
+        init: function(canvas) {
+            this.superInit(canvas);
+        },
+
+        _setRenderFunction: function(obj) {
+            obj.draw = render;
+        }
+    });
+
+    var render = function(canvas) {
+        canvas.save();
+        canvas.lineWidth = 2;
+        canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
+        canvas.restore();
+    };
+
+})();
+ 
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</body>
+</html>

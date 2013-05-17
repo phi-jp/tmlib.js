@@ -136,9 +136,9 @@ tm.anim = tm.anim || {};
             this._updateTime();
             this.dispatchEvent(tm.event.TweenEvent(&quot;resume&quot;, this.time, this.nowProps));
         },
-        
-<span id='tm-anim-Tween-method-start'>        /**
-</span>         * 開始
+<span id='tm-anim-Tween-method-start'>        
+</span>        /**
+         * 開始
          */
         start: function() {
             this.isPlaying = true;
@@ -146,33 +146,33 @@ tm.anim = tm.anim || {};
             this._updateTime();
             this.dispatchEvent(tm.event.TweenEvent(&quot;start&quot;, this.time, this.nowProps));
         },
-        
-<span id='tm-anim-Tween-method-stop'>        /**
-</span>         * ストップ
+<span id='tm-anim-Tween-method-stop'>        
+</span>        /**
+         * ストップ
          */
         stop: function() {
             this.isPlaying = false;
             this.dispatchEvent(tm.event.TweenEvent(&quot;stop&quot;, this.time, this.nowProps));
-        },
-        
-<span id='tm-anim-Tween-method-rewind'>        /**
-</span>         * 開始位置まで戻る
+<span id='tm-anim-Tween-method-rewind'>        },
+</span>        
+        /**
+         * 開始位置まで戻る
          */
         rewind: function() {
             this.time = 0;
-            this.update();
-        },
+<span id='tm-anim-Tween-method-fforward'>            this.update();
+</span>        },
         
-<span id='tm-anim-Tween-method-fforward'>        /**
-</span>         * 最後位置まで早送り
+        /**
+         * 最後位置まで早送り
          */
         fforward: function() {
-            this.time = this.duration;
-            this.update();
+<span id='tm-anim-Tween-method-yoyo'>            this.time = this.duration;
+</span>            this.update();
         },
         
-<span id='tm-anim-Tween-method-yoyo'>        /**
-</span>         * ヨーヨー
+        /**
+         * ヨーヨー
          */
         yoyo: function() {
             var temp = this.finishProps;
@@ -180,12 +180,12 @@ tm.anim = tm.anim || {};
             this.beginProps  = temp;
             for (var key in this.beginProps) {
                 this.changeProps[key] = this.finishProps[key] - this.beginProps[key];
-            }
-            this.start();
+<span id='tm-anim-Tween-method-update'>            }
+</span>            this.start();
         },
         
-<span id='tm-anim-Tween-method-update'>        /**
-</span>         * 更新
+        /**
+         * 更新
          */
         update: function() {
             for (var key in this.changeProps) {
@@ -236,8 +236,8 @@ tm.anim = tm.anim || {};
             // 更新
             else {
                 this.time = time;
-                // 座標を更新
-                this.update();
+<span id='tm-anim-Tween-property-easing'>                // 座標を更新
+</span>                this.update();
             }
         }
     });
@@ -251,8 +251,8 @@ tm.anim = tm.anim || {};
  */
 (function() {
     
-<span id='tm-anim-Tween-property-easing'>    /**
-</span>     * イージング
+    /**
+     * イージング
      * ### Reference
      * - &lt;http://coderepos.org/share/wiki/JSTweener&gt;
      * - &lt;http://coderepos.org/share/browser/lang/javascript/jstweener/trunk/src/JSTweener.js&gt;

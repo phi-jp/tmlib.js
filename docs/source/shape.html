@@ -49,18 +49,6 @@ tm.app = tm.app || {};
             this.height = height;
             this.canvas.resize(width, height);
         },
-        
-<span id='tm-app-Shape-method-draw'>        /**
-</span>         * 描画
-         */
-        draw: function(canvas) {
-            var srcRect = this.srcRect;
-            canvas.drawImage(
-                this.canvas.canvas,
-                0, 0, this.canvas.width, this.canvas.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
-            return this;
-        },
 
         renderCircle: function(param) {
             var c = this.canvas;
@@ -222,8 +210,8 @@ tm.app = tm.app || {};
     };
 
     tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART = {
-        fillStyle: &quot;pink&quot;,
-        strokeStyle: &quot;white&quot;,
+<span id='tm-app-CircleShape'>        fillStyle: &quot;pink&quot;,
+</span>        strokeStyle: &quot;white&quot;,
         lineWidth: &quot;2&quot;,
         
         angle: 45,
@@ -234,20 +222,20 @@ tm.app = tm.app || {};
 
 (function() {
     
-<span id='tm-app-CircleShape'>    /**
-</span>     * @class
-     * CircleShape
-     */
+    /**
+     * @class
+<span id='tm-app-CircleShape-method-init'>     * CircleShape
+</span>     */
     tm.app.CircleShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-CircleShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
         init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
+<span id='tm-app-TriangleShape'>            this.superInit(width, height);
+</span>            // 描画
             this.renderCircle(param);
         },
     });
@@ -259,20 +247,20 @@ tm.app = tm.app || {};
 
 (function() {
     
-<span id='tm-app-TriangleShape'>    /**
-</span>     * @class
-     * TriangleShape
+    /**
+<span id='tm-app-TriangleShape-method-init'>     * @class
+</span>     * TriangleShape
      */
     tm.app.TriangleShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-TriangleShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
         init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
+<span id='tm-app-RectangleShape'>            this.superInit(width, height);
+</span>            // 描画
             this.renderTriangle(param);
         },
         
@@ -285,20 +273,20 @@ tm.app = tm.app || {};
 
 (function() {
     
-<span id='tm-app-RectangleShape'>    /**
-</span>     * @class
-     * RectangleShape
+    /**
+<span id='tm-app-RectangleShape-method-init'>     * @class
+</span>     * RectangleShape
      */
     tm.app.RectangleShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-RectangleShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
         init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
+<span id='tm-app-StarShape'>            this.superInit(width, height);
+</span>            // 描画
             this.renderRectangle(param);
         },
         
@@ -307,22 +295,22 @@ tm.app = tm.app || {};
 })();
 
 
-(function() {
-    
-<span id='tm-app-StarShape'>    /**
-</span>     * @class
+<span id='tm-app-StarShape-method-init'>(function() {
+</span>    
+    /**
+     * @class
      * StarShape
      */
     tm.app.StarShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-StarShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
         init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
+<span id='tm-app-PolygonShape'>            this.superInit(width, height);
+</span>            // 描画
             this.renderStar(param);
         },
         
@@ -332,44 +320,44 @@ tm.app = tm.app || {};
 
 
 
-(function() {
-    
-<span id='tm-app-PolygonShape'>    /**
-</span>     * @class
+<span id='tm-app-PolygonShape-method-init'>(function() {
+</span>    
+    /**
+     * @class
      * PolygonShape
      */
     tm.app.PolygonShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-PolygonShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
-        init: function(width, height, param) {
-            this.superInit(width, height);
+<span id='tm-app-HeartShape'>        init: function(width, height, param) {
+</span>            this.superInit(width, height);
             // 描画
             this.renderPolygon(param);
         },
         
     });
     
-})();
-
+<span id='tm-app-HeartShape-method-init'>})();
+</span>
 
 
 
 (function() {
     
-<span id='tm-app-HeartShape'>    /**
-</span>     * @class
+    /**
+     * @class
      * HeartShape
      */
     tm.app.HeartShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-HeartShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
         init: function(width, height, param) {
             this.superInit(width, height);

@@ -28,60 +28,65 @@ tm.graphics = tm.graphics || {};
      * テクスチャクラス
      */
     tm.graphics.Texture = tm.createClass({
+        superClass: tm.event.EventDispatcher,
         
         element: null,
         loaded: false,
-        
-<span id='tm-graphics-Texture-method-init'>        /**
-</span>         * 初期化
+<span id='tm-graphics-Texture-method-init'>        
+</span>        /**
+         * 初期化
          */
         init: function(src) {
+            this.superInit();
+            
             this.element = new Image();
             this.element.src = src;
             
             var self = this;
             this.element.onload = function() {
                 self.loaded = true;
+                var e = tm.event.Event(&quot;load&quot;);
+                self.dispatchEvent(e);
             };
         },
         
         getElement: function() {
             return this.element;
         },
-        
-    });
+<span id='tm-graphics-Texture-property-width'>        
+</span>    });
     
-<span id='tm-graphics-Texture-property-width'>    /**
-</span>     * @property    width
+    /**
+     * @property    width
      * 幅
      */
     tm.graphics.Texture.prototype.getter(&quot;width&quot;, function() {
-        return this.element.width;
-    });
+<span id='tm-graphics-Texture-property-height'>        return this.element.width;
+</span>    });
     
-<span id='tm-graphics-Texture-property-height'>    /**
-</span>     * @property    height
+    /**
+     * @property    height
      * 高さ
      */
     tm.graphics.Texture.prototype.getter(&quot;height&quot;, function() {
         return this.element.height;
     });
     
-})();
-
+<span id='tm-graphics-TextureManager'>})();
+</span>
 (function(){
     
-<span id='tm-graphics-TextureManager'>    /**
-</span>     * @class
+    /**
+     * @class
      * テクスチャマネージャクラス
      */
     tm.graphics.TextureManager = {
-<span id='tm-graphics-TextureManager-property-textures'>        textures: {},
-</span><span id='tm-graphics-TextureManager-property-loaded'>        loaded: true,
+<span id='tm-graphics-TextureManager-static-method-add'><span id='tm-graphics-TextureManager-property-textures'>        textures: {},
+</span></span><span id='tm-graphics-TextureManager-property-loaded'>        loaded: true,
 </span>    };
     
-<span id='tm-graphics-TextureManager-static-method-add'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * 追加
      */
@@ -91,30 +96,60 @@ tm.graphics = tm.graphics || {};
         
         this.textures[name] = tm.graphics.Texture(src);
         this.loaded = false;
+<span id='tm-graphics-TextureManager-static-method-get'>        
+</span>        return this.textures[name];
     };
     
-<span id='tm-graphics-TextureManager-static-method-get'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * 取得
      */
-    tm.graphics.TextureManager.get = function(name)
-    {
+<span id='tm-graphics-TextureManager-method-isLoaded'>    tm.graphics.TextureManager.get = function(name)
+</span>    {
         return this.textures[name];
     };
     
-<span id='tm-graphics-TextureManager-method-isLoaded'>    /**
-</span>     * ロードチェック
+    /**
+     * ロードチェック
      */
     tm.graphics.TextureManager.isLoaded = function()
     {
         for (var key in this.textures) {
             if (this.textures[key].loaded == false) {
-                return false;
-            }
+<span id='tm-graphics-TextureManager-static-method-loadDummy'>                return false;
+</span>            }
         }
         return true;
     };
+
+
+
+    /**
+     * @static
+     * @method
+     * ### ref
+     * http://dummyimage.com/
+     */
+    tm.graphics.TextureManager.loadDummy = function(key, param)
+    {
+        param = param || {};
+
+        var paths = [&quot;http://dummyimage.com&quot;];
+        paths.push(param.size || 256);
+        paths.push(param.bgColor || &quot;aaa&quot;);
+        paths.push(param.color || &quot;000&quot;);
+        paths.push(param.format || &quot;png&quot;);
+
+        var src = paths.join('/');
+        if (param.text) {
+            src += '&amp;text=' + param.text;
+        }
+
+        this.textures[key] = tm.graphics.Texture(src);
+        this.loaded = false;
+    };
+
     
     tm.addLoadCheckList(tm.graphics.TextureManager);
     

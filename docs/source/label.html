@@ -35,41 +35,26 @@ tm.app = tm.app || {};
 <span id='tm-app-Label-property-fill'>        /**
 </span>         * 塗りつぶしフラグ
          */
-        fill: true,
-<span id='tm-app-Label-property-stroke'>        /**
-</span>         * ストロークフラグ
+<span id='tm-app-Label-property-stroke'>        fill: true,
+</span>        /**
+         * ストロークフラグ
          */
         stroke: false,
-        debugBox: false,
-        
-<span id='tm-app-Label-method-init'>        /**
-</span>         * 初期化
+<span id='tm-app-Label-method-init'>        debugBox: false,
+</span>        
+        /**
+         * 初期化
          */
         init: function(text, size) {
             this.superInit();
             
-            this.text       = text || &quot;HOGE&quot;;
+            this.text       = text || &quot;&quot;;
             this.fontSize   = size || 24;
             this.fontFamily = &quot;'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;;
             this.align      = &quot;start&quot;;
             this.baseline   = &quot;alphabetic&quot;;
-        },
-        
-<span id='tm-app-Label-method-draw'>        /**
-</span>         * 描画
-         */
-        draw: function(canvas) {
-            canvas.setText(this.fontStyle, this.align, this.baseline);
-            if (this.fill) {
-                canvas.fillText(this.text, 0, 0, this.width);
-            }
-            if (this.stroke) {
-                canvas.strokeText(this.text, 0, 0, this.width);
-            }
-            
-            if (this.debugBox) {
-                canvas.strokeRect(0, 0, this.width, -this.size);
-            }
+
+            this.maxWidth   = null;
         },
         
         setAlign: function(align) {
@@ -93,24 +78,22 @@ tm.app = tm.app || {};
         },
         
         _updateFont: function() {
-            this.fontStyle = &quot;{fontSize}px {fontFamily}&quot;.format(this);
-        }
+<span id='tm-app-Label-property-size'>            this.fontStyle = &quot;{fontSize}px {fontFamily}&quot;.format(this);
+</span>        }
         
     });
     
-    
-        
-<span id='tm-app-Label-property-size'>    /**
-</span>     * @property    size
+    /**
+     * @property    size
      * サイズ
      */
     tm.app.Label.prototype.accessor(&quot;fontSize&quot;, {
         &quot;get&quot;: function() { return this._fontSize; },
-        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
-    });
+<span id='tm-app-Label-property-font'>        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
+</span>    });
     
-<span id='tm-app-Label-property-font'>    /**
-</span>     * @property    font
+    /**
+     * @property    font
      * フォント
      */
     tm.app.Label.prototype.accessor(&quot;fontFamily&quot;, {
