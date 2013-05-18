@@ -21,6 +21,7 @@ var pad = null;
 var player = null;
 var bulletGroup = null;
 var enemyGroup  = null;
+var attackButton = null;
 
 var playerImage = (function(){
     var c = tm.graphics.Canvas();
@@ -97,10 +98,21 @@ tm.main(function() {
     }
     
     // パッド生成
-    pad = tm.controller.Pad();
+    pad = tm.app.Pad();
     pad.position.set(80, app.height-80);
     app.currentScene.addChild(pad);
-    
+
+    attackButton = tm.app.GlossyButton(100, 60, "blue", "Attack").addChildTo(app.currentScene);
+    attackButton.x = SCREEN_WIDTH - 100;
+    attackButton.y = SCREEN_HEIGHT - 60;
+    attackButton.onpointingstart = function() {
+        var bullet = Bullet();
+        bullet.position.set(player.x+20, player.y);
+        bulletGroup.addChild( bullet );
+        // SE 再生
+        tm.sound.SoundManager.get("shot").play();
+    };
+
     // スコア生成
     var score = tm.app.Label("Score : " + app.score.padding(3, ' '));
     score.position.set(SCREEN_WIDTH-20, 20);
@@ -120,6 +132,15 @@ tm.main(function() {
         if (key.getKeyDown("space") == true) {
             (scene.isUpdate == true) ? scene.sleep() : scene.wakeUp();
             bgm.stop();
+        }
+        
+        // ショット
+        if (app.keyboard.getKeyDown("Z")) {
+            var bullet = Bullet();
+            bullet.position.set(player.x+20, player.y);
+            bulletGroup.addChild( bullet );
+            // SE 再生
+            tm.sound.SoundManager.get("shot").play();
         }
     }
     
@@ -191,15 +212,6 @@ var Player = tm.createClass({
         
         // 摩擦的な
         this.speed *= 0.5;
-        
-        // ショット
-        if (app.keyboard.getKeyDown("Z") || app.pointing.getPointingEnd()) {
-            var bullet = Bullet();
-            bullet.position.set(this.x+20, this.y);
-            bulletGroup.addChild( bullet );
-            // SE 再生
-            tm.sound.SoundManager.get("shot").play();
-        }
     }
 });
 

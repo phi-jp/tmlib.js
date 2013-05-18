@@ -27,20 +27,28 @@ tm.input = tm.input || {};
             this.deltaPosition  = tm.geom.Vector2(0, 0);
             this.prevPosition   = tm.geom.Vector2(0, 0);
             
-            var self = this;
-            this.element.addEventListener("touchstart", function(e){
-                self._touchmove(e);
-                self.prevPosition.setObject(self.position);
-                self.touched = true;
-            });
-            this.element.addEventListener("touchend", function(e){
-                self.touched = false;
-            });
-            this.element.addEventListener("touchmove", function(e){
-                self._touchmove(e);
-                // 画面移動を止める
-                e.stop();
-            });
+            // var self = this;
+            // this.element.addEventListener("touchstart", function(e) {
+            //     if (self._touch) return ;
+            //     self._touch = e.changedTouches[0];
+
+            //     // changedTouches;
+            //     // targetTouches;
+            //     self._touchmove(e);
+            //     self.prevPosition.setObject(self.position);
+
+            //     self.touched = true;
+            // });
+            // this.element.addEventListener("touchend", function(e){
+            //     if (self._touch == e.changedTouches[0]) {
+            //         self.touched = false;
+            //     }
+            // });
+            // this.element.addEventListener("touchmove", function(e){
+            //     self._touchmove(e);
+            //     // 画面移動を止める
+            //     e.stop();
+            // });
         },
         
         /**
@@ -100,14 +108,14 @@ tm.input = tm.input || {};
         },
         
         _touchmove: function(e) {
-            var t = e.touches[0];
+            var t = this._touch;
             var r = e.target.getBoundingClientRect();
             this.x = t.clientX - r.left;
             this.y = t.clientY - r.top;
         },
         
         _touchmoveScale: function(e) {
-            var t = e.touches[0];
+            var t = this._touch;
             var r = e.target.getBoundingClientRect();
             this.x = t.clientX - r.left;
             this.y = t.clientY - r.top;
@@ -179,4 +187,69 @@ tm.input = tm.input || {};
     tm.input.Touch.prototype.getPointingEnd     = tm.input.Touch.prototype.getTouchEnd;
     
 })();
+
+
+
+(function() {
+
+    tm.define("tm.input.Touches", {
+        superClass: Array,
+
+        init: function(elm, length) {
+            this.element = elm;
+            for (var i=0; i<length; ++i) {
+                var touch = tm.input.Touch(this.element);
+                this.push(touch);
+            }
+
+            var self = this;
+            this.element.addEventListener("touchstart", function(e) {
+                var target = null;
+                for (var i=0; i<length; ++i) {
+                    if (!self[i]._touch) {
+                        target = self[i];
+                    }
+                }
+                if (!target) return ;
+
+                target._touch = e.changedTouches[0];
+
+                target._touchmove(e);
+                target.prevPosition.setObject(target.position);
+
+                target.touched = true;
+                // changedTouches;
+                // targetTouches;
+            });
+            this.element.addEventListener("touchend", function(e){
+                for (var i=0; i<length; ++i) {
+                    if (self[i]._touch == e.changedTouches[0]) {
+                        self[i]._touch = null;
+                        self[i].touched = false;
+                    }
+                }
+            });
+            this.element.addEventListener("touchmove", function(e){
+                for (var i=0; i<length; ++i) {
+                    if (self[i]._touch) {
+                        self[i]._touchmove(e);
+                    }
+                }
+                // 画面移動を止める
+                e.stop();
+            });
+        },
+
+        update: function() {
+            this.each(function(touch) {
+                touch.update();
+            });
+        }
+    });
+
+})();
+
+
+
+
 

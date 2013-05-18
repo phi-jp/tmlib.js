@@ -6175,10 +6175,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
         
-        init: function(type, app) {
+        init: function(type, app, pointing) {
             this.superInit(type);
             
             this.app = app;
+            this.pointing = pointing;
         }
         
     });
@@ -6198,10 +6199,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
         
-        init: function(type, app) {
+        init: function(type, app, pointing) {
             this.superInit(type);
             
             this.app = app;
+            this.pointing = pointing;
         }
         
     });
@@ -6220,10 +6222,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
         
-        init: function(type, app) {
+        init: function(type, app, pointing) {
             this.superInit(type);
             
             this.app = app;
+            this.pointing = pointing;
         }
         
     });
@@ -6842,20 +6845,28 @@ tm.input = tm.input || {};
             this.deltaPosition  = tm.geom.Vector2(0, 0);
             this.prevPosition   = tm.geom.Vector2(0, 0);
             
-            var self = this;
-            this.element.addEventListener("touchstart", function(e){
-                self._touchmove(e);
-                self.prevPosition.setObject(self.position);
-                self.touched = true;
-            });
-            this.element.addEventListener("touchend", function(e){
-                self.touched = false;
-            });
-            this.element.addEventListener("touchmove", function(e){
-                self._touchmove(e);
-                // 画面移動を止める
-                e.stop();
-            });
+            // var self = this;
+            // this.element.addEventListener("touchstart", function(e) {
+            //     if (self._touch) return ;
+            //     self._touch = e.changedTouches[0];
+
+            //     // changedTouches;
+            //     // targetTouches;
+            //     self._touchmove(e);
+            //     self.prevPosition.setObject(self.position);
+
+            //     self.touched = true;
+            // });
+            // this.element.addEventListener("touchend", function(e){
+            //     if (self._touch == e.changedTouches[0]) {
+            //         self.touched = false;
+            //     }
+            // });
+            // this.element.addEventListener("touchmove", function(e){
+            //     self._touchmove(e);
+            //     // 画面移動を止める
+            //     e.stop();
+            // });
         },
         
         /**
@@ -6915,14 +6926,14 @@ tm.input = tm.input || {};
         },
         
         _touchmove: function(e) {
-            var t = e.touches[0];
+            var t = this._touch;
             var r = e.target.getBoundingClientRect();
             this.x = t.clientX - r.left;
             this.y = t.clientY - r.top;
         },
         
         _touchmoveScale: function(e) {
-            var t = e.touches[0];
+            var t = this._touch;
             var r = e.target.getBoundingClientRect();
             this.x = t.clientX - r.left;
             this.y = t.clientY - r.top;
@@ -6994,6 +7005,71 @@ tm.input = tm.input || {};
     tm.input.Touch.prototype.getPointingEnd     = tm.input.Touch.prototype.getTouchEnd;
     
 })();
+
+
+
+(function() {
+
+    tm.define("tm.input.Touches", {
+        superClass: Array,
+
+        init: function(elm, length) {
+            this.element = elm;
+            for (var i=0; i<length; ++i) {
+                var touch = tm.input.Touch(this.element);
+                this.push(touch);
+            }
+
+            var self = this;
+            this.element.addEventListener("touchstart", function(e) {
+                var target = null;
+                for (var i=0; i<length; ++i) {
+                    if (!self[i]._touch) {
+                        target = self[i];
+                    }
+                }
+                if (!target) return ;
+
+                target._touch = e.changedTouches[0];
+
+                target._touchmove(e);
+                target.prevPosition.setObject(target.position);
+
+                target.touched = true;
+                // changedTouches;
+                // targetTouches;
+            });
+            this.element.addEventListener("touchend", function(e){
+                for (var i=0; i<length; ++i) {
+                    if (self[i]._touch == e.changedTouches[0]) {
+                        self[i]._touch = null;
+                        self[i].touched = false;
+                    }
+                }
+            });
+            this.element.addEventListener("touchmove", function(e){
+                for (var i=0; i<length; ++i) {
+                    if (self[i]._touch) {
+                        self[i]._touchmove(e);
+                    }
+                }
+                // 画面移動を止める
+                e.stop();
+            });
+        },
+
+        update: function() {
+            this.each(function(touch) {
+                touch.update();
+            });
+        }
+    });
+
+})();
+
+
+
+
 
 
 /*
@@ -11786,42 +11862,52 @@ tm.app = tm.app || {};
         _parseLayers: function(xml) {
             var each = Array.prototype.forEach;
             var data = [];
-            
-            var layers = xml.getElementsByTagName('layer');
-            for (var i=0,len=layers.length; i<len; ++i) {
-                var d = layers[i].getElementsByTagName('data')[0];
-                var encoding = d.getAttribute("encoding");
-                var layer = {};
 
-                if (encoding == "csv") {
-                    layer.data = this._parseCSV(d.textContent);
+            var map = xml.getElementsByTagName("map")[0];
+            var layers = [];
+            each.call(map.childNodes, function(elm) {
+                if (elm.tagName == "layer" || elm.tagName == "objectgroup") {
+                    layers.push(elm);
                 }
-                else if (encoding == "base64") {
-                    layer.data = this._parseBase64(d.textContent);
-                }
-
-                data.push(layer);
-            }
-            
-            var self = this;
-            var objectgroups = xml.getElementsByTagName('objectgroup');
-            each.call(objectgroups, function(objectgroup) {
-                var layer = {
-                    type: "objectgroup",
-                    objects: [],
-                };
-                each.call(objectgroup.childNodes, function(elm) {
-                    if (elm.nodeType == 3) return ;
-                    
-                    var d = self._attrToJSON(elm);
-                    d.properties = self._propertiesToJson(elm);
-                    
-                    layer.objects.push(d);
-                });
-                
-                data.push(layer);
             });
-            
+
+            layers.each(function(layer) {
+                if (layer.tagName == "layer") {
+                    var d = layer.getElementsByTagName('data')[0];
+                    var encoding = d.getAttribute("encoding");
+                    var l = {
+                        type: "layer",
+                        name: layer.getAttribute("name"),
+                    };
+
+                    if (encoding == "csv") {
+                        l.data = this._parseCSV(d.textContent);
+                    }
+                    else if (encoding == "base64") {
+                        l.data = this._parseBase64(d.textContent);
+                    }
+
+                    data.push(l);
+                }
+                else if (layer.tagName == "objectgroup") {
+                    var l = {
+                        type: "objectgroup",
+                        objects: [],
+                        name: layer.getAttribute("name"),
+                    };
+                    each.call(layer.childNodes, function(elm) {
+                        if (elm.nodeType == 3) return ;
+                        
+                        var d = this._attrToJSON(elm);
+                        d.properties = this._propertiesToJson(elm);
+                        
+                        l.objects.push(d);
+                    }.bind(this));
+                    
+                    data.push(l);
+                }
+            }.bind(this));
+
             return data;
         },
 
@@ -11950,57 +12036,78 @@ tm.app = tm.app || {};
 
         _build: function() {
             var self = this;
-            var mapSheet = this.mapSheet;
-            
-            var texture = tm.graphics.TextureManager.get(mapSheet.tilesets[0].image);
-            var xIndexMax = (texture.width/mapSheet.tilewidth)|0;
 
             this.mapSheet.layers.each(function(layer, hoge) {
-                if (layer.type == "objectgroup") return ;
-                
-                layer.data.each(function(d, index) {
-                    var type = d;
-                    if (type == -1) {
-                        return ;
-                    }
-                    type = Math.abs(type);
-
-                    var xIndex = index%mapSheet.width;
-                    var yIndex = (index/mapSheet.width)|0;
-
-                    var mx = (type%xIndexMax);
-                    var my = (type/xIndexMax)|0;
-
-                    var dx = xIndex*self.chipWidth;
-                    var dy = yIndex*self.chipHeight;
-
-
-                    self.canvas.drawTexture(texture,
-                        mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
-                        dx, dy, self.chipWidth, self.chipHeight
-                        );
-
-                    /*
-                    line.each(function(type, xIndex) {
-                        if (type == -1) {
-                            return ;
-                        }
-                        type = Math.abs(type);
-
-                        var mx = (type%mapSheet.map.xIndexMax);
-                        var my = (type/mapSheet.map.xIndexMax)|0;
-
-                        var dx = xIndex*self.chipWidth;
-                        var dy = yIndex*self.chipHeight;
-
-                        self.canvas.drawImage(mapSheet.image,
-                            mx*mapSheet.map.tilewidth, my*mapSheet.map.tileheight, mapSheet.map.tilewidth, mapSheet.map.tileheight,
-                            dx, dy, self.chipWidth, self.chipHeight
-                            );
-                    });
-*/
-                });
+                if (layer.type == "objectgroup") {
+                    self._buildObject(layer);
+                }
+                else {
+                    self._buildLayer(layer);
+                }
             });
+        },
+
+        _buildLayer: function(layer) {
+            var self        = this;
+            var mapSheet    = this.mapSheet;
+            var texture     = tm.graphics.TextureManager.get(mapSheet.tilesets[0].image);
+            var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
+            var shape       = tm.app.Shape(this.width, this.height).addChildTo(this);
+            shape.origin.set(0, 0);
+
+            layer.data.each(function(d, index) {
+                var type = d;
+                if (type == -1) {
+                    return ;
+                }
+                type = Math.abs(type);
+
+                var xIndex = index%mapSheet.width;
+                var yIndex = (index/mapSheet.width)|0;
+
+                var mx = (type%xIndexMax);
+                var my = (type/xIndexMax)|0;
+
+                var dx = xIndex*self.chipWidth;
+                var dy = yIndex*self.chipHeight;
+
+                shape.canvas.drawTexture(texture,
+                    mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
+                    dx, dy, self.chipWidth, self.chipHeight
+                    );
+            }.bind(this));
+
+        },
+
+        _buildObject: function(layer) {
+            var self = this;
+            
+            var group = tm.app.CanvasElement().addChildTo(self);
+            group.width = layer.width;
+            group.height = layer.height;
+            
+            layer.objects.forEach(function(obj) {
+                var _class  = window[obj.type] || tm.app[obj.type];
+                var initParam = null;
+                if (obj.properties.init) {
+                    initParam = JSON.parse(obj.properties.init);
+                }
+                var element = _class.apply(null, initParam).addChildTo(group);
+                var props   = obj.properties;
+                for (var key in props) {
+                    if (key == "init") continue ;
+                    var value = props[key];
+                    element[key] = value;
+                }
+                
+                element.x = obj.x;
+                element.y = obj.y;
+                element.width = obj.width;
+                element.height = obj.height;
+            });
+
+            self[layer.name] = group;
+
         },
 
     });
@@ -12049,7 +12156,8 @@ tm.app = tm.app || {};
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
-            this.touch      = tm.input.Touch(this.element);
+            this.touches    = tm.input.Touches(this.element, 3);
+            this.touch      = this.touches[0];
             // キーボードを生成
             this.keyboard   = tm.input.Keyboard();
             
@@ -12227,7 +12335,7 @@ tm.app = tm.app || {};
             // デバイス系 Update
             this.mouse.update();
             this.keyboard.update();
-            this.touch.update();
+            this.touches.update();
             
             if (this.isPlaying) {
                 this.currentScene._update(this);
@@ -12360,7 +12468,9 @@ tm.app = tm.app || {};
             
             // マウスとタッチの座標更新関数をパワーアップ
             this.mouse._mousemove = this.mouse._mousemoveScale;
-            this.touch._touchmove = this.touch._touchmoveScale;
+            this.touches.each(function(touch) {
+                touch._touchmove = touch._touchmoveScale;
+            });
         },
         
         _draw: function()
@@ -12403,7 +12513,6 @@ tm.app = tm.app || {};
     });
 
 })();
-
 
 
 
@@ -12582,11 +12691,14 @@ tm.app = tm.app || {};
         
         init: function(element) {
             this.element = element;
+
+            this.hitFlags = [];
+            this.downFlags= [];
         },
         
         update: function(app) {
             if (this.enabled === false) return ;
-            
+
             var elm = this.element;
             var p   = app.pointing;
             
@@ -12595,42 +12707,88 @@ tm.app = tm.app || {};
             this.hitFlag    = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
-                elm.dispatchEvent( tm.event.MouseEvent("mouseover", app) );
-                elm.dispatchEvent( tm.event.TouchEvent("touchover", app) );
-                elm.dispatchEvent( tm.event.PointingEvent("pointingover", app) );
+                this._dispatchEvent("mouseover", "touchover", "pointingover");
             }
             
             if (prevHitFlag && !this.hitFlag) {
-                elm.dispatchEvent( tm.event.MouseEvent("mouseout", app) );
-                elm.dispatchEvent( tm.event.TouchEvent("touchout", app) );
-                elm.dispatchEvent( tm.event.PointingEvent("pointingout", app) );
+                this._dispatchEvent("mouseout", "touchout", "pointingout");
             }
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
-                    elm.dispatchEvent( tm.event.MouseEvent("mousedown", app) );
-                    elm.dispatchEvent( tm.event.TouchEvent("touchstart", app) );
-                    elm.dispatchEvent( tm.event.PointingEvent("pointingstart", app) );
+                    this._dispatchEvent("mousedown", "touchstart", "pointingstart");
                     this.downFlag = true;
                 }
             }
             
             if (this.downFlag) {
-                elm.dispatchEvent( tm.event.MouseEvent("mousemove", app) );
-                elm.dispatchEvent( tm.event.TouchEvent("touchmove", app) );
-                elm.dispatchEvent( tm.event.PointingEvent("pointingmove", app) );
+                this._dispatchEvent("mousemove", "touchmove", "pointingmove");
             }
             
             if (this.downFlag==true && p.getPointingEnd()) {
-                elm.dispatchEvent( tm.event.MouseEvent("mouseup", app) );
-                elm.dispatchEvent( tm.event.TouchEvent("touchend", app) );
-                elm.dispatchEvent( tm.event.PointingEvent("pointingend", app) );
+                this._dispatchEvent("mouseup", "touchend", "pointingend");
                 this.downFlag = false;
             }
+        },
+
+        _check: function(app, p, index) {
+            if (this.enabled === false) return ;
+
+            var elm = this.element;
+            
+            var prevHitFlag = this.hitFlags[index];
+            
+            this.hitFlags[index]    = elm.isHitPoint(p.x, p.y);
+            
+            if (!prevHitFlag && this.hitFlags[index]) {
+                this._dispatchEvent("mouseover", "touchover", "pointingover", app, p);
+            }
+            
+            if (prevHitFlag && !this.hitFlags[index]) {
+                this._dispatchEvent("mouseout", "touchout", "pointingout", app, p);
+            }
+            
+            if (this.hitFlags[index]) {
+                if (p.getPointingStart()) {
+                    this._dispatchEvent("mousedown", "touchstart", "pointingstart", app, p);
+                    this.downFlags[index] = true;
+                }
+            }
+            
+            if (this.downFlags[index]) {
+                this._dispatchEvent("mousemove", "touchmove", "pointingmove", app, p);
+            }
+            
+            if (this.downFlags[index]==true && p.getPointingEnd()) {
+                this._dispatchEvent("mouseup", "touchend", "pointingend", app, p);
+                this.downFlags[index] = false;
+            }
+        },
+
+        _updatePC: function(app) {
+            this._check(app, app.pointing, 0);
+        },
+
+        _updateMobile: function(app) {
+            var self = this;
+            app.touches.each(function(touch, i) {
+                self._check(app, touch, i);
+            });
+        },
+
+        _dispatchEvent: function(mouse, touch, pointing, app, p) {
+            var elm = this.element;
+
+            elm.dispatchEvent( tm.event.MouseEvent(mouse, app, p) );
+            elm.dispatchEvent( tm.event.TouchEvent(touch, app, p) );
+            elm.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
         },
         
         setBoundingType: function(type) { this.boundingType = type; },
     });
+    
+    tm.app.Interaction.prototype.update = (tm.isMobile) ?
+        tm.app.Interaction.prototype._updateMobile : tm.app.Interaction.prototype._updatePC;
 
     
     /**
@@ -13463,6 +13621,77 @@ tm.app = tm.app || {};
     });
     
 })();
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * pad
+     */
+    tm.app.Pad = tm.createClass({
+        superClass: tm.app.Shape,
+        
+        isTouching: false,
+        circle: null,
+        
+        init: function() {
+            this.superInit(120, 120);
+            
+            var c = this.canvas;
+            c.fillStyle = "#fff";
+            c.fillCircle(60, 60, 60);
+            c.fillStyle = "#eee";
+            
+            this._createCircle();
+            
+            this.interaction;
+            
+            this.alpha = 0.75;
+        },
+        
+        _createCircle: function() {
+            var circle = this.circle = tm.app.Shape(80, 80);
+            this.addChild(circle);
+            
+            var c = circle.canvas;
+            c.fillStyle = "#222";
+            c.setShadow("black", 2, 2, 2);
+            c.fillCircle(40, 40, 35);
+        },
+        
+        onpointingstart: function() {
+            this.isTouching = true;
+        },
+        
+        onpointingend: function() {
+            this.isTouching = false;
+            this.circle.position.set(0, 0);
+        },
+        
+        onpointingmove: function(e) {
+            if (this.isTouching==false) return ;
+            var p = e.pointing;
+            var v = tm.geom.Vector2(p.x - this.x, p.y - this.y);
+            var len = v.length();
+            v.div(len);
+            if (len > 40) len = 40;
+            
+            this.angle = Math.radToDeg(v.toAngle());
+            this.circle.position.set(v.x*len, v.y*len);
+            
+            // 大きさ
+            this.distance  = len/40.0;
+            // 向きベクトル
+            this.direction = v.mul(this.distance);
+        }
+        
+        
+    });
+    
+})();
+
 
 
 

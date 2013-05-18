@@ -37,7 +37,8 @@ tm.app = tm.app || {};
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
-            this.touch      = tm.input.Touch(this.element);
+            this.touches    = tm.input.Touches(this.element, 3);
+            this.touch      = this.touches[0];
             // キーボードを生成
             this.keyboard   = tm.input.Keyboard();
             
@@ -215,7 +216,7 @@ tm.app = tm.app || {};
             // デバイス系 Update
             this.mouse.update();
             this.keyboard.update();
-            this.touch.update();
+            this.touches.update();
             
             if (this.isPlaying) {
                 this.currentScene._update(this);
@@ -348,7 +349,9 @@ tm.app = tm.app || {};
             
             // マウスとタッチの座標更新関数をパワーアップ
             this.mouse._mousemove = this.mouse._mousemoveScale;
-            this.touch._touchmove = this.touch._touchmoveScale;
+            this.touches.each(function(touch) {
+                touch._touchmove = touch._touchmoveScale;
+            });
         },
         
         _draw: function()
@@ -391,6 +394,5 @@ tm.app = tm.app || {};
     });
 
 })();
-
 
 

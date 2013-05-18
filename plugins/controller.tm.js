@@ -51,9 +51,9 @@ tm.controller = tm.controller || {};
             this.circle.position.set(0, 0);
         },
         
-        onmousemove: function(e) {
+        onpointingmove: function(e) {
             if (this.isTouching==false) return ;
-            var p = e.app.pointing;
+            var p = e.pointing;
             var v = tm.geom.Vector2(p.x - this.x, p.y - this.y);
             var len = v.length();
             v.div(len);

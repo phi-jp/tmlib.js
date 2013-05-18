@@ -23,11 +23,14 @@ tm.app = tm.app || {};
         
         init: function(element) {
             this.element = element;
+
+            this.hitFlags = [];
+            this.downFlags= [];
         },
         
         update: function(app) {
             if (this.enabled === false) return ;
-            
+
             var elm = this.element;
             var p   = app.pointing;
             
@@ -36,42 +39,88 @@ tm.app = tm.app || {};
             this.hitFlag    = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag && this.hitFlag) {
-                elm.dispatchEvent( tm.event.MouseEvent("mouseover", app) );
-                elm.dispatchEvent( tm.event.TouchEvent("touchover", app) );
-                elm.dispatchEvent( tm.event.PointingEvent("pointingover", app) );
+                this._dispatchEvent("mouseover", "touchover", "pointingover");
             }
             
             if (prevHitFlag && !this.hitFlag) {
-                elm.dispatchEvent( tm.event.MouseEvent("mouseout", app) );
-                elm.dispatchEvent( tm.event.TouchEvent("touchout", app) );
-                elm.dispatchEvent( tm.event.PointingEvent("pointingout", app) );
+                this._dispatchEvent("mouseout", "touchout", "pointingout");
             }
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
-                    elm.dispatchEvent( tm.event.MouseEvent("mousedown", app) );
-                    elm.dispatchEvent( tm.event.TouchEvent("touchstart", app) );
-                    elm.dispatchEvent( tm.event.PointingEvent("pointingstart", app) );
+                    this._dispatchEvent("mousedown", "touchstart", "pointingstart");
                     this.downFlag = true;
                 }
             }
             
             if (this.downFlag) {
-                elm.dispatchEvent( tm.event.MouseEvent("mousemove", app) );
-                elm.dispatchEvent( tm.event.TouchEvent("touchmove", app) );
-                elm.dispatchEvent( tm.event.PointingEvent("pointingmove", app) );
+                this._dispatchEvent("mousemove", "touchmove", "pointingmove");
             }
             
             if (this.downFlag==true && p.getPointingEnd()) {
-                elm.dispatchEvent( tm.event.MouseEvent("mouseup", app) );
-                elm.dispatchEvent( tm.event.TouchEvent("touchend", app) );
-                elm.dispatchEvent( tm.event.PointingEvent("pointingend", app) );
+                this._dispatchEvent("mouseup", "touchend", "pointingend");
                 this.downFlag = false;
             }
+        },
+
+        _check: function(app, p, index) {
+            if (this.enabled === false) return ;
+
+            var elm = this.element;
+            
+            var prevHitFlag = this.hitFlags[index];
+            
+            this.hitFlags[index]    = elm.isHitPoint(p.x, p.y);
+            
+            if (!prevHitFlag && this.hitFlags[index]) {
+                this._dispatchEvent("mouseover", "touchover", "pointingover", app, p);
+            }
+            
+            if (prevHitFlag && !this.hitFlags[index]) {
+                this._dispatchEvent("mouseout", "touchout", "pointingout", app, p);
+            }
+            
+            if (this.hitFlags[index]) {
+                if (p.getPointingStart()) {
+                    this._dispatchEvent("mousedown", "touchstart", "pointingstart", app, p);
+                    this.downFlags[index] = true;
+                }
+            }
+            
+            if (this.downFlags[index]) {
+                this._dispatchEvent("mousemove", "touchmove", "pointingmove", app, p);
+            }
+            
+            if (this.downFlags[index]==true && p.getPointingEnd()) {
+                this._dispatchEvent("mouseup", "touchend", "pointingend", app, p);
+                this.downFlags[index] = false;
+            }
+        },
+
+        _updatePC: function(app) {
+            this._check(app, app.pointing, 0);
+        },
+
+        _updateMobile: function(app) {
+            var self = this;
+            app.touches.each(function(touch, i) {
+                self._check(app, touch, i);
+            });
+        },
+
+        _dispatchEvent: function(mouse, touch, pointing, app, p) {
+            var elm = this.element;
+
+            elm.dispatchEvent( tm.event.MouseEvent(mouse, app, p) );
+            elm.dispatchEvent( tm.event.TouchEvent(touch, app, p) );
+            elm.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
         },
         
         setBoundingType: function(type) { this.boundingType = type; },
     });
+    
+    tm.app.Interaction.prototype.update = (tm.isMobile) ?
+        tm.app.Interaction.prototype._updateMobile : tm.app.Interaction.prototype._updatePC;
 
     
     /**

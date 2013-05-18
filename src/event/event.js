@@ -70,10 +70,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
         
-        init: function(type, app) {
+        init: function(type, app, pointing) {
             this.superInit(type);
             
             this.app = app;
+            this.pointing = pointing;
         }
         
     });
@@ -93,10 +94,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
         
-        init: function(type, app) {
+        init: function(type, app, pointing) {
             this.superInit(type);
             
             this.app = app;
+            this.pointing = pointing;
         }
         
     });
@@ -115,10 +117,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
         
-        init: function(type, app) {
+        init: function(type, app, pointing) {
             this.superInit(type);
             
             this.app = app;
+            this.pointing = pointing;
         }
         
     });
