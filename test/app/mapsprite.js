@@ -231,9 +231,13 @@ tm.define("tests.mapsprite.DemoScene03", {
         }
 
         if (this.map && this.player) {
-            if (this.player.x > 32*10 && this.player.x < 32*24) {
-                this.map.x = - (this.player.x - 32*10);
-            }
+            this.map.x = - (this.player.x - 32*10);
+            if (this.map.x > 0) this.map.x = 0;
+            var right = -32*(34-20);
+            if (this.map.x < right) this.map.x = right;
+            // if (this.player.x > 32*10 && this.player.x < 32*24) {
+            //     console.log(this.map.x);
+            // }
             if (this.player.y > 32*7 && this.player.y < 32*27) {
                 this.map.y = - (this.player.y - 32*7);
             }
