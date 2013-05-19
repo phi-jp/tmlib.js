@@ -7139,6 +7139,7 @@ tm.input = tm.input || {};
                 for (var i=0; i<length; ++i) {
                     if (!self[i]._touch) {
                         target = self[i];
+                        break;
                     }
                 }
                 if (!target) return ;
