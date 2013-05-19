@@ -175,10 +175,9 @@ tm.define("tests.mapsprite.DemoScene03", {
             setTimeout(function() {
                 var player = tm.app.AnimationSprite(32, 48, ss).addChildTo(this.map.playerGroup);
                 player.origin.set(0, 0);
-                player.position.set(320, 320);
                 player.gotoAndPlay("forward");
-                player.xIndex = 10;
-                player.yIndex = 10;
+                player.xIndex = 31;
+                player.yIndex = 32;
                 player.moveTilePos = function() {
                     var x = player.xIndex*32;
                     var y = player.yIndex*32;
