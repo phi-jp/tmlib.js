@@ -43,6 +43,8 @@ module.exports = function(grunt) {
     "src/event/event.js",
     "src/event/eventdispatcher.js",
 
+    "src/asset/assetmanager.js",
+
     "src/input/keyboard.js",
     "src/input/mouse.js",
     "src/input/touch.js",
