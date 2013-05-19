@@ -72,6 +72,8 @@ var Mogura = tm.createClass({
         c.fillCircle(0, 0, this.radius);
         c.restore();
         
+
+        c.save();
         c.beginPath();
         c.rect(-this.radius, -this.radius, this.radius*2, this.radius + this.radius*0.2);
         c.clip();
@@ -79,6 +81,7 @@ var Mogura = tm.createClass({
         c.fillStyle = "brown";
         c.fillCircle(0, this.moguraPos, this.radius*0.6);
         c.fillRect(-this.radius*0.6, this.moguraPos, this.radius*2*0.6, this.radius);
+        c.restore();
     },
     
     onpointingstart: function() {

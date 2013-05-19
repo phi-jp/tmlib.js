@@ -114,7 +114,10 @@ tm.app = tm.app || {};
             this.frame = param.frame;
 
             if (typeof param.image == "string") {
-                this.image = tm.graphics.TextureManager.get(param.image);
+                if (!tm.asset.AssetManager.contains(param.image)) {
+                    tm.asset.AssetManager.load(param.image);
+                }
+                this.image = tm.asset.AssetManager.get(param.image);
             }
             else {
                 this.image = param.image;

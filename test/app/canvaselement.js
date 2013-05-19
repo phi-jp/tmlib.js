@@ -1,12 +1,17 @@
-tm.preload(function() {
-    tm.graphics.TextureManager.add("dummy", "http://dummyimage.com/128x128/0000ff/fff.png&text=dummy");
-});
 
 tm.define("tests.canvaselement.JSONLoadTestScene", {
     superClass: "tm.app.Scene",
  
     init: function() {
         this.superInit();
+
+        tm.asset.AssetManager.onload = function() {
+            this.setup();
+        }.bind(this);
+        tm.asset.AssetManager.load("dummy", "http://dummyimage.com/128x128/0000ff/fff.png&text=dummy.png");
+    },
+
+    setup: function() {
 
         this.fromJSON({
             children: [
@@ -97,7 +102,7 @@ tm.define("tests.canvaselement.JSONLoadTestScene", {
                 },
             ],
         });
-    }
+    },
 });
 
 
@@ -289,6 +294,7 @@ tm.define("tests.sprite.DemoScene", {
         this.superInit();
         
         var texture = tm.graphics.Texture("http://dummyimage.com/128x128/0000ff/fff.png&text=dummy");
+        tm.asset.AssetManager.set("dummy", texture);
         
         texture.onload = function() {
             var sprite = tm.app.Sprite(150, 50, "dummy").addChildTo(this);

@@ -58,55 +58,6 @@ tm.graphics = tm.graphics || {};
 })();
 
 (function(){
-    
-    /**
-     * @class
-     * テクスチャマネージャクラス
-     */
-    tm.graphics.TextureManager = {
-        textures: {},
-        loaded: true,
-    };
-    
-    /**
-     * @static
-     * @method
-     * 追加
-     */
-    tm.graphics.TextureManager.add = function(name, src)
-    {
-        if (src === undefined) { src = name; }
-        
-        this.textures[name] = tm.graphics.Texture(src);
-        this.loaded = false;
-        
-        return this.textures[name];
-    };
-    
-    /**
-     * @static
-     * @method
-     * 取得
-     */
-    tm.graphics.TextureManager.get = function(name)
-    {
-        return this.textures[name];
-    };
-    
-    /**
-     * ロードチェック
-     */
-    tm.graphics.TextureManager.isLoaded = function()
-    {
-        for (var key in this.textures) {
-            if (this.textures[key].loaded == false) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-
 
     /**
      * @static
@@ -114,6 +65,7 @@ tm.graphics = tm.graphics || {};
      * ### ref
      * http://dummyimage.com/
      */
+    /*
     tm.graphics.TextureManager.loadDummy = function(key, param)
     {
         param = param || {};
@@ -132,10 +84,8 @@ tm.graphics = tm.graphics || {};
         this.textures[key] = tm.graphics.Texture(src);
         this.loaded = false;
     };
+    */
 
-    
-    tm.addLoadCheckList(tm.graphics.TextureManager);
-    
 })();
 
 

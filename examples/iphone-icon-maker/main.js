@@ -9,40 +9,37 @@ var currentImage = null;
 var param    = {};
 
 /*
- * プレロード
- */
-tm.preload(function() {
-    tm.graphics.TextureManager.add("sample", "../../resource/img/kenkyo.jpg");
-});
-
-/*
  * メイン処理
  */
 tm.main(function() {
-    var texture = tm.graphics.TextureManager.get("sample").getElement();
+    var texture = tm.graphics.Texture("../../resource/img/kenkyo.jpg");
     original = tm.graphics.Canvas("#original");
     result   = tm.graphics.Canvas("#result");
-    currentImage = texture;
+    currentImage = texture.getElement();
     
-    // パラメータ設定
-    param.x = 0;
-    param.y = 0;
-    param.width = texture.width;
-    param.height= texture.height;
+    texture.onload = function() {
+        // パラメータ設定
+        param.x = 0;
+        param.y = 0;
+        param.width = texture.width;
+        param.height= texture.height;
+
+        // dat.GUI
+        var gui = new dat.GUI();
+        if (gui) {
+            gui.add(window, "output");
+            
+            // param
+            var paramFolder = gui.addFolder("param");
+            paramFolder.add(param, "x", 0, 1024, 1).onChange(refresh);
+            paramFolder.add(param, "y", 0, 1024, 1).onChange(refresh);
+            paramFolder.add(param, "width", 0, 1024, 1).onChange(refresh);
+            paramFolder.add(param, "height", 0, 1024, 1).onChange(refresh);
+            paramFolder.open();
+        }
+        refresh();
+    };
     
-    // dat.GUI
-    var gui = new dat.GUI();
-    if (gui) {
-        gui.add(window, "output");
-        
-        // param
-        var paramFolder = gui.addFolder("param");
-        paramFolder.add(param, "x", 0, 1024, 1).onChange(refresh);
-        paramFolder.add(param, "y", 0, 1024, 1).onChange(refresh);
-        paramFolder.add(param, "width", 0, 1024, 1).onChange(refresh);
-        paramFolder.add(param, "height", 0, 1024, 1).onChange(refresh);
-        paramFolder.open();
-    }
         
     // ドラッグ & ドロップ
     tm.dom.Element(window).event.add("dragover", function(e) {
@@ -64,8 +61,6 @@ tm.main(function() {
         };
         reader.readAsDataURL(file);
     });
-    
-    refresh();
 });
 
 var refresh = function() {

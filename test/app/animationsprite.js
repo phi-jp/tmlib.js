@@ -1,8 +1,7 @@
 
 tm.preload(function() {
-    tm.graphics.TextureManager.add("crash", "../../resource/img/crash/01.png");
     PLAYER_SPRITE_SHEET = tm.app.SpriteSheet({
-        image: "crash",
+        image: "../../resource/img/crash/01.png",
         frame: {
             width: 64,
             height: 64,

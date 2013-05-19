@@ -6,11 +6,16 @@ tm.sound = tm.sound || {};
 
 (function() {
 
+    var isAvailable = tm.global.webkitAudioContext ? true : false;
+    var context = isAvailable ? new webkitAudioContext() : null;
+
     /**
      * @class
      * WebAudioクラス
      */
     tm.sound.WebAudio = tm.createClass({
+        superClass: tm.event.EventDispatcher,
+
         loaded: false,
         context: null,
         buffer: null,
@@ -25,7 +30,9 @@ tm.sound = tm.sound || {};
          *　初期化
          */
         init: function(src_or_buffer) {
-            this.context = tm.sound.WebAudioManager.context;
+            this.superInit();
+
+            this.context = context;
             var type = typeof(src_or_buffer);
 
             if (type==="string") {
@@ -36,6 +43,7 @@ tm.sound = tm.sound || {};
                 this._setup();
                 this.buffer = src_or_buffer;
                 this.loaded = true;
+                this.dispatchEvent( tm.event.Event("load") );
             }
             else {
                 this._setup();
@@ -172,6 +180,7 @@ tm.sound = tm.sound || {};
                             self._setup();
                             self.buffer = buffer;
                             self.loaded = true;
+                            self.dispatchEvent( tm.event.Event("load") );
                         });
                     } else {
                         console.error(xhr);
@@ -243,55 +252,3 @@ tm.sound = tm.sound || {};
 
 
 
-(function() {
-
-    /**
-     * @class   WebAudioマネージャクラス
-     * WebAudioを管理するクラス
-     */
-    tm.sound.WebAudioManager = {
-        context: tm.sound.WebAudio.isAvailable ? new webkitAudioContext() : null,
-        sounds: {}
-    };
-
-    /**
-     * @static
-     * @method
-     * 追加
-     */
-    tm.sound.WebAudioManager.add = function(name, src) {
-        // 拡張子チェック
-        if (src.split('/').at(-1).indexOf('.') == -1) {
-            src += "." + tm.sound.Sound.SUPPORT_EXT;
-        }
-        
-        this.sounds[name] = tm.sound.WebAudio(src);
-        return this;
-    };
-
-    /**
-     * @static
-     * @method
-     * 取得
-     */
-    tm.sound.WebAudioManager.get = function(name) {
-        return this.sounds[name].clone();
-    };
-
-    /**
-     * @static
-     * @method
-     * ロードチェック
-     */
-    tm.sound.WebAudioManager.isLoaded = function() {
-        for (var key in this.sounds) {
-            if (this.sounds[key].loaded === false) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    tm.addLoadCheckList(tm.sound.WebAudioManager);
-
-})();

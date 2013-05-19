@@ -6416,12 +6416,19 @@ tm.event = tm.event || {};
         var texture = tm.graphics.Texture(path);
         return texture;
     };
+    var _soundFunc = function(path) {
+        var audio = tm.sound.WebAudio(path);
+        return audio;
+    };
 
     tm.asset.AssetManager.register("png", _textureFunc);
     tm.asset.AssetManager.register("gif", _textureFunc);
     tm.asset.AssetManager.register("jpg", _textureFunc);
     tm.asset.AssetManager.register("jpeg", _textureFunc);
 
+    tm.asset.AssetManager.register("wav", _soundFunc);
+    tm.asset.AssetManager.register("mp3", _soundFunc);
+    tm.asset.AssetManager.register("ogg", _soundFunc);
 })();
 
 
@@ -8675,55 +8682,6 @@ tm.graphics = tm.graphics || {};
 })();
 
 (function(){
-    
-    /**
-     * @class
-     * テクスチャマネージャクラス
-     */
-    tm.graphics.TextureManager = {
-        textures: {},
-        loaded: true,
-    };
-    
-    /**
-     * @static
-     * @method
-     * 追加
-     */
-    tm.graphics.TextureManager.add = function(name, src)
-    {
-        if (src === undefined) { src = name; }
-        
-        this.textures[name] = tm.graphics.Texture(src);
-        this.loaded = false;
-        
-        return this.textures[name];
-    };
-    
-    /**
-     * @static
-     * @method
-     * 取得
-     */
-    tm.graphics.TextureManager.get = function(name)
-    {
-        return this.textures[name];
-    };
-    
-    /**
-     * ロードチェック
-     */
-    tm.graphics.TextureManager.isLoaded = function()
-    {
-        for (var key in this.textures) {
-            if (this.textures[key].loaded == false) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-
 
     /**
      * @static
@@ -8731,6 +8689,7 @@ tm.graphics = tm.graphics || {};
      * ### ref
      * http://dummyimage.com/
      */
+    /*
     tm.graphics.TextureManager.loadDummy = function(key, param)
     {
         param = param || {};
@@ -8749,10 +8708,8 @@ tm.graphics = tm.graphics || {};
         this.textures[key] = tm.graphics.Texture(src);
         this.loaded = false;
     };
+    */
 
-    
-    tm.addLoadCheckList(tm.graphics.TextureManager);
-    
 })();
 
 
@@ -10778,7 +10735,7 @@ tm.app = tm.app || {};
             // 画像のみ渡された場合
             if (arguments.length == 1) {
                 var texture = arguments[0];
-                if (typeof texture == "string") texture = tm.graphics.TextureManager.get(texture);
+                if (typeof texture == "string") texture = tm.asset.AssetManager.get(texture);
                 
                 this.width = texture.width;
                 this.height= texture.height;
@@ -10826,7 +10783,7 @@ tm.app = tm.app || {};
             return this._image;
         },
         "set": function(image)  {
-            if (typeof image == "string") image = tm.graphics.TextureManager.get(image);
+            if (typeof image == "string") image = tm.asset.AssetManager.get(image);
             
             this._image = image;
             this.srcRect.x = 0;
@@ -10954,7 +10911,10 @@ tm.app = tm.app || {};
             this.frame = param.frame;
 
             if (typeof param.image == "string") {
-                this.image = tm.graphics.TextureManager.get(param.image);
+                if (!tm.asset.AssetManager.contains(param.image)) {
+                    tm.asset.AssetManager.load(param.image);
+                }
+                this.image = tm.asset.AssetManager.get(param.image);
             }
             else {
                 this.image = param.image;
@@ -11765,12 +11725,12 @@ tm.app = tm.app || {};
             this.alpha = 0.0;
             this.tweener.clear().fadeIn(100).call(function() {
                 if (param.assets) {
-                    tm.asset.AssetManager.load(param.assets);
                     tm.asset.AssetManager.onload = function() {
                         this.tweener.clear().fadeOut(200).call(function() {
                             this.app.replaceScene(param.nextScene());
                         }.bind(this));
                     }.bind(this);
+                    tm.asset.AssetManager.load(param.assets);
                 }
             }.bind(this));
         },
@@ -12109,14 +12069,14 @@ tm.app = tm.app || {};
                     }
                 }.bind(this);
                 this.tilesets.each(function(elm) {
-                    var image = tm.graphics.TextureManager.get(elm.image)
+                    var image = tm.asset.AssetManager.get(elm.image)
                     
                     if (image && image.loaded) {
                         // ロード済み
                         ++i;
                     }
                     else {
-                        var texture = tm.graphics.TextureManager.add(elm.image);
+                        var texture = tm.asset.AssetManager.load(elm.image);
                         texture.addEventListener("load", onloadimage);
                     }
                 });
@@ -12178,7 +12138,7 @@ tm.app = tm.app || {};
         _buildLayer: function(layer) {
             var self        = this;
             var mapSheet    = this.mapSheet;
-            var texture     = tm.graphics.TextureManager.get(mapSheet.tilesets[0].image);
+            var texture     = tm.asset.AssetManager.get(mapSheet.tilesets[0].image);
             var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
             var shape       = tm.app.Shape(this.width, this.height).addChildTo(this);
             shape.origin.set(0, 0);
@@ -14494,11 +14454,16 @@ tm.sound = tm.sound || {};
 
 (function() {
 
+    var isAvailable = tm.global.webkitAudioContext ? true : false;
+    var context = isAvailable ? new webkitAudioContext() : null;
+
     /**
      * @class
      * WebAudioクラス
      */
     tm.sound.WebAudio = tm.createClass({
+        superClass: tm.event.EventDispatcher,
+
         loaded: false,
         context: null,
         buffer: null,
@@ -14513,7 +14478,9 @@ tm.sound = tm.sound || {};
          *　初期化
          */
         init: function(src_or_buffer) {
-            this.context = tm.sound.WebAudioManager.context;
+            this.superInit();
+
+            this.context = context;
             var type = typeof(src_or_buffer);
 
             if (type==="string") {
@@ -14524,6 +14491,7 @@ tm.sound = tm.sound || {};
                 this._setup();
                 this.buffer = src_or_buffer;
                 this.loaded = true;
+                this.dispatchEvent( tm.event.Event("load") );
             }
             else {
                 this._setup();
@@ -14660,6 +14628,7 @@ tm.sound = tm.sound || {};
                             self._setup();
                             self.buffer = buffer;
                             self.loaded = true;
+                            self.dispatchEvent( tm.event.Event("load") );
                         });
                     } else {
                         console.error(xhr);
@@ -14731,58 +14700,7 @@ tm.sound = tm.sound || {};
 
 
 
-(function() {
 
-    /**
-     * @class   WebAudioマネージャクラス
-     * WebAudioを管理するクラス
-     */
-    tm.sound.WebAudioManager = {
-        context: tm.sound.WebAudio.isAvailable ? new webkitAudioContext() : null,
-        sounds: {}
-    };
-
-    /**
-     * @static
-     * @method
-     * 追加
-     */
-    tm.sound.WebAudioManager.add = function(name, src) {
-        // 拡張子チェック
-        if (src.split('/').at(-1).indexOf('.') == -1) {
-            src += "." + tm.sound.Sound.SUPPORT_EXT;
-        }
-        
-        this.sounds[name] = tm.sound.WebAudio(src);
-        return this;
-    };
-
-    /**
-     * @static
-     * @method
-     * 取得
-     */
-    tm.sound.WebAudioManager.get = function(name) {
-        return this.sounds[name].clone();
-    };
-
-    /**
-     * @static
-     * @method
-     * ロードチェック
-     */
-    tm.sound.WebAudioManager.isLoaded = function() {
-        for (var key in this.sounds) {
-            if (this.sounds[key].loaded === false) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    tm.addLoadCheckList(tm.sound.WebAudioManager);
-
-})();
 /*
  * twitter.js
  */

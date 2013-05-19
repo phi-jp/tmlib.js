@@ -28,7 +28,7 @@ tm.app = tm.app || {};
             // 画像のみ渡された場合
             if (arguments.length == 1) {
                 var texture = arguments[0];
-                if (typeof texture == "string") texture = tm.graphics.TextureManager.get(texture);
+                if (typeof texture == "string") texture = tm.asset.AssetManager.get(texture);
                 
                 this.width = texture.width;
                 this.height= texture.height;
@@ -76,7 +76,7 @@ tm.app = tm.app || {};
             return this._image;
         },
         "set": function(image)  {
-            if (typeof image == "string") image = tm.graphics.TextureManager.get(image);
+            if (typeof image == "string") image = tm.asset.AssetManager.get(image);
             
             this._image = image;
             this.srcRect.x = 0;

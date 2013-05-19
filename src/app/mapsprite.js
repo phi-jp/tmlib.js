@@ -203,14 +203,14 @@ tm.app = tm.app || {};
                     }
                 }.bind(this);
                 this.tilesets.each(function(elm) {
-                    var image = tm.graphics.TextureManager.get(elm.image)
+                    var image = tm.asset.AssetManager.get(elm.image)
                     
                     if (image && image.loaded) {
                         // ロード済み
                         ++i;
                     }
                     else {
-                        var texture = tm.graphics.TextureManager.add(elm.image);
+                        var texture = tm.asset.AssetManager.load(elm.image);
                         texture.addEventListener("load", onloadimage);
                     }
                 });
@@ -272,7 +272,7 @@ tm.app = tm.app || {};
         _buildLayer: function(layer) {
             var self        = this;
             var mapSheet    = this.mapSheet;
-            var texture     = tm.graphics.TextureManager.get(mapSheet.tilesets[0].image);
+            var texture     = tm.asset.AssetManager.get(mapSheet.tilesets[0].image);
             var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
             var shape       = tm.app.Shape(this.width, this.height).addChildTo(this);
             shape.origin.set(0, 0);

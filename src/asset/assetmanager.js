@@ -93,12 +93,19 @@
         var texture = tm.graphics.Texture(path);
         return texture;
     };
+    var _soundFunc = function(path) {
+        var audio = tm.sound.WebAudio(path);
+        return audio;
+    };
 
     tm.asset.AssetManager.register("png", _textureFunc);
     tm.asset.AssetManager.register("gif", _textureFunc);
     tm.asset.AssetManager.register("jpg", _textureFunc);
     tm.asset.AssetManager.register("jpeg", _textureFunc);
 
+    tm.asset.AssetManager.register("wav", _soundFunc);
+    tm.asset.AssetManager.register("mp3", _soundFunc);
+    tm.asset.AssetManager.register("ogg", _soundFunc);
 })();
 
 

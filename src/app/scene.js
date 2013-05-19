@@ -83,12 +83,12 @@ tm.app = tm.app || {};
             this.alpha = 0.0;
             this.tweener.clear().fadeIn(100).call(function() {
                 if (param.assets) {
-                    tm.asset.AssetManager.load(param.assets);
                     tm.asset.AssetManager.onload = function() {
                         this.tweener.clear().fadeOut(200).call(function() {
                             this.app.replaceScene(param.nextScene());
                         }.bind(this));
                     }.bind(this);
+                    tm.asset.AssetManager.load(param.assets);
                 }
             }.bind(this));
         },
