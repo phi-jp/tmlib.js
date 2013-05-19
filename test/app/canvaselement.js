@@ -133,36 +133,58 @@ tm.define("tests.canvaselement.ShapeTest", {
 });
 
 
-tm.preload(function() {
-    tm.graphics.TextureManager.add("title-bg", "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg");
-    tm.graphics.TextureManager.add("result-bg", "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg");
-});
 tm.define("tests.canvaselement.SceneTest", {
     superClass: "tm.app.Scene",
  
     init: function() {
         this.superInit();
+
+        var self = this;
+
+
+        tm.define("TitleScene", {
+            superClass: "tm.app.TitleScene",
+
+            init: function() {
+                this.superInit({
+                    width: 640,
+                    height: 480,
+                    backgroundImage: "title-bg"
+                });
+            },
+
+            onnextscene: function() {
+                app.replaceScene(ResultScene());
+            },
+        });
+
+        tm.define("ResultScene", {
+            superClass: "tm.app.ResultScene",
+
+            init: function() {
+                this.superInit({
+                    width: 640,
+                    height: 480,
+                    backgroundImage: "result-bg"
+                });
+            },
+
+            onnextscene: function() {
+                app.replaceScene(TitleScene());
+            },
+        });
     },
 
     onpointingstart: function() {
-    	var self = this;
-        var titleScene = tm.app.TitleScene({
-            width: 640,
-            height: 480,
-            backgroundImage: "title-bg"
-        });
-        titleScene.onnextscene = function() {
-            app.replaceScene(resultScene);
+        var ASSETS = {
+            "title-bg": "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg",
+            "result-bg": "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg"
         };
-        var resultScene = tm.app.ResultScene({
-            width: 640,
-            height: 480,
-            backgroundImage: "result-bg"
+        var loadingScene = tm.app.LoadingScene({
+            assets: ASSETS,
+            nextScene: TitleScene,
         });
-        resultScene.onnextscene = function() {
-            app.replaceScene(self);
-        };
-        app.replaceScene(titleScene);
+        app.replaceScene(loadingScene);
     }
 
 });

@@ -1,7 +1,4 @@
 tm.preload(function() {
-    tm.graphics.TextureManager.add("piyo", "piyo.png");
-    tm.graphics.TextureManager.add("9iIpS", "http://jsrun.it/assets/9/i/I/p/9iIpS.png");
-
     tm.util.ScriptManager.loadStats();
     tm.util.ScriptManager.loadDatGUI();
 });
@@ -19,8 +16,11 @@ tm.define("tests.benchmark.PiyoScene", {
 
         this.objList = [];
         this.maxCount = 100;
-        this._generateObject();
 
+        tm.asset.AssetManager.load("piyo", "piyo.png");
+        tm.asset.AssetManager.onload = function() {
+            this._generateObject();
+        }.bind(this);
     },
 
     onpointingstart: function() {
@@ -68,7 +68,7 @@ tm.define("tests.benchmark.PiyoScene", {
             objList[i] = container;
             this.addChild(container);
             for (var j = 0; j < CHILD_NUM; j++) {
-                var child = new tm.app.Sprite(32, 32, "piyo");
+                var child = new tm.app.Sprite(32, 32, tm.asset.AssetManager.get("piyo"));
                 child.originX = 0.5;
                 child.originY = 0.5;
                 var rad = j / CHILD_NUM * 360;
@@ -108,7 +108,6 @@ tm.define("tests.benchmark.HogeScene", {
 
         this.TOTAL = 1000;
         this.particles = [];
-        this._addParticle();
 
         app.enableStats();
         app.stats.domElement.style.zIndex = 1100;
@@ -118,6 +117,11 @@ tm.define("tests.benchmark.HogeScene", {
             this._addParticle();
         }.bind(this));
         gui.domElement.parentNode.style.zIndex = 20000;
+
+        tm.asset.AssetManager.load("9iIpS", "http://jsrun.it/assets/9/i/I/p/9iIpS.png");
+        tm.asset.AssetManager.onload = function() {
+            this._addParticle();
+        }.bind(this);
     },
 
     update: function(app) {
@@ -158,7 +162,7 @@ tm.define("tests.benchmark.HogeScene", {
         this._removeAllBall();
 
         for (i = 0; i < this.TOTAL; i++) {  
-            var ball = tm.app.Sprite(29, 29, "9iIpS");
+            var ball = tm.app.Sprite(29, 29, tm.asset.AssetManager.get("9iIpS"));
             ball.centerX = 0.5;
             ball.centerY = 0.5;
             ball.vx = 0;

@@ -2,25 +2,37 @@
  *
  */
 
-tm.preload(function() {
-    tm.graphics.TextureManager.add("tmlibIcon", "https://raw.github.com/phi1618/tmlib.js/0.1.5/examples/logo/icon.png");
-    tm.graphics.TextureManager.add("blogIcon", "https://raw.github.com/phi1618/tmlib.js/0.1.5/examples/logo/blog-icon.png");
-});
-
 tm.define("tests.button.DemoScene", {
     superClass: "tm.app.Scene",
 
     init: function() {
         this.superInit();
 
+        var ASSET = {
+            "tmlibIcon": "https://raw.github.com/phi1618/tmlib.js/0.1.5/examples/logo/icon.png",
+            "blogIcon": "https://raw.github.com/phi1618/tmlib.js/0.1.5/examples/logo/blog-icon.png"
+        };
+
+        var as = tm.asset.AssetManager;
+        as.load(ASSET);
+        as.onload = function() {
+            this.setup();
+        }.bind(this);
+    },
+
+    setup: function() {
+        var as = tm.asset.AssetManager;
+        var tmlibIcon = as.get("tmlibIcon");
+        var blogIcon = as.get("blogIcon");
+
         var labelButton = tm.app.LabelButton("label").addChildTo(this);
         labelButton.setPosition(100, 100).setSize(100, 50);
         labelButton.onpointingstart = function() { c.log("click label button."); };
         
-        var iconButton = tm.app.IconButton(tm.graphics.TextureManager.get("tmlibIcon")).addChildTo(this);
+        var iconButton = tm.app.IconButton(as.get("tmlibIcon")).addChildTo(this);
         iconButton.setPosition(100, 200).setSize(100, 100);
         iconButton.onpointingstart = function() { c.log("click icon button."); };
-        var iconButton = tm.app.IconButton(tm.graphics.TextureManager.get("blogIcon")).addChildTo(this);
+        var iconButton = tm.app.IconButton(as.get("blogIcon")).addChildTo(this);
         iconButton.setPosition(250, 200).setSize(100, 100);
         iconButton.onpointingstart = function() { c.log("click icon button."); };
         
