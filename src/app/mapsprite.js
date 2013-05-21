@@ -180,7 +180,7 @@ tm.app = tm.app || {};
         
         _checkImage: function() {
             var self = this;
-            if (this.tilesets) {
+            if (this.tilesets.length) {
                 var i = 0;
                 var len = this.tilesets.length;
                 
