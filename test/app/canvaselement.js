@@ -96,9 +96,9 @@ tm.define("tests.canvaselement.JSONLoadTestScene", {
                     name: "icon",
                     x   : 560,
                     y   : 400,
+                    image: "dummy",
                     width: 100,
                     height: 100,
-                    image: "dummy",
                 },
             ],
         });
@@ -293,11 +293,11 @@ tm.define("tests.sprite.DemoScene", {
     init: function() {
         this.superInit();
         
-        var texture = tm.graphics.Texture("http://dummyimage.com/128x128/0000ff/fff.png&text=dummy");
+        var texture = tm.asset.Texture("http://dummyimage.com/128x128/0000ff/fff.png&text=dummy");
         tm.asset.AssetManager.set("dummy", texture);
         
         texture.onload = function() {
-            var sprite = tm.app.Sprite(150, 50, "dummy").addChildTo(this);
+            var sprite = tm.app.Sprite("dummy", 150, 50).addChildTo(this);
             sprite.x = 200; sprite.y = 100;
             
             var sprite = tm.app.Sprite("dummy").addChildTo(this);

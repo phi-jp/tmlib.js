@@ -68,7 +68,7 @@ tm.define("tests.benchmark.PiyoScene", {
             objList[i] = container;
             this.addChild(container);
             for (var j = 0; j < CHILD_NUM; j++) {
-                var child = new tm.app.Sprite(32, 32, tm.asset.AssetManager.get("piyo"));
+                var child = new tm.app.Sprite("piyo");
                 child.originX = 0.5;
                 child.originY = 0.5;
                 var rad = j / CHILD_NUM * 360;
@@ -162,7 +162,7 @@ tm.define("tests.benchmark.HogeScene", {
         this._removeAllBall();
 
         for (i = 0; i < this.TOTAL; i++) {  
-            var ball = tm.app.Sprite(29, 29, tm.asset.AssetManager.get("9iIpS"));
+            var ball = tm.app.Sprite("9iIpS", 29, 29);
             ball.centerX = 0.5;
             ball.centerY = 0.5;
             ball.vx = 0;

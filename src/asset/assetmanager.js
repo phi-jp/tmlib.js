@@ -90,7 +90,7 @@
     tm.asset.AssetManager = tm.asset.AssetManager();
 
     var _textureFunc = function(path) {
-        var texture = tm.graphics.Texture(path);
+        var texture = tm.asset.Texture(path);
         return texture;
     };
     var _soundFunc = function(path) {

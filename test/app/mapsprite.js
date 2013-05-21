@@ -153,7 +153,7 @@ tm.define("tests.mapsprite.DemoScene03", {
             console.dir(this.map);
         }.bind(this);
 
-        var charaTexture = tm.graphics.Texture("../../resource/img/chara.png");
+        var charaTexture = tm.asset.Texture("../../resource/img/chara.png");
 
         var ss = tm.app.SpriteSheet({
             image: charaTexture,

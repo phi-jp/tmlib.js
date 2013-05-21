@@ -2,15 +2,13 @@
  * texture.js
  */
 
-tm.graphics = tm.graphics || {};
-
 (function() {
     
     /**
      * @class
      * テクスチャクラス
      */
-    tm.graphics.Texture = tm.createClass({
+    tm.define("tm.asset.Texture", {
         superClass: tm.event.EventDispatcher,
         
         element: null,
@@ -36,14 +34,13 @@ tm.graphics = tm.graphics || {};
         getElement: function() {
             return this.element;
         },
-        
     });
     
     /**
      * @property    width
      * 幅
      */
-    tm.graphics.Texture.prototype.getter("width", function() {
+    tm.asset.Texture.prototype.getter("width", function() {
         return this.element.width;
     });
     
@@ -51,7 +48,7 @@ tm.graphics = tm.graphics || {};
      * @property    height
      * 高さ
      */
-    tm.graphics.Texture.prototype.getter("height", function() {
+    tm.asset.Texture.prototype.getter("height", function() {
         return this.element.height;
     });
     

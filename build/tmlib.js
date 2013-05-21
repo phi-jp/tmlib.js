@@ -6413,7 +6413,7 @@ tm.event = tm.event || {};
     tm.asset.AssetManager = tm.asset.AssetManager();
 
     var _textureFunc = function(path) {
-        var texture = tm.graphics.Texture(path);
+        var texture = tm.asset.Texture(path);
         return texture;
     };
     var _soundFunc = function(path) {
@@ -6438,6 +6438,95 @@ tm.event = tm.event || {};
 
 
 
+
+
+
+/*
+ * texture.js
+ */
+
+(function() {
+    
+    /**
+     * @class
+     * テクスチャクラス
+     */
+    tm.define("tm.asset.Texture", {
+        superClass: tm.event.EventDispatcher,
+        
+        element: null,
+        loaded: false,
+        
+        /**
+         * 初期化
+         */
+        init: function(src) {
+            this.superInit();
+            
+            this.element = new Image();
+            this.element.src = src;
+            
+            var self = this;
+            this.element.onload = function() {
+                self.loaded = true;
+                var e = tm.event.Event("load");
+                self.dispatchEvent(e);
+            };
+        },
+        
+        getElement: function() {
+            return this.element;
+        },
+    });
+    
+    /**
+     * @property    width
+     * 幅
+     */
+    tm.asset.Texture.prototype.getter("width", function() {
+        return this.element.width;
+    });
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.asset.Texture.prototype.getter("height", function() {
+        return this.element.height;
+    });
+    
+})();
+
+(function(){
+
+    /**
+     * @static
+     * @method
+     * ### ref
+     * http://dummyimage.com/
+     */
+    /*
+    tm.graphics.TextureManager.loadDummy = function(key, param)
+    {
+        param = param || {};
+
+        var paths = ["http://dummyimage.com"];
+        paths.push(param.size || 256);
+        paths.push(param.bgColor || "aaa");
+        paths.push(param.color || "000");
+        paths.push(param.format || "png");
+
+        var src = paths.join('/');
+        if (param.text) {
+            src += '&text=' + param.text;
+        }
+
+        this.textures[key] = tm.graphics.Texture(src);
+        this.loaded = false;
+    };
+    */
+
+})();
 
 
 
@@ -8623,98 +8712,6 @@ tm.graphics = tm.graphics || {};
 
 
 /*
- * texture.js
- */
-
-tm.graphics = tm.graphics || {};
-
-(function() {
-    
-    /**
-     * @class
-     * テクスチャクラス
-     */
-    tm.graphics.Texture = tm.createClass({
-        superClass: tm.event.EventDispatcher,
-        
-        element: null,
-        loaded: false,
-        
-        /**
-         * 初期化
-         */
-        init: function(src) {
-            this.superInit();
-            
-            this.element = new Image();
-            this.element.src = src;
-            
-            var self = this;
-            this.element.onload = function() {
-                self.loaded = true;
-                var e = tm.event.Event("load");
-                self.dispatchEvent(e);
-            };
-        },
-        
-        getElement: function() {
-            return this.element;
-        },
-        
-    });
-    
-    /**
-     * @property    width
-     * 幅
-     */
-    tm.graphics.Texture.prototype.getter("width", function() {
-        return this.element.width;
-    });
-    
-    /**
-     * @property    height
-     * 高さ
-     */
-    tm.graphics.Texture.prototype.getter("height", function() {
-        return this.element.height;
-    });
-    
-})();
-
-(function(){
-
-    /**
-     * @static
-     * @method
-     * ### ref
-     * http://dummyimage.com/
-     */
-    /*
-    tm.graphics.TextureManager.loadDummy = function(key, param)
-    {
-        param = param || {};
-
-        var paths = ["http://dummyimage.com"];
-        paths.push(param.size || 256);
-        paths.push(param.bgColor || "aaa");
-        paths.push(param.color || "000");
-        paths.push(param.format || "png");
-
-        var src = paths.join('/');
-        if (param.text) {
-            src += '&text=' + param.text;
-        }
-
-        this.textures[key] = tm.graphics.Texture(src);
-        this.loaded = false;
-    };
-    */
-
-})();
-
-
-
-/*
  * bitmap.js
  */
 
@@ -10726,9 +10723,11 @@ tm.app = tm.app || {};
         /**
          * 初期化
          */
-        init: function(width, height, texture)
+        init: function(texture, width, height)
         {
             this.superInit();
+            
+            console.assert(arguments.length == 0 || texture instanceof tm.asset.Texture || typeof texture == "string", "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
             
             this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             

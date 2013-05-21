@@ -44,6 +44,7 @@ module.exports = function(grunt) {
     "src/event/eventdispatcher.js",
 
     "src/asset/assetmanager.js",
+    "src/asset/texture.js",
 
     "src/input/keyboard.js",
     "src/input/mouse.js",
@@ -52,7 +53,6 @@ module.exports = function(grunt) {
 
     "src/graphics/color.js",
     "src/graphics/canvas.js",
-    "src/graphics/texture.js",
     "src/graphics/bitmap.js",
     "src/graphics/filter.js",
     "src/graphics/gradient.js",

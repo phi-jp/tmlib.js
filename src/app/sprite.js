@@ -19,9 +19,11 @@ tm.app = tm.app || {};
         /**
          * 初期化
          */
-        init: function(width, height, texture)
+        init: function(texture, width, height)
         {
             this.superInit();
+            
+            console.assert(arguments.length == 0 || texture instanceof tm.asset.Texture || typeof texture == "string", "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
             
             this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             

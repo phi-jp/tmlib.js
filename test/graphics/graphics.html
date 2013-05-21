@@ -64,8 +64,8 @@
         <script id="test-script">
             
             tm.preload(function() {
-//                tm.graphics.TextureManager.add("img", "icon.png");
-                tm.graphics.TextureManager.add("img", "nehe.gif");
+//                tm.asset.TextureManager.add("img", "icon.png");
+                tm.asset.TextureManager.add("img", "nehe.gif");
             });
             
             tm.main(function() {
@@ -101,7 +101,7 @@
                     1.0, 1.0, 1.0, 1.0,
                 ]);
 
-                var img = tm.graphics.TextureManager.get("img");
+                var img = tm.asset.TextureManager.get("img");
                 var tex = graphics.createTexture(img);
                 var gl = graphics.gl;
                 gl.activeTexture(gl.TEXTURE0);
