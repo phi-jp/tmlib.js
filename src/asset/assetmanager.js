@@ -97,6 +97,11 @@
         var audio = tm.sound.WebAudio(path);
         return audio;
     };
+    
+    var _tmxFunc = function(path) {
+        var mapSheet = tm.app.MapSheet(path);
+        return mapSheet;
+    };
 
     tm.asset.AssetManager.register("png", _textureFunc);
     tm.asset.AssetManager.register("gif", _textureFunc);
@@ -106,6 +111,9 @@
     tm.asset.AssetManager.register("wav", _soundFunc);
     tm.asset.AssetManager.register("mp3", _soundFunc);
     tm.asset.AssetManager.register("ogg", _soundFunc);
+    
+    tm.asset.AssetManager.register("tmx", _tmxFunc);
+    
 })();
 
 

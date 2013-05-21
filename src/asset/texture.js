@@ -27,7 +27,7 @@
             this.element.onload = function() {
                 self.loaded = true;
                 var e = tm.event.Event("load");
-                self.dispatchEvent(e);
+                self.dispatchEvent( e );
             };
         },
         

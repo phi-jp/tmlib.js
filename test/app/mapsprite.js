@@ -2,14 +2,22 @@
  * test
  */
 
+var hoge = function(key, path) {
+    var as = tm.asset.AssetManager;
+    return as.load("hoge", "../../resource/tmx/testmap.tmx");
+};
+
 tm.define("tests.mapsprite.DemoScene00", {
     superClass: "tm.app.Scene",
 
     init: function() {
         this.superInit();
         
-        var mapSheet = tm.app.MapSheet("../../resource/tmx/testmap.tmx");
-        mapSheet.onload = function() {
+        var as = tm.asset.AssetManager;
+        as.load("sample", "../../resource/tmx/testmap.tmx");
+        var mapSheet = as.get("sample");
+        mapSheet.onload = function()
+        {
             this.map = tm.app.MapSprite(32, 32, mapSheet).addChildTo(this);
             this.update = this._move;
         }.bind(this);

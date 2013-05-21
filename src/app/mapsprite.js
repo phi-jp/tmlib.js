@@ -190,11 +190,12 @@ tm.app = tm.app || {};
         },
         
         _checkImage: function() {
+            var self = this;
             if (this.tilesets) {
                 var i = 0;
                 var len = this.tilesets.length;
                 
-                var onloadimage = function() {
+                var _onloadimage = function() {
                     i++;
                     if (i==len) {
                         this.loaded = true;
@@ -202,16 +203,28 @@ tm.app = tm.app || {};
                         this.dispatchEvent(e);
                     }
                 }.bind(this);
+                
                 this.tilesets.each(function(elm) {
                     var image = tm.asset.AssetManager.get(elm.image)
                     
-                    if (image && image.loaded) {
-                        // ロード済み
-                        ++i;
+                    if (image) {
+                        if (image.loaded) {
+                            // ロード済み
+                            ++i;
+                            if (i==len) {
+                                this.loaded = true;
+                                var e = tm.event.Event("load");
+                                self.dispatchEvent(e);
+                            }
+                        }
+                        else {
+                            image.addEventListener("load", _onloadimage);
+                        }
                     }
                     else {
-                        var texture = tm.asset.AssetManager.load(elm.image);
-                        texture.addEventListener("load", onloadimage);
+                        tm.asset.AssetManager.load(elm.image);
+                        var texture = tm.asset.AssetManager.get(elm.image);
+                        texture.addEventListener("load", _onloadimage);
                     }
                 });
                 
