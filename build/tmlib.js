@@ -11878,17 +11878,6 @@ tm.app = tm.app || {};
 tm.app = tm.app || {};
 
 (function() {
-    tm.app.MapSheetManager = {
-        maps: {},
-    };
-
-    tm.app.MapSheetManager.load = function(key, path) {
-        this.maps[key] = tm.app.MapSheet(path);
-    };
-
-    tm.app.MapSheetManager.get = function(key) {
-        return this.maps[key];
-    };
 
     tm.define("tm.app.MapSheet", {
         superClass: "tm.event.EventDispatcher",
@@ -12089,11 +12078,9 @@ tm.app = tm.app || {};
                                 var e = tm.event.Event("load");
                                 self.dispatchEvent(e);
                             }
-                            alert(1);
                         }
                         else {
                             image.addEventListener("load", _onloadimage);
-                            alert(2);
                         }
                     }
                     else {
@@ -12120,26 +12107,25 @@ tm.app = tm.app || {};
 (function() {
 
     tm.define("tm.app.MapSprite", {
-        superClass: "tm.app.Shape",
+        superClass: "tm.app.CanvasElement",
 
-        init: function(chipWidth, chipHeight, mapSheet) {
+        init: function(mapSheet, chipWidth, chipHeight) {
             this.superInit();
 
             if (typeof mapSheet == "string") {
-                this.mapSheet = tm.app.MapSheetManager.get(mapSheet);
+                this.mapSheet = tm.asset.AssetManager.get(mapSheet);
             }
             else {
                 this.mapSheet = mapSheet;
             }
 
-            this.chipWidth  = chipWidth;
-            this.chipHeight = chipHeight;
+            this.chipWidth  = chipWidth  || 32;
+            this.chipHeight = chipHeight || 32;
 
             this.originX = this.originY = 0;
 
             this.width = chipWidth*this.mapSheet.width;
             this.height= chipWidth*this.mapSheet.height;
-            this.canvas.resize(this.width, this.height);
 
             this._build();
         },
@@ -12680,7 +12666,7 @@ tm.app = tm.app || {};
                 obj.draw = renderFuncList["sprite"];
             }
             else if (obj instanceof tm.app.MapSprite) {
-                obj.draw = renderFuncList["shape"];
+                obj.draw = function() {};
             }
             else if (obj instanceof tm.app.Label) {
                 obj.draw = renderFuncList["label"];

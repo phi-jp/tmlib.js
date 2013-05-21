@@ -52,7 +52,7 @@
                 obj.draw = renderFuncList["sprite"];
             }
             else if (obj instanceof tm.app.MapSprite) {
-                obj.draw = renderFuncList["shape"];
+                obj.draw = function() {};
             }
             else if (obj instanceof tm.app.Label) {
                 obj.draw = renderFuncList["label"];
