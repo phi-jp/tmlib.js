@@ -12039,13 +12039,9 @@ tm.app = tm.app || {};
         _attrToJSON: function(source) {
             var obj = {};
             for (var i = 0; i < source.attributes.length; i++) {
-                if (source.attributes[i].name !== 'name') {
-                    //attributeのvalueが数値にパースできたら数値を、
-                    //出来なかったらそのまま突っ込む
-                    var val = source.attributes[i].value;
-                    val = isNaN(parseFloat(val))? val: parseFloat(val);
-                    obj[source.attributes[i].name] = val;
-                }
+                var val = source.attributes[i].value;
+                val = isNaN(parseFloat(val))? val: parseFloat(val);
+                obj[source.attributes[i].name] = val;
             }
             
             return obj;
@@ -12200,6 +12196,8 @@ tm.app = tm.app || {};
                 element.y = obj.y;
                 element.width = obj.width;
                 element.height = obj.height;
+                
+                group[obj.name] = element;
             });
 
             self[layer.name] = group;
@@ -12646,6 +12644,19 @@ tm.app = tm.app || {};
             context.strokeStyle    = obj.strokeStyle;
             context.globalAlpha    = obj._worldAlpha;
             context.globalCompositeOperation = obj.blendMode;
+            
+            if (obj.shadowBlur) {
+                context.shadowColor   = obj.shadowColor;
+                context.shadowOffsetX = obj.shadowOffsetX;
+                context.shadowOffsetY = obj.shadowOffsetY;
+                context.shadowBlur    = obj.shadowBlur;
+            }
+            else {
+                context.shadowOffsetX = 0;
+                context.shadowOffsetY = 0;
+                context.shadowColor   = "rgba(0, 0, 0, 0)";
+            }
+            
             // 行列をセット
             var m = obj._worldMatrix.m;
             context.setTransform( m[0], m[3], m[1], m[4], m[2], m[5] );

@@ -166,13 +166,9 @@ tm.app = tm.app || {};
         _attrToJSON: function(source) {
             var obj = {};
             for (var i = 0; i < source.attributes.length; i++) {
-                if (source.attributes[i].name !== 'name') {
-                    //attributeのvalueが数値にパースできたら数値を、
-                    //出来なかったらそのまま突っ込む
-                    var val = source.attributes[i].value;
-                    val = isNaN(parseFloat(val))? val: parseFloat(val);
-                    obj[source.attributes[i].name] = val;
-                }
+                var val = source.attributes[i].value;
+                val = isNaN(parseFloat(val))? val: parseFloat(val);
+                obj[source.attributes[i].name] = val;
             }
             
             return obj;
@@ -327,6 +323,8 @@ tm.app = tm.app || {};
                 element.y = obj.y;
                 element.width = obj.width;
                 element.height = obj.height;
+                
+                group[obj.name] = element;
             });
 
             self[layer.name] = group;
