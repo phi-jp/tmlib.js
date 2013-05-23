@@ -32,6 +32,19 @@
             context.strokeStyle    = obj.strokeStyle;
             context.globalAlpha    = obj._worldAlpha;
             context.globalCompositeOperation = obj.blendMode;
+            
+            if (obj.shadowBlur) {
+                context.shadowColor   = obj.shadowColor;
+                context.shadowOffsetX = obj.shadowOffsetX;
+                context.shadowOffsetY = obj.shadowOffsetY;
+                context.shadowBlur    = obj.shadowBlur;
+            }
+            else {
+                context.shadowOffsetX = 0;
+                context.shadowOffsetY = 0;
+                context.shadowColor   = "rgba(0, 0, 0, 0)";
+            }
+            
             // 行列をセット
             var m = obj._worldMatrix.m;
             context.setTransform( m[0], m[3], m[1], m[4], m[2], m[5] );
