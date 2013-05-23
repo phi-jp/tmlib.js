@@ -1,5 +1,5 @@
 /*
- * tmlib.js v0.1.6
+ * tmlib.js v0.1.7
  * http://github.com/phi1618/tmlib.js
  * MIT licensed
  * 

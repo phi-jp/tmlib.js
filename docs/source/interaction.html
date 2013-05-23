@@ -40,11 +40,14 @@ tm.app = tm.app || {};
         
         init: function(element) {
             this.element = element;
+
+            this.hitFlags = [];
+            this.downFlags= [];
         },
         
         update: function(app) {
             if (this.enabled === false) return ;
-            
+
             var elm = this.element;
             var p   = app.pointing;
             
@@ -53,46 +56,92 @@ tm.app = tm.app || {};
             this.hitFlag    = elm.isHitPoint(p.x, p.y);
             
             if (!prevHitFlag &amp;&amp; this.hitFlag) {
-                elm.dispatchEvent( tm.event.MouseEvent(&quot;mouseover&quot;, app) );
-                elm.dispatchEvent( tm.event.TouchEvent(&quot;touchover&quot;, app) );
-                elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingover&quot;, app) );
+                this._dispatchEvent(&quot;mouseover&quot;, &quot;touchover&quot;, &quot;pointingover&quot;);
             }
             
             if (prevHitFlag &amp;&amp; !this.hitFlag) {
-                elm.dispatchEvent( tm.event.MouseEvent(&quot;mouseout&quot;, app) );
-                elm.dispatchEvent( tm.event.TouchEvent(&quot;touchout&quot;, app) );
-                elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingout&quot;, app) );
+                this._dispatchEvent(&quot;mouseout&quot;, &quot;touchout&quot;, &quot;pointingout&quot;);
             }
             
             if (this.hitFlag) {
                 if (p.getPointingStart()) {
-                    elm.dispatchEvent( tm.event.MouseEvent(&quot;mousedown&quot;, app) );
-                    elm.dispatchEvent( tm.event.TouchEvent(&quot;touchstart&quot;, app) );
-                    elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingstart&quot;, app) );
+                    this._dispatchEvent(&quot;mousedown&quot;, &quot;touchstart&quot;, &quot;pointingstart&quot;);
                     this.downFlag = true;
                 }
             }
             
             if (this.downFlag) {
-                elm.dispatchEvent( tm.event.MouseEvent(&quot;mousemove&quot;, app) );
-                elm.dispatchEvent( tm.event.TouchEvent(&quot;touchmove&quot;, app) );
-                elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingmove&quot;, app) );
+                this._dispatchEvent(&quot;mousemove&quot;, &quot;touchmove&quot;, &quot;pointingmove&quot;);
             }
             
             if (this.downFlag==true &amp;&amp; p.getPointingEnd()) {
-                elm.dispatchEvent( tm.event.MouseEvent(&quot;mouseup&quot;, app) );
-                elm.dispatchEvent( tm.event.TouchEvent(&quot;touchend&quot;, app) );
-                elm.dispatchEvent( tm.event.PointingEvent(&quot;pointingend&quot;, app) );
+                this._dispatchEvent(&quot;mouseup&quot;, &quot;touchend&quot;, &quot;pointingend&quot;);
                 this.downFlag = false;
             }
         },
+
+        _check: function(app, p, index) {
+            if (this.enabled === false) return ;
+
+            var elm = this.element;
+            
+            var prevHitFlag = this.hitFlags[index];
+            
+            this.hitFlags[index]    = elm.isHitPoint(p.x, p.y);
+            
+            if (!prevHitFlag &amp;&amp; this.hitFlags[index]) {
+                this._dispatchEvent(&quot;mouseover&quot;, &quot;touchover&quot;, &quot;pointingover&quot;, app, p);
+            }
+            
+            if (prevHitFlag &amp;&amp; !this.hitFlags[index]) {
+                this._dispatchEvent(&quot;mouseout&quot;, &quot;touchout&quot;, &quot;pointingout&quot;, app, p);
+            }
+            
+            if (this.hitFlags[index]) {
+                if (p.getPointingStart()) {
+                    this._dispatchEvent(&quot;mousedown&quot;, &quot;touchstart&quot;, &quot;pointingstart&quot;, app, p);
+                    this.downFlags[index] = true;
+                }
+            }
+            
+            if (this.downFlags[index]) {
+                this._dispatchEvent(&quot;mousemove&quot;, &quot;touchmove&quot;, &quot;pointingmove&quot;, app, p);
+            }
+            
+            if (this.downFlags[index]==true &amp;&amp; p.getPointingEnd()) {
+                this._dispatchEvent(&quot;mouseup&quot;, &quot;touchend&quot;, &quot;pointingend&quot;, app, p);
+                this.downFlags[index] = false;
+            }
+        },
+
+        _updatePC: function(app) {
+            this._check(app, app.pointing, 0);
+        },
+
+        _updateMobile: function(app) {
+            var self = this;
+            app.touches.each(function(touch, i) {
+                self._check(app, touch, i);
+            });
+        },
+
+        _dispatchEvent: function(mouse, touch, pointing, app, p) {
+            var elm = this.element;
+
+            elm.dispatchEvent( tm.event.MouseEvent(mouse, app, p) );
+            elm.dispatchEvent( tm.event.TouchEvent(touch, app, p) );
+            elm.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
+        },
         
-<span id='tm-app-Element-property-interaction'>        setBoundingType: function(type) { this.boundingType = type; },
-</span>    });
+        setBoundingType: function(type) { this.boundingType = type; },
+    });
+    
+    tm.app.Interaction.prototype.update = (tm.isMobile) ?
+        tm.app.Interaction.prototype._updateMobile : tm.app.Interaction.prototype._updatePC;
 
     
-    /**
-     * @member      tm.app.Element
+<span id='tm-app-Element-property-interaction'>    /**
+</span>     * @member      tm.app.Element
      * @property    interaction
      * インタラクション
      */

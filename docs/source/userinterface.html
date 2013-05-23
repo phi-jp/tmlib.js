@@ -151,10 +151,10 @@ tm.app = tm.app || {};
             this.setPercent(v);
         },
     });
-<span id='tm-app-Gauge-property-ratio'>    
-</span>    
-    /**
-     * @property    ratio
+    
+    
+<span id='tm-app-Gauge-property-ratio'>    /**
+</span>     * @property    ratio
      * 比率
      */
     tm.app.Gauge.prototype.accessor(&quot;ratio&quot;, {
@@ -164,10 +164,10 @@ tm.app = tm.app || {};
         set: function(v) {
             this.setRatio(v);
         },
-<span id='tm-app-Gauge-property-targetProp'>    });
-</span>    
-    /**
-     * @property    targetProp
+    });
+    
+<span id='tm-app-Gauge-property-targetProp'>    /**
+</span>     * @property    targetProp
      * ターゲット
      */
     tm.app.Gauge.prototype.accessor(&quot;targetProp&quot;, {
@@ -180,6 +180,77 @@ tm.app = tm.app || {};
     });
     
 })();
+
+
+
+(function() {
+    
+<span id='tm-app-Pad'>    /**
+</span>     * @class
+     * pad
+     */
+    tm.app.Pad = tm.createClass({
+        superClass: tm.app.Shape,
+        
+        isTouching: false,
+        circle: null,
+        
+        init: function() {
+            this.superInit(120, 120);
+            
+            var c = this.canvas;
+            c.fillStyle = &quot;#fff&quot;;
+            c.fillCircle(60, 60, 60);
+            c.fillStyle = &quot;#eee&quot;;
+            
+            this._createCircle();
+            
+            this.interaction;
+            
+            this.alpha = 0.75;
+        },
+        
+        _createCircle: function() {
+            var circle = this.circle = tm.app.Shape(80, 80);
+            this.addChild(circle);
+            
+            var c = circle.canvas;
+            c.fillStyle = &quot;#222&quot;;
+            c.setShadow(&quot;black&quot;, 2, 2, 2);
+            c.fillCircle(40, 40, 35);
+        },
+        
+        onpointingstart: function() {
+            this.isTouching = true;
+        },
+        
+        onpointingend: function() {
+            this.isTouching = false;
+            this.circle.position.set(0, 0);
+        },
+        
+        onpointingmove: function(e) {
+            if (this.isTouching==false) return ;
+            var p = e.pointing;
+            var v = tm.geom.Vector2(p.x - this.x, p.y - this.y);
+            var len = v.length();
+            v.div(len);
+            if (len &gt; 40) len = 40;
+            
+            this.angle = Math.radToDeg(v.toAngle());
+            this.circle.position.set(v.x*len, v.y*len);
+            
+            // 大きさ
+            this.distance  = len/40.0;
+            // 向きベクトル
+            this.direction = v.mul(this.distance);
+        }
+        
+        
+    });
+    
+})();
+
 
 
 </pre>

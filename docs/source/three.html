@@ -48,10 +48,10 @@ tm.three = tm.three || {};
         isPlaying   : null,
         
         _scenes      : null,
-<span id='tm-three-ThreeApp-method-init'>        _sceneIndex  : 0,
-</span>        
-        /**
-         * 初期化
+        _sceneIndex  : 0,
+        
+<span id='tm-three-ThreeApp-method-init'>        /**
+</span>         * 初期化
          */
         init: function(canvas)
         {
@@ -90,13 +90,13 @@ tm.three = tm.three || {};
         resizeWindow: function() {
             this.width = innerWidth;
             this.height= innerHeight;
-<span id='tm-three-ThreeApp-method-fitWindow'>            this.renderer.setSize(this.width, this.height);
-</span>            
+            this.renderer.setSize(this.width, this.height);
+            
             return this;
         },
         
-        /**
-         * 画面にフィットさせる
+<span id='tm-three-ThreeApp-method-fitWindow'>        /**
+</span>         * 画面にフィットさせる
          */
         fitWindow: function(everFlag) {
             // 画面にフィット
@@ -137,8 +137,8 @@ tm.three = tm.three || {};
 
         _draw: function()
         {
-<span id='tm-three-ThreeApp-property-width'>            // 描画は全てのシーン行う
-</span>            for (var i=0, len=this._scenes.length; i&lt;len; ++i) {
+            // 描画は全てのシーン行う
+            for (var i=0, len=this._scenes.length; i&lt;len; ++i) {
                 this.renderer.render(this.currentScene, this.currentScene.camera);
             }
         },
@@ -146,23 +146,23 @@ tm.three = tm.three || {};
     });
     
     
-    /**
-<span id='tm-three-ThreeApp-property-height'>     * @property    width
-</span>     * 幅
+<span id='tm-three-ThreeApp-property-width'>    /**
+</span>     * @property    width
+     * 幅
      */
     tm.three.ThreeApp.prototype.accessor(&quot;width&quot;, {
         &quot;get&quot;: function()   { return this.element.width; },
         &quot;set&quot;: function(v)  { this.element.width = v; }
     });
     
-    /**
-     * @property    height
+<span id='tm-three-ThreeApp-property-height'>    /**
+</span>     * @property    height
      * 高さ
      */
-<span id='tm-three-Element'>    tm.three.ThreeApp.prototype.accessor(&quot;height&quot;, {
-</span>        &quot;get&quot;: function()   { return this.element.height; },
-<span id='tm-three-Element-method-init'>        &quot;set&quot;: function(v)  { this.element.height = v; }
-</span>    });
+    tm.three.ThreeApp.prototype.accessor(&quot;height&quot;, {
+        &quot;get&quot;: function()   { return this.element.height; },
+        &quot;set&quot;: function(v)  { this.element.height = v; }
+    });
     
 })();
 
@@ -171,15 +171,15 @@ tm.three = tm.three || {};
     
     if (!tm.global.THREE) return ;
 
-    /**
-     * @class
+<span id='tm-three-Element'>    /**
+</span>     * @class
      * シーン
      */
     tm.three.Element = tm.createClass({
 
         superClass: THREE.Object3D,
 
-<span id='tm-three-Element-method-update'>        /**
+<span id='tm-three-Element-method-init'>        /**
 </span>         * 初期化
          */
         init: function() {
@@ -189,8 +189,8 @@ tm.three = tm.three || {};
             tm.event.EventDispatcher.prototype.init.call(this);
         },
         
-        /**
-         * 更新処理
+<span id='tm-three-Element-method-update'>        /**
+</span>         * 更新処理
          */
         update: function() {},
 
@@ -209,14 +209,14 @@ tm.three = tm.three || {};
                 for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
                     var child = tempChildren[i];
                     child._update &amp;&amp; child._update(app);
-<span id='tm-three-MeshElement'>                }
-</span>                //this.execChildren(arguments.callee, app);
+                }
+                //this.execChildren(arguments.callee, app);
             }
         },
     });
     
-<span id='tm-three-MeshElement-method-init'>    // tm.event.EventDispatcher を継承
-</span>    tm.three.Element.prototype.$safe(tm.event.EventDispatcher.prototype);
+    // tm.event.EventDispatcher を継承
+    tm.three.Element.prototype.$safe(tm.event.EventDispatcher.prototype);
     
 })();
 
@@ -224,16 +224,16 @@ tm.three = tm.three || {};
     
     if (!tm.global.THREE) return ;
 
-    /**
-     * @class
+<span id='tm-three-MeshElement'>    /**
+</span>     * @class
      * Mesh
      */
     tm.three.MeshElement = tm.createClass({
         
         superClass: THREE.Mesh,
         
-        /**
-         * 初期化
+<span id='tm-three-MeshElement-method-init'>        /**
+</span>         * 初期化
          */
         init: function(geometry, material) {
             material = material || new THREE.MeshNormalMaterial();
@@ -338,15 +338,15 @@ tm.three = tm.three || {};
 
 
     tm.three.CanvasTexture = tm.createClass({
-<span id='tm-three-Scene'>        superClass: THREE.Texture,
-</span>
+        superClass: THREE.Texture,
+
         canvas: null,
 
         init: function() {
             this.canvas = tm.graphics.Canvas();
 
-<span id='tm-three-Scene-method-init'>            THREE.Texture.call(this, this.canvas.element);
-</span>            this.needsUpdate = true;
+            THREE.Texture.call(this, this.canvas.element);
+            this.needsUpdate = true;
         }
 
     });
@@ -358,16 +358,16 @@ tm.three = tm.three || {};
     
     if (!tm.global.THREE) return ;
 
-    /**
-     * @class
+<span id='tm-three-Scene'>    /**
+</span>     * @class
      * シーン
      */
     tm.three.Scene = tm.createClass({
         
         superClass: THREE.Scene,
         
-        /**
-         * 初期化
+<span id='tm-three-Scene-method-init'>        /**
+</span>         * 初期化
          */
         init: function(fov, aspect) {
             fov = fov || 60;
