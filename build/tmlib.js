@@ -6261,6 +6261,15 @@ tm.event = tm.event || {};
         init: function() {
             this._listeners = {};
         },
+
+        on: function(type, listener) {
+            if (this._listeners[type] === undefined) {
+                this._listeners[type] = [];
+            }
+            
+            this._listeners[type].push(listener);
+            return this;
+        },
         
         /**
          * イベントリスナー追加
