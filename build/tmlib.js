@@ -1703,7 +1703,6 @@ tm.util = tm.util || {};
 (function() {
     
     var AJAX_DEFAULT_SETTINGS = {
-        src: "",
         type :"GET",
         async: true,
         data: null,
@@ -10846,10 +10845,12 @@ tm.app = tm.app || {};
             
             if (typeof ss == "string") {
                 var ss = tm.asset.AssetManager.get(ss);
+                console.assert(ss, "not found " + ss);
             }
 
+            console.assert(typeof ss == "object", "AnimationSprite の第一引数はスプライトシートもしくはスプライトシート名に変わりました");
+
             this.ss = ss;
-            console.assert(ss, "not found " + ss);
             
             this.width  = width || ss.frame.width;
             this.height = height|| ss.frame.height;
