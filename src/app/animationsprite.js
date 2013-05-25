@@ -19,14 +19,20 @@ tm.app = tm.app || {};
         /**
          * 初期化
          */
-        init: function(width, height, ss)
+        init: function(ss, width, height)
         {
             this.superInit();
             
-            this.width  = width || 64;
-            this.height = height|| 64;
-            
+            if (typeof ss == "string") {
+                var ss = tm.asset.AssetManager.get(ss);
+            }
+
             this.ss = ss;
+            console.assert(ss, "not found " + ss);
+            
+            this.width  = width || ss.frame.width;
+            this.height = height|| ss.frame.height;
+
             this.currentFrame = 0;
             this.currentFrameIndex = 0;
             this.paused = true;
