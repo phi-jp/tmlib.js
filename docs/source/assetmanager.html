@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * assetmanger.js
+ */
+
+(function() {
+
+    tm.asset = tm.asset || {};
+
+
+    tm.define(&quot;tm.asset.AssetManager&quot;, {
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+
+        init: function() {
+            this.superInit();
+
+            this.assets = [];
+
+            this._funcs = [];
+            this._loadedCounter = 0;
+        },
+
+        load: function(key, path) {
+            if (typeof arguments[0] == 'string') {
+                path = (arguments.length &lt; 2) ? key : path;
+                this._load(key, path);
+            }
+            else {
+                var hash = arguments[0];
+                for (var key in hash) {
+                    var path = hash[key];
+                    this._load(key, path);
+                }
+            }
+
+            // 重複ロード対応
+            if (this.isLoaded()) {
+                var e = tm.event.Event(&quot;load&quot;);
+                this.dispatchEvent(e);
+            }
+
+            return this;
+        },
+
+        _load: function(key, path) {
+            if (this.contains(key)) return ;
+
+            var pathes = path.split('.');
+            var ext = pathes.last;
+
+            var asset = this._funcs[ext](path);
+            asset.addEventListener(&quot;load&quot;, this._checkLoadedFunc.bind(this));
+            this.assets[key] = asset;
+
+            return this;
+        },
+
+        get: function(key) {
+            return this.assets[key];
+        },
+
+        set: function(key, asset) {
+            this.assets[key] = asset;
+
+            return this;
+        },
+
+        contains: function(key) {
+            return (this.assets[key]) ? true : false;
+        },
+
+        register: function(type, fn) {
+            this._funcs[type] = fn;
+        },
+
+        isLoaded: function() {
+            return (this._loadedCounter == Object.keys(this.assets).length);
+        },
+
+        _checkLoadedFunc: function() {
+            this._loadedCounter++;
+
+            if (this.isLoaded()) {
+                var e = tm.event.Event(&quot;load&quot;);
+                this.dispatchEvent(e);
+            }
+        }
+
+    });
+
+    tm.asset.AssetManager = tm.asset.AssetManager();
+
+    var _textureFunc = function(path) {
+        var texture = tm.asset.Texture(path);
+        return texture;
+    };
+    var _soundFunc = function(path) {
+        var audio = tm.sound.WebAudio(path);
+        return audio;
+    };
+    
+    var _tmxFunc = function(path) {
+        var mapSheet = tm.app.MapSheet(path);
+        return mapSheet;
+    };
+
+    tm.asset.AssetManager.register(&quot;png&quot;, _textureFunc);
+    tm.asset.AssetManager.register(&quot;gif&quot;, _textureFunc);
+    tm.asset.AssetManager.register(&quot;jpg&quot;, _textureFunc);
+    tm.asset.AssetManager.register(&quot;jpeg&quot;, _textureFunc);
+
+    tm.asset.AssetManager.register(&quot;wav&quot;, _soundFunc);
+    tm.asset.AssetManager.register(&quot;mp3&quot;, _soundFunc);
+    tm.asset.AssetManager.register(&quot;ogg&quot;, _soundFunc);
+    
+    tm.asset.AssetManager.register(&quot;tmx&quot;, _tmxFunc);
+    
+})();
+
+
+
+
+
+
+
+
+
+
+</pre>
+</body>
+</html>

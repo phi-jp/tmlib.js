@@ -39,43 +39,43 @@ tm.dom = tm.dom || {};
         init: function(element) {
             this.element = element;
         },
-<span id='tm-dom-Attr-method-set'>        
-</span>        /**
-         * 属性をセット
+        
+<span id='tm-dom-Attr-method-set'>        /**
+</span>         * 属性をセット
          */
         set: function(name, value) {
             this.element.setAttribute(name, value);
             return this;
-<span id='tm-dom-Attr-method-add'>        },
-</span>        
-        /**
-         * 属性を追加
+        },
+        
+<span id='tm-dom-Attr-method-add'>        /**
+</span>         * 属性を追加
          */
         add: function(name, value) {
             var now = this.get(name);
             value = (now) ? now + ' ' + value : value;
-<span id='tm-dom-Attr-method-remove'>            this.element.setAttribute(name, value);
-</span>        },
+            this.element.setAttribute(name, value);
+        },
         
-        /**
-         * 属性を削除
+<span id='tm-dom-Attr-method-remove'>        /**
+</span>         * 属性を削除
          */
         remove: function(name, value) {
             var now = this.get(name);
             var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
             this.element.setAttribute(name, next.trim());
-<span id='tm-dom-Attr-method-get'>//            this.element.removeAttribute(name);
-</span>        },
+//            this.element.removeAttribute(name);
+        },
         
-        /**
-         * 属性を取得
+<span id='tm-dom-Attr-method-get'>        /**
+</span>         * 属性を取得
          */
         get: function(name) {
-<span id='tm-dom-Attr-method-contains'>            return this.element.getAttribute(name);
-</span>        },
+            return this.element.getAttribute(name);
+        },
 
-        /**
-         * 属性の存在チェック
+<span id='tm-dom-Attr-method-contains'>        /**
+</span>         * 属性の存在チェック
          */
         contains: function(name, value) {
             var now = this.get(name);
@@ -93,14 +93,14 @@ tm.dom = tm.dom || {};
             if (this.contains(name, value)) {
                 this.remove(name, value);
             } else {
-<span id='tm-dom-Attr-property-attr'>                this.add(name, value);
-</span>            }
+                this.add(name, value);
+            }
             return this;
         }
     });
     
-    /**
-     * Attr クラス
+<span id='tm-dom-Attr-property-attr'>    /**
+</span>     * Attr クラス
      * @property    attr
      */
     tm.dom.Element.prototype.getter(&quot;attr&quot;, function(){

@@ -36,16 +36,18 @@ tm.app = tm.app || {};
 <span id='tm-app-Sprite-method-init'>        /**
 </span>         * 初期化
          */
-        init: function(width, height, texture)
+        init: function(texture, width, height)
         {
             this.superInit();
+            
+            console.assert(arguments.length == 0 || texture instanceof tm.asset.Texture || typeof texture == &quot;string&quot;, &quot;Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました&quot;);
             
             this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             
             // 画像のみ渡された場合
             if (arguments.length == 1) {
                 var texture = arguments[0];
-                if (typeof texture == &quot;string&quot;) texture = tm.graphics.TextureManager.get(texture);
+                if (typeof texture == &quot;string&quot;) texture = tm.asset.AssetManager.get(texture);
                 
                 this.width = texture.width;
                 this.height= texture.height;
@@ -81,11 +83,11 @@ tm.app = tm.app || {};
             
         },
 
-<span id='tm-app-Sprite-property-image'>        _update: tm.app.CanvasElement.prototype._update,
-</span>    });
+        _update: tm.app.CanvasElement.prototype._update,
+    });
     
-    /**
-     * @property    image
+<span id='tm-app-Sprite-property-image'>    /**
+</span>     * @property    image
      * 高さ
      */
     tm.app.Sprite.prototype.accessor(&quot;image&quot;, {
@@ -93,7 +95,7 @@ tm.app = tm.app || {};
             return this._image;
         },
         &quot;set&quot;: function(image)  {
-            if (typeof image == &quot;string&quot;) image = tm.graphics.TextureManager.get(image);
+            if (typeof image == &quot;string&quot;) image = tm.asset.AssetManager.get(image);
             
             this._image = image;
             this.srcRect.x = 0;

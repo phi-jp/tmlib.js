@@ -69,10 +69,11 @@ tm.define("tests.timeline.CallTestScene", {
             .to({alpha:0}, 1000, 2000)
             .call(function() {
                 alert("finish")
-            }, 3000);
+            }, 500);
     },
 });
- 
+
+
 tm.define("tests.timeline.SetTestScene", {
     superClass: "tm.app.Scene",
  

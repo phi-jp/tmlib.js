@@ -32,11 +32,20 @@ tm.event = tm.event || {};
     tm.event.EventDispatcher = tm.createClass({
         
         init: function() {
-<span id='tm-event-EventDispatcher-method-addEventListener'>            this._listeners = {};
-</span>        },
+            this._listeners = {};
+        },
+
+        on: function(type, listener) {
+            if (this._listeners[type] === undefined) {
+                this._listeners[type] = [];
+            }
+            
+            this._listeners[type].push(listener);
+            return this;
+        },
         
-        /**
-         * イベントリスナー追加
+<span id='tm-event-EventDispatcher-method-addEventListener'>        /**
+</span>         * イベントリスナー追加
          */
         addEventListener: function(type, listener) {
             if (this._listeners[type] === undefined) {
@@ -44,11 +53,11 @@ tm.event = tm.event || {};
             }
             
             this._listeners[type].push(listener);
-<span id='tm-event-EventDispatcher-method-dispatchEvent'>            return this;
-</span>        },
+            return this;
+        },
         
-        /**
-         * イベント起動
+<span id='tm-event-EventDispatcher-method-dispatchEvent'>        /**
+</span>         * イベント起動
          */
         dispatchEvent: function(e) {
             e.target = this;
@@ -58,33 +67,33 @@ tm.event = tm.event || {};
             var listeners = this._listeners[e.type];
             if (listeners) {
                 for (var i=0,len=listeners.length; i&lt;len; ++i) {
-<span id='tm-event-EventDispatcher-method-hasEventListener'>                    listeners[i].call(this, e);
-</span>                }
+                    listeners[i].call(this, e);
+                }
             }
         },
         
-        /**
-         * 登録されたイベントがあるかをチェック
+<span id='tm-event-EventDispatcher-method-hasEventListener'>        /**
+</span>         * 登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
-<span id='tm-event-EventDispatcher-method-removeEventListener'>            if (this._listeners[type] === undefined &amp;&amp; !this[&quot;on&quot; + type]) return false;
-</span>            return true;
+            if (this._listeners[type] === undefined &amp;&amp; !this[&quot;on&quot; + type]) return false;
+            return true;
         },
         
-        /**
-         * リスナーを削除
+<span id='tm-event-EventDispatcher-method-removeEventListener'>        /**
+</span>         * リスナーを削除
          */
         removeEventListener: function(type, listener) {
             var listeners = this._listeners[type];
             var index = listeners.indexOf(listener);
-<span id='tm-event-EventDispatcher-method-clearEventListener'>            if (index != -1) {
-</span>                listeners.splice(index,1);
+            if (index != -1) {
+                listeners.splice(index,1);
             }
             return this;
         },
         
-        /**
-         * リスナーを全てクリア
+<span id='tm-event-EventDispatcher-method-clearEventListener'>        /**
+</span>         * リスナーを全てクリア
          */
         clearEventListener: function(type) {
             this._listeners[type] = [];

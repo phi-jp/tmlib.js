@@ -49,14 +49,16 @@
         <script src="../../src/dom/style.js"></script>
         <script src="../../src/dom/event.js"></script>
         <script src="../../src/dom/attr.js"></script>
+
         <script src="../../src/util/querystring.js"></script>
+        <script src="../../src/util/ajax.js"></script>
 
         <script src="../../src/event/event.js"></script>
         <script src="../../src/event/eventdispatcher.js"></script>
 
+        <script src="../../src/asset/texture.js"></script>
+        <script src="../../src/asset/spritesheet.js"></script>
         <script src="../../src/asset/assetmanager.js"></script>
-
-        <script src="../../src/graphics/texture.js"></script>
 
         <script src="../../plugins/console.tm.js"></script>
 
@@ -109,17 +111,18 @@
                 		var texture = tm.asset.AssetManager.get("kenkyo");
                 		document.body.appendChild(texture.element);
                 	};
-                }
+                },
+
+                loadTMSS: function() {
+                    var as = tm.asset.AssetManager;
+                    as.load("sample", "../../resource/tmss/crash.tmss");
+                    as.onload = function() {
+                        console.dir(as.get("sample"));
+                    };
+                },
             };
 
 
-        </script>
-
-        <script>
-            tm.dom.Element(window).event.add("load", function() {
-                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
-                prettyPrint();
-            });
         </script>
     </head>
 
@@ -132,15 +135,8 @@
                 <h2>Tests</h2>
                 <ul id="tests">
                 </ul>
-                <h2>Console</h2>
-                <pre id="console" class="prettyprint"></pre>
-            </section>
-            <section>
-                <h2>Code</h2>
-                <pre id="code" class="prettyprint"></pre>
             </section>
         </div>
-
 
     </body>
 </html>

@@ -1,0 +1,13 @@
+{
+	"image": "../../resource/img/crash/01.png",
+	"frame": {
+		"width": 64,
+		"height": 64,
+		"count": 64
+	},
+	"animations": {
+		"crash": [0, 32, "crash"],
+		"hoge": [32, 0, "crash", 5]
+	}
+}
+

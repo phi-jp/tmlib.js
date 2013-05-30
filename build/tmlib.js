@@ -1,5 +1,5 @@
 /*
- * tmlib.js v0.1.6
+ * tmlib.js v0.1.7
  * http://github.com/phi1618/tmlib.js
  * MIT licensed
  * 
@@ -2144,10 +2144,10 @@ tm.util = tm.util || {};
         version = version || "r11";
         var path = null;
         if (["r6", "r7", "r8", "r9", "10"].indexOf(version) != -1) {
-            path = "https://raw.github.com/mrdoob/stats.js/" + version + "/build/Stats.js";
+            path = "http://rawgithub.com/mrdoob/stats.js/" + version + "/build/Stats.js";
         }
         else {
-            path = "https://raw.github.com/mrdoob/stats.js/" + version + "/build/stats.min.js";
+            path = "http://rawgithub.com/mrdoob/stats.js/" + version + "/build/stats.min.js";
         }
         this.load(path);
     };
@@ -2175,7 +2175,7 @@ tm.util = tm.util || {};
      * Three.js を動的ロード
      */
     tm.util.ScriptManager.loadThree = function(version) {
-        var THREE_JS_URL = "https://raw.github.com/mrdoob/three.js/{version}/build/three.js";
+        var THREE_JS_URL = "http://rawgithub.com/mrdoob/three.js/{version}/build/three.js";
 //        var THREE_JS_URL = "https://raw.github.com/mrdoob/three.js/{version}/build/three.min.js";
         version = version || "r55";
 
@@ -2190,7 +2190,7 @@ tm.util = tm.util || {};
      * BulletML を動的ロード
      */
     tm.util.ScriptManager.loadBulletML = function(version) {
-        var BULLETML_FOR_TMLIB_JS_URL   = "https://raw.github.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js";
+        var BULLETML_FOR_TMLIB_JS_URL   = "http://rawgithub.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js";
         version = version || "v0.4.1";
         var path = BULLETML_FOR_TMLIB_JS_URL.format({version: version});        
         this.load(path);
@@ -6261,6 +6261,15 @@ tm.event = tm.event || {};
         init: function() {
             this._listeners = {};
         },
+
+        on: function(type, listener) {
+            if (this._listeners[type] === undefined) {
+                this._listeners[type] = [];
+            }
+            
+            this._listeners[type].push(listener);
+            return this;
+        },
         
         /**
          * イベントリスナー追加
@@ -6425,6 +6434,11 @@ tm.event = tm.event || {};
         var mapSheet = tm.app.MapSheet(path);
         return mapSheet;
     };
+    
+    var _tmssFunc = function(path) {
+        var mapSheet = tm.asset.SpriteSheet(path);
+        return mapSheet;
+    };
 
     tm.asset.AssetManager.register("png", _textureFunc);
     tm.asset.AssetManager.register("gif", _textureFunc);
@@ -6436,6 +6450,8 @@ tm.event = tm.event || {};
     tm.asset.AssetManager.register("ogg", _soundFunc);
     
     tm.asset.AssetManager.register("tmx", _tmxFunc);
+    
+    tm.asset.AssetManager.register("tmss", _tmssFunc);
     
 })();
 
@@ -10829,14 +10845,22 @@ tm.app = tm.app || {};
         /**
          * 初期化
          */
-        init: function(width, height, ss)
+        init: function(ss, width, height)
         {
             this.superInit();
             
-            this.width  = width || 64;
-            this.height = height|| 64;
-            
+            if (typeof ss == "string") {
+                var ss = tm.asset.AssetManager.get(ss);
+                console.assert(ss, "not found " + ss);
+            }
+
+            console.assert(typeof ss == "object", "AnimationSprite の第一引数はスプライトシートもしくはスプライトシート名に変わりました");
+
             this.ss = ss;
+            
+            this.width  = width || ss.frame.width;
+            this.height = height|| ss.frame.height;
+
             this.currentFrame = 0;
             this.currentFrameIndex = 0;
             this.paused = true;

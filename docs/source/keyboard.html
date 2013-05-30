@@ -31,9 +31,9 @@ tm.input = tm.input || {};
      */
     tm.input.Keyboard = tm.createClass({
         
-<span id='tm-input-Keyboard-property-element'>        
-</span>        /**
-         * target element
+        
+<span id='tm-input-Keyboard-property-element'>        /**
+</span>         * target element
          */
         element: null,
         
@@ -42,10 +42,10 @@ tm.input = tm.input || {};
         press   : null, // 押しているキー
         down    : null, // 押したキー
         up      : null, // 離したキー
-<span id='tm-input-Keyboard-method-init'>        last    : null, // 押していたキー
-</span>        
-        /**
-         * &lt;a href=&quot;http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html&quot;&gt;Test Program&lt;/a&gt;.
+        last    : null, // 押していたキー
+        
+<span id='tm-input-Keyboard-method-init'>        /**
+</span>         * &lt;a href=&quot;http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html&quot;&gt;Test Program&lt;/a&gt;.
          * ### Example
          * TM.loadScript(&quot;input&quot;, &quot;keyboard&quot;);
          *  
@@ -77,24 +77,24 @@ tm.input = tm.input || {};
                 // self.button |= 1&lt;&lt;e.button;
             });
             this.element.addEventListener(&quot;keypress&quot;, function(e){
-<span id='tm-input-Keyboard-method-run'>                // self.button &amp;= ~(1&lt;&lt;e.button);
-</span>            });
+                // self.button &amp;= ~(1&lt;&lt;e.button);
+            });
         },
         
-        /**
-         * run.
+<span id='tm-input-Keyboard-method-run'>        /**
+</span>         * run.
          * 自動でマウス情報を更新したい際に使用する
          */
         run: function(fps) {
             var self = this;
             fps = fps || 30;
-<span id='tm-input-Keyboard-method-update'>            tm.setLoop(function(){
-</span>                self.update();
+            tm.setLoop(function(){
+                self.update();
             }, 1000/fps);
         },
         
-        /**
-         * 情報更新処理
+<span id='tm-input-Keyboard-method-update'>        /**
+</span>         * 情報更新処理
          * マイフレーム呼んで下さい.
          */
         update: function() {
@@ -103,18 +103,18 @@ tm.input = tm.input || {};
                 this.last[k]    = this.press[k];
                 this.press[k]   = this.key[k];
                 
-<span id='tm-input-Keyboard-method-getKey'>                this.down[k] = (this.press[k] ^ this.last[k]) &amp; this.press[k];
-</span>                this.up[k] = (this.press[k] ^ this.last[k]) &amp; this.last[k];
+                this.down[k] = (this.press[k] ^ this.last[k]) &amp; this.press[k];
+                this.up[k] = (this.press[k] ^ this.last[k]) &amp; this.last[k];
             }
             
             return this;
         },
         
-        /**
-         * キーを押しているかをチェック
+<span id='tm-input-Keyboard-method-getKey'>        /**
+</span>         * キーを押しているかをチェック
          * @param   {Number/String} key keyCode or keyName
-<span id='tm-input-Keyboard-method-getKeyDown'>         * @returns {Boolean}   チェック結果
-</span>         */
+         * @returns {Boolean}   チェック結果
+         */
         getKey: function(key) {
             if (typeof(key) == &quot;string&quot;) {
                 key = KEY_CODE[key];
@@ -122,11 +122,11 @@ tm.input = tm.input || {};
             return this.press[key] == true;
         },
         
-        /**
-         * キーを押したかをチェック
+<span id='tm-input-Keyboard-method-getKeyDown'>        /**
+</span>         * キーを押したかをチェック
          * @param   {Number/String} key keyCode or keyName
-<span id='tm-input-Keyboard-method-getKeyUp'>         * @returns {Boolean}   チェック結果
-</span>         */
+         * @returns {Boolean}   チェック結果
+         */
         getKeyDown: function(key) {
             if (typeof(key) == &quot;string&quot;) {
                 key = KEY_CODE[key];
@@ -134,10 +134,10 @@ tm.input = tm.input || {};
             return this.down[key] == true;
         },
         
-        /**
-         * キーを離したかをチェック
-<span id='tm-input-Keyboard-method-getKeyAngle'>         * @param   {Number/String} key keyCode or keyName
-</span>         * @returns {Boolean}   チェック結果
+<span id='tm-input-Keyboard-method-getKeyUp'>        /**
+</span>         * キーを離したかをチェック
+         * @param   {Number/String} key keyCode or keyName
+         * @returns {Boolean}   チェック結果
          */
         getKeyUp: function(key) {
             if (typeof(key) == &quot;string&quot;) {
@@ -146,8 +146,8 @@ tm.input = tm.input || {};
             return this.up[key] == true;
         },
         
-        /**
-         * キーの方向を Angle(Degree) で取得
+<span id='tm-input-Keyboard-method-getKeyAngle'>        /**
+</span>         * キーの方向を Angle(Degree) で取得
          * @returns {Boolean}   角度(Degree)
          */
         getKeyAngle: function() {

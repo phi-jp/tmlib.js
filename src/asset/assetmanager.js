@@ -102,6 +102,11 @@
         var mapSheet = tm.app.MapSheet(path);
         return mapSheet;
     };
+    
+    var _tmssFunc = function(path) {
+        var mapSheet = tm.asset.SpriteSheet(path);
+        return mapSheet;
+    };
 
     tm.asset.AssetManager.register("png", _textureFunc);
     tm.asset.AssetManager.register("gif", _textureFunc);
@@ -113,6 +118,8 @@
     tm.asset.AssetManager.register("ogg", _soundFunc);
     
     tm.asset.AssetManager.register("tmx", _tmxFunc);
+    
+    tm.asset.AssetManager.register("tmss", _tmssFunc);
     
 })();
 

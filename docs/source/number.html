@@ -37,11 +37,11 @@
         var base = Math.pow(10, figure);
         var temp = this * base;
         temp = Math.round(temp);
-<span id='Number-method-ceil'>        return temp/base;
-</span>    });
+        return temp/base;
+    });
     
-    /**
-     * @method  ceil
+<span id='Number-method-ceil'>    /**
+</span>     * @method  ceil
      * 切り上げ.
      * 桁数指定版
      */
@@ -49,11 +49,11 @@
         figure = figure || 0;
         var base = Math.pow(10, figure);
         var temp = this * base;
-<span id='Number-method-floor'>        temp = Math.ceil(temp);
-</span>        return temp/base;
+        temp = Math.ceil(temp);
+        return temp/base;
     });
-    /**
-     * @method  floor
+<span id='Number-method-floor'>    /**
+</span>     * @method  floor
      * 切り捨て
      * 桁数指定版
      */
@@ -64,46 +64,46 @@
         temp = Math.floor(temp);
         
         // ~~this
-<span id='Number-method-toInt'>        // this|0
-</span>        
+        // this|0
+        
         return temp/base;
     });
     
-    /**
-     * @method  toInt
+<span id='Number-method-toInt'>    /**
+</span>     * @method  toInt
      * integer 型に変換する
      */
-<span id='Number-method-toHex'>    Number.defineInstanceMethod(&quot;toInt&quot;,  function() {
-</span>        return (this | 0);
+    Number.defineInstanceMethod(&quot;toInt&quot;,  function() {
+        return (this | 0);
     });
     
-    /**
-     * @method  toHex
+<span id='Number-method-toHex'>    /**
+</span>     * @method  toHex
      * 16進数化
      */
-<span id='Number-method-toBin'>    Number.defineInstanceMethod(&quot;toHex&quot;,  function() {
-</span>        return this.toString(16);
+    Number.defineInstanceMethod(&quot;toHex&quot;,  function() {
+        return this.toString(16);
     });
     
-    /**
-     * @method  toBin
+<span id='Number-method-toBin'>    /**
+</span>     * @method  toBin
      * 2進数化
      */
-<span id='Number-method-toUnsigned'>    Number.defineInstanceMethod(&quot;toBin&quot;,  function() {
-</span>        return this.toString(2);
+    Number.defineInstanceMethod(&quot;toBin&quot;,  function() {
+        return this.toString(2);
     });
     
     
-    /**
-     * @method  toUnsigned
+<span id='Number-method-toUnsigned'>    /**
+</span>     * @method  toUnsigned
      * unsigned 型に変換する
      */
-<span id='Number-method-padding'>    Number.defineInstanceMethod(&quot;toUnsigned&quot;,  function() {
-</span>        return this &gt;&gt;&gt; 0;
+    Number.defineInstanceMethod(&quot;toUnsigned&quot;,  function() {
+        return this &gt;&gt;&gt; 0;
     });
     
-    /**
-     * @method  padding
+<span id='Number-method-padding'>    /**
+</span>     * @method  padding
      * 文字埋め
      */
     Number.defineInstanceMethod(&quot;padding&quot;,  function(n, ch) {
