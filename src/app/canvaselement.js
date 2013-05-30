@@ -139,7 +139,10 @@ tm.app = tm.app || {};
                 group.height = layer.height;
                 
                 layer.objects.forEach(function(obj) {
-                    var _class  = window[obj.type] || tm.app[obj.type];
+                    var _class = tm.using(obj.type);
+                    if (Object.keys(_class).length === 0) {
+                        _class=tm.app[obj.type];
+                    }
                     var initParam = null;
                     if (obj.properties.init) {
                         initParam = JSON.parse(obj.properties.init);
@@ -169,7 +172,10 @@ tm.app = tm.app || {};
                     for (var i=0,len=value.length; i<len; ++i) {
                         var data = value[i];
                         var init = data["init"] || [];
-                        var _class = window[data.type] || tm.app[data.type];
+                        var _class = tm.using(data.type);
+                        if (Object.keys(_class).length === 0) {
+                            _class=tm.app[data.type];
+                        }
                         var elm = _class.apply(null, init).addChildTo(this);
                         elm.fromJSON(data);
                         this[data.name] = elm;
