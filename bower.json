@@ -16,6 +16,15 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "components"
+    "components",
+    "docs",
+    "examples",
+    "img",
+    "plugins",
+    "resource",
+    "src",
+    "starter",
+    "test",
+    "utils"
   ]
 }
