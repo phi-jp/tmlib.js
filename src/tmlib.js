@@ -15,6 +15,12 @@
 var tm = tm || {};
 tm.global = window || global || this;
 
+// node.js
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = tm;
+}
+
+
 (function() {
 
     /**
