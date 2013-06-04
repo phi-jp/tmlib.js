@@ -10070,7 +10070,11 @@ tm.app = tm.app || {};
             this.origin   = tm.geom.Vector2(0.5, 0.5);
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
+            
             this.boundingType = "circle";
+            this.interactive = false;
+            this.hitFlags = [];
+            this.downFlags= [];
 
             this._worldMatrix = tm.geom.Matrix33();
             this._worldMatrix.identity();
@@ -10212,8 +10216,10 @@ tm.app = tm.app || {};
          * グローバル座標をローカル座標に変換
          */
         globalToLocal: function(p) {
-            var matrix = this.getFinalMatrix();
+            // var matrix = this.getFinalMatrix();
+            var matrix = this._worldMatrix.clone();
             matrix.invert();
+            matrix.transpose();
             
             return matrix.multiplyVector2(p);
         },
@@ -10249,6 +10255,100 @@ tm.app = tm.app || {};
             this.height = height;
             return this;
         },
+        
+        wakeUp: function() {
+            this.isUpdate = true;
+            return this;
+        },
+        
+        sleep: function() {
+            this.isUpdate = false;
+            return this;
+        },
+        
+        setInteractive: function(flag) {
+            this.interactive = flag;
+            return this;
+        },
+        
+        _update: function(app) {
+            // 更新有効チェック
+            if (this.isUpdate == false) return ;
+            
+            if (this.update) this.update(app);
+            
+            if (this.hasEventListener("enterframe")) {
+                var e = tm.event.Event("enterframe");
+                e.app = app;
+                this.dispatchEvent(e);
+            }
+            
+            if (this.interactive) {
+                this._checkPointing(app);
+            }
+            
+            // 子供達も実行
+            if (this.children.length > 0) {
+                var tempChildren = this.children.slice();
+                for (var i=0,len=tempChildren.length; i<len; ++i) {
+                    tempChildren[i]._update(app);
+                }
+            }
+        },
+        
+        _checkPointing: function(app) {
+            console.assert(false);
+        },
+        
+        _checkMouse: function(app) {
+            this.__checkPointing(app, app.pointing, 0);
+        },
+
+        _checkTouch: function(app) {
+            var self = this;
+            app.touches.each(function(touch, i) {
+                self.__checkPointing(app, touch, i);
+            });
+        },
+        
+        __checkPointing: function(app, p, index) {
+            var elm = this.element;
+            
+            var prevHitFlag = this.hitFlags[index];
+            
+            this.hitFlags[index]    = this.isHitPoint(p.x, p.y);
+            
+            if (!prevHitFlag && this.hitFlags[index]) {
+                this._dispatchPointingEvent("mouseover", "touchover", "pointingover", app, p);
+            }
+            
+            if (prevHitFlag && !this.hitFlags[index]) {
+                this._dispatchPointingEvent("mouseout", "touchout", "pointingout", app, p);
+            }
+            
+            if (this.hitFlags[index]) {
+                if (p.getPointingStart()) {
+                    this._dispatchPointingEvent("mousedown", "touchstart", "pointingstart", app, p);
+                    this.downFlags[index] = true;
+                }
+            }
+            
+            if (this.downFlags[index]) {
+                this._dispatchPointingEvent("mousemove", "touchmove", "pointingmove", app, p);
+            }
+            
+            if (this.downFlags[index]==true && p.getPointingEnd()) {
+                this._dispatchPointingEvent("mouseup", "touchend", "pointingend", app, p);
+                this.downFlags[index] = false;
+            }
+        },
+        
+        _dispatchPointingEvent: function(mouse, touch, pointing, app, p) {
+            this.dispatchEvent( tm.event.MouseEvent(mouse, app, p) );
+            this.dispatchEvent( tm.event.TouchEvent(touch, app, p) );
+            this.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
+        },
+        
         _dirtyCalc: function() {
             if (!this.parent) {
             	this._worldAlpha = this.alpha;
@@ -10295,8 +10395,6 @@ tm.app = tm.app || {};
             worldTransform[4] = b10 * a01 + b11 * a11;
             worldTransform[5] = b10 * a02 + b11 * a12 + b12;
         },
-        
-        
     });
  
     /**
@@ -10493,8 +10591,10 @@ tm.app = tm.app || {};
         this.isHitPoint   = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap["true"]);
         this.isHitElement = (_isHitElementMap[boundingType]) ? (_isHitElementMap[boundingType]) : (_isHitElementMap["true"]);
     };
- 
- 
+    
+    tm.app.Object2D.prototype._checkPointing = (tm.isMobile) ?
+        tm.app.Object2D.prototype._checkTouch : tm.app.Object2D.prototype._checkMouse;
+
     
 })();
 
@@ -10598,16 +10698,6 @@ tm.app = tm.app || {};
             return this;
         },
         
-        wakeUp: function() {
-            this.isUpdate = true;
-            return this;
-        },
-        
-        sleep: function() {
-            this.isUpdate = false;
-            return this;
-        },
-        
         show: function() {
             this.visible = true;
             return this;
@@ -10691,27 +10781,6 @@ tm.app = tm.app || {};
         
         toJSON: function() {
             // TODO:
-        },
-        
-        _update: function(app) {
-            // 更新有効チェック
-            if (this.isUpdate == false) return ;
-            
-            if (this.update) this.update(app);
-            
-            if (this.hasEventListener("enterframe")) {
-                var e = tm.event.Event("enterframe");
-                e.app = app;
-                this.dispatchEvent(e);
-            }
-            
-            // 子供達も実行
-            if (this.children.length > 0) {
-                var tempChildren = this.children.slice();
-                for (var i=0,len=tempChildren.length; i<len; ++i) {
-                    tempChildren[i]._update(app);
-                }
-            }
         },
         
         _refreshSize: function() {},
@@ -11529,8 +11598,8 @@ tm.app = tm.app || {};
             this.alpha = tm.app.LabelButton.DEFAULT_ALPHA;
             this.setAlign("center").setBaseline("middle");
             
-            this.interaction.enabled = true;
-            this.interaction.boundingType = "rect";
+            this.setInteractive(true);
+            this.boundingType = "rect";
             
             this.addEventListener("pointingover", function() {
                 this.tweener.clear();
@@ -11581,8 +11650,8 @@ tm.app = tm.app || {};
             
             this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
             
-            this.interaction.enabled = true;
-            this.interaction.boundingType = "rect";
+            this.setInteractive(true);
+            this.boundingType = "rect";
             this.addEventListener("pointingover", function() {
                 this.tweener.clear();
                 this.tweener.fade(1, 250);
@@ -11615,8 +11684,8 @@ tm.app = tm.app || {};
             this.backgroundColor = backgroundColor || "black";
             this.alpha = tm.app.GlossyButton.DEFAULT_ALPHA;
             
-            this.interaction.enabled = true;
-            this.interaction.boundingType = "rect";
+            this.setInteractive(true);
+            this.boundingType = "rect";
             this.addEventListener("pointingover", function() {
                 this.tweener.clear();
                 this.tweener.fade(1.0, 250);
@@ -11710,7 +11779,7 @@ tm.app = tm.app || {};
             this.boundingType = "none";
             
             // タッチに反応させる
-            this.interaction.enabled = true;
+            this.setInteractive(true);
         },
     });
     
@@ -12814,155 +12883,6 @@ tm.app = tm.app || {};
 
 
 /*
- * interactive.js
- */
-
-tm.app = tm.app || {};
-
-
-
-(function() {
-    
-    /**
-     * @class
-     * インタラクティブクラス
-     */
-    tm.app.Interaction = tm.createClass({
-        
-        hitFlag: false,
-        downFlag: false,
-        enabled: true,
-        hitTestFunc: null,
-        
-        _boundingType: "circle",
-        
-        init: function(element) {
-            this.element = element;
-
-            this.hitFlags = [];
-            this.downFlags= [];
-        },
-        
-        update: function(app) {
-            if (this.enabled === false) return ;
-
-            var elm = this.element;
-            var p   = app.pointing;
-            
-            var prevHitFlag = this.hitFlag;
-            
-            this.hitFlag    = elm.isHitPoint(p.x, p.y);
-            
-            if (!prevHitFlag && this.hitFlag) {
-                this._dispatchEvent("mouseover", "touchover", "pointingover");
-            }
-            
-            if (prevHitFlag && !this.hitFlag) {
-                this._dispatchEvent("mouseout", "touchout", "pointingout");
-            }
-            
-            if (this.hitFlag) {
-                if (p.getPointingStart()) {
-                    this._dispatchEvent("mousedown", "touchstart", "pointingstart");
-                    this.downFlag = true;
-                }
-            }
-            
-            if (this.downFlag) {
-                this._dispatchEvent("mousemove", "touchmove", "pointingmove");
-            }
-            
-            if (this.downFlag==true && p.getPointingEnd()) {
-                this._dispatchEvent("mouseup", "touchend", "pointingend");
-                this.downFlag = false;
-            }
-        },
-
-        _check: function(app, p, index) {
-            if (this.enabled === false) return ;
-
-            var elm = this.element;
-            
-            var prevHitFlag = this.hitFlags[index];
-            
-            this.hitFlags[index]    = elm.isHitPoint(p.x, p.y);
-            
-            if (!prevHitFlag && this.hitFlags[index]) {
-                this._dispatchEvent("mouseover", "touchover", "pointingover", app, p);
-            }
-            
-            if (prevHitFlag && !this.hitFlags[index]) {
-                this._dispatchEvent("mouseout", "touchout", "pointingout", app, p);
-            }
-            
-            if (this.hitFlags[index]) {
-                if (p.getPointingStart()) {
-                    this._dispatchEvent("mousedown", "touchstart", "pointingstart", app, p);
-                    this.downFlags[index] = true;
-                }
-            }
-            
-            if (this.downFlags[index]) {
-                this._dispatchEvent("mousemove", "touchmove", "pointingmove", app, p);
-            }
-            
-            if (this.downFlags[index]==true && p.getPointingEnd()) {
-                this._dispatchEvent("mouseup", "touchend", "pointingend", app, p);
-                this.downFlags[index] = false;
-            }
-        },
-
-        _updatePC: function(app) {
-            this._check(app, app.pointing, 0);
-        },
-
-        _updateMobile: function(app) {
-            var self = this;
-            app.touches.each(function(touch, i) {
-                self._check(app, touch, i);
-            });
-        },
-
-        _dispatchEvent: function(mouse, touch, pointing, app, p) {
-            var elm = this.element;
-
-            elm.dispatchEvent( tm.event.MouseEvent(mouse, app, p) );
-            elm.dispatchEvent( tm.event.TouchEvent(touch, app, p) );
-            elm.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
-        },
-        
-        setBoundingType: function(type) { this.boundingType = type; },
-    });
-    
-    tm.app.Interaction.prototype.update = (tm.isMobile) ?
-        tm.app.Interaction.prototype._updateMobile : tm.app.Interaction.prototype._updatePC;
-
-    
-    /**
-     * @member      tm.app.Element
-     * @property    interaction
-     * インタラクション
-     */
-    tm.app.Element.prototype.getter("interaction", function() {
-        if (!this._interaction) {
-            this._interaction = tm.app.Interaction(this);
-            this.addEventListener("enterframe", function(e){
-                this._interaction.update(e.app);
-            });
-        }
-        
-        return this._interaction;
-    });
-    
-})();
-
-
-
-
-
-
-
-/*
  * collision.js
  */
 
@@ -13793,7 +13713,7 @@ tm.app = tm.app || {};
             
             this._createCircle();
             
-            this.interaction;
+            this.setInteractive(true);
             
             this.alpha = 0.75;
         },
@@ -15028,18 +14948,15 @@ tm.google = tm.google || {};
 
 
 ;(function() {
-
-    tm.app.Interaction.prototype.setBoundingType = function(type) {
-        this.boundingType = type;
-    };
-
-    tm.app.Interaction.prototype.accessor("boundingType", {
-        "get": function()   {
-            return this.element.boundingType;
-        },
-        "set": function(v)  {
-            this.element.boundingType = v;
-        }
+    
+    /**
+     * @member      tm.app.Element
+     * @property    interaction
+     * インタラクション
+     */
+    tm.app.Element.prototype.getter("interaction", function() {
+        console.assert("interaction は Object2d に統合されました. obj.setInteractive(true); とすればタッチ判定が有効になります.");
     });
+
 
 })();

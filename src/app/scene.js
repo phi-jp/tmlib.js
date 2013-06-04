@@ -25,7 +25,7 @@ tm.app = tm.app || {};
             this.boundingType = "none";
             
             // タッチに反応させる
-            this.interaction.enabled = true;
+            this.setInteractive(true);
         },
     });
     

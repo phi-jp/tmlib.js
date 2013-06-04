@@ -38,7 +38,11 @@
             this.origin   = tm.geom.Vector2(0.5, 0.5);
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
+            
             this.boundingType = "circle";
+            this.interactive = false;
+            this.hitFlags = [];
+            this.downFlags= [];
 
             this._worldMatrix = tm.geom.Matrix33();
             this._worldMatrix.identity();
@@ -180,8 +184,10 @@
          * グローバル座標をローカル座標に変換
          */
         globalToLocal: function(p) {
-            var matrix = this.getFinalMatrix();
+            // var matrix = this.getFinalMatrix();
+            var matrix = this._worldMatrix.clone();
             matrix.invert();
+            matrix.transpose();
             
             return matrix.multiplyVector2(p);
         },
@@ -217,6 +223,100 @@
             this.height = height;
             return this;
         },
+        
+        wakeUp: function() {
+            this.isUpdate = true;
+            return this;
+        },
+        
+        sleep: function() {
+            this.isUpdate = false;
+            return this;
+        },
+        
+        setInteractive: function(flag) {
+            this.interactive = flag;
+            return this;
+        },
+        
+        _update: function(app) {
+            // 更新有効チェック
+            if (this.isUpdate == false) return ;
+            
+            if (this.update) this.update(app);
+            
+            if (this.hasEventListener("enterframe")) {
+                var e = tm.event.Event("enterframe");
+                e.app = app;
+                this.dispatchEvent(e);
+            }
+            
+            if (this.interactive) {
+                this._checkPointing(app);
+            }
+            
+            // 子供達も実行
+            if (this.children.length > 0) {
+                var tempChildren = this.children.slice();
+                for (var i=0,len=tempChildren.length; i<len; ++i) {
+                    tempChildren[i]._update(app);
+                }
+            }
+        },
+        
+        _checkPointing: function(app) {
+            console.assert(false);
+        },
+        
+        _checkMouse: function(app) {
+            this.__checkPointing(app, app.pointing, 0);
+        },
+
+        _checkTouch: function(app) {
+            var self = this;
+            app.touches.each(function(touch, i) {
+                self.__checkPointing(app, touch, i);
+            });
+        },
+        
+        __checkPointing: function(app, p, index) {
+            var elm = this.element;
+            
+            var prevHitFlag = this.hitFlags[index];
+            
+            this.hitFlags[index]    = this.isHitPoint(p.x, p.y);
+            
+            if (!prevHitFlag && this.hitFlags[index]) {
+                this._dispatchPointingEvent("mouseover", "touchover", "pointingover", app, p);
+            }
+            
+            if (prevHitFlag && !this.hitFlags[index]) {
+                this._dispatchPointingEvent("mouseout", "touchout", "pointingout", app, p);
+            }
+            
+            if (this.hitFlags[index]) {
+                if (p.getPointingStart()) {
+                    this._dispatchPointingEvent("mousedown", "touchstart", "pointingstart", app, p);
+                    this.downFlags[index] = true;
+                }
+            }
+            
+            if (this.downFlags[index]) {
+                this._dispatchPointingEvent("mousemove", "touchmove", "pointingmove", app, p);
+            }
+            
+            if (this.downFlags[index]==true && p.getPointingEnd()) {
+                this._dispatchPointingEvent("mouseup", "touchend", "pointingend", app, p);
+                this.downFlags[index] = false;
+            }
+        },
+        
+        _dispatchPointingEvent: function(mouse, touch, pointing, app, p) {
+            this.dispatchEvent( tm.event.MouseEvent(mouse, app, p) );
+            this.dispatchEvent( tm.event.TouchEvent(touch, app, p) );
+            this.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
+        },
+        
         _dirtyCalc: function() {
             if (!this.parent) {
             	this._worldAlpha = this.alpha;
@@ -263,8 +363,6 @@
             worldTransform[4] = b10 * a01 + b11 * a11;
             worldTransform[5] = b10 * a02 + b11 * a12 + b12;
         },
-        
-        
     });
  
     /**
@@ -461,7 +559,9 @@
         this.isHitPoint   = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap["true"]);
         this.isHitElement = (_isHitElementMap[boundingType]) ? (_isHitElementMap[boundingType]) : (_isHitElementMap["true"]);
     };
- 
- 
+    
+    tm.app.Object2D.prototype._checkPointing = (tm.isMobile) ?
+        tm.app.Object2D.prototype._checkTouch : tm.app.Object2D.prototype._checkMouse;
+
     
 })();

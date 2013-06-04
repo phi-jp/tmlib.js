@@ -8,7 +8,7 @@ tm.define("tests.interaction.TestScene", {
         circle.position.set(100, 100);
         circle.alpha = 0.5;
         circle.boundingType = "circle";
-        circle.interaction.enabled = true;
+        circle.setInteractive(true);
         circle.onmouseover = function(e) { this.alpha = 1.0; };
         circle.onmouseout  = function(e) { this.alpha = 0.5; };
 
@@ -16,7 +16,7 @@ tm.define("tests.interaction.TestScene", {
         rect.position.set(100, 300);
         rect.alpha = 0.5;
         rect.boundingType = "rect";
-        rect.interaction.enabled = true;
+        rect.setInteractive(true);
         rect.onmouseover = function(e) { this.alpha = 1.0; };
         rect.onmouseout  = function(e) { this.alpha = 0.5; };
         
@@ -31,7 +31,7 @@ tm.define("tests.interaction.TestScene", {
         circle.alpha = 0.5;
         circle.boundingType = "circle";
         circle.checkHierarchy = true;
-        circle.interaction.enabled = true;
+        circle.setInteractive(true);
         circle.onmouseover = function(e) { this.alpha = 1.0; };
         circle.onmouseout  = function(e) { this.alpha = 0.5; };
         
@@ -40,7 +40,7 @@ tm.define("tests.interaction.TestScene", {
         rect.alpha = 0.5;
         rect.boundingType = "rect";
         rect.checkHierarchy = true;
-        rect.interaction.enabled = true;
+        rect.setInteractive(true);
         rect.onpointingover = function(e) { this.alpha = 1.0; };
         rect.onpointingout  = function(e) { this.alpha = 0.5; };
     }

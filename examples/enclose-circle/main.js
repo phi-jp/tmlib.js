@@ -197,7 +197,6 @@ var MainScene = tm.createClass({
     init: function(color) {
         this.superInit();
         
-        this.interaction.eanbled = true;
         this.circleList = [];
         
         for (var i=0; i<CIRCLE_NUM; ++i) {
@@ -405,7 +404,6 @@ var PauseScene = tm.createClass({
     
     init: function(color) {
         this.superInit();
-        this.interaction;
         
         var filter = tm.app.Shape(SCREEN_WIDTH, SCREEN_HEIGHT);
         filter.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);

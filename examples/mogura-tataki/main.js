@@ -23,8 +23,8 @@ var Mogura = tm.createClass({
         
         this.update = this.wait;
         
-        this.interaction.enabled = false;
-        this.interaction.setBoundingType("circle");
+        this.setInteractive(true);
+        this.setBoundingType("circle");
     },
     
     appear: function() {
@@ -57,7 +57,7 @@ var Mogura = tm.createClass({
     wait: function() {
         if (tm.util.Random.randint(0, 100) === 0) {
             this.update = this.appear;
-            this.interaction.enabled = true;
+            this.setInteractive(true);
         }
     },
     
@@ -89,7 +89,7 @@ var Mogura = tm.createClass({
         se.volume = 0.5;
         se.play();
         this.update = this.damage;
-        this.interaction.enabled = false;
+        this.setInteractive(true);
     },
     
     isAppear: function() {
@@ -131,7 +131,6 @@ var MainScene = tm.createClass({
         
         this.color      = color;
         this.blendMode  = "lighter";
-        this.interaction;
         
         for (var i=0; i<3; ++i) {
             for (var j=0; j<3; ++j) {
@@ -266,7 +265,7 @@ var EndScene = tm.createClass({
         /*
         var tweetButton = tm.twitter.TweetButton("test");
         tweetButton.setPosition(SCREEN_WIDTH/2, 470);
-        tweetButton.interaction.setBoundingType("rect");
+        tweetButton.setBoundingType("rect");
         tweetButton.addChildTo(this);
         */
         
@@ -318,7 +317,6 @@ var PauseScene = tm.createClass({
     
     init: function(color) {
         this.superInit();
-        this.interaction;
         
         var filter = tm.app.Shape(SCREEN_WIDTH, SCREEN_HEIGHT);
         filter.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
