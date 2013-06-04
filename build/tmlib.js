@@ -14955,7 +14955,7 @@ tm.google = tm.google || {};
      * インタラクション
      */
     tm.app.Element.prototype.getter("interaction", function() {
-        console.assert("interaction は Object2d に統合されました. obj.setInteractive(true); とすればタッチ判定が有効になります.");
+        console.assert(false, "interaction は Object2d に統合されました. obj.setInteractive(true); とすればタッチ判定が有効になります.");
     });
 
 
