@@ -71,7 +71,6 @@ module.exports = function(grunt) {
     "src/app/mapsprite.js",
     "src/app/canvasapp.js",
     "src/app/renderer.js",
-    "src/app/interaction.js",
     "src/app/collision.js",
     "src/app/tweener.js",
     "src/app/timeline.js",

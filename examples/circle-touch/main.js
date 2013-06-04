@@ -21,7 +21,7 @@ var Circle = tm.createClass({
         this.radius     = CIRCLE_RADIUS;
         this.fillStyle  = color;
         this.alpha      = 0.75;
-        this.interaction;
+        this.setInteractive(true);
     },
     
     draw: function(c) {
@@ -63,7 +63,6 @@ var MainScene = tm.createClass({
         this.radius     = CIRCLE_RADIUS;
         this.color      = color;
         this.blendMode  = "lighter";
-        this.interaction;
         
         this.circle = Circle( "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360)) );
         this.circle.setPosition(tm.util.Random.randint(40, SCREEN_WIDTH-40), tm.util.Random.randint(40, SCREEN_HEIGHT-40));
@@ -213,7 +212,6 @@ var PauseScene = tm.createClass({
     
     init: function(color) {
         this.superInit();
-        this.interaction;
         
         var filter = tm.app.Shape(SCREEN_WIDTH, SCREEN_HEIGHT);
         filter.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);

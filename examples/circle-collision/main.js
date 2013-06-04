@@ -131,7 +131,7 @@ var Circle = tm.createClass({
         this.blendMode  = "lighter";
         
         // マウスやタッチ反応を有効化
-        this.interaction;
+        this.setInteractive(true);
         
         // 
         this.explode();

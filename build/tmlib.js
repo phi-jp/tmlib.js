@@ -12883,33 +12883,6 @@ tm.app = tm.app || {};
 
 
 /*
- * interactive.js
- */
-
-tm.app = tm.app || {};
-
-
-
-(function() {
-    
-    /**
-     * @member      tm.app.Element
-     * @property    interaction
-     * インタラクション
-     */
-    tm.app.Element.prototype.getter("interaction", function() {
-        console.assert("interaction は Object2d に統合されました. obj.setInteractive(true); とすればタッチ判定が有効になります.");
-    });
-    
-})();
-
-
-
-
-
-
-
-/*
  * collision.js
  */
 
@@ -14975,18 +14948,15 @@ tm.google = tm.google || {};
 
 
 ;(function() {
-
-    tm.app.Interaction.prototype.setBoundingType = function(type) {
-        this.boundingType = type;
-    };
-
-    tm.app.Interaction.prototype.accessor("boundingType", {
-        "get": function()   {
-            return this.element.boundingType;
-        },
-        "set": function(v)  {
-            this.element.boundingType = v;
-        }
+    
+    /**
+     * @member      tm.app.Element
+     * @property    interaction
+     * インタラクション
+     */
+    tm.app.Element.prototype.getter("interaction", function() {
+        console.assert("interaction は Object2d に統合されました. obj.setInteractive(true); とすればタッチ判定が有効になります.");
     });
+
 
 })();
