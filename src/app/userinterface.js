@@ -188,7 +188,7 @@ tm.app = tm.app || {};
             
             this._createCircle();
             
-            this.interaction;
+            this.setInteractive(true);
             
             this.alpha = 0.75;
         },

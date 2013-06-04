@@ -98,16 +98,6 @@ tm.app = tm.app || {};
             return this;
         },
         
-        wakeUp: function() {
-            this.isUpdate = true;
-            return this;
-        },
-        
-        sleep: function() {
-            this.isUpdate = false;
-            return this;
-        },
-        
         show: function() {
             this.visible = true;
             return this;
@@ -191,27 +181,6 @@ tm.app = tm.app || {};
         
         toJSON: function() {
             // TODO:
-        },
-        
-        _update: function(app) {
-            // 更新有効チェック
-            if (this.isUpdate == false) return ;
-            
-            if (this.update) this.update(app);
-            
-            if (this.hasEventListener("enterframe")) {
-                var e = tm.event.Event("enterframe");
-                e.app = app;
-                this.dispatchEvent(e);
-            }
-            
-            // 子供達も実行
-            if (this.children.length > 0) {
-                var tempChildren = this.children.slice();
-                for (var i=0,len=tempChildren.length; i<len; ++i) {
-                    tempChildren[i]._update(app);
-                }
-            }
         },
         
         _refreshSize: function() {},
