@@ -100,18 +100,26 @@
             canvas.setText(this.fontStyle, this.align, this.baseline);
             if (this.fill) {
                 if (this.maxWidth) {
-                    canvas.fillText(this.text, 0, 0, this.maxWidth);
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i, this.maxWidth);
+                    }.bind(this));
                 }
                 else {
-                    canvas.fillText(this.text, 0, 0);
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i);
+                    }.bind(this));
                 }
             }
             if (this.stroke) {
                 if (this.maxWidth) {
-                    canvas.strokeText(this.text, 0, 0, this.maxWidth);
+                    this._lines.each(function(elm, i) {
+                        canvas.strokeText(elm, 0, this.textSize*i, this.maxWidth);
+                    }.bind(this));
                 }
                 else {
-                    canvas.strokeText(this.text, 0, 0);
+                    this._lines.each(function(elm, i) {
+                        canvas.strokeText(elm, 0, this.textSize*i);
+                    }.bind(this));
                 }
             }
             

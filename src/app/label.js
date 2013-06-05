@@ -7,6 +7,9 @@ tm.app = tm.app || {};
 
 (function() {
     
+    var dummyCanvas  = null;
+    var dummyContext = null;
+    
     /**
      * @class
      * Label
@@ -32,8 +35,13 @@ tm.app = tm.app || {};
             this.superInit();
             
             this.text       = text || "";
-            this.fontSize   = size || 24;
-            this.fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
+            
+            this._fontSize   = size || 24;
+            this._fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
+            this._fontWeight = "";
+            this._lineHeight = 1.2;
+            this._updateFont();
+            
             this.align      = "start";
             this.baseline   = "alphabetic";
 
@@ -60,10 +68,37 @@ tm.app = tm.app || {};
             return this;
         },
         
+        setFontWeight: function(weight) {
+            this.fontWeight= weight;
+            return this;
+        },
+        
         _updateFont: function() {
-            this.fontStyle = "{fontSize}px {fontFamily}".format(this);
+            this.fontStyle = "{fontWeight} {fontSize}px {fontFamily}".format(this);
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement("canvas");
+                dummyContext = dummyCanvas.getContext('2d');
+            }
+            dummyContext.font = this.fontStyle;
+            this.textSize = dummyContext.measureText('あ').width * this.lineHeight;
+        },
+        
+        _updateLines: function() {
+            this._lines = this._text.split('\n');
         }
         
+    });
+    
+    /**
+     * @property    text
+     * サイズ
+     */
+    tm.app.Label.prototype.accessor("text", {
+        "get": function() { return this._text; },
+        "set": function(v){
+            this._text = v;
+            this._updateLines();
+        }
     });
     
     /**
@@ -83,6 +118,29 @@ tm.app = tm.app || {};
         "get": function() { return this._fontFamily; },
         "set": function(v){ this._fontFamily = v; this._updateFont(); }
     });
+    
+    /**
+     * @property font
+     * フォント
+     */
+    tm.app.Label.prototype.accessor("fontWeight", {
+        "get": function() { return this._fontWeight; },
+        "set": function(v) {
+            this._fontWeight = v; this._updateFont();
+        },
+    });
+    
+    /**
+     * @property font
+     * フォント
+     */
+    tm.app.Label.prototype.accessor("lineHeight", {
+        "get": function() { return this._lineHeight; },
+        "set": function(v) {
+            this._lineHeight = v; this._updateFont();
+        },
+    });
+
     
 })();
 
