@@ -45,6 +45,7 @@ module.exports = function(grunt) {
 
     "src/asset/assetmanager.js",
     "src/asset/texture.js",
+    "src/asset/spritesheet.js",
 
     "src/input/keyboard.js",
     "src/input/mouse.js",
