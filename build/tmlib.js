@@ -11704,7 +11704,7 @@ tm.app = tm.app || {};
         },
         
         _updateLines: function() {
-            this._lines = this._text.split('\n');
+            this._lines = (this._text+'').split('\n');
         }
         
     });
@@ -11716,7 +11716,7 @@ tm.app = tm.app || {};
     tm.app.Label.prototype.accessor("text", {
         "get": function() { return this._text; },
         "set": function(v){
-            this._text = v;
+            this._text = v || "";
             this._updateLines();
         }
     });
