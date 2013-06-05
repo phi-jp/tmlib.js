@@ -36,9 +36,10 @@ tm.app = tm.app || {};
             
             this.text       = text || "";
             
-            this.fontSize   = size || 24;
-            this.fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
-            this.lineHeight = 1.2;
+            this._fontSize   = size || 24;
+            this._fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
+            this._fontWeight = "";
+            this._lineHeight = 1.2;
             this._updateFont();
             
             this.align      = "start";
@@ -67,8 +68,13 @@ tm.app = tm.app || {};
             return this;
         },
         
+        setFontWeight: function(weight) {
+            this.fontWeight= weight;
+            return this;
+        },
+        
         _updateFont: function() {
-            this.fontStyle = "{fontSize}px {fontFamily}".format(this);
+            this.fontStyle = "{fontWeight} {fontSize}px {fontFamily}".format(this);
             if (!dummyCanvas) {
                 dummyCanvas = document.createElement("canvas");
                 dummyContext = dummyCanvas.getContext('2d');
@@ -112,6 +118,29 @@ tm.app = tm.app || {};
         "get": function() { return this._fontFamily; },
         "set": function(v){ this._fontFamily = v; this._updateFont(); }
     });
+    
+    /**
+     * @property font
+     * フォント
+     */
+    tm.app.Label.prototype.accessor("fontWeight", {
+        "get": function() { return this._fontWeight; },
+        "set": function(v) {
+            this._fontWeight = v; this._updateFont();
+        },
+    });
+    
+    /**
+     * @property font
+     * フォント
+     */
+    tm.app.Label.prototype.accessor("lineHeight", {
+        "get": function() { return this._lineHeight; },
+        "set": function(v) {
+            this._lineHeight = v; this._updateFont();
+        },
+    });
+
     
 })();
 
