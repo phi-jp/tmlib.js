@@ -318,10 +318,13 @@ tm.define("tests.label.DemoScene", {
         var label = tm.app.Label("hoge").addChildTo(this);
         label.x = 100; label.y = 100;
 
+        var label = tm.app.Label("hoge\nBBBB").addChildTo(this);
+        label.x = 350; label.y = 100;
+
         var label = tm.app.Label("hogehogehogehoge").addChildTo(this);
         label.x = 100; label.y = 140;
 
-        var label = tm.app.Label("hogehogehogehoge").addChildTo(this);
+        var label = tm.app.Label("hogehogehogehoge\nbbbbb").addChildTo(this);
         label.x = 100; label.y = 180;
         label.maxWidth = 100;
     },

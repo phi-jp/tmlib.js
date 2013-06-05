@@ -7,6 +7,9 @@ tm.app = tm.app || {};
 
 (function() {
     
+    var dummyCanvas  = null;
+    var dummyContext = null;
+    
     /**
      * @class
      * Label
@@ -32,8 +35,12 @@ tm.app = tm.app || {};
             this.superInit();
             
             this.text       = text || "";
+            
             this.fontSize   = size || 24;
             this.fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
+            this.lineHeight = 1.2;
+            this._updateFont();
+            
             this.align      = "start";
             this.baseline   = "alphabetic";
 
@@ -62,8 +69,30 @@ tm.app = tm.app || {};
         
         _updateFont: function() {
             this.fontStyle = "{fontSize}px {fontFamily}".format(this);
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement("canvas");
+                dummyContext = dummyCanvas.getContext('2d');
+            }
+            dummyContext.font = this.fontStyle;
+            this.textSize = dummyContext.measureText('あ').width * this.lineHeight;
+        },
+        
+        _updateLines: function() {
+            this._lines = this._text.split('\n');
         }
         
+    });
+    
+    /**
+     * @property    text
+     * サイズ
+     */
+    tm.app.Label.prototype.accessor("text", {
+        "get": function() { return this._text; },
+        "set": function(v){
+            this._text = v;
+            this._updateLines();
+        }
     });
     
     /**
