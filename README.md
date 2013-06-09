@@ -53,7 +53,7 @@
         <title>Starter Pack | tmlib.js</title>
         <link rel="apple-touch-icon-precomposed" href="icon.png" />
         
-        <script src="https://raw.github.com/phi1618/tmlib.js/0.1.3/build/tmlib.js"></script>
+        <script src="http://rawgithub.com/phi1618/tmlib.js/0.1.3/build/tmlib.js"></script>
         <script>
             // メイン処理(ページ読み込み後に実行される)
             tm.main(function() {
