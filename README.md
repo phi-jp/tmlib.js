@@ -49,11 +49,11 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        
+
         <title>Starter Pack | tmlib.js</title>
         <link rel="apple-touch-icon-precomposed" href="icon.png" />
-        
-        <script src="http://rawgithub.com/phi1618/tmlib.js/0.1.3/build/tmlib.js"></script>
+
+        <script src="http://rawgithub.com/phi1618/tmlib.js/0.1.6/build/tmlib.js"></script>
         <script>
             // メイン処理(ページ読み込み後に実行される)
             tm.main(function() {
@@ -61,13 +61,13 @@
                 var app = tm.app.CanvasApp("#world");
                 app.resizeWindow(); // 画面サイズに合わせる
                 app.fitWindow();    // リサイズ対応
-                app.background = "rgba(0, 0, 0, 0.1)";  // 背景色をセット
+                app.background = "rgba(0, 0, 0, 1)";  // 背景色をセット
                 
                 // 星スプライト
                 var star = tm.app.Shape(64, 64);
                 star.canvas.setColorStyle("white", "yellow").fillStar(32, 32, 32, 5);
                 app.currentScene.addChild(star);    // シーンに追加
-                
+
                 // 更新
                 app.currentScene.update = function(app) {
                     // マウス位置 or タッチ位置に移動
@@ -76,7 +76,7 @@
                     // クリック or タッチ中は回転させる
                     if (app.pointing.getPointing() == true) { star.rotation += 15; }
                 };
-                
+
                 // 実行
                 app.run();
             });
