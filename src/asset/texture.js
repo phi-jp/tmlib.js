@@ -5,7 +5,7 @@
 (function() {
     
     /**
-     * @class
+     * @class tm.asset.Texture
      * テクスチャクラス
      */
     tm.define("tm.asset.Texture", {
@@ -56,7 +56,7 @@
 
 (function(){
 
-    /**
+    /*
      * @static
      * @method
      * ### ref
