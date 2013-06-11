@@ -22,27 +22,31 @@
 
 (function() {
     
+<span id='tm-app-Object2D'>    /**
+</span>     * @class tm.app.Object2D
+     * Object2D
+     */
     tm.define(&quot;tm.app.Object2D&quot;, {
         superClass: &quot;tm.app.Element&quot;,
         
-<span id='global-property-position'>        /**
+<span id='tm-app-Object2D-property-position'>        /**
 </span>         * 位置
          */
         position: null,
-<span id='global-property-rotation'>        /**
+<span id='tm-app-Object2D-property-rotation'>        /**
 </span>         * 回転
          */
         rotation: 0,
-<span id='global-property-scale'>        /**
+<span id='tm-app-Object2D-property-scale'>        /**
 </span>         * スケール
          */
         scale: null,
         
-<span id='global-property-_width'>        /**
+<span id='tm-app-Object2D-property-_width'>        /**
 </span>         * 幅
          */
         _width:  64,
-<span id='global-property-_height'>        /**
+<span id='tm-app-Object2D-property-_height'>        /**
 </span>         * 高さ
          */
         _height: 64,
@@ -55,7 +59,11 @@
             this.origin   = tm.geom.Vector2(0.5, 0.5);
             this._matrix  = tm.geom.Matrix33();
             this._matrix.identity();
+            
             this.boundingType = &quot;circle&quot;;
+            this.interactive = false;
+            this.hitFlags = [];
+            this.downFlags= [];
 
             this._worldMatrix = tm.geom.Matrix33();
             this._worldMatrix.identity();
@@ -75,7 +83,7 @@
             return matrix;
         },
         
-<span id='global-method-isHitPoint'>        /**
+<span id='tm-app-Object2D-method-isHitPoint'>        /**
 </span>         * 点と衝突しているかを判定
          */
         isHitPoint: function(x, y) {
@@ -114,7 +122,7 @@
             return false;
         },
         
-<span id='global-method-isHitPointCircleHierarchy'>        /**
+<span id='tm-app-Object2D-method-isHitPointCircleHierarchy'>        /**
 </span>         * 階層を考慮した円衝突判定
          */
         isHitPointCircleHierarchy: function(x, y) {
@@ -129,7 +137,7 @@
             return false;
         },
         
-<span id='global-method-isHitPointRectHierarchy'>        /**
+<span id='tm-app-Object2D-method-isHitPointRectHierarchy'>        /**
 </span>         * 階層を考慮した矩形衝突判定
          */
         isHitPointRectHierarchy: function(x, y) {
@@ -147,7 +155,7 @@
             return false;
         },
         
-<span id='global-method-isHitElement'>        /**
+<span id='tm-app-Object2D-method-isHitElement'>        /**
 </span>         * 要素と衝突しているかを判定
          */
         isHitElement: function(elm) {
@@ -158,47 +166,49 @@
             return false;
         },
  
-<span id='global-method-isHitElementCircle'>        /**
+<span id='tm-app-Object2D-method-isHitElementCircle'>        /**
 </span>         * 円同士の衝突判定
          */
         isHitElementCircle: function(elm) {
             return tm.collision.testCircleCircle(this.getBoundingCircle(), elm.getBoundingCircle());
         },
  
-<span id='global-method-isHitElementRect'>        /**
+<span id='tm-app-Object2D-method-isHitElementRect'>        /**
 </span>         * 円同士の衝突判定
          */
         isHitElementRect: function(elm) {
             return tm.collision.testRectRect(this.getBoundingRect(), elm.getBoundingRect());    
         },
  
-<span id='global-method-getBoundingCircle'>        /**
+<span id='tm-app-Object2D-method-getBoundingCircle'>        /**
 </span>         * バウンディングサークル
          */
         getBoundingCircle: function() {
             return tm.geom.Circle(this.centerX, this.centerY, this.radius);
         },
  
-<span id='global-method-getBoundingRect'>        /**
+<span id='tm-app-Object2D-method-getBoundingRect'>        /**
 </span>         * バウンディングレクト
          */
         getBoundingRect: function() {
             return tm.geom.Rect(this.left, this.top, this.width, this.height);
         },
  
-<span id='global-method-localToGlobal'>        /**
+<span id='tm-app-Object2D-method-localToGlobal'>        /**
 </span>         * ローカル座標をグローバル座標に変換
          */
         localToGlobal: function(p) {
             return this.getFinalMatrix().multiplyVector2(p);
         },
         
-<span id='global-method-globalToLocal'>        /**
+<span id='tm-app-Object2D-method-globalToLocal'>        /**
 </span>         * グローバル座標をローカル座標に変換
          */
         globalToLocal: function(p) {
-            var matrix = this.getFinalMatrix();
+            // var matrix = this.getFinalMatrix();
+            var matrix = this._worldMatrix.clone();
             matrix.invert();
+            matrix.transpose();
             
             return matrix.multiplyVector2(p);
         },
@@ -234,6 +244,100 @@
             this.height = height;
             return this;
         },
+        
+        wakeUp: function() {
+            this.isUpdate = true;
+            return this;
+        },
+        
+        sleep: function() {
+            this.isUpdate = false;
+            return this;
+        },
+        
+        setInteractive: function(flag) {
+            this.interactive = flag;
+            return this;
+        },
+        
+        _update: function(app) {
+            // 更新有効チェック
+            if (this.isUpdate == false) return ;
+            
+            if (this.update) this.update(app);
+            
+            if (this.hasEventListener(&quot;enterframe&quot;)) {
+                var e = tm.event.Event(&quot;enterframe&quot;);
+                e.app = app;
+                this.dispatchEvent(e);
+            }
+            
+            if (this.interactive) {
+                this._checkPointing(app);
+            }
+            
+            // 子供達も実行
+            if (this.children.length &gt; 0) {
+                var tempChildren = this.children.slice();
+                for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
+                    tempChildren[i]._update(app);
+                }
+            }
+        },
+        
+        _checkPointing: function(app) {
+            console.assert(false);
+        },
+        
+        _checkMouse: function(app) {
+            this.__checkPointing(app, app.pointing, 0);
+        },
+
+        _checkTouch: function(app) {
+            var self = this;
+            app.touches.each(function(touch, i) {
+                self.__checkPointing(app, touch, i);
+            });
+        },
+        
+        __checkPointing: function(app, p, index) {
+            var elm = this.element;
+            
+            var prevHitFlag = this.hitFlags[index];
+            
+            this.hitFlags[index]    = this.isHitPoint(p.x, p.y);
+            
+            if (!prevHitFlag &amp;&amp; this.hitFlags[index]) {
+                this._dispatchPointingEvent(&quot;mouseover&quot;, &quot;touchover&quot;, &quot;pointingover&quot;, app, p);
+            }
+            
+            if (prevHitFlag &amp;&amp; !this.hitFlags[index]) {
+                this._dispatchPointingEvent(&quot;mouseout&quot;, &quot;touchout&quot;, &quot;pointingout&quot;, app, p);
+            }
+            
+            if (this.hitFlags[index]) {
+                if (p.getPointingStart()) {
+                    this._dispatchPointingEvent(&quot;mousedown&quot;, &quot;touchstart&quot;, &quot;pointingstart&quot;, app, p);
+                    this.downFlags[index] = true;
+                }
+            }
+            
+            if (this.downFlags[index]) {
+                this._dispatchPointingEvent(&quot;mousemove&quot;, &quot;touchmove&quot;, &quot;pointingmove&quot;, app, p);
+            }
+            
+            if (this.downFlags[index]==true &amp;&amp; p.getPointingEnd()) {
+                this._dispatchPointingEvent(&quot;mouseup&quot;, &quot;touchend&quot;, &quot;pointingend&quot;, app, p);
+                this.downFlags[index] = false;
+            }
+        },
+        
+        _dispatchPointingEvent: function(mouse, touch, pointing, app, p) {
+            this.dispatchEvent( tm.event.MouseEvent(mouse, app, p) );
+            this.dispatchEvent( tm.event.TouchEvent(touch, app, p) );
+            this.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
+        },
+        
         _dirtyCalc: function() {
             if (!this.parent) {
             	this._worldAlpha = this.alpha;
@@ -280,11 +384,9 @@
             worldTransform[4] = b10 * a01 + b11 * a11;
             worldTransform[5] = b10 * a02 + b11 * a12 + b12;
         },
-        
-        
     });
  
-<span id='global-property-x'>    /**
+<span id='tm-app-Object2D-property-x'>    /**
 </span>     * @property    x
      * x座標値
      */
@@ -293,7 +395,7 @@
         &quot;set&quot;: function(v)  { this.position.x = v; }
     });
     
-<span id='global-property-y'>    /**
+<span id='tm-app-Object2D-property-y'>    /**
 </span>     * @property    y
      * y座標値
      */
@@ -302,7 +404,7 @@
         &quot;set&quot;: function(v)  { this.position.y = v; }
     });
  
-<span id='global-property-originX'>    /**
+<span id='tm-app-Object2D-property-originX'>    /**
 </span>     * @property    originX
      * x座標値
      */
@@ -311,7 +413,7 @@
         &quot;set&quot;: function(v)  { this.origin.x = v; }
     });
     
-<span id='global-property-originY'>    /**
+<span id='tm-app-Object2D-property-originY'>    /**
 </span>     * @property    originY
      * y座標値
      */
@@ -320,7 +422,7 @@
         &quot;set&quot;: function(v)  { this.origin.y = v; }
     });
     
-<span id='global-property-scaleX'>    /**
+<span id='tm-app-Object2D-property-scaleX'>    /**
 </span>     * @property    scaleX
      * スケールX値
      */
@@ -329,7 +431,7 @@
         &quot;set&quot;: function(v)  { this.scale.x = v; }
     });
     
-<span id='global-property-scaleY'>    /**
+<span id='tm-app-Object2D-property-scaleY'>    /**
 </span>     * @property    scaleY
      * スケールY値
      */
@@ -340,7 +442,7 @@
     
     
     
-<span id='global-property-width'>    /**
+<span id='tm-app-Object2D-property-width'>    /**
 </span>     * @property    width
      * width
      */
@@ -350,7 +452,7 @@
     });
     
     
-<span id='global-property-height'>    /**
+<span id='tm-app-Object2D-property-height'>    /**
 </span>     * @property    height
      * height
      */
@@ -359,7 +461,7 @@
         &quot;set&quot;: function(v)  { this._height = v; this._refreshSize(); }
     });
     
-<span id='global-property-radius'>    /**
+<span id='tm-app-Object2D-property-radius'>    /**
 </span>     * @property    radius
      * 半径
      */
@@ -368,7 +470,7 @@
         &quot;set&quot;: function(v)  { this._radius = v; }
     });
     
-<span id='global-property-top'>    /**
+<span id='tm-app-Object2D-property-top'>    /**
 </span>     * @property    top
      * 左
      */
@@ -376,7 +478,7 @@
         return this.y - this.height*this.originY;
     });
  
-<span id='global-property-right'>    /**
+<span id='tm-app-Object2D-property-right'>    /**
 </span>     * @property    right
      * 左
      */
@@ -384,7 +486,7 @@
         return this.x + this.width*(1-this.originX);
     });
  
-<span id='global-property-bottom'>    /**
+<span id='tm-app-Object2D-property-bottom'>    /**
 </span>     * @property    bottom
      * 左
      */
@@ -392,7 +494,7 @@
         return this.y + this.height*(1-this.originY);
     });
  
-<span id='global-property-left'>    /**
+<span id='tm-app-Object2D-property-left'>    /**
 </span>     * @property    left
      * 左
      */
@@ -400,7 +502,7 @@
         return this.x - this.width*this.originX;
     });
  
-<span id='global-property-centerX'>    /**
+<span id='tm-app-Object2D-property-centerX'>    /**
 </span>     * @property    centerX
      * centerX
      */
@@ -411,7 +513,7 @@
         }
     });
  
-<span id='global-property-centerY'>    /**
+<span id='tm-app-Object2D-property-centerY'>    /**
 </span>     * @property    centerY
      * centerY
      */
@@ -422,7 +524,7 @@
         }
     });
  
-<span id='global-property-boundingType'>    /**
+<span id='tm-app-Object2D-property-boundingType'>    /**
 </span>     * @property    boundingType
      * boundingType
      */
@@ -436,7 +538,7 @@
         },
     });
  
-<span id='global-property-checkHierarchy'>    /**
+<span id='tm-app-Object2D-property-checkHierarchy'>    /**
 </span>     * @property    checkHierarchy
      * checkHierarchy
      */
@@ -478,8 +580,10 @@
         this.isHitPoint   = (isHitFuncMap[boundingType]) ? (isHitFuncMap[boundingType]) : (isHitFuncMap[&quot;true&quot;]);
         this.isHitElement = (_isHitElementMap[boundingType]) ? (_isHitElementMap[boundingType]) : (_isHitElementMap[&quot;true&quot;]);
     };
- 
- 
+    
+    tm.app.Object2D.prototype._checkPointing = (tm.isMobile) ?
+        tm.app.Object2D.prototype._checkTouch : tm.app.Object2D.prototype._checkMouse;
+
     
 })();
 </pre>

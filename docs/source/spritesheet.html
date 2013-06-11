@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+(function() {
+    
+    tm.define(&quot;tm.asset.SpriteSheet&quot;, {
+
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+
+        init: function(src) {
+            this.superInit();
+
+            if (typeof src == &quot;string&quot;) {
+            	this.load(src);
+            }
+            else {
+	            this.parse(src);
+    			this.loaded = true;
+    			this.dispatchEvent(tm.event.Event(&quot;load&quot;));
+            }
+
+        },
+
+        load: function(path) {
+        	tm.util.Ajax.load({
+        		url: path,
+        		dataType: &quot;json&quot;,
+        		success: function(d) {
+        			this.parse(d);
+        			this.loaded = true;
+        			this.dispatchEvent(tm.event.Event(&quot;load&quot;));
+        		}.bind(this),
+        	});
+        },
+
+        parse: function(param) {
+            this.frame = param.frame;
+
+            if (typeof param.image == &quot;string&quot;) {
+                if (!tm.asset.AssetManager.contains(param.image)) {
+                    tm.asset.AssetManager.load(param.image);
+                }
+                this.image = tm.asset.AssetManager.get(param.image);
+            }
+            else {
+                this.image = param.image;
+            }
+
+            if (this.image.loaded === false) {
+                this.image.addEventListener(&quot;load&quot;, function() {
+                    this._calcFrames(param.frame);
+                    var e = tm.event.Event(&quot;load&quot;);
+                    this.dispatchEvent(e);
+                }.bind(this), false);
+            }
+            else {
+                this._calcFrames(param.frame);
+                var e = tm.event.Event(&quot;load&quot;);
+                this.dispatchEvent(e);
+            }
+
+            this._calcAnim(param.animations);
+        },
+
+        getFrame: function(index) {
+            return this.frames[index];
+        },
+        
+        getAnimation: function(name) {
+            return this.animations[name];
+        },
+        
+        _calcFrames: function(frame) {
+            var frames = this.frames = [];
+            
+            var w = frame.width;
+            var h = frame.height;
+            var row = ~~(this.image.width / w);
+            var col = ~~(this.image.height/ h);
+            
+            if (!frame.count) frame.count = row*col;
+
+            for (var i=0,len=frame.count; i&lt;len; ++i) {
+                var x   = i%row;
+                var y   = (i/row)|0;
+                var rect = {
+                    x:x*w,
+                    y:y*h,
+                    width: w,
+                    height: h
+                };
+                frames.push(rect);
+            }
+        },
+
+        _calcAnim: function(animations) {
+            this.animations = {};
+            for (var key in animations) {
+                var anim = animations[key];
+
+                if (anim instanceof Array) {
+                    this.animations[key] = {
+                        frames: [].range(anim[0], anim[1]),
+                        next: anim[2],
+                        frequency: anim[3] || 1
+                    };
+                }
+                else if (typeof anim == &quot;number&quot;) {
+                    this.animations[key] = {
+                        frames: [anim],
+                        next: null,
+                        frequency: 1
+                    };
+                }
+                else {
+                    this.animations[key] = {
+                        frames: anim.frames,
+                        next: anim.next,
+                        frequency: anim.frequency || 1
+                    };
+                }
+            }
+            
+            // デフォルトアニメーション
+            this.animations[&quot;default&quot;] = {
+                frames: [].range(0, this.frame.count),
+                next: &quot;default&quot;,
+                frequency: 1,
+            };
+        }
+
+    });
+
+})();
+</pre>
+</body>
+</html>
