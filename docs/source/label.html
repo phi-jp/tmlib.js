@@ -24,6 +24,9 @@ tm.app = tm.app || {};
 
 (function() {
     
+    var dummyCanvas  = null;
+    var dummyContext = null;
+    
 <span id='tm-app-Label'>    /**
 </span>     * @class
      * Label
@@ -49,8 +52,13 @@ tm.app = tm.app || {};
             this.superInit();
             
             this.text       = text || &quot;&quot;;
-            this.fontSize   = size || 24;
-            this.fontFamily = &quot;'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;;
+            
+            this._fontSize   = size || 24;
+            this._fontFamily = &quot;'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;;
+            this._fontWeight = &quot;&quot;;
+            this._lineHeight = 1.2;
+            this._updateFont();
+            
             this.align      = &quot;start&quot;;
             this.baseline   = &quot;alphabetic&quot;;
 
@@ -77,10 +85,37 @@ tm.app = tm.app || {};
             return this;
         },
         
+        setFontWeight: function(weight) {
+            this.fontWeight= weight;
+            return this;
+        },
+        
         _updateFont: function() {
-            this.fontStyle = &quot;{fontSize}px {fontFamily}&quot;.format(this);
+            this.fontStyle = &quot;{fontWeight} {fontSize}px {fontFamily}&quot;.format(this);
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement(&quot;canvas&quot;);
+                dummyContext = dummyCanvas.getContext('2d');
+            }
+            dummyContext.font = this.fontStyle;
+            this.textSize = dummyContext.measureText('あ').width * this.lineHeight;
+        },
+        
+        _updateLines: function() {
+            this._lines = (this._text+'').split('\n');
         }
         
+    });
+    
+<span id='tm-app-Label-property-text'>    /**
+</span>     * @property    text
+     * サイズ
+     */
+    tm.app.Label.prototype.accessor(&quot;text&quot;, {
+        &quot;get&quot;: function() { return this._text; },
+        &quot;set&quot;: function(v){
+            this._text = v || &quot;&quot;;
+            this._updateLines();
+        }
     });
     
 <span id='tm-app-Label-property-size'>    /**
@@ -92,14 +127,37 @@ tm.app = tm.app || {};
         &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
     });
     
-<span id='tm-app-Label-property-font'>    /**
-</span>     * @property    font
+<span id='tm-app-Label-property-fontFamily'>    /**
+</span>     * @property    fontFamily
      * フォント
      */
     tm.app.Label.prototype.accessor(&quot;fontFamily&quot;, {
         &quot;get&quot;: function() { return this._fontFamily; },
         &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
     });
+    
+<span id='tm-app-Label-property-fontWeight'>    /**
+</span>     * @property fontWeight
+     * フォント
+     */
+    tm.app.Label.prototype.accessor(&quot;fontWeight&quot;, {
+        &quot;get&quot;: function() { return this._fontWeight; },
+        &quot;set&quot;: function(v) {
+            this._fontWeight = v; this._updateFont();
+        },
+    });
+    
+<span id='tm-app-Label-property-lineHeight'>    /**
+</span>     * @property lineHeight
+     * フォント
+     */
+    tm.app.Label.prototype.accessor(&quot;lineHeight&quot;, {
+        &quot;get&quot;: function() { return this._lineHeight; },
+        &quot;set&quot;: function(v) {
+            this._lineHeight = v; this._updateFont();
+        },
+    });
+
     
 })();
 

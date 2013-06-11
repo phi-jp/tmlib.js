@@ -32,6 +32,12 @@
 var tm = tm || {};
 tm.global = window || global || this;
 
+// node.js
+if (typeof module !== 'undefined' &amp;&amp; module.exports) {
+    module.exports = tm;
+}
+
+
 (function() {
 
 <span id='tm-VERSION'>    /**

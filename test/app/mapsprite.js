@@ -48,7 +48,7 @@ tm.define("tests.mapsprite.DemoScene01", {
     init: function() {
         this.superInit();
         
-        var mapSheet = tm.app.MapSheet({
+        var mapSheet = tm.asset.MapSheet({
             tilewidth: 32,
             tileheight: 32,
             width: 10,
@@ -123,7 +123,7 @@ tm.define("tests.mapsprite.DemoScene02", {
     init: function() {
         this.superInit();
         
-        var mapSheet = tm.app.MapSheet("../../resource/tmx/testmap.tmx");
+        var mapSheet = tm.asset.MapSheet("../../resource/tmx/testmap.tmx");
         mapSheet.onload = function() {
             this.load(mapSheet);
         }.bind(this);
@@ -184,7 +184,7 @@ tm.define("tests.mapsprite.DemoScene03", {
 
         ss.onload = function() {
             setTimeout(function() {
-                var player = tm.app.AnimationSprite(32, 48, ss).addChildTo(this.map.playerGroup);
+                var player = tm.app.AnimationSprite(ss, 32, 48).addChildTo(this.map.playerGroup);
                 player.origin.set(0, 0);
                 player.gotoAndPlay("forward");
                 player.xIndex = 31;

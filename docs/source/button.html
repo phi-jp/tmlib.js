@@ -40,8 +40,8 @@ tm.app = tm.app || {};
             this.alpha = tm.app.LabelButton.DEFAULT_ALPHA;
             this.setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
             
-            this.interaction.enabled = true;
-            this.interaction.boundingType = &quot;rect&quot;;
+            this.setInteractive(true);
+            this.boundingType = &quot;rect&quot;;
             
             this.addEventListener(&quot;pointingover&quot;, function() {
                 this.tweener.clear();
@@ -92,8 +92,8 @@ tm.app = tm.app || {};
             
             this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
             
-            this.interaction.enabled = true;
-            this.interaction.boundingType = &quot;rect&quot;;
+            this.setInteractive(true);
+            this.boundingType = &quot;rect&quot;;
             this.addEventListener(&quot;pointingover&quot;, function() {
                 this.tweener.clear();
                 this.tweener.fade(1, 250);
@@ -126,8 +126,8 @@ tm.app = tm.app || {};
             this.backgroundColor = backgroundColor || &quot;black&quot;;
             this.alpha = tm.app.GlossyButton.DEFAULT_ALPHA;
             
-            this.interaction.enabled = true;
-            this.interaction.boundingType = &quot;rect&quot;;
+            this.setInteractive(true);
+            this.boundingType = &quot;rect&quot;;
             this.addEventListener(&quot;pointingover&quot;, function() {
                 this.tweener.clear();
                 this.tweener.fade(1.0, 250);

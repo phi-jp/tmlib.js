@@ -36,14 +36,22 @@ tm.app = tm.app || {};
 <span id='tm-app-AnimationSprite-method-init'>        /**
 </span>         * 初期化
          */
-        init: function(width, height, ss)
+        init: function(ss, width, height)
         {
             this.superInit();
             
-            this.width  = width || 64;
-            this.height = height|| 64;
-            
+            if (typeof ss == &quot;string&quot;) {
+                var ss = tm.asset.AssetManager.get(ss);
+                console.assert(ss, &quot;not found &quot; + ss);
+            }
+
+            console.assert(typeof ss == &quot;object&quot;, &quot;AnimationSprite の第一引数はスプライトシートもしくはスプライトシート名に変わりました&quot;);
+
             this.ss = ss;
+            
+            this.width  = width || ss.frame.width;
+            this.height = height|| ss.frame.height;
+
             this.currentFrame = 0;
             this.currentFrameIndex = 0;
             this.paused = true;

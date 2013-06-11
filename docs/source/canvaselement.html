@@ -115,16 +115,6 @@ tm.app = tm.app || {};
             return this;
         },
         
-        wakeUp: function() {
-            this.isUpdate = true;
-            return this;
-        },
-        
-        sleep: function() {
-            this.isUpdate = false;
-            return this;
-        },
-        
         show: function() {
             this.visible = true;
             return this;
@@ -156,7 +146,10 @@ tm.app = tm.app || {};
                 group.height = layer.height;
                 
                 layer.objects.forEach(function(obj) {
-                    var _class  = window[obj.type] || tm.app[obj.type];
+                    var _class = tm.using(obj.type);
+                    if (Object.keys(_class).length === 0) {
+                        _class=tm.app[obj.type];
+                    }
                     var initParam = null;
                     if (obj.properties.init) {
                         initParam = JSON.parse(obj.properties.init);
@@ -186,7 +179,10 @@ tm.app = tm.app || {};
                     for (var i=0,len=value.length; i&lt;len; ++i) {
                         var data = value[i];
                         var init = data[&quot;init&quot;] || [];
-                        var _class = window[data.type] || tm.app[data.type];
+                        var _class = tm.using(data.type);
+                        if (Object.keys(_class).length === 0) {
+                            _class=tm.app[data.type];
+                        }
                         var elm = _class.apply(null, init).addChildTo(this);
                         elm.fromJSON(data);
                         this[data.name] = elm;
@@ -202,27 +198,6 @@ tm.app = tm.app || {};
         
         toJSON: function() {
             // TODO:
-        },
-        
-        _update: function(app) {
-            // 更新有効チェック
-            if (this.isUpdate == false) return ;
-            
-            if (this.update) this.update(app);
-            
-            if (this.hasEventListener(&quot;enterframe&quot;)) {
-                var e = tm.event.Event(&quot;enterframe&quot;);
-                e.app = app;
-                this.dispatchEvent(e);
-            }
-            
-            // 子供達も実行
-            if (this.children.length &gt; 0) {
-                var tempChildren = this.children.slice();
-                for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
-                    tempChildren[i]._update(app);
-                }
-            }
         },
         
         _refreshSize: function() {},

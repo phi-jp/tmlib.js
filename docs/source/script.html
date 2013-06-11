@@ -90,10 +90,10 @@ tm.util = tm.util || {};
         version = version || &quot;r11&quot;;
         var path = null;
         if ([&quot;r6&quot;, &quot;r7&quot;, &quot;r8&quot;, &quot;r9&quot;, &quot;10&quot;].indexOf(version) != -1) {
-            path = &quot;https://raw.github.com/mrdoob/stats.js/&quot; + version + &quot;/build/Stats.js&quot;;
+            path = &quot;http://rawgithub.com/mrdoob/stats.js/&quot; + version + &quot;/build/Stats.js&quot;;
         }
         else {
-            path = &quot;https://raw.github.com/mrdoob/stats.js/&quot; + version + &quot;/build/stats.min.js&quot;;
+            path = &quot;http://rawgithub.com/mrdoob/stats.js/&quot; + version + &quot;/build/stats.min.js&quot;;
         }
         this.load(path);
     };
@@ -121,7 +121,7 @@ tm.util = tm.util || {};
      * Three.js を動的ロード
      */
     tm.util.ScriptManager.loadThree = function(version) {
-        var THREE_JS_URL = &quot;https://raw.github.com/mrdoob/three.js/{version}/build/three.js&quot;;
+        var THREE_JS_URL = &quot;http://rawgithub.com/mrdoob/three.js/{version}/build/three.js&quot;;
 //        var THREE_JS_URL = &quot;https://raw.github.com/mrdoob/three.js/{version}/build/three.min.js&quot;;
         version = version || &quot;r55&quot;;
 
@@ -136,7 +136,7 @@ tm.util = tm.util || {};
      * BulletML を動的ロード
      */
     tm.util.ScriptManager.loadBulletML = function(version) {
-        var BULLETML_FOR_TMLIB_JS_URL   = &quot;https://raw.github.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js&quot;;
+        var BULLETML_FOR_TMLIB_JS_URL   = &quot;http://rawgithub.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js&quot;;
         version = version || &quot;v0.4.1&quot;;
         var path = BULLETML_FOR_TMLIB_JS_URL.format({version: version});        
         this.load(path);

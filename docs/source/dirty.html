@@ -16,19 +16,16 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">;(function() {
-
-    tm.app.Interaction.prototype.setBoundingType = function(type) {
-        this.boundingType = type;
-    };
-
-    tm.app.Interaction.prototype.accessor(&quot;boundingType&quot;, {
-        &quot;get&quot;: function()   {
-            return this.element.boundingType;
-        },
-        &quot;set&quot;: function(v)  {
-            this.element.boundingType = v;
-        }
+    
+<span id='tm-app-Element-property-interaction'>    /**
+</span>     * @member      tm.app.Element
+     * @property    interaction
+     * インタラクション
+     */
+    tm.app.Element.prototype.getter(&quot;interaction&quot;, function() {
+        console.assert(false, &quot;interaction は Object2d に統合されました. obj.setInteractive(true); とすればタッチ判定が有効になります.&quot;);
     });
+
 
 })();
 </pre>

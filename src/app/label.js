@@ -111,7 +111,7 @@ tm.app = tm.app || {};
     });
     
     /**
-     * @property    font
+     * @property    fontFamily
      * フォント
      */
     tm.app.Label.prototype.accessor("fontFamily", {
@@ -120,7 +120,7 @@ tm.app = tm.app || {};
     });
     
     /**
-     * @property font
+     * @property fontWeight
      * フォント
      */
     tm.app.Label.prototype.accessor("fontWeight", {
@@ -131,7 +131,7 @@ tm.app = tm.app || {};
     });
     
     /**
-     * @property font
+     * @property lineHeight
      * フォント
      */
     tm.app.Label.prototype.accessor("lineHeight", {

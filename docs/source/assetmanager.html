@@ -116,7 +116,12 @@
     };
     
     var _tmxFunc = function(path) {
-        var mapSheet = tm.app.MapSheet(path);
+        var mapSheet = tm.asset.MapSheet(path);
+        return mapSheet;
+    };
+    
+    var _tmssFunc = function(path) {
+        var mapSheet = tm.asset.SpriteSheet(path);
         return mapSheet;
     };
 
@@ -130,6 +135,8 @@
     tm.asset.AssetManager.register(&quot;ogg&quot;, _soundFunc);
     
     tm.asset.AssetManager.register(&quot;tmx&quot;, _tmxFunc);
+    
+    tm.asset.AssetManager.register(&quot;tmss&quot;, _tmssFunc);
     
 })();
 
