@@ -9087,6 +9087,21 @@ tm.graphics = tm.graphics || {};
     tm.graphics.Canvas.prototype.getter("centerY", function(){
         return this.canvas.height/2;
     });
+
+    /**
+     * @property    imageSmoothingEnabled
+     * 画像スムージング設定
+     */
+    tm.graphics.Canvas.prototype.accessor("imageSmoothingEnabled", {
+        "get": function() {
+            return this.context.imageSmoothingEnabled;
+        },
+        "set": function(v) {
+            this.context.imageSmoothingEnabled = v;
+            this.context.webkitImageSmoothingEnabled = v;
+            this.context.mozImageSmoothingEnabled = v;
+        }
+    });
     
 })();
 
