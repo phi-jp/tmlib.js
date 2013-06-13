@@ -243,6 +243,11 @@
             return this;
         },
         
+        setBoundingType: function(type) {
+            this.boundingType = type;
+            return this;
+        },
+        
         _update: function(app) {
             // 更新有効チェック
             if (this.isUpdate == false) return ;
