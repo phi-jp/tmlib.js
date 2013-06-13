@@ -12712,9 +12712,8 @@ tm.app = tm.app || {};
             e = tm.event.Event("enter");
             e.app = this;
             this.currentScene = scene;
-            this.currentScene.dispatchEvent(e);
-
             this.currentScene.app = this;
+            this.currentScene.dispatchEvent(e);
         },
         
         /**
