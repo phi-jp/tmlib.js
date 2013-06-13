@@ -10656,6 +10656,11 @@ tm.app = tm.app || {};
             return this;
         },
         
+        setBoundingType: function(type) {
+            this.boundingType = type;
+            return this;
+        },
+        
         _update: function(app) {
             // 更新有効チェック
             if (this.isUpdate == false) return ;
@@ -12196,6 +12201,36 @@ tm.app = tm.app || {};
 })();
 
 
+(function() {
+
+    tm.define("tm.app.FlatButton", {
+        superClass: tm.app.Shape,
+
+        init: function(param) {
+            param.$safe({
+                width: 300,
+                height: 100,
+                bgColor: "rgb(180, 180, 180)",
+                text: "ABC",
+                fontSize: 50,
+                fontFamily: "'ヒラギノ角ゴ Pro W3' 'Hiragino Kaku Gothic Pro' 'メイリオ' 'Meiryo' 'ＭＳ Ｐゴシック' 'MS PGothic' sans-serif",
+            });
+
+            this.superInit(param.width, param.height);
+
+            this.canvas.clearColor(param.bgColor);
+
+            this.setInteractive(true);
+            this.setBoundingType("rect");
+
+            this.label = tm.app.Label(param.text).addChildTo(this);
+            this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign("center").setBaseline("middle");
+        },
+    });
+
+
+
+})();
 
 
 
