@@ -99,7 +99,7 @@
     };
     
     var _tmxFunc = function(path) {
-        var mapSheet = tm.app.MapSheet(path);
+        var mapSheet = tm.asset.MapSheet(path);
         return mapSheet;
     };
     

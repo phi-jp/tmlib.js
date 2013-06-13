@@ -5,6 +5,10 @@
 
 (function() {
     
+    /**
+     * @class tm.app.Object2D
+     * Object2D
+     */
     tm.define("tm.app.Object2D", {
         superClass: "tm.app.Element",
         
