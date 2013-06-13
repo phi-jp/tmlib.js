@@ -151,9 +151,8 @@ tm.app = tm.app || {};
             
             e = tm.event.Event("enter");
             e.app = this;
-            scene.dispatchEvent(e);
-
             scene.app = this;
+            scene.dispatchEvent(e);
         },
         
         /**
@@ -162,7 +161,7 @@ tm.app = tm.app || {};
          */
         popScene: function()
         {
-            var scene = this._scenes.pop(scene);
+            var scene = this._scenes.pop();
             --this._sceneIndex;
             
             e = tm.event.Event("exit");
