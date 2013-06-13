@@ -96,7 +96,12 @@ tm.app = tm.app || {};
     tm.app.Label.prototype.accessor("text", {
         "get": function() { return this._text; },
         "set": function(v){
-            this._text = v || "";
+            if (v == null || v == undefined) {
+                this._text = "";
+            }
+            else {
+                this._text = v;
+            }
             this._updateLines();
         }
     });
