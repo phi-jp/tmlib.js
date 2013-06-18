@@ -7715,13 +7715,16 @@ tm.input = tm.input || {};
                 var acceleration = self.acceleration;
                 var gravity = self.gravity;
                 
-                acceleration.x = e.acceleration.x;
-                acceleration.y = e.acceleration.y;
-                acceleration.z = e.acceleration.z;
-                
-                gravity.x = e.accelerationIncludingGravity.x;
-                gravity.y = e.accelerationIncludingGravity.y;
-                gravity.z = e.accelerationIncludingGravity.z;
+                if (e.acceleration) {
+                    acceleration.x = e.acceleration.x;
+                    acceleration.y = e.acceleration.y;
+                    acceleration.z = e.acceleration.z;
+                }
+                if (e.accelerationIncludingGravity) {
+                    gravity.x = e.accelerationIncludingGravity.x;
+                    gravity.y = e.accelerationIncludingGravity.y;
+                    gravity.z = e.accelerationIncludingGravity.z;
+                }
             });
             
             window.addEventListener("deviceorientation", function(e) {
