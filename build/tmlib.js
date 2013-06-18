@@ -12216,7 +12216,7 @@ tm.app = tm.app || {};
                 bgColor: "rgb(180, 180, 180)",
                 text: "ABC",
                 fontSize: 50,
-                fontFamily: "'ヒラギノ角ゴ Pro W3' 'Hiragino Kaku Gothic Pro' 'メイリオ' 'Meiryo' 'ＭＳ Ｐゴシック' 'MS PGothic' sans-serif",
+                fontFamily: "'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif",
             });
 
             this.superInit(param.width, param.height);
