@@ -1,8 +1,8 @@
 {
   "name": "tmlib.js",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "javascript library for game programming.",
-  "main": "[build/tmlib.js,build/tmlib.min.js]",
+  "main": ["build/tmlib.js", "build/tmlib.min.js"],
   "repository": {
     "type": "git",
     "url": "git://github.com/phi1618/tmlib.js.git"
