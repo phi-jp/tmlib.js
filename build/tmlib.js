@@ -10742,14 +10742,10 @@ tm.app = tm.app || {};
             this.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
         },
         
-        _dirtyCalc: function() {
+        _calcWorldMatrix: function() {
             if (!this.parent) {
-            	this._worldAlpha = this.alpha;
-            	return ;
+                return ;
             }
-
-            // alpha
-            this._worldAlpha = this.parent._worldAlpha * this.alpha;
 
             // 行列
             if(this.rotation != this.rotationCache)
@@ -10787,6 +10783,10 @@ tm.app = tm.app || {};
             worldTransform[3] = b10 * a00 + b11 * a10;
             worldTransform[4] = b10 * a01 + b11 * a11;
             worldTransform[5] = b10 * a02 + b11 * a12 + b12;
+        },
+        
+        _dirtyCalc: function() {
+            this._calcWorldMatrix();
         },
     });
  
@@ -11176,7 +11176,22 @@ tm.app = tm.app || {};
             // TODO:
         },
         
-        _refreshSize: function() {},
+        
+        _calcAlpha: function() {
+            if (!this.parent) {
+                this._worldAlpha = this.alpha;
+                return ;
+            }
+            else {
+                // alpha
+                this._worldAlpha = this.parent._worldAlpha * this.alpha;
+            }
+        },
+        
+        _dirtyCalc: function() {
+            this._calcAlpha();
+            this._calcWorldMatrix();
+        },
         
     });
     

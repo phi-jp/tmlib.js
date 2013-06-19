@@ -183,7 +183,22 @@ tm.app = tm.app || {};
             // TODO:
         },
         
-        _refreshSize: function() {},
+        
+        _calcAlpha: function() {
+            if (!this.parent) {
+                this._worldAlpha = this.alpha;
+                return ;
+            }
+            else {
+                // alpha
+                this._worldAlpha = this.parent._worldAlpha * this.alpha;
+            }
+        },
+        
+        _dirtyCalc: function() {
+            this._calcAlpha();
+            this._calcWorldMatrix();
+        },
         
     });
     
