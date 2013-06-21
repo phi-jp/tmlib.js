@@ -7715,13 +7715,16 @@ tm.input = tm.input || {};
                 var acceleration = self.acceleration;
                 var gravity = self.gravity;
                 
-                acceleration.x = e.acceleration.x;
-                acceleration.y = e.acceleration.y;
-                acceleration.z = e.acceleration.z;
-                
-                gravity.x = e.accelerationIncludingGravity.x;
-                gravity.y = e.accelerationIncludingGravity.y;
-                gravity.z = e.accelerationIncludingGravity.z;
+                if (e.acceleration) {
+                    acceleration.x = e.acceleration.x;
+                    acceleration.y = e.acceleration.y;
+                    acceleration.z = e.acceleration.z;
+                }
+                if (e.accelerationIncludingGravity) {
+                    gravity.x = e.accelerationIncludingGravity.x;
+                    gravity.y = e.accelerationIncludingGravity.y;
+                    gravity.z = e.accelerationIncludingGravity.z;
+                }
             });
             
             window.addEventListener("deviceorientation", function(e) {
@@ -10739,14 +10742,10 @@ tm.app = tm.app || {};
             this.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
         },
         
-        _dirtyCalc: function() {
+        _calcWorldMatrix: function() {
             if (!this.parent) {
-            	this._worldAlpha = this.alpha;
-            	return ;
+                return ;
             }
-
-            // alpha
-            this._worldAlpha = this.parent._worldAlpha * this.alpha;
 
             // 行列
             if(this.rotation != this.rotationCache)
@@ -10784,6 +10783,10 @@ tm.app = tm.app || {};
             worldTransform[3] = b10 * a00 + b11 * a10;
             worldTransform[4] = b10 * a01 + b11 * a11;
             worldTransform[5] = b10 * a02 + b11 * a12 + b12;
+        },
+        
+        _dirtyCalc: function() {
+            this._calcWorldMatrix();
         },
     });
  
@@ -10849,7 +10852,7 @@ tm.app = tm.app || {};
      */
     tm.app.Object2D.prototype.accessor("width", {
         "get": function()   { return this._width; },
-        "set": function(v)  { this._width = v; this._refreshSize(); }
+        "set": function(v)  { this._width = v; }
     });
     
     
@@ -10859,7 +10862,7 @@ tm.app = tm.app || {};
      */
     tm.app.Object2D.prototype.accessor("height", {
         "get": function()   { return this._height; },
-        "set": function(v)  { this._height = v; this._refreshSize(); }
+        "set": function(v)  { this._height = v; }
     });
     
     /**
@@ -11173,7 +11176,22 @@ tm.app = tm.app || {};
             // TODO:
         },
         
-        _refreshSize: function() {},
+        
+        _calcAlpha: function() {
+            if (!this.parent) {
+                this._worldAlpha = this.alpha;
+                return ;
+            }
+            else {
+                // alpha
+                this._worldAlpha = this.parent._worldAlpha * this.alpha;
+            }
+        },
+        
+        _dirtyCalc: function() {
+            this._calcAlpha();
+            this._calcWorldMatrix();
+        },
         
     });
     
@@ -12213,7 +12231,7 @@ tm.app = tm.app || {};
                 bgColor: "rgb(180, 180, 180)",
                 text: "ABC",
                 fontSize: 50,
-                fontFamily: "'ヒラギノ角ゴ Pro W3' 'Hiragino Kaku Gothic Pro' 'メイリオ' 'Meiryo' 'ＭＳ Ｐゴシック' 'MS PGothic' sans-serif",
+                fontFamily: "'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif",
             });
 
             this.superInit(param.width, param.height);
