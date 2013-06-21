@@ -122,6 +122,8 @@ tm.app = tm.app || {};
             c.fillStyle = param.fillStyle;
             c.strokeStyle = param.strokeStyle;
             c.lineWidth = param.lineWidth;
+            c.textAlign = "center";
+            c.textBaseline = "middle";
             
             // 描画
             var lw          = Number(c.lineWidth);
@@ -149,6 +151,27 @@ tm.app = tm.app || {};
             // 描画
             c.fillHeart(this.width/2, this.height/2, this.radius, param.angle);
             c.strokeHeart(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, param.angle);
+            
+            c.restore();
+        },
+
+        renderText: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
+
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle     = param.fillStyle;
+            c.strokeStyle   = param.strokeStyle;
+            c.lineWidth     = param.lineWidth;
+            c.font          = param.font;
+            c.textAlign     = param.textAlign;
+            c.textBaseline  = param.textBaseline;
+
+            // 描画
+            c.strokeText(param.text, this.width/2, this.height/2);
+            c.fillText(param.text, this.width/2, this.height/2);
             
             c.restore();
         },
@@ -198,6 +221,16 @@ tm.app = tm.app || {};
         lineWidth: "2",
         
         angle: 45,
+    };
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
+        text: "hello, world",
+        fillStyle: "pink",
+        strokeStyle: "white",
+        lineWidth: "1",
+        textAlign: "center",
+        textBaseline: "middle",
+        font: "24px 'Consolas', 'Monaco', 'ＭＳ ゴシック'",
     };
     
 })();
@@ -348,6 +381,31 @@ tm.app = tm.app || {};
             this.renderHeart(param);
         },
         
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * HeartShape
+     */
+    tm.define("tm.app.TextShape", {
+
+        superClass: "tm.app.Shape",
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderText(param);
+        },
     });
     
 })();

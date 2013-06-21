@@ -120,8 +120,18 @@ tm.define("tests.canvaselement.ShapeTest", {
                 { type: "StarShape", name: "star", x: 400, y: 100 },
                 { type: "PolygonShape", name: "polygon", x: 500, y: 100 },
                 { type: "HeartShape", init: [50, 50], name: "heart", x: 300, y: 200 },
+                { type: "TextShape", init: [200, 50, {
+
+                }], name: "text", x: 300, y: 300 },
             ],
         });
+
+        // tm.app.TextShape(150, 50, {
+        //     text: "AAAAAAAAAAAAAAA",
+        //     fillStyle: "red",
+        //     strokeStyle: "hsla(240, 50%, 50%, 1.0)",
+        //     lineWidth: "4",
+        // }).addChildTo(this).setPosition(100, 50);
     },
 
     update: function(app) {
