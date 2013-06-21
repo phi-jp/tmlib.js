@@ -436,7 +436,7 @@
      */
     tm.app.Object2D.prototype.accessor("width", {
         "get": function()   { return this._width; },
-        "set": function(v)  { this._width = v; this._refreshSize(); }
+        "set": function(v)  { this._width = v; }
     });
     
     
@@ -446,7 +446,7 @@
      */
     tm.app.Object2D.prototype.accessor("height", {
         "get": function()   { return this._height; },
-        "set": function(v)  { this._height = v; this._refreshSize(); }
+        "set": function(v)  { this._height = v; }
     });
     
     /**
