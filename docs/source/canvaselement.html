@@ -30,48 +30,48 @@ tm.app = tm.app || {};
      */
     tm.app.CanvasElement = tm.createClass({
         
-        superClass: tm.app.Object2D,
-        
-<span id='tm-app-CanvasElement-property-isUpdate'>        /**
-</span>         * 更新フラグ
+<span id='tm-app-CanvasElement-property-isUpdate'>        superClass: tm.app.Object2D,
+</span>        
+        /**
+         * 更新フラグ
          */
-        isUpdate: true,
-        
-<span id='tm-app-CanvasElement-property-visible'>        /**
-</span>         * 表示フラグ
+<span id='tm-app-CanvasElement-property-visible'>        isUpdate: true,
+</span>        
+        /**
+         * 表示フラグ
          */
-        visible: true,
-        
-<span id='tm-app-CanvasElement-property-fillStyle'>        /**
-</span>         * fillStyle
+<span id='tm-app-CanvasElement-property-fillStyle'>        visible: true,
+</span>        
+        /**
+         * fillStyle
          */
-        fillStyle: &quot;white&quot;,
-        
-<span id='tm-app-CanvasElement-property-strokeStyle'>        /**
-</span>         * strokeStyle
+<span id='tm-app-CanvasElement-property-strokeStyle'>        fillStyle: &quot;white&quot;,
+</span>        
+        /**
+         * strokeStyle
          */
-        strokeStyle: &quot;white&quot;,
+<span id='tm-app-CanvasElement-property-alpha'>        strokeStyle: &quot;white&quot;,
+</span>        
+        /**
+         * アルファ
+<span id='tm-app-CanvasElement-property-blendMode'>         */
+</span>        alpha: 1.0,
         
-<span id='tm-app-CanvasElement-property-alpha'>        /**
-</span>         * アルファ
-         */
-        alpha: 1.0,
+        /**
+         * ブレンドモード
+<span id='tm-app-CanvasElement-property-shadowColor'>         */
+</span>        blendMode: &quot;source-over&quot;,
         
-<span id='tm-app-CanvasElement-property-blendMode'>        /**
-</span>         * ブレンドモード
-         */
-        blendMode: &quot;source-over&quot;,
-        
-<span id='tm-app-CanvasElement-property-shadowColor'>        /**
-</span>         * シャドウカラー
+        /**
+         * シャドウカラー
          */
         shadowColor: &quot;black&quot;,
-        shadowOffsetX: 0,
-        shadowOffsetY: 0,
+<span id='tm-app-CanvasElement-method-init'>        shadowOffsetX: 0,
+</span>        shadowOffsetY: 0,
         shadowBlur: 0,
         
-<span id='tm-app-CanvasElement-method-init'>        /**
-</span>         * ゲーム用エレメントクラス
+        /**
+         * ゲーム用エレメントクラス
          */
         init: function() {
             this.superInit();
@@ -200,7 +200,22 @@ tm.app = tm.app || {};
             // TODO:
         },
         
-        _refreshSize: function() {},
+        
+        _calcAlpha: function() {
+            if (!this.parent) {
+                this._worldAlpha = this.alpha;
+                return ;
+            }
+            else {
+                // alpha
+                this._worldAlpha = this.parent._worldAlpha * this.alpha;
+            }
+        },
+        
+        _dirtyCalc: function() {
+            this._calcAlpha();
+            this._calcWorldMatrix();
+        },
         
     });
     

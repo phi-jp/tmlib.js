@@ -139,6 +139,8 @@ tm.app = tm.app || {};
             c.fillStyle = param.fillStyle;
             c.strokeStyle = param.strokeStyle;
             c.lineWidth = param.lineWidth;
+            c.textAlign = &quot;center&quot;;
+            c.textBaseline = &quot;middle&quot;;
             
             // 描画
             var lw          = Number(c.lineWidth);
@@ -166,6 +168,27 @@ tm.app = tm.app || {};
             // 描画
             c.fillHeart(this.width/2, this.height/2, this.radius, param.angle);
             c.strokeHeart(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, param.angle);
+            
+            c.restore();
+        },
+
+        renderText: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
+
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle     = param.fillStyle;
+            c.strokeStyle   = param.strokeStyle;
+            c.lineWidth     = param.lineWidth;
+            c.font          = param.font;
+            c.textAlign     = param.textAlign;
+            c.textBaseline  = param.textBaseline;
+
+            // 描画
+            c.strokeText(param.text, this.width/2, this.height/2);
+            c.fillText(param.text, this.width/2, this.height/2);
             
             c.restore();
         },
@@ -216,25 +239,35 @@ tm.app = tm.app || {};
         
         angle: 45,
     };
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
+        text: &quot;hello, world&quot;,
+        fillStyle: &quot;pink&quot;,
+        strokeStyle: &quot;white&quot;,
+        lineWidth: &quot;1&quot;,
+<span id='tm-app-CircleShape'>        textAlign: &quot;center&quot;,
+</span>        textBaseline: &quot;middle&quot;,
+        font: &quot;24px 'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;,
+    };
     
 })();
 
 
-(function() {
-    
-<span id='tm-app-CircleShape'>    /**
-</span>     * @class
+<span id='tm-app-CircleShape-method-init'>(function() {
+</span>    
+    /**
+     * @class
      * CircleShape
      */
     tm.app.CircleShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-CircleShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
-        init: function(width, height, param) {
-            this.superInit(width, height);
+<span id='tm-app-TriangleShape'>        init: function(width, height, param) {
+</span>            this.superInit(width, height);
             // 描画
             this.renderCircle(param);
         },
@@ -245,21 +278,21 @@ tm.app = tm.app || {};
 
 
 
-(function() {
-    
-<span id='tm-app-TriangleShape'>    /**
-</span>     * @class
+<span id='tm-app-TriangleShape-method-init'>(function() {
+</span>    
+    /**
+     * @class
      * TriangleShape
      */
     tm.app.TriangleShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-TriangleShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
-        init: function(width, height, param) {
-            this.superInit(width, height);
+<span id='tm-app-RectangleShape'>        init: function(width, height, param) {
+</span>            this.superInit(width, height);
             // 描画
             this.renderTriangle(param);
         },
@@ -269,52 +302,52 @@ tm.app = tm.app || {};
 })();
 
 
-
-
+<span id='tm-app-RectangleShape-method-init'>
+</span>
 (function() {
     
-<span id='tm-app-RectangleShape'>    /**
-</span>     * @class
+    /**
+     * @class
      * RectangleShape
      */
     tm.app.RectangleShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-RectangleShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
-        init: function(width, height, param) {
-            this.superInit(width, height);
+<span id='tm-app-StarShape'>        init: function(width, height, param) {
+</span>            this.superInit(width, height);
             // 描画
             this.renderRectangle(param);
         },
-        
-    });
+<span id='tm-app-StarShape-method-init'>        
+</span>    });
     
 })();
 
 
 (function() {
     
-<span id='tm-app-StarShape'>    /**
-</span>     * @class
+    /**
+     * @class
      * StarShape
      */
     tm.app.StarShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-StarShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
-        init: function(width, height, param) {
-            this.superInit(width, height);
+<span id='tm-app-PolygonShape'>        init: function(width, height, param) {
+</span>            this.superInit(width, height);
             // 描画
             this.renderStar(param);
         },
-        
-    });
+<span id='tm-app-PolygonShape-method-init'>        
+</span>    });
     
 })();
 
@@ -322,22 +355,48 @@ tm.app = tm.app || {};
 
 (function() {
     
-<span id='tm-app-PolygonShape'>    /**
-</span>     * @class
+    /**
+     * @class
      * PolygonShape
      */
     tm.app.PolygonShape = tm.createClass({
         
         superClass: tm.app.Shape,
         
-<span id='tm-app-PolygonShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
-        init: function(width, height, param) {
-            this.superInit(width, height);
+<span id='tm-app-HeartShape'>        init: function(width, height, param) {
+</span>            this.superInit(width, height);
             // 描画
             this.renderPolygon(param);
-        },
+<span id='tm-app-HeartShape-method-init'>        },
+</span>        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * HeartShape
+     */
+    tm.app.HeartShape = tm.createClass({
+        
+        superClass: tm.app.Shape,
+        
+        /**
+         * 初期化
+<span id=''>         */
+</span>        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+<span id='-method-init'>            this.renderHeart(param);
+</span>        },
         
     });
     
@@ -348,23 +407,22 @@ tm.app = tm.app || {};
 
 (function() {
     
-<span id='tm-app-HeartShape'>    /**
-</span>     * @class
+    /**
+     * @class
      * HeartShape
      */
-    tm.app.HeartShape = tm.createClass({
+    tm.define(&quot;tm.app.TextShape&quot;, {
+
+        superClass: &quot;tm.app.Shape&quot;,
         
-        superClass: tm.app.Shape,
-        
-<span id='tm-app-HeartShape-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
         init: function(width, height, param) {
             this.superInit(width, height);
             // 描画
-            this.renderHeart(param);
+            this.renderText(param);
         },
-        
     });
     
 })();

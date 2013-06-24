@@ -32,33 +32,33 @@ tm.app = tm.app || {};
         
         superClass: tm.event.EventDispatcher,
         
-        parent: null,
-        children: null,
+<span id='tm-app-Element-method-init'>        parent: null,
+</span>        children: null,
         
-<span id='tm-app-Element-method-init'>        /**
-</span>         * 初期化
+        /**
+         * 初期化
          */
         init: function() {
             
             this.superInit();
             
             this.children = [];
-            this._listeners = {};
-        },
+<span id='tm-app-Element-method-remove'>            this._listeners = {};
+</span>        },
         
-<span id='tm-app-Element-method-remove'>        /**
-</span>         * 親から離れる
+        /**
+         * 親から離れる
          */
         remove: function()
         {
             console.assert(this.parent);
             this.parent.removeChild(this);
-            
-            return this;
+<span id='tm-app-Element-method-addChild'>            
+</span>            return this;
         },
         
-<span id='tm-app-Element-method-addChild'>        /**
-</span>         * 子供を追加
+        /**
+         * 子供を追加
          */
         addChild: function(child) {
             if (child.parent) child.remove();
@@ -66,101 +66,101 @@ tm.app = tm.app || {};
             this.children.push(child);
 
             var e = tm.event.Event(&quot;added&quot;);
-            child.dispatchEvent(e);
-            
+<span id='tm-app-Element-method-addChildTo'>            child.dispatchEvent(e);
+</span>            
             return child;
         },
         
-<span id='tm-app-Element-method-addChildTo'>        /**
-</span>         * parent に自分を子供として追加
+        /**
+         * parent に自分を子供として追加
          */
         addChildTo: function(parent) {
             parent.addChild(this);
             
             // if (this.parent) this.remove();
             // this.parent = parent;
-            // parent.children.push(child);
-            
+<span id='tm-app-Element-method-addChildren'>            // parent.children.push(child);
+</span>            
             return this;
         },
         
-<span id='tm-app-Element-method-addChildren'>        /**
-</span>         * まとめて追加
+        /**
+         * まとめて追加
          * scene 遷移時に子供をごっそり移譲するときなどに使用
          * まだ動作確認していない
          */
         addChildren: function(children)
         {
-            var tempChildren = children.slice();
-            for (var i=beginIndex,len=tempChildren.length; i&lt;len; ++i) {
-                this.addChild(tempChildren[i]);
-            }
+<span id='tm-app-Element-method-getChildAt'>            var tempChildren = children.slice();
+</span>            for (var i=beginIndex,len=tempChildren.length; i&lt;len; ++i) {
+<span id='tm-app-Element-method-removeChild'>                this.addChild(tempChildren[i]);
+</span>            }
         },
         
-<span id='tm-app-Element-method-getChildAt'>        /**
-</span>         * index 指定で子供を取得
+        /**
+         * index 指定で子供を取得
          */
         getChildAt: function() {
             // TODO: 
         },
         
-<span id='tm-app-Element-method-removeChild'>        /**
-</span>         * child に一致するエレメントを離す
+        /**
+         * child に一致するエレメントを離す
          */
         removeChild: function(child)
         {
-            var index = this.children.indexOf(child);
-            if (index != -1) {
+<span id='tm-app-Element-method-removeChildren'>            var index = this.children.indexOf(child);
+</span>            if (index != -1) {
                 this.children.splice(index, 1);
                 var e = tm.event.Event(&quot;removed&quot;);
                 child.dispatchEvent(e);
             }
         },
         
-<span id='tm-app-Element-method-removeChildren'>        /**
-</span>         * すべての child を離す
+        /**
+         * すべての child を離す
          */
         removeChildren: function(beginIndex)
         {
             beginIndex = beginIndex || 0;
-            var tempChildren = this.children.slice();
-            for (var i=beginIndex,len=tempChildren.length; i&lt;len; ++i) {
+<span id='tm-app-Element-method-getChildByName'>            var tempChildren = this.children.slice();
+</span>            for (var i=beginIndex,len=tempChildren.length; i&lt;len; ++i) {
                 tempChildren[i].remove();
             }
             this.children = [];
         },
         
-<span id='tm-app-Element-method-getChildByName'>        /**
-</span>         * 名前の一致する child を取得
+        /**
+         * 名前の一致する child を取得
          */
-        getChildByName: function(name)
-        {
+<span id='tm-app-Element-method-execChildren'>        getChildByName: function(name)
+</span>        {
             for (var i=0,len=this.children.length; i&lt;len; ++i)
                 if (this.children[i].name == name) return this.children[i];
             
             return null;
         },
         
-<span id='tm-app-Element-method-execChildren'>        /**
-</span>         * 関数実行
+        /**
+         * 関数実行
          */
         execChildren: function(func, args)
         {
-            args = (args &amp;&amp; args.length) ? args : [args];
-            // 関数内で remove される可能性があるので配列をコピーする
-            var tempChildren = this.children.slice();
-            for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
+<span id='tm-app-Element-method-getParent'>            args = (args &amp;&amp; args.length) ? args : [args];
+</span>            // 関数内で remove される可能性があるので配列をコピーする
+<span id='tm-app-Element-method-getRoot'>            var tempChildren = this.children.slice();
+</span>            for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
                 func.apply(tempChildren[i], args);
             }
         },
         
-<span id='tm-app-Element-method-getParent'>        /**
-</span>         * 親を取得
+        /**
+         * 親を取得
          */
         getParent: function() { return this.parent; },
         
-<span id='tm-app-Element-method-getRoot'>        /**
-</span>         * ルートを取得
+        /**
+         * ルートを取得
          */
         getRoot: function() {
             if (!this.parent) return null;

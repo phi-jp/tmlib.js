@@ -38,15 +38,15 @@ tm.app = tm.app || {};
 <span id='tm-app-Label-property-fill'>        /**
 </span>         * 塗りつぶしフラグ
          */
-        fill: true,
-<span id='tm-app-Label-property-stroke'>        /**
-</span>         * ストロークフラグ
+<span id='tm-app-Label-property-stroke'>        fill: true,
+</span>        /**
+         * ストロークフラグ
          */
         stroke: false,
-        debugBox: false,
-        
-<span id='tm-app-Label-method-init'>        /**
-</span>         * 初期化
+<span id='tm-app-Label-method-init'>        debugBox: false,
+</span>        
+        /**
+         * 初期化
          */
         init: function(text, size) {
             this.superInit();
@@ -101,54 +101,59 @@ tm.app = tm.app || {};
         },
         
         _updateLines: function() {
-            this._lines = (this._text+'').split('\n');
-        }
+<span id='tm-app-Label-property-text'>            this._lines = (this._text+'').split('\n');
+</span>        }
         
     });
     
-<span id='tm-app-Label-property-text'>    /**
-</span>     * @property    text
+    /**
+     * @property    text
      * サイズ
      */
     tm.app.Label.prototype.accessor(&quot;text&quot;, {
         &quot;get&quot;: function() { return this._text; },
         &quot;set&quot;: function(v){
-            this._text = v || &quot;&quot;;
-            this._updateLines();
-        }
+            if (v == null || v == undefined) {
+                this._text = &quot;&quot;;
+            }
+            else {
+                this._text = v;
+            }
+<span id='tm-app-Label-property-size'>            this._updateLines();
+</span>        }
     });
     
-<span id='tm-app-Label-property-size'>    /**
-</span>     * @property    size
+    /**
+     * @property    size
      * サイズ
      */
     tm.app.Label.prototype.accessor(&quot;fontSize&quot;, {
         &quot;get&quot;: function() { return this._fontSize; },
-        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
-    });
+<span id='tm-app-Label-property-fontFamily'>        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
+</span>    });
     
-<span id='tm-app-Label-property-fontFamily'>    /**
-</span>     * @property    fontFamily
+    /**
+     * @property    fontFamily
      * フォント
      */
     tm.app.Label.prototype.accessor(&quot;fontFamily&quot;, {
         &quot;get&quot;: function() { return this._fontFamily; },
-        &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
-    });
+<span id='tm-app-Label-property-fontWeight'>        &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
+</span>    });
     
-<span id='tm-app-Label-property-fontWeight'>    /**
-</span>     * @property fontWeight
+    /**
+     * @property fontWeight
      * フォント
      */
     tm.app.Label.prototype.accessor(&quot;fontWeight&quot;, {
         &quot;get&quot;: function() { return this._fontWeight; },
         &quot;set&quot;: function(v) {
-            this._fontWeight = v; this._updateFont();
-        },
+<span id='tm-app-Label-property-lineHeight'>            this._fontWeight = v; this._updateFont();
+</span>        },
     });
     
-<span id='tm-app-Label-property-lineHeight'>    /**
-</span>     * @property lineHeight
+    /**
+     * @property lineHeight
      * フォント
      */
     tm.app.Label.prototype.accessor(&quot;lineHeight&quot;, {

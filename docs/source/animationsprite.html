@@ -60,13 +60,13 @@ tm.app = tm.app || {};
 
             this.addEventListener(&quot;enterframe&quot;, function(e) {
                 if (!this.paused &amp;&amp; e.app.frame%this.currentAnimation.frequency === 0) {
-                    this._updateFrame();
-                }
+<span id='tm-app-AnimationSprite-method-draw'>                    this._updateFrame();
+</span>                }
             });
         },
 
-<span id='tm-app-AnimationSprite-method-draw'>        /**
-</span>         * 描画
+        /**
+         * 描画
          */
         draw: function(canvas) {
             var srcRect = this.ss.getFrame(this.currentFrame);

@@ -38,9 +38,9 @@ tm.dom = tm.dom || {};
         init: function() {
             this.set.apply(this, arguments);
         },
-        
-<span id='tm-dom-Element-method-set'>        /**
-</span>         * セッター
+<span id='tm-dom-Element-method-set'>        
+</span>        /**
+         * セッター
          */
         set: function(q) {
             if (typeof q === &quot;string&quot;) {
@@ -51,137 +51,137 @@ tm.dom = tm.dom || {};
             }
             else {
                 // デフォルトはドキュメント
-                this.element = document;
-            }
+<span id='tm-dom-Element-method-append'>                this.element = document;
+</span>            }
         },
         
 
-<span id='tm-dom-Element-method-append'>        /**
-</span>         * 子供の最後尾に追加
+        /**
+         * 子供の最後尾に追加
          */
         append: function(child) {
-            this.element.appendChild(child.element);
-            return this;
+<span id='tm-dom-Element-method-prepend'>            this.element.appendChild(child.element);
+</span>            return this;
         },
         
-<span id='tm-dom-Element-method-prepend'>        /**
-</span>         * 子供の先頭に追加
+        /**
+         * 子供の先頭に追加
          */
         prepend: function(child) {
-            this.element.insertBefore(child.element, this.element.firstChild);
-            return this;
+<span id='tm-dom-Element-method-after'>            this.element.insertBefore(child.element, this.element.firstChild);
+</span>            return this;
         },
         
-<span id='tm-dom-Element-method-after'>        /**
-</span>         * 自分の後に追加
+        /**
+         * 自分の後に追加
          */
         after: function(child) {
-            this.element.parentNode.insertBefore(child.element, this.element.nextSibling);
-            return this;
+<span id='tm-dom-Element-method-before'>            this.element.parentNode.insertBefore(child.element, this.element.nextSibling);
+</span>            return this;
         },
         
-<span id='tm-dom-Element-method-before'>        /**
-</span>         * 自分の前に追加
+        /**
+         * 自分の前に追加
          */
         before: function(child) {
-            this.element.parentNode.insertBefore(child.element, this.element);
-            return this;
+<span id='tm-dom-Element-method-appendTo'>            this.element.parentNode.insertBefore(child.element, this.element);
+</span>            return this;
         },
         
-<span id='tm-dom-Element-method-appendTo'>        /**
-</span>         * 引数に渡された要素に自分を append
-         */
-        appendTo: function(parent) {
+        /**
+         * 引数に渡された要素に自分を append
+<span id='tm-dom-Element-method-prependTo'>         */
+</span>        appendTo: function(parent) {
             parent.append(this);
             return this;
         },
         
-<span id='tm-dom-Element-method-prependTo'>        /**
-</span>         * 引数に渡された要素に自分を prepend
+        /**
+         * 引数に渡された要素に自分を prepend
          */
         prependTo: function(parent) {
             parent.prepend(this);
-            return this;
-        },
+<span id='tm-dom-Element-method-remove'>            return this;
+</span>        },
         
         clone: function() {
             return tm.dom.Element(this.element.cloneNode(true));
         },
         
-<span id='tm-dom-Element-method-remove'>        /**
-</span>         * 親から自分を引っぺがす
-         */
+        /**
+<span id='tm-dom-Element-method-create'>         * 親から自分を引っぺがす
+</span>         */
         remove: function() {
             this.element.parentNode.removeChild(this.element);
             return this;
         },
         
-<span id='tm-dom-Element-method-create'>        /**
-</span>         * 要素生成
+        /**
+         * 要素生成
          */
         create: function(tag, addFuncName) {
             // 要素を生成
             var element = tm.dom.Element(document.createElement(tag));
-            // デフォルトの追加方法は append
-            if (!addFuncName) { addFuncName=&quot;append&quot;; }
+<span id='tm-dom-Element-method-query'>            // デフォルトの追加方法は append
+</span>            if (!addFuncName) { addFuncName=&quot;append&quot;; }
             // 自分の子供として追加
             this[addFuncName](element);
             
             return element;
         },
         
-<span id='tm-dom-Element-method-query'>        /**
-</span>         * query
+        /**
+         * query
          */
-        query: function(query, index) {
-            var elm = (index) ?
+<span id='tm-dom-Element-method-queryAll'>        query: function(query, index) {
+</span>            var elm = (index) ?
                 this.element.querySelectorAll(query)[index] : 
                 this.element.querySelector(query);
             
-            return tm.dom.Element(elm);
-        },
+<span id='tm-dom-Element-method-fixed'>            return tm.dom.Element(elm);
+</span>        },
         
-<span id='tm-dom-Element-method-queryAll'>        /**
-</span>         * queryAll
+        /**
+         * queryAll
          */
         queryAll: function(query) {
             var list = this.element.querySelectorAll(query);
             return tm.dom.ElementList(list);
         },
         
-<span id='tm-dom-Element-method-fixed'>        /**
-</span>         * 固定化
+        /**
+         * 固定化
          */
         fixed: function(x, y, width, height) {
-            this.style.set(&quot;position&quot;, &quot;fixed&quot;);
-            if (x) this.x = x;
+<span id='tm-dom-Element-method-absolute'>            this.style.set(&quot;position&quot;, &quot;fixed&quot;);
+</span>            if (x) this.x = x;
             if (y) this.y = y;
             if (width) this.width = width;
             if (height) this.height = height;
             return this;
         },
         
-<span id='tm-dom-Element-method-absolute'>        /**
-</span>         * absolute 化
+        /**
+         * absolute 化
          */
         absolute: function(x, y, width, height) {
-            this.style.set(&quot;position&quot;, &quot;absolute&quot;);
-            if (x) this.x = x;
+<span id='tm-dom-Element-method-fullScreen'>            this.style.set(&quot;position&quot;, &quot;absolute&quot;);
+</span>            if (x) this.x = x;
             if (y) this.y = y;
             if (width) this.width = width;
-            if (height) this.height = height;
-            return this;
+<span id='tm-dom-Element-method-toString'>            if (height) this.height = height;
+</span>            return this;
         },
         
-<span id='tm-dom-Element-method-fullScreen'>        /**
-</span>         * フルスクリーン化
+        /**
+         * フルスクリーン化
          */
         fullScreen: function() {
-            this.element.webkitRequestFullScreen();
-        },
+<span id='tm-dom-Element-property-html'>            this.element.webkitRequestFullScreen();
+</span>        },
         
-<span id='tm-dom-Element-method-toString'>        /**
-</span>         * 文字列化
+        /**
+         * 文字列化
          */
         toString: function() {
             return &quot;tm.dom.element&quot;;
@@ -192,40 +192,40 @@ tm.dom = tm.dom || {};
         },
         
     });
+<span id='tm-dom-Element-property-value'>    
+</span>    
     
-    
-    
-<span id='tm-dom-Element-property-html'>    /**
-</span>     * @property    html
+    /**
+     * @property    html
      * html の値
      */
     tm.dom.Element.prototype.accessor(&quot;html&quot;, {
         &quot;get&quot;: function()       { return this.element.innerHTML; },
         &quot;set&quot;: function(html)   { this.element.innerHTML = html; }
-    });
+<span id='tm-dom-Element-property-x'>    });
+</span>    
     
-    
-<span id='tm-dom-Element-property-value'>    /**
-</span>     * @property    value
+    /**
+     * @property    value
      * value の値
      */
     tm.dom.Element.prototype.accessor(&quot;value&quot;, {
         &quot;get&quot;: function()       { return this.element.value; },
         &quot;set&quot;: function(value)   { this.element.value = value; }
-    });
+<span id='tm-dom-Element-property-y'>    });
+</span>    
     
-    
-<span id='tm-dom-Element-property-x'>    /**
-</span>     * @property    x
+    /**
+     * @property    x
      * x値
      */
     tm.dom.Element.prototype.accessor(&quot;x&quot;, {
         &quot;get&quot;: function()   { return Number( this.element.style.left.replace(&quot;px&quot;, '') ); },
         &quot;set&quot;: function(x)  { this.element.style.left = x+&quot;px&quot;; }
-    });
-    
-<span id='tm-dom-Element-property-y'>    /**
-</span>     * @property    y
+<span id='tm-dom-Element-property-width'>    });
+</span>    
+    /**
+     * @property    y
      * y値
      */
     tm.dom.Element.prototype.accessor(&quot;y&quot;, {
@@ -233,9 +233,9 @@ tm.dom = tm.dom || {};
         &quot;set&quot;: function(y)  { this.element.style.top = y+&quot;px&quot;; }
     });
     
-    
-<span id='tm-dom-Element-property-width'>    /**
-</span>     * @property    width
+<span id='tm-dom-Element-property-height'>    
+</span>    /**
+     * @property    width
      * 幅
      */
     tm.dom.Element.prototype.accessor(&quot;width&quot;, {
@@ -244,18 +244,18 @@ tm.dom = tm.dom || {};
     });
     
     
-<span id='tm-dom-Element-property-height'>    /**
+<span id='tm-dom-Element-property-color'>    /**
 </span>     * @property    height
      * 高さ
      */
     tm.dom.Element.prototype.accessor(&quot;height&quot;, {
         &quot;get&quot;: function()   { return Number( this.element.style.height.replace(&quot;px&quot;, '') ); },
-        &quot;set&quot;: function(h)  { this.element.style.height = h+&quot;px&quot;; }
-    });
+<span id='tm-dom-Element-property-backgroundColor'>        &quot;set&quot;: function(h)  { this.element.style.height = h+&quot;px&quot;; }
+</span>    });
     
     
-<span id='tm-dom-Element-property-color'>    /**
-</span>     * @property    color
+    /**
+     * @property    color
      * 色
      */
     tm.dom.Element.prototype.accessor(&quot;color&quot;, {
@@ -264,7 +264,7 @@ tm.dom = tm.dom || {};
     });
     
     
-<span id='tm-dom-Element-property-backgroundColor'>    /**
+<span id='tm-dom-Element-property-visible'>    /**
 </span>     * @property    backgroundColor
      * 背景色
      */
@@ -273,22 +273,22 @@ tm.dom = tm.dom || {};
         &quot;set&quot;: function(color)  { this.element.style.backgroundColor = color; }
     });
     
-<span id='tm-dom-Element-property-visible'>    /**
-</span>     * @property    visible
-     * 表示/非表示
+    /**
+<span id='tm-dom-Element-property-text'>     * @property    visible
+</span>     * 表示/非表示
      */
     tm.dom.Element.prototype.accessor(&quot;visible&quot;, {
         &quot;get&quot;: function()   { return this.element.style.visibility != &quot;hidden&quot;; },
         &quot;set&quot;: function(v)  { this.element.style.visibility = (v==true) ? &quot;visible&quot; : &quot;hidden&quot;; }
     });
     
-<span id='tm-dom-Element-property-text'>    /**
-</span>     * @property    text
+    /**
+     * @property    text
      * テキスト
      */
     tm.dom.Element.prototype.accessor(&quot;text&quot;, {
-        &quot;get&quot;: function()   { return this.element.innerText || this.element.textContent; },
-        &quot;set&quot;: function(v)  {
+<span id='tm-dom-Element-property-classList'>        &quot;get&quot;: function()   { return this.element.innerText || this.element.textContent; },
+</span>        &quot;set&quot;: function(v)  {
             if (this.element.innerText) {
                 this.element.innerText = v;
             } else {
@@ -298,8 +298,8 @@ tm.dom = tm.dom || {};
     });
     
     
-<span id='tm-dom-Element-property-classList'>    /**
-</span>     * @property    classList
+    /**
+     * @property    classList
      * クラスリスト
      */
     tm.dom.Element.prototype.getter(&quot;classList&quot;, function()   { return this.element.classList; });
@@ -310,9 +310,9 @@ tm.dom = tm.dom || {};
     tm.dom.Element.prototype.getter(&quot;prev&quot;, function(){
         return (this.element.previousSibling != undefined) ? tm.dom.Element(this.element.previousSibling) : null;
     });
-    tm.dom.Element.prototype.getter(&quot;next&quot;, function(){
-        return (this.element.nextSibling != undefined) ? tm.dom.Element(this.element.nextSibling) : null;
-    });
+<span id='tm-dom-ElementList'>    tm.dom.Element.prototype.getter(&quot;next&quot;, function(){
+</span><span id='tm-dom-ElementList-method-init'>        return (this.element.nextSibling != undefined) ? tm.dom.Element(this.element.nextSibling) : null;
+</span>    });
     tm.dom.Element.prototype.getter(&quot;children&quot;, function(){
         return tm.dom.ElementList(this.element.children);
     });
@@ -326,15 +326,15 @@ tm.dom = tm.dom || {};
 
 (function(){
     
-<span id='tm-dom-ElementList'>    /**
-</span>     * @class
+    /**
+     * @class
      * エレメントリスト
      */
     tm.dom.ElementList = tm.createClass({
         superClass: Array,
         
-<span id='tm-dom-ElementList-method-init'>        /**
-</span>         * TM.DOM.Element 用配列
+        /**
+         * TM.DOM.Element 用配列
          */
         init: function(arr) {
             if (typeof arguments[0] == &quot;string&quot;) {

@@ -111,9 +111,9 @@ tm.app = tm.app || {};
 
 
 (function() {
-    
-<span id='tm-app-GlossyButton'>    /**
-</span>     * @class
+<span id='tm-app-GlossyButton'>    
+</span>    /**
+     * @class
      * glossy button
      */
     tm.app.GlossyButton = tm.createClass({
@@ -190,6 +190,36 @@ tm.app = tm.app || {};
 })();
 
 
+(function() {
+
+    tm.define(&quot;tm.app.FlatButton&quot;, {
+        superClass: tm.app.Shape,
+
+        init: function(param) {
+            param.$safe({
+                width: 300,
+                height: 100,
+                bgColor: &quot;rgb(180, 180, 180)&quot;,
+                text: &quot;ABC&quot;,
+                fontSize: 50,
+                fontFamily: &quot;'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif&quot;,
+            });
+
+            this.superInit(param.width, param.height);
+
+            this.canvas.clearColor(param.bgColor);
+
+            this.setInteractive(true);
+            this.setBoundingType(&quot;rect&quot;);
+
+            this.label = tm.app.Label(param.text).addChildTo(this);
+            this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
+        },
+    });
+
+
+
+})();
 
 
 
