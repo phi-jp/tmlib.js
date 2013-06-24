@@ -60,6 +60,8 @@ tm.app = tm.app || {};
             this.srcRect.y = y*h;
             this.srcRect.width  = w;
             this.srcRect.height = h;
+
+            return this;
         },
         
         _refreshSize: function() {
