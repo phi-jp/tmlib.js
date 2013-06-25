@@ -217,6 +217,16 @@
             this.position.y = y;
             return this;
         },
+
+        setScale: function(x, y) {
+            this.scale.x = x;
+            if (arguments.length <= 1) {
+                this.scale.y = x;
+            } else {
+                this.scale.y = y;
+            }
+            return this;
+        },
         
         /**
          * 幅をセット
