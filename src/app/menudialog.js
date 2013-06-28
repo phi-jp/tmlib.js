@@ -33,33 +33,30 @@
         /**
          * @constructs
          * @param {number} app アプリケーション
-         * @param {string} title ダイアログのタイトル
-         * @param {Array.<string>} menu メニュー
-         * @param {number=} defaultSelected デフォルトで選択されているメニュー番号.省略可.
-         * @param {Array.<string>} menuDesctiptions メニューの説明文.省略可.
-         * @param {boolean=} showExit メニューの最後に"exit"を追加するかどうか.省略可.
+         * @param {Object} params
          */
-        init: function(app, title, menu, defaultSelected, menuDesctiptions, showExit) {
+        init: function(app, params) {
             this.superInit();
 
             this._sc_w = app.width;
             this._sc_h = app.height;
 
-            this.titleText = title;
-            this.menu = menu;
-            this._selected = ~~defaultSelected;
-            this.showExit = !!showExit;
-            if (menuDesctiptions) {
-                this.descriptions = menuDesctiptions;
+            this.titleText = params.title;
+            this.menu = [].concat(params.menu);
+            this._selected = ~~params.defaultSelected;
+            this.showExit = !!params.showExit;
+            if (params.menuDesctiptions) {
+                this.descriptions = params.menuDesctiptions;
             } else {
-                this.descriptions = [].concat(menu);
+                this.descriptions = [].concat(params.menu);
             }
+
             if (this.showExit) {
-                menu.push("exit");
+                this.menu.push("exit");
                 this.descriptions.push("前の画面へ戻ります");
             }
 
-            var height = Math.max((1+menu.length)*50, 50) + 40;
+            var height = Math.max((1+this.menu.length)*50, 50) + 40;
             this.box = tm.app.RectangleShape(this._sc_w * 0.8, height, {
                 strokeStyle: "rgba(0,0,0,0)",
                 fillStyle: "rgba(43,156,255, 0.8)",
@@ -170,17 +167,8 @@
 
     });
 
-    /**
-     * @param {string} title ダイアログのタイトル
-     * @param {Array.<string>} menu メニュー
-     * @param {function(number)} callback 結果を受け取る関数
-     * @param {number=} defaultValue デフォルトで選択されているメニュー番号.省略可.
-     * @param {Array.<string>=} menuDescriptions メニューの説明文.省略可.
-     * @param {boolean=} showExit メニューの最後に"exit"を追加するかどうか.省略可.
-     */
-    tm.app.Scene.prototype.openMenuDialog = function(title, menu, callback, defaultValue, menuDescriptions, showExit) {
-        if (showExit === undefined) showExit = true;
-        this.startSceneForResult(tm.app.MenuDialog(this.app, title, menu, defaultValue, menuDescriptions, showExit), callback);
+    tm.app.Scene.prototype.openMenuDialog = function(params) {
+        this.startSceneForResult(tm.app.MenuDialog(this.app, params), params.onResult);
     };
 
 })();

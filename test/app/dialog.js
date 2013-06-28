@@ -21,23 +21,23 @@ tm.define("tests.dialog.MenuDialogScene", {
 
     onClickOpenButton: function() {
         var menu = ["カレー", "ラーメン", "やきそば", "かき氷(イチゴ)", "かき氷(メロン)"];
-        this.openMenuDialog(
-            "メニュー",
-            menu,
-            function(result) {
-                alert(menu[result] + "が選択されました");
-                this.lastSelection = result;
-            },
-            this.lastSelection,
-            [
+        this.openMenuDialog({
+            title: "メニュー",
+            menu: menu,
+            defaultSelected: this.lastSelection,
+            menuDesctiptions: [
                 "スパイシーでゴージャスなカレーライス",
                 "透き通ったスープの滋味豊かなしょうゆラーメン",
                 "ジュージュー焼けたソースが香ります。青のりに気をつけろ！",
                 "慌てて食べるとキーンとくるよ",
                 "緑色はメロン。抹茶は認めない"
             ],
-            false
-        );
+            showExit: false,
+            onResult: function(result) {
+                alert(menu[result] + "が選択されました");
+                this.lastSelection = result;
+            }
+        });
     },
 
 });
