@@ -218,6 +218,11 @@
             return this;
         },
 
+        setRotation: function(rotation) {
+            this.rotation = rotation;
+            return this;
+        },
+
         setScale: function(x, y) {
             this.scale.x = x;
             if (arguments.length <= 1) {
