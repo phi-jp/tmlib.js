@@ -411,7 +411,49 @@ tm.app = tm.app || {};
 })();
 
 
+(function() {
+    
+    /**
+     * @class
+     * TmlibLogo
+     */
+    tm.define("tm.app.TmlibLogo", {
 
+        superClass: "tm.app.Shape",
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height) {
+            this.superInit(width, height);
+        },
+
+        update: function () {
+            this._refresh();
+        },
+
+        /**
+         * 描画
+         */
+        _refresh: function () {
+            var c = this.canvas;
+            c.resize(this.width, this.height);
+            c.fillStyle = "rgba(0,0,255,1.0)";
+            c.fillCircle(this.x - this.width/10, this.y - this.height/4 + this.height/8, this.width/5);
+            
+            c.fillStyle = "rgba(255,255,0,1.0)";
+            c.fillCircle(this.x + this.width/10, this.y - this.height/8 + this.height/8, this.width/5);
+            
+            // テキストを描画
+            c.setShadow("rgb(20,20,20)", 2, 2, 7);
+            var fontsize = 80/600 * this.width;
+            c.setText(fontsize + "px 'Consolas', 'Monaco', 'ＭＳ ゴシック'", "center", "center");
+            c.fillStyle = "rgba(255,255,255,1.0)";
+            c.fillText("tmlib.js", this.x, this.y + this.height/20 + this.height/8);
+        },
+    });
+    
+})();
 
 
 
