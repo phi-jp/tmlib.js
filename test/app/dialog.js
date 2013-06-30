@@ -21,7 +21,8 @@ tm.define("tests.dialog.MenuDialogScene", {
 
     onClickOpenButton: function() {
         var menu = ["カレー", "ラーメン", "やきそば", "かき氷(イチゴ)", "かき氷(メロン)"];
-        this.openMenuDialog({
+        var dialog = tm.app.MenuDialog(this.app, {
+            
             title: "メニュー",
             menu: menu,
             defaultSelected: this.lastSelection,
@@ -33,11 +34,18 @@ tm.define("tests.dialog.MenuDialogScene", {
                 "緑色はメロン。抹茶は認めない"
             ],
             showExit: false,
-            onResult: function(result) {
-                alert(menu[result] + "が選択されました");
-                this.lastSelection = result;
-            }
         });
+
+        this.app.pushScene(dialog);
+
+        dialog.onmenuselect = function(e) {
+            console.log(e.selectValue + "を選択中");
+        };
+
+        dialog.onmenuselected = function(e) {
+            alert(menu[e.selectIndex] + "が選択されました");
+            this.lastSelection = e.selectIndex;
+        }.bind(this);
     },
 
 });

@@ -93,11 +93,15 @@
                     .setPosition(this._sc_w*0.5, y)
                     .addChildTo(this);
                 selection.interactive = true;
-                selection.addEventListener("touchend", function() {
+                selection.addEventListener("pointingend", function() {
                     if (self._selected === i) {
                         self.closeDialog(self._selected);
                     } else {
                         self._selected = i;
+                        var e = tm.event.Event("menuselect");
+                        e.selectValue = self.menu[self._selected];
+                        e.selectIndex = i;
+                        self.dispatchEvent(e);
                     }
                 });
                 selection.width = this._sc_w * 0.7;
@@ -149,7 +153,10 @@
                     this.box.tweener
                         .to({ width: 1, height: 1 }, 200, "easeInExpo")
                         .call(function() {
-                            this.finish(result);
+                            var e = tm.event.Event("menuselected");
+                            e.selectIndex = result;
+                            this.dispatchEvent(e);
+                            this.app.popScene();
                         }.bind(this));
                 }.bind(this));
             this.cursor.tweener
@@ -166,9 +173,5 @@
         },
 
     });
-
-    tm.app.Scene.prototype.openMenuDialog = function(params) {
-        this.startSceneForResult(tm.app.MenuDialog(this.app, params), params.onResult);
-    };
 
 })();
