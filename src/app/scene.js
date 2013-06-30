@@ -30,30 +30,6 @@ tm.app = tm.app || {};
             this.setInteractive(true);
         },
 
-        /**
-         * なんらかの結果値を返すシーンを呼び出す.
-         */
-        startSceneForResult: function(scene, callback) {
-            if (typeof(scene) === "function") {
-                this.app.pushScene(scene());
-            } else if (scene instanceof tm.app.Scene) {
-                this.app.pushScene(scene);
-            }
-            this._sceneResultCallback = callback;
-        },
-
-        /**
-         * startSceneForResultで呼び出された側が終了する際に実行する.
-         */
-        finish: function(result) {
-            var app = this.app;
-            app.popScene();
-            var scene = app.currentScene;
-            if (scene && scene._sceneResultCallback) {
-                scene._sceneResultCallback.bind(scene)(result);
-            }
-        },
-
     });
     
 })();
@@ -238,13 +214,6 @@ tm.app = tm.app || {};
 
 
         },
-        
-        /*
-        onpointingstart: function() {
-            var e = tm.event.Event("nextscene");
-            this.dispatchEvent(e);
-        },
-        */
     });
     
 })();
