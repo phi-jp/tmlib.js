@@ -351,3 +351,22 @@ tm.define("tests.label.DemoScene", {
 });
 
 
+tm.define("tests.canvaselement.LogoTest", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+
+        // 画面にかける色
+        var filter = tm.app.Shape(SCREEN_WIDTH, SCREEN_HEIGHT).addChildTo(this);
+        filter.position.set(SCREEN_CENTER_X, SCREEN_CENTER_Y);
+        filter.canvas.clearColor("rgb(255, 255, 255)");
+
+        // tmlib logo
+        var logo = tm.app.TmlibLogo(SCREEN_WIDTH, SCREEN_HEIGHT);
+        logo.position.set(SCREEN_CENTER_X, SCREEN_CENTER_Y);
+        logo.addChildTo(this);
+    },
+});
+
+

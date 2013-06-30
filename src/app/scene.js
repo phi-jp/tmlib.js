@@ -248,3 +248,43 @@ tm.app = tm.app || {};
     });
     
 })();
+
+
+(function() {
+
+    var DEFAULT_PARAM = {
+        width: 465,
+        height: 465,
+    };
+    
+    /**
+     * @class
+     * tmlib.jsのロゴを表示するシーン
+     */
+    tm.app.TmlibScene = tm.createClass({
+        superClass : tm.app.Scene,
+        
+        init: function(param) {
+            this.superInit();
+
+            param = {}.$extend(DEFAULT_PARAM, param);
+            
+            // 画面にかける色
+            var filter = tm.app.Shape(param.width, param.height).addChildTo(this);
+            filter.position.set(param.width/2, param.height/2);
+            filter.canvas.clearColor("rgb(255, 255, 255)");
+
+            // tmlib logo
+            var logo = tm.app.TmlibLogo(param.width, param.width);
+            logo.position.set(param.width/2, param.height/2);
+            logo.addChildTo(this);
+        },
+
+        onpointingstart: function() {
+            var e = tm.event.Event("nextscene");
+            this.dispatchEvent(e);
+        },
+    });
+    
+})();
+
