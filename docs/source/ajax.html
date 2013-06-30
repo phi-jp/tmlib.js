@@ -88,13 +88,13 @@ tm.util = tm.util || {};
             elm.type = &quot;text/javascript&quot;;
             elm.charset = &quot;UTF-8&quot;;
             elm.src = url + &quot;&amp;callback=&quot; + dummy_func_name;
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE'>            elm.setAttribute(&quot;defer&quot;, true);
-</span>            document.getElementsByTagName(&quot;head&quot;)[0].appendChild(elm);
+            elm.setAttribute(&quot;defer&quot;, true);
+            document.getElementsByTagName(&quot;head&quot;)[0].appendChild(elm);
         }
     };
     
-    /**
-     * データコンバータテーブル
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE'>    /**
+</span>     * データコンバータテーブル
      */
     tm.util.Ajax.DATA_CONVERTE_TABLE = {
 <span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-undefined'>        undefined: function(data) {
@@ -118,16 +118,16 @@ tm.util = tm.util || {};
         },
         
 <span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-json'>        json: function(data) {
-</span><span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-bin'>            return JSON.parse(data);
-</span>        },
+</span>            return JSON.parse(data);
+        },
         
 <span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-script'>        script: function(data) {
 </span>            eval(data);
             return data;
         },
         
-        /**
-         * ### Reference
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-bin'>        /**
+</span>         * ### Reference
          * - &lt;http://efcl.info/adiary/Javascript/treat-binary&gt;
          * @param {Object} data
          */

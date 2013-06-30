@@ -1,31 +1,48 @@
-(function() {
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">(function() {
     
-    /**
-     * @class tm.app.MenuDialog
+<span id='tm-app-MenuDialog'>    /**
+</span>     * @class tm.app.MenuDialog
      * メニューダイアログ
      */
-    tm.define("tm.app.MenuDialog", {
+    tm.define(&quot;tm.app.MenuDialog&quot;, {
         superClass: tm.app.Scene,
 
-        /** @type {string} タイトル */
-        titleText: null,
-        /** @type {Array.<string>} メニュー名リスト */
-        menu: null,
-        /** @type {Array.<string>} メニュー詳細リスト */
-        descriptions: null,
-        /** @type {boolean} exit の表示/非表示 */
-        showExit: false,
+<span id='tm-app-MenuDialog-property-titleText'>        /** @type {string} タイトル */
+</span>        titleText: null,
+<span id='tm-app-MenuDialog-property-menu'>        /** @type {Array.&lt;string&gt;} メニュー名リスト */
+</span>        menu: null,
+<span id='tm-app-MenuDialog-property-descriptions'>        /** @type {Array.&lt;string&gt;} メニュー詳細リスト */
+</span>        descriptions: null,
+<span id='tm-app-MenuDialog-property-showExit'>        /** @type {boolean} exit の表示/非表示 */
+</span>        showExit: false,
 
-        /** @type {tm.app.Label} dummy */
-        title: null,
-        /** @type {Array.<tm.app.LabelButton>} dummy */
-        selections: [],
-        /** @type {tm.app.Label} dummy */
-        description: null,
-        /** @type {tm.app.RectangleShape} dummy */
-        box: null,
-        /** @type {tm.app.RectangleShape} dummy */
-        cursor: null,
+<span id='tm-app-MenuDialog-property-title'>        /** @type {tm.app.Label} dummy */
+</span>        title: null,
+<span id='tm-app-MenuDialog-property-selections'>        /** @type {Array.&lt;tm.app.LabelButton&gt;} dummy */
+</span>        selections: [],
+<span id='tm-app-MenuDialog-property-description'>        /** @type {tm.app.Label} dummy */
+</span>        description: null,
+<span id='tm-app-MenuDialog-property-box'>        /** @type {tm.app.RectangleShape} dummy */
+</span>        box: null,
+<span id='tm-app-MenuDialog-property-cursor'>        /** @type {tm.app.RectangleShape} dummy */
+</span>        cursor: null,
 
         _selected: 0,
         _opened: false,
@@ -34,8 +51,8 @@
         _screenWidth: 0,
         _screenHeight: 0,
 
-        /**
-         * 初期化
+<span id='tm-app-MenuDialog-method-init'>        /**
+</span>         * 初期化
          * @param {Object} params
          */
         init: function(params) {
@@ -55,26 +72,26 @@
             }
 
             if (this.showExit) {
-                this.menu.push("exit");
-                this.descriptions.push("前の画面へ戻ります");
+                this.menu.push(&quot;exit&quot;);
+                this.descriptions.push(&quot;前の画面へ戻ります&quot;);
             }
 
             var height = Math.max((1+this.menu.length)*50, 50) + 40;
             this.box = tm.app.RectangleShape(this._screenWidth * 0.8, height, {
-                strokeStyle: "rgba(0,0,0,0)",
-                fillStyle: "rgba(43,156,255, 0.8)",
+                strokeStyle: &quot;rgba(0,0,0,0)&quot;,
+                fillStyle: &quot;rgba(43,156,255, 0.8)&quot;,
             }).setPosition(this._screenWidth*0.5, this._screenHeight*0.5);
             this.box.width = 1;
             this.box.height = 1;
-            this.box.setBoundingType("rect");
+            this.box.setBoundingType(&quot;rect&quot;);
             this.box.tweener
-                .to({ width: this._screenWidth*0.8, height: height }, 200, "easeOutExpo")
+                .to({ width: this._screenWidth*0.8, height: height }, 200, &quot;easeOutExpo&quot;)
                 .call(this._onOpen.bind(this));
             this.box.addChildTo(this);
 
-            this.description = tm.app.Label("", 14)
-                .setAlign("center")
-                .setBaseline("middle")
+            this.description = tm.app.Label(&quot;&quot;, 14)
+                .setAlign(&quot;center&quot;)
+                .setBaseline(&quot;middle&quot;)
                 .setPosition(this._screenWidth*0.5, this._screenHeight-10)
                 .addChildTo(this);
         },
@@ -84,8 +101,8 @@
             var y = this._screenHeight*0.5 - this.menu.length * 25;
 
             this.title = tm.app.Label(this.titleText, 30)
-                .setAlign("center")
-                .setBaseline("middle")
+                .setAlign(&quot;center&quot;)
+                .setBaseline(&quot;middle&quot;)
                 .setPosition(this._screenWidth*0.5, y)
                 .addChildTo(this);
 
@@ -98,12 +115,12 @@
                     .setPosition(this._screenWidth*0.5, y)
                     .addChildTo(this);
                 selection.interactive = true;
-                selection.addEventListener("pointingend", function() {
+                selection.addEventListener(&quot;pointingend&quot;, function() {
                     if (self._selected === i) {
                         self.closeDialog(self._selected);
                     } else {
                         self._selected = i;
-                        var e = tm.event.Event("menuselect");
+                        var e = tm.event.Event(&quot;menuselect&quot;);
                         e.selectValue = self.menu[self._selected];
                         e.selectIndex = i;
                         self.dispatchEvent(e);
@@ -118,7 +135,7 @@
             this._opened = true;
 
             // close window when touch bg outside
-            this.addEventListener("pointingend", function(e) {
+            this.addEventListener(&quot;pointingend&quot;, function(e) {
                 var p = e.app.pointing;
                 if (!self.box.isHitPoint(p.x, p.y)) {
                     self.closeDialog(self._selected);
@@ -126,14 +143,14 @@
             });
 
             // dispatch opened event
-            var e = tm.event.Event("menuopened");
+            var e = tm.event.Event(&quot;menuopened&quot;);
             this.dispatchEvent(e);
         },
 
         _createCursor: function() {
             var cursor = tm.app.RectangleShape(this._screenWidth*0.7, 30, {
-                strokeStyle: "rgba(0,0,0,0)",
-                fillStyle: "rgba(12,79,138,1)"
+                strokeStyle: &quot;rgba(0,0,0,0)&quot;,
+                fillStyle: &quot;rgba(12,79,138,1)&quot;
             }).addChildTo(this);
             cursor.x = this._screenWidth*0.5;
             cursor.target = this._selected;
@@ -144,7 +161,7 @@
                     this.tweener.clear();
                     this.tweener.to({
                         y: this.parent.selections[this.parent._selected].y
-                    }, 200, "easeOutExpo");
+                    }, 200, &quot;easeOutExpo&quot;);
                 }
             };
 
@@ -168,9 +185,9 @@
                     });
                     this.box.tweener.clear();
                     this.box.tweener
-                        .to({ width: 1, height: 1 }, 200, "easeInExpo")
+                        .to({ width: 1, height: 1 }, 200, &quot;easeInExpo&quot;)
                         .call(function() {
-                            var e = tm.event.Event("menuselected");
+                            var e = tm.event.Event(&quot;menuselected&quot;);
                             e.selectIndex = result;
                             this.dispatchEvent(e);
                             this.app.popScene();
@@ -185,10 +202,13 @@
         },
 
         draw: function(canvas) {
-            canvas.fillStyle = "rgba(0,0,0,0.8)";
+            canvas.fillStyle = &quot;rgba(0,0,0,0.8)&quot;;
             canvas.fillRect(0,0,this._screenWidth,this._screenHeight);
         },
 
     });
 
 })();
+</pre>
+</body>
+</html>

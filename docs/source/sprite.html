@@ -77,17 +77,19 @@ tm.app = tm.app || {};
             this.srcRect.y = y*h;
             this.srcRect.width  = w;
             this.srcRect.height = h;
+
+            return this;
         },
         
         _refreshSize: function() {
-<span id='tm-app-Sprite-property-image'>            
-</span>        },
+            
+        },
 
         _update: tm.app.CanvasElement.prototype._update,
     });
     
-    /**
-     * @property    image
+<span id='tm-app-Sprite-property-image'>    /**
+</span>     * @property    image
      * 高さ
      */
     tm.app.Sprite.prototype.accessor(&quot;image&quot;, {

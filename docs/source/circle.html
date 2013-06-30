@@ -39,9 +39,9 @@ tm.geom = tm.geom || {};
         {
             this.set(x, y, radius);
         },
-<span id='tm-geom-Circle-method-set'>        
-</span>        /**
-         * セッター
+        
+<span id='tm-geom-Circle-method-set'>        /**
+</span>         * セッター
          */
         set: function(x, y, radius)
         {
@@ -50,94 +50,94 @@ tm.geom = tm.geom || {};
             this.radius = radius;
             
             return this;
-<span id='tm-geom-Circle-method-move'>        },
-</span>        
-        /**
-         * 移動
+        },
+        
+<span id='tm-geom-Circle-method-move'>        /**
+</span>         * 移動
          */
         move: function(x, y)
         {
             this.x = x;
             this.y = y;
             return this;
-<span id='tm-geom-Circle-method-moveBy'>        },
-</span>        
-        /**
-         * 現在位置を基準に移動
+        },
+        
+<span id='tm-geom-Circle-method-moveBy'>        /**
+</span>         * 現在位置を基準に移動
          */
         moveBy: function(x, y)
         {
             this.x += x;
             this.y += y;
-<span id='tm-geom-Circle-method-resize'>            return this;
-</span>        },
+            return this;
+        },
         
-        /**
-         * リサイズ
+<span id='tm-geom-Circle-method-resize'>        /**
+</span>         * リサイズ
          */
         resize: function(size)
         {
-<span id='tm-geom-Circle-method-resizeBy'>            this.radius = size;
-</span>            return this;
+            this.radius = size;
+            return this;
         },
         
-        /**
-         * 現在のサイズを基準にリサイズ
+<span id='tm-geom-Circle-method-resizeBy'>        /**
+</span>         * 現在のサイズを基準にリサイズ
          */
         resizeBy: function(size)
         {
             this.radius += size;
             return this;
         },
-<span id='tm-geom-Circle-method-toRectangle'>        
-</span>        clone: function()
+        
+        clone: function()
         {
             
         },
         
-        /**
-         * 四角形に変換
+<span id='tm-geom-Circle-method-toRectangle'>        /**
+</span>         * 四角形に変換
          */
         toRectangle: function()
         {
-<span id='tm-geom-Circle-method-toArray'>            return tm.geom.Rectangle(this.x, this.y, this.radius*2, this.radius*2);
-</span>        },
+            return tm.geom.Rectangle(this.x, this.y, this.radius*2, this.radius*2);
+        },
         
-        /**
-         * 配列に変換
+<span id='tm-geom-Circle-method-toArray'>        /**
+</span>         * 配列に変換
          */
-<span id='tm-geom-Circle-property-left'>        toArray: function()
-</span>        {
+        toArray: function()
+        {
             return [this.x, this.y, this.radius];
         }
     });
     
-    /**
-     * @property    left
+<span id='tm-geom-Circle-property-left'>    /**
+</span>     * @property    left
      * left
      */
-<span id='tm-geom-Circle-property-top'>    tm.geom.Circle.prototype.getter(&quot;left&quot;, function() {
-</span>        return this.x - this.radius;
+    tm.geom.Circle.prototype.getter(&quot;left&quot;, function() {
+        return this.x - this.radius;
     });
     
-    /**
-     * @property    top
+<span id='tm-geom-Circle-property-top'>    /**
+</span>     * @property    top
      * top
      */
-<span id='tm-geom-Circle-property-right'>    tm.geom.Circle.prototype.getter(&quot;top&quot;, function() {
-</span>        return this.y - this.radius;
+    tm.geom.Circle.prototype.getter(&quot;top&quot;, function() {
+        return this.y - this.radius;
     });
     
-    /**
-     * @property    right
+<span id='tm-geom-Circle-property-right'>    /**
+</span>     * @property    right
      * right
      */
-<span id='tm-geom-Circle-property-bottom'>    tm.geom.Circle.prototype.getter(&quot;right&quot;, function() {
-</span>        return this.x + this.radius;
+    tm.geom.Circle.prototype.getter(&quot;right&quot;, function() {
+        return this.x + this.radius;
     });
     
-    /**
-     * @property    bottom
+<span id='tm-geom-Circle-property-bottom'>    /**
+</span>     * @property    bottom
      * bottom
      */
     tm.geom.Circle.prototype.getter(&quot;bottom&quot;, function() {

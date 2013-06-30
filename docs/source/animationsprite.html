@@ -24,7 +24,7 @@ tm.app = tm.app || {};
 
 
 (function() {
-    
+
 <span id='tm-app-AnimationSprite'>    /**
 </span>     * @class
      * AnimationSprite
@@ -39,7 +39,7 @@ tm.app = tm.app || {};
         init: function(ss, width, height)
         {
             this.superInit();
-            
+
             if (typeof ss == &quot;string&quot;) {
                 var ss = tm.asset.AssetManager.get(ss);
                 console.assert(ss, &quot;not found &quot; + ss);
@@ -48,7 +48,7 @@ tm.app = tm.app || {};
             console.assert(typeof ss == &quot;object&quot;, &quot;AnimationSprite の第一引数はスプライトシートもしくはスプライトシート名に変わりました&quot;);
 
             this.ss = ss;
-            
+
             this.width  = width || ss.frame.width;
             this.height = height|| ss.frame.height;
 
@@ -60,13 +60,13 @@ tm.app = tm.app || {};
 
             this.addEventListener(&quot;enterframe&quot;, function(e) {
                 if (!this.paused &amp;&amp; e.app.frame%this.currentAnimation.frequency === 0) {
-<span id='tm-app-AnimationSprite-method-draw'>                    this._updateFrame();
-</span>                }
+                    this._updateFrame();
+                }
             });
         },
 
-        /**
-         * 描画
+<span id='tm-app-AnimationSprite-method-draw'>        /**
+</span>         * 描画
          */
         draw: function(canvas) {
             var srcRect = this.ss.getFrame(this.currentFrame);
@@ -79,22 +79,26 @@ tm.app = tm.app || {};
 
         gotoAndPlay: function(name) {
             name = name || &quot;default&quot;;
-            
+
             this.paused = false;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
             this.currentFrameIndex = 0;
             this._normalizeFrame();
+
+            return this;
         },
 
         gotoAndStop: function(name) {
             name = name || &quot;default&quot;;
-            
+
             this.paused = true;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
             this.currentFrameIndex = 0;
             this._normalizeFrame();
+
+            return this;
         },
 
         _updateFrame: function() {
@@ -130,7 +134,7 @@ tm.app = tm.app || {};
 
 
 (function() {
-    
+
     tm.app.SpriteSheet = tm.createClass({
         superClass: tm.event.EventDispatcher,
 
@@ -167,19 +171,19 @@ tm.app = tm.app || {};
         getFrame: function(index) {
             return this.frames[index];
         },
-        
+
         getAnimation: function(name) {
             return this.animations[name];
         },
-        
+
         _calcFrames: function(frame) {
             var frames = this.frames = [];
-            
+
             var w = frame.width;
             var h = frame.height;
             var row = ~~(this.image.width / w);
             var col = ~~(this.image.height/ h);
-            
+
             if (!frame.count) frame.count = row*col;
 
             for (var i=0,len=frame.count; i&lt;len; ++i) {
@@ -215,7 +219,7 @@ tm.app = tm.app || {};
                     };
                 }
             }
-            
+
             // デフォルトアニメーション
             this.animations[&quot;default&quot;] = {
                 frames: [].range(0, this.frame.count),
