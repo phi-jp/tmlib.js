@@ -14168,27 +14168,31 @@ tm.app = tm.app || {};
 
 (function() {
     
+    /**
+     * @class tm.app.MenuDialog
+     * メニューダイアログ
+     */
     tm.define("tm.app.MenuDialog", {
         superClass: tm.app.Scene,
 
-        /** @type {string} */
+        /** @type {string} タイトル */
         titleText: null,
-        /** @type {Array.<string>} */
+        /** @type {Array.<string>} メニュー名リスト */
         menu: null,
-        /** @type {Array.<string>} */
+        /** @type {Array.<string>} メニュー詳細リスト */
         descriptions: null,
-        /** @type {boolean} */
+        /** @type {boolean} exit の表示/非表示 */
         showExit: false,
 
-        /** @type {tm.app.Label} */
+        /** @type {tm.app.Label} dummy */
         title: null,
-        /** @type {Array.<tm.app.LabelButton>} */
+        /** @type {Array.<tm.app.LabelButton>} dummy */
         selections: [],
-        /** @type {tm.app.Label} */
+        /** @type {tm.app.Label} dummy */
         description: null,
-        /** @type {tm.app.RectangleShape} */
+        /** @type {tm.app.RectangleShape} dummy */
         box: null,
-        /** @type {tm.app.RectangleShape} */
+        /** @type {tm.app.RectangleShape} dummy */
         cursor: null,
 
         _selected: 0,
@@ -14199,7 +14203,7 @@ tm.app = tm.app || {};
         _screenHeight: 0,
 
         /**
-         * @constructs
+         * 初期化
          * @param {Object} params
          */
         init: function(params) {
@@ -14262,7 +14266,7 @@ tm.app = tm.app || {};
                     .setPosition(this._screenWidth*0.5, y)
                     .addChildTo(this);
                 selection.interactive = true;
-                selection.addEventListener("pointingend", function() {
+                selection.addEventListener("click", function() {
                     if (self._selected === i) {
                         self.closeDialog(self._selected);
                     } else {
@@ -14321,6 +14325,11 @@ tm.app = tm.app || {};
 
         closeDialog: function(result) {
             this._finished = true;
+
+            var e = tm.event.Event("menuselected");
+            e.selectIndex = result;
+            this.dispatchEvent(e);
+
             this.tweener
                 .clear()
                 .wait(200)
@@ -14334,10 +14343,10 @@ tm.app = tm.app || {};
                     this.box.tweener
                         .to({ width: 1, height: 1 }, 200, "easeInExpo")
                         .call(function() {
-                            var e = tm.event.Event("menuselected");
+                            this.app.popScene();
+                            var e = tm.event.Event("menuclosed");
                             e.selectIndex = result;
                             this.dispatchEvent(e);
-                            this.app.popScene();
                         }.bind(this));
                 }.bind(this));
             this.cursor.tweener

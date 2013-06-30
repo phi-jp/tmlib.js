@@ -98,7 +98,7 @@
                     .setPosition(this._screenWidth*0.5, y)
                     .addChildTo(this);
                 selection.interactive = true;
-                selection.addEventListener("pointingend", function() {
+                selection.addEventListener("click", function() {
                     if (self._selected === i) {
                         self.closeDialog(self._selected);
                     } else {
@@ -157,6 +157,11 @@
 
         closeDialog: function(result) {
             this._finished = true;
+
+            var e = tm.event.Event("menuselected");
+            e.selectIndex = result;
+            this.dispatchEvent(e);
+
             this.tweener
                 .clear()
                 .wait(200)
@@ -170,10 +175,10 @@
                     this.box.tweener
                         .to({ width: 1, height: 1 }, 200, "easeInExpo")
                         .call(function() {
-                            var e = tm.event.Event("menuselected");
+                            this.app.popScene();
+                            var e = tm.event.Event("menuclosed");
                             e.selectIndex = result;
                             this.dispatchEvent(e);
-                            this.app.popScene();
                         }.bind(this));
                 }.bind(this));
             this.cursor.tweener
