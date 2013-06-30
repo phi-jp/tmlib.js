@@ -5,10 +5,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Shape Test | TM Lib</title>
         
-        <!-- prettify -->
-        <link type="text/css" rel="stylesheet" href="../../plugins/prettify/prettify.css" />
-        <script src="../../plugins/prettify/prettify.js"></script>
-        
         <style>
             body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
             
@@ -29,7 +25,7 @@
             }
         </style>
 
-        <script src="https://raw.github.com/mrdoob/three.js/r55/build/three.js"></script>
+        <script src="http://rawgithub.com/mrdoob/three.js/r55/build/three.js"></script>
         <!--
         <script src="http://stemkoski.github.com/Three.js/fonts/helvetiker_bold.typeface.js"></script>
         -->
@@ -67,14 +63,13 @@
         <script src="../../src/graphics/canvas.js"></script>
         
         <script src="../../src/app/element.js"></script>
+        <script src="../../src/app/object2d.js"></script>
         <script src="../../src/app/canvaselement.js"></script>
         <script src="../../src/app/sprite.js"></script>
         <script src="../../src/app/shape.js"></script>
         <script src="../../src/app/scene.js"></script>
         <script src="../../src/app/canvasapp.js"></script>
         <script src="../../src/app/collision.js"></script>
-        <script src="../../src/app/interaction.js"></script>
-        <script src="../../src/app/animation.js"></script>
 
         <script src="../../src/three/three.js"></script>
         
@@ -494,13 +489,6 @@
                 }
             });
 
-        </script>
-        
-        <script>
-            tm.dom.Element(window).event.add("load", function() {
-                tm.dom.Element("#code").text = tm.dom.Element("#test-script").text;
-                prettyPrint();
-            });
         </script>
         
     </head>
