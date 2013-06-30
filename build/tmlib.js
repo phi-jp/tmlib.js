@@ -12410,30 +12410,6 @@ tm.app = tm.app || {};
             this.setInteractive(true);
         },
 
-        /**
-         * なんらかの結果値を返すシーンを呼び出す.
-         */
-        startSceneForResult: function(scene, callback) {
-            if (typeof(scene) === "function") {
-                this.app.pushScene(scene());
-            } else if (scene instanceof tm.app.Scene) {
-                this.app.pushScene(scene);
-            }
-            this._sceneResultCallback = callback;
-        },
-
-        /**
-         * startSceneForResultで呼び出された側が終了する際に実行する.
-         */
-        finish: function(result) {
-            var app = this.app;
-            app.popScene();
-            var scene = app.currentScene;
-            if (scene && scene._sceneResultCallback) {
-                scene._sceneResultCallback.bind(scene)(result);
-            }
-        },
-
     });
     
 })();
@@ -12618,13 +12594,6 @@ tm.app = tm.app || {};
 
 
         },
-        
-        /*
-        onpointingstart: function() {
-            var e = tm.event.Event("nextscene");
-            this.dispatchEvent(e);
-        },
-        */
     });
     
 })();
@@ -14226,19 +14195,18 @@ tm.app = tm.app || {};
         _opened: false,
         _finished: false,
 
-        _sc_w: 0,
-        _sc_h: 0,
+        _screenWidth: 0,
+        _screenHeight: 0,
 
         /**
          * @constructs
-         * @param {number} app アプリケーション
          * @param {Object} params
          */
-        init: function(app, params) {
+        init: function(params) {
             this.superInit();
 
-            this._sc_w = app.width;
-            this._sc_h = app.height;
+            this._screenWidth = params.screenWidth;
+            this._screenHeight = params.screenHeight;
 
             this.titleText = params.title;
             this.menu = [].concat(params.menu);
@@ -14256,31 +14224,33 @@ tm.app = tm.app || {};
             }
 
             var height = Math.max((1+this.menu.length)*50, 50) + 40;
-            this.box = tm.app.RectangleShape(this._sc_w * 0.8, height, {
+            this.box = tm.app.RectangleShape(this._screenWidth * 0.8, height, {
                 strokeStyle: "rgba(0,0,0,0)",
                 fillStyle: "rgba(43,156,255, 0.8)",
-            }).setPosition(this._sc_w*0.5, this._sc_h*0.5);
+            }).setPosition(this._screenWidth*0.5, this._screenHeight*0.5);
             this.box.width = 1;
             this.box.height = 1;
+            this.box.setBoundingType("rect");
             this.box.tweener
-                .to({ width: this._sc_w*0.8, height: height }, 200, "easeOutExpo")
+                .to({ width: this._screenWidth*0.8, height: height }, 200, "easeOutExpo")
                 .call(this._onOpen.bind(this));
             this.box.addChildTo(this);
 
             this.description = tm.app.Label("", 14)
                 .setAlign("center")
                 .setBaseline("middle")
-                .setPosition(this._sc_w*0.5, this._sc_h-10)
+                .setPosition(this._screenWidth*0.5, this._screenHeight-10)
                 .addChildTo(this);
         },
 
         _onOpen: function() {
-            var y = this._sc_h*0.5 - this.menu.length * 25;
+            var self = this;
+            var y = this._screenHeight*0.5 - this.menu.length * 25;
 
             this.title = tm.app.Label(this.titleText, 30)
                 .setAlign("center")
                 .setBaseline("middle")
-                .setPosition(this._sc_w*0.5, y)
+                .setPosition(this._screenWidth*0.5, y)
                 .addChildTo(this);
 
             this.cursor = this._createCursor();
@@ -14289,31 +14259,47 @@ tm.app = tm.app || {};
                 var self = this;
                 y += 50;
                 var selection = tm.app.LabelButton(text)
-                    .setPosition(this._sc_w*0.5, y)
+                    .setPosition(this._screenWidth*0.5, y)
                     .addChildTo(this);
                 selection.interactive = true;
-                selection.addEventListener("touchend", function() {
+                selection.addEventListener("pointingend", function() {
                     if (self._selected === i) {
                         self.closeDialog(self._selected);
                     } else {
                         self._selected = i;
+                        var e = tm.event.Event("menuselect");
+                        e.selectValue = self.menu[self._selected];
+                        e.selectIndex = i;
+                        self.dispatchEvent(e);
                     }
                 });
-                selection.width = this._sc_w * 0.7;
+                selection.width = this._screenWidth * 0.7;
                 return selection;
             }.bind(this));
 
             this.cursor.y = this.selections[this._selected].y;
 
             this._opened = true;
+
+            // close window when touch bg outside
+            this.addEventListener("pointingend", function(e) {
+                var p = e.app.pointing;
+                if (!self.box.isHitPoint(p.x, p.y)) {
+                    self.closeDialog(self._selected);
+                }
+            });
+
+            // dispatch opened event
+            var e = tm.event.Event("menuopened");
+            this.dispatchEvent(e);
         },
 
         _createCursor: function() {
-            var cursor = tm.app.RectangleShape(this._sc_w*0.7, 30, {
+            var cursor = tm.app.RectangleShape(this._screenWidth*0.7, 30, {
                 strokeStyle: "rgba(0,0,0,0)",
                 fillStyle: "rgba(12,79,138,1)"
             }).addChildTo(this);
-            cursor.x = this._sc_w*0.5;
+            cursor.x = this._screenWidth*0.5;
             cursor.target = this._selected;
             
             cursor.update = function() {
@@ -14348,7 +14334,10 @@ tm.app = tm.app || {};
                     this.box.tweener
                         .to({ width: 1, height: 1 }, 200, "easeInExpo")
                         .call(function() {
-                            this.finish(result);
+                            var e = tm.event.Event("menuselected");
+                            e.selectIndex = result;
+                            this.dispatchEvent(e);
+                            this.app.popScene();
                         }.bind(this));
                 }.bind(this));
             this.cursor.tweener
@@ -14361,14 +14350,10 @@ tm.app = tm.app || {};
 
         draw: function(canvas) {
             canvas.fillStyle = "rgba(0,0,0,0.8)";
-            canvas.fillRect(0,0,this._sc_w,this._sc_h);
+            canvas.fillRect(0,0,this._screenWidth,this._screenHeight);
         },
 
     });
-
-    tm.app.Scene.prototype.openMenuDialog = function(params) {
-        this.startSceneForResult(tm.app.MenuDialog(this.app, params), params.onResult);
-    };
 
 })();
 
