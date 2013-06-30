@@ -196,11 +196,17 @@
             return matrix.multiplyVector2(p);
         },
         
+        /**
+         * X 座標値をセット
+         */
         setX: function(x) {
             this.position.x = x;
             return this;
         },
         
+        /**
+         * Y 座標値をセット
+         */
         setY: function(y) {
             this.position.y = y;
             return this;
@@ -211,38 +217,74 @@
             this.position.y = y;
             return this;
         },
+
+        setRotation: function(rotation) {
+            this.rotation = rotation;
+            return this;
+        },
+
+        setScale: function(x, y) {
+            this.scale.x = x;
+            if (arguments.length <= 1) {
+                this.scale.y = x;
+            } else {
+                this.scale.y = y;
+            }
+            return this;
+        },
         
+        /**
+         * 幅をセット
+         */
         setWidth: function(width) {
             this.width = width;
             return this;
         },
         
+        /**
+         * 高さをセット
+         */
         setHeight: function(height) {
             this.height = height;
             return this;
         },
         
+        /**
+         * サイズ(幅, 高さ)をセット
+         */
         setSize: function(width, height) {
             this.width  = width;
             this.height = height;
             return this;
         },
         
+        /**
+         * 起動
+         */
         wakeUp: function() {
             this.isUpdate = true;
             return this;
         },
         
+        /**
+         * 停止
+         */
         sleep: function() {
             this.isUpdate = false;
             return this;
         },
         
+        /**
+         * タッチ判定の有効/無効をセット
+         */
         setInteractive: function(flag) {
             this.interactive = flag;
             return this;
         },
         
+        /**
+         * バウンディングタイプをセット("circle" or "rect")
+         */
         setBoundingType: function(type) {
             this.boundingType = type;
             return this;

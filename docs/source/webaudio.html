@@ -41,10 +41,10 @@ tm.sound = tm.sound || {};
 <span id='tm-sound-WebAudio-property-volume'>        /**
 </span>         * ボリューム
          */
-        volume: 0.8,
-
-<span id='tm-sound-WebAudio-method-init'>        /**
-</span>         *　初期化
+<span id='tm-sound-WebAudio-method-init'>        volume: 0.8,
+</span>
+        /**
+         *　初期化
          */
         init: function(src_or_buffer) {
             this.superInit();
@@ -65,11 +65,11 @@ tm.sound = tm.sound || {};
             else {
                 this._setup();
                 this.loaded = false;
-            }
-        },
+<span id='tm-sound-WebAudio-method-play'>            }
+</span>        },
 
-<span id='tm-sound-WebAudio-method-play'>        /**
-</span>         * 再生
+        /**
+         * 再生
          * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
          */
         play: function(time) {
@@ -81,11 +81,11 @@ tm.sound = tm.sound || {};
             console.dir(this.context.currentTime)
             */
 
-            return this;
-        },
+<span id='tm-sound-WebAudio-method-stop'>            return this;
+</span>        },
 
-<span id='tm-sound-WebAudio-method-stop'>        /**
-</span>         * 停止
+        /**
+         * 停止
          */
         stop: function(time) {
             if (time === undefined) time = 0;
@@ -113,74 +113,74 @@ tm.sound = tm.sound || {};
         resume: function() {
             this.source.connect(this.panner);
 
-            return this;
-        },
+<span id='tm-sound-WebAudio-method-clone'>            return this;
+</span>        },
 
-<span id='tm-sound-WebAudio-method-clone'>        /**
-</span>         * 複製
+        /**
+         * 複製
          */
         clone: function() {
             var webAudio = tm.sound.WebAudio(this.buffer);
             webAudio.volume = this.volume;
-            return webAudio;
-        },
-<span id='tm-sound-WebAudio-method-setPosition'>        /**
-</span>         * dummy
+<span id='tm-sound-WebAudio-method-setPosition'>            return webAudio;
+</span>        },
+        /**
+         * dummy
          */
         setPosition: function(x, y, z) {
             this.panner.setPosition(x, y||0, z||0);
 
-            return this;
-        },
-<span id='tm-sound-WebAudio-method-setVelocity'>        /**
-</span>         * dummy
+<span id='tm-sound-WebAudio-method-setVelocity'>            return this;
+</span>        },
+        /**
+         * dummy
          */
         setVelocity: function(x, y, z) {
             this.panner.setVelocity(x, y||0, z||0);
 
-            return this;
-        },
-<span id='tm-sound-WebAudio-method-setOrientation'>        /**
-</span>         * dummy
+<span id='tm-sound-WebAudio-method-setOrientation'>            return this;
+</span>        },
+        /**
+         * dummy
          */
         setOrientation: function(x, y, z) {
             this.panner.setOrientation(x, y||0, z||0);
 
-            return this;
-        },
+<span id='tm-sound-WebAudio-method-setBuffer'>            return this;
+</span>        },
 
-<span id='tm-sound-WebAudio-method-setBuffer'>        /**
-</span>         * dummy
+        /**
+         * dummy
          * チェーンメソッド用
          */
         setBuffer: function(v) {
-            this.buffer = v;
-            return this;
+<span id='tm-sound-WebAudio-method-setLoop'>            this.buffer = v;
+</span>            return this;
         },
 
 
-<span id='tm-sound-WebAudio-method-setLoop'>        /**
-</span>         * dummy
+        /**
+         * dummy
          * チェーンメソッド用
          */
         setLoop: function(v) {
-            this.loop = v;
-            return this;
+<span id='tm-sound-WebAudio-method-setVolume'>            this.loop = v;
+</span>            return this;
         },
 
 
-<span id='tm-sound-WebAudio-method-setVolume'>        /**
-</span>         * dummy
+        /**
+         * dummy
          * チェーンメソッド用
          */
-        setVolume: function(v) {
-            this.volume = v;
+<span id='tm-sound-WebAudio-method-setPlaybackRate'>        setVolume: function(v) {
+</span>            this.volume = v;
             return this;
         },
 
 
-<span id='tm-sound-WebAudio-method-setPlaybackRate'>        /**
-</span>         * チェーンメソッド用
+        /**
+         * チェーンメソッド用
          */
         setPlaybackRate: function(v) {
             this.playbackRate = v;
