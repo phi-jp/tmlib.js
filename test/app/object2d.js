@@ -24,7 +24,16 @@ tm.define("tests.bitmaplabel.Test", {
 	        	texture: "font",
 	        	text: "Hello, world!~🐤",
 	        }).addChildTo(self);
-	        bitmapLabel.setPosition(340, 100);
+	        bitmapLabel.setPosition(390, 200);
+
+	        var bitmapLabel = tm.app.BitmapLabel({
+	        	texture: "font",
+	        	text: "This font was made by @CarasOhmi.",
+	        	fontSize: 20,
+	        	lineHeight: 1.2,
+	        }).addChildTo(self);
+	        bitmapLabel.setPosition(400, 250);
+
         };
     },
 

@@ -25,6 +25,7 @@ tm.app = tm.app || {};
         	this.superInit();
 
         	this.fontSize = params.fontSize || 32;
+        	this.spacing = params.spacing || 0.75;
 
         	var texture = params.texture;
         	if (typeof texture == "string") texture = tm.asset.AssetManager.get(texture);
@@ -42,6 +43,8 @@ tm.app = tm.app || {};
         	this.height = height;
         	c.resize(width, height);
 
+        	var spacingSize = this.spacing*this.fontSize;
+
 //        	c.clearColor("red");
         	for (var i=0,len=text.length; i<len; ++i) {
         		var ch = text[i];
@@ -54,10 +57,8 @@ tm.app = tm.app || {};
         		var sx = xIndex*16;
         		var sy = yIndex*16;
 
-        		var x = i*this.fontSize;
+        		var x = i*spacingSize;
         		var y = 0;
-
-        		console.log(charCode);
 
         		c.drawTexture(this.texture, sx, sy, 16, 16, x, y, this.fontSize, this.fontSize);
         	}
