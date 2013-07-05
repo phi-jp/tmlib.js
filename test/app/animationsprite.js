@@ -73,6 +73,31 @@ tm.define("tests.animationsprite.DemoScene2", {
 
 
 
+tm.define("tests.animationsprite.hiyocos", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+        
+        var as = tm.asset.AssetManager;
+        as.load("hiyocos", "../../resource/img/hiyocos.png");
+        as.load("hiyocosSS", "../../resource/tmss/hiyocos.tmss");
+    },
+
+    onpointingstart: function(e) {
+        var p = e.app.pointing;
+        var crash = tm.app.AnimationSprite("hiyocosSS", 64, 64);
+        crash.position.set(p.x, p.y);
+        crash.gotoAndPlay("appear");
+        crash.blendMode = "lighter";
+        this.addChild(crash);
+    }
+});
+
+
+
+
+
 
 tm.define("tests.benchmark.CrashScene", {
     superClass: "tm.app.Scene",

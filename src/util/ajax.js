@@ -101,7 +101,13 @@ tm.util = tm.util || {};
         },
         
         json: function(data) {
-            return JSON.parse(data);
+            try {
+                return JSON.parse(data);
+            }
+            catch(e) {
+                console.dir(e);
+                console.dir(data);
+            }
         },
         
         script: function(data) {

@@ -1,0 +1,12 @@
+{
+    "image": "pengin",
+    "frame": {
+        "width":102,
+        "height":282,
+        "count": 64
+    },
+    "animations": {
+        "walk": [0, 5, "walk", 2],
+        "drop": [6, 30, "walk", 2]
+    }
+}
