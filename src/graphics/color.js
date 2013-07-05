@@ -121,7 +121,11 @@ tm.graphics = tm.graphics || {};
          * CSS 用 RGB文字列に変換
          */
         toStyleAsRGB: function() {
-            return "rgb({r},{g},{b})".format(this);
+            return "rgb({r},{g},{b})".format({
+                r: ~~this.r,
+                g: ~~this.g,
+                b: ~~this.b
+            });
         },
         
         
@@ -129,14 +133,24 @@ tm.graphics = tm.graphics || {};
          * CSS 用 RGBA文字列に変換
          */
         toStyleAsRGBA: function() {
-            return "rgba({r},{g},{b},{a})".format(this);
+            return "rgba({r},{g},{b},{a})".format({
+                r: ~~this.r,
+                g: ~~this.g,
+                b: ~~this.b,
+                a: this.a
+            });
         },
 
         /**
          * CSS 用 RGBA 文字列に変換
          */
         toStyle: function() {
-            return "rgba({r},{g},{b},{a})".format(this);
+            return "rgba({r},{g},{b},{a})".format({
+                r: ~~this.r,
+                g: ~~this.g,
+                b: ~~this.b,
+                a: this.a
+            });
         },
         
     });

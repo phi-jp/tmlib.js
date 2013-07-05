@@ -16,81 +16,81 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * 
+ *
  */
- 
+
 tm.app = tm.app || {};
 
- 
+
 (function() {
-    
+
 <span id='tm-app-CanvasElement'>    /**
 </span>     * @class
      * キャンバスエレメント
      */
     tm.app.CanvasElement = tm.createClass({
-        
-<span id='tm-app-CanvasElement-property-isUpdate'>        superClass: tm.app.Object2D,
-</span>        
-        /**
-         * 更新フラグ
+
+        superClass: tm.app.Object2D,
+
+<span id='tm-app-CanvasElement-property-isUpdate'>        /**
+</span>         * 更新フラグ
          */
-<span id='tm-app-CanvasElement-property-visible'>        isUpdate: true,
-</span>        
-        /**
-         * 表示フラグ
+        isUpdate: true,
+
+<span id='tm-app-CanvasElement-property-visible'>        /**
+</span>         * 表示フラグ
          */
-<span id='tm-app-CanvasElement-property-fillStyle'>        visible: true,
-</span>        
-        /**
-         * fillStyle
+        visible: true,
+
+<span id='tm-app-CanvasElement-property-fillStyle'>        /**
+</span>         * fillStyle
          */
-<span id='tm-app-CanvasElement-property-strokeStyle'>        fillStyle: &quot;white&quot;,
-</span>        
-        /**
-         * strokeStyle
+        fillStyle: &quot;white&quot;,
+
+<span id='tm-app-CanvasElement-property-strokeStyle'>        /**
+</span>         * strokeStyle
          */
-<span id='tm-app-CanvasElement-property-alpha'>        strokeStyle: &quot;white&quot;,
-</span>        
-        /**
-         * アルファ
-<span id='tm-app-CanvasElement-property-blendMode'>         */
-</span>        alpha: 1.0,
-        
-        /**
-         * ブレンドモード
-<span id='tm-app-CanvasElement-property-shadowColor'>         */
-</span>        blendMode: &quot;source-over&quot;,
-        
-        /**
-         * シャドウカラー
+        strokeStyle: &quot;white&quot;,
+
+<span id='tm-app-CanvasElement-property-alpha'>        /**
+</span>         * アルファ
+         */
+        alpha: 1.0,
+
+<span id='tm-app-CanvasElement-property-blendMode'>        /**
+</span>         * ブレンドモード
+         */
+        blendMode: &quot;source-over&quot;,
+
+<span id='tm-app-CanvasElement-property-shadowColor'>        /**
+</span>         * シャドウカラー
          */
         shadowColor: &quot;black&quot;,
-<span id='tm-app-CanvasElement-method-init'>        shadowOffsetX: 0,
-</span>        shadowOffsetY: 0,
+        shadowOffsetX: 0,
+        shadowOffsetY: 0,
         shadowBlur: 0,
-        
-        /**
-         * ゲーム用エレメントクラス
+
+<span id='tm-app-CanvasElement-method-init'>        /**
+</span>         * ゲーム用エレメントクラス
          */
         init: function() {
             this.superInit();
         },
-        
+
         drawBoundingCircle: function(canvas) {
             canvas.save();
             canvas.lineWidth = 2;
             canvas.strokeCircle(0, 0, this.radius);
             canvas.restore();
         },
-        
+
         drawBoundingRect: function(canvas) {
             canvas.save();
             canvas.lineWidth = 2;
             canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
             canvas.restore();
         },
-        
+
         drawFillRect: function(ctx) {
             ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
@@ -99,7 +99,7 @@ tm.app = tm.app || {};
             ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
         },
-        
+
         drawFillArc: function(ctx) {
             ctx.beginPath();
             ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
@@ -114,37 +114,42 @@ tm.app = tm.app || {};
             ctx.closePath();
             return this;
         },
-        
+
         show: function() {
             this.visible = true;
             return this;
         },
-        
+
         hide: function() {
             this.visible = false;
             return this;
         },
-        
+
         setFillStyle: function(style) {
             this.fillStyle = style;
             return this;
         },
-        
+
         setStrokeStyle: function(style) {
             this.strokeStyle = style;
             return this;
         },
-        
+
+        setBlendMode: function(blendMode) {
+            this.blendMode = blendMode;
+            return this;
+        },
+
         load: function(data) {
             var self = this;
-            
+
             data.layers.forEach(function(layer) {
                 if (layer.type != &quot;objectgroup&quot;) return ;
-                
+
                 var group = tm.app.CanvasElement().addChildTo(self);
                 group.width = layer.width;
                 group.height = layer.height;
-                
+
                 layer.objects.forEach(function(obj) {
                     var _class = tm.using(obj.type);
                     if (Object.keys(_class).length === 0) {
@@ -161,17 +166,17 @@ tm.app = tm.app || {};
                         var value = props[key];
                         element[key] = value;
                     }
-                    
+
                     element.x = obj.x;
                     element.y = obj.y;
                     element.width = obj.width;
                     element.height = obj.height;
                 });
-                
+
                 self[layer.name] = group;
             });
         },
-        
+
         fromJSON: function(data) {
             for (var key in data) {
                 var value = data[key];
@@ -192,15 +197,15 @@ tm.app = tm.app || {};
                     this[key] = value;
                 }
             }
-            
+
             return this;
         },
-        
+
         toJSON: function() {
             // TODO:
         },
-        
-        
+
+
         _calcAlpha: function() {
             if (!this.parent) {
                 this._worldAlpha = this.alpha;
@@ -211,17 +216,17 @@ tm.app = tm.app || {};
                 this._worldAlpha = this.parent._worldAlpha * this.alpha;
             }
         },
-        
+
         _dirtyCalc: function() {
             this._calcAlpha();
             this._calcWorldMatrix();
         },
-        
+
     });
-    
+
 
 })();
- 
+
 
 
 

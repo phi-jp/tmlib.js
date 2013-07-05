@@ -7863,7 +7863,11 @@ tm.graphics = tm.graphics || {};
          * CSS 用 RGB文字列に変換
          */
         toStyleAsRGB: function() {
-            return "rgb({r},{g},{b})".format(this);
+            return "rgb({r},{g},{b})".format({
+                r: ~~this.r,
+                g: ~~this.g,
+                b: ~~this.b
+            });
         },
         
         
@@ -7871,14 +7875,24 @@ tm.graphics = tm.graphics || {};
          * CSS 用 RGBA文字列に変換
          */
         toStyleAsRGBA: function() {
-            return "rgba({r},{g},{b},{a})".format(this);
+            return "rgba({r},{g},{b},{a})".format({
+                r: ~~this.r,
+                g: ~~this.g,
+                b: ~~this.b,
+                a: this.a
+            });
         },
 
         /**
          * CSS 用 RGBA 文字列に変換
          */
         toStyle: function() {
-            return "rgba({r},{g},{b},{a})".format(this);
+            return "rgba({r},{g},{b},{a})".format({
+                r: ~~this.r,
+                g: ~~this.g,
+                b: ~~this.b,
+                a: this.a
+            });
         },
         
     });
@@ -10633,6 +10647,21 @@ tm.app = tm.app || {};
             this.position.y = y;
             return this;
         },
+
+        setRotation: function(rotation) {
+            this.rotation = rotation;
+            return this;
+        },
+
+        setScale: function(x, y) {
+            this.scale.x = x;
+            if (arguments.length <= 1) {
+                this.scale.y = x;
+            } else {
+                this.scale.y = y;
+            }
+            return this;
+        },
         
         /**
          * 幅をセット
@@ -11019,52 +11048,52 @@ tm.app = tm.app || {};
 })();
 
 /*
- * 
+ *
  */
- 
+
 tm.app = tm.app || {};
 
- 
+
 (function() {
-    
+
     /**
      * @class
      * キャンバスエレメント
      */
     tm.app.CanvasElement = tm.createClass({
-        
+
         superClass: tm.app.Object2D,
-        
+
         /**
          * 更新フラグ
          */
         isUpdate: true,
-        
+
         /**
          * 表示フラグ
          */
         visible: true,
-        
+
         /**
          * fillStyle
          */
         fillStyle: "white",
-        
+
         /**
          * strokeStyle
          */
         strokeStyle: "white",
-        
+
         /**
          * アルファ
          */
         alpha: 1.0,
-        
+
         /**
          * ブレンドモード
          */
         blendMode: "source-over",
-        
+
         /**
          * シャドウカラー
          */
@@ -11072,28 +11101,28 @@ tm.app = tm.app || {};
         shadowOffsetX: 0,
         shadowOffsetY: 0,
         shadowBlur: 0,
-        
+
         /**
          * ゲーム用エレメントクラス
          */
         init: function() {
             this.superInit();
         },
-        
+
         drawBoundingCircle: function(canvas) {
             canvas.save();
             canvas.lineWidth = 2;
             canvas.strokeCircle(0, 0, this.radius);
             canvas.restore();
         },
-        
+
         drawBoundingRect: function(canvas) {
             canvas.save();
             canvas.lineWidth = 2;
             canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
             canvas.restore();
         },
-        
+
         drawFillRect: function(ctx) {
             ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
@@ -11102,7 +11131,7 @@ tm.app = tm.app || {};
             ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
         },
-        
+
         drawFillArc: function(ctx) {
             ctx.beginPath();
             ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
@@ -11117,37 +11146,42 @@ tm.app = tm.app || {};
             ctx.closePath();
             return this;
         },
-        
+
         show: function() {
             this.visible = true;
             return this;
         },
-        
+
         hide: function() {
             this.visible = false;
             return this;
         },
-        
+
         setFillStyle: function(style) {
             this.fillStyle = style;
             return this;
         },
-        
+
         setStrokeStyle: function(style) {
             this.strokeStyle = style;
             return this;
         },
-        
+
+        setBlendMode: function(blendMode) {
+            this.blendMode = blendMode;
+            return this;
+        },
+
         load: function(data) {
             var self = this;
-            
+
             data.layers.forEach(function(layer) {
                 if (layer.type != "objectgroup") return ;
-                
+
                 var group = tm.app.CanvasElement().addChildTo(self);
                 group.width = layer.width;
                 group.height = layer.height;
-                
+
                 layer.objects.forEach(function(obj) {
                     var _class = tm.using(obj.type);
                     if (Object.keys(_class).length === 0) {
@@ -11164,17 +11198,17 @@ tm.app = tm.app || {};
                         var value = props[key];
                         element[key] = value;
                     }
-                    
+
                     element.x = obj.x;
                     element.y = obj.y;
                     element.width = obj.width;
                     element.height = obj.height;
                 });
-                
+
                 self[layer.name] = group;
             });
         },
-        
+
         fromJSON: function(data) {
             for (var key in data) {
                 var value = data[key];
@@ -11195,15 +11229,15 @@ tm.app = tm.app || {};
                     this[key] = value;
                 }
             }
-            
+
             return this;
         },
-        
+
         toJSON: function() {
             // TODO:
         },
-        
-        
+
+
         _calcAlpha: function() {
             if (!this.parent) {
                 this._worldAlpha = this.alpha;
@@ -11214,17 +11248,17 @@ tm.app = tm.app || {};
                 this._worldAlpha = this.parent._worldAlpha * this.alpha;
             }
         },
-        
+
         _dirtyCalc: function() {
             this._calcAlpha();
             this._calcWorldMatrix();
         },
-        
+
     });
-    
+
 
 })();
- 
+
 
 
 
@@ -11304,6 +11338,8 @@ tm.app = tm.app || {};
             this.srcRect.y = y*h;
             this.srcRect.width  = w;
             this.srcRect.height = h;
+
+            return this;
         },
         
         _refreshSize: function() {
@@ -11343,7 +11379,7 @@ tm.app = tm.app || {};
 
 
 (function() {
-    
+
     /**
      * @class
      * AnimationSprite
@@ -11358,7 +11394,7 @@ tm.app = tm.app || {};
         init: function(ss, width, height)
         {
             this.superInit();
-            
+
             if (typeof ss == "string") {
                 var ss = tm.asset.AssetManager.get(ss);
                 console.assert(ss, "not found " + ss);
@@ -11367,7 +11403,7 @@ tm.app = tm.app || {};
             console.assert(typeof ss == "object", "AnimationSprite の第一引数はスプライトシートもしくはスプライトシート名に変わりました");
 
             this.ss = ss;
-            
+
             this.width  = width || ss.frame.width;
             this.height = height|| ss.frame.height;
 
@@ -11398,22 +11434,26 @@ tm.app = tm.app || {};
 
         gotoAndPlay: function(name) {
             name = name || "default";
-            
+
             this.paused = false;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
             this.currentFrameIndex = 0;
             this._normalizeFrame();
+
+            return this;
         },
 
         gotoAndStop: function(name) {
             name = name || "default";
-            
+
             this.paused = true;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
             this.currentFrameIndex = 0;
             this._normalizeFrame();
+
+            return this;
         },
 
         _updateFrame: function() {
@@ -11449,7 +11489,7 @@ tm.app = tm.app || {};
 
 
 (function() {
-    
+
     tm.app.SpriteSheet = tm.createClass({
         superClass: tm.event.EventDispatcher,
 
@@ -11486,19 +11526,19 @@ tm.app = tm.app || {};
         getFrame: function(index) {
             return this.frames[index];
         },
-        
+
         getAnimation: function(name) {
             return this.animations[name];
         },
-        
+
         _calcFrames: function(frame) {
             var frames = this.frames = [];
-            
+
             var w = frame.width;
             var h = frame.height;
             var row = ~~(this.image.width / w);
             var col = ~~(this.image.height/ h);
-            
+
             if (!frame.count) frame.count = row*col;
 
             for (var i=0,len=frame.count; i<len; ++i) {
@@ -11534,7 +11574,7 @@ tm.app = tm.app || {};
                     };
                 }
             }
-            
+
             // デフォルトアニメーション
             this.animations["default"] = {
                 frames: [].range(0, this.frame.count),
@@ -12355,7 +12395,9 @@ tm.app = tm.app || {};
     tm.app.Scene = tm.createClass({
         
         superClass: tm.app.CanvasElement,
-        
+    
+        _sceneResultCallback: null,
+
         /**
          * 初期化
          */
@@ -12367,6 +12409,7 @@ tm.app = tm.app || {};
             // タッチに反応させる
             this.setInteractive(true);
         },
+
     });
     
 })();
@@ -12551,13 +12594,6 @@ tm.app = tm.app || {};
 
 
         },
-        
-        /*
-        onpointingstart: function() {
-            var e = tm.event.Event("nextscene");
-            this.dispatchEvent(e);
-        },
-        */
     });
     
 })();
@@ -14130,6 +14166,206 @@ tm.app = tm.app || {};
 
 
 
+(function() {
+    
+    /**
+     * @class tm.app.MenuDialog
+     * メニューダイアログ
+     */
+    tm.define("tm.app.MenuDialog", {
+        superClass: tm.app.Scene,
+
+        /** @type {string} タイトル */
+        titleText: null,
+        /** @type {Array.<string>} メニュー名リスト */
+        menu: null,
+        /** @type {Array.<string>} メニュー詳細リスト */
+        descriptions: null,
+        /** @type {boolean} exit の表示/非表示 */
+        showExit: false,
+
+        /** @type {tm.app.Label} dummy */
+        title: null,
+        /** @type {Array.<tm.app.LabelButton>} dummy */
+        selections: [],
+        /** @type {tm.app.Label} dummy */
+        description: null,
+        /** @type {tm.app.RectangleShape} dummy */
+        box: null,
+        /** @type {tm.app.RectangleShape} dummy */
+        cursor: null,
+
+        _selected: 0,
+        _opened: false,
+        _finished: false,
+
+        _screenWidth: 0,
+        _screenHeight: 0,
+
+        /**
+         * 初期化
+         * @param {Object} params
+         */
+        init: function(params) {
+            this.superInit();
+
+            this._screenWidth = params.screenWidth;
+            this._screenHeight = params.screenHeight;
+
+            this.titleText = params.title;
+            this.menu = [].concat(params.menu);
+            this._selected = ~~params.defaultSelected;
+            this.showExit = !!params.showExit;
+            if (params.menuDesctiptions) {
+                this.descriptions = params.menuDesctiptions;
+            } else {
+                this.descriptions = [].concat(params.menu);
+            }
+
+            if (this.showExit) {
+                this.menu.push("exit");
+                this.descriptions.push("前の画面へ戻ります");
+            }
+
+            var height = Math.max((1+this.menu.length)*50, 50) + 40;
+            this.box = tm.app.RectangleShape(this._screenWidth * 0.8, height, {
+                strokeStyle: "rgba(0,0,0,0)",
+                fillStyle: "rgba(43,156,255, 0.8)",
+            }).setPosition(this._screenWidth*0.5, this._screenHeight*0.5);
+            this.box.width = 1;
+            this.box.height = 1;
+            this.box.setBoundingType("rect");
+            this.box.tweener
+                .to({ width: this._screenWidth*0.8, height: height }, 200, "easeOutExpo")
+                .call(this._onOpen.bind(this));
+            this.box.addChildTo(this);
+
+            this.description = tm.app.Label("", 14)
+                .setAlign("center")
+                .setBaseline("middle")
+                .setPosition(this._screenWidth*0.5, this._screenHeight-10)
+                .addChildTo(this);
+        },
+
+        _onOpen: function() {
+            var self = this;
+            var y = this._screenHeight*0.5 - this.menu.length * 25;
+
+            this.title = tm.app.Label(this.titleText, 30)
+                .setAlign("center")
+                .setBaseline("middle")
+                .setPosition(this._screenWidth*0.5, y)
+                .addChildTo(this);
+
+            this.cursor = this._createCursor();
+
+            this.selections = this.menu.map(function(text, i) {
+                var self = this;
+                y += 50;
+                var selection = tm.app.LabelButton(text)
+                    .setPosition(this._screenWidth*0.5, y)
+                    .addChildTo(this);
+                selection.interactive = true;
+                selection.addEventListener("click", function() {
+                    if (self._selected === i) {
+                        self.closeDialog(self._selected);
+                    } else {
+                        self._selected = i;
+                        var e = tm.event.Event("menuselect");
+                        e.selectValue = self.menu[self._selected];
+                        e.selectIndex = i;
+                        self.dispatchEvent(e);
+                    }
+                });
+                selection.width = this._screenWidth * 0.7;
+                return selection;
+            }.bind(this));
+
+            this.cursor.y = this.selections[this._selected].y;
+
+            this._opened = true;
+
+            // close window when touch bg outside
+            this.addEventListener("pointingend", function(e) {
+                var p = e.app.pointing;
+                if (!self.box.isHitPoint(p.x, p.y)) {
+                    self.closeDialog(self._selected);
+                }
+            });
+
+            // dispatch opened event
+            var e = tm.event.Event("menuopened");
+            this.dispatchEvent(e);
+        },
+
+        _createCursor: function() {
+            var cursor = tm.app.RectangleShape(this._screenWidth*0.7, 30, {
+                strokeStyle: "rgba(0,0,0,0)",
+                fillStyle: "rgba(12,79,138,1)"
+            }).addChildTo(this);
+            cursor.x = this._screenWidth*0.5;
+            cursor.target = this._selected;
+            
+            cursor.update = function() {
+                if (this.target !== this.parent._selected) {
+                    this.target = this.parent._selected;
+                    this.tweener.clear();
+                    this.tweener.to({
+                        y: this.parent.selections[this.parent._selected].y
+                    }, 200, "easeOutExpo");
+                }
+            };
+
+            return cursor;
+        },
+
+        update: function(app) {
+            this.description.text = this.descriptions[this._selected];
+        },
+
+        closeDialog: function(result) {
+            this._finished = true;
+
+            var e = tm.event.Event("menuselected");
+            e.selectIndex = result;
+            this.dispatchEvent(e);
+
+            this.tweener
+                .clear()
+                .wait(200)
+                .call(function() {
+                    this.cursor.remove();
+                    this.title.remove();
+                    this.selections.each(function(sel) {
+                        sel.remove();
+                    });
+                    this.box.tweener.clear();
+                    this.box.tweener
+                        .to({ width: 1, height: 1 }, 200, "easeInExpo")
+                        .call(function() {
+                            this.app.popScene();
+                            var e = tm.event.Event("menuclosed");
+                            e.selectIndex = result;
+                            this.dispatchEvent(e);
+                        }.bind(this));
+                }.bind(this));
+            this.cursor.tweener
+                .clear()
+                .call(function() {
+                    this.visible = !this.visible;
+                }.bind(this.cursor))
+                .setLoop(true);
+        },
+
+        draw: function(canvas) {
+            canvas.fillStyle = "rgba(0,0,0,0.8)";
+            canvas.fillRect(0,0,this._screenWidth,this._screenHeight);
+        },
+
+    });
+
+})();
+
 /*
  * 
  */
@@ -14150,17 +14386,8 @@ tm.three = tm.three || {};
 
         superClass: tm.app.BaseApp,
         
-        element     : null,
         canvas      : null,
-        mouse       : null,
-        touch       : null,
-        pointing    : null,
-        keyboard    : null,
-        stats       : null,
-        frame       : 0,
-        fps         : 30,
         background  : null,
-        isPlaying   : null,
         
         _scenes      : null,
         _sceneIndex  : 0,

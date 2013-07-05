@@ -18,17 +18,8 @@ tm.three = tm.three || {};
 
         superClass: tm.app.BaseApp,
         
-        element     : null,
         canvas      : null,
-        mouse       : null,
-        touch       : null,
-        pointing    : null,
-        keyboard    : null,
-        stats       : null,
-        frame       : 0,
-        fps         : 30,
         background  : null,
-        isPlaying   : null,
         
         _scenes      : null,
         _sceneIndex  : 0,

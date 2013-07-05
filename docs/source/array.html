@@ -35,20 +35,20 @@
     Array.prototype.accessor(&quot;first&quot;, {
         &quot;get&quot;: function()   { return this[0]; },
         &quot;set&quot;: function(v)  { this[0] = v; }
-<span id='Array-property-last'>    });
-</span>    
-    /**
-     * @property    last
+    });
+    
+<span id='Array-property-last'>    /**
+</span>     * @property    last
      * 最後の要素
      */
     Array.prototype.accessor(&quot;last&quot;, {
         &quot;get&quot;: function()   { return this[this.length-1]; },
-<span id='Array-method-equals'>        &quot;set&quot;: function(v)  { this[this.length-1] = v; }
-</span>    });
+        &quot;set&quot;: function(v)  { this[this.length-1] = v; }
+    });
     
     
-    /**
-     * @method  equals
+<span id='Array-method-equals'>    /**
+</span>     * @method  equals
      * 渡された配列と等しいかどうかをチェック
      */
     Array.defineInstanceMethod(&quot;equals&quot;, function(arr) {
@@ -57,14 +57,14 @@
         
         for (var i=0,len=this.length; i&lt;len; ++i) {
             if (this[i] !== arr[i]) {
-<span id='Array-method-deepEquals'>                return false;
-</span>            }
+                return false;
+            }
         }
         return true;
     });
     
-    /**
-     * @method  deepEquals
+<span id='Array-method-deepEquals'>    /**
+</span>     * @method  deepEquals
      * ネストされている配列含め渡された配列と等しいかどうかをチェック
      * equalsDeep にするか検討. (Java では deepEquals なのでとりあえず合わせとく)
      */
@@ -73,18 +73,18 @@
         if (this.length !== arr.length) return false;
         
         for (var i=0,len=this.length; i&lt;len; ++i) {
-<span id='Array-method-at'>            var result = (this[i].deepEquals) ? this[i].deepEquals(arr[i]) : (this[i] === arr[i]);
-</span>            if (result === false) {
+            var result = (this[i].deepEquals) ? this[i].deepEquals(arr[i]) : (this[i] === arr[i]);
+            if (result === false) {
                 return false;
             }
         }
         return true;
     });
     
-    /**
-     * @method  at
-<span id='Array-method-swap'>     * ループ添字アクセス(Ruby っぽいやつ)
-</span>     */
+<span id='Array-method-at'>    /**
+</span>     * @method  at
+     * ループ添字アクセス(Ruby っぽいやつ)
+     */
     Array.defineInstanceMethod(&quot;at&quot;, function(i) {
         i%=this.length;
         i+=this.length;
@@ -93,21 +93,21 @@
     });
     
     
-    /**
-     * @method  swap
-<span id='Array-method-erase'>     * a番目 と b番目 を入れ替える
-</span>     */
+<span id='Array-method-swap'>    /**
+</span>     * @method  swap
+     * a番目 と b番目 を入れ替える
+     */
     Array.defineInstanceMethod(&quot;swap&quot;, function(a, b) {
         var temp = this[a];
         this[a] = this[b];
         this[b] = temp;
         
         return this;
-<span id='Array-method-eraseAll'>    });
-</span>    
+    });
     
-    /**
-     * @method  erase
+    
+<span id='Array-method-erase'>    /**
+</span>     * @method  erase
      * elm と一致する要素を削除
      */
     Array.defineInstanceMethod(&quot;erase&quot;, function(elm) {
@@ -116,10 +116,10 @@
         return this;
     });
     
-    /**
-     * @method  eraseAll
-<span id='Array-method-eraseIf'>     * elm と一致する要素を全て削除
-</span>     */
+<span id='Array-method-eraseAll'>    /**
+</span>     * @method  eraseAll
+     * elm と一致する要素を全て削除
+     */
     Array.defineInstanceMethod(&quot;eraseAll&quot;, function(elm) {
         for (var i=0,len=this.length; i&lt;len; ++i) {
             if (this[i] == elm) {
@@ -129,12 +129,12 @@
         return this;
     });
     
-    /**
-     * @method  eraseIf
+<span id='Array-method-eraseIf'>    /**
+</span>     * @method  eraseIf
      * 条件にマッチした要素を削除
      */
-<span id='Array-method-eraseIfAll'>    Array.defineInstanceMethod(&quot;eraseIf&quot;, function(fn) {
-</span>        for (var i=0,len=this.length; i&lt;len; ++i) {
+    Array.defineInstanceMethod(&quot;eraseIf&quot;, function(fn) {
+        for (var i=0,len=this.length; i&lt;len; ++i) {
             if ( fn(this[i], i, this) ) {
                 this.splice(i, 1);
                 break;
@@ -144,41 +144,41 @@
         return this;
     });
     
-<span id='Array-method-random'>    /**
+<span id='Array-method-eraseIfAll'>    /**
 </span>     * @method  eraseIfAll
      * 条件にマッチした要素を削除
      */
     Array.defineInstanceMethod(&quot;eraseIfAll&quot;, function(fn) {
         for (var i=0,len=this.length; i&lt;len; ++i) {
             if ( fn(this[i], i, this) ) {
-<span id='Array-method-pickup'>                this.splice(i, 1);
-</span>            }
+                this.splice(i, 1);
+            }
         }
         return this;
     });
     
-    /**
-     * @method  random
+<span id='Array-method-random'>    /**
+</span>     * @method  random
      * 要素の中からランダムで取り出す
      */
-<span id='Array-method-uniq'>    Array.defineInstanceMethod(&quot;random&quot;, function(min, max) {
-</span>        min = min || 0;
+    Array.defineInstanceMethod(&quot;random&quot;, function(min, max) {
+        min = min || 0;
         max = max || this.length-1;
         return this[ Math.rand(min, max) ];
     });
     
-    /**
-     * @method  pickup
+<span id='Array-method-pickup'>    /**
+</span>     * @method  pickup
      * 要素の中からランダムで取り出す
      */
     Array.defineInstanceMethod(&quot;pickup&quot;, function(min, max) {
         min = min || 0;
         max = max || this.length-1;
-<span id='Array-method-flatten'>        return this[ Math.rand(min, max) ];
-</span>    });
+        return this[ Math.rand(min, max) ];
+    });
     
-    /**
-     * @method  uniq
+<span id='Array-method-uniq'>    /**
+</span>     * @method  uniq
      * 重複削除
      */
     Array.defineInstanceMethod(&quot;uniq&quot;, function(deep) {
@@ -186,15 +186,15 @@
         for (var i=0,len=this.length; i&lt;len; ++i) {
             var value = this[i];
             if (value in arr == false) {
-<span id='Array-method-clone'>                arr.push(value);
-</span>            }
+                arr.push(value);
+            }
         }
         return arr;
     });
     
 
-    /**
-     * @method  flatten
+<span id='Array-method-flatten'>    /**
+</span>     * @method  flatten
      * フラット.
      * Ruby のやつ.
      */
@@ -207,14 +207,14 @@
         return this;
     });
     
-    /**
-<span id='Array-method-clear'>     * @method  clone
-</span>     * 配列をクローン
+<span id='Array-method-clone'>    /**
+</span>     * @method  clone
+     * 配列をクローン
      */
     Array.defineInstanceMethod(&quot;clone&quot;, function(deep) {
         if (deep == true) {
-<span id='Array-method-fill'>            var a = Array(this.length);
-</span>            for (var i=0,len=this.length; i&lt;len; ++i) {
+            var a = Array(this.length);
+            for (var i=0,len=this.length; i&lt;len; ++i) {
                 a[i] = (this[i].clone) ? this[i].clone(deep) : this[i];
             }
             return a;
@@ -223,17 +223,17 @@
         return Array.prototype.slice.apply(this);
     });
     
-    /**
-     * @method  clear
+<span id='Array-method-clear'>    /**
+</span>     * @method  clear
      * クリア
      */
-<span id='Array-method-range'>    Array.defineInstanceMethod(&quot;clear&quot;, function() {
-</span>        this.length = 0;
+    Array.defineInstanceMethod(&quot;clear&quot;, function() {
+        this.length = 0;
         return this;
     });
     
-    /**
-     * @method  fill
+<span id='Array-method-fill'>    /**
+</span>     * @method  fill
      * 特定の値で満たす
      */
     Array.defineInstanceMethod(&quot;fill&quot;, function(value, start, end) {
@@ -248,16 +248,16 @@
     });
     
 
-    /**
-     * @method  range
+<span id='Array-method-range'>    /**
+</span>     * @method  range
      * python のやつ
      */
     Array.defineInstanceMethod(&quot;range&quot;, function(start, end, step) {
         if (arguments.length == 1) {
             this.clear();
             for (var i=0; i&lt;start; ++i) this[i] = i;
-<span id='Array-method-shuffle'>        }
-</span>        else if (start &lt; end){
+        }
+        else if (start &lt; end){
             step  = step || 1;
             this.clear();
             for (var i=start, index=0; i&lt;end; i+=step, ++index) {
@@ -267,20 +267,20 @@
         else {
             step  = step || -1;
             this.clear();
-<span id='Array-method-sum'>            for (var i=start, index=0; i&gt;end; i+=step, ++index) {
-</span>                this[index] = i;
+            for (var i=start, index=0; i&gt;end; i+=step, ++index) {
+                this[index] = i;
             }
         }
         
         return this;
     });
     
-    /**
-     * @method  shuffle
+<span id='Array-method-shuffle'>    /**
+</span>     * @method  shuffle
      * シャッフル
      */
-<span id='Array-method-average'>    Array.defineInstanceMethod(&quot;shuffle&quot;, function() {
-</span>        for (var i=0,len=this.length; i&lt;len; ++i) {
+    Array.defineInstanceMethod(&quot;shuffle&quot;, function() {
+        for (var i=0,len=this.length; i&lt;len; ++i) {
             var j = Math.rand(0, len-1);
             
             if (i != j) {
@@ -291,35 +291,35 @@
         return this;
     });
 
-    /**
-     * @method  sum
-<span id='Array-method-each'>     * 合計
-</span>     */
+<span id='Array-method-sum'>    /**
+</span>     * @method  sum
+     * 合計
+     */
     Array.defineInstanceMethod(&quot;sum&quot;, function() {
         var sum = 0;
         for (var i=0,len=this.length; i&lt;len; ++i) {
             sum += this[i];
         }
         return sum;
-<span id='Array-method-toULElement'>    });
-</span>
-    /**
-     * @method  average
+    });
+
+<span id='Array-method-average'>    /**
+</span>     * @method  average
      * 平均
      */
     Array.defineInstanceMethod(&quot;average&quot;, function() {
         var sum = 0;
-<span id='Array-method-toOLElement'>        var len = this.length;
-</span>        for (var i=0; i&lt;len; ++i) {
+        var len = this.length;
+        for (var i=0; i&lt;len; ++i) {
             sum += this[i];
         }
         return sum/len;
     });
 
-    /**
-     * @method  each
-<span id='Array-static-method-uniq'>     * 繰り返し
-</span>     * チェーンメソッド対応
+<span id='Array-method-each'>    /**
+</span>     * @method  each
+     * 繰り返し
+     * チェーンメソッド対応
      */
     Array.defineInstanceMethod(&quot;each&quot;, function() {
         this.forEach.apply(this, arguments);
@@ -327,15 +327,15 @@
     });
 
     
-    /**
-     * @method  toULElement
+<span id='Array-method-toULElement'>    /**
+</span>     * @method  toULElement
      * ULElement に変換
      */
     Array.defineInstanceMethod(&quot;toULElement&quot;, function(){
         // TODO: 
     });
 
-<span id='Array-static-method-flatten'>    /**
+<span id='Array-method-toOLElement'>    /**
 </span>     * @method  toOLElement
      * OLElement に変換
      */
@@ -345,8 +345,8 @@
 
 
     
-    /**
-     * @static
+<span id='Array-static-method-uniq'>    /**
+</span>     * @static
      * @method  uniq
      * 重複削除
      */
@@ -356,14 +356,14 @@
             var value = arr[i];
             if (temp.indexOf(value) == -1) {
                 temp.push(value);
-<span id='Array-static-method-range'>            }
-</span>        }
+            }
+        }
         return temp;
     });
 
     
-    /**
-     * @static
+<span id='Array-static-method-flatten'>    /**
+</span>     * @static
      * @method  flatten
      * フラット.
      * Ruby のやつ.
@@ -384,8 +384,8 @@
     };
 
     
-    /**
-     * @static
+<span id='Array-static-method-range'>    /**
+</span>     * @static
      * @method  range
      * range
      */

@@ -42,10 +42,10 @@ tm.app = tm.app || {};
         isPlaying   : null,
         
         _scenes      : null,
-<span id='tm-app-BaseApp-method-init'>        _sceneIndex  : 0,
-</span>        
-        /**
-         * 初期化
+        _sceneIndex  : 0,
+        
+<span id='tm-app-BaseApp-method-init'>        /**
+</span>         * 初期化
          */
         init: function(elm)
         {
@@ -80,15 +80,15 @@ tm.app = tm.app || {};
                 this.currentScene.dispatchEvent(tm.event.Event(&quot;focus&quot;));
             }.bind(this));
             // ウィンドウブラー時イベントリスナを登録
-<span id='tm-app-BaseApp-method-run'>            window.addEventListener(&quot;blur&quot;, function() {
-</span>                this.currentScene.dispatchEvent(tm.event.Event(&quot;blur&quot;));
+            window.addEventListener(&quot;blur&quot;, function() {
+                this.currentScene.dispatchEvent(tm.event.Event(&quot;blur&quot;));
             }.bind(this));
             // クリック
             this.element.addEventListener((tm.isMobile) ? &quot;touchstart&quot; : &quot;mousedown&quot;, this._onclick.bind(this));
         },
         
-        /**
-         * 実行
+<span id='tm-app-BaseApp-method-run'>        /**
+</span>         * 実行
          */
         run: function()
         {
@@ -120,8 +120,8 @@ tm.app = tm.app || {};
         _loop: function()
         {
             // update
-<span id='tm-app-BaseApp-method-replaceScene'>            if (this.update) this.update();
-</span>            this._update();
+            if (this.update) this.update();
+            this._update();
             
             // draw
             if (this.draw) this.draw();
@@ -131,8 +131,8 @@ tm.app = tm.app || {};
             if (this.stats) this.stats.update();
         },
         
-        /**
-         * シーンを切り替える
+<span id='tm-app-BaseApp-method-replaceScene'>        /**
+</span>         * シーンを切り替える
          * ## Reference
          * - &lt;http://ameblo.jp/hash-r-1234/entry-10967942550.html&gt;
          */
@@ -142,8 +142,8 @@ tm.app = tm.app || {};
             if (this.currentScene) {
                 e = tm.event.Event(&quot;exit&quot;);
                 e.app = this;
-<span id='tm-app-BaseApp-method-pushScene'>                this.currentScene.dispatchEvent(e);
-</span>                this.currentScene.app = null;
+                this.currentScene.dispatchEvent(e);
+                this.currentScene.app = null;
             }
             e = tm.event.Event(&quot;enter&quot;);
             e.app = this;
@@ -152,14 +152,14 @@ tm.app = tm.app || {};
             this.currentScene.dispatchEvent(e);
         },
         
-        /**
-         * シーンをプッシュする
+<span id='tm-app-BaseApp-method-pushScene'>        /**
+</span>         * シーンをプッシュする
          * ポーズやオブション画面などで使用する
          */
         pushScene: function(scene)
         {
-<span id='tm-app-BaseApp-method-popScene'>            e = tm.event.Event(&quot;exit&quot;);
-</span>            e.app = this;
+            e = tm.event.Event(&quot;exit&quot;);
+            e.app = this;
             this.currentScene.dispatchEvent(e);
             
             this._scenes.push(scene);
@@ -171,8 +171,8 @@ tm.app = tm.app || {};
             scene.dispatchEvent(e);
         },
         
-        /**
-         * シーンをポップする
+<span id='tm-app-BaseApp-method-popScene'>        /**
+</span>         * シーンをポップする
          * ポーズやオブション画面などで使用する
          */
         popScene: function()
@@ -261,14 +261,14 @@ tm.app = tm.app || {};
 
             var _fn = function(elm) {
                 if (elm.children.length &gt; 0) {
-<span id='tm-app-BaseApp-property-currentScene'>                    elm.children.each(function(elm) {
-</span>                        if (elm.hasEventListener(&quot;click&quot;)) {
+                    elm.children.each(function(elm) {
+                        if (elm.hasEventListener(&quot;click&quot;)) {
                             if (elm.isHitPoint &amp;&amp; elm.isHitPoint(px, py)) {
                                 elm.dispatchEvent(tm.event.Event(&quot;click&quot;));
                             }
                         }
-<span id='tm-app-CanvasApp'>                    });
-</span>                }
+                    });
+                }
             };
 
             _fn(this.currentScene);
@@ -276,8 +276,8 @@ tm.app = tm.app || {};
         
     });
     
-    /**
-     * @property    currentScene
+<span id='tm-app-BaseApp-property-currentScene'>    /**
+</span>     * @property    currentScene
      * カレントシーン
      */
     tm.app.BaseApp.prototype.accessor(&quot;currentScene&quot;, {
@@ -289,12 +289,12 @@ tm.app = tm.app || {};
 
 (function() {
 
-    /**
-     * @class
+<span id='tm-app-CanvasApp'>    /**
+</span>     * @class
      * キャンバスアプリケーション
      */
-<span id='tm-app-CanvasApp-method-init'>    tm.app.CanvasApp = tm.createClass({
-</span>
+    tm.app.CanvasApp = tm.createClass({
+
         superClass: tm.app.BaseApp,
         
         element     : null,
@@ -312,8 +312,8 @@ tm.app = tm.app || {};
         _scenes      : null,
         _sceneIndex  : 0,
         
-        /**
-         * 初期化
+<span id='tm-app-CanvasApp-method-init'>        /**
+</span>         * 初期化
          */
         init: function(canvas)
         {
@@ -334,8 +334,8 @@ tm.app = tm.app || {};
             this.canvas = tm.graphics.Canvas(this.element);
             this.renderer = tm.app.CanvasRenderer(this.canvas);
             
-<span id='tm-app-CanvasApp-method-fitWindow'>            // カラー
-</span>            this.background = &quot;black&quot;;
+            // カラー
+            this.background = &quot;black&quot;;
             
             // シーン周り
             this._scenes = [ tm.app.Scene() ];
@@ -355,8 +355,8 @@ tm.app = tm.app || {};
             return this;
         },
         
-        /**
-         * 画面にフィットさせる
+<span id='tm-app-CanvasApp-method-fitWindow'>        /**
+</span>         * 画面にフィットさせる
          */
         fitWindow: function(everFlag) {
             // 画面にフィット
@@ -369,15 +369,15 @@ tm.app = tm.app || {};
             });
         },
         
-<span id='tm-app-CanvasApp-property-width'>        _draw: function()
-</span>        {
+        _draw: function()
+        {
             this.canvas.clearColor(this.background, 0, 0);
             
             this.canvas.fillStyle   = &quot;white&quot;;
             this.canvas.strokeStyle = &quot;white&quot;;
             
-<span id='tm-app-CanvasApp-property-height'>            // 描画は全てのシーン行う
-</span>            this.canvas.save();
+            // 描画は全てのシーン行う
+            this.canvas.save();
             for (var i=0, len=this._scenes.length; i&lt;len; ++i) {
                 this.renderer.render(this._scenes[i]);
 //                this._scenes[i]._draw(this.canvas);
@@ -390,8 +390,8 @@ tm.app = tm.app || {};
     });
     
     
-    /**
-     * @property    width
+<span id='tm-app-CanvasApp-property-width'>    /**
+</span>     * @property    width
      * 幅
      */
     tm.app.CanvasApp.prototype.accessor(&quot;width&quot;, {
@@ -399,8 +399,8 @@ tm.app = tm.app || {};
         &quot;set&quot;: function(v)  { this.canvas.width = v; }
     });
     
-    /**
-     * @property    height
+<span id='tm-app-CanvasApp-property-height'>    /**
+</span>     * @property    height
      * 高さ
      */
     tm.app.CanvasApp.prototype.accessor(&quot;height&quot;, {

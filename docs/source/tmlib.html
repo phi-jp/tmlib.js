@@ -43,10 +43,10 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
 <span id='tm-VERSION'>    /**
 </span>     * バージョン
      */
-<span id='tm-LIB_ROOT'>    tm.VERSION = &quot;0.1.5&quot;;
-</span>
-    /**
-     * tmlib.js のルートパス
+    tm.VERSION = &quot;0.1.5&quot;;
+
+<span id='tm-LIB_ROOT'>    /**
+</span>     * tmlib.js のルートパス
      */
     tm.LIB_ROOT = (function(){
         if (!window.document) return ;
@@ -54,11 +54,11 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
         var scripts = document.getElementsByTagName(&quot;script&quot;);
         for (var i=0, len=scripts.length; i&lt;len; ++i) {
 
-<span id='tm-BROWSER'>        }
-</span>    })();
+        }
+    })();
 
-    /**
-     * ブラウザ
+<span id='tm-BROWSER'>    /**
+</span>     * ブラウザ
      */
     tm.BROWSER = (function() {
         if (!window.navigator) return ;
@@ -69,11 +69,11 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
         else if (/opera/i.test(navigator.userAgent))    { return &quot;Opera&quot;;   }
         else if (/getcko/i.test(navigator.userAgent))   { return &quot;Getcko&quot;;  }
         else if (/msie/i.test(navigator.userAgent))     { return &quot;IE&quot;;      }
-<span id='tm-VENDER_PREFIX'>        else { return null; }
-</span>    })();
+        else { return null; }
+    })();
 
-    /**
-     * ベンダープレフィックス
+<span id='tm-VENDER_PREFIX'>    /**
+</span>     * ベンダープレフィックス
      */
     tm.VENDER_PREFIX = (function() {
         if (!window) return ;
@@ -86,23 +86,23 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
             &quot;IE&quot;        : &quot;ms&quot;
         };
 
-<span id='tm-VENDER_PREFIX-property-isMobile'>        return map[tm.BROWSER] || &quot;&quot;;
-</span>    })();
+        return map[tm.BROWSER] || &quot;&quot;;
+    })();
 
 
-    /**
-     * モバイルかどうかの判定フラグ
+<span id='tm-VENDER_PREFIX-property-isMobile'>    /**
+</span>     * モバイルかどうかの判定フラグ
      */
     tm.isMobile = (function() {
         if (!window.navigator) return ;
 
         var ua = navigator.userAgent;
-<span id='tm-VENDER_PREFIX-method-createClass'>        return (ua.indexOf(&quot;iPhone&quot;) &gt; 0 || ua.indexOf(&quot;iPad&quot;) &gt; 0 || ua.indexOf(&quot;Android&quot;) &gt; 0);
-</span>    })();
+        return (ua.indexOf(&quot;iPhone&quot;) &gt; 0 || ua.indexOf(&quot;iPad&quot;) &gt; 0 || ua.indexOf(&quot;Android&quot;) &gt; 0);
+    })();
 
 
-    /**
-     * クラス定義
+<span id='tm-VENDER_PREFIX-method-createClass'>    /**
+</span>     * クラス定義
      */
     tm.createClass = function(prop) {
         // デフォルト値
@@ -140,8 +140,8 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
         }
 
         // クリエイタの生成
-<span id='tm-VENDER_PREFIX-method-define'>        tm_class.prototype.creator = function() { return this; };
-</span>        // クリエイタの継承
+        tm_class.prototype.creator = function() { return this; };
+        // クリエイタの継承
         tm_class.prototype.creator.prototype = tm_class.prototype;
 
         tm_class._class = true;
@@ -152,8 +152,8 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
     tm.classes = {};
     var _calssDefinedCallback = {};
 
-    /**
-     * クラス定義
+<span id='tm-VENDER_PREFIX-method-define'>    /**
+</span>     * クラス定義
      * phi クラス定義 &lt;http://jsdo.it/phi/eEmj&gt;
      * new と apply を同時に使う &lt;http://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible&gt;
      */
@@ -193,14 +193,14 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
             _class = tm.createClass(prop);
         }
 
-<span id='tm-VENDER_PREFIX-method-namespace'>        // キャッシュしておく
-</span>        ns[className] = tm.classes[path] = _class;
+        // キャッシュしておく
+        ns[className] = tm.classes[path] = _class;
 
         if (_calssDefinedCallback[path]) {
             var list = _calssDefinedCallback[path];
             for (var i=0,len=list.length; i&lt;len; ++i) {
-<span id='tm-VENDER_PREFIX-method-using'>                list[i]();
-</span>            }
+                list[i]();
+            }
             delete _calssDefinedCallback[path];
         }
 
@@ -208,8 +208,8 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
     };
 
 
-    /**
-     * 名前空間
+<span id='tm-VENDER_PREFIX-method-namespace'>    /**
+</span>     * 名前空間
      * typescript の mudle 機能を参考
      * https://sites.google.com/site/jun1sboardgames/programming/typescript
      */
@@ -219,11 +219,11 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
         fn.call(ns, ns);
     };
 
-    /**
-     * 使用
+<span id='tm-VENDER_PREFIX-method-using'>    /**
+</span>     * 使用
      */
-<span id='tm-VENDER_PREFIX-method-setLoop'>    tm.using = function(ns) {
-</span>        if (tm.classes[ns]) return tm.classes[ns];
+    tm.using = function(ns) {
+        if (tm.classes[ns]) return tm.classes[ns];
 
         var path = ns.split(/[,.\/ ]|::/);
         var current = tm.global;
@@ -239,8 +239,8 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
         return current;
     };
 
-    /**
-     * ループ
+<span id='tm-VENDER_PREFIX-method-setLoop'>    /**
+</span>     * ループ
      */
     tm.setLoop = function(fn, delay) {
         var temp = function() {

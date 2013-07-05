@@ -15,7 +15,9 @@ tm.app = tm.app || {};
     tm.app.Scene = tm.createClass({
         
         superClass: tm.app.CanvasElement,
-        
+    
+        _sceneResultCallback: null,
+
         /**
          * 初期化
          */
@@ -27,6 +29,7 @@ tm.app = tm.app || {};
             // タッチに反応させる
             this.setInteractive(true);
         },
+
     });
     
 })();
@@ -211,13 +214,6 @@ tm.app = tm.app || {};
 
 
         },
-        
-        /*
-        onpointingstart: function() {
-            var e = tm.event.Event("nextscene");
-            this.dispatchEvent(e);
-        },
-        */
     });
     
 })();
