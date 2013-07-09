@@ -1802,7 +1802,13 @@ tm.util = tm.util || {};
         },
         
         json: function(data) {
-            return JSON.parse(data);
+            try {
+                return JSON.parse(data);
+            }
+            catch(e) {
+                console.dir(e);
+                console.dir(data);
+            }
         },
         
         script: function(data) {
@@ -7000,7 +7006,8 @@ tm.input = tm.input || {};
             var self = this;
             fps = fps || 30;
             tm.setLoop(function(){
-                self.update();
+                self._update();
+                if (self.update) self.update();
             }, 1000/fps);
         },
         
@@ -7008,7 +7015,7 @@ tm.input = tm.input || {};
          * 情報更新処理
          * マイフレーム呼んで下さい.
          */
-        update: function() {
+        _update: function() {
             // TODO: 一括ビット演算で行うよう修正する
             for (var k in this.key) {
                 this.last[k]    = this.press[k];

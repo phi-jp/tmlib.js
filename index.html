@@ -15,7 +15,8 @@
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <link rel="stylesheet/less" type="text/css" href="css/style.less" />
         <script src="css/less-1.3.0.min.js"></script>
-        <script src="https://gist.github.com/phi-jp/5064134/raw/7ae5464dc510e2e2646dfce5679daf8ce01a45ac/watcher.tm.js"></script>
+        <!--
+        <script src="http://gistgithub.com/phi-jp/5064134/raw/7ae5464dc510e2e2646dfce5679daf8ce01a45ac/watcher.tm.js"></script>
         <script>
         if (tm.Watcher.isLocal) {
             tm.Watcher.watch([
@@ -23,6 +24,8 @@
             ]);
         }
         </script>
+        -->
+    
         <style>
         /*
             img {
@@ -330,6 +333,7 @@
                         <ul class="nav">
                             <li><a href="https://github.com/phi-jp/tmlib.js">Github</a></li>
                             <li><a href="http://phi-jp.github.com/tmlib.js/docs/index.html">Docs</a></li>
+                            <li><a href="http://banraku-games.sakura.ne.jp/">Assets</a></li>
                             <li><a href="http://tmlife.net">Blog</a></li>
                             <li><a href="https://twitter.com/phi_jp">Contact</a></li>
                             <li class="dropdown">
@@ -406,6 +410,82 @@
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+        
+        <!-- hiyoko -->
+        <style>
+        .hiyoko {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            background: url("resource/img/hiyocos.png") no-repeat left top;
+            -webkit-transform: scaleX(-2) scaleY(2);
+            -webkit-animation: 250ms infinite steps(3);
+        }
+        
+        @-webkit-keyframes stand {
+            0%   {
+                background-position: 0px 0;
+            }
+        }
+
+        @-webkit-keyframes walk {
+            0%   {
+                background-position: 0px 0;
+            }
+            100% { background-position: -96px 0; }
+        }
+        </style>
+        <script>
+        (function() {
+            tm.main(function() {
+                var div = document.createElement("div");
+                var hiyoko = tm.dom.Element(div);
+                hiyoko.classList.add("hiyoko");
+                document.body.appendChild(hiyoko.element);
+                
+                hiyoko.anim.start();
+                
+                hiyoko.x = 80;
+                hiyoko.y = -50;
+                
+                var vx = 0;
+                var vy = 0;
+                var floor = window.innerHeight - 120;
+                var key = tm.input.Keyboard();
+                key.run();
+                
+                tm.setLoop(function() {
+                    vy += 0.5;
+                    hiyoko.y += vy;
+                    if (hiyoko.y > floor) {
+                        hiyoko.y = floor;
+                        vy = 0;
+                    }
+                    if (key.getKey("up")) {
+                        vy = -8;
+                    }
+                    
+                    vx *= 0.75;
+                    hiyoko.x += vx;
+                    if (key.getKey("left")) {
+                        vx = -4;
+                        hiyoko.style.set("webkitTransform", "scaleX(2) scaleY(2)");
+                        hiyoko.anim.setName("walk");
+                    }
+                    if (key.getKey("right")) {
+                        vx = 4;
+                        hiyoko.style.set("webkitTransform", "scaleX(-2) scaleY(2)");
+                        hiyoko.anim.setName("walk");
+                    }
+                    
+                    if (Math.abs(vx) <= 0.1) {
+                        hiyoko.anim.setName("stand");
+                    }
+                }, 1000/30);
+            });
+        })();
+        </script>
+
     </body>
     
 </html>
