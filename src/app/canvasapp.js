@@ -213,7 +213,7 @@ tm.app = tm.app || {};
         {
             // デバイス系 Update
             this.mouse.update();
-            this.keyboard.update();
+            this.keyboard._update();
             this.touches.update();
             
             if (this.isPlaying) {

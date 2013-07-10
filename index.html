@@ -172,6 +172,24 @@
                     header: "Game",
                     data: [
                         {
+                            name: 'Web Reverse Reverse',
+                            description: '<a href="https://twitter.com/Rosetta_Halt">@Rosetta_Halt</a> が iPhone アプリとして作っていたものを tmlib.js を使って Web に完全移植!! アプリ並のクォリティです.',
+                            url: 'http://webrxr.github.com/RxR/',
+                            icon: 'https://raw.github.com/webrxr/RxR/master/img/icon/Icon@2x.png',
+                        },
+                        {
+                            name: 'rogue plus',
+                            description: 'ローグライク風のアクションゲームです.ドット絵が懐かしい. @<a href="https://twitter.com/omatoro">omatoro</a>さんが作ってくれたゲームです.',
+                            url: 'http://rogueplus.testcoding.net/',
+                            icon: 'https://rawgithub.com/omatoro/RoguePlus/ddf10560b79049a0ba573c064f25c0d01ac874d9/rsc/Icon@2x.png',
+                        },
+                        {
+                            name: 'GL-Shooter',
+                            description: '<a href="https://twitter.com/daishi_hmr">@daishi_hmr</a> san が tmlib.js × <a href="https://github.com/daishihmr/bulletml.js">bulletml.js</a> を使って作られた本格弾幕シューティング! Web 上で作られたゲームの中でもトップクラス!!?',
+                            url: 'http://9leap.net/games/2877',
+                            icon: 'http://9leap.net/screenshots//140x140/2877_140',
+                        },
+                        {
                             name: 'Enclose Circle',
                             description: '',
                             url: 'examples/enclose-circle/index.html',
@@ -189,28 +207,22 @@
                             url: 'examples/shooting/index.html',
                             icon: 'examples/shooting/icon.png',
                         },
-                        {
-                            name: 'Web Reverse Reverse',
-                            description: '<a href="https://twitter.com/Rosetta_Halt">@Rosetta_Halt</a> が iPhone アプリとして作っていたものを tmlib.js を使って Web に完全移植!! アプリ並のクォリティです.',
-                            url: 'http://webrxr.github.com/RxR/',
-                            icon: 'https://raw.github.com/webrxr/RxR/master/img/icon/Icon@2x.png',
-                        },
-                        {
-                            name: 'GL-Shooter',
-                            description: '<a href="https://twitter.com/daishi_hmr">@daishi_hmr</a> san が tmlib.js × <a href="https://github.com/daishihmr/bulletml.js">bulletml.js</a> を使って作られた本格弾幕シューティング! Web 上で作られたゲームの中でもトップクラス!!?',
-                            url: 'http://9leap.net/games/2877',
-                            icon: 'http://9leap.net/screenshots//140x140/2877_140',
-                        },
                         {"name":"TongTong Z","url":"http://9leap.net/games/3005","icon":"http://9leap.net/screenshots/300x300/3005_300.png"},
                         {"name":"Diving Girl","url":"http://9leap.net/games/2986","icon":"http://9leap.net/screenshots/300x300/2986_300.png"},
                         {"name":"HeartRunner","url":"http://9leap.net/games/3004","icon":"http://9leap.net/screenshots/300x300/3004_300.png"},
                         {"name":"PompPompPomp!","url":"http://9leap.net/games/2991","icon":"http://9leap.net/screenshots/300x300/2991_300.png"},
-                        {"name":"Survival Land","url":"http://9leap.net/games/2989","icon":"http://9leap.net/screenshots/300x300/2989_300.png"},
+//                        {"name":"Survival Land","url":"http://9leap.net/games/2989","icon":"http://9leap.net/screenshots/300x300/2989_300.png"},
                         {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
+                            name: 'WEBack',
+                            description: '簡単な脳トレゲームです. n個前の数字を答えます. これまた @<a href="https://twitter.com/omatoro">omatoro</a>さんが作ってくれたゲームです.',
+                            url: 'http://weback.testcording.com/',
+                            icon: 'https://rawgithub.com/omatoro/MemoryUp/0872ff26778d888bee030de315ac9858702bc422/rsc/Icon@2x.png',
+                        },
+                        {
+                            name: '英語タッチLR マッチ売りの少女',
+                            description: '『英語タッチLR』は左右どちらかをタッチで答えていくことによって英語を学習するアプリです。 @<a href="http://twitter.com/papuujp">papuujp</a>さんが作られたゲームです.',
+                            url: 'http://d-webapp.jp/app_data/536/index.html',
+                            icon: 'http://d-webapp.jp/app_img/15_536/icon_536.png',
                         },
                         {
                             name: '',
@@ -310,8 +322,13 @@
                         var d = cell[j];
                         var li = ul.create("li");
                         li.classList.add("span" + rowSize);
-                        if (!d.description) d.description = "dummy dummy dummy dummy dummy dummy dummy dummy";
+//                        if (!d.description) d.description = "dummy dummy dummy dummy dummy dummy dummy dummy";
+                        if (!d.description) d.description = " ";
                         li.html = template.format(d);
+                        
+                        if (!d.name) {
+                            li.hide();
+                        }
                     }
                 }
             };
@@ -423,16 +440,12 @@
         }
         
         @-webkit-keyframes stand {
-            0%   {
-                background-position: 0px 0;
-            }
+            0%   { background-position: 0px 0px; }
         }
 
         @-webkit-keyframes walk {
-            0%   {
-                background-position: 0px 0;
-            }
-            100% { background-position: -96px 0; }
+            0%   { background-position: 0px 0px; }
+            100% { background-position: -96px 0px; }
         }
         </style>
         <script>

@@ -5119,6 +5119,14 @@ tm.dom = tm.dom || {};
             this.element.webkitRequestFullScreen();
         },
         
+        show: function() {
+            this.visible = true;
+        },
+        
+        hide: function() {
+            this.visible = false;
+        },
+        
         /**
          * 文字列化
          */
@@ -12940,7 +12948,7 @@ tm.app = tm.app || {};
         {
             // デバイス系 Update
             this.mouse.update();
-            this.keyboard.update();
+            this.keyboard._update();
             this.touches.update();
             
             if (this.isPlaying) {
