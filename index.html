@@ -272,7 +272,7 @@
             };
 
             window.onload = function() {
-                var container = tm.dom.Element("body > .container");
+                var container = tm.dom.Element("#main");
 
                 for (var key in data) {
                     var d = data[key];
@@ -371,11 +371,10 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="container" id="main">
             <div class="hero-unit">
                 <h1>tmlib.js <small>javascript library for game and tool</small></h1>
                 <br>
-
                 <div class="row">
                     <div class="span3">
                         <img alt="screenshot" src="logo.png" />
@@ -391,6 +390,11 @@
                             詳しくはこちらの<a href="http://www.rvl.io/phi/tmlibjs">スライド</a>を御覧ください.
                         </p>
                         <p>
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="ヒヨコ始めました!! 『JavaScript ライブラリ tmlib.js』" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            <a href="http://b.hatena.ne.jp/entry/http://phi-jp.github.io/tmlib.js/" class="hatena-bookmark-button" data-hatena-bookmark-title="tmlib.js" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+                        </p>
+                        <p>
                             <a class="btn btn-primary btn-large" href="https://github.com/phi-jp/tmlib.js" target="_blank">
                                 Go Github »
                             </a>
@@ -401,6 +405,7 @@
                                 Download »
                             </a>
                         </p>
+                        
                     </div>
                 </div>
             </div>
