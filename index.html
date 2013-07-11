@@ -509,8 +509,11 @@
                         hiyoko.y = floor;
                         vy = 0;
                     }
+                    else if (hiyoko.y < 0) {
+                        hiyoko.y = 0;
+                    }
                     if (key.getKey("up")) {
-                        vy = -8;
+                        vy -= 1;
                     }
                     
                     vx *= 0.80;
