@@ -442,17 +442,31 @@
             width: 32px;
             height: 32px;
             background: url("resource/img/hiyocos.png") no-repeat left top;
+            background-position: 0px 0px;
             -webkit-transform: scaleX(-2) scaleY(2);
             -webkit-animation: 250ms infinite steps(3);
         }
+
+        .hiyoko-girl {
+            background-position-y: -32px;
+        }
+        .hiyoko-tamago {
+            background-position-y: -64px;
+        }
+        .hiyoko-waru {
+            background-position-y: -96px;
+        }
+        .niwatori {
+            background-position-y: -128px;
+        }
         
         @-webkit-keyframes stand {
-            0%   { background-position: 0px 0px; }
+            0%   { background-position-x: 0px; }
         }
 
         @-webkit-keyframes walk {
-            0%   { background-position: 0px 0px; }
-            100% { background-position: -96px 0px; }
+            0%   { background-position-x: 0px; }
+            100% { background-position-x: -96px; }
         }
         </style>
         <script>
@@ -467,6 +481,20 @@
                 
                 hiyoko.x = 80;
                 hiyoko.y = -50;
+
+                var r = Math.rand(0, 100);
+                if (r < 10) {
+                    hiyoko.classList.add("hiyoko-girl");
+                }
+                else if (r < 20) {
+                    hiyoko.classList.add("hiyoko-tamago");
+                }
+                else if (r < 30) {
+                    hiyoko.classList.add("hiyoko-waru");
+                }
+                else if (r < 40) {
+                    hiyoko.classList.add("niwatori");
+                }
                 
                 var vx = 0;
                 var vy = 0;
@@ -485,17 +513,33 @@
                         vy = -8;
                     }
                     
-                    vx *= 0.75;
+                    vx *= 0.80;
                     hiyoko.x += vx;
-                    if (key.getKey("left")) {
-                        vx = -4;
-                        hiyoko.style.set("webkitTransform", "scaleX(2) scaleY(2)");
-                        hiyoko.anim.setName("walk");
+
+                    var left = -32;
+                    var right = window.innerWidth;
+
+                    if (hiyoko.x < left) {
+                        hiyoko.x = right;
                     }
-                    if (key.getKey("right")) {
-                        vx = 4;
-                        hiyoko.style.set("webkitTransform", "scaleX(-2) scaleY(2)");
-                        hiyoko.anim.setName("walk");
+                    else if (hiyoko.x > right) {
+                        hiyoko.x = left;
+                    }
+
+                    var maxSpeed = (key.getKey("B")) ? 12 : 4;
+                    var speed = (key.getKey("B")) ? 4 : 1;
+
+                    if (Math.abs(vx) < maxSpeed) {
+                        if (key.getKey("left")) {
+                            vx += -speed;
+                            hiyoko.style.set("webkitTransform", "scaleX(2) scaleY(2)");
+                            hiyoko.anim.setName("walk");
+                        }
+                        else if (key.getKey("right")) {
+                            vx += speed;
+                            hiyoko.style.set("webkitTransform", "scaleX(-2) scaleY(2)");
+                            hiyoko.anim.setName("walk");
+                        }
                     }
                     
                     if (Math.abs(vx) <= 0.1) {
