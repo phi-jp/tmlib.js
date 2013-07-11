@@ -287,8 +287,10 @@
 
             var renderHeader = function(data, container) {
                 var template = tm.dom.Element("#header").html;
-
-                container.html += template.format(data);
+                var header = tm.dom.Element(document.createElement("div"));
+                header.html = template.format(data);
+                
+                container.append(header);
             };
 
             var dataToTable = function(data, row) {
