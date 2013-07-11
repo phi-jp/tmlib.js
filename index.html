@@ -501,6 +501,10 @@
                 var floor = window.innerHeight - 120;
                 var key = tm.input.Keyboard();
                 key.run();
+
+                window.onresize = function() {
+                    floor = window.innerHeight - 120;
+                };
                 
                 tm.setLoop(function() {
                     vy += 0.5;
