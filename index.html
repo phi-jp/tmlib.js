@@ -443,14 +443,23 @@
             height: 32px;
             background: url("resource/img/hiyocos.png") no-repeat left top;
             -webkit-transform: scaleX(-2) scaleY(2);
+               -moz-transform: scaleX(-2) scaleY(2);
             -webkit-animation: 250ms infinite steps(3);
+               -moz-animation: 250ms infinite steps(3);
         }
         
         @-webkit-keyframes stand {
             0%   { background-position: 0px 0px; }
         }
-
+        @-moz-keyframes stand {
+            0%   { background-position: 0px 0px; }
+        }
+        
         @-webkit-keyframes walk {
+            0%   { background-position: 0px 0px; }
+            100% { background-position: -96px 0px; }
+        }
+        @-moz-keyframes walk {
             0%   { background-position: 0px 0px; }
             100% { background-position: -96px 0px; }
         }
@@ -490,11 +499,13 @@
                     if (key.getKey("left")) {
                         vx = -4;
                         hiyoko.style.set("webkitTransform", "scaleX(2) scaleY(2)");
+                        hiyoko.style.set("mozTransform", "scaleX(2) scaleY(2)");
                         hiyoko.anim.setName("walk");
                     }
                     if (key.getKey("right")) {
                         vx = 4;
                         hiyoko.style.set("webkitTransform", "scaleX(-2) scaleY(2)");
+                        hiyoko.style.set("mozTransform", "scaleX(-2) scaleY(2)");
                         hiyoko.anim.setName("walk");
                     }
                     

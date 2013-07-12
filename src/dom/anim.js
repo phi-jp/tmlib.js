@@ -6,6 +6,18 @@ tm.dom = tm.dom || {};
 
 (function() {
     
+    var prefix = tm.VENDER_PREFIX;
+    
+    var ANIMATION                   = prefix + "Animation";
+    var ANIMATION_END               = prefix + "AnimationEnd";
+    var ANIMATION_PLAY_STATE        = prefix + "AnimationPlayState";
+    var ANIMATION_NAME              = prefix + "AnimationName";
+    var ANIMATION_DURATION          = prefix + "AnimationDuration";
+    var ANIMATION_TIMING_FUNCTION   = prefix + "AnimationTimingFunction";
+    var ANIMATION_DELAY             = prefix + "AnimationDelay";
+    var ANIMATION_DIRECTION         = prefix + "AnimationDirection";
+    var ANIMATION_ITERATION_COUNT   = prefix + "AnimationIterationCount";
+    
     /**
      * @class
      * アニメーションクラス
@@ -20,7 +32,7 @@ tm.dom = tm.dom || {};
             
             // アニメーションが終了したらステートを "paused" にする(何度も再生できるようにする為)
             var self = this;
-            this.element.addEventListener("webkitAnimationEnd", function() {
+            this.element.addEventListener(ANIMATION_END, function() {
                 self.stop();
             }, false);
         },
@@ -30,7 +42,7 @@ tm.dom = tm.dom || {};
          * アニメーション開始
          */
         start: function() {
-            this.element.style["webkitAnimationPlayState"] = "running";
+            this.element.style[ANIMATION_PLAY_STATE] = "running";
             return this;
         },
         
@@ -38,7 +50,7 @@ tm.dom = tm.dom || {};
          * アニメーション終了
          */
         stop: function() {
-            this.element.style["webkitAnimationPlayState"] = "paused";
+            this.element.style[ANIMATION_PLAY_STATE] = "paused";
             return this;
         },
         
@@ -47,7 +59,7 @@ tm.dom = tm.dom || {};
          */
         setProperty: function(prop) {
             if (typeof prop == "string") {
-                this.element.style["webkitAnimation"] = prop;
+                this.element.style[ANIMATION] = prop;
             }
             else {
                 for (var key in prop) {
@@ -63,7 +75,7 @@ tm.dom = tm.dom || {};
          * 名前をセット
          */
         setName: function(name) {
-            this.element.style["webkitAnimationName"] = name;
+            this.element.style[ANIMATION_NAME] = name;
             return this;
         },
         
@@ -71,7 +83,7 @@ tm.dom = tm.dom || {};
          * アニメーション時間の長さをセット
          */
         setDuration: function(s) {
-            this.element.style["webkitAnimationDuration"] = s;
+            this.element.style[ANIMATION_DURATION] = s;
             return this;
         },
         
@@ -79,7 +91,7 @@ tm.dom = tm.dom || {};
          * 補間関数をセット
          */
         setTimingFunction: function(func) {
-            this.element.style["webkitAnimationTimingFunction"] = func;
+            this.element.style[ANIMATION_TIMING_FUNCTION] = func;
             return this;
         },
         
@@ -87,7 +99,7 @@ tm.dom = tm.dom || {};
          * イテレータカウントをセット
          */
         setIterationCount: function(n) {
-            this.element.style["webkitAnimationIterationCount"] = n;
+            this.element.style[ANIMATION_ITERATION_COUNT] = n;
             return this;
         },
         
@@ -95,7 +107,7 @@ tm.dom = tm.dom || {};
          * アニメーション開始待ち時間をセット
          */
         setDelay: function(s) {
-            this.element.style["webkitAnimationDelay"] = s;
+            this.element.style[ANIMATION_DELAY] = s;
             return this;
         },
         
@@ -104,7 +116,7 @@ tm.dom = tm.dom || {};
          * "normal" or "alternate"
          */
         setDirection: function(t) {
-            this.element.style["webkitAnimationDirection"] = t;
+            this.element.style[ANIMATION_DURATION] = t;
             return this;
         },
     });
