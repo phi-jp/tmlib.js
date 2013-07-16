@@ -23,6 +23,11 @@ if (typeof module !== 'undefined' && module.exports) {
 (function() {
 
     /**
+     * バージョン
+     */
+    tm.VERSION = "0.1.8";
+
+    /**
      * tmlib.js のルートパス
      */
     tm.LIB_ROOT = (function(){
