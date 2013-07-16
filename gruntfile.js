@@ -1,6 +1,16 @@
 module.exports = function(grunt) {
 
   var pkg = grunt.file.readJSON('package.json');
+  
+  var banner = '\
+/*\n\
+ * tmlib.js <%= version %>\n\
+ * http://github.com/phi1618/tmlib.js\n\
+ * MIT Licensed\n\
+ * \n\
+ * Copyright (C) 2010 phi, http://tmlife.net\n\
+ */\n\
+';
 
   var target = [
     "src/tmlib.js",
@@ -93,6 +103,7 @@ module.exports = function(grunt) {
   ];
 
   grunt.initConfig({
+    version: pkg.version,
     buildDir: "build",
 
     concat: {
@@ -100,6 +111,7 @@ module.exports = function(grunt) {
         src: target,
         dest: '<%= buildDir %>/tmlib.js',
         options: {
+          banner: banner
         }
       },
     },

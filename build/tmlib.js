@@ -1,11 +1,10 @@
 /*
- * tmlib.js v0.1.7
+ * tmlib.js 0.1.8
  * http://github.com/phi1618/tmlib.js
- * MIT licensed
+ * MIT Licensed
  * 
  * Copyright (C) 2010 phi, http://tmlife.net
  */
-
 
 (function() { "use strict"; })();
 
@@ -22,11 +21,6 @@ if (typeof module !== 'undefined' && module.exports) {
 
 
 (function() {
-
-    /**
-     * バージョン
-     */
-    tm.VERSION = "0.1.5";
 
     /**
      * tmlib.js のルートパス
