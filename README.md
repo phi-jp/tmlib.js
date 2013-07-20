@@ -30,7 +30,7 @@
 
 
 ## Documentation
-ドキュメントは[こちら](http://phi1618.github.com/tmlib.js/docs/index.html)
+ドキュメントは[こちら](http://phi-jp.github.io/tmlib.js/docs/index.html)
 
 ## Usage
 使い方
