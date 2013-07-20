@@ -24,9 +24,9 @@
 
 
 ## Download
-- [tmlib.js version 0.1.4]    (https://raw.github.com/phi1618/tmlib.js/0.1.4/build/tmlib.js)
-- [tmlib.min.js version 0.1.4](https://raw.github.com/phi1618/tmlib.js/0.1.4/build/tmlib.min.js)
-- [tmlib.js version 0.1.4 Starter pack](https://github.com/phi1618/tmlib.js/blob/develop/starter-0.1.4.zip?raw=true)
+- [tmlib.js version 0.1.8](https://raw.github.com/phi-jp/tmlib.js/0.1.8/build/tmlib.js)
+- [tmlib.min.js version 0.1.8](https://raw.github.com/phi-jp/tmlib.js/0.1.8/build/tmlib.min.js)
+- [tmlib.js version 0.1.6 Starter pack](https://github.com/phi-jp/tmlib.js/raw/0.1.6/starter-0.1.6.zip)
 
 
 ## Documentation
