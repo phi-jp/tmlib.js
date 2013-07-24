@@ -1,5 +1,5 @@
 /*
- * tmlib.js 0.1.8
+ * tmlib.js 0.1.9
  * http://github.com/phi1618/tmlib.js
  * MIT Licensed
  * 
@@ -10306,6 +10306,277 @@ tm.app = tm.app || {};
     
     /**
      * @class
+     * ベースアプリケーション
+     */
+    tm.app.BaseApp = tm.createClass({
+        
+        element     : null,
+        mouse       : null,
+        touch       : null,
+        pointing    : null,
+        keyboard    : null,
+        stats       : null,
+        frame       : 0,
+        fps         : 30,
+        isPlaying   : null,
+        
+        _scenes      : null,
+        _sceneIndex  : 0,
+        
+        /**
+         * 初期化
+         */
+        init: function(elm)
+        {
+            this.element = elm;
+
+            // マウスを生成
+            this.mouse      = tm.input.Mouse(this.element);
+            // タッチを生成
+            this.touches    = tm.input.Touches(this.element, 3);
+            this.touch      = this.touches[0];
+            // キーボードを生成
+            this.keyboard   = tm.input.Keyboard();
+            
+            // ポインティングをセット(PC では Mouse, Mobile では Touch)
+            this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
+            
+            // 加速度センサーを生成
+            this.accelerometer = tm.input.Accelerometer();
+            
+            // 再生フラグ
+            this.isPlaying = true;
+            
+            // シーン周り
+            this._scenes = [ tm.app.Scene() ];
+            this._sceneIndex = 0;
+            
+            // 決定時の処理をオフにする(iPhone 時のちらつき対策)
+            this.element.addEventListener("touchstart", function(e) { e.stop(); });
+            
+            // ウィンドウフォーカス時イベントリスナを登録
+            window.addEventListener("focus", function() {
+                this.currentScene.dispatchEvent(tm.event.Event("focus"));
+            }.bind(this));
+            // ウィンドウブラー時イベントリスナを登録
+            window.addEventListener("blur", function() {
+                this.currentScene.dispatchEvent(tm.event.Event("blur"));
+            }.bind(this));
+            // クリック
+            this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
+        },
+        
+        /**
+         * 実行
+         */
+        run: function()
+        {
+            var self = this;
+            
+            // // requestAnimationFrame version
+            // var fn = function() {
+                // self._loop();
+                // requestAnimationFrame(fn);
+            // }
+            // fn();
+            
+            tm.setLoop(function(){ self._loop(); }, 1000/this.fps);
+            
+            return ;
+            
+            if (true) {
+                setTimeout(arguments.callee.bind(this), 1000/this.fps);
+                this._loop();
+            }
+            
+            return ;
+            
+            var self = this;
+            // setInterval(function(){ self._loop(); }, 1000/self.fps);
+            tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
+        },
+        
+        _loop: function()
+        {
+            // update
+            if (this.update) this.update();
+            this._update();
+            
+            // draw
+            if (this.draw) this.draw();
+            this._draw();
+            
+            // stats update
+            if (this.stats) this.stats.update();
+        },
+        
+        /**
+         * シーンを切り替える
+         * ## Reference
+         * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
+         */
+        replaceScene: function(scene)
+        {
+            var e = null;
+            if (this.currentScene) {
+                e = tm.event.Event("exit");
+                e.app = this;
+                this.currentScene.dispatchEvent(e);
+                this.currentScene.app = null;
+            }
+            e = tm.event.Event("enter");
+            e.app = this;
+            this.currentScene = scene;
+            this.currentScene.app = this;
+            this.currentScene.dispatchEvent(e);
+        },
+        
+        /**
+         * シーンをプッシュする
+         * ポーズやオブション画面などで使用する
+         */
+        pushScene: function(scene)
+        {
+            e = tm.event.Event("exit");
+            e.app = this;
+            this.currentScene.dispatchEvent(e);
+            
+            this._scenes.push(scene);
+            ++this._sceneIndex;
+            
+            e = tm.event.Event("enter");
+            e.app = this;
+            scene.app = this;
+            scene.dispatchEvent(e);
+        },
+        
+        /**
+         * シーンをポップする
+         * ポーズやオブション画面などで使用する
+         */
+        popScene: function()
+        {
+            var scene = this._scenes.pop();
+            --this._sceneIndex;
+            
+            e = tm.event.Event("exit");
+            e.app = this;
+            scene.dispatchEvent(e);
+            scene.app = null;
+            
+            // 
+            e = tm.event.Event("enter");
+            e.app = this;
+            this.currentScene.dispatchEvent(e);
+            
+            return scene;
+        },
+        
+        enableStats: function() {
+            if (window["Stats"]) {
+                // Stats
+                this.stats = new Stats();
+                // 右上に設定
+                this.stats.domElement.style.position = "fixed";
+                this.stats.domElement.style.left     = "5px";
+                this.stats.domElement.style.top      = "20px";
+                document.body.appendChild(this.stats.domElement);
+            }
+            else {
+                console.warn("not defined stats.");
+            }
+        },
+        
+        enableDatGUI: function() {
+            if (window.dat) {
+                var gui = new dat.GUI();
+                
+                return gui;
+            }
+        },
+        
+        start: function()
+        {
+            this.isPlaying = true;
+        },
+        
+        stop: function()
+        {
+            this.isPlaying = false;
+        },
+        
+        _update: function()
+        {
+            // デバイス系 Update
+            this.mouse.update();
+            this.keyboard._update();
+            this.touches.update();
+            
+            if (this.isPlaying) {
+                this.currentScene._update(this);
+                ++this.frame;
+            }
+        },
+        
+        _draw: function()
+        {
+
+        },
+        
+        getElement: function() {
+            return this.element;
+        },
+
+        _onclick: function(e) {
+            var px = e.pointX;
+            var py = e.pointY;
+
+            if (this.element.style.width) {
+                px *= this.element.width / parseInt(this.element.style.width);
+            }
+            if (this.element.style.height) {
+                py *= this.element.height / parseInt(this.element.style.height);
+            }
+
+            var _fn = function(elm) {
+                if (elm.children.length > 0) {
+                    elm.children.each(function(elm) {
+                        if (elm.hasEventListener("click")) {
+                            if (elm.isHitPoint && elm.isHitPoint(px, py)) {
+                                elm.dispatchEvent(tm.event.Event("click"));
+                            }
+                        }
+                    });
+                }
+            };
+
+            _fn(this.currentScene);
+        },
+        
+    });
+    
+    /**
+     * @property    currentScene
+     * カレントシーン
+     */
+    tm.app.BaseApp.prototype.accessor("currentScene", {
+        "get": function() { return this._scenes[this._sceneIndex]; },
+        "set": function(v){ this._scenes[this._sceneIndex] = v; }
+    });
+    
+})();
+
+/*
+ * 
+ */
+
+tm.app = tm.app || {};
+
+
+(function() {
+    
+    /**
+     * @class
      * アプリケーション用オブジェクトの基底となるクラス
      */
     tm.app.Element = tm.createClass({
@@ -11074,1337 +11345,6 @@ tm.app = tm.app || {};
 })();
 
 /*
- *
- */
-
-tm.app = tm.app || {};
-
-
-(function() {
-
-    /**
-     * @class
-     * キャンバスエレメント
-     */
-    tm.app.CanvasElement = tm.createClass({
-
-        superClass: tm.app.Object2D,
-
-        /**
-         * 更新フラグ
-         */
-        isUpdate: true,
-
-        /**
-         * 表示フラグ
-         */
-        visible: true,
-
-        /**
-         * fillStyle
-         */
-        fillStyle: "white",
-
-        /**
-         * strokeStyle
-         */
-        strokeStyle: "white",
-
-        /**
-         * アルファ
-         */
-        alpha: 1.0,
-
-        /**
-         * ブレンドモード
-         */
-        blendMode: "source-over",
-
-        /**
-         * シャドウカラー
-         */
-        shadowColor: "black",
-        shadowOffsetX: 0,
-        shadowOffsetY: 0,
-        shadowBlur: 0,
-
-        /**
-         * ゲーム用エレメントクラス
-         */
-        init: function() {
-            this.superInit();
-        },
-
-        drawBoundingCircle: function(canvas) {
-            canvas.save();
-            canvas.lineWidth = 2;
-            canvas.strokeCircle(0, 0, this.radius);
-            canvas.restore();
-        },
-
-        drawBoundingRect: function(canvas) {
-            canvas.save();
-            canvas.lineWidth = 2;
-            canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
-            canvas.restore();
-        },
-
-        drawFillRect: function(ctx) {
-            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
-            return this;
-        },
-        drawStrokeRect: function(ctx) {
-            ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
-            return this;
-        },
-
-        drawFillArc: function(ctx) {
-            ctx.beginPath();
-            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
-            ctx.fill();
-            ctx.closePath();
-            return this;
-        },
-        drawStrokeArc: function(ctx) {
-            ctx.beginPath();
-            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
-            ctx.stroke();
-            ctx.closePath();
-            return this;
-        },
-
-        show: function() {
-            this.visible = true;
-            return this;
-        },
-
-        hide: function() {
-            this.visible = false;
-            return this;
-        },
-
-        setFillStyle: function(style) {
-            this.fillStyle = style;
-            return this;
-        },
-
-        setStrokeStyle: function(style) {
-            this.strokeStyle = style;
-            return this;
-        },
-
-        setBlendMode: function(blendMode) {
-            this.blendMode = blendMode;
-            return this;
-        },
-
-        load: function(data) {
-            var self = this;
-
-            data.layers.forEach(function(layer) {
-                if (layer.type != "objectgroup") return ;
-
-                var group = tm.app.CanvasElement().addChildTo(self);
-                group.width = layer.width;
-                group.height = layer.height;
-
-                layer.objects.forEach(function(obj) {
-                    var _class = tm.using(obj.type);
-                    if (Object.keys(_class).length === 0) {
-                        _class=tm.app[obj.type];
-                    }
-                    var initParam = null;
-                    if (obj.properties.init) {
-                        initParam = JSON.parse(obj.properties.init);
-                    }
-                    var element = _class.apply(null, initParam).addChildTo(group);
-                    var props   = obj.properties;
-                    for (var key in props) {
-                        if (key == "init") continue ;
-                        var value = props[key];
-                        element[key] = value;
-                    }
-
-                    element.x = obj.x;
-                    element.y = obj.y;
-                    element.width = obj.width;
-                    element.height = obj.height;
-                });
-
-                self[layer.name] = group;
-            });
-        },
-
-        fromJSON: function(data) {
-            for (var key in data) {
-                var value = data[key];
-                if (key == "children") {
-                    for (var i=0,len=value.length; i<len; ++i) {
-                        var data = value[i];
-                        var init = data["init"] || [];
-                        var _class = tm.using(data.type);
-                        if (Object.keys(_class).length === 0) {
-                            _class=tm.app[data.type];
-                        }
-                        var elm = _class.apply(null, init).addChildTo(this);
-                        elm.fromJSON(data);
-                        this[data.name] = elm;
-                    }
-                }
-                else {
-                    this[key] = value;
-                }
-            }
-
-            return this;
-        },
-
-        toJSON: function() {
-            // TODO:
-        },
-
-
-        _calcAlpha: function() {
-            if (!this.parent) {
-                this._worldAlpha = this.alpha;
-                return ;
-            }
-            else {
-                // alpha
-                this._worldAlpha = this.parent._worldAlpha * this.alpha;
-            }
-        },
-
-        _dirtyCalc: function() {
-            this._calcAlpha();
-            this._calcWorldMatrix();
-        },
-
-    });
-
-
-})();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * sprite.js
- */
-
-
-tm.app = tm.app || {};
-
-
-(function() {
-    
-    /**
-     * @class
-     * Sprite
-     */
-    tm.app.Sprite = tm.createClass({
-        
-        superClass: tm.app.CanvasElement,
-        
-        /**
-         * 初期化
-         */
-        init: function(texture, width, height)
-        {
-            this.superInit();
-            
-            console.assert(arguments.length == 0 || texture instanceof tm.asset.Texture || typeof texture == "string", "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
-            
-            this.srcRect = tm.geom.Rect(0, 0, 64, 64);
-            
-            // 画像のみ渡された場合
-            if (arguments.length == 1) {
-                var texture = arguments[0];
-                if (typeof texture == "string") texture = tm.asset.AssetManager.get(texture);
-                
-                this.width = texture.width;
-                this.height= texture.height;
-                
-                this.image = texture;
-            }
-            // その他
-            else {
-                width = width   || 64;
-                height= height  || 64;
-                
-                this.width  = width;
-                this.height = height;
-                if (texture) {
-                    this.image  = texture;
-                }
-            }
-        },
-        
-        setFrameIndex: function(index, width, height) {
-            var w   = width || this.width;
-            var h   = width || this.height;
-            var row = ~~(this.image.width / w)
-            var x   = index%row;
-            var y   = ~~(index/row);
-            this.srcRect.x = x*w;
-            this.srcRect.y = y*h;
-            this.srcRect.width  = w;
-            this.srcRect.height = h;
-
-            return this;
-        },
-        
-        _refreshSize: function() {
-            
-        },
-
-        _update: tm.app.CanvasElement.prototype._update,
-    });
-    
-    /**
-     * @property    image
-     * 高さ
-     */
-    tm.app.Sprite.prototype.accessor("image", {
-        "get": function()   {
-            return this._image;
-        },
-        "set": function(image)  {
-            if (typeof image == "string") image = tm.asset.AssetManager.get(image);
-            
-            this._image = image;
-            this.srcRect.x = 0;
-            this.srcRect.y = 0;
-            this.srcRect.width  = image.element.width;
-            this.srcRect.height = image.element.height;
-        }
-    });
-    
-})();
-
-/*
- * animationsprite.js
- */
-
-
-tm.app = tm.app || {};
-
-
-(function() {
-
-    /**
-     * @class
-     * AnimationSprite
-     */
-    tm.app.AnimationSprite = tm.createClass({
-
-        superClass: tm.app.CanvasElement,
-
-        /**
-         * 初期化
-         */
-        init: function(ss, width, height)
-        {
-            this.superInit();
-
-            if (typeof ss == "string") {
-                var ss = tm.asset.AssetManager.get(ss);
-                console.assert(ss, "not found " + ss);
-            }
-
-            console.assert(typeof ss == "object", "AnimationSprite の第一引数はスプライトシートもしくはスプライトシート名に変わりました");
-
-            this.ss = ss;
-
-            this.width  = width || ss.frame.width;
-            this.height = height|| ss.frame.height;
-
-            this.currentFrame = 0;
-            this.currentFrameIndex = 0;
-            this.paused = true;
-
-            this.currentAnimation = null;
-
-            this.addEventListener("enterframe", function(e) {
-                if (!this.paused && e.app.frame%this.currentAnimation.frequency === 0) {
-                    this._updateFrame();
-                }
-            });
-        },
-
-        /**
-         * 描画
-         */
-        draw: function(canvas) {
-            var srcRect = this.ss.getFrame(this.currentFrame);
-            var element = this.ss.image.element;
-
-            canvas.drawImage(element,
-                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
-        },
-
-        gotoAndPlay: function(name) {
-            name = name || "default";
-
-            this.paused = false;
-            this.currentAnimation = this.ss.animations[name];
-            this.currentFrame = 0;
-            this.currentFrameIndex = 0;
-            this._normalizeFrame();
-
-            return this;
-        },
-
-        gotoAndStop: function(name) {
-            name = name || "default";
-
-            this.paused = true;
-            this.currentAnimation = this.ss.animations[name];
-            this.currentFrame = 0;
-            this.currentFrameIndex = 0;
-            this._normalizeFrame();
-
-            return this;
-        },
-
-        _updateFrame: function() {
-            this.currentFrameIndex += 1;
-            this._normalizeFrame();
-        },
-
-        _normalizeFrame: function() {
-            var anim = this.currentAnimation;
-            if (anim) {
-                if (this.currentFrameIndex < anim.frames.length) {
-                    this.currentFrame = anim.frames[this.currentFrameIndex];
-                }
-                else {
-                    if (anim.next) {
-                        this.gotoAndPlay(anim.next);
-                    }
-                    else {
-                        this.currentFrameIndex = anim.frames.length - 1;
-                        this.currentFrame = anim.frames[this.currentFrameIndex];
-                        this.paused = true;
-                    }
-                    // dispatch animationend
-                    var e = tm.event.Event("animationend");
-                    this.dispatchEvent(e);
-                }
-            }
-        },
-
-    });
-
-})();
-
-
-(function() {
-
-    tm.app.SpriteSheet = tm.createClass({
-        superClass: tm.event.EventDispatcher,
-
-        init: function(param) {
-            this.superInit();
-            this.frame = param.frame;
-
-            if (typeof param.image == "string") {
-                if (!tm.asset.AssetManager.contains(param.image)) {
-                    tm.asset.AssetManager.load(param.image);
-                }
-                this.image = tm.asset.AssetManager.get(param.image);
-            }
-            else {
-                this.image = param.image;
-            }
-
-            if (this.image.loaded === false) {
-                this.image.addEventListener("load", function() {
-                    this._calcFrames(param.frame);
-                    var e = tm.event.Event("load");
-                    this.dispatchEvent(e);
-                }.bind(this), false);
-            }
-            else {
-                this._calcFrames(param.frame);
-                var e = tm.event.Event("load");
-                this.dispatchEvent(e);
-            }
-
-            this._calcAnim(param.animations);
-        },
-
-        getFrame: function(index) {
-            return this.frames[index];
-        },
-
-        getAnimation: function(name) {
-            return this.animations[name];
-        },
-
-        _calcFrames: function(frame) {
-            var frames = this.frames = [];
-
-            var w = frame.width;
-            var h = frame.height;
-            var row = ~~(this.image.width / w);
-            var col = ~~(this.image.height/ h);
-
-            if (!frame.count) frame.count = row*col;
-
-            for (var i=0,len=frame.count; i<len; ++i) {
-                var x   = i%row;
-                var y   = (i/row)|0;
-                var rect = {
-                    x:x*w,
-                    y:y*h,
-                    width: w,
-                    height: h
-                };
-                frames.push(rect);
-            }
-        },
-
-        _calcAnim: function(animations) {
-            this.animations = [];
-            for (var key in animations) {
-                var anim = animations[key];
-
-                if (anim instanceof Array) {
-                    this.animations[key] = {
-                        frames: [].range(anim[0], anim[1]),
-                        next: anim[2],
-                        frequency: anim[3] || 1
-                    };
-                }
-                else {
-                    this.animations[key] = {
-                        frames: anim.frames,
-                        next: anim.next,
-                        frequency: anim.frequency || 1
-                    };
-                }
-            }
-
-            // デフォルトアニメーション
-            this.animations["default"] = {
-                frames: [].range(0, this.frame.count),
-                next: "default",
-                frequency: 1,
-            };
-        }
-
-    });
-
-})();
-
-/*
- * sprite.js
- */
-
-
-tm.app = tm.app || {};
-
-
-(function() {
-    
-    /**
-     * @class
-     * Shape
-     */
-    tm.app.Shape = tm.createClass({
-        
-        superClass: tm.app.CanvasElement,
-        
-        /**
-         * 初期化
-         */
-        init: function(width, height)
-        {
-            this.superInit();
-            
-            width = width   || 64;
-            height= height  || 64;
-            
-            this.canvas = tm.graphics.Canvas();
-            
-            this.width  = width;
-            this.height = height;
-            this.canvas.resize(width, height);
-        },
-
-        renderCircle: function(param) {
-            var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
-            
-            c.save();
-            
-            // パラメータセット
-            c.fillStyle = param.fillStyle;
-            c.strokeStyle = param.strokeStyle;
-            c.lineWidth = param.lineWidth;
-            
-            // 描画
-            c.fillCircle(this.width/2, this.height/2, this.radius);
-            c.strokeCircle(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2);
-            
-            c.restore();
-        },
-
-        renderTriangle: function(param) {
-            var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
-            
-            c.save();
-            
-            // パラメータセット
-            c.fillStyle = param.fillStyle;
-            c.strokeStyle = param.strokeStyle;
-            c.lineWidth = param.lineWidth;
-            
-            // 描画
-            c.fillPolygon(this.width/2, this.height/2, this.radius, 3);
-            c.strokePolygon(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, 3);
-            
-            c.restore();
-        },
-
-        renderRectangle: function(param) {
-            var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
-
-            c.save();
-            
-            // パラメータセット
-            c.fillStyle = param.fillStyle;
-            c.strokeStyle = param.strokeStyle;
-            c.lineWidth = param.lineWidth;
-            
-            // 描画
-            var lw      = Number(c.lineWidth);
-            var lw_half = lw/2;
-            c.fillRect(0, 0, this.width, this.height);
-            c.strokeRect(lw_half, lw_half, this.width-lw, this.height-lw);
-            
-            c.restore();
-        },
-
-        renderStar: function(param) {
-            var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
-            
-            c.save();
-            
-            // パラメータセット
-            c.fillStyle = param.fillStyle;
-            c.strokeStyle = param.strokeStyle;
-            c.lineWidth = param.lineWidth;
-
-            // 描画
-            var lw          = Number(c.lineWidth);
-            var lw_half     = lw/2;
-            var sides       = param.sides;
-            var sideIndent  = param.sideIndent;
-            var offsetAngle = param.offsetAngle;
-            c.fillStar(this.width/2, this.height/2, this.radius, sides, sideIndent, offsetAngle);
-            c.strokeStar(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, sides, sideIndent, offsetAngle);
-            
-            c.restore();
-        },
-
-        renderPolygon: function(param) {
-            var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
-            
-            c.save();
-            
-            // パラメータセット
-            c.fillStyle = param.fillStyle;
-            c.strokeStyle = param.strokeStyle;
-            c.lineWidth = param.lineWidth;
-            c.textAlign = "center";
-            c.textBaseline = "middle";
-            
-            // 描画
-            var lw          = Number(c.lineWidth);
-            var lw_half     = lw/2;
-            var sides       = param.sides;
-            var sideIndent  = param.sideIndent;
-            var offsetAngle = param.offsetAngle;
-            c.fillPolygon(this.width/2, this.height/2, this.radius, sides, offsetAngle);
-            c.strokePolygon(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, sides, offsetAngle);
-            
-            c.restore();
-        },
-
-        renderHeart: function(param) {
-            var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
-
-            c.save();
-            
-            // パラメータセット
-            c.fillStyle     = param.fillStyle;
-            c.strokeStyle   = param.strokeStyle;
-            c.lineWidth     = param.lineWidth;
-            
-            // 描画
-            c.fillHeart(this.width/2, this.height/2, this.radius, param.angle);
-            c.strokeHeart(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, param.angle);
-            
-            c.restore();
-        },
-
-        renderText: function(param) {
-            var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
-
-            c.save();
-            
-            // パラメータセット
-            c.fillStyle     = param.fillStyle;
-            c.strokeStyle   = param.strokeStyle;
-            c.lineWidth     = param.lineWidth;
-            c.font          = param.font;
-            c.textAlign     = param.textAlign;
-            c.textBaseline  = param.textBaseline;
-
-            // 描画
-            c.strokeText(param.text, this.width/2, this.height/2);
-            c.fillText(param.text, this.width/2, this.height/2);
-            
-            c.restore();
-        },
-        
-    });
-
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
-        fillStyle: "red",
-        strokeStyle: "white",
-        lineWidth: "2",
-    };
-
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
-        fillStyle: "green",
-        strokeStyle: "white",
-        lineWidth: "2",
-    };
-    
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
-        fillStyle: "blue",
-        strokeStyle: "white",
-        lineWidth: "2",
-    };
-
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR = {
-        fillStyle: "yellow",
-        strokeStyle: "white",
-        lineWidth: "2",
-        
-        sides: 5,
-        sideIndent: undefined,
-        offsetAngle: undefined,
-    };
-
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
-        fillStyle: "cyan",
-        strokeStyle: "white",
-        lineWidth: "2",
-        
-        sides: 5,
-        offsetAngle: undefined,
-    };
-
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART = {
-        fillStyle: "pink",
-        strokeStyle: "white",
-        lineWidth: "2",
-        
-        angle: 45,
-    };
-
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
-        text: "hello, world",
-        fillStyle: "pink",
-        strokeStyle: "white",
-        lineWidth: "1",
-        textAlign: "center",
-        textBaseline: "middle",
-        font: "24px 'Consolas', 'Monaco', 'ＭＳ ゴシック'",
-    };
-    
-})();
-
-
-(function() {
-    
-    /**
-     * @class
-     * CircleShape
-     */
-    tm.app.CircleShape = tm.createClass({
-        
-        superClass: tm.app.Shape,
-        
-        /**
-         * 初期化
-         */
-        init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
-            this.renderCircle(param);
-        },
-    });
-    
-})();
-
-
-
-
-(function() {
-    
-    /**
-     * @class
-     * TriangleShape
-     */
-    tm.app.TriangleShape = tm.createClass({
-        
-        superClass: tm.app.Shape,
-        
-        /**
-         * 初期化
-         */
-        init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
-            this.renderTriangle(param);
-        },
-        
-    });
-    
-})();
-
-
-
-
-(function() {
-    
-    /**
-     * @class
-     * RectangleShape
-     */
-    tm.app.RectangleShape = tm.createClass({
-        
-        superClass: tm.app.Shape,
-        
-        /**
-         * 初期化
-         */
-        init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
-            this.renderRectangle(param);
-        },
-        
-    });
-    
-})();
-
-
-(function() {
-    
-    /**
-     * @class
-     * StarShape
-     */
-    tm.app.StarShape = tm.createClass({
-        
-        superClass: tm.app.Shape,
-        
-        /**
-         * 初期化
-         */
-        init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
-            this.renderStar(param);
-        },
-        
-    });
-    
-})();
-
-
-
-(function() {
-    
-    /**
-     * @class
-     * PolygonShape
-     */
-    tm.app.PolygonShape = tm.createClass({
-        
-        superClass: tm.app.Shape,
-        
-        /**
-         * 初期化
-         */
-        init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
-            this.renderPolygon(param);
-        },
-        
-    });
-    
-})();
-
-
-
-
-(function() {
-    
-    /**
-     * @class
-     * HeartShape
-     */
-    tm.app.HeartShape = tm.createClass({
-        
-        superClass: tm.app.Shape,
-        
-        /**
-         * 初期化
-         */
-        init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
-            this.renderHeart(param);
-        },
-        
-    });
-    
-})();
-
-
-
-
-(function() {
-    
-    /**
-     * @class
-     * HeartShape
-     */
-    tm.define("tm.app.TextShape", {
-
-        superClass: "tm.app.Shape",
-        
-        /**
-         * 初期化
-         */
-        init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
-            this.renderText(param);
-        },
-    });
-    
-})();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * label.js
- */
-
-tm.app = tm.app || {};
-
-
-(function() {
-    
-    var dummyCanvas  = null;
-    var dummyContext = null;
-    
-    /**
-     * @class
-     * Label
-     */
-    tm.app.Label = tm.createClass({
-        
-        superClass: tm.app.CanvasElement,
-        
-        /**
-         * 塗りつぶしフラグ
-         */
-        fill: true,
-        /**
-         * ストロークフラグ
-         */
-        stroke: false,
-        debugBox: false,
-        
-        /**
-         * 初期化
-         */
-        init: function(text, size) {
-            this.superInit();
-            
-            this.text       = text || "";
-            
-            this._fontSize   = size || 24;
-            this._fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
-            this._fontWeight = "";
-            this._lineHeight = 1.2;
-            this._updateFont();
-            
-            this.align      = "start";
-            this.baseline   = "alphabetic";
-
-            this.maxWidth   = null;
-        },
-        
-        setAlign: function(align) {
-            this.align = align;
-            return this;
-        },
-        
-        setBaseline: function(baseline) {
-            this.baseline = baseline;
-            return this;
-        },
-        
-        setFontSize: function(size) {
-            this.fontSize = size;
-            return this;
-        },
-        
-        setFontFamily: function(family) {
-            this.fontFamily= family;
-            return this;
-        },
-        
-        setFontWeight: function(weight) {
-            this.fontWeight= weight;
-            return this;
-        },
-        
-        _updateFont: function() {
-            this.fontStyle = "{fontWeight} {fontSize}px {fontFamily}".format(this);
-            if (!dummyCanvas) {
-                dummyCanvas = document.createElement("canvas");
-                dummyContext = dummyCanvas.getContext('2d');
-            }
-            dummyContext.font = this.fontStyle;
-            this.textSize = dummyContext.measureText('あ').width * this.lineHeight;
-        },
-        
-        _updateLines: function() {
-            this._lines = (this._text+'').split('\n');
-        }
-        
-    });
-    
-    /**
-     * @property    text
-     * サイズ
-     */
-    tm.app.Label.prototype.accessor("text", {
-        "get": function() { return this._text; },
-        "set": function(v){
-            if (v == null || v == undefined) {
-                this._text = "";
-            }
-            else {
-                this._text = v;
-            }
-            this._updateLines();
-        }
-    });
-    
-    /**
-     * @property    size
-     * サイズ
-     */
-    tm.app.Label.prototype.accessor("fontSize", {
-        "get": function() { return this._fontSize; },
-        "set": function(v){ this._fontSize = v; this._updateFont(); }
-    });
-    
-    /**
-     * @property    fontFamily
-     * フォント
-     */
-    tm.app.Label.prototype.accessor("fontFamily", {
-        "get": function() { return this._fontFamily; },
-        "set": function(v){ this._fontFamily = v; this._updateFont(); }
-    });
-    
-    /**
-     * @property fontWeight
-     * フォント
-     */
-    tm.app.Label.prototype.accessor("fontWeight", {
-        "get": function() { return this._fontWeight; },
-        "set": function(v) {
-            this._fontWeight = v; this._updateFont();
-        },
-    });
-    
-    /**
-     * @property lineHeight
-     * フォント
-     */
-    tm.app.Label.prototype.accessor("lineHeight", {
-        "get": function() { return this._lineHeight; },
-        "set": function(v) {
-            this._lineHeight = v; this._updateFont();
-        },
-    });
-
-    
-})();
-
-
-/*
- * button.js
- */
-
-
-tm.app = tm.app || {};
-
-
-
-
-(function() {
-    
-    /**
-     * @class
-     * LabelButton
-     */
-    tm.app.LabelButton = tm.createClass({
-        superClass: tm.app.Label,
-        
-        init: function(text) {
-            this.superInit(text);
-            
-            this.alpha = tm.app.LabelButton.DEFAULT_ALPHA;
-            this.setAlign("center").setBaseline("middle");
-            
-            this.setInteractive(true);
-            this.boundingType = "rect";
-            
-            this.addEventListener("pointingover", function() {
-                this.tweener.clear();
-                this.tweener.fadeIn(250);
-            }.bind(this));
-            this.addEventListener("pointingout", function() {
-                this.tweener.clear();
-                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
-            }.bind(this));
-            
-            /*
-            var d = this.draw;
-            this.draw = function(canvas) {
-                d.call(this, canvas);
-                this.drawBoundingRect(canvas);
-            }
-            /*
-            */
-        }
-    });
-    
-    tm.app.LabelButton.DEFAULT_ALPHA = 0.5;
-    
-})();
-
-
-(function() {
-    
-    /**
-     * @class
-     * IconButton
-     */
-    tm.app.IconButton = tm.createClass({
-        
-        superClass: tm.app.Sprite,
-        
-        /**
-         * 初期化
-         */
-        init: function(texture)
-        {
-            if (texture) {
-                this.superInit(texture.width, texture.height, texture);
-            }
-            else {
-                this.superInit();
-            }
-            
-            this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
-            
-            this.setInteractive(true);
-            this.boundingType = "rect";
-            this.addEventListener("pointingover", function() {
-                this.tweener.clear();
-                this.tweener.fade(1, 250);
-            });
-            this.addEventListener("pointingout", function() {
-                this.tweener.clear();
-                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
-            });
-        },
-    });
-    
-    tm.app.IconButton.DEFAULT_ALPHA = 0.5;
-    
-})();
-
-
-(function() {
-    
-    /**
-     * @class
-     * glossy button
-     */
-    tm.app.GlossyButton = tm.createClass({
-        superClass: tm.app.Shape,
-        
-        init: function(width, height, backgroundColor, text) {
-            this.superInit(width, height);
-            
-            text  = text  || "Button";
-            this.backgroundColor = backgroundColor || "black";
-            this.alpha = tm.app.GlossyButton.DEFAULT_ALPHA;
-            
-            this.setInteractive(true);
-            this.boundingType = "rect";
-            this.addEventListener("pointingover", function() {
-                this.tweener.clear();
-                this.tweener.fade(1.0, 250);
-            });
-            this.addEventListener("pointingout", function() {
-                this.tweener.clear();
-                this.tweener.fade(tm.app.GlossyButton.DEFAULT_ALPHA, 250);
-            });
-            
-            // ラベル
-            this.label = tm.app.Label(text || "").addChildTo(this);
-            this.label.setAlign("center").setBaseline("middle");
-            
-            this._refresh();
-        },
-        
-        setBackgroundColor: function(backgroundColor) {
-            this.backgroundColor = backgroundColor;
-            
-            this._refresh();
-            
-            return this;
-        },
-        
-        _refresh: function() {
-            // ボタン描画
-            var c = this.canvas;
-            c.resize(this.width, this.height);
-            c.fillStyle = this.backgroundColor;
-            c.fillRoundRect(2, 2, this.width-4, this.height-4, 10);
-            c.strokeStyle   = "rgba(100,100,100,0.75)";
-            c.lineWidth     = 2;
-            c.strokeRoundRect(2, 2, this.width-4, this.height-4, 10);
-            
-            // テカリ
-            c.roundRect(2, 2, this.width-4, this.height-4, 10);
-            c.clip();
-            
-            var grad = tm.graphics.LinearGradient(0, 0, 0, this.height);
-            
-            // grad.addColorStop(0.0, "hsl(  0, 75%, 50%)");
-            // grad.addColorStop(0.5, "hsl(120, 75%, 50%)");
-            // grad.addColorStop(1.0, "hsl(240, 75%, 50%)");
-            grad.addColorStop(0.0, "rgba(255,255,255,0.9)");
-            grad.addColorStop(0.5, "rgba(255,255,255,0.5)");
-            grad.addColorStop(0.51, "rgba(255,255,255,0.2)");
-            grad.addColorStop(1.0, "rgba(255,255,255,0.0)");
-            c.setGradient(grad);
-            c.fillRect(2, 2, this.width-4, this.height-4, 10);
-            
-            // ラベルのサイズをリセット
-            this.label.setSize(this.width, this.height);
-        },
-    });
-    
-    
-    tm.app.GlossyButton.DEFAULT_ALPHA = 0.5;
-    
-    
-})();
-
-
-(function() {
-
-    tm.define("tm.app.FlatButton", {
-        superClass: tm.app.Shape,
-
-        init: function(param) {
-            param.$safe({
-                width: 300,
-                height: 100,
-                bgColor: "rgb(180, 180, 180)",
-                text: "ABC",
-                fontSize: 50,
-                fontFamily: "'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif",
-            });
-
-            this.superInit(param.width, param.height);
-
-            this.canvas.clearColor(param.bgColor);
-
-            this.setInteractive(true);
-            this.setBoundingType("rect");
-
-            this.label = tm.app.Label(param.text).addChildTo(this);
-            this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign("center").setBaseline("middle");
-        },
-    });
-
-
-
-})();
-
-
-
-
-/*
  * scene.js
  */
 
@@ -12420,7 +11360,7 @@ tm.app = tm.app || {};
      */
     tm.app.Scene = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        superClass: tm.app.Object2D,
     
         _sceneResultCallback: null,
 
@@ -12623,694 +11563,6 @@ tm.app = tm.app || {};
     });
     
 })();
-
-/*
- * mapsprite.js
- */
-
-
-(function() {
-
-    tm.define("tm.app.MapSprite", {
-        superClass: "tm.app.CanvasElement",
-
-        init: function(mapSheet, chipWidth, chipHeight) {
-            this.superInit();
-
-            if (typeof mapSheet == "string") {
-                this.mapSheet = tm.asset.AssetManager.get(mapSheet);
-            }
-            else {
-                this.mapSheet = mapSheet;
-            }
-
-            this.chipWidth  = chipWidth  || 32;
-            this.chipHeight = chipHeight || 32;
-
-            this.originX = this.originY = 0;
-
-            this.width = chipWidth*this.mapSheet.width;
-            this.height= chipWidth*this.mapSheet.height;
-
-            this._build();
-        },
-
-        _build: function() {
-            var self = this;
-
-            this.mapSheet.layers.each(function(layer, hoge) {
-                if (layer.type == "objectgroup") {
-                    self._buildObject(layer);
-                }
-                else {
-                    self._buildLayer(layer);
-                }
-            });
-        },
-
-        _buildLayer: function(layer) {
-            var self        = this;
-            var mapSheet    = this.mapSheet;
-            var texture     = tm.asset.AssetManager.get(mapSheet.tilesets[0].image);
-            var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
-            var shape       = tm.app.Shape(this.width, this.height).addChildTo(this);
-            shape.origin.set(0, 0);
-
-            layer.data.each(function(d, index) {
-                var type = d;
-                if (type == -1) {
-                    return ;
-                }
-                type = Math.abs(type);
-
-                var xIndex = index%mapSheet.width;
-                var yIndex = (index/mapSheet.width)|0;
-
-                var mx = (type%xIndexMax);
-                var my = (type/xIndexMax)|0;
-
-                var dx = xIndex*self.chipWidth;
-                var dy = yIndex*self.chipHeight;
-
-                shape.canvas.drawTexture(texture,
-                    mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
-                    dx, dy, self.chipWidth, self.chipHeight
-                    );
-            }.bind(this));
-
-        },
-
-        _buildObject: function(layer) {
-            var self = this;
-            
-            var group = tm.app.CanvasElement().addChildTo(self);
-            group.width = layer.width;
-            group.height = layer.height;
-            
-            layer.objects.forEach(function(obj) {
-                var _class = tm.using(obj.type);
-                if (Object.keys(_class).length === 0) {
-                    _class=tm.app[obj.type];
-                }
-
-                var initParam = null;
-                if (obj.properties.init) {
-                    initParam = JSON.parse(obj.properties.init);
-                }
-                var element = _class.apply(null, initParam).addChildTo(group);
-                var props   = obj.properties;
-                for (var key in props) {
-                    if (key == "init") continue ;
-                    var value = props[key];
-                    element[key] = value;
-                }
-                
-                element.x = obj.x;
-                element.y = obj.y;
-                element.width = obj.width;
-                element.height = obj.height;
-                
-                group[obj.name] = element;
-            });
-
-            self[layer.name] = group;
-
-        },
-
-    });
-
-})();
-
-
-
-
-/*
- * 
- */
-
-tm.app = tm.app || {};
-
-
-
-(function() {
-    
-    /**
-     * @class
-     * キャンバスアプリケーション
-     */
-    tm.app.BaseApp = tm.createClass({
-        
-        element     : null,
-        mouse       : null,
-        touch       : null,
-        pointing    : null,
-        keyboard    : null,
-        stats       : null,
-        frame       : 0,
-        fps         : 30,
-        isPlaying   : null,
-        
-        _scenes      : null,
-        _sceneIndex  : 0,
-        
-        /**
-         * 初期化
-         */
-        init: function(elm)
-        {
-            this.element = elm;
-
-            // マウスを生成
-            this.mouse      = tm.input.Mouse(this.element);
-            // タッチを生成
-            this.touches    = tm.input.Touches(this.element, 3);
-            this.touch      = this.touches[0];
-            // キーボードを生成
-            this.keyboard   = tm.input.Keyboard();
-            
-            // ポインティングをセット(PC では Mouse, Mobile では Touch)
-            this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
-            
-            // 加速度センサーを生成
-            this.accelerometer = tm.input.Accelerometer();
-            
-            // 再生フラグ
-            this.isPlaying = true;
-            
-            // シーン周り
-            this._scenes = [ tm.app.Scene() ];
-            this._sceneIndex = 0;
-            
-            // 決定時の処理をオフにする(iPhone 時のちらつき対策)
-            this.element.addEventListener("touchstart", function(e) { e.stop(); });
-            
-            // ウィンドウフォーカス時イベントリスナを登録
-            window.addEventListener("focus", function() {
-                this.currentScene.dispatchEvent(tm.event.Event("focus"));
-            }.bind(this));
-            // ウィンドウブラー時イベントリスナを登録
-            window.addEventListener("blur", function() {
-                this.currentScene.dispatchEvent(tm.event.Event("blur"));
-            }.bind(this));
-            // クリック
-            this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
-        },
-        
-        /**
-         * 実行
-         */
-        run: function()
-        {
-            var self = this;
-            
-            // // requestAnimationFrame version
-            // var fn = function() {
-                // self._loop();
-                // requestAnimationFrame(fn);
-            // }
-            // fn();
-            
-            tm.setLoop(function(){ self._loop(); }, 1000/this.fps);
-            
-            return ;
-            
-            if (true) {
-                setTimeout(arguments.callee.bind(this), 1000/this.fps);
-                this._loop();
-            }
-            
-            return ;
-            
-            var self = this;
-            // setInterval(function(){ self._loop(); }, 1000/self.fps);
-            tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
-        },
-        
-        _loop: function()
-        {
-            // update
-            if (this.update) this.update();
-            this._update();
-            
-            // draw
-            if (this.draw) this.draw();
-            this._draw();
-            
-            // stats update
-            if (this.stats) this.stats.update();
-        },
-        
-        /**
-         * シーンを切り替える
-         * ## Reference
-         * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
-         */
-        replaceScene: function(scene)
-        {
-            var e = null;
-            if (this.currentScene) {
-                e = tm.event.Event("exit");
-                e.app = this;
-                this.currentScene.dispatchEvent(e);
-                this.currentScene.app = null;
-            }
-            e = tm.event.Event("enter");
-            e.app = this;
-            this.currentScene = scene;
-            this.currentScene.app = this;
-            this.currentScene.dispatchEvent(e);
-        },
-        
-        /**
-         * シーンをプッシュする
-         * ポーズやオブション画面などで使用する
-         */
-        pushScene: function(scene)
-        {
-            e = tm.event.Event("exit");
-            e.app = this;
-            this.currentScene.dispatchEvent(e);
-            
-            this._scenes.push(scene);
-            ++this._sceneIndex;
-            
-            e = tm.event.Event("enter");
-            e.app = this;
-            scene.app = this;
-            scene.dispatchEvent(e);
-        },
-        
-        /**
-         * シーンをポップする
-         * ポーズやオブション画面などで使用する
-         */
-        popScene: function()
-        {
-            var scene = this._scenes.pop();
-            --this._sceneIndex;
-            
-            e = tm.event.Event("exit");
-            e.app = this;
-            scene.dispatchEvent(e);
-            scene.app = null;
-            
-            // 
-            e = tm.event.Event("enter");
-            e.app = this;
-            this.currentScene.dispatchEvent(e);
-            
-            return scene;
-        },
-        
-        enableStats: function() {
-            if (window["Stats"]) {
-                // Stats
-                this.stats = new Stats();
-                // 右上に設定
-                this.stats.domElement.style.position = "fixed";
-                this.stats.domElement.style.left     = "5px";
-                this.stats.domElement.style.top      = "20px";
-                document.body.appendChild(this.stats.domElement);
-            }
-            else {
-                console.warn("not defined stats.");
-            }
-        },
-        
-        enableDatGUI: function() {
-            if (window.dat) {
-                var gui = new dat.GUI();
-                
-                return gui;
-            }
-        },
-        
-        start: function()
-        {
-            this.isPlaying = true;
-        },
-        
-        stop: function()
-        {
-            this.isPlaying = false;
-        },
-        
-        _update: function()
-        {
-            // デバイス系 Update
-            this.mouse.update();
-            this.keyboard._update();
-            this.touches.update();
-            
-            if (this.isPlaying) {
-                this.currentScene._update(this);
-                ++this.frame;
-            }
-        },
-        
-        _draw: function()
-        {
-
-        },
-        
-        getElement: function() {
-            return this.element;
-        },
-
-        _onclick: function(e) {
-            var px = e.pointX;
-            var py = e.pointY;
-
-            if (this.element.style.width) {
-                px *= this.element.width / parseInt(this.element.style.width);
-            }
-            if (this.element.style.height) {
-                py *= this.element.height / parseInt(this.element.style.height);
-            }
-
-            var _fn = function(elm) {
-                if (elm.children.length > 0) {
-                    elm.children.each(function(elm) {
-                        if (elm.hasEventListener("click")) {
-                            if (elm.isHitPoint && elm.isHitPoint(px, py)) {
-                                elm.dispatchEvent(tm.event.Event("click"));
-                            }
-                        }
-                    });
-                }
-            };
-
-            _fn(this.currentScene);
-        },
-        
-    });
-    
-    /**
-     * @property    currentScene
-     * カレントシーン
-     */
-    tm.app.BaseApp.prototype.accessor("currentScene", {
-        "get": function() { return this._scenes[this._sceneIndex]; },
-        "set": function(v){ this._scenes[this._sceneIndex] = v; }
-    });
-    
-})();
-
-(function() {
-
-    /**
-     * @class
-     * キャンバスアプリケーション
-     */
-    tm.app.CanvasApp = tm.createClass({
-
-        superClass: tm.app.BaseApp,
-        
-        element     : null,
-        canvas      : null,
-        mouse       : null,
-        touch       : null,
-        pointing    : null,
-        keyboard    : null,
-        stats       : null,
-        frame       : 0,
-        fps         : 30,
-        background  : null,
-        isPlaying   : null,
-        
-        _scenes      : null,
-        _sceneIndex  : 0,
-        
-        /**
-         * 初期化
-         */
-        init: function(canvas)
-        {
-            if (canvas instanceof HTMLCanvasElement) {
-                this.element = canvas;
-            }
-            else if (typeof canvas == "string") {
-                this.element = document.querySelector(canvas);
-            }
-            else {
-                this.element = document.createElement("canvas");
-            }
-
-            // 親の初期化
-            this.superInit(this.element);
-
-            // グラフィックスを生成
-            this.canvas = tm.graphics.Canvas(this.element);
-            this.renderer = tm.app.CanvasRenderer(this.canvas);
-            
-            // カラー
-            this.background = "black";
-            
-            // シーン周り
-            this._scenes = [ tm.app.Scene() ];
-        },
-        
-        resize: function(width, height) {
-            this.width = width;
-            this.height= height;
-            
-            return this;
-        },
-        
-        resizeWindow: function() {
-            this.width = innerWidth;
-            this.height= innerHeight;
-            
-            return this;
-        },
-        
-        /**
-         * 画面にフィットさせる
-         */
-        fitWindow: function(everFlag) {
-            // 画面にフィット
-            this.canvas.fitWindow(everFlag);
-            
-            // マウスとタッチの座標更新関数をパワーアップ
-            this.mouse._mousemove = this.mouse._mousemoveScale;
-            this.touches.each(function(touch) {
-                touch._touchmove = touch._touchmoveScale;
-            });
-        },
-        
-        _draw: function()
-        {
-            this.canvas.clearColor(this.background, 0, 0);
-            
-            this.canvas.fillStyle   = "white";
-            this.canvas.strokeStyle = "white";
-            
-            // 描画は全てのシーン行う
-            this.canvas.save();
-            for (var i=0, len=this._scenes.length; i<len; ++i) {
-                this.renderer.render(this._scenes[i]);
-//                this._scenes[i]._draw(this.canvas);
-            }
-            this.canvas.restore();
-            
-            //this.currentScene._draw(this.canvas);
-        },
-        
-    });
-    
-    
-    /**
-     * @property    width
-     * 幅
-     */
-    tm.app.CanvasApp.prototype.accessor("width", {
-        "get": function()   { return this.canvas.width; },
-        "set": function(v)  { this.canvas.width = v; }
-    });
-    
-    /**
-     * @property    height
-     * 高さ
-     */
-    tm.app.CanvasApp.prototype.accessor("height", {
-        "get": function()   { return this.canvas.height; },
-        "set": function(v)  { this.canvas.height = v; }
-    });
-
-})();
-
-
-
-/*
- * phi
- */
-
- 
-(function() {
-    
-    tm.define("tm.app.CanvasRenderer", {
-        canvas: null,
-
-        init: function(canvas) {
-            this.canvas = canvas;
-            this._context = this.canvas.context;
-        },
-
-        render: function(root) {
-            this.canvas.save();
-            this.renderObject(root);
-            this.canvas.restore();
-        },
-
-        renderObject: function(obj) {
-            obj._dirtyCalc();
-
-            if (obj.visible === false) return ;
-            var context = this._context;
-
-            if (!obj.draw) this._setRenderFunction(obj);
-
-            // 情報をセット
-            context.fillStyle      = obj.fillStyle;
-            context.strokeStyle    = obj.strokeStyle;
-            context.globalAlpha    = obj._worldAlpha;
-            context.globalCompositeOperation = obj.blendMode;
-            
-            if (obj.shadowBlur) {
-                context.shadowColor   = obj.shadowColor;
-                context.shadowOffsetX = obj.shadowOffsetX;
-                context.shadowOffsetY = obj.shadowOffsetY;
-                context.shadowBlur    = obj.shadowBlur;
-            }
-            else {
-                context.shadowOffsetX = 0;
-                context.shadowOffsetY = 0;
-                context.shadowColor   = "rgba(0, 0, 0, 0)";
-            }
-            
-            // 行列をセット
-            var m = obj._worldMatrix.m;
-            context.setTransform( m[0], m[3], m[1], m[4], m[2], m[5] );
-            
-            obj.draw(this.canvas);
-            
-            // 子供達も実行
-            if (obj.children.length > 0) {
-                var tempChildren = obj.children.slice();
-                for (var i=0,len=tempChildren.length; i<len; ++i) {
-                    this.renderObject(tempChildren[i]);
-                }
-            }
-        },
-
-        _setRenderFunction: function(obj) {
-            if (obj instanceof tm.app.Sprite) {
-                obj.draw = renderFuncList["sprite"];
-            }
-            else if (obj instanceof tm.app.MapSprite) {
-                obj.draw = function() {};
-            }
-            else if (obj instanceof tm.app.Label) {
-                obj.draw = renderFuncList["label"];
-            }
-            else if (obj instanceof tm.app.Shape) {
-                obj.draw = renderFuncList["shape"];
-            }
-            else {
-                obj.draw = function() {};
-            }
-        }
-
-    });
-    
-    var renderFuncList = {
-        "sprite": function(canvas) {
-            var srcRect = this.srcRect;
-            var element = this._image.element;
-            
-            canvas.context.drawImage(element,
-                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
-        },
-        "shape": function(canvas) {
-            var srcRect = this.srcRect;
-            canvas.drawImage(
-                this.canvas.canvas,
-                0, 0, this.canvas.width, this.canvas.height,
-                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
-        },
-        "label": function(canvas) {
-            canvas.setText(this.fontStyle, this.align, this.baseline);
-            if (this.fill) {
-                if (this.maxWidth) {
-                    this._lines.each(function(elm, i) {
-                        canvas.fillText(elm, 0, this.textSize*i, this.maxWidth);
-                    }.bind(this));
-                }
-                else {
-                    this._lines.each(function(elm, i) {
-                        canvas.fillText(elm, 0, this.textSize*i);
-                    }.bind(this));
-                }
-            }
-            if (this.stroke) {
-                if (this.maxWidth) {
-                    this._lines.each(function(elm, i) {
-                        canvas.strokeText(elm, 0, this.textSize*i, this.maxWidth);
-                    }.bind(this));
-                }
-                else {
-                    this._lines.each(function(elm, i) {
-                        canvas.strokeText(elm, 0, this.textSize*i);
-                    }.bind(this));
-                }
-            }
-            
-            if (this.debugBox) {
-                canvas.strokeRect(0, 0, this.width, -this.size);
-            }
-        }
-    };
-
-})();
- 
-
-
- 
-(function() {
-    
-    tm.define("tm.app.BoundingRectRenderer", {
-        superClass: "tm.app.CanvasRenderer",
-
-        init: function(canvas) {
-            this.superInit(canvas);
-        },
-
-        _setRenderFunction: function(obj) {
-            obj.draw = render;
-        }
-    });
-
-    var render = function(canvas) {
-        canvas.save();
-        canvas.lineWidth = 2;
-        canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
-        canvas.restore();
-    };
-
-})();
- 
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * collision.js
@@ -13954,6 +12206,1550 @@ tm.namespace("tm.app", function() {
     
 });
 /*
+ * 
+ */
+
+tm.app = tm.app || {};
+
+(function() {
+
+    /**
+     * @class
+     * キャンバスアプリケーション
+     */
+    tm.app.CanvasApp = tm.createClass({
+
+        superClass: tm.app.BaseApp,
+        
+        element     : null,
+        canvas      : null,
+        mouse       : null,
+        touch       : null,
+        pointing    : null,
+        keyboard    : null,
+        stats       : null,
+        frame       : 0,
+        fps         : 30,
+        background  : null,
+        isPlaying   : null,
+        
+        _scenes      : null,
+        _sceneIndex  : 0,
+        
+        /**
+         * 初期化
+         */
+        init: function(canvas)
+        {
+            if (canvas instanceof HTMLCanvasElement) {
+                this.element = canvas;
+            }
+            else if (typeof canvas == "string") {
+                this.element = document.querySelector(canvas);
+            }
+            else {
+                this.element = document.createElement("canvas");
+            }
+
+            // 親の初期化
+            this.superInit(this.element);
+
+            // グラフィックスを生成
+            this.canvas = tm.graphics.Canvas(this.element);
+            this.renderer = tm.app.CanvasRenderer(this.canvas);
+            
+            // カラー
+            this.background = "black";
+            
+            // シーン周り
+            this._scenes = [ tm.app.Scene() ];
+        },
+        
+        resize: function(width, height) {
+            this.width = width;
+            this.height= height;
+            
+            return this;
+        },
+        
+        resizeWindow: function() {
+            this.width = innerWidth;
+            this.height= innerHeight;
+            
+            return this;
+        },
+        
+        /**
+         * 画面にフィットさせる
+         */
+        fitWindow: function(everFlag) {
+            // 画面にフィット
+            this.canvas.fitWindow(everFlag);
+            
+            // マウスとタッチの座標更新関数をパワーアップ
+            this.mouse._mousemove = this.mouse._mousemoveScale;
+            this.touches.each(function(touch) {
+                touch._touchmove = touch._touchmoveScale;
+            });
+        },
+        
+        _draw: function()
+        {
+            this.canvas.clearColor(this.background, 0, 0);
+            
+            this.canvas.fillStyle   = "white";
+            this.canvas.strokeStyle = "white";
+            
+            // 描画は全てのシーン行う
+            this.canvas.save();
+            for (var i=0, len=this._scenes.length; i<len; ++i) {
+                this.renderer.render(this._scenes[i]);
+//                this._scenes[i]._draw(this.canvas);
+            }
+            this.canvas.restore();
+            
+            //this.currentScene._draw(this.canvas);
+        },
+        
+    });
+    
+    
+    /**
+     * @property    width
+     * 幅
+     */
+    tm.app.CanvasApp.prototype.accessor("width", {
+        "get": function()   { return this.canvas.width; },
+        "set": function(v)  { this.canvas.width = v; }
+    });
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.app.CanvasApp.prototype.accessor("height", {
+        "get": function()   { return this.canvas.height; },
+        "set": function(v)  { this.canvas.height = v; }
+    });
+
+})();
+
+
+
+/*
+ *
+ */
+
+tm.app = tm.app || {};
+
+
+(function() {
+
+    /**
+     * @class
+     * キャンバスエレメント
+     */
+    tm.app.CanvasElement = tm.createClass({
+
+        superClass: tm.app.Object2D,
+
+        /**
+         * 更新フラグ
+         */
+        isUpdate: true,
+
+        /**
+         * 表示フラグ
+         */
+        visible: true,
+
+        /**
+         * fillStyle
+         */
+        fillStyle: "white",
+
+        /**
+         * strokeStyle
+         */
+        strokeStyle: "white",
+
+        /**
+         * アルファ
+         */
+        alpha: 1.0,
+
+        /**
+         * ブレンドモード
+         */
+        blendMode: "source-over",
+
+        /**
+         * シャドウカラー
+         */
+        shadowColor: "black",
+        shadowOffsetX: 0,
+        shadowOffsetY: 0,
+        shadowBlur: 0,
+
+        /**
+         * ゲーム用エレメントクラス
+         */
+        init: function() {
+            this.superInit();
+        },
+
+        drawBoundingCircle: function(canvas) {
+            canvas.save();
+            canvas.lineWidth = 2;
+            canvas.strokeCircle(0, 0, this.radius);
+            canvas.restore();
+        },
+
+        drawBoundingRect: function(canvas) {
+            canvas.save();
+            canvas.lineWidth = 2;
+            canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
+            canvas.restore();
+        },
+
+        drawFillRect: function(ctx) {
+            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+            return this;
+        },
+        drawStrokeRect: function(ctx) {
+            ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
+            return this;
+        },
+
+        drawFillArc: function(ctx) {
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
+            ctx.fill();
+            ctx.closePath();
+            return this;
+        },
+        drawStrokeArc: function(ctx) {
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
+            ctx.stroke();
+            ctx.closePath();
+            return this;
+        },
+
+        show: function() {
+            this.visible = true;
+            return this;
+        },
+
+        hide: function() {
+            this.visible = false;
+            return this;
+        },
+
+        setFillStyle: function(style) {
+            this.fillStyle = style;
+            return this;
+        },
+
+        setStrokeStyle: function(style) {
+            this.strokeStyle = style;
+            return this;
+        },
+
+        setBlendMode: function(blendMode) {
+            this.blendMode = blendMode;
+            return this;
+        },
+
+        load: function(data) {
+            var self = this;
+
+            data.layers.forEach(function(layer) {
+                if (layer.type != "objectgroup") return ;
+
+                var group = tm.app.CanvasElement().addChildTo(self);
+                group.width = layer.width;
+                group.height = layer.height;
+
+                layer.objects.forEach(function(obj) {
+                    var _class = tm.using(obj.type);
+                    if (Object.keys(_class).length === 0) {
+                        _class=tm.app[obj.type];
+                    }
+                    var initParam = null;
+                    if (obj.properties.init) {
+                        initParam = JSON.parse(obj.properties.init);
+                    }
+                    var element = _class.apply(null, initParam).addChildTo(group);
+                    var props   = obj.properties;
+                    for (var key in props) {
+                        if (key == "init") continue ;
+                        var value = props[key];
+                        element[key] = value;
+                    }
+
+                    element.x = obj.x;
+                    element.y = obj.y;
+                    element.width = obj.width;
+                    element.height = obj.height;
+                });
+
+                self[layer.name] = group;
+            });
+        },
+
+        fromJSON: function(data) {
+            for (var key in data) {
+                var value = data[key];
+                if (key == "children") {
+                    for (var i=0,len=value.length; i<len; ++i) {
+                        var data = value[i];
+                        var init = data["init"] || [];
+                        var _class = tm.using(data.type);
+                        if (Object.keys(_class).length === 0) {
+                            _class=tm.app[data.type];
+                        }
+                        var elm = _class.apply(null, init).addChildTo(this);
+                        elm.fromJSON(data);
+                        this[data.name] = elm;
+                    }
+                }
+                else {
+                    this[key] = value;
+                }
+            }
+
+            return this;
+        },
+
+        toJSON: function() {
+            // TODO:
+        },
+
+
+        _calcAlpha: function() {
+            if (!this.parent) {
+                this._worldAlpha = this.alpha;
+                return ;
+            }
+            else {
+                // alpha
+                this._worldAlpha = this.parent._worldAlpha * this.alpha;
+            }
+        },
+
+        _dirtyCalc: function() {
+            this._calcAlpha();
+            this._calcWorldMatrix();
+        },
+
+    });
+
+
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * sprite.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * Sprite
+     */
+    tm.app.Sprite = tm.createClass({
+        
+        superClass: tm.app.CanvasElement,
+        
+        /**
+         * 初期化
+         */
+        init: function(texture, width, height)
+        {
+            this.superInit();
+            
+            console.assert(arguments.length == 0 || texture instanceof tm.asset.Texture || typeof texture == "string", "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
+            
+            this.srcRect = tm.geom.Rect(0, 0, 64, 64);
+            
+            // 画像のみ渡された場合
+            if (arguments.length == 1) {
+                var texture = arguments[0];
+                if (typeof texture == "string") texture = tm.asset.AssetManager.get(texture);
+                
+                this.width = texture.width;
+                this.height= texture.height;
+                
+                this.image = texture;
+            }
+            // その他
+            else {
+                width = width   || 64;
+                height= height  || 64;
+                
+                this.width  = width;
+                this.height = height;
+                if (texture) {
+                    this.image  = texture;
+                }
+            }
+        },
+        
+        setFrameIndex: function(index, width, height) {
+            var w   = width || this.width;
+            var h   = width || this.height;
+            var row = ~~(this.image.width / w)
+            var x   = index%row;
+            var y   = ~~(index/row);
+            this.srcRect.x = x*w;
+            this.srcRect.y = y*h;
+            this.srcRect.width  = w;
+            this.srcRect.height = h;
+
+            return this;
+        },
+        
+        _refreshSize: function() {
+            
+        },
+
+        _update: tm.app.CanvasElement.prototype._update,
+    });
+    
+    /**
+     * @property    image
+     * 高さ
+     */
+    tm.app.Sprite.prototype.accessor("image", {
+        "get": function()   {
+            return this._image;
+        },
+        "set": function(image)  {
+            if (typeof image == "string") image = tm.asset.AssetManager.get(image);
+            
+            this._image = image;
+            this.srcRect.x = 0;
+            this.srcRect.y = 0;
+            this.srcRect.width  = image.element.width;
+            this.srcRect.height = image.element.height;
+        }
+    });
+    
+})();
+
+/*
+ * sprite.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+(function() {
+    
+    /**
+     * @class
+     * Shape
+     */
+    tm.app.Shape = tm.createClass({
+        
+        superClass: tm.app.CanvasElement,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height)
+        {
+            this.superInit();
+            
+            width = width   || 64;
+            height= height  || 64;
+            
+            this.canvas = tm.graphics.Canvas();
+            
+            this.width  = width;
+            this.height = height;
+            this.canvas.resize(width, height);
+        },
+
+        renderCircle: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
+            
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle = param.fillStyle;
+            c.strokeStyle = param.strokeStyle;
+            c.lineWidth = param.lineWidth;
+            
+            // 描画
+            c.fillCircle(this.width/2, this.height/2, this.radius);
+            c.strokeCircle(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2);
+            
+            c.restore();
+        },
+
+        renderTriangle: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
+            
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle = param.fillStyle;
+            c.strokeStyle = param.strokeStyle;
+            c.lineWidth = param.lineWidth;
+            
+            // 描画
+            c.fillPolygon(this.width/2, this.height/2, this.radius, 3);
+            c.strokePolygon(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, 3);
+            
+            c.restore();
+        },
+
+        renderRectangle: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
+
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle = param.fillStyle;
+            c.strokeStyle = param.strokeStyle;
+            c.lineWidth = param.lineWidth;
+            
+            // 描画
+            var lw      = Number(c.lineWidth);
+            var lw_half = lw/2;
+            c.fillRect(0, 0, this.width, this.height);
+            c.strokeRect(lw_half, lw_half, this.width-lw, this.height-lw);
+            
+            c.restore();
+        },
+
+        renderStar: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
+            
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle = param.fillStyle;
+            c.strokeStyle = param.strokeStyle;
+            c.lineWidth = param.lineWidth;
+
+            // 描画
+            var lw          = Number(c.lineWidth);
+            var lw_half     = lw/2;
+            var sides       = param.sides;
+            var sideIndent  = param.sideIndent;
+            var offsetAngle = param.offsetAngle;
+            c.fillStar(this.width/2, this.height/2, this.radius, sides, sideIndent, offsetAngle);
+            c.strokeStar(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, sides, sideIndent, offsetAngle);
+            
+            c.restore();
+        },
+
+        renderPolygon: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
+            
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle = param.fillStyle;
+            c.strokeStyle = param.strokeStyle;
+            c.lineWidth = param.lineWidth;
+            c.textAlign = "center";
+            c.textBaseline = "middle";
+            
+            // 描画
+            var lw          = Number(c.lineWidth);
+            var lw_half     = lw/2;
+            var sides       = param.sides;
+            var sideIndent  = param.sideIndent;
+            var offsetAngle = param.offsetAngle;
+            c.fillPolygon(this.width/2, this.height/2, this.radius, sides, offsetAngle);
+            c.strokePolygon(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, sides, offsetAngle);
+            
+            c.restore();
+        },
+
+        renderHeart: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
+
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle     = param.fillStyle;
+            c.strokeStyle   = param.strokeStyle;
+            c.lineWidth     = param.lineWidth;
+            
+            // 描画
+            c.fillHeart(this.width/2, this.height/2, this.radius, param.angle);
+            c.strokeHeart(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, param.angle);
+            
+            c.restore();
+        },
+
+        renderText: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
+
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle     = param.fillStyle;
+            c.strokeStyle   = param.strokeStyle;
+            c.lineWidth     = param.lineWidth;
+            c.font          = param.font;
+            c.textAlign     = param.textAlign;
+            c.textBaseline  = param.textBaseline;
+
+            // 描画
+            c.strokeText(param.text, this.width/2, this.height/2);
+            c.fillText(param.text, this.width/2, this.height/2);
+            
+            c.restore();
+        },
+        
+    });
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
+        fillStyle: "red",
+        strokeStyle: "white",
+        lineWidth: "2",
+    };
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
+        fillStyle: "green",
+        strokeStyle: "white",
+        lineWidth: "2",
+    };
+    
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
+        fillStyle: "blue",
+        strokeStyle: "white",
+        lineWidth: "2",
+    };
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR = {
+        fillStyle: "yellow",
+        strokeStyle: "white",
+        lineWidth: "2",
+        
+        sides: 5,
+        sideIndent: undefined,
+        offsetAngle: undefined,
+    };
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
+        fillStyle: "cyan",
+        strokeStyle: "white",
+        lineWidth: "2",
+        
+        sides: 5,
+        offsetAngle: undefined,
+    };
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART = {
+        fillStyle: "pink",
+        strokeStyle: "white",
+        lineWidth: "2",
+        
+        angle: 45,
+    };
+
+    tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
+        text: "hello, world",
+        fillStyle: "pink",
+        strokeStyle: "white",
+        lineWidth: "1",
+        textAlign: "center",
+        textBaseline: "middle",
+        font: "24px 'Consolas', 'Monaco', 'ＭＳ ゴシック'",
+    };
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class
+     * CircleShape
+     */
+    tm.app.CircleShape = tm.createClass({
+        
+        superClass: tm.app.Shape,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderCircle(param);
+        },
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * TriangleShape
+     */
+    tm.app.TriangleShape = tm.createClass({
+        
+        superClass: tm.app.Shape,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderTriangle(param);
+        },
+        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * RectangleShape
+     */
+    tm.app.RectangleShape = tm.createClass({
+        
+        superClass: tm.app.Shape,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderRectangle(param);
+        },
+        
+    });
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class
+     * StarShape
+     */
+    tm.app.StarShape = tm.createClass({
+        
+        superClass: tm.app.Shape,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderStar(param);
+        },
+        
+    });
+    
+})();
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * PolygonShape
+     */
+    tm.app.PolygonShape = tm.createClass({
+        
+        superClass: tm.app.Shape,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderPolygon(param);
+        },
+        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * HeartShape
+     */
+    tm.app.HeartShape = tm.createClass({
+        
+        superClass: tm.app.Shape,
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderHeart(param);
+        },
+        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * HeartShape
+     */
+    tm.define("tm.app.TextShape", {
+
+        superClass: "tm.app.Shape",
+        
+        /**
+         * 初期化
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderText(param);
+        },
+    });
+    
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * label.js
+ */
+
+tm.app = tm.app || {};
+
+
+(function() {
+    
+    var dummyCanvas  = null;
+    var dummyContext = null;
+    
+    /**
+     * @class
+     * Label
+     */
+    tm.app.Label = tm.createClass({
+        
+        superClass: tm.app.CanvasElement,
+        
+        /**
+         * 塗りつぶしフラグ
+         */
+        fill: true,
+        /**
+         * ストロークフラグ
+         */
+        stroke: false,
+        debugBox: false,
+        
+        /**
+         * 初期化
+         */
+        init: function(text, size) {
+            this.superInit();
+            
+            this.text       = text || "";
+            
+            this._fontSize   = size || 24;
+            this._fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
+            this._fontWeight = "";
+            this._lineHeight = 1.2;
+            this._updateFont();
+            
+            this.align      = "start";
+            this.baseline   = "alphabetic";
+
+            this.maxWidth   = null;
+        },
+        
+        setAlign: function(align) {
+            this.align = align;
+            return this;
+        },
+        
+        setBaseline: function(baseline) {
+            this.baseline = baseline;
+            return this;
+        },
+        
+        setFontSize: function(size) {
+            this.fontSize = size;
+            return this;
+        },
+        
+        setFontFamily: function(family) {
+            this.fontFamily= family;
+            return this;
+        },
+        
+        setFontWeight: function(weight) {
+            this.fontWeight= weight;
+            return this;
+        },
+        
+        _updateFont: function() {
+            this.fontStyle = "{fontWeight} {fontSize}px {fontFamily}".format(this);
+            if (!dummyCanvas) {
+                dummyCanvas = document.createElement("canvas");
+                dummyContext = dummyCanvas.getContext('2d');
+            }
+            dummyContext.font = this.fontStyle;
+            this.textSize = dummyContext.measureText('あ').width * this.lineHeight;
+        },
+        
+        _updateLines: function() {
+            this._lines = (this._text+'').split('\n');
+        }
+        
+    });
+    
+    /**
+     * @property    text
+     * サイズ
+     */
+    tm.app.Label.prototype.accessor("text", {
+        "get": function() { return this._text; },
+        "set": function(v){
+            if (v == null || v == undefined) {
+                this._text = "";
+            }
+            else {
+                this._text = v;
+            }
+            this._updateLines();
+        }
+    });
+    
+    /**
+     * @property    size
+     * サイズ
+     */
+    tm.app.Label.prototype.accessor("fontSize", {
+        "get": function() { return this._fontSize; },
+        "set": function(v){ this._fontSize = v; this._updateFont(); }
+    });
+    
+    /**
+     * @property    fontFamily
+     * フォント
+     */
+    tm.app.Label.prototype.accessor("fontFamily", {
+        "get": function() { return this._fontFamily; },
+        "set": function(v){ this._fontFamily = v; this._updateFont(); }
+    });
+    
+    /**
+     * @property fontWeight
+     * フォント
+     */
+    tm.app.Label.prototype.accessor("fontWeight", {
+        "get": function() { return this._fontWeight; },
+        "set": function(v) {
+            this._fontWeight = v; this._updateFont();
+        },
+    });
+    
+    /**
+     * @property lineHeight
+     * フォント
+     */
+    tm.app.Label.prototype.accessor("lineHeight", {
+        "get": function() { return this._lineHeight; },
+        "set": function(v) {
+            this._lineHeight = v; this._updateFont();
+        },
+    });
+
+    
+})();
+
+
+/*
+ * animationsprite.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+(function() {
+
+    /**
+     * @class
+     * AnimationSprite
+     */
+    tm.app.AnimationSprite = tm.createClass({
+
+        superClass: tm.app.CanvasElement,
+
+        /**
+         * 初期化
+         */
+        init: function(ss, width, height)
+        {
+            this.superInit();
+
+            if (typeof ss == "string") {
+                var ss = tm.asset.AssetManager.get(ss);
+                console.assert(ss, "not found " + ss);
+            }
+
+            console.assert(typeof ss == "object", "AnimationSprite の第一引数はスプライトシートもしくはスプライトシート名に変わりました");
+
+            this.ss = ss;
+
+            this.width  = width || ss.frame.width;
+            this.height = height|| ss.frame.height;
+
+            this.currentFrame = 0;
+            this.currentFrameIndex = 0;
+            this.paused = true;
+
+            this.currentAnimation = null;
+
+            this.addEventListener("enterframe", function(e) {
+                if (!this.paused && e.app.frame%this.currentAnimation.frequency === 0) {
+                    this._updateFrame();
+                }
+            });
+        },
+
+        /**
+         * 描画
+         */
+        draw: function(canvas) {
+            var srcRect = this.ss.getFrame(this.currentFrame);
+            var element = this.ss.image.element;
+
+            canvas.drawImage(element,
+                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
+                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+        },
+
+        gotoAndPlay: function(name) {
+            name = name || "default";
+
+            this.paused = false;
+            this.currentAnimation = this.ss.animations[name];
+            this.currentFrame = 0;
+            this.currentFrameIndex = 0;
+            this._normalizeFrame();
+
+            return this;
+        },
+
+        gotoAndStop: function(name) {
+            name = name || "default";
+
+            this.paused = true;
+            this.currentAnimation = this.ss.animations[name];
+            this.currentFrame = 0;
+            this.currentFrameIndex = 0;
+            this._normalizeFrame();
+
+            return this;
+        },
+
+        _updateFrame: function() {
+            this.currentFrameIndex += 1;
+            this._normalizeFrame();
+        },
+
+        _normalizeFrame: function() {
+            var anim = this.currentAnimation;
+            if (anim) {
+                if (this.currentFrameIndex < anim.frames.length) {
+                    this.currentFrame = anim.frames[this.currentFrameIndex];
+                }
+                else {
+                    if (anim.next) {
+                        this.gotoAndPlay(anim.next);
+                    }
+                    else {
+                        this.currentFrameIndex = anim.frames.length - 1;
+                        this.currentFrame = anim.frames[this.currentFrameIndex];
+                        this.paused = true;
+                    }
+                    // dispatch animationend
+                    var e = tm.event.Event("animationend");
+                    this.dispatchEvent(e);
+                }
+            }
+        },
+
+    });
+
+})();
+
+
+(function() {
+
+    tm.app.SpriteSheet = tm.createClass({
+        superClass: tm.event.EventDispatcher,
+
+        init: function(param) {
+            this.superInit();
+            this.frame = param.frame;
+
+            if (typeof param.image == "string") {
+                if (!tm.asset.AssetManager.contains(param.image)) {
+                    tm.asset.AssetManager.load(param.image);
+                }
+                this.image = tm.asset.AssetManager.get(param.image);
+            }
+            else {
+                this.image = param.image;
+            }
+
+            if (this.image.loaded === false) {
+                this.image.addEventListener("load", function() {
+                    this._calcFrames(param.frame);
+                    var e = tm.event.Event("load");
+                    this.dispatchEvent(e);
+                }.bind(this), false);
+            }
+            else {
+                this._calcFrames(param.frame);
+                var e = tm.event.Event("load");
+                this.dispatchEvent(e);
+            }
+
+            this._calcAnim(param.animations);
+        },
+
+        getFrame: function(index) {
+            return this.frames[index];
+        },
+
+        getAnimation: function(name) {
+            return this.animations[name];
+        },
+
+        _calcFrames: function(frame) {
+            var frames = this.frames = [];
+
+            var w = frame.width;
+            var h = frame.height;
+            var row = ~~(this.image.width / w);
+            var col = ~~(this.image.height/ h);
+
+            if (!frame.count) frame.count = row*col;
+
+            for (var i=0,len=frame.count; i<len; ++i) {
+                var x   = i%row;
+                var y   = (i/row)|0;
+                var rect = {
+                    x:x*w,
+                    y:y*h,
+                    width: w,
+                    height: h
+                };
+                frames.push(rect);
+            }
+        },
+
+        _calcAnim: function(animations) {
+            this.animations = [];
+            for (var key in animations) {
+                var anim = animations[key];
+
+                if (anim instanceof Array) {
+                    this.animations[key] = {
+                        frames: [].range(anim[0], anim[1]),
+                        next: anim[2],
+                        frequency: anim[3] || 1
+                    };
+                }
+                else {
+                    this.animations[key] = {
+                        frames: anim.frames,
+                        next: anim.next,
+                        frequency: anim.frequency || 1
+                    };
+                }
+            }
+
+            // デフォルトアニメーション
+            this.animations["default"] = {
+                frames: [].range(0, this.frame.count),
+                next: "default",
+                frequency: 1,
+            };
+        }
+
+    });
+
+})();
+
+/*
+ * mapsprite.js
+ */
+
+
+(function() {
+
+    tm.define("tm.app.MapSprite", {
+        superClass: "tm.app.CanvasElement",
+
+        init: function(mapSheet, chipWidth, chipHeight) {
+            this.superInit();
+
+            if (typeof mapSheet == "string") {
+                this.mapSheet = tm.asset.AssetManager.get(mapSheet);
+            }
+            else {
+                this.mapSheet = mapSheet;
+            }
+
+            this.chipWidth  = chipWidth  || 32;
+            this.chipHeight = chipHeight || 32;
+
+            this.originX = this.originY = 0;
+
+            this.width = chipWidth*this.mapSheet.width;
+            this.height= chipWidth*this.mapSheet.height;
+
+            this._build();
+        },
+
+        _build: function() {
+            var self = this;
+
+            this.mapSheet.layers.each(function(layer, hoge) {
+                if (layer.type == "objectgroup") {
+                    self._buildObject(layer);
+                }
+                else {
+                    self._buildLayer(layer);
+                }
+            });
+        },
+
+        _buildLayer: function(layer) {
+            var self        = this;
+            var mapSheet    = this.mapSheet;
+            var texture     = tm.asset.AssetManager.get(mapSheet.tilesets[0].image);
+            var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
+            var shape       = tm.app.Shape(this.width, this.height).addChildTo(this);
+            shape.origin.set(0, 0);
+
+            layer.data.each(function(d, index) {
+                var type = d;
+                if (type == -1) {
+                    return ;
+                }
+                type = Math.abs(type);
+
+                var xIndex = index%mapSheet.width;
+                var yIndex = (index/mapSheet.width)|0;
+
+                var mx = (type%xIndexMax);
+                var my = (type/xIndexMax)|0;
+
+                var dx = xIndex*self.chipWidth;
+                var dy = yIndex*self.chipHeight;
+
+                shape.canvas.drawTexture(texture,
+                    mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
+                    dx, dy, self.chipWidth, self.chipHeight
+                    );
+            }.bind(this));
+
+        },
+
+        _buildObject: function(layer) {
+            var self = this;
+            
+            var group = tm.app.CanvasElement().addChildTo(self);
+            group.width = layer.width;
+            group.height = layer.height;
+            
+            layer.objects.forEach(function(obj) {
+                var _class = tm.using(obj.type);
+                if (Object.keys(_class).length === 0) {
+                    _class=tm.app[obj.type];
+                }
+
+                var initParam = null;
+                if (obj.properties.init) {
+                    initParam = JSON.parse(obj.properties.init);
+                }
+                var element = _class.apply(null, initParam).addChildTo(group);
+                var props   = obj.properties;
+                for (var key in props) {
+                    if (key == "init") continue ;
+                    var value = props[key];
+                    element[key] = value;
+                }
+                
+                element.x = obj.x;
+                element.y = obj.y;
+                element.width = obj.width;
+                element.height = obj.height;
+                
+                group[obj.name] = element;
+            });
+
+            self[layer.name] = group;
+
+        },
+
+    });
+
+})();
+
+
+
+
+/*
+ * phi
+ */
+
+ 
+(function() {
+    
+    tm.define("tm.app.CanvasRenderer", {
+        canvas: null,
+
+        init: function(canvas) {
+            this.canvas = canvas;
+            this._context = this.canvas.context;
+        },
+
+        render: function(root) {
+            this.canvas.save();
+            this.renderObject(root);
+            this.canvas.restore();
+        },
+
+        renderObject: function(obj) {
+            obj._dirtyCalc();
+
+            if (obj.visible === false) return ;
+            var context = this._context;
+
+            if (!obj.draw) this._setRenderFunction(obj);
+
+            // 情報をセット
+            context.fillStyle      = obj.fillStyle;
+            context.strokeStyle    = obj.strokeStyle;
+            context.globalAlpha    = obj._worldAlpha;
+            context.globalCompositeOperation = obj.blendMode;
+            
+            if (obj.shadowBlur) {
+                context.shadowColor   = obj.shadowColor;
+                context.shadowOffsetX = obj.shadowOffsetX;
+                context.shadowOffsetY = obj.shadowOffsetY;
+                context.shadowBlur    = obj.shadowBlur;
+            }
+            else {
+                context.shadowOffsetX = 0;
+                context.shadowOffsetY = 0;
+                context.shadowColor   = "rgba(0, 0, 0, 0)";
+            }
+            
+            // 行列をセット
+            var m = obj._worldMatrix.m;
+            context.setTransform( m[0], m[3], m[1], m[4], m[2], m[5] );
+            
+            obj.draw(this.canvas);
+            
+            // 子供達も実行
+            if (obj.children.length > 0) {
+                var tempChildren = obj.children.slice();
+                for (var i=0,len=tempChildren.length; i<len; ++i) {
+                    this.renderObject(tempChildren[i]);
+                }
+            }
+        },
+
+        _setRenderFunction: function(obj) {
+            if (obj instanceof tm.app.Sprite) {
+                obj.draw = renderFuncList["sprite"];
+            }
+            else if (obj instanceof tm.app.MapSprite) {
+                obj.draw = function() {};
+            }
+            else if (obj instanceof tm.app.Label) {
+                obj.draw = renderFuncList["label"];
+            }
+            else if (obj instanceof tm.app.Shape) {
+                obj.draw = renderFuncList["shape"];
+            }
+            else {
+                obj.draw = function() {};
+            }
+        }
+
+    });
+    
+    var renderFuncList = {
+        "sprite": function(canvas) {
+            var srcRect = this.srcRect;
+            var element = this._image.element;
+            
+            canvas.context.drawImage(element,
+                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
+                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
+        },
+        "shape": function(canvas) {
+            var srcRect = this.srcRect;
+            canvas.drawImage(
+                this.canvas.canvas,
+                0, 0, this.canvas.width, this.canvas.height,
+                -this.width*this.origin.x, -this.height*this.origin.y, this.width, this.height);
+        },
+        "label": function(canvas) {
+            canvas.setText(this.fontStyle, this.align, this.baseline);
+            if (this.fill) {
+                if (this.maxWidth) {
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i, this.maxWidth);
+                    }.bind(this));
+                }
+                else {
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i);
+                    }.bind(this));
+                }
+            }
+            if (this.stroke) {
+                if (this.maxWidth) {
+                    this._lines.each(function(elm, i) {
+                        canvas.strokeText(elm, 0, this.textSize*i, this.maxWidth);
+                    }.bind(this));
+                }
+                else {
+                    this._lines.each(function(elm, i) {
+                        canvas.strokeText(elm, 0, this.textSize*i);
+                    }.bind(this));
+                }
+            }
+            
+            if (this.debugBox) {
+                canvas.strokeRect(0, 0, this.width, -this.size);
+            }
+        }
+    };
+
+})();
+ 
+
+
+ 
+(function() {
+    
+    tm.define("tm.app.BoundingRectRenderer", {
+        superClass: "tm.app.CanvasRenderer",
+
+        init: function(canvas) {
+            this.superInit(canvas);
+        },
+
+        _setRenderFunction: function(obj) {
+            obj.draw = render;
+        }
+    });
+
+    var render = function(canvas) {
+        canvas.save();
+        canvas.lineWidth = 2;
+        canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
+        canvas.restore();
+    };
+
+})();
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+/*
  * userinterface.js
  */
 
@@ -14187,6 +13983,215 @@ tm.app = tm.app || {};
         
     });
     
+})();
+
+
+
+
+/*
+ * button.js
+ */
+
+
+tm.app = tm.app || {};
+
+
+
+
+(function() {
+    
+    /**
+     * @class
+     * LabelButton
+     */
+    tm.app.LabelButton = tm.createClass({
+        superClass: tm.app.Label,
+        
+        init: function(text) {
+            this.superInit(text);
+            
+            this.alpha = tm.app.LabelButton.DEFAULT_ALPHA;
+            this.setAlign("center").setBaseline("middle");
+            
+            this.setInteractive(true);
+            this.boundingType = "rect";
+            
+            this.addEventListener("pointingover", function() {
+                this.tweener.clear();
+                this.tweener.fadeIn(250);
+            }.bind(this));
+            this.addEventListener("pointingout", function() {
+                this.tweener.clear();
+                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+            }.bind(this));
+            
+            /*
+            var d = this.draw;
+            this.draw = function(canvas) {
+                d.call(this, canvas);
+                this.drawBoundingRect(canvas);
+            }
+            /*
+            */
+        }
+    });
+    
+    tm.app.LabelButton.DEFAULT_ALPHA = 0.5;
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class
+     * IconButton
+     */
+    tm.app.IconButton = tm.createClass({
+        
+        superClass: tm.app.Sprite,
+        
+        /**
+         * 初期化
+         */
+        init: function(texture)
+        {
+            if (texture) {
+                this.superInit(texture.width, texture.height, texture);
+            }
+            else {
+                this.superInit();
+            }
+            
+            this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
+            
+            this.setInteractive(true);
+            this.boundingType = "rect";
+            this.addEventListener("pointingover", function() {
+                this.tweener.clear();
+                this.tweener.fade(1, 250);
+            });
+            this.addEventListener("pointingout", function() {
+                this.tweener.clear();
+                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+            });
+        },
+    });
+    
+    tm.app.IconButton.DEFAULT_ALPHA = 0.5;
+    
+})();
+
+
+(function() {
+    
+    /**
+     * @class
+     * glossy button
+     */
+    tm.app.GlossyButton = tm.createClass({
+        superClass: tm.app.Shape,
+        
+        init: function(width, height, backgroundColor, text) {
+            this.superInit(width, height);
+            
+            text  = text  || "Button";
+            this.backgroundColor = backgroundColor || "black";
+            this.alpha = tm.app.GlossyButton.DEFAULT_ALPHA;
+            
+            this.setInteractive(true);
+            this.boundingType = "rect";
+            this.addEventListener("pointingover", function() {
+                this.tweener.clear();
+                this.tweener.fade(1.0, 250);
+            });
+            this.addEventListener("pointingout", function() {
+                this.tweener.clear();
+                this.tweener.fade(tm.app.GlossyButton.DEFAULT_ALPHA, 250);
+            });
+            
+            // ラベル
+            this.label = tm.app.Label(text || "").addChildTo(this);
+            this.label.setAlign("center").setBaseline("middle");
+            
+            this._refresh();
+        },
+        
+        setBackgroundColor: function(backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            
+            this._refresh();
+            
+            return this;
+        },
+        
+        _refresh: function() {
+            // ボタン描画
+            var c = this.canvas;
+            c.resize(this.width, this.height);
+            c.fillStyle = this.backgroundColor;
+            c.fillRoundRect(2, 2, this.width-4, this.height-4, 10);
+            c.strokeStyle   = "rgba(100,100,100,0.75)";
+            c.lineWidth     = 2;
+            c.strokeRoundRect(2, 2, this.width-4, this.height-4, 10);
+            
+            // テカリ
+            c.roundRect(2, 2, this.width-4, this.height-4, 10);
+            c.clip();
+            
+            var grad = tm.graphics.LinearGradient(0, 0, 0, this.height);
+            
+            // grad.addColorStop(0.0, "hsl(  0, 75%, 50%)");
+            // grad.addColorStop(0.5, "hsl(120, 75%, 50%)");
+            // grad.addColorStop(1.0, "hsl(240, 75%, 50%)");
+            grad.addColorStop(0.0, "rgba(255,255,255,0.9)");
+            grad.addColorStop(0.5, "rgba(255,255,255,0.5)");
+            grad.addColorStop(0.51, "rgba(255,255,255,0.2)");
+            grad.addColorStop(1.0, "rgba(255,255,255,0.0)");
+            c.setGradient(grad);
+            c.fillRect(2, 2, this.width-4, this.height-4, 10);
+            
+            // ラベルのサイズをリセット
+            this.label.setSize(this.width, this.height);
+        },
+    });
+    
+    
+    tm.app.GlossyButton.DEFAULT_ALPHA = 0.5;
+    
+    
+})();
+
+
+(function() {
+
+    tm.define("tm.app.FlatButton", {
+        superClass: tm.app.Shape,
+
+        init: function(param) {
+            param.$safe({
+                width: 300,
+                height: 100,
+                bgColor: "rgb(180, 180, 180)",
+                text: "ABC",
+                fontSize: 50,
+                fontFamily: "'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif",
+            });
+
+            this.superInit(param.width, param.height);
+
+            this.canvas.clearColor(param.bgColor);
+
+            this.setInteractive(true);
+            this.setBoundingType("rect");
+
+            this.label = tm.app.Label(param.text).addChildTo(this);
+            this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign("center").setBaseline("middle");
+        },
+    });
+
+
+
 })();
 
 

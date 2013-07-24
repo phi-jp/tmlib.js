@@ -14,7 +14,7 @@ tm.app = tm.app || {};
      */
     tm.app.Scene = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        superClass: tm.app.Object2D,
     
         _sceneResultCallback: null,
 

@@ -201,6 +201,15 @@ tm.namespace("tm.app", function() {
             return (t/this.fps).toInt();
         },
         
+        load: function(data) {
+            
+            for (var key in data.timeline) {
+                var value = data.timeline[key];
+            }
+            
+            return this;
+        },
+        
         clear: function() {
             this.currentFrame = 0;
             this.duration = 0;

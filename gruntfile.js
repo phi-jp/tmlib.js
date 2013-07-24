@@ -71,24 +71,27 @@ module.exports = function(grunt) {
 
     "src/anim/tween.js",
 
+    "src/app/baseapp.js",
     "src/app/element.js",
     "src/app/object2d.js",
-    "src/app/canvaselement.js",
-    "src/app/sprite.js",
-    "src/app/animationsprite.js",
-    "src/app/shape.js",
-    "src/app/label.js",
-    "src/app/button.js",
     "src/app/scene.js",
-    "src/app/mapsprite.js",
-    "src/app/canvasapp.js",
-    "src/app/renderer.js",
     "src/app/collision.js",
     "src/app/tweener.js",
     "src/app/timeline.js",
-    "src/app/userinterface.js",
-    "src/app/menudialog.js",
-
+    
+    "src/display/canvasapp.js",
+    "src/display/canvaselement.js",
+    "src/display/sprite.js",
+    "src/display/shape.js",
+    "src/display/label.js",
+    "src/display/animationsprite.js",
+    "src/display/mapsprite.js",
+    "src/display/renderer.js",
+    
+    "src/ui/userinterface.js",
+    "src/ui/button.js",
+    "src/ui/menudialog.js",
+    
     "src/three/three.js",
 
     "src/sound/sound.js",

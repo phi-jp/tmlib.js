@@ -19,76 +19,108 @@
 
         <script src="../../src/tmlib.js"></script>
         
-        <script src="../../src/core/object.js"></script>
-        <script src="../../src/core/string.js"></script>
-        <script src="../../src/core/number.js"></script>
-        <script src="../../src/core/array.js"></script>
-        <script src="../../src/core/function.js"></script>
-        <script src="../../src/core/date.js"></script>
-        <script src="../../src/core/math.js"></script>
-
-        <script src="../../src/util/random.js"></script>
-        <script src="../../src/util/ajax.js"></script>
-        <script src="../../src/util/file.js"></script>
-        <script src="../../src/util/script.js"></script>
-        <script src="../../src/util/timeline.js"></script>
-        <script src="../../src/util/data.js"></script>
-        <script src="../../src/util/script.js"></script>
-        <script src="../../src/util/querystring.js"></script>
-        <script src="../../src/util/type.js"></script>
+        <script>
         
-        <script src="../../src/geom/vector2.js"></script>
-        <script src="../../src/geom/vector3.js"></script>
-        <script src="../../src/geom/matrix33.js"></script>
-        <script src="../../src/geom/matrix44.js"></script>
-        <script src="../../src/geom/rect.js"></script>
-        <script src="../../src/geom/circle.js"></script>
+        var target = [
+            "src/tmlib.js",
 
-        <script src="../../src/event/event.js"></script>
-        <script src="../../src/event/eventdispatcher.js"></script>
-        
-        <script src="../../src/asset/texture.js"></script>
-        <script src="../../src/asset/assetmanager.js"></script>
+            "src/core/object.js",
+            "src/core/array.js",
+            "src/core/date.js",
+            "src/core/function.js",
+            "src/core/math.js",
+            "src/core/number.js",
+            "src/core/string.js",
+            "src/core/list.js",
 
-        <script src="../../src/collision/collision.js"></script>
-        
-        <script src="../../src/anim/tween.js"></script>
+            "src/util/random.js",
+            "src/util/ajax.js",
+            "src/util/file.js",
+            "src/util/timeline.js",
+            "src/util/data.js",
+            "src/util/script.js",
+            "src/util/querystring.js",
+            "src/util/type.js",
 
-        <script src="../../src/dom/element.js"></script>
-        <script src="../../src/dom/style.js"></script>
-        <script src="../../src/dom/event.js"></script>
-        <script src="../../src/dom/attr.js"></script>
-        
-        <script src="../../src/input/keyboard.js"></script>
-        <script src="../../src/input/mouse.js"></script>
-        <script src="../../src/input/touch.js"></script>
-        <script src="../../src/input/accelerometer.js"></script>
-        
-        <script src="../../src/graphics/canvas.js"></script>
-        <script src="../../src/graphics/gradient.js"></script>
-        
-        <script src="../../src/app/element.js"></script>
-        <script src="../../src/app/object2d.js"></script>
-        <script src="../../src/app/canvaselement.js"></script>
-        <script src="../../src/app/sprite.js"></script>
-        <script src="../../src/app/animationsprite.js"></script>
-        <script src="../../src/app/shape.js"></script>
-        <script src="../../src/app/label.js"></script>
-        <script src="../../src/app/scene.js"></script>
-        <script src="../../src/app/mapsprite.js"></script>
-        <script src="../../src/app/button.js"></script>
-        <script src="../../src/app/userinterface.js"></script>
-        <script src="../../src/app/canvasapp.js"></script>
-        <script src="../../src/app/renderer.js"></script>
-        <script src="../../src/app/collision.js"></script>
-        <script src="../../src/app/timeline.js"></script>
-        <script src="../../src/app/tweener.js"></script>
+            "src/geom/vector2.js",
+            "src/geom/vector3.js",
+            "src/geom/matrix33.js",
+            "src/geom/matrix44.js",
+            "src/geom/rect.js",
+            "src/geom/circle.js",
 
-        <script src="../../src/sound/sound.js"></script>
-        <script src="../../src/sound/webaudio.js"></script>
+            "src/collision/collision.js",
 
-        <script src="../../src/social/twitter.js"></script>
-        <script src="../../src/social/nineleap.js"></script>
+            "src/dom/element.js",
+            "src/dom/event.js",
+            "src/dom/attr.js",
+            "src/dom/style.js",
+            "src/dom/anim.js",
+            "src/dom/trans.js",
+            "src/dom/data.js",
+
+            "src/event/event.js",
+            "src/event/eventdispatcher.js",
+
+            "src/asset/texture.js",
+            "src/asset/spritesheet.js",
+            "src/asset/mapsheet.js",
+            "src/asset/assetmanager.js",
+
+            "src/input/keyboard.js",
+            "src/input/mouse.js",
+            "src/input/touch.js",
+            "src/input/accelerometer.js",
+
+            "src/graphics/color.js",
+            "src/graphics/canvas.js",
+            "src/graphics/bitmap.js",
+            "src/graphics/filter.js",
+            "src/graphics/gradient.js",
+
+            "src/anim/tween.js",
+
+            "src/app/baseapp.js",
+            "src/app/element.js",
+            "src/app/object2d.js",
+            "src/app/scene.js",
+            "src/app/collision.js",
+            "src/app/tweener.js",
+            "src/app/timeline.js",
+
+            "src/display/canvasapp.js",
+            "src/display/canvaselement.js",
+            "src/display/sprite.js",
+            "src/display/shape.js",
+            "src/display/label.js",
+            "src/display/animationsprite.js",
+            "src/display/mapsprite.js",
+            "src/display/renderer.js",
+
+            "src/ui/userinterface.js",
+            "src/ui/button.js",
+            "src/ui/menudialog.js",
+
+            "src/three/three.js",
+
+            "src/sound/sound.js",
+            "src/sound/webaudio.js",
+
+            "src/social/twitter.js",
+            "src/social/nineleap.js",
+
+            "src/google/chart.js",
+
+            "src/dirty.js",
+        ];
+        
+        target.forEach(function(elm) {
+            document.write('<scrip' + 't src="../../' + elm + '"></scri' + 'pt>');
+        });
+
+        
+        </script>
+        
 
         
         <script src="mapsprite.js"></script>
