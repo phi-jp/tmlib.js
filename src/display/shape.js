@@ -3,7 +3,7 @@
  */
 
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -12,9 +12,9 @@ tm.app = tm.app || {};
      * @class
      * Shape
      */
-    tm.app.Shape = tm.createClass({
+    tm.display.Shape = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        superClass: tm.display.CanvasElement,
         
         /**
          * 初期化
@@ -35,7 +35,7 @@ tm.app = tm.app || {};
 
         renderCircle: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
             
             c.save();
             
@@ -53,7 +53,7 @@ tm.app = tm.app || {};
 
         renderTriangle: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
             
             c.save();
             
@@ -71,7 +71,7 @@ tm.app = tm.app || {};
 
         renderRectangle: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
 
             c.save();
             
@@ -91,7 +91,7 @@ tm.app = tm.app || {};
 
         renderStar: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
             
             c.save();
             
@@ -114,7 +114,7 @@ tm.app = tm.app || {};
 
         renderPolygon: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
             
             c.save();
             
@@ -139,7 +139,7 @@ tm.app = tm.app || {};
 
         renderHeart: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
 
             c.save();
             
@@ -157,7 +157,7 @@ tm.app = tm.app || {};
 
         renderText: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
 
             c.save();
             
@@ -178,25 +178,25 @@ tm.app = tm.app || {};
         
     });
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
         fillStyle: "red",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
         fillStyle: "green",
         strokeStyle: "white",
         lineWidth: "2",
     };
     
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
         fillStyle: "blue",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR = {
         fillStyle: "yellow",
         strokeStyle: "white",
         lineWidth: "2",
@@ -206,7 +206,7 @@ tm.app = tm.app || {};
         offsetAngle: undefined,
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
         fillStyle: "cyan",
         strokeStyle: "white",
         lineWidth: "2",
@@ -215,7 +215,7 @@ tm.app = tm.app || {};
         offsetAngle: undefined,
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART = {
         fillStyle: "pink",
         strokeStyle: "white",
         lineWidth: "2",
@@ -223,7 +223,7 @@ tm.app = tm.app || {};
         angle: 45,
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
         text: "hello, world",
         fillStyle: "pink",
         strokeStyle: "white",
@@ -242,9 +242,9 @@ tm.app = tm.app || {};
      * @class
      * CircleShape
      */
-    tm.app.CircleShape = tm.createClass({
+    tm.display.CircleShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -267,9 +267,9 @@ tm.app = tm.app || {};
      * @class
      * TriangleShape
      */
-    tm.app.TriangleShape = tm.createClass({
+    tm.display.TriangleShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -293,9 +293,9 @@ tm.app = tm.app || {};
      * @class
      * RectangleShape
      */
-    tm.app.RectangleShape = tm.createClass({
+    tm.display.RectangleShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -317,9 +317,9 @@ tm.app = tm.app || {};
      * @class
      * StarShape
      */
-    tm.app.StarShape = tm.createClass({
+    tm.display.StarShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -342,9 +342,9 @@ tm.app = tm.app || {};
      * @class
      * PolygonShape
      */
-    tm.app.PolygonShape = tm.createClass({
+    tm.display.PolygonShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -368,9 +368,9 @@ tm.app = tm.app || {};
      * @class
      * HeartShape
      */
-    tm.app.HeartShape = tm.createClass({
+    tm.display.HeartShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -394,9 +394,9 @@ tm.app = tm.app || {};
      * @class
      * HeartShape
      */
-    tm.define("tm.app.TextShape", {
+    tm.define("tm.display.TextShape", {
 
-        superClass: "tm.app.Shape",
+        superClass: "tm.display.Shape",
         
         /**
          * 初期化

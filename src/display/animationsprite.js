@@ -3,7 +3,7 @@
  */
 
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -12,9 +12,9 @@ tm.app = tm.app || {};
      * @class
      * AnimationSprite
      */
-    tm.app.AnimationSprite = tm.createClass({
+    tm.display.AnimationSprite = tm.createClass({
 
-        superClass: tm.app.CanvasElement,
+        superClass: tm.display.CanvasElement,
 
         /**
          * 初期化
@@ -118,7 +118,7 @@ tm.app = tm.app || {};
 
 (function() {
 
-    tm.app.SpriteSheet = tm.createClass({
+    tm.display.SpriteSheet = tm.createClass({
         superClass: tm.event.EventDispatcher,
 
         init: function(param) {

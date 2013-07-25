@@ -2,7 +2,7 @@
  *
  */
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -11,7 +11,7 @@ tm.app = tm.app || {};
      * @class
      * キャンバスエレメント
      */
-    tm.app.CanvasElement = tm.createClass({
+    tm.display.CanvasElement = tm.createClass({
 
         superClass: tm.app.Object2D,
 
@@ -129,14 +129,14 @@ tm.app = tm.app || {};
             data.layers.forEach(function(layer) {
                 if (layer.type != "objectgroup") return ;
 
-                var group = tm.app.CanvasElement().addChildTo(self);
+                var group = tm.display.CanvasElement().addChildTo(self);
                 group.width = layer.width;
                 group.height = layer.height;
 
                 layer.objects.forEach(function(obj) {
                     var _class = tm.using(obj.type);
                     if (Object.keys(_class).length === 0) {
-                        _class=tm.app[obj.type];
+                        _class=tm.display[obj.type];
                     }
                     var initParam = null;
                     if (obj.properties.init) {
@@ -169,7 +169,7 @@ tm.app = tm.app || {};
                         var init = data["init"] || [];
                         var _class = tm.using(data.type);
                         if (Object.keys(_class).length === 0) {
-                            _class=tm.app[data.type];
+                            _class=tm.display[data.type];
                         }
                         var elm = _class.apply(null, init).addChildTo(this);
                         elm.fromJSON(data);

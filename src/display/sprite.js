@@ -3,7 +3,7 @@
  */
 
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -12,9 +12,9 @@ tm.app = tm.app || {};
      * @class
      * Sprite
      */
-    tm.app.Sprite = tm.createClass({
+    tm.display.Sprite = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        superClass: tm.display.CanvasElement,
         
         /**
          * 初期化
@@ -68,14 +68,14 @@ tm.app = tm.app || {};
             
         },
 
-        _update: tm.app.CanvasElement.prototype._update,
+        _update: tm.display.CanvasElement.prototype._update,
     });
     
     /**
      * @property    image
      * 高さ
      */
-    tm.app.Sprite.prototype.accessor("image", {
+    tm.display.Sprite.prototype.accessor("image", {
         "get": function()   {
             return this._image;
         },

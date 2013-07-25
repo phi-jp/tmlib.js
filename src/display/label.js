@@ -2,7 +2,7 @@
  * label.js
  */
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -14,9 +14,9 @@ tm.app = tm.app || {};
      * @class
      * Label
      */
-    tm.app.Label = tm.createClass({
+    tm.display.Label = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        superClass: tm.display.CanvasElement,
         
         /**
          * 塗りつぶしフラグ
@@ -93,7 +93,7 @@ tm.app = tm.app || {};
      * @property    text
      * サイズ
      */
-    tm.app.Label.prototype.accessor("text", {
+    tm.display.Label.prototype.accessor("text", {
         "get": function() { return this._text; },
         "set": function(v){
             if (v == null || v == undefined) {
@@ -110,7 +110,7 @@ tm.app = tm.app || {};
      * @property    size
      * サイズ
      */
-    tm.app.Label.prototype.accessor("fontSize", {
+    tm.display.Label.prototype.accessor("fontSize", {
         "get": function() { return this._fontSize; },
         "set": function(v){ this._fontSize = v; this._updateFont(); }
     });
@@ -119,7 +119,7 @@ tm.app = tm.app || {};
      * @property    fontFamily
      * フォント
      */
-    tm.app.Label.prototype.accessor("fontFamily", {
+    tm.display.Label.prototype.accessor("fontFamily", {
         "get": function() { return this._fontFamily; },
         "set": function(v){ this._fontFamily = v; this._updateFont(); }
     });
@@ -128,7 +128,7 @@ tm.app = tm.app || {};
      * @property fontWeight
      * フォント
      */
-    tm.app.Label.prototype.accessor("fontWeight", {
+    tm.display.Label.prototype.accessor("fontWeight", {
         "get": function() { return this._fontWeight; },
         "set": function(v) {
             this._fontWeight = v; this._updateFont();
@@ -139,7 +139,7 @@ tm.app = tm.app || {};
      * @property lineHeight
      * フォント
      */
-    tm.app.Label.prototype.accessor("lineHeight", {
+    tm.display.Label.prototype.accessor("lineHeight", {
         "get": function() { return this._lineHeight; },
         "set": function(v) {
             this._lineHeight = v; this._updateFont();

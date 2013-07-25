@@ -5,7 +5,7 @@
  
 (function() {
     
-    tm.define("tm.app.CanvasRenderer", {
+    tm.define("tm.display.CanvasRenderer", {
         canvas: null,
 
         init: function(canvas) {
@@ -61,16 +61,16 @@
         },
 
         _setRenderFunction: function(obj) {
-            if (obj instanceof tm.app.Sprite) {
+            if (obj instanceof tm.display.Sprite) {
                 obj.draw = renderFuncList["sprite"];
             }
-            else if (obj instanceof tm.app.MapSprite) {
+            else if (obj instanceof tm.display.MapSprite) {
                 obj.draw = function() {};
             }
-            else if (obj instanceof tm.app.Label) {
+            else if (obj instanceof tm.display.Label) {
                 obj.draw = renderFuncList["label"];
             }
-            else if (obj instanceof tm.app.Shape) {
+            else if (obj instanceof tm.display.Shape) {
                 obj.draw = renderFuncList["shape"];
             }
             else {
@@ -136,8 +136,8 @@
  
 (function() {
     
-    tm.define("tm.app.BoundingRectRenderer", {
-        superClass: "tm.app.CanvasRenderer",
+    tm.define("tm.display.BoundingRectRenderer", {
+        superClass: "tm.display.CanvasRenderer",
 
         init: function(canvas) {
             this.superInit(canvas);

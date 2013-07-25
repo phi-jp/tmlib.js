@@ -2,7 +2,7 @@
  * 
  */
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 (function() {
 
@@ -10,7 +10,7 @@ tm.app = tm.app || {};
      * @class
      * キャンバスアプリケーション
      */
-    tm.app.CanvasApp = tm.createClass({
+    tm.display.CanvasApp = tm.createClass({
 
         superClass: tm.app.BaseApp,
         
@@ -49,13 +49,13 @@ tm.app = tm.app || {};
 
             // グラフィックスを生成
             this.canvas = tm.graphics.Canvas(this.element);
-            this.renderer = tm.app.CanvasRenderer(this.canvas);
+            this.renderer = tm.display.CanvasRenderer(this.canvas);
             
             // カラー
             this.background = "black";
             
             // シーン周り
-            this._scenes = [ tm.app.Scene() ];
+            this._scenes = [ tm.display.Scene() ];
         },
         
         resize: function(width, height) {
@@ -111,7 +111,7 @@ tm.app = tm.app || {};
      * @property    width
      * 幅
      */
-    tm.app.CanvasApp.prototype.accessor("width", {
+    tm.display.CanvasApp.prototype.accessor("width", {
         "get": function()   { return this.canvas.width; },
         "set": function(v)  { this.canvas.width = v; }
     });
@@ -120,7 +120,7 @@ tm.app = tm.app || {};
      * @property    height
      * 高さ
      */
-    tm.app.CanvasApp.prototype.accessor("height", {
+    tm.display.CanvasApp.prototype.accessor("height", {
         "get": function()   { return this.canvas.height; },
         "set": function(v)  { this.canvas.height = v; }
     });
