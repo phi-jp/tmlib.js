@@ -16,7 +16,7 @@
                 box-shadow: 0px 0px 4px 0px #444;
             }
         </style>
-
+        
         <script src="../testhelper.js"></script>
         <script src="main.js"></script>
 
@@ -32,6 +32,7 @@
              */
             tm.main(function() {
                 setTableOfContents();
+                return ;
 
                 // テストを実行
                 var query = window.location.hash.substr(1);
@@ -64,11 +65,9 @@
 
                 location.hash = test;
             };
-
-            
         </script>
+
     </head>
-    
     <body>
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
