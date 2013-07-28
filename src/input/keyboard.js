@@ -147,6 +147,24 @@ tm.input = tm.input || {};
             }
             
             return angle;
+        },
+
+        /**
+         *  キーを押したことにする
+         */
+        keyPress: function(key) {
+            if (typeof(key) == "string") {
+                key = KEY_CODE[key];
+            }
+            return this.press[key] = true;
+        },
+
+        /**
+         * キーを全て離したことにする
+         */
+
+        clearKeyPress: function() {
+            this.press = {};
         }
         
     });
