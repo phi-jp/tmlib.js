@@ -148,22 +148,21 @@ tm.input = tm.input || {};
             
             return angle;
         },
-
+        
         /**
-         *  キーを押したことにする
+         * キーの状態を設定する
          */
-        keyPress: function(key) {
+        setKey: function(key, flag) {
             if (typeof(key) == "string") {
                 key = KEY_CODE[key];
             }
-            return this.press[key] = true;
+            return this.press[key] = flag;
         },
 
         /**
          * キーを全て離したことにする
          */
-
-        clearKeyPress: function() {
+        clearKey: function() {
             this.press = {};
         }
         
