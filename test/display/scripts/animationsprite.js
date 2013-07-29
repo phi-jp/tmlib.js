@@ -1,6 +1,6 @@
 
 tm.preload(function() {
-    PLAYER_SPRITE_SHEET = tm.app.SpriteSheet({
+    PLAYER_SPRITE_SHEET = tm.asset.SpriteSheet({
         image: "../../resource/img/crash/01.png",
         frame: {
             width: 64,

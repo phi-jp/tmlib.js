@@ -116,9 +116,9 @@
         "google": [
             "src/google/chart.js",
         ],
-        "dirty": [
-            "src/dirty.js",
-        ],
+        // "dirty": [
+        //     "src/dirty.js",
+        // ],
     };
     
     global.testhelper.scripts.all = (function() {

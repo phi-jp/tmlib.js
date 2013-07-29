@@ -14,21 +14,6 @@ tm.display = tm.display || {};
 
         superClass: tm.app.BaseApp,
         
-        element     : null,
-        canvas      : null,
-        mouse       : null,
-        touch       : null,
-        pointing    : null,
-        keyboard    : null,
-        stats       : null,
-        frame       : 0,
-        fps         : 30,
-        background  : null,
-        isPlaying   : null,
-        
-        _scenes      : null,
-        _sceneIndex  : 0,
-        
         /**
          * 初期化
          */
@@ -55,7 +40,7 @@ tm.display = tm.display || {};
             this.background = "black";
             
             // シーン周り
-            this._scenes = [ tm.display.Scene() ];
+            this._scenes = [ tm.app.Scene() ];
         },
         
         resize: function(width, height) {

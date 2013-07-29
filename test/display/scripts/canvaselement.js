@@ -307,10 +307,10 @@ tm.define("tests.sprite.DemoScene", {
         tm.asset.AssetManager.set("dummy", texture);
         
         texture.onload = function() {
-            var sprite = tm.app.Sprite("dummy", 150, 50).addChildTo(this);
+            var sprite = tm.display.Sprite("dummy", 150, 50).addChildTo(this);
             sprite.x = 200; sprite.y = 100;
             
-            var sprite = tm.app.Sprite("dummy").addChildTo(this);
+            var sprite = tm.display.Sprite("dummy").addChildTo(this);
             sprite.x = 200; sprite.y = 300;
         }.bind(this);
     },
@@ -325,24 +325,24 @@ tm.define("tests.label.DemoScene", {
     init: function() {
         this.superInit();
 
-        var label = tm.app.Label("hoge").addChildTo(this);
+        var label = tm.display.Label("hoge").addChildTo(this);
         label.x = 100; label.y = 100;
 
-        var label = tm.app.Label("hoge\nBBBB").addChildTo(this);
+        var label = tm.display.Label("hoge\nBBBB").addChildTo(this);
         label.x = 350; label.y = 100;
 
-        var label = tm.app.Label("hogehogehogehoge").addChildTo(this);
+        var label = tm.display.Label("hogehogehogehoge").addChildTo(this);
         label.x = 100; label.y = 140;
 
-        var label = tm.app.Label("hogehogehogehoge\nbbbbb").addChildTo(this);
+        var label = tm.display.Label("hogehogehogehoge\nbbbbb").addChildTo(this);
         label.x = 100; label.y = 180;
         label.maxWidth = 100;
 
-        var label = tm.app.Label("ABCDEFG").addChildTo(this);
+        var label = tm.display.Label("ABCDEFG").addChildTo(this);
         label.x = 100; label.y = 260;
         label.fontFamily = "'Helvetica Neue'";
 
-        var label = tm.app.Label("ABCDEFG").addChildTo(this);
+        var label = tm.display.Label("ABCDEFG").addChildTo(this);
         label.x = 300; label.y = 260;
         label.fontFamily = "'Helvetica Neue'";
         label.fontWeight = "bold"
