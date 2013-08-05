@@ -233,6 +233,12 @@
             return this;
         },
         
+        setOrigin: function(x, y) {
+            this.origin.x = x;
+            this.origin.y = y;
+            return this;
+        },
+        
         /**
          * 幅をセット
          */

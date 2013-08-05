@@ -59,6 +59,27 @@ tm.display = tm.display || {};
         init: function() {
             this.superInit();
         },
+        
+        setAlpha: function(alpha) {
+            this.alpha = alpha;
+            return this;
+        },
+        
+        setShadowColor: function(color) {
+            this.shadowColor = color;
+            return this;
+        },
+        
+        setShadowBlur: function(blur) {
+            this.shadowBlur = blur;
+            return this;
+        },
+        
+        setShadowOffset: function(x, y) {
+            this.shadowOffsetX = x;
+            this.shadowOffsetY = y;
+            return this;
+        },
 
         drawBoundingCircle: function(canvas) {
             canvas.save();
