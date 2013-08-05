@@ -30,30 +30,6 @@ tm.define("tests.object2d.origin", {
 
 
 
-tm.define("tests.object2d.isHitPoint", {
-    superClass: "tm.app.Scene",
- 
-    init: function() {
-        this.superInit();
-        
-        var shape = tm.display.CircleShape().addChildTo(this).setPosition(200, 200).setAlpha(0.5);
-        
-        this.target = shape;
-    },
-    
-    update: function(app) {
-        var p = app.pointing;
-        
-        if (this.target.isHitPoint(p.x, p.y)) {
-            this.target.setAlpha(1.0);
-        }
-        else {
-            this.target.setAlpha(0.5);
-        }
-    }
-
-});
-
 
 tm.define("tests.object2d.isHitPoint", {
     superClass: "tm.app.Scene",
@@ -67,6 +43,8 @@ tm.define("tests.object2d.isHitPoint", {
             var x = tm.util.Random.randint(0, SCREEN_WIDTH);
             var y = tm.util.Random.randint(0, SCREEN_HEIGHT);
             var enemy = tm.display.CircleShape(32, 32, {fillStyle:"blue"})
+                .addChildTo(this.enemyGroup)
+                .setPosition(x, y);
         }
     },
     
@@ -134,37 +112,6 @@ tm.define("tests.object2d.interaction", {
         rect.onpointingover = function(e) { this.alpha = 1.0; };
         rect.onpointingout  = function(e) { this.alpha = 0.5; };
     }
-});
-
-
-
-tm.define("tests.bitmaplabel.Test", {
-    superClass: "tm.app.Scene",
- 
-    init: function() {
-        this.superInit();
-
-        var self = this;
-
-        tm.asset.AssetManager.load("font", "../../resource/img/font.png");
-        tm.asset.AssetManager.onload = function() {
-            var bitmapLabel = tm.app.BitmapLabel({
-                texture: "font",
-                text: "Hello, world!~🐤",
-            }).addChildTo(self);
-            bitmapLabel.setPosition(390, 200);
-
-            var bitmapLabel = tm.app.BitmapLabel({
-                texture: "font",
-                text: "This font was made by @CarasOhmi.",
-                fontSize: 20,
-                lineHeight: 1.2,
-            }).addChildTo(self);
-            bitmapLabel.setPosition(400, 250);
-
-        };
-    },
-
 });
 
 
