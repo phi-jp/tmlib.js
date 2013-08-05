@@ -50,7 +50,7 @@ tm.main(function() {
     app.background = "rgba(0, 0, 0, 0.1)";
     
     app.replaceScene(MainScene());
-    app.enableStats();
+//    app.enableStats();
     
     app.run();
 });
@@ -66,8 +66,7 @@ tm.define("MainScene", {
         
         this.particles = tm.app.CanvasElement().addChildTo(this);
         
-        this.launch(SCREEN_CENTER_X, SCREEN_CENTER_Y);
-        
+//        this.launch(SCREEN_CENTER_X, SCREEN_CENTER_Y);
     },
     
     onpointingstart: function(app) {
