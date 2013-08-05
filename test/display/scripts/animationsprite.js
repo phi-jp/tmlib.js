@@ -26,10 +26,10 @@ tm.define("tests.animationsprite.DemoScene", {
 
     onpointingstart: function(e) {
     	var p = e.app.pointing;
-        var crash = tm.app.AnimationSprite("crash", 128, 128);
+        var crash = tm.display.AnimationSprite("crash", 128, 128);
         crash.position.set(p.x, p.y);
-        // crash.gotoAndPlay("crash");
-        crash.gotoAndPlay("hoge");
+        crash.gotoAndPlay("crash");
+        // crash.gotoAndPlay("hoge");
         crash.blendMode = "lighter";
         this.addChild(crash);
     }
@@ -63,7 +63,7 @@ tm.define("tests.animationsprite.DemoScene2", {
     onpointingstart: function(e) {
         var p = e.app.pointing;
         console.dir(this.ss);
-        var crash = tm.app.AnimationSprite(this.ss, 128, 128);
+        var crash = tm.display.AnimationSprite(this.ss, 128, 128);
         crash.position.set(p.x, p.y);
         crash.gotoAndPlay("crash");
         crash.blendMode = "lighter";
@@ -86,7 +86,7 @@ tm.define("tests.animationsprite.hiyocos", {
 
     onpointingstart: function(e) {
         var p = e.app.pointing;
-        var crash = tm.app.AnimationSprite("hiyocosSS", 64, 64);
+        var crash = tm.display.AnimationSprite("hiyocosSS", 64, 64);
         crash.position.set(p.x, p.y);
         crash.gotoAndPlay("appear");
         crash.blendMode = "lighter";
@@ -114,7 +114,7 @@ tm.define("tests.benchmark.CrashScene", {
 
         as.onload = function() {
             for (var i=0; i<512; ++i) {
-                var crash = tm.app.AnimationSprite(PLAYER_SPRITE_SHEET, 128, 128).addChildTo(this);
+                var crash = tm.display.AnimationSprite(PLAYER_SPRITE_SHEET, 128, 128).addChildTo(this);
                 var x = tm.util.Random.randint(0, SCREEN_WIDTH);
                 var y = tm.util.Random.randint(0, SCREEN_HEIGHT);
                 crash.position.set(x, y);

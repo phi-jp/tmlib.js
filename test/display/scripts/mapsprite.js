@@ -18,7 +18,7 @@ tm.define("tests.mapsprite.DemoScene00", {
         var mapSheet = as.get("sample");
         mapSheet.onload = function()
         {
-            this.map = tm.app.MapSprite("sample", 32, 32).addChildTo(this);
+            this.map = tm.display.MapSprite("sample", 32, 32).addChildTo(this);
             this.update = this._move;
         }.bind(this);
 
@@ -92,7 +92,7 @@ tm.define("tests.mapsprite.DemoScene01", {
             ]
         });
         mapSheet.onload = function() {
-            this.map = tm.app.MapSprite(mapSheet, 32, 32).addChildTo(this);
+            this.map = tm.display.MapSprite(mapSheet, 32, 32).addChildTo(this);
             this.update = this._move;
         }.bind(this);
 

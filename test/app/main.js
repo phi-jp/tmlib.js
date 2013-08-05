@@ -5,9 +5,9 @@
     testhelper.loadScripts([
         "scripts/object2d.js",
         "scripts/scene.js",
-        "scripts/collision.js",
         "scripts/tweener.js",
         "scripts/timeline.js",
+        "scripts/collision.js",
     ]);
 })(this);
 

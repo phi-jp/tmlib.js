@@ -1,4 +1,4 @@
-tm.define("tests.collision.TestScene", {
+tm.define("tests.collision.test", {
     superClass: "tm.app.Scene",
  
     init: function() {
