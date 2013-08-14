@@ -60,6 +60,7 @@
             };
 
             var refreshIframe = function(test) {
+                console.log(test);
                 var preview = tm.dom.Element("#preview");
                 preview.attr.set("src", "frame.html?" + test);
 

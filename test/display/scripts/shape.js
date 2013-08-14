@@ -1,4 +1,47 @@
 
+tm.define("tests.shape.ShapeTest", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+        // json load
+        this.fromJSON({
+            children: [
+                { type: "CircleShape", name: "circle", x: 100, y: 100 },
+                { type: "TriangleShape", name: "triangle", x: 200, y: 100 },
+                { type: "RectangleShape", name: "rectangle", x: 300, y: 100 },
+                { type: "StarShape", name: "star", x: 400, y: 100 },
+                { type: "PolygonShape", name: "polygon", x: 500, y: 100 },
+                { type: "HeartShape", init: [50, 50], name: "heart", x: 300, y: 200 },
+                { type: "TextShape", init: [200, 50, {
+
+                }], name: "text", x: 300, y: 300 },
+            ],
+        });
+
+        // tm.app.TextShape(150, 50, {
+        //     text: "AAAAAAAAAAAAAAA",
+        //     fillStyle: "red",
+        //     strokeStyle: "hsla(240, 50%, 50%, 1.0)",
+        //     lineWidth: "4",
+        // }).addChildTo(this).setPosition(100, 50);
+    },
+
+    update: function(app) {
+        var p = app.pointing;
+        if (p.getPointing() == true) {
+            this.circle.tweener.clear().to({x:p.x, y:p.y}, 1000, "easeInOutBounce");
+            this.triangle.tweener.clear().to({x:p.x, y:p.y}, 800, "easeInOutBounce");
+            this.rectangle.tweener.clear().to({x:p.x, y:p.y}, 600, "easeInOutBounce");
+            this.star.tweener.clear().to({x:p.x, y:p.y}, 400, "easeInOutBounce");
+            this.polygon.tweener.clear().to({x:p.x, y:p.y}, 200, "easeInOutBounce");
+        };
+    }
+
+});
+
+
+
 tm.define("tests.bitmaplabel.Test", {
     superClass: "tm.app.Scene",
  

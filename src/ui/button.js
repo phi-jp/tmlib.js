@@ -15,7 +15,7 @@ tm.app = tm.app || {};
      * LabelButton
      */
     tm.app.LabelButton = tm.createClass({
-        superClass: tm.app.Label,
+        superClass: tm.display.Label,
         
         init: function(text) {
             this.superInit(text);
@@ -100,7 +100,7 @@ tm.app = tm.app || {};
      * glossy button
      */
     tm.app.GlossyButton = tm.createClass({
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
@@ -121,7 +121,7 @@ tm.app = tm.app || {};
             });
             
             // ラベル
-            this.label = tm.app.Label(text || "").addChildTo(this);
+            this.label = tm.display.Label(text || "").addChildTo(this);
             this.label.setAlign("center").setBaseline("middle");
             
             this._refresh();

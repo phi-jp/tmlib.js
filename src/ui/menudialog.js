@@ -60,7 +60,7 @@
             }
 
             var height = Math.max((1+this.menu.length)*50, 50) + 40;
-            this.box = tm.app.RectangleShape(this._screenWidth * 0.8, height, {
+            this.box = tm.display.RectangleShape(this._screenWidth * 0.8, height, {
                 strokeStyle: "rgba(0,0,0,0)",
                 fillStyle: "rgba(43,156,255, 0.8)",
             }).setPosition(this._screenWidth*0.5, this._screenHeight*0.5);
@@ -72,7 +72,7 @@
                 .call(this._onOpen.bind(this));
             this.box.addChildTo(this);
 
-            this.description = tm.app.Label("", 14)
+            this.description = tm.display.Label("", 14)
                 .setAlign("center")
                 .setBaseline("middle")
                 .setPosition(this._screenWidth*0.5, this._screenHeight-10)
@@ -83,7 +83,7 @@
             var self = this;
             var y = this._screenHeight*0.5 - this.menu.length * 25;
 
-            this.title = tm.app.Label(this.titleText, 30)
+            this.title = tm.display.Label(this.titleText, 30)
                 .setAlign("center")
                 .setBaseline("middle")
                 .setPosition(this._screenWidth*0.5, y)
@@ -131,7 +131,7 @@
         },
 
         _createCursor: function() {
-            var cursor = tm.app.RectangleShape(this._screenWidth*0.7, 30, {
+            var cursor = tm.display.RectangleShape(this._screenWidth*0.7, 30, {
                 strokeStyle: "rgba(0,0,0,0)",
                 fillStyle: "rgba(12,79,138,1)"
             }).addChildTo(this);

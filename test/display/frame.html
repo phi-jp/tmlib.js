@@ -45,6 +45,8 @@
 
                 var query = window.location.search.substr(1);
                 if (!query) query = "tests.tweener.DemoScene";
+                
+                log(query);
 
                 var testScene = tm.using(query);
                 app.replaceScene(testScene());

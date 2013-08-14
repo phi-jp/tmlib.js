@@ -37,13 +37,12 @@
              * Test
              */
             tm.main(function() {
-                var app = tm.app.CanvasApp("#world");
+                var app = tm.display.CanvasApp("#world");
                 app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
                 tm.global.app = app;
 
                 var query = window.location.search.substr(1);
-                if (!query) query = "tests.tweener.DemoScene";
 
                 var testScene = tm.using(query);
                 app.replaceScene(testScene());
