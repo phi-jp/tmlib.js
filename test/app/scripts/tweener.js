@@ -10,7 +10,7 @@ tm.define("tests.tweener.DemoScene", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointingStart() == true) {
-            var circle = tm.app.CircleShape();
+            var circle = tm.display.CircleShape();
             circle.blendMode = "lighter";
             circle.startX = p.x;
             circle.startY = p.y;
@@ -89,7 +89,7 @@ tm.define("tests.tweener.ByTestScene", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointingStart() == true) {
-            var star = tm.app.StarShape().addChildTo(this);
+            var star = tm.display.StarShape().addChildTo(this);
             star.blendMode = "lighter";
 
             star.startAnim = function() {
