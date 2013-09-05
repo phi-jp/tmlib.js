@@ -7100,6 +7100,23 @@ tm.input = tm.input || {};
             }
             
             return angle;
+        },
+        
+        /**
+         * キーの状態を設定する
+         */
+        setKey: function(key, flag) {
+            if (typeof(key) == "string") {
+                key = KEY_CODE[key];
+            }
+            return this.press[key] = flag;
+        },
+
+        /**
+         * キーを全て離したことにする
+         */
+        clearKey: function() {
+            this.press = {};
         }
         
     });
@@ -10333,6 +10350,8 @@ tm.app = tm.app || {};
         {
             console.assert(this.parent);
             this.parent.removeChild(this);
+
+            this.parent = null;
             
             return this;
         },
@@ -11371,8 +11390,6 @@ tm.app = tm.app || {};
         _refreshSize: function() {
             
         },
-
-        _update: tm.app.CanvasElement.prototype._update,
     });
     
     /**
@@ -11459,7 +11476,7 @@ tm.app = tm.app || {};
         },
 
         gotoAndPlay: function(name) {
-            name = name || "default";
+            name = (name !== undefined) ? name : "default";
 
             this.paused = false;
             this.currentAnimation = this.ss.animations[name];
@@ -11471,7 +11488,7 @@ tm.app = tm.app || {};
         },
 
         gotoAndStop: function(name) {
-            name = name || "default";
+            name = (name !== undefined) ? name : "default";
 
             this.paused = true;
             this.currentAnimation = this.ss.animations[name];

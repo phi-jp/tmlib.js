@@ -67,8 +67,6 @@ tm.app = tm.app || {};
         _refreshSize: function() {
             
         },
-
-        _update: tm.app.CanvasElement.prototype._update,
     });
     
     /**
