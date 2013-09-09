@@ -107,7 +107,7 @@
                 app.run();
                 
                 // 
-                var sprite = tm.app.Sprite(64, 64);
+                var sprite = tm.display.Sprite("dummy", 64, 64);
                 sprite.position.set(150, 75);
                 /*
                 sprite.scaleX = 3;
@@ -125,7 +125,7 @@
                 // タッチ
                 mainScene.onpointingstart = function() {
                     var p = app.pointing;
-                    var crash = tm.app.Sprite(128, 128);
+                    var crash = tm.display.Sprite("dummy", 128, 128);
                     crash.position.set(p.x, p.y);
                     crash.image = tm.graphics.TextureManager.get("crash");
                     crash.frameIndex = 0;

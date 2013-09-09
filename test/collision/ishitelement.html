@@ -136,13 +136,13 @@
  
                 init: function() {
                     this.superInit();
-                    var player = this.player = tm.app.RectangleShape().addChildTo(this);
+                    var player = this.player = tm.display.RectangleShape().addChildTo(this);
 //                    player.originX = player.originY = 0;
 //                    player.originX = player.originY = 1;
  
                     var objList = this.objList = [];
                     for (var i=0; i<10; ++i) {
-                        var obj = tm.app.RectangleShape(32, 32, {
+                        var obj = tm.display.RectangleShape(32, 32, {
                             fillStyle: "red"
                         }).addChildTo(this);
                         obj.setPosition(

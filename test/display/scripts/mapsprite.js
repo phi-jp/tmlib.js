@@ -166,7 +166,7 @@ tm.define("tests.mapsprite.DemoScene03", {
 
         var charaTexture = tm.asset.Texture("../../resource/img/chara.png");
 
-        var ss = tm.app.SpriteSheet({
+        var ss = tm.asset.SpriteSheet({
             image: charaTexture,
             frame: {
                 width: 32,

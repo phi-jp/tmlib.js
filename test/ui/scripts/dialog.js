@@ -11,7 +11,7 @@ tm.define("tests.dialog.MenuDialogScene", {
 
         this.lastSelection = 0;
 
-        tm.app.GlossyButton(300, 50, "blue", "Open MenuDialog")
+        tm.ui.GlossyButton(300, 50, "blue", "Open MenuDialog")
             .setPosition(150+10, 25+10)
             .addChildTo(this)
             .addEventListener("pointingend", function() {
@@ -21,7 +21,7 @@ tm.define("tests.dialog.MenuDialogScene", {
 
     onClickOpenButton: function() {
         var menu = ["カレー", "ラーメン", "やきそば", "かき氷(イチゴ)", "かき氷(メロン)"];
-        var dialog = tm.app.MenuDialog({
+        var dialog = tm.ui.MenuDialog({
             screenWidth: this.app.width,
             screenHeight: this.app.height,
             title: "メニュー",

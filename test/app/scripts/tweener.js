@@ -160,7 +160,7 @@ tm.define("tests.tweener.Demo00Scene", {
         this.superInit();
 
         for (var i=0; i<18; ++i) {
-            var star = tm.app.Shape().addChildTo(this);
+            var star = tm.display.Shape().addChildTo(this);
             var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
             star.x = i*40;
             star.y = 200;
@@ -193,7 +193,7 @@ tm.define("tests.tweener.RandomMoveScene", {
         this.superInit();
 
         for (var i=0; i<32; ++i) {
-            var star = tm.app.Shape().addChildTo(this);
+            var star = tm.display.Shape().addChildTo(this);
             var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
             star.x = i*40;
             star.y = 200;
@@ -290,7 +290,7 @@ tm.define("tests.tweener.ScaleFadeScene", {
         group.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
         for (var i=0; i<64; ++i) {
-            var star = tm.app.Shape().addChildTo(group);
+            var star = tm.display.Shape().addChildTo(group);
             var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
             star.x = Math.rand(-SCREEN_WIDTH/2, SCREEN_WIDTH/2);
             star.y = Math.rand(-SCREEN_HEIGHT/2, SCREEN_HEIGHT/2);
@@ -335,7 +335,7 @@ tm.define("tests.tweener.FadeScene", {
         var p = app.pointing;
         // フェードアウト
         if (p.getPointingStart()) {
-            var fadeout = tm.app.Shape(app.width, app.height).addChildTo(this);
+            var fadeout = tm.display.Shape(app.width, app.height).addChildTo(this);
             fadeout.originX = fadeout.originY = 0;
             fadeout.canvas.clearColor("white");
             fadeout.alpha = 0.0;
