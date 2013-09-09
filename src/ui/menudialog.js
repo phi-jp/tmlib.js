@@ -16,15 +16,15 @@
         /** @type {boolean} exit の表示/非表示 */
         showExit: false,
 
-        /** @type {tm.app.Label} dummy */
+        /** @type {tm.display.Label} dummy */
         title: null,
-        /** @type {Array.<tm.app.LabelButton>} dummy */
+        /** @type {Array.<tm.ui.LabelButton>} dummy */
         selections: [],
-        /** @type {tm.app.Label} dummy */
+        /** @type {tm.display.Label} dummy */
         description: null,
-        /** @type {tm.app.RectangleShape} dummy */
+        /** @type {tm.display.RectangleShape} dummy */
         box: null,
-        /** @type {tm.app.RectangleShape} dummy */
+        /** @type {tm.display.RectangleShape} dummy */
         cursor: null,
 
         _selected: 0,
@@ -94,7 +94,7 @@
             this.selections = this.menu.map(function(text, i) {
                 var self = this;
                 y += 50;
-                var selection = tm.app.LabelButton(text)
+                var selection = tm.ui.LabelButton(text)
                     .setPosition(this._screenWidth*0.5, y)
                     .addChildTo(this);
                 selection.interactive = true;

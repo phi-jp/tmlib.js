@@ -3,7 +3,7 @@
  */
 
 
-tm.app = tm.app || {};
+tm.ui = tm.ui || {};
 
 
 
@@ -14,13 +14,13 @@ tm.app = tm.app || {};
      * @class
      * LabelButton
      */
-    tm.app.LabelButton = tm.createClass({
+    tm.ui.LabelButton = tm.createClass({
         superClass: tm.display.Label,
         
         init: function(text) {
             this.superInit(text);
             
-            this.alpha = tm.app.LabelButton.DEFAULT_ALPHA;
+            this.alpha = tm.ui.LabelButton.DEFAULT_ALPHA;
             this.setAlign("center").setBaseline("middle");
             
             this.setInteractive(true);
@@ -32,7 +32,7 @@ tm.app = tm.app || {};
             }.bind(this));
             this.addEventListener("pointingout", function() {
                 this.tweener.clear();
-                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+                this.tweener.fade(tm.ui.LabelButton.DEFAULT_ALPHA, 250);
             }.bind(this));
             
             /*
@@ -46,7 +46,7 @@ tm.app = tm.app || {};
         }
     });
     
-    tm.app.LabelButton.DEFAULT_ALPHA = 0.5;
+    tm.ui.LabelButton.DEFAULT_ALPHA = 0.5;
     
 })();
 
@@ -57,9 +57,9 @@ tm.app = tm.app || {};
      * @class
      * IconButton
      */
-    tm.app.IconButton = tm.createClass({
+    tm.ui.IconButton = tm.createClass({
         
-        superClass: tm.app.Sprite,
+        superClass: tm.display.Sprite,
         
         /**
          * 初期化
@@ -73,7 +73,7 @@ tm.app = tm.app || {};
                 this.superInit();
             }
             
-            this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
+            this.alpha = tm.ui.IconButton.DEFAULT_ALPHA;
             
             this.setInteractive(true);
             this.boundingType = "rect";
@@ -83,12 +83,12 @@ tm.app = tm.app || {};
             });
             this.addEventListener("pointingout", function() {
                 this.tweener.clear();
-                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+                this.tweener.fade(tm.ui.LabelButton.DEFAULT_ALPHA, 250);
             });
         },
     });
     
-    tm.app.IconButton.DEFAULT_ALPHA = 0.5;
+    tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
     
 })();
 
@@ -99,7 +99,7 @@ tm.app = tm.app || {};
      * @class
      * glossy button
      */
-    tm.app.GlossyButton = tm.createClass({
+    tm.ui.GlossyButton = tm.createClass({
         superClass: tm.display.Shape,
         
         init: function(width, height, backgroundColor, text) {
@@ -107,7 +107,7 @@ tm.app = tm.app || {};
             
             text  = text  || "Button";
             this.backgroundColor = backgroundColor || "black";
-            this.alpha = tm.app.GlossyButton.DEFAULT_ALPHA;
+            this.alpha = tm.ui.GlossyButton.DEFAULT_ALPHA;
             
             this.setInteractive(true);
             this.boundingType = "rect";
@@ -117,7 +117,7 @@ tm.app = tm.app || {};
             });
             this.addEventListener("pointingout", function() {
                 this.tweener.clear();
-                this.tweener.fade(tm.app.GlossyButton.DEFAULT_ALPHA, 250);
+                this.tweener.fade(tm.ui.GlossyButton.DEFAULT_ALPHA, 250);
             });
             
             // ラベル
@@ -167,7 +167,7 @@ tm.app = tm.app || {};
     });
     
     
-    tm.app.GlossyButton.DEFAULT_ALPHA = 0.5;
+    tm.ui.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     
 })();
@@ -175,8 +175,8 @@ tm.app = tm.app || {};
 
 (function() {
 
-    tm.define("tm.app.FlatButton", {
-        superClass: tm.app.Shape,
+    tm.define("tm.ui.FlatButton", {
+        superClass: tm.display.Shape,
 
         init: function(param) {
             param.$safe({
@@ -195,7 +195,7 @@ tm.app = tm.app || {};
             this.setInteractive(true);
             this.setBoundingType("rect");
 
-            this.label = tm.app.Label(param.text).addChildTo(this);
+            this.label = tm.display.Label(param.text).addChildTo(this);
             this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign("center").setBaseline("middle");
         },
     });

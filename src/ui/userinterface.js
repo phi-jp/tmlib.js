@@ -13,7 +13,7 @@ tm.app = tm.app || {};
 	 * Gauge
 	 */
 	tm.app.Gauge = tm.createClass({
-        superClass: tm.app.RectangleShape,
+        superClass: tm.display.RectangleShape,
 
         init: function(width, height, color, direction) {
             this.superInit(width, height, {
@@ -173,7 +173,7 @@ tm.app = tm.app || {};
      * pad
      */
     tm.app.Pad = tm.createClass({
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         isTouching: false,
         circle: null,
@@ -194,7 +194,7 @@ tm.app = tm.app || {};
         },
         
         _createCircle: function() {
-            var circle = this.circle = tm.app.Shape(80, 80);
+            var circle = this.circle = tm.display.Shape(80, 80);
             this.addChild(circle);
             
             var c = circle.canvas;

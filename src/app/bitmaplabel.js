@@ -15,11 +15,11 @@ tm.app = tm.app || {};
      * BitmapLabel
      */
     tm.define("tm.app.BitmapLabel", {
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
     });
 
     tm.app.BitmapLabel = tm.createClass({
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
 
         init: function(params) {
         	this.superInit();
