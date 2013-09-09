@@ -6,7 +6,6 @@ tm.display = tm.display || {};
 
 
 (function() {
-    
     var dummyCanvas  = null;
     var dummyContext = null;
     
