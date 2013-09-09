@@ -1,10 +1,10 @@
 (function() {
     
     /**
-     * @class tm.app.MenuDialog
+     * @class tm.ui.MenuDialog
      * メニューダイアログ
      */
-    tm.define("tm.app.MenuDialog", {
+    tm.define("tm.ui.MenuDialog", {
         superClass: tm.app.Scene,
 
         /** @type {string} タイトル */

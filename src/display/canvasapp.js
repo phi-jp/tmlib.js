@@ -14,7 +14,7 @@ tm.display = tm.display || {};
 
         superClass: tm.app.BaseApp,
 
-        /* src/app/canvasapp.js には存在
+        /* src/app/canvasapp.js には存在していた
         element     : null,
         canvas      : null,
         mouse       : null,
