@@ -9,8 +9,8 @@ tm.define("tests.button.DemoScene", {
         this.superInit();
 
         var ASSET = {
-            "tmlibIcon": "https://raw.github.com/phi1618/tmlib.js/0.1.5/examples/logo/icon.png",
-            "blogIcon": "https://raw.github.com/phi1618/tmlib.js/0.1.5/examples/logo/blog-icon.png"
+            "tmlibIcon": "https://rawgithub.com/phi1618/tmlib.js/0.1.5/examples/logo/icon.png",
+            "blogIcon": "https://rawgithub.com/phi1618/tmlib.js/0.1.5/examples/logo/blog-icon.png"
         };
 
         var as = tm.asset.AssetManager;

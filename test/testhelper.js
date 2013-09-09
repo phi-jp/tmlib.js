@@ -93,6 +93,7 @@
             "src/display/animationsprite.js",
             "src/display/mapsprite.js",
             "src/display/renderer.js",
+            "src/display/bitmaplabel.js",
         ],
         "ui": [
             "src/ui/userinterface.js",

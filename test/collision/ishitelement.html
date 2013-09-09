@@ -64,11 +64,11 @@
         <script src="../../src/graphics/canvas.js"></script>
         
         <script src="../../src/app/element.js"></script>
-        <script src="../../src/app/canvaselement.js"></script>
-        <script src="../../src/app/sprite.js"></script>
-        <script src="../../src/app/shape.js"></script>
+        <script src="../../src/display/canvaselement.js"></script>
+        <script src="../../src/display/sprite.js"></script>
+        <script src="../../src/display/shape.js"></script>
         <script src="../../src/app/scene.js"></script>
-        <script src="../../src/app/canvasapp.js"></script>
+        <script src="../../src/display/canvasapp.js"></script>
         <script src="../../src/app/collision.js"></script>
         <script src="../../src/app/interaction.js"></script>
         <script src="../../src/app/animation.js"></script>
@@ -85,7 +85,7 @@
             tm.main(function() {
                 var c = tm.Console("#console");
                 
-                var app = tm.app.CanvasApp("#world");
+                var app = tm.display.CanvasApp("#world");
  
 //                app.replaceScene(HitElementCircleTestScene());
                 app.replaceScene(HitElementCircleTestScene());
@@ -98,13 +98,13 @@
  
                 init: function() {
                     this.superInit();
-                    var player = this.player = tm.app.CircleShape().addChildTo(this);
+                    var player = this.player = tm.display.CircleShape().addChildTo(this);
                     player.originX = player.originY = 0;
 //                    player.originX = player.originY = 1;
  
                     var objList = this.objList = [];
                     for (var i=0; i<10; ++i) {
-                        var obj = tm.app.CircleShape(32, 32, {
+                        var obj = tm.display.CircleShape(32, 32, {
                             fillStyle: "blue"
                         }).addChildTo(this);
                         obj.setPosition(

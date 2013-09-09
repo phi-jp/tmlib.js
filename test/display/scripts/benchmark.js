@@ -61,7 +61,7 @@ tm.define("tests.benchmark.PiyoScene", {
         };
 
         for (var i = 0; i < maxCount; i++) {
-            var container = new tm.app.CanvasElement();
+            var container = new tm.display.CanvasElement();
             container.x = Math.random() * app.width;
             container.vy = 5 * Math.random();
             container.vr = 5 * Math.random();
@@ -198,7 +198,7 @@ tm.define("tests.benchmark.CrashScene", {
         app.stats.domElement.style.zIndex = 1100;
 
         for (var i=0; i<512; ++i) {
-            var crash = tm.app.AnimationSprite(128, 128, PLAYER_SPRITE_SHEET).addChildTo(this);
+            var crash = tm.display.AnimationSprite(128, 128, PLAYER_SPRITE_SHEET).addChildTo(this);
             var x = tm.util.Random.randint(0, SCREEN_WIDTH);
             var y = tm.util.Random.randint(0, SCREEN_HEIGHT);
             crash.position.set(x, y);

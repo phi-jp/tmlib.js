@@ -60,7 +60,7 @@ tm.define("tests.tweener.ToTestScene", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointingStart() == true) {
-            var star = tm.app.StarShape().addChildTo(this);
+            var star = tm.display.StarShape().addChildTo(this);
             star.blendMode = "lighter";
 
             star.startAnim = function() {
@@ -112,7 +112,7 @@ tm.define("tests.tweener.CallTestScene", {
 
     init: function() {
         this.superInit();
-        var star = tm.app.StarShape().addChildTo(this);
+        var star = tm.display.StarShape().addChildTo(this);
         star.blendMode = "lighter";
 
         star.setPosition(100, 200);
@@ -136,7 +136,7 @@ tm.define("tests.tweener.FadeTestScene", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointingStart() == true) {
-            var star = tm.app.StarShape().addChildTo(this);
+            var star = tm.display.StarShape().addChildTo(this);
             star.blendMode = "lighter";
 
             star.startAnim = function() {
@@ -224,7 +224,7 @@ tm.define("tests.tweener.SimpleTweenScene", {
     init: function() {
         this.superInit();
 
-        var shape = tm.app.StarShape().addChildTo(this);
+        var shape = tm.display.StarShape().addChildTo(this);
         shape.setPosition(200, -50);
 
         var canvas = {
@@ -257,7 +257,7 @@ tm.define("tests.tweener.TweenCirclesScene", {
         var circleCount = 25;
 
         for (var i=0; i<circleCount; ++i) {
-            var circle = tm.app.CircleShape((i+1)*4, (i+1)*4).addChildTo(this);
+            var circle = tm.display.CircleShape((i+1)*4, (i+1)*4).addChildTo(this);
             circle.x = Math.random()*550;
             circle.y = Math.random()*550;
             circle.alpha = 1-i*0.02;
@@ -286,7 +286,7 @@ tm.define("tests.tweener.ScaleFadeScene", {
     init: function() {
         this.superInit();
 
-        var group = tm.app.CanvasElement().addChildTo(this);
+        var group = tm.display.CanvasElement().addChildTo(this);
         group.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
         for (var i=0; i<64; ++i) {

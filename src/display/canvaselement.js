@@ -190,7 +190,7 @@ tm.display = tm.display || {};
                         var init = data["init"] || [];
                         var _class = tm.using(data.type);
                         if (Object.keys(_class).length === 0) {
-                            _class=tm.display[data.type];
+                            _class = tm.display[data.type];
                         }
                         var elm = _class.apply(null, init).addChildTo(this);
                         elm.fromJSON(data);

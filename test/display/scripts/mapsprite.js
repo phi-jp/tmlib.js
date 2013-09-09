@@ -122,10 +122,11 @@ tm.define("tests.mapsprite.DemoScene02", {
 
     init: function() {
         this.superInit();
+        var canvasElement = tm.display.CanvasElement().addChildTo(this);
         
         var mapSheet = tm.asset.MapSheet("../../resource/tmx/testmap.tmx");
         mapSheet.onload = function() {
-            this.load(mapSheet);
+            canvasElement.load(mapSheet);
         }.bind(this);
     },
 
@@ -159,7 +160,7 @@ tm.define("tests.mapsprite.DemoScene03", {
         var mapSheet = as.get("sample");
         mapSheet.onload = function()
         {
-            this.map = tm.app.MapSprite("sample", 32, 32).addChildTo(this);
+            this.map = tm.display.MapSprite("sample", 32, 32).addChildTo(this);
             this.update = this._move;
         }.bind(this);
 
@@ -184,7 +185,7 @@ tm.define("tests.mapsprite.DemoScene03", {
 
         ss.onload = function() {
             setTimeout(function() {
-                var player = tm.app.AnimationSprite(ss, 32, 48).addChildTo(this.map.playerGroup);
+                var player = tm.display.AnimationSprite(ss, 32, 48).addChildTo(this.map.playerGroup);
                 player.origin.set(0, 0);
                 player.gotoAndPlay("forward");
                 player.xIndex = 31;

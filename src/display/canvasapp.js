@@ -13,23 +13,6 @@ tm.display = tm.display || {};
     tm.display.CanvasApp = tm.createClass({
 
         superClass: tm.app.BaseApp,
-
-        /* src/app/canvasapp.js には存在していた
-        element     : null,
-        canvas      : null,
-        mouse       : null,
-        touch       : null,
-        pointing    : null,
-        keyboard    : null,
-        stats       : null,
-        frame       : 0,
-        fps         : 30,
-        background  : null,
-        isPlaying   : null,
-        
-        _scenes      : null,
-        _sceneIndex  : 0,
-        */
         
         /**
          * 初期化
