@@ -10571,9 +10571,9 @@ tm.app = tm.app || {};
             // var globalPos = this;
             
             var left   = globalPos.x - this.width*this.originX;
-            var right  = globalPos.x + this.width*this.originX;
+            var right  = globalPos.x + this.width*(1-this.originX);
             var top    = globalPos.y - this.height*this.originY;
-            var bottom = globalPos.y + this.height*this.originY;
+            var bottom = globalPos.y + this.height*(1-this.originY);
             
             if ( left < x && x < right && top  < y && y < bottom ) { return true; }
             
@@ -10604,9 +10604,9 @@ tm.app = tm.app || {};
             this.pointing.y = p.y;
             
             var left   = -this.width*this.originX;
-            var right  = +this.width*this.originX;
+            var right  = +this.width*(1-this.originX);
             var top    = -this.height*this.originY;
-            var bottom = +this.height*this.originY;
+            var bottom = +this.height*(1-this.originY);
             
             if ( left < p.x && p.x < right && top  < p.y && p.y < bottom ) { return true; }
             
