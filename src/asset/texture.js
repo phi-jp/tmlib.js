@@ -9,7 +9,7 @@
      * テクスチャクラス
      */
     tm.define("tm.asset.Texture", {
-        superClass: tm.event.EventDispatcher,
+        superClass: "tm.event.EventDispatcher",
         
         element: null,
         loaded: false,

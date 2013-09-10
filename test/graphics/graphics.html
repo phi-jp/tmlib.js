@@ -54,10 +54,14 @@
         <script src="../../src/dom/style.js"></script>
         <script src="../../src/dom/event.js"></script>
         
+        <script src="../../src/event/event.js"></script>
+        <script src="../../src/event/eventdispatcher.js"></script>
+
         <script src="../../src/graphics/canvas.js"></script>
         <script src="../../src/graphics/gradient.js"></script>
         <script src="../../src/graphics/graphics.js"></script>
-        <script src="../../src/graphics/texture.js"></script>
+        <script src="../../src/asset/assetmanager.js"></script>
+        <script src="../../src/asset/texture.js"></script>
         
         <script src="../../plugins/console.tm.js"></script>
         
@@ -65,7 +69,7 @@
             
             tm.preload(function() {
 //                tm.asset.TextureManager.add("img", "icon.png");
-                tm.asset.TextureManager.add("img", "nehe.gif");
+                tm.asset.AssetManager.load("img", "nehe.gif");
             });
             
             tm.main(function() {
@@ -101,7 +105,7 @@
                     1.0, 1.0, 1.0, 1.0,
                 ]);
 
-                var img = tm.asset.TextureManager.get("img");
+                var img = tm.asset.AssetManager.get("img");
                 var tex = graphics.createTexture(img);
                 var gl = graphics.gl;
                 gl.activeTexture(gl.TEXTURE0);
