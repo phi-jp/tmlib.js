@@ -25,6 +25,9 @@ tm.define("tests.button.DemoScene", {
         var tmlibIcon = as.get("tmlibIcon");
         var blogIcon = as.get("blogIcon");
 
+        // Consoleクラスがなくなったので仮実装
+        var c = console;
+
         var labelButton = tm.ui.LabelButton("label").addChildTo(this);
         labelButton.setPosition(100, 100).setSize(100, 50);
         labelButton.onpointingstart = function() { c.log("click label button."); };

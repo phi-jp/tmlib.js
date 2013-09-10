@@ -67,7 +67,7 @@ tm.ui = tm.ui || {};
         init: function(texture)
         {
             if (texture) {
-                this.superInit(texture.width, texture.height, texture);
+                this.superInit(texture, texture.width, texture.height);
             }
             else {
                 this.superInit();
