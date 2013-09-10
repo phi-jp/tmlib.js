@@ -3,7 +3,7 @@
  */
 
 
-tm.app = tm.app || {};
+tm.ui = tm.ui || {};
 
 
 (function() {
@@ -12,8 +12,8 @@ tm.app = tm.app || {};
 	 * @class
 	 * Gauge
 	 */
-	tm.app.Gauge = tm.createClass({
-        superClass: tm.app.RectangleShape,
+	tm.ui.Gauge = tm.createClass({
+        superClass: tm.display.RectangleShape,
 
         init: function(width, height, color, direction) {
             this.superInit(width, height, {
@@ -113,7 +113,7 @@ tm.app = tm.app || {};
      * @property    value
      * 値
      */
-    tm.app.Gauge.prototype.accessor("value", {
+    tm.ui.Gauge.prototype.accessor("value", {
         get: function() {
             return this._value;
         },
@@ -126,7 +126,7 @@ tm.app = tm.app || {};
      * @property    percent
      * パーセント
      */
-    tm.app.Gauge.prototype.accessor("percent", {
+    tm.ui.Gauge.prototype.accessor("percent", {
         get: function() {
             return this.getPercent();
         },
@@ -140,7 +140,7 @@ tm.app = tm.app || {};
      * @property    ratio
      * 比率
      */
-    tm.app.Gauge.prototype.accessor("ratio", {
+    tm.ui.Gauge.prototype.accessor("ratio", {
         get: function() {
             return this.getRatio();
         },
@@ -153,7 +153,7 @@ tm.app = tm.app || {};
      * @property    targetProp
      * ターゲット
      */
-    tm.app.Gauge.prototype.accessor("targetProp", {
+    tm.ui.Gauge.prototype.accessor("targetProp", {
         get: function() {
             return this[this._targetPropName];
         },
@@ -172,8 +172,8 @@ tm.app = tm.app || {};
      * @class
      * pad
      */
-    tm.app.Pad = tm.createClass({
-        superClass: tm.app.Shape,
+    tm.ui.Pad = tm.createClass({
+        superClass: tm.display.Shape,
         
         isTouching: false,
         circle: null,
@@ -194,7 +194,7 @@ tm.app = tm.app || {};
         },
         
         _createCircle: function() {
-            var circle = this.circle = tm.app.Shape(80, 80);
+            var circle = this.circle = tm.display.Shape(80, 80);
             this.addChild(circle);
             
             var c = circle.canvas;

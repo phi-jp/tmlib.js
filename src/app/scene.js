@@ -49,7 +49,7 @@ tm.app = tm.app || {};
             
             param = {}.$extend(DEFAULT_PARAM, param);
             
-            var label = tm.app.Label("Loading");
+            var label = tm.display.Label("Loading");
             label.x = param.width/2;
             label.y = param.height/2;
             label.width = param.width;
@@ -70,7 +70,7 @@ tm.app = tm.app || {};
             this.addChild(label);
 
             // ひよこさん
-            var piyo = tm.app.Shape(84, 84);
+            var piyo = tm.display.Shape(84, 84);
             piyo.setPosition(param.width, param.height - 80);
             piyo.canvas.setColorStyle("white", "yellow").fillCircle(42, 42, 32);
             piyo.canvas.setColorStyle("white", "black").fillCircle(27, 27, 2);
@@ -119,12 +119,12 @@ tm.app = tm.app || {};
 
             if (param.backgroundImage) {
                 var texture = tm.asset.AssetManager.get(param.backgroundImage);
-                this._backgroundImage = tm.app.Sprite(param.width, param.height, texture);
+                this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);
             }
             
-            var label = tm.app.Label(param.title);
+            var label = tm.display.Label(param.title);
             label.x = param.width/2;
             label.y = param.height/2;
             label.width = param.width;
@@ -174,12 +174,12 @@ tm.app = tm.app || {};
 
             if (param.backgroundImage) {
                 var texture = tm.asset.AssetManager.get(param.backgroundImage);
-                this._backgroundImage = tm.app.Sprite(param.width, param.height, texture);
+                this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);
             }
             
-            var scoreLabel = tm.app.Label("SCORE: {score}".format(param));
+            var scoreLabel = tm.display.Label("SCORE: {score}".format(param));
             scoreLabel.x = param.width/2;
             scoreLabel.y = param.height/2-70;
             scoreLabel.width = param.width;
@@ -188,7 +188,7 @@ tm.app = tm.app || {};
             scoreLabel.fontSize = 32;
             this.addChild(scoreLabel);
             
-            var msgLabel = tm.app.Label(param.msg);
+            var msgLabel = tm.display.Label(param.msg);
             msgLabel.x = param.width/2;
             msgLabel.y = param.height/2-20;
             msgLabel.width = param.width;
@@ -198,14 +198,14 @@ tm.app = tm.app || {};
             this.addChild(msgLabel);
             
             // ツイートボタン
-            var tweetButton = this.tweetButton = tm.app.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
+            var tweetButton = this.tweetButton = tm.ui.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
             tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
             tweetButton.onclick = function() {
                 window.open(twitterURL);
             };
             
             // 戻るボタン
-            var backButton = tm.app.GlossyButton(120, 50, "black", "Back").addChildTo(this);
+            var backButton = tm.ui.GlossyButton(120, 50, "black", "Back").addChildTo(this);
             backButton.setPosition(param.width/2 + 65, param.height/2 + 50);
             backButton.onpointingstart = function() {
                 var e = tm.event.Event("nextscene");

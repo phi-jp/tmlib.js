@@ -8,7 +8,7 @@ tm.define("tests.timeline.DemoScene", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointingStart() == true) {
-            var circle = tm.app.CircleShape();
+            var circle = tm.display.CircleShape();
             circle.blendMode = "lighter";
             circle.startX = p.x;
             circle.startY = p.y;
@@ -44,7 +44,7 @@ tm.define("tests.timeline.ToTestScene", {
     init: function() {
         this.superInit();
         
-        var shape = tm.app.StarShape().addChildTo(this);
+        var shape = tm.display.StarShape().addChildTo(this);
         shape.setPosition(100, 100);
         
         shape.timeline
@@ -60,7 +60,7 @@ tm.define("tests.timeline.CallTestScene", {
     init: function() {
         this.superInit();
         
-        var shape = tm.app.StarShape().addChildTo(this);
+        var shape = tm.display.StarShape().addChildTo(this);
         shape.setPosition(100, 100);
         
         shape.timeline
@@ -80,7 +80,7 @@ tm.define("tests.timeline.SetTestScene", {
     init: function() {
         this.superInit();
         
-        var shape = tm.app.StarShape().addChildTo(this);
+        var shape = tm.display.StarShape().addChildTo(this);
         shape.setPosition(100, 100);
         
         shape.timeline
@@ -107,7 +107,7 @@ tm.define("tests.timeline.ConcentrationScene", {
         
         if (this.children.length < 36 && app.frame%4 == 0) {
             var color = "hsla({0}, 75%, 50%, 0.5)".format(Math.rand(0, 360));
-            var circle = tm.app.CircleShape(128, 128, {
+            var circle = tm.display.CircleShape(128, 128, {
                 fillStyle: color,
             });
             circle.blendMode = "lighter";
@@ -152,7 +152,7 @@ tm.define("tests.timeline.Demo22Scene", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointingStart() == true) {
-            var circle = tm.app.CircleShape();
+            var circle = tm.display.CircleShape();
             circle.blendMode = "lighter";
             circle.startX = p.x;
             circle.startY = p.y;
@@ -192,7 +192,7 @@ tm.define("tests.timeline.load", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointingStart() == true) {
-            var circle = tm.app.CircleShape();
+            var circle = tm.display.CircleShape();
             circle.blendMode = "lighter";
             circle.startX = p.x;
             circle.startY = p.y;

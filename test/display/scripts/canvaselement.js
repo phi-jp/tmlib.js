@@ -32,7 +32,7 @@ tm.define("tests.canvaselement.fromJSON", {
         layer.fromJSON({
             children: [
                 {
-                    type: "Label",
+                    type: "tm.display.Label",
                     name: "titleLabel",
                     x   : SCREEN_CENTER_X,
                     y   : 100,
@@ -43,7 +43,7 @@ tm.define("tests.canvaselement.fromJSON", {
                     fontSize: 40,
                 },
                 {
-                    type: "Label",
+                    type: "tm.display.Label",
                     name: "titleLabel",
                     x   : SCREEN_CENTER_X,
                     y   : 100,
@@ -54,7 +54,7 @@ tm.define("tests.canvaselement.fromJSON", {
                     fontSize: 40,
                 },
                 {
-                    type: "LabelButton",
+                    type: "tm.ui.LabelButton",
                     name: "button00",
                     x   : SCREEN_CENTER_X,
                     y   : 200,
@@ -68,7 +68,7 @@ tm.define("tests.canvaselement.fromJSON", {
                     fontSize: 20,
                 },
                 {
-                    type: "LabelButton",
+                    type: "tm.ui.LabelButton",
                     name: "button01",
                     x   : SCREEN_CENTER_X,
                     y   : 260,
@@ -82,7 +82,7 @@ tm.define("tests.canvaselement.fromJSON", {
                     fontSize: 20,
                 },
                 {
-                    type: "LabelButton",
+                    type: "tm.ui.LabelButton",
                     name: "button02",
                     x   : SCREEN_CENTER_X,
                     y   : 320,
@@ -96,7 +96,7 @@ tm.define("tests.canvaselement.fromJSON", {
                     fontSize: 20,
                 },
                 {
-                    type: "Label",
+                    type: "tm.display.Label",
                     name: "textLabel",
                     x   : SCREEN_CENTER_X,
                     y   : 400,
@@ -108,7 +108,7 @@ tm.define("tests.canvaselement.fromJSON", {
                     fontSize: 15,
                 },
                 {
-                    type: "Sprite",
+                    type: "tm.display.Sprite",
                     name: "icon",
                     x   : 560,
                     y   : 400,

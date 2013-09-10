@@ -60,7 +60,7 @@ tm.define("tests.tweener.ToTestScene", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointingStart() == true) {
-            var star = tm.app.StarShape().addChildTo(this);
+            var star = tm.display.StarShape().addChildTo(this);
             star.blendMode = "lighter";
 
             star.startAnim = function() {
@@ -112,7 +112,7 @@ tm.define("tests.tweener.CallTestScene", {
 
     init: function() {
         this.superInit();
-        var star = tm.app.StarShape().addChildTo(this);
+        var star = tm.display.StarShape().addChildTo(this);
         star.blendMode = "lighter";
 
         star.setPosition(100, 200);
@@ -136,7 +136,7 @@ tm.define("tests.tweener.FadeTestScene", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointingStart() == true) {
-            var star = tm.app.StarShape().addChildTo(this);
+            var star = tm.display.StarShape().addChildTo(this);
             star.blendMode = "lighter";
 
             star.startAnim = function() {
@@ -160,7 +160,7 @@ tm.define("tests.tweener.Demo00Scene", {
         this.superInit();
 
         for (var i=0; i<18; ++i) {
-            var star = tm.app.Shape().addChildTo(this);
+            var star = tm.display.Shape().addChildTo(this);
             var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
             star.x = i*40;
             star.y = 200;
@@ -193,7 +193,7 @@ tm.define("tests.tweener.RandomMoveScene", {
         this.superInit();
 
         for (var i=0; i<32; ++i) {
-            var star = tm.app.Shape().addChildTo(this);
+            var star = tm.display.Shape().addChildTo(this);
             var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
             star.x = i*40;
             star.y = 200;
@@ -224,7 +224,7 @@ tm.define("tests.tweener.SimpleTweenScene", {
     init: function() {
         this.superInit();
 
-        var shape = tm.app.StarShape().addChildTo(this);
+        var shape = tm.display.StarShape().addChildTo(this);
         shape.setPosition(200, -50);
 
         var canvas = {
@@ -257,7 +257,7 @@ tm.define("tests.tweener.TweenCirclesScene", {
         var circleCount = 25;
 
         for (var i=0; i<circleCount; ++i) {
-            var circle = tm.app.CircleShape((i+1)*4, (i+1)*4).addChildTo(this);
+            var circle = tm.display.CircleShape((i+1)*4, (i+1)*4).addChildTo(this);
             circle.x = Math.random()*550;
             circle.y = Math.random()*550;
             circle.alpha = 1-i*0.02;
@@ -286,11 +286,11 @@ tm.define("tests.tweener.ScaleFadeScene", {
     init: function() {
         this.superInit();
 
-        var group = tm.app.CanvasElement().addChildTo(this);
+        var group = tm.display.CanvasElement().addChildTo(this);
         group.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
         for (var i=0; i<64; ++i) {
-            var star = tm.app.Shape().addChildTo(group);
+            var star = tm.display.Shape().addChildTo(group);
             var color = "hsl({0}, 75%, 50%)".format(Math.rand(0, 360));
             star.x = Math.rand(-SCREEN_WIDTH/2, SCREEN_WIDTH/2);
             star.y = Math.rand(-SCREEN_HEIGHT/2, SCREEN_HEIGHT/2);
@@ -335,7 +335,7 @@ tm.define("tests.tweener.FadeScene", {
         var p = app.pointing;
         // フェードアウト
         if (p.getPointingStart()) {
-            var fadeout = tm.app.Shape(app.width, app.height).addChildTo(this);
+            var fadeout = tm.display.Shape(app.width, app.height).addChildTo(this);
             fadeout.originX = fadeout.originY = 0;
             fadeout.canvas.clearColor("white");
             fadeout.alpha = 0.0;

@@ -61,14 +61,14 @@ tm.define("tests.benchmark.PiyoScene", {
         };
 
         for (var i = 0; i < maxCount; i++) {
-            var container = new tm.app.CanvasElement();
+            var container = new tm.display.CanvasElement();
             container.x = Math.random() * app.width;
             container.vy = 5 * Math.random();
             container.vr = 5 * Math.random();
             objList[i] = container;
             this.addChild(container);
             for (var j = 0; j < CHILD_NUM; j++) {
-                var child = new tm.app.Sprite("piyo");
+                var child = new tm.display.Sprite("piyo");
                 child.originX = 0.5;
                 child.originY = 0.5;
                 var rad = j / CHILD_NUM * 360;
@@ -162,7 +162,7 @@ tm.define("tests.benchmark.HogeScene", {
         this._removeAllBall();
 
         for (i = 0; i < this.TOTAL; i++) {  
-            var ball = tm.app.Sprite("9iIpS", 29, 29);
+            var ball = tm.display.Sprite("9iIpS", 29, 29);
             ball.centerX = 0.5;
             ball.centerY = 0.5;
             ball.vx = 0;
@@ -198,7 +198,7 @@ tm.define("tests.benchmark.CrashScene", {
         app.stats.domElement.style.zIndex = 1100;
 
         for (var i=0; i<512; ++i) {
-            var crash = tm.app.AnimationSprite(128, 128, PLAYER_SPRITE_SHEET).addChildTo(this);
+            var crash = tm.display.AnimationSprite(128, 128, PLAYER_SPRITE_SHEET).addChildTo(this);
             var x = tm.util.Random.randint(0, SCREEN_WIDTH);
             var y = tm.util.Random.randint(0, SCREEN_HEIGHT);
             crash.position.set(x, y);

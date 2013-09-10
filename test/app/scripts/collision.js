@@ -4,7 +4,7 @@ tm.define("tests.collision.test", {
     init: function() {
         this.superInit();
 
-        var player = tm.app.CircleShape().addChildTo(this);
+        var player = tm.display.CircleShape().addChildTo(this);
         player.update = function(app) {
             this.x = app.pointing.x;
             this.y = app.pointing.y;
@@ -16,7 +16,7 @@ tm.define("tests.collision.test", {
         };
 
         for (var i=0; i<10; ++i) {
-	        var enemy = tm.app.PolygonShape().addChildTo(this);
+	        var enemy = tm.display.PolygonShape().addChildTo(this);
             player.collision.add(enemy);
             enemy.x = Math.rand(0, 640);
             enemy.y = Math.rand(0, 480);

@@ -5,7 +5,8 @@ tm.define("tests.shape.ShapeTest", {
     init: function() {
         this.superInit();
         // json load
-        this.fromJSON({
+        this.group = tm.display.CanvasElement().addChildTo(this);
+        this.group.fromJSON({
             children: [
                 { type: "CircleShape", name: "circle", x: 100, y: 100 },
                 { type: "TriangleShape", name: "triangle", x: 200, y: 100 },
@@ -30,11 +31,11 @@ tm.define("tests.shape.ShapeTest", {
     update: function(app) {
         var p = app.pointing;
         if (p.getPointing() == true) {
-            this.circle.tweener.clear().to({x:p.x, y:p.y}, 1000, "easeInOutBounce");
-            this.triangle.tweener.clear().to({x:p.x, y:p.y}, 800, "easeInOutBounce");
-            this.rectangle.tweener.clear().to({x:p.x, y:p.y}, 600, "easeInOutBounce");
-            this.star.tweener.clear().to({x:p.x, y:p.y}, 400, "easeInOutBounce");
-            this.polygon.tweener.clear().to({x:p.x, y:p.y}, 200, "easeInOutBounce");
+            this.group.circle.tweener.clear().to({x:p.x, y:p.y}, 1000, "easeInOutBounce");
+            this.group.triangle.tweener.clear().to({x:p.x, y:p.y}, 800, "easeInOutBounce");
+            this.group.rectangle.tweener.clear().to({x:p.x, y:p.y}, 600, "easeInOutBounce");
+            this.group.star.tweener.clear().to({x:p.x, y:p.y}, 400, "easeInOutBounce");
+            this.group.polygon.tweener.clear().to({x:p.x, y:p.y}, 200, "easeInOutBounce");
         };
     }
 
@@ -52,13 +53,13 @@ tm.define("tests.bitmaplabel.Test", {
 
         tm.asset.AssetManager.load("font", "../../resource/img/font.png");
         tm.asset.AssetManager.onload = function() {
-            var bitmapLabel = tm.app.BitmapLabel({
+            var bitmapLabel = tm.display.BitmapLabel({
                 texture: "font",
                 text: "Hello, world!~🐤",
             }).addChildTo(self);
             bitmapLabel.setPosition(390, 200);
 
-            var bitmapLabel = tm.app.BitmapLabel({
+            var bitmapLabel = tm.display.BitmapLabel({
                 texture: "font",
                 text: "This font was made by @CarasOhmi.",
                 fontSize: 20,
