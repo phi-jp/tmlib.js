@@ -220,6 +220,19 @@ if (typeof module !== 'undefined' && module.exports) {
 
         return current;
     };
+    
+    tm.globalize = function(obj) {
+        tm.global.$strict(obj);
+        
+        return this;
+    };
+    
+    tm.import = function(namespace) {
+        var target = tm[namespace];
+        tm.global.$strict(target);
+        
+        return this;
+    };
 
     /**
      * ループ
@@ -6372,7 +6385,7 @@ tm.event = tm.event || {};
      * テクスチャクラス
      */
     tm.define("tm.asset.Texture", {
-        superClass: tm.event.EventDispatcher,
+        superClass: "tm.event.EventDispatcher",
         
         element: null,
         loaded: false,
@@ -10960,6 +10973,12 @@ tm.app = tm.app || {};
             return this;
         },
         
+        setOrigin: function(x, y) {
+            this.origin.x = x;
+            this.origin.y = y;
+            return this;
+        },
+        
         /**
          * 幅をセット
          */
@@ -11395,7 +11414,7 @@ tm.app = tm.app || {};
             
             param = {}.$extend(DEFAULT_PARAM, param);
             
-            var label = tm.app.Label("Loading");
+            var label = tm.display.Label("Loading");
             label.x = param.width/2;
             label.y = param.height/2;
             label.width = param.width;
@@ -11416,7 +11435,7 @@ tm.app = tm.app || {};
             this.addChild(label);
 
             // ひよこさん
-            var piyo = tm.app.Shape(84, 84);
+            var piyo = tm.display.Shape(84, 84);
             piyo.setPosition(param.width, param.height - 80);
             piyo.canvas.setColorStyle("white", "yellow").fillCircle(42, 42, 32);
             piyo.canvas.setColorStyle("white", "black").fillCircle(27, 27, 2);
@@ -11465,12 +11484,12 @@ tm.app = tm.app || {};
 
             if (param.backgroundImage) {
                 var texture = tm.asset.AssetManager.get(param.backgroundImage);
-                this._backgroundImage = tm.app.Sprite(param.width, param.height, texture);
+                this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);
             }
             
-            var label = tm.app.Label(param.title);
+            var label = tm.display.Label(param.title);
             label.x = param.width/2;
             label.y = param.height/2;
             label.width = param.width;
@@ -11520,12 +11539,12 @@ tm.app = tm.app || {};
 
             if (param.backgroundImage) {
                 var texture = tm.asset.AssetManager.get(param.backgroundImage);
-                this._backgroundImage = tm.app.Sprite(param.width, param.height, texture);
+                this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);
             }
             
-            var scoreLabel = tm.app.Label("SCORE: {score}".format(param));
+            var scoreLabel = tm.display.Label("SCORE: {score}".format(param));
             scoreLabel.x = param.width/2;
             scoreLabel.y = param.height/2-70;
             scoreLabel.width = param.width;
@@ -11534,7 +11553,7 @@ tm.app = tm.app || {};
             scoreLabel.fontSize = 32;
             this.addChild(scoreLabel);
             
-            var msgLabel = tm.app.Label(param.msg);
+            var msgLabel = tm.display.Label(param.msg);
             msgLabel.x = param.width/2;
             msgLabel.y = param.height/2-20;
             msgLabel.width = param.width;
@@ -11544,14 +11563,14 @@ tm.app = tm.app || {};
             this.addChild(msgLabel);
             
             // ツイートボタン
-            var tweetButton = this.tweetButton = tm.app.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
+            var tweetButton = this.tweetButton = tm.ui.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
             tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
             tweetButton.onclick = function() {
                 window.open(twitterURL);
             };
             
             // 戻るボタン
-            var backButton = tm.app.GlossyButton(120, 50, "black", "Back").addChildTo(this);
+            var backButton = tm.ui.GlossyButton(120, 50, "black", "Back").addChildTo(this);
             backButton.setPosition(param.width/2 + 65, param.height/2 + 50);
             backButton.onpointingstart = function() {
                 var e = tm.event.Event("nextscene");
@@ -12180,6 +12199,15 @@ tm.namespace("tm.app", function() {
             return (t/this.fps).toInt();
         },
         
+        load: function(data) {
+            
+            for (var key in data.timeline) {
+                var value = data.timeline[key];
+            }
+            
+            return this;
+        },
+        
         clear: function() {
             this.currentFrame = 0;
             this.duration = 0;
@@ -12209,7 +12237,7 @@ tm.namespace("tm.app", function() {
  * 
  */
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 (function() {
 
@@ -12217,24 +12245,9 @@ tm.app = tm.app || {};
      * @class
      * キャンバスアプリケーション
      */
-    tm.app.CanvasApp = tm.createClass({
+    tm.display.CanvasApp = tm.createClass({
 
         superClass: tm.app.BaseApp,
-        
-        element     : null,
-        canvas      : null,
-        mouse       : null,
-        touch       : null,
-        pointing    : null,
-        keyboard    : null,
-        stats       : null,
-        frame       : 0,
-        fps         : 30,
-        background  : null,
-        isPlaying   : null,
-        
-        _scenes      : null,
-        _sceneIndex  : 0,
         
         /**
          * 初期化
@@ -12256,7 +12269,7 @@ tm.app = tm.app || {};
 
             // グラフィックスを生成
             this.canvas = tm.graphics.Canvas(this.element);
-            this.renderer = tm.app.CanvasRenderer(this.canvas);
+            this.renderer = tm.display.CanvasRenderer(this.canvas);
             
             // カラー
             this.background = "black";
@@ -12318,7 +12331,7 @@ tm.app = tm.app || {};
      * @property    width
      * 幅
      */
-    tm.app.CanvasApp.prototype.accessor("width", {
+    tm.display.CanvasApp.prototype.accessor("width", {
         "get": function()   { return this.canvas.width; },
         "set": function(v)  { this.canvas.width = v; }
     });
@@ -12327,7 +12340,7 @@ tm.app = tm.app || {};
      * @property    height
      * 高さ
      */
-    tm.app.CanvasApp.prototype.accessor("height", {
+    tm.display.CanvasApp.prototype.accessor("height", {
         "get": function()   { return this.canvas.height; },
         "set": function(v)  { this.canvas.height = v; }
     });
@@ -12340,7 +12353,7 @@ tm.app = tm.app || {};
  *
  */
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -12349,7 +12362,7 @@ tm.app = tm.app || {};
      * @class
      * キャンバスエレメント
      */
-    tm.app.CanvasElement = tm.createClass({
+    tm.display.CanvasElement = tm.createClass({
 
         superClass: tm.app.Object2D,
 
@@ -12396,6 +12409,27 @@ tm.app = tm.app || {};
          */
         init: function() {
             this.superInit();
+        },
+        
+        setAlpha: function(alpha) {
+            this.alpha = alpha;
+            return this;
+        },
+        
+        setShadowColor: function(color) {
+            this.shadowColor = color;
+            return this;
+        },
+        
+        setShadowBlur: function(blur) {
+            this.shadowBlur = blur;
+            return this;
+        },
+        
+        setShadowOffset: function(x, y) {
+            this.shadowOffsetX = x;
+            this.shadowOffsetY = y;
+            return this;
         },
 
         drawBoundingCircle: function(canvas) {
@@ -12467,14 +12501,14 @@ tm.app = tm.app || {};
             data.layers.forEach(function(layer) {
                 if (layer.type != "objectgroup") return ;
 
-                var group = tm.app.CanvasElement().addChildTo(self);
+                var group = tm.display.CanvasElement().addChildTo(self);
                 group.width = layer.width;
                 group.height = layer.height;
 
                 layer.objects.forEach(function(obj) {
                     var _class = tm.using(obj.type);
                     if (Object.keys(_class).length === 0) {
-                        _class=tm.app[obj.type];
+                        _class=tm.display[obj.type];
                     }
                     var initParam = null;
                     if (obj.properties.init) {
@@ -12507,7 +12541,7 @@ tm.app = tm.app || {};
                         var init = data["init"] || [];
                         var _class = tm.using(data.type);
                         if (Object.keys(_class).length === 0) {
-                            _class=tm.app[data.type];
+                            _class = tm.display[data.type];
                         }
                         var elm = _class.apply(null, init).addChildTo(this);
                         elm.fromJSON(data);
@@ -12570,7 +12604,7 @@ tm.app = tm.app || {};
  */
 
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -12579,9 +12613,9 @@ tm.app = tm.app || {};
      * @class
      * Sprite
      */
-    tm.app.Sprite = tm.createClass({
+    tm.display.Sprite = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        superClass: tm.display.CanvasElement,
         
         /**
          * 初期化
@@ -12635,14 +12669,14 @@ tm.app = tm.app || {};
             
         },
 
-        _update: tm.app.CanvasElement.prototype._update,
+        _update: tm.display.CanvasElement.prototype._update,
     });
     
     /**
      * @property    image
      * 高さ
      */
-    tm.app.Sprite.prototype.accessor("image", {
+    tm.display.Sprite.prototype.accessor("image", {
         "get": function()   {
             return this._image;
         },
@@ -12664,7 +12698,7 @@ tm.app = tm.app || {};
  */
 
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -12673,9 +12707,9 @@ tm.app = tm.app || {};
      * @class
      * Shape
      */
-    tm.app.Shape = tm.createClass({
+    tm.display.Shape = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        superClass: tm.display.CanvasElement,
         
         /**
          * 初期化
@@ -12696,7 +12730,7 @@ tm.app = tm.app || {};
 
         renderCircle: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
             
             c.save();
             
@@ -12714,7 +12748,7 @@ tm.app = tm.app || {};
 
         renderTriangle: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
             
             c.save();
             
@@ -12732,7 +12766,7 @@ tm.app = tm.app || {};
 
         renderRectangle: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
 
             c.save();
             
@@ -12752,7 +12786,7 @@ tm.app = tm.app || {};
 
         renderStar: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
             
             c.save();
             
@@ -12775,7 +12809,7 @@ tm.app = tm.app || {};
 
         renderPolygon: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
             
             c.save();
             
@@ -12800,7 +12834,7 @@ tm.app = tm.app || {};
 
         renderHeart: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
 
             c.save();
             
@@ -12818,7 +12852,7 @@ tm.app = tm.app || {};
 
         renderText: function(param) {
             var c = this.canvas;
-            param = {}.$extend(tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
 
             c.save();
             
@@ -12839,25 +12873,25 @@ tm.app = tm.app || {};
         
     });
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
         fillStyle: "red",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
         fillStyle: "green",
         strokeStyle: "white",
         lineWidth: "2",
     };
     
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
         fillStyle: "blue",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_STAR = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR = {
         fillStyle: "yellow",
         strokeStyle: "white",
         lineWidth: "2",
@@ -12867,7 +12901,7 @@ tm.app = tm.app || {};
         offsetAngle: undefined,
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
         fillStyle: "cyan",
         strokeStyle: "white",
         lineWidth: "2",
@@ -12876,7 +12910,7 @@ tm.app = tm.app || {};
         offsetAngle: undefined,
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_HEART = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART = {
         fillStyle: "pink",
         strokeStyle: "white",
         lineWidth: "2",
@@ -12884,7 +12918,7 @@ tm.app = tm.app || {};
         angle: 45,
     };
 
-    tm.app.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
         text: "hello, world",
         fillStyle: "pink",
         strokeStyle: "white",
@@ -12903,9 +12937,9 @@ tm.app = tm.app || {};
      * @class
      * CircleShape
      */
-    tm.app.CircleShape = tm.createClass({
+    tm.display.CircleShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -12928,9 +12962,9 @@ tm.app = tm.app || {};
      * @class
      * TriangleShape
      */
-    tm.app.TriangleShape = tm.createClass({
+    tm.display.TriangleShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -12954,9 +12988,9 @@ tm.app = tm.app || {};
      * @class
      * RectangleShape
      */
-    tm.app.RectangleShape = tm.createClass({
+    tm.display.RectangleShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -12978,9 +13012,9 @@ tm.app = tm.app || {};
      * @class
      * StarShape
      */
-    tm.app.StarShape = tm.createClass({
+    tm.display.StarShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -13003,9 +13037,9 @@ tm.app = tm.app || {};
      * @class
      * PolygonShape
      */
-    tm.app.PolygonShape = tm.createClass({
+    tm.display.PolygonShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -13029,9 +13063,9 @@ tm.app = tm.app || {};
      * @class
      * HeartShape
      */
-    tm.app.HeartShape = tm.createClass({
+    tm.display.HeartShape = tm.createClass({
         
-        superClass: tm.app.Shape,
+        superClass: tm.display.Shape,
         
         /**
          * 初期化
@@ -13055,9 +13089,9 @@ tm.app = tm.app || {};
      * @class
      * HeartShape
      */
-    tm.define("tm.app.TextShape", {
+    tm.define("tm.display.TextShape", {
 
-        superClass: "tm.app.Shape",
+        superClass: "tm.display.Shape",
         
         /**
          * 初期化
@@ -13093,7 +13127,7 @@ tm.app = tm.app || {};
  * label.js
  */
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -13105,9 +13139,9 @@ tm.app = tm.app || {};
      * @class
      * Label
      */
-    tm.app.Label = tm.createClass({
+    tm.display.Label = tm.createClass({
         
-        superClass: tm.app.CanvasElement,
+        superClass: tm.display.CanvasElement,
         
         /**
          * 塗りつぶしフラグ
@@ -13184,7 +13218,7 @@ tm.app = tm.app || {};
      * @property    text
      * サイズ
      */
-    tm.app.Label.prototype.accessor("text", {
+    tm.display.Label.prototype.accessor("text", {
         "get": function() { return this._text; },
         "set": function(v){
             if (v == null || v == undefined) {
@@ -13201,7 +13235,7 @@ tm.app = tm.app || {};
      * @property    size
      * サイズ
      */
-    tm.app.Label.prototype.accessor("fontSize", {
+    tm.display.Label.prototype.accessor("fontSize", {
         "get": function() { return this._fontSize; },
         "set": function(v){ this._fontSize = v; this._updateFont(); }
     });
@@ -13210,7 +13244,7 @@ tm.app = tm.app || {};
      * @property    fontFamily
      * フォント
      */
-    tm.app.Label.prototype.accessor("fontFamily", {
+    tm.display.Label.prototype.accessor("fontFamily", {
         "get": function() { return this._fontFamily; },
         "set": function(v){ this._fontFamily = v; this._updateFont(); }
     });
@@ -13219,7 +13253,7 @@ tm.app = tm.app || {};
      * @property fontWeight
      * フォント
      */
-    tm.app.Label.prototype.accessor("fontWeight", {
+    tm.display.Label.prototype.accessor("fontWeight", {
         "get": function() { return this._fontWeight; },
         "set": function(v) {
             this._fontWeight = v; this._updateFont();
@@ -13230,7 +13264,7 @@ tm.app = tm.app || {};
      * @property lineHeight
      * フォント
      */
-    tm.app.Label.prototype.accessor("lineHeight", {
+    tm.display.Label.prototype.accessor("lineHeight", {
         "get": function() { return this._lineHeight; },
         "set": function(v) {
             this._lineHeight = v; this._updateFont();
@@ -13246,7 +13280,7 @@ tm.app = tm.app || {};
  */
 
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
@@ -13255,9 +13289,9 @@ tm.app = tm.app || {};
      * @class
      * AnimationSprite
      */
-    tm.app.AnimationSprite = tm.createClass({
+    tm.display.AnimationSprite = tm.createClass({
 
-        superClass: tm.app.CanvasElement,
+        superClass: tm.display.CanvasElement,
 
         /**
          * 初期化
@@ -13359,105 +13393,6 @@ tm.app = tm.app || {};
 })();
 
 
-(function() {
-
-    tm.app.SpriteSheet = tm.createClass({
-        superClass: tm.event.EventDispatcher,
-
-        init: function(param) {
-            this.superInit();
-            this.frame = param.frame;
-
-            if (typeof param.image == "string") {
-                if (!tm.asset.AssetManager.contains(param.image)) {
-                    tm.asset.AssetManager.load(param.image);
-                }
-                this.image = tm.asset.AssetManager.get(param.image);
-            }
-            else {
-                this.image = param.image;
-            }
-
-            if (this.image.loaded === false) {
-                this.image.addEventListener("load", function() {
-                    this._calcFrames(param.frame);
-                    var e = tm.event.Event("load");
-                    this.dispatchEvent(e);
-                }.bind(this), false);
-            }
-            else {
-                this._calcFrames(param.frame);
-                var e = tm.event.Event("load");
-                this.dispatchEvent(e);
-            }
-
-            this._calcAnim(param.animations);
-        },
-
-        getFrame: function(index) {
-            return this.frames[index];
-        },
-
-        getAnimation: function(name) {
-            return this.animations[name];
-        },
-
-        _calcFrames: function(frame) {
-            var frames = this.frames = [];
-
-            var w = frame.width;
-            var h = frame.height;
-            var row = ~~(this.image.width / w);
-            var col = ~~(this.image.height/ h);
-
-            if (!frame.count) frame.count = row*col;
-
-            for (var i=0,len=frame.count; i<len; ++i) {
-                var x   = i%row;
-                var y   = (i/row)|0;
-                var rect = {
-                    x:x*w,
-                    y:y*h,
-                    width: w,
-                    height: h
-                };
-                frames.push(rect);
-            }
-        },
-
-        _calcAnim: function(animations) {
-            this.animations = [];
-            for (var key in animations) {
-                var anim = animations[key];
-
-                if (anim instanceof Array) {
-                    this.animations[key] = {
-                        frames: [].range(anim[0], anim[1]),
-                        next: anim[2],
-                        frequency: anim[3] || 1
-                    };
-                }
-                else {
-                    this.animations[key] = {
-                        frames: anim.frames,
-                        next: anim.next,
-                        frequency: anim.frequency || 1
-                    };
-                }
-            }
-
-            // デフォルトアニメーション
-            this.animations["default"] = {
-                frames: [].range(0, this.frame.count),
-                next: "default",
-                frequency: 1,
-            };
-        }
-
-    });
-
-})();
-
 /*
  * mapsprite.js
  */
@@ -13465,8 +13400,8 @@ tm.app = tm.app || {};
 
 (function() {
 
-    tm.define("tm.app.MapSprite", {
-        superClass: "tm.app.CanvasElement",
+    tm.define("tm.display.MapSprite", {
+        superClass: "tm.display.CanvasElement",
 
         init: function(mapSheet, chipWidth, chipHeight) {
             this.superInit();
@@ -13507,7 +13442,7 @@ tm.app = tm.app || {};
             var mapSheet    = this.mapSheet;
             var texture     = tm.asset.AssetManager.get(mapSheet.tilesets[0].image);
             var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
-            var shape       = tm.app.Shape(this.width, this.height).addChildTo(this);
+            var shape       = tm.display.Shape(this.width, this.height).addChildTo(this);
             shape.origin.set(0, 0);
 
             layer.data.each(function(d, index) {
@@ -13537,14 +13472,14 @@ tm.app = tm.app || {};
         _buildObject: function(layer) {
             var self = this;
             
-            var group = tm.app.CanvasElement().addChildTo(self);
+            var group = tm.display.CanvasElement().addChildTo(self);
             group.width = layer.width;
             group.height = layer.height;
             
             layer.objects.forEach(function(obj) {
                 var _class = tm.using(obj.type);
                 if (Object.keys(_class).length === 0) {
-                    _class=tm.app[obj.type];
+                    _class=tm.display[obj.type];
                 }
 
                 var initParam = null;
@@ -13585,7 +13520,7 @@ tm.app = tm.app || {};
  
 (function() {
     
-    tm.define("tm.app.CanvasRenderer", {
+    tm.define("tm.display.CanvasRenderer", {
         canvas: null,
 
         init: function(canvas) {
@@ -13641,16 +13576,16 @@ tm.app = tm.app || {};
         },
 
         _setRenderFunction: function(obj) {
-            if (obj instanceof tm.app.Sprite) {
+            if (obj instanceof tm.display.Sprite) {
                 obj.draw = renderFuncList["sprite"];
             }
-            else if (obj instanceof tm.app.MapSprite) {
+            else if (obj instanceof tm.display.MapSprite) {
                 obj.draw = function() {};
             }
-            else if (obj instanceof tm.app.Label) {
+            else if (obj instanceof tm.display.Label) {
                 obj.draw = renderFuncList["label"];
             }
-            else if (obj instanceof tm.app.Shape) {
+            else if (obj instanceof tm.display.Shape) {
                 obj.draw = renderFuncList["shape"];
             }
             else {
@@ -13716,8 +13651,8 @@ tm.app = tm.app || {};
  
 (function() {
     
-    tm.define("tm.app.BoundingRectRenderer", {
-        superClass: "tm.app.CanvasRenderer",
+    tm.define("tm.display.BoundingRectRenderer", {
+        superClass: "tm.display.CanvasRenderer",
 
         init: function(canvas) {
             this.superInit(canvas);
@@ -13754,7 +13689,7 @@ tm.app = tm.app || {};
  */
 
 
-tm.app = tm.app || {};
+tm.ui = tm.ui || {};
 
 
 (function() {
@@ -13763,8 +13698,8 @@ tm.app = tm.app || {};
 	 * @class
 	 * Gauge
 	 */
-	tm.app.Gauge = tm.createClass({
-        superClass: tm.app.RectangleShape,
+	tm.ui.Gauge = tm.createClass({
+        superClass: tm.display.RectangleShape,
 
         init: function(width, height, color, direction) {
             this.superInit(width, height, {
@@ -13864,7 +13799,7 @@ tm.app = tm.app || {};
      * @property    value
      * 値
      */
-    tm.app.Gauge.prototype.accessor("value", {
+    tm.ui.Gauge.prototype.accessor("value", {
         get: function() {
             return this._value;
         },
@@ -13877,7 +13812,7 @@ tm.app = tm.app || {};
      * @property    percent
      * パーセント
      */
-    tm.app.Gauge.prototype.accessor("percent", {
+    tm.ui.Gauge.prototype.accessor("percent", {
         get: function() {
             return this.getPercent();
         },
@@ -13891,7 +13826,7 @@ tm.app = tm.app || {};
      * @property    ratio
      * 比率
      */
-    tm.app.Gauge.prototype.accessor("ratio", {
+    tm.ui.Gauge.prototype.accessor("ratio", {
         get: function() {
             return this.getRatio();
         },
@@ -13904,7 +13839,7 @@ tm.app = tm.app || {};
      * @property    targetProp
      * ターゲット
      */
-    tm.app.Gauge.prototype.accessor("targetProp", {
+    tm.ui.Gauge.prototype.accessor("targetProp", {
         get: function() {
             return this[this._targetPropName];
         },
@@ -13923,8 +13858,8 @@ tm.app = tm.app || {};
      * @class
      * pad
      */
-    tm.app.Pad = tm.createClass({
-        superClass: tm.app.Shape,
+    tm.ui.Pad = tm.createClass({
+        superClass: tm.display.Shape,
         
         isTouching: false,
         circle: null,
@@ -13945,7 +13880,7 @@ tm.app = tm.app || {};
         },
         
         _createCircle: function() {
-            var circle = this.circle = tm.app.Shape(80, 80);
+            var circle = this.circle = tm.display.Shape(80, 80);
             this.addChild(circle);
             
             var c = circle.canvas;
@@ -13993,7 +13928,7 @@ tm.app = tm.app || {};
  */
 
 
-tm.app = tm.app || {};
+tm.ui = tm.ui || {};
 
 
 
@@ -14004,13 +13939,13 @@ tm.app = tm.app || {};
      * @class
      * LabelButton
      */
-    tm.app.LabelButton = tm.createClass({
-        superClass: tm.app.Label,
+    tm.ui.LabelButton = tm.createClass({
+        superClass: tm.display.Label,
         
         init: function(text) {
             this.superInit(text);
             
-            this.alpha = tm.app.LabelButton.DEFAULT_ALPHA;
+            this.alpha = tm.ui.LabelButton.DEFAULT_ALPHA;
             this.setAlign("center").setBaseline("middle");
             
             this.setInteractive(true);
@@ -14022,7 +13957,7 @@ tm.app = tm.app || {};
             }.bind(this));
             this.addEventListener("pointingout", function() {
                 this.tweener.clear();
-                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+                this.tweener.fade(tm.ui.LabelButton.DEFAULT_ALPHA, 250);
             }.bind(this));
             
             /*
@@ -14036,7 +13971,7 @@ tm.app = tm.app || {};
         }
     });
     
-    tm.app.LabelButton.DEFAULT_ALPHA = 0.5;
+    tm.ui.LabelButton.DEFAULT_ALPHA = 0.5;
     
 })();
 
@@ -14047,9 +13982,9 @@ tm.app = tm.app || {};
      * @class
      * IconButton
      */
-    tm.app.IconButton = tm.createClass({
+    tm.ui.IconButton = tm.createClass({
         
-        superClass: tm.app.Sprite,
+        superClass: tm.display.Sprite,
         
         /**
          * 初期化
@@ -14057,13 +13992,13 @@ tm.app = tm.app || {};
         init: function(texture)
         {
             if (texture) {
-                this.superInit(texture.width, texture.height, texture);
+                this.superInit(texture, texture.width, texture.height);
             }
             else {
                 this.superInit();
             }
             
-            this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
+            this.alpha = tm.ui.IconButton.DEFAULT_ALPHA;
             
             this.setInteractive(true);
             this.boundingType = "rect";
@@ -14073,12 +14008,12 @@ tm.app = tm.app || {};
             });
             this.addEventListener("pointingout", function() {
                 this.tweener.clear();
-                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+                this.tweener.fade(tm.ui.LabelButton.DEFAULT_ALPHA, 250);
             });
         },
     });
     
-    tm.app.IconButton.DEFAULT_ALPHA = 0.5;
+    tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
     
 })();
 
@@ -14089,15 +14024,15 @@ tm.app = tm.app || {};
      * @class
      * glossy button
      */
-    tm.app.GlossyButton = tm.createClass({
-        superClass: tm.app.Shape,
+    tm.ui.GlossyButton = tm.createClass({
+        superClass: tm.display.Shape,
         
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
             
             text  = text  || "Button";
             this.backgroundColor = backgroundColor || "black";
-            this.alpha = tm.app.GlossyButton.DEFAULT_ALPHA;
+            this.alpha = tm.ui.GlossyButton.DEFAULT_ALPHA;
             
             this.setInteractive(true);
             this.boundingType = "rect";
@@ -14107,11 +14042,11 @@ tm.app = tm.app || {};
             });
             this.addEventListener("pointingout", function() {
                 this.tweener.clear();
-                this.tweener.fade(tm.app.GlossyButton.DEFAULT_ALPHA, 250);
+                this.tweener.fade(tm.ui.GlossyButton.DEFAULT_ALPHA, 250);
             });
             
             // ラベル
-            this.label = tm.app.Label(text || "").addChildTo(this);
+            this.label = tm.display.Label(text || "").addChildTo(this);
             this.label.setAlign("center").setBaseline("middle");
             
             this._refresh();
@@ -14157,7 +14092,7 @@ tm.app = tm.app || {};
     });
     
     
-    tm.app.GlossyButton.DEFAULT_ALPHA = 0.5;
+    tm.ui.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     
 })();
@@ -14165,8 +14100,8 @@ tm.app = tm.app || {};
 
 (function() {
 
-    tm.define("tm.app.FlatButton", {
-        superClass: tm.app.Shape,
+    tm.define("tm.ui.FlatButton", {
+        superClass: tm.display.Shape,
 
         init: function(param) {
             param.$safe({
@@ -14185,7 +14120,7 @@ tm.app = tm.app || {};
             this.setInteractive(true);
             this.setBoundingType("rect");
 
-            this.label = tm.app.Label(param.text).addChildTo(this);
+            this.label = tm.display.Label(param.text).addChildTo(this);
             this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign("center").setBaseline("middle");
         },
     });
@@ -14200,10 +14135,10 @@ tm.app = tm.app || {};
 (function() {
     
     /**
-     * @class tm.app.MenuDialog
+     * @class tm.ui.MenuDialog
      * メニューダイアログ
      */
-    tm.define("tm.app.MenuDialog", {
+    tm.define("tm.ui.MenuDialog", {
         superClass: tm.app.Scene,
 
         /** @type {string} タイトル */
@@ -14215,15 +14150,15 @@ tm.app = tm.app || {};
         /** @type {boolean} exit の表示/非表示 */
         showExit: false,
 
-        /** @type {tm.app.Label} dummy */
+        /** @type {tm.display.Label} dummy */
         title: null,
-        /** @type {Array.<tm.app.LabelButton>} dummy */
+        /** @type {Array.<tm.ui.LabelButton>} dummy */
         selections: [],
-        /** @type {tm.app.Label} dummy */
+        /** @type {tm.display.Label} dummy */
         description: null,
-        /** @type {tm.app.RectangleShape} dummy */
+        /** @type {tm.display.RectangleShape} dummy */
         box: null,
-        /** @type {tm.app.RectangleShape} dummy */
+        /** @type {tm.display.RectangleShape} dummy */
         cursor: null,
 
         _selected: 0,
@@ -14259,7 +14194,7 @@ tm.app = tm.app || {};
             }
 
             var height = Math.max((1+this.menu.length)*50, 50) + 40;
-            this.box = tm.app.RectangleShape(this._screenWidth * 0.8, height, {
+            this.box = tm.display.RectangleShape(this._screenWidth * 0.8, height, {
                 strokeStyle: "rgba(0,0,0,0)",
                 fillStyle: "rgba(43,156,255, 0.8)",
             }).setPosition(this._screenWidth*0.5, this._screenHeight*0.5);
@@ -14271,7 +14206,7 @@ tm.app = tm.app || {};
                 .call(this._onOpen.bind(this));
             this.box.addChildTo(this);
 
-            this.description = tm.app.Label("", 14)
+            this.description = tm.display.Label("", 14)
                 .setAlign("center")
                 .setBaseline("middle")
                 .setPosition(this._screenWidth*0.5, this._screenHeight-10)
@@ -14282,7 +14217,7 @@ tm.app = tm.app || {};
             var self = this;
             var y = this._screenHeight*0.5 - this.menu.length * 25;
 
-            this.title = tm.app.Label(this.titleText, 30)
+            this.title = tm.display.Label(this.titleText, 30)
                 .setAlign("center")
                 .setBaseline("middle")
                 .setPosition(this._screenWidth*0.5, y)
@@ -14293,7 +14228,7 @@ tm.app = tm.app || {};
             this.selections = this.menu.map(function(text, i) {
                 var self = this;
                 y += 50;
-                var selection = tm.app.LabelButton(text)
+                var selection = tm.ui.LabelButton(text)
                     .setPosition(this._screenWidth*0.5, y)
                     .addChildTo(this);
                 selection.interactive = true;
@@ -14330,7 +14265,7 @@ tm.app = tm.app || {};
         },
 
         _createCursor: function() {
-            var cursor = tm.app.RectangleShape(this._screenWidth*0.7, 30, {
+            var cursor = tm.display.RectangleShape(this._screenWidth*0.7, 30, {
                 strokeStyle: "rgba(0,0,0,0)",
                 fillStyle: "rgba(12,79,138,1)"
             }).addChildTo(this);
@@ -15582,6 +15517,31 @@ tm.google = tm.google || {};
      */
     tm.app.Element.prototype.getter("interaction", function() {
         console.assert(false, "interaction は Object2d に統合されました. obj.setInteractive(true); とすればタッチ判定が有効になります.");
+    });
+    
+    
+    var dirtyClass = [
+        "Sprite",
+        "Shape",
+        "CircleShape",
+        "TriangleShape",
+        "RectangleShape",
+        "StarShape",
+        "PolygonShape",
+        "HeartShape",
+        "TextShape",
+        "CanvasRenderer",
+        "BoundingRectRenderer",
+        "Label",
+        "MapSprite",
+        "CanvasElement",
+        "CanvasApp",
+        "AnimationSprite",
+        "SpriteSheet",
+    ];
+    
+    dirtyClass.each(function(className) {
+        tm.app[className] = tm.display[className];
     });
 
 
