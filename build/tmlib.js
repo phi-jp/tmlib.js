@@ -10397,10 +10397,24 @@ tm.app = tm.app || {};
         },
         
         /**
-         * index 指定で子供を取得
+         * index 指定で要素を追加
          */
-        getChildAt: function() {
-            // TODO: 
+        addChildAt: function(child, index) {
+            if (child.parent) child.remove();
+            child.parent = this;
+            this.children.splice(index, 0, child);
+
+            var e = tm.event.Event("added");
+            child.dispatchEvent(e);
+
+            return child;
+        },
+        
+        /**
+         * index 指定で要素を取得
+         */
+        getChildAt: function(child) {
+            return this.children.indexOf(child);
         },
         
         /**
