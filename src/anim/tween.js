@@ -10,6 +10,7 @@ tm.anim = tm.anim || {};
     /**
      * @class tm.anim.Tween
      * Tween クラス
+     * @extends tm.event.EventDispatcher
      */
     tm.anim.Tween = tm.createClass({
         
