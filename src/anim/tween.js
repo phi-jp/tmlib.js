@@ -8,7 +8,7 @@ tm.anim = tm.anim || {};
     
     
     /**
-     * @class
+     * @class tm.anim.Tween
      * Tween クラス
      */
     tm.anim.Tween = tm.createClass({
