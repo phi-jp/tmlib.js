@@ -1,5 +1,5 @@
 /*
- * 
+ * baseapp.js
  */
 
 tm.app = tm.app || {};
@@ -8,7 +8,7 @@ tm.app = tm.app || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.app.BaseApp
      * ベースアプリケーション
      */
     tm.app.BaseApp = tm.createClass({
