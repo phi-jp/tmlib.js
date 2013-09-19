@@ -6,7 +6,11 @@
 
     tm.asset = tm.asset || {};
 
-
+    /**
+     * @class tm.asset.AssetManager
+     * マップシート
+     * @extends tm.event.EventDispatcher
+     */
     tm.define("tm.asset.AssetManager", {
         superClass: "tm.event.EventDispatcher",
 

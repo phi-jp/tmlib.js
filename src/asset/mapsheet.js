@@ -2,8 +2,6 @@
  * mapsheet.js
  */
 
-
-
 (function() {
 
     /**

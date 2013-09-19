@@ -1,9 +1,15 @@
-
+/*
+ * spritesheet.js
+ */
 
 (function() {
     
+    /**
+     * @class tm.asset.SpriteSheet
+     * マップシート
+     * @extends tm.event.EventDispatcher
+     */
     tm.define("tm.asset.SpriteSheet", {
-
         superClass: "tm.event.EventDispatcher",
 
         init: function(src) {

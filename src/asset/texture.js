@@ -7,6 +7,7 @@
     /**
      * @class tm.asset.Texture
      * テクスチャクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.define("tm.asset.Texture", {
         superClass: "tm.event.EventDispatcher",
