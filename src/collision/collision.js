@@ -2,10 +2,8 @@
  * collision.js
  */
 
-
 tm.collision = tm.collision || {};
  
-
 (function() {
 
     /**
