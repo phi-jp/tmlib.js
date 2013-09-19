@@ -2,6 +2,7 @@ tm.namespace("tm.app", function() {
     /**
      * @class tm.app.Timeline
      * タイムラインクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.define("tm.app.Timeline", {
         superClass: "tm.event.EventDispatcher",

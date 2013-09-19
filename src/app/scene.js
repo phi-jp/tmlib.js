@@ -9,8 +9,9 @@ tm.app = tm.app || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.app.Scene
      * シーンとして使用するゲームエレメントクラス
+     * @extends tm.app.Object2D
      */
     tm.app.Scene = tm.createClass({
         
@@ -41,6 +42,11 @@ tm.app = tm.app || {};
         height: 465,
     };
     
+    /**
+     * @class tm.app.LoadingScene
+     * ローディングシーン
+     * @extends tm.app.Scene
+     */
     tm.app.LoadingScene = tm.createClass({
         superClass: tm.app.Scene,
         
@@ -109,6 +115,11 @@ tm.app = tm.app || {};
         height: 465,
     };
     
+    /**
+     * @class tm.app.TitleScene
+     * ローディングシーン
+     * @extends tm.app.Scene
+     */
     tm.app.TitleScene = tm.createClass({
         superClass: tm.app.Scene,
         
@@ -155,6 +166,11 @@ tm.app = tm.app || {};
         related: "tmlib.js tmlife javascript",
     };
     
+    /**
+     * @class tm.app.ResultScene
+     * ローディングシーン
+     * @extends tm.app.Scene
+     */
     tm.app.ResultScene = tm.createClass({
         
         superClass: tm.app.Scene,

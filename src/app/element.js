@@ -8,8 +8,9 @@ tm.app = tm.app || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.app.Element
      * アプリケーション用オブジェクトの基底となるクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.app.Element = tm.createClass({
         

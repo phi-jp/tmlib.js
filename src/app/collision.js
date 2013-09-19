@@ -9,7 +9,7 @@ tm.app = tm.app || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.app.Collision
      * 衝突管理クラス
      */
     tm.app.Collision = tm.createClass({

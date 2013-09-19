@@ -7,8 +7,8 @@
     
     /**
      * @class tm.app.Object2D
-     * @extends tm.app.Element
      * Object2D
+     * @extends tm.app.Element
      */
     tm.define("tm.app.Object2D", {
         superClass: "tm.app.Element",

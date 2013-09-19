@@ -3,6 +3,7 @@
     /**
      * @class tm.app.Tweener
      * トゥイーナークラス
+     * @extends tm.event.EventDispatcher
      */
     tm.define("tm.app.Tweener", {
         superClass: "tm.event.EventDispatcher",
