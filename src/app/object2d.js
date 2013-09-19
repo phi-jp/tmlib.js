@@ -1,7 +1,6 @@
 /*
- * phi
+ * object2d.js
  */
-
 
 (function() {
     

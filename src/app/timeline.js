@@ -1,3 +1,7 @@
+/*
+ * timeline.js
+ */
+
 tm.namespace("tm.app", function() {
     /**
      * @class tm.app.Timeline
