@@ -2,11 +2,10 @@
  * list.js
  */
 
-
-(function(){
+(function() {
     
     /**
-     * @class
+     * @class tm.Item
      * Item クラス
      */
     tm.Item = tm.createClass({
@@ -23,7 +22,7 @@
     });
     
     /**
-     * @class
+     * @class tm.List
      * List クラス
      * ### Reference
      * - <http://java.sun.com/javase/ja/6/docs/ja/api/java/util/LinkedList.html>

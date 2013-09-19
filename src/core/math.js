@@ -2,7 +2,6 @@
  * math.js
  */
 
-
 (function() {
     
     /**

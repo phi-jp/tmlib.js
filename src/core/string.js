@@ -2,7 +2,6 @@
  * string.js
  */
 
-
 (function() {
     /**
      * @class String

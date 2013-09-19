@@ -2,7 +2,6 @@
  * number.js
  */
 
-
 (function() {
     
     /**

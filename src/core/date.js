@@ -2,7 +2,6 @@
  * date.js
  */
 
-
 (function() {
     
     /**
@@ -19,9 +18,8 @@
     ];
     
     /**
-     * @method  round
-     * 四捨五入
-     * 桁数指定版
+     * @method  format
+     * 日付フォーマットに合わせた文字列を返す
      */
     Date.prototype.format = function(pattern)
     {

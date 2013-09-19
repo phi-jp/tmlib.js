@@ -2,7 +2,6 @@
  * function.js
  */
 
-
 (function() {
     
     /**
