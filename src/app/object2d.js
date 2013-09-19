@@ -7,6 +7,7 @@
     
     /**
      * @class tm.app.Object2D
+     * @extends tm.app.Element
      * Object2D
      */
     tm.define("tm.app.Object2D", {
