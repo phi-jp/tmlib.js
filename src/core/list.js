@@ -67,8 +67,7 @@
         /**
          * 削除
          */
-        remove: function(index)
-        {
+        remove: function(index) {
             var current = this.getItem(index);
             
             current.prev.next = current.next;
@@ -82,16 +81,14 @@
         /**
          * 取得
          */
-        get: function(index)
-        {
+        get: function(index) {
             return this.getItem(index).data;
         },
         
         /**
          * アイテムを取得
          */
-        getItem: function(index)
-        {
+        getItem: function(index) {
             var current = this._head.next;
             var i=0;
             

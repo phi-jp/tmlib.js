@@ -18,16 +18,14 @@ tm.geom = tm.geom || {};
         /**
          * 初期化
          */
-        init: function(x, y, radius)
-        {
+        init: function(x, y, radius) {
             this.set(x, y, radius);
         },
         
         /**
          * セッター
          */
-        set: function(x, y, radius)
-        {
+        set: function(x, y, radius) {
             this.x = x;
             this.y = y;
             this.radius = radius;
@@ -38,8 +36,7 @@ tm.geom = tm.geom || {};
         /**
          * 移動
          */
-        move: function(x, y)
-        {
+        move: function(x, y) {
             this.x = x;
             this.y = y;
             return this;
@@ -48,8 +45,7 @@ tm.geom = tm.geom || {};
         /**
          * 現在位置を基準に移動
          */
-        moveBy: function(x, y)
-        {
+        moveBy: function(x, y) {
             this.x += x;
             this.y += y;
             return this;
@@ -58,8 +54,7 @@ tm.geom = tm.geom || {};
         /**
          * リサイズ
          */
-        resize: function(size)
-        {
+        resize: function(size) {
             this.radius = size;
             return this;
         },
@@ -67,30 +62,26 @@ tm.geom = tm.geom || {};
         /**
          * 現在のサイズを基準にリサイズ
          */
-        resizeBy: function(size)
-        {
+        resizeBy: function(size) {
             this.radius += size;
             return this;
         },
         
-        clone: function()
-        {
-            
+        clone: function() {
+            // TODO
         },
         
         /**
          * 四角形に変換
          */
-        toRectangle: function()
-        {
+        toRectangle: function() {
             return tm.geom.Rectangle(this.x, this.y, this.radius*2, this.radius*2);
         },
         
         /**
          * 配列に変換
          */
-        toArray: function()
-        {
+        toArray: function() {
             return [this.x, this.y, this.radius];
         }
     });

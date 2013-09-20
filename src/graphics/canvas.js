@@ -2,14 +2,12 @@
  * canvas.js
  */
 
-/*
- * 
- */
 tm.graphics = tm.graphics || {};
 
 (function() {
     
     /**
+     * @class tm.graphics.Canvas
      * キャンバス
      */
     tm.graphics.Canvas = tm.createClass({
@@ -122,8 +120,7 @@ tm.graphics = tm.graphics || {};
         /**
          *  クリア
          */
-        clear: function(x, y, width, height)
-        {
+        clear: function(x, y, width, height) {
             x = x || 0;
             y = y || 0;
             width = width || this.width;
@@ -141,8 +138,7 @@ tm.graphics = tm.graphics || {};
          * @param {Number}  [width=this.width]
          * @param {Number}  [height=this.height]
          */
-        clearColor: function(fillStyle, x, y, width, height)
-        {
+        clearColor: function(fillStyle, x, y, width, height) {
             x = x || 0;
             y = y || 0;
             width = width || this.width;
@@ -160,8 +156,7 @@ tm.graphics = tm.graphics || {};
         /**
          *  パスを開始(リセット)
          */
-        beginPath: function()
-        {
+        beginPath: function() {
             this.context.beginPath();
             return this;
         },
@@ -169,8 +164,7 @@ tm.graphics = tm.graphics || {};
         /**
          *  パスを閉じる
          */
-        closePath: function()
-        {
+        closePath: function() {
             this.context.closePath();
             return this;
         },
@@ -179,8 +173,7 @@ tm.graphics = tm.graphics || {};
         /**
          *  新規パス生成
          */
-        moveTo: function(x, y)
-        {
+        moveTo: function(x, y) {
             this.context.moveTo(x, y);
             return this;
         },
@@ -188,8 +181,7 @@ tm.graphics = tm.graphics || {};
         /**
          * パスに追加
          */
-        lineTo: function(x, y)
-        {
+        lineTo: function(x, y) {
             this.context.lineTo(x, y);
             return this;
         },
@@ -197,8 +189,7 @@ tm.graphics = tm.graphics || {};
         /**
          * パス内を塗りつぶす
          */
-        fill: function()
-        {
+        fill: function() {
             this.context.fill();
             return this;
         },
@@ -206,8 +197,7 @@ tm.graphics = tm.graphics || {};
         /**
          * パス上にラインを引く
          */
-        stroke: function()
-        {
+        stroke: function() {
             this.context.stroke();
             return this;
         },
@@ -215,8 +205,7 @@ tm.graphics = tm.graphics || {};
         /**
          * クリップ
          */
-        clip: function()
-        {
+        clip: function() {
             this.context.clip();
             return this;
         },
@@ -224,8 +213,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 点描画
          */
-        drawPoint: function(x, y)
-        {
+        drawPoint: function(x, y) {
             return this.strokeRect(x, y, 1, 1);
             // return this.beginPath().moveTo(x-0.5, y-0.5).lineTo(x+0.5, y+0.5).stroke();
         },
@@ -233,24 +221,21 @@ tm.graphics = tm.graphics || {};
         /**
          * ラインパスを作成
          */
-        line: function(x0, y0, x1, y1)
-        {
+        line: function(x0, y0, x1, y1) {
             return this.moveTo(x0, y0).lineTo(x1, y1);
         },
         
         /**
          * ラインを描画
          */
-        drawLine: function(x0, y0, x1, y1)
-        {
+        drawLine: function(x0, y0, x1, y1) {
             return this.beginPath().line(x0, y0, x1, y1).stroke();
         },
         
         /**
          * ダッシュラインを描画
          */
-        drawDashLine: function(x0, y0, x1, y1, pattern)
-        {
+        drawDashLine: function(x0, y0, x1, y1, pattern) {
             var patternTable = null;
             if (typeof(pattern) == "string") {
                 patternTable = pattern;
@@ -284,8 +269,7 @@ tm.graphics = tm.graphics || {};
          * v0(x0, y0), v1(x1, y1) から角度を求めて矢印を描画
          * http://hakuhin.jp/as/rotation.html
          */
-        drawArrow: function(x0, y0, x1, y1, arrowRadius)
-        {
+        drawArrow: function(x0, y0, x1, y1, arrowRadius) {
             var vx = x1-x0;
             var vy = y1-y0;
             var angle = Math.atan2(vy, vx)*180/Math.PI;
@@ -300,8 +284,7 @@ tm.graphics = tm.graphics || {};
         /**
          * lines
          */
-        lines: function()
-        {
+        lines: function() {
             this.moveTo(arguments[0], arguments[1]);
             for (var i=1,len=arguments.length/2; i<len; ++i) {
                 this.lineTo(arguments[i*2], arguments[i*2+1]);
@@ -309,16 +292,14 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
-        strokeLines: function()
-        {
+        strokeLines: function() {
             this.beginPath();
             this.lines.apply(this, arguments);
             this.stroke();
             return this;
         },
         
-        fillLines: function()
-        {
+        fillLines: function() {
             this.beginPath();
             this.lines.apply(this, arguments);
             this.fill();
@@ -328,8 +309,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 四角形パスを作成する
          */
-        rect: function(x, y, width, height)
-        {
+        rect: function(x, y, width, height) {
             this.context.rect.apply(this.context, arguments);
             return this;
         },
@@ -337,8 +317,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 四角形塗りつぶし描画
          */
-        fillRect: function()
-        {
+        fillRect: function() {
             this.context.fillRect.apply(this.context, arguments);
             return this;
         },
@@ -346,8 +325,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 四角形ライン描画
          */
-        strokeRect: function()
-        {
+        strokeRect: function() {
             this.context.strokeRect.apply(this.context, arguments);
             return this;
         },
@@ -503,8 +481,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 円のパスを設定
          */
-        circle: function(x, y, radius)
-        {
+        circle: function(x, y, radius) {
             this.context.arc(x, y, radius, 0, Math.PI*2, false);
             return this;
         },
@@ -512,8 +489,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 塗りつぶし円を描画
          */
-        fillCircle: function(x, y, radius)
-        {
+        fillCircle: function(x, y, radius) {
             var c = this.context;
             c.beginPath();
             c.arc(x, y, radius, 0, Math.PI*2, false);
@@ -526,8 +502,7 @@ tm.graphics = tm.graphics || {};
         /**
          * ストローク円を描画
          */
-        strokeCircle: function(x, y, radius)
-        {
+        strokeCircle: function(x, y, radius) {
             return this.beginPath().circle(x, y, radius).stroke();
         },
         
@@ -535,8 +510,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 円弧のパスを設定
          */
-        arc: function(x, y, radius, startAngle, endAngle, anticlockwise)
-        {
+        arc: function(x, y, radius, startAngle, endAngle, anticlockwise) {
             this.context.arc(x, y, radius, startAngle, endAngle, anticlockwise);
             return this;
         },
@@ -544,24 +518,21 @@ tm.graphics = tm.graphics || {};
         /**
          * 塗りつぶし円弧を描画
          */
-        fillArc: function(x, y, radius, startAngle, endAngle, anticlockwise)
-        {
+        fillArc: function(x, y, radius, startAngle, endAngle, anticlockwise) {
             return this.beginPath().arc(x, y, radius, startAngle, endAngle, anticlockwise).fill();
         },
         
         /**
          * ストローク円弧を描画
          */
-        strokeArc: function(x, y, radius, startAngle, endAngle, anticlockwise)
-        {
+        strokeArc: function(x, y, radius, startAngle, endAngle, anticlockwise) {
             return this.beginPath().arc(x, y, radius, startAngle, endAngle, anticlockwise).stroke();
         },
         
         /**
          * 三角形パスを設定
          */
-        triangle: function(x0, y0, x1, y1, x2, y2)
-        {
+        triangle: function(x0, y0, x1, y1, x2, y2) {
             this.moveTo(x0, y0).lineTo(x1, y1).lineTo(x2, y2);
             this.closePath();
             return this;
@@ -570,16 +541,14 @@ tm.graphics = tm.graphics || {};
         /**
          * 塗りつぶし三角形を描画
          */
-        fillTriangle: function(x0, y0, x1, y1, x2, y2)
-        {
+        fillTriangle: function(x0, y0, x1, y1, x2, y2) {
             return this.beginPath().triangle(x0, y0, x1, y1, x2, y2).fill();
         },
         
         /**
          * ストローク三角形を描画
          */
-        strokeTriangle: function(x0, y0, x1, y1, x2, y2)
-        {
+        strokeTriangle: function(x0, y0, x1, y1, x2, y2) {
             return this.beginPath().triangle(x0, y0, x1, y1, x2, y2).stroke();
         },
         
@@ -587,24 +556,21 @@ tm.graphics = tm.graphics || {};
         /**
          * 塗りつぶしテキストを描画
          */
-        fillText: function(text, x, y)
-        {
+        fillText: function(text, x, y) {
             return this.context.fillText.apply(this.context, arguments);
         },
         
         /**
          * ストロークテキスト
          */
-        strokeText: function(text, x, y)
-        {
+        strokeText: function(text, x, y) {
             return this.context.strokeText.apply(this.context, arguments);
         },
         
         /**
          * 塗りつぶしテキスト
          */
-        fillTextList: function(text_list, x, y, offsetX, offsetY)
-        {
+        fillTextList: function(text_list, x, y, offsetX, offsetY) {
             offsetX = offsetX || 0;
             offsetY = offsetY || 20;
             
@@ -618,8 +584,7 @@ tm.graphics = tm.graphics || {};
         /**
          * ストロークテキストリスト
          */
-        strokeTextList: function(text_list, x, y, offsetX, offsetY)
-        {
+        strokeTextList: function(text_list, x, y, offsetX, offsetY) {
             offsetX = offsetX || 0;
             offsetY = offsetY || 20;
             
@@ -633,8 +598,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 画像描画
          */
-        drawImage: function(image, x, y)
-        {
+        drawImage: function(image, x, y) {
             this.context.drawImage.apply(this.context, arguments);
             return ;
             
@@ -650,8 +614,7 @@ tm.graphics = tm.graphics || {};
         /**
          * テクスチャ描画
          */
-        drawTexture: function(texture, x, y)
-        {
+        drawTexture: function(texture, x, y) {
             arguments[0] = texture.element;
             this.context.drawImage.apply(this.context, arguments);
             
@@ -661,8 +624,7 @@ tm.graphics = tm.graphics || {};
         /**
          * ビットマップ描画
          */
-        drawBitmap: function(bitmap, x, y)
-        {
+        drawBitmap: function(bitmap, x, y) {
             arguments[0] = bitmap.imageData;
             this.context.putImageData.apply(this.context, arguments);
             
@@ -672,8 +634,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 行列をセット
          */
-        setTransform: function(m11, m12, m21, m22, dx, dy)
-        {
+        setTransform: function(m11, m12, m21, m22, dx, dy) {
             this.context.setTransform(m11, m12, m21, m22, dx, dy);
             return this;
         },
@@ -682,8 +643,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 行列をリセット
          */
-        resetTransform: function()
-        {
+        resetTransform: function() {
             this.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
             return this;
         },
@@ -692,8 +652,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 中心に移動
          */
-        setTransformCenter: function()
-        {
+        setTransformCenter: function() {
             this.context.setTransform(1, 0, 0, 1, this.width/2, this.height/2);
             return this;
         },
@@ -701,8 +660,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 行列を掛ける
          */
-        transform: function(m11, m12, m21, m22, dx, dy)
-        {
+        transform: function(m11, m12, m21, m22, dx, dy) {
             this.context.transform(m11, m12, m21, m22, dx, dy);
             return this;
         },
@@ -710,8 +668,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 保存
          */
-        save: function()
-        {
+        save: function() {
             this.context.save();
             return this;
         },
@@ -719,8 +676,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 復元
          */
-        restore: function()
-        {
+        restore: function() {
             this.context.restore();
             return this;
         },
@@ -728,8 +684,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 移動
          */
-        translate: function(x, y)
-        {
+        translate: function(x, y) {
             this.context.translate(x, y);
             return this;
         },
@@ -737,8 +692,7 @@ tm.graphics = tm.graphics || {};
         /**
          * 回転
          */
-        rotate: function(rotation)
-        {
+        rotate: function(rotation) {
             this.context.rotate(rotation);
             return this;
         },
@@ -746,8 +700,7 @@ tm.graphics = tm.graphics || {};
         /**
          * スケール
          */
-        scale: function(scaleX, scaleY)
-        {
+        scale: function(scaleX, scaleY) {
             this.context.scale(scaleX, scaleY);
             return this;
         },
@@ -765,19 +718,16 @@ tm.graphics = tm.graphics || {};
             // TODO: プログラムで絵をかいて保存できるツール
         },
         
-        setCompositing: function(alpha, compositeOperation)
-        {
+        setCompositing: function(alpha, compositeOperation) {
             // TODO
         },
         
-        setFillStyle: function(style)
-        {
+        setFillStyle: function(style) {
             this.context.fillStyle = style;
             return this;
         },
         
-        setStrokeStyle: function(style)
-        {
+        setStrokeStyle: function(style) {
             this.context.strokeStyle = style;
             return this;
         },
@@ -786,8 +736,7 @@ tm.graphics = tm.graphics || {};
          * 
          * <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles</a>
          */
-        setColorStyle: function(stroke, fill)
-        {
+        setColorStyle: function(stroke, fill) {
             fill = fill || stroke;
             
             this.context.strokeStyle    = stroke;
@@ -798,8 +747,7 @@ tm.graphics = tm.graphics || {};
         /**
          * テキストをセット
          */
-        setText: function(font, align, baseline)
-        {
+        setText: function(font, align, baseline) {
             var c = this.context;
             c.font          = font;
             c.textAlign     = align;

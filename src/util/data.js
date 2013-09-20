@@ -1,21 +1,21 @@
 /*
- * data.js
+ * util/data.js
  */
 
 tm.util = tm.util || {};
 
+
 (function() {
     
     /**
-     * @class
+     * @class tm.util.DataManager
      * データマネージャ
      */
     tm.util.DataManager = {
         data: {}
     };
     
-    tm.util.DataManager.save = function()
-    {
+    tm.util.DataManager.save = function() {
         // TODO: ローカルストレージ?
         for (var key in this.data) {
             var data = this.data[key];
@@ -23,16 +23,14 @@ tm.util = tm.util || {};
         }
     };
     
-    tm.util.DataManager.load = function(key)
-    {
+    tm.util.DataManager.load = function(key) {
         // TODO: ローカルストレージ?
         for (var key in localStorage) {
             this.data[key] = JSON.parse(localStorage[key]);
         }
     };
     
-    tm.util.DataManager.set = function(key, value)
-    {
+    tm.util.DataManager.set = function(key, value) {
         this.data[key] = value;
         return this;
     };

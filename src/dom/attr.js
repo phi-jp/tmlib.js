@@ -4,13 +4,11 @@
 
 tm.dom = tm.dom || {};
 
-
-
 (function(){
     
     /**
-     * @class
-     * スタイル
+     * @class tm.dom.Attr
+     * @TODO ?
      */
     tm.dom.Attr = tm.createClass({
         

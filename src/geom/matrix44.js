@@ -33,8 +33,7 @@ tm.geom = tm.geom || {};
         /**
          * セット
          */
-        set: function(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)
-        {
+        set: function(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33) {
             console.assert(arguments.length>=16, "");
             
             // |m00, m01, m02, m03|
@@ -53,8 +52,7 @@ tm.geom = tm.geom || {};
         /**
          * 配列からセット
          */
-        setArray: function(arr)
-        {
+        setArray: function(arr) {
             this.set(
                 arr[0], arr[4],  arr[8], arr[12],
                 arr[1], arr[5],  arr[9], arr[13],
@@ -69,8 +67,7 @@ tm.geom = tm.geom || {};
          * オブジェクトからセット.
          * Matrix44 もこいつでいける!!
          */
-        setObject: function(obj)
-        {
+        setObject: function(obj) {
             this.set(
                 obj.m00, obj.m01, obj.m02, obj.m03,
                 obj.m10, obj.m11, obj.m12, obj.m13,
@@ -164,8 +161,7 @@ tm.geom = tm.geom || {};
          * 乗算
          * this * mat
          */
-        multiply: function(mat)
-        {
+        multiply: function(mat) {
             var m00 = this.m00*mat.m00 + this.m01*mat.m10 + this.m02*mat.m20 + this.m03*mat.m30;
             var m01 = this.m00*mat.m01 + this.m01*mat.m11 + this.m02*mat.m21 + this.m03*mat.m31;
             var m02 = this.m00*mat.m02 + this.m01*mat.m12 + this.m02*mat.m22 + this.m03*mat.m32;

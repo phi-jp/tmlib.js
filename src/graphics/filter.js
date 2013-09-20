@@ -1,15 +1,14 @@
 /*
- * bitmap.js
+ * filter.js
  */
 
 tm.graphics = tm.graphics || {};
 
-
 (function() {
     
     /**
-     * @class
-     * フィルタ
+     * @class tm.graphics.MonochromeFilter
+     * モノクロフィルタ
      */
     tm.graphics.MonochromeFilter = tm.createClass({
         
@@ -44,8 +43,8 @@ tm.graphics = tm.graphics || {};
 (function() {
     
     /**
-     * @class
-     * フィルタ
+     * @class tm.graphics.ReverseFilter
+     * リバースフィルタ
      */
     tm.graphics.ReverseFilter = tm.createClass({
         
@@ -79,7 +78,7 @@ tm.graphics = tm.graphics || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.graphics.BlurFilter
      * ブラーフィルタ
      * 
      * ### Reference
@@ -155,7 +154,7 @@ tm.graphics = tm.graphics || {};
     }
     
     /**
-     * @class
+     * @class tm.graphics.ToonFilter
      * トゥーンフィルタ
      */
     tm.graphics.ToonFilter = tm.createClass({
@@ -193,7 +192,7 @@ tm.graphics = tm.graphics || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.graphics.ColorMatrixFilter
      * カラーマトリックスフィルタ
      * 
      * ### Reference
@@ -232,16 +231,6 @@ tm.graphics = tm.graphics || {};
     });
     
 })();
-
-
-
-
-
-
-
-
-
-
 
 
 

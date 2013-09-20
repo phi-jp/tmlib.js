@@ -6,7 +6,7 @@
     
     /**
      * @class   Number
-     * 数値
+     * Numberの拡張
      */
     
     /**

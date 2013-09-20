@@ -6,7 +6,7 @@
     
     /**
      * @class   Date
-     * Date クラス
+     * Date(日付)の拡張
      */
     
     var MONTH = [
@@ -21,8 +21,7 @@
      * @method  format
      * 日付フォーマットに合わせた文字列を返す
      */
-    Date.prototype.format = function(pattern)
-    {
+    Date.prototype.format = function(pattern) {
         /*
         var str = "{y}/{m}/{d}".format({
             y: this.getYear()+1900,

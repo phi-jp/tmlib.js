@@ -15,7 +15,7 @@ tm.graphics = tm.graphics || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.graphics.LinearGradient
      * 線形グラデーション
      */
     tm.graphics.LinearGradient = tm.createClass({
@@ -55,7 +55,7 @@ tm.graphics = tm.graphics || {};
 
     
     /**
-     * @class
+     * @class tm.graphics.RadialGradient
      * 円形グラデーション
      */
     tm.graphics.RadialGradient = tm.createClass({

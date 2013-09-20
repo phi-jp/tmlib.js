@@ -11,8 +11,9 @@ tm.display = tm.display || {};
     var dummyContext = null;
     
     /**
-     * @class
-     * Label
+     * @class tm.display.Label
+     * システムフォントを描画するクラス
+     * @extends tm.display.CanvasElement
      */
     tm.display.Label = tm.createClass({
         

@@ -2,8 +2,8 @@
  * ajax.js
  */
 
-
 tm.util = tm.util || {};
+
 
 (function() {
     
@@ -19,10 +19,12 @@ tm.util = tm.util || {};
         error   : function(data){ alert("error!!"); }
     };
     
-    
+    /**
+     * @class tm.util.Ajax
+     * @TODO ?
+     */
     tm.util.Ajax = {
-        load: function(params)
-        {
+        load: function(params) {
             for (var key in AJAX_DEFAULT_SETTINGS) {
                 params[key] = params[key] || AJAX_DEFAULT_SETTINGS[key];
             }
@@ -32,8 +34,7 @@ tm.util = tm.util || {};
             var conv_func = tm.util.Ajax.DATA_CONVERTE_TABLE[params.dataType];
             
             // コールバック
-            httpRequest.onreadystatechange = function()
-            {
+            httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState == 4) {
                     // 成功
                     if (httpRequest.status === 200) {
@@ -77,7 +78,9 @@ tm.util = tm.util || {};
     };
     
     /**
+     * @property
      * データコンバータテーブル
+     * @TODO propertyでいいの？定数はなんだろう
      */
     tm.util.Ajax.DATA_CONVERTE_TABLE = {
         undefined: function(data) {

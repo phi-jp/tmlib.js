@@ -1,12 +1,12 @@
 /*
- * phi
+ * dom/data.js
  */
 
 (function(){
     
     /**
      * @class tm.dom.Data
-     * スタイル
+     * @TODO ?
      */
     tm.define("tm.dom.Data", {
         element: null,

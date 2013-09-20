@@ -2,17 +2,15 @@
  * button.js
  */
 
-
 tm.ui = tm.ui || {};
-
-
 
 
 (function() {
     
     /**
-     * @class
+     * @class tm.ui.LabelButton
      * LabelButton
+     * @extends tm.display.Label
      */
     tm.ui.LabelButton = tm.createClass({
         superClass: tm.display.Label,
@@ -54,18 +52,17 @@ tm.ui = tm.ui || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.ui.IconButton
      * IconButton
+     * @extends tm.display.Sprite
      */
     tm.ui.IconButton = tm.createClass({
-        
         superClass: tm.display.Sprite,
         
         /**
          * 初期化
          */
-        init: function(texture)
-        {
+        init: function(texture) {
             if (texture) {
                 this.superInit(texture, texture.width, texture.height);
             }
@@ -96,8 +93,9 @@ tm.ui = tm.ui || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.ui.GlossyButton
      * glossy button
+     * @extends tm.display.Shape
      */
     tm.ui.GlossyButton = tm.createClass({
         superClass: tm.display.Shape,
@@ -175,6 +173,11 @@ tm.ui = tm.ui || {};
 
 (function() {
 
+    /**
+     * @class tm.ui.FlatButton
+     * フラットデザインのボタン
+     * @extends tm.display.Shape
+     */
     tm.define("tm.ui.FlatButton", {
         superClass: tm.display.Shape,
 

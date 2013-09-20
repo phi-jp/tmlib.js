@@ -1,7 +1,6 @@
 /*
- * phi
+ * touch.js
  */
-
 
 tm.input = tm.input || {};
 
@@ -9,7 +8,7 @@ tm.input = tm.input || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.input.Touch
      * タッチクラス
      */
     tm.input.Touch = tm.createClass({
@@ -192,6 +191,10 @@ tm.input = tm.input || {};
 
 (function() {
 
+    /**
+     * @class tm.input.Touches
+     * マルチタッチ対応クラス
+     */
     tm.define("tm.input.Touches", {
         superClass: Array,
 

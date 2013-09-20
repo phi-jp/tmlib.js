@@ -19,7 +19,7 @@ tm.dom = tm.dom || {};
     var ANIMATION_ITERATION_COUNT   = prefix + "AnimationIterationCount";
     
     /**
-     * @class
+     * @class tm.dom.Anim
      * アニメーションクラス
      */
     tm.dom.Anim = tm.createClass({

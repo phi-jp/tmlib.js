@@ -380,8 +380,7 @@
             }
 
             // 行列
-            if(this.rotation != this.rotationCache)
-            {
+            if(this.rotation != this.rotationCache) {
                 this.rotationCache = this.rotation;
                 var r = this.rotation*Math.DEG_TO_RAD;
                 this._sr =  Math.sin(r);

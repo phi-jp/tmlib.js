@@ -6,7 +6,7 @@
     
     /**
      * @class Object
-     * オブジェクト
+     * Objectの拡張
      */
     
     /**
@@ -74,8 +74,7 @@
         // this.__defineGetter__(name, fn);
     });
     
-    Object.defineInstanceMethod("accessor", function(name, param)
-    {
+    Object.defineInstanceMethod("accessor", function(name, param) {
         Object.defineProperty(this, name, {
             set: param["set"],
             get: param["get"],

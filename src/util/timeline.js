@@ -2,14 +2,13 @@
  * tmline.js
  */
 
-
 tm.util = tm.util || {};
+
 
 (function() {
     
-    
     /**
-     * @class
+     * @class tm.util.Timeline
      * タイムラインクラス
      */
     tm.util.Timeline = tm.createClass({

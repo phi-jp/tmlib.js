@@ -1,7 +1,6 @@
 /*
- * phi
+ * mouse.js
  */
-
 
 tm.input = tm.input || {};
 
@@ -9,11 +8,10 @@ tm.input = tm.input || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.input.Mouse
      * マウスクラス
      */
     tm.input.Mouse = tm.createClass({
-        
         
         element: null,
         

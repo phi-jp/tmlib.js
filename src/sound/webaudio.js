@@ -4,14 +4,16 @@
 
 tm.sound = tm.sound || {};
 
+
 (function() {
 
     var isAvailable = tm.global.webkitAudioContext ? true : false;
     var context = isAvailable ? new webkitAudioContext() : null;
 
     /**
-     * @class
+     * @class tm.sound.WebAudio
      * WebAudioクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.sound.WebAudio = tm.createClass({
         superClass: tm.event.EventDispatcher,

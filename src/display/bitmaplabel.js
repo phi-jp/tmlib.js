@@ -1,5 +1,5 @@
 /*
- * sprite.js
+ * bitmaplabel.js
  */
 
 
@@ -11,8 +11,9 @@ tm.app = tm.app || {};
 	var CH_LIST = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|]~🐤";
     
     /**
-     * @class
-     * BitmapLabel
+     * @class tm.display.BitmapLabel
+     * 画像を利用したラベルクラス
+     * @extends tm.display.Shape
      */
     // tm.define("tm.display.BitmapLabel", {
     //     superClass: tm.display.Shape,

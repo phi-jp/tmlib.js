@@ -1,10 +1,16 @@
+/*
+ * websocket.js
+ */
+
 tm.net = tm.net || {};
 tm.net.event = tm.net.event || {};
 
 (function() {
 
     /**
-     * WebSocket.
+     * @class tm.net.WebSocket
+     * WebSocket対応クラス
+     * @extends tm.event.EventDispatcher
      */
     tm.net.WebSocket = tm.createClass({
         superClass: tm.event.EventDispatcher,

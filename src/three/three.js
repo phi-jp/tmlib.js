@@ -1,9 +1,8 @@
 /*
- * 
+ * three.js
  */
 
 tm.three = tm.three || {};
-
 
 
 (function() {
@@ -11,8 +10,9 @@ tm.three = tm.three || {};
     if (!tm.global.THREE) return ;
     
     /**
-     * @class
-     * キャンバスアプリケーション
+     * @class tm.three.ThreeApp
+     * 3Dライブラリ - Three.jsをtmlib.jsで対応
+     * @extends tm.app.BaseApp
      */
     tm.three.ThreeApp = tm.createClass({
 
@@ -27,8 +27,7 @@ tm.three = tm.three || {};
         /**
          * 初期化
          */
-        init: function(canvas)
-        {
+        init: function(canvas) {
             if (canvas instanceof HTMLCanvasElement) {
                 this.element = canvas;
             }
@@ -109,8 +108,7 @@ tm.three = tm.three || {};
             this.touch._touchmove = this.touch._touchmoveScale;
         },
 
-        _draw: function()
-        {
+        _draw: function() {
             // 描画は全てのシーン行う
             for (var i=0, len=this._scenes.length; i<len; ++i) {
                 this.renderer.render(this.currentScene, this.currentScene.camera);

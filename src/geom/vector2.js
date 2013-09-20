@@ -11,6 +11,7 @@ tm.geom = tm.geom || {};
 (function() {
     
     /**
+     * @class tm.geom.Vector2
      * 2次元ベクトル
      */
     tm.geom.Vector2 = tm.createClass({

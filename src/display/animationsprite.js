@@ -9,18 +9,17 @@ tm.display = tm.display || {};
 (function() {
 
     /**
-     * @class
-     * AnimationSprite
+     * @class tm.display.AnimationSprite
+     * スプライトアニメーションクラス
+     * @extends tm.display.CanvasElement
      */
     tm.display.AnimationSprite = tm.createClass({
-
         superClass: tm.display.CanvasElement,
 
         /**
          * 初期化
          */
-        init: function(ss, width, height)
-        {
+        init: function(ss, width, height) {
             this.superInit();
 
             if (typeof ss == "string") {

@@ -7,7 +7,7 @@ tm.geom = tm.geom || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.geom.Rect
      * 四角形クラス
      */
     tm.geom.Rect = tm.createClass({
@@ -19,8 +19,7 @@ tm.geom = tm.geom || {};
         /**
          * 初期化
          */
-        init: function(x, y, width, height)
-        {
+        init: function(x, y, width, height) {
             this.set(x, y, width, height);
         },
         
@@ -40,8 +39,7 @@ tm.geom = tm.geom || {};
         /**
          * 移動
          */
-        move: function(x, y)
-        {
+        move: function(x, y) {
             this.x = x;
             this.y = y;
             return this;
@@ -50,8 +48,7 @@ tm.geom = tm.geom || {};
         /**
          * 現在位置を基準に移動
          */
-        moveBy: function(x, y)
-        {
+        moveBy: function(x, y) {
             this.x += x;
             this.y += y;
             return this;
@@ -60,8 +57,7 @@ tm.geom = tm.geom || {};
         /**
          * リサイズ
          */
-        resize: function(w, h)
-        {
+        resize: function(w, h) {
             this.width = w;
             this.height= h;
             return this;
@@ -70,8 +66,7 @@ tm.geom = tm.geom || {};
         /**
          * 現在のサイズを基準にリサイズ
          */
-        resizeBy: function(w, h)
-        {
+        resizeBy: function(w, h) {
             this.width += w;
             this.height+= h;
             return this;
@@ -88,8 +83,7 @@ tm.geom = tm.geom || {};
          *         // 左にはみ出した時の処理
          *     }
          */
-        padding: function(top, right, bottom, left)
-        {
+        padding: function(top, right, bottom, left) {
             // css の padding に合わせて時計回りにパラメータ調整
             switch (arguments.length) {
                 case 1:
@@ -114,13 +108,11 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-        clone: function()
-        {
+        clone: function() {
             
         },
         
-        toCircle: function()
-        {
+        toCircle: function() {
             return tm.geom.Circle(
                 this.centerX,
                 this.centerY,
@@ -128,8 +120,7 @@ tm.geom = tm.geom || {};
                 );
         },
         
-        toArray: function()
-        {
+        toArray: function() {
             return [this.x, this.y, this.width, this.height];
         },
         

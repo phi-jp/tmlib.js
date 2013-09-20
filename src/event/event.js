@@ -7,7 +7,7 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.Event
      * イベントクラス
      */
     tm.event.Event = tm.createClass({
@@ -32,8 +32,9 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.TweenEvent
      * Tween Event
+     * @extends tm.event.Event
      */
     tm.event.TweenEvent = tm.createClass({
         
@@ -63,8 +64,9 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.MouseEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.MouseEvent = tm.createClass({
         
@@ -87,8 +89,9 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.TouchEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.TouchEvent = tm.createClass({
         
@@ -110,8 +113,9 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.PointingEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.PointingEvent = tm.createClass({
         

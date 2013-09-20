@@ -11,6 +11,7 @@ tm.geom = tm.geom || {};
 (function() {
     
     /**
+     * @class tm.geom.Vector3
      * 3次元ベクトル
      */
     tm.geom.Vector3 = tm.createClass({
@@ -493,8 +494,7 @@ tm.geom = tm.geom || {};
      * @static
      * min ~ max の間でランダムな方向のベクトルを生成する. len で長さ指定.
      */
-    tm.geom.Vector3.random = function(thetaMin, thetaMax, phiMin, phiMax, len)
-    {
+    tm.geom.Vector3.random = function(thetaMin, thetaMax, phiMin, phiMax, len) {
         thetaMin= thetaMin || 0;
         thetaMax= thetaMax || 360;
         phiMin  = phiMin || 0;

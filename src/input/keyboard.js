@@ -1,7 +1,6 @@
 /*
- * phi
+ * keyboard.js
  */
-
 
 tm.input = tm.input || {};
 
@@ -9,11 +8,10 @@ tm.input = tm.input || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.input.Keyboard
      * キーボードクラス
      */
     tm.input.Keyboard = tm.createClass({
-        
         
         /**
          * target element

@@ -29,8 +29,7 @@ tm.app = tm.app || {};
         /**
          * 初期化
          */
-        init: function(elm)
-        {
+        init: function(elm) {
             this.element = elm;
 
             // マウスを生成
@@ -72,8 +71,7 @@ tm.app = tm.app || {};
         /**
          * 実行
          */
-        run: function()
-        {
+        run: function() {
             var self = this;
             
             // // requestAnimationFrame version
@@ -99,8 +97,7 @@ tm.app = tm.app || {};
             tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
         },
         
-        _loop: function()
-        {
+        _loop: function() {
             // update
             if (this.update) this.update();
             this._update();
@@ -118,8 +115,7 @@ tm.app = tm.app || {};
          * ## Reference
          * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
          */
-        replaceScene: function(scene)
-        {
+        replaceScene: function(scene) {
             var e = null;
             if (this.currentScene) {
                 e = tm.event.Event("exit");
@@ -138,8 +134,7 @@ tm.app = tm.app || {};
          * シーンをプッシュする
          * ポーズやオブション画面などで使用する
          */
-        pushScene: function(scene)
-        {
+        pushScene: function(scene) {
             e = tm.event.Event("exit");
             e.app = this;
             this.currentScene.dispatchEvent(e);
@@ -157,8 +152,7 @@ tm.app = tm.app || {};
          * シーンをポップする
          * ポーズやオブション画面などで使用する
          */
-        popScene: function()
-        {
+        popScene: function() {
             var scene = this._scenes.pop();
             --this._sceneIndex;
             
@@ -198,18 +192,15 @@ tm.app = tm.app || {};
             }
         },
         
-        start: function()
-        {
+        start: function() {
             this.isPlaying = true;
         },
         
-        stop: function()
-        {
+        stop: function() {
             this.isPlaying = false;
         },
         
-        _update: function()
-        {
+        _update: function() {
             // デバイス系 Update
             this.mouse.update();
             this.keyboard._update();
@@ -221,10 +212,7 @@ tm.app = tm.app || {};
             }
         },
         
-        _draw: function()
-        {
-
-        },
+        _draw: function() {},
         
         getElement: function() {
             return this.element;

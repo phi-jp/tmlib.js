@@ -1,5 +1,5 @@
 /*
- * evnet.js
+ * dom/evnet.js
  */
 
 tm.dom = tm.dom || {};
@@ -8,8 +8,7 @@ tm.dom = tm.dom || {};
     
     /**
      * @class Event
-     * 
-     * Event クラス
+     * 既存のEventオブジェクト拡張
      */
     
     // 仕方なしの IE 対応(これ引っかかったら他のもダメだから必要ないかも)
@@ -42,7 +41,6 @@ tm.dom = tm.dom || {};
     
     /**
      * @class KeyboardEvent
-     * 
      * KeyboardEvent クラス
      */
     
@@ -61,7 +59,6 @@ tm.dom = tm.dom || {};
     
     /**
      * @class MouseEvent
-     * 
      * MouseEvent クラス
      */
     
@@ -95,7 +92,6 @@ tm.dom = tm.dom || {};
     
     /**
      * @class TouchEvent
-     * 
      * TouchEvent クラス
      */
     
@@ -124,7 +120,7 @@ tm.dom = tm.dom || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.dom.Event
      * Event クラス
      */
     tm.dom.Event = tm.createClass({

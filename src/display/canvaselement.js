@@ -1,5 +1,5 @@
 /*
- *
+ * canvaselement.js
  */
 
 tm.display = tm.display || {};
@@ -8,8 +8,9 @@ tm.display = tm.display || {};
 (function() {
 
     /**
-     * @class
+     * @class tm.display.CanvasElement
      * キャンバスエレメント
+     * @extends tm.app.Object2D
      */
     tm.display.CanvasElement = tm.createClass({
 

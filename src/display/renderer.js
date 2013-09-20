@@ -1,10 +1,14 @@
 /*
- * phi
+ * renderer.js
  */
 
  
 (function() {
     
+    /**
+     * @class tm.display.CanvasRenderer
+     * @TODO キャンバス描画クラス？
+     */
     tm.define("tm.display.CanvasRenderer", {
         canvas: null,
 
@@ -136,6 +140,11 @@
  
 (function() {
     
+    /**
+     * @class tm.display.BoundingRectRenderer
+     * @TODO なにをするクラス？
+     * @extends tm.display.CanvasRenderer
+     */
     tm.define("tm.display.BoundingRectRenderer", {
         superClass: "tm.display.CanvasRenderer",
 

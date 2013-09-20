@@ -6,7 +6,7 @@
     
     /**
      * @class   Function
-     * 関数
+     * Functionの拡張
      */
     if (!Function.prototype.bind) {
         /**

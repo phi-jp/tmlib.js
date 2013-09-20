@@ -44,8 +44,7 @@ tm.geom = tm.geom || {};
         /**
          * セッター
          */
-        set: function(m00, m01, m02, m10, m11, m12, m20, m21, m22)
-        {
+        set: function(m00, m01, m02, m10, m11, m12, m20, m21, m22) {
             console.assert(arguments.length>=9, "");
             
             // |m00, m01, m02|
@@ -70,8 +69,7 @@ tm.geom = tm.geom || {};
         /**
          * 配列からセット
          */
-        setArray: function(arr)
-        {
+        setArray: function(arr) {
             this.set(
                 arr[0], arr[3], arr[6],
                 arr[1], arr[4], arr[7],
@@ -84,8 +82,7 @@ tm.geom = tm.geom || {};
         /**
          * オブジェクトからセット
          */
-        setObject: function(obj)
-        {
+        setObject: function(obj) {
             this.set(
                 obj.m00, obj.m01, obj.m02,
                 obj.m10, obj.m11, obj.m12,
@@ -238,8 +235,7 @@ tm.geom = tm.geom || {};
         /**
          * 掛け算
          */
-        multiply: function(mat)
-        {
+        multiply: function(mat) {
             var tm = this.m;
             var om = mat.m;
             
@@ -269,8 +265,7 @@ tm.geom = tm.geom || {};
         /**
          * ベクトルとの掛け算
          */
-        multiplyVector2: function(v)
-        {
+        multiplyVector2: function(v) {
             var vx = this.m00*v.x + this.m01*v.y + this.m02;
             var vy = this.m10*v.x + this.m11*v.y + this.m12;
             
@@ -280,8 +275,7 @@ tm.geom = tm.geom || {};
         /**
          * ベクトルとの掛け算
          */
-        multiplyVector3: function(v)
-        {
+        multiplyVector3: function(v) {
             var vx = this.m00*v.x + this.m01*v.y + this.m02*v.z;
             var vy = this.m10*v.x + this.m11*v.y + this.m12*v.z;
             var vz = this.m20*v.x + this.m21*v.y + this.m22*v.z;

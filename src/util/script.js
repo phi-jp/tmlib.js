@@ -4,10 +4,11 @@
 
 tm.util = tm.util || {};
 
+
 (function() {
     
     /**
-     * @class
+     * @class tm.util.Script
      * スクリプトクラス
      */
     tm.util.Script = tm.createClass({
@@ -45,7 +46,7 @@ tm.util = tm.util || {};
 (function(){
     
     /**
-     * @class
+     * @class tm.util.ScriptManager
      * スクリプトマネージャクラス
      */
     tm.util.ScriptManager = {
@@ -58,8 +59,7 @@ tm.util = tm.util || {};
      * @method
      * 追加
      */
-    tm.util.ScriptManager.load = function(src, callback)
-    {
+    tm.util.ScriptManager.load = function(src, callback) {
         this.scriptList[src] = tm.util.Script(src, callback);
     };
 
@@ -68,8 +68,7 @@ tm.util = tm.util || {};
      * @method
      * stats.js を動的ロード
      */
-    tm.util.ScriptManager.loadStats = function(version)
-    {
+    tm.util.ScriptManager.loadStats = function(version) {
         version = version || "r11";
         var path = null;
         if (["r6", "r7", "r8", "r9", "10"].indexOf(version) != -1) {
@@ -86,8 +85,7 @@ tm.util = tm.util || {};
      * @method
      * Dat GUI を動的ロード
      */
-    tm.util.ScriptManager.loadDatGUI = function(version)
-    {
+    tm.util.ScriptManager.loadDatGUI = function(version) {
         // http://dat-gui.googlecode.com/git/build/dat.gui.min.js
         // https://dat-gui.googlecode.com/git-history/0.5/build/dat.gui.min.js
 
@@ -128,8 +126,7 @@ tm.util = tm.util || {};
     /**
      * ロードチェック
      */
-    tm.util.ScriptManager.isLoaded = function()
-    {
+    tm.util.ScriptManager.isLoaded = function() {
         if (this.scriptList.length <= 0) return true;
 
         for (var key in this.scriptList) {

@@ -5,6 +5,11 @@
 
 (function() {
 
+    /**
+     * @class tm.display.MapSprite
+     * マップ描画クラス
+     * @extends tm.display.CanvasElement
+     */
     tm.define("tm.display.MapSprite", {
         superClass: "tm.display.CanvasElement",
 

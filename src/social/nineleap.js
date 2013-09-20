@@ -8,7 +8,7 @@ tm.social = tm.social || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.social.NineLeap
      * 9leap ネームスペース
      */
     tm.social.Nineleap = tm.social.Nineleap || {};

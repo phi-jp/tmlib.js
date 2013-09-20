@@ -1,5 +1,5 @@
 /*
- * 
+ * canvasapp.js
  */
 
 tm.display = tm.display || {};
@@ -7,8 +7,9 @@ tm.display = tm.display || {};
 (function() {
 
     /**
-     * @class
+     * @class tm.display.CanvasApp
      * キャンバスアプリケーション
+     * @extends tm.app.BaseApp
      */
     tm.display.CanvasApp = tm.createClass({
 
@@ -17,8 +18,7 @@ tm.display = tm.display || {};
         /**
          * 初期化
          */
-        init: function(canvas)
-        {
+        init: function(canvas) {
             if (canvas instanceof HTMLCanvasElement) {
                 this.element = canvas;
             }
@@ -71,8 +71,7 @@ tm.display = tm.display || {};
             });
         },
         
-        _draw: function()
-        {
+        _draw: function() {
             this.canvas.clearColor(this.background, 0, 0);
             
             this.canvas.fillStyle   = "white";

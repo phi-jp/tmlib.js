@@ -7,20 +7,14 @@ tm.social = tm.social || {};
 
 (function() {
     
-    
     /**
-     * @class
+     * @class tm.social.Twitter
      * ツイッター関連ネームスペース
      */
     tm.social.Twitter = tm.social.Twitter || {};
     
-    
     tm.social.Twitter.API_URL = "http://api.twitter.com/1";    // version 1 は廃止予定らしい
-    
-    
-    
     var BASE_URL = "http://twitter.com/intent";
-    
     
     /**
      * Tweet する
@@ -40,8 +34,7 @@ tm.social = tm.social || {};
      *          related     : "tmlib.js tmlife",    // 関連ワード
      *      });
      */
-    tm.social.Twitter.createURL = function(prop)
-    {
+    tm.social.Twitter.createURL = function(prop) {
         var param_string_list = [];
         for (var key in prop) {
             if (key == "type") continue;
@@ -119,7 +112,6 @@ tm.social = tm.social || {};
         tm.social.Twitter.api("statuses", "mentions", param, callback);
         */
     };
-    
     
 })();
 

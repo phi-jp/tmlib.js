@@ -8,7 +8,7 @@ tm.google = tm.google || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.google.Chart
      * チャートネームスペース
      */
     tm.google.Chart = tm.google.Chart || {};

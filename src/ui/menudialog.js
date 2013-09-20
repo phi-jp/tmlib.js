@@ -1,8 +1,13 @@
+/**
+ * menudialog.js
+ */
+
 (function() {
     
     /**
      * @class tm.ui.MenuDialog
      * メニューダイアログ
+     * @extends tm.app.Scene
      */
     tm.define("tm.ui.MenuDialog", {
         superClass: tm.app.Scene,

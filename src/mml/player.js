@@ -8,16 +8,16 @@ tm.mml = tm.mml || {};
 (function() {
 
     /*
-        音色
-
-        0 sin
-        1 upward saw
-        2 downward saw
-        3 triangle
-        4 rectangle
-        5 white noise
-        6 noise
-    */
+     * 音色
+     *
+     * 0 sin
+     * 1 upward saw
+     * 2 downward saw
+     * 3 triangle
+     * 4 rectangle
+     * 5 white noise
+     * 6 noise
+     */
     var timberFuncList = [
         Math.sin,
         function(p){ return p/Math.PI-1; },
@@ -56,7 +56,7 @@ tm.mml = tm.mml || {};
 
 
     /**
-     * @class
+     * @class tm.mml.Driver
      * MML Player
      */
     tm.mml.Driver = {

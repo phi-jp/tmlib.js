@@ -6,7 +6,7 @@
     
     /**
      * @class   Array
-     * 配列
+     * Arrayの拡張
      */
     
     /**

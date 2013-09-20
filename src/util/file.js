@@ -4,8 +4,13 @@
 
 tm.util = tm.util || {};
 
+
 (function() {
     
+    /**
+     * @class tm.util.File
+     * @TODO ?
+     */
     tm.util.File = tm.createClass({
         
         init: function(params) {
@@ -43,15 +48,14 @@ tm.util = tm.util || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.util.FileManager
      * ファイルマネージャ
      */
     tm.util.FileManager = {
         files: {}
     };
     
-    tm.util.FileManager.load = function(key, params)
-    {
+    tm.util.FileManager.load = function(key, params) {
         var file = tm.util.File(params);
         this.files[key] = file;
         return file;
@@ -66,8 +70,7 @@ tm.util = tm.util || {};
      * @method  isLoaded
      * ロードチェック
      */
-    tm.util.FileManager.isLoaded = function()
-    {
+    tm.util.FileManager.isLoaded = function() {
         for (var key in this.files) {
             var file = this.files[key];
             

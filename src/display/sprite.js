@@ -9,8 +9,9 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * Sprite
+     * @class tm.display.Sprite
+     * 画像の描画を行うクラス
+     * @extends tm.display.CanvasElement
      */
     tm.display.Sprite = tm.createClass({
         
@@ -19,8 +20,7 @@ tm.display = tm.display || {};
         /**
          * 初期化
          */
-        init: function(texture, width, height)
-        {
+        init: function(texture, width, height) {
             this.superInit();
             
             console.assert(arguments.length == 0 || texture instanceof tm.asset.Texture || typeof texture == "string", "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");

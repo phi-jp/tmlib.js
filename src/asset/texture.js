@@ -64,8 +64,7 @@
      * http://dummyimage.com/
      */
     /*
-    tm.graphics.TextureManager.loadDummy = function(key, param)
-    {
+    tm.graphics.TextureManager.loadDummy = function(key, param) {
         param = param || {};
 
         var paths = ["http://dummyimage.com"];

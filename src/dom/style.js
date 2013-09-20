@@ -4,12 +4,10 @@
 
 tm.dom = tm.dom || {};
 
-
-
 (function(){
     
     /**
-     * @class
+     * @class tm.dom.Style
      * スタイル
      */
     tm.dom.Style = tm.createClass({

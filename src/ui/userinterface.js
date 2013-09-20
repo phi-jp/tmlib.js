@@ -2,15 +2,15 @@
  * userinterface.js
  */
 
-
 tm.ui = tm.ui || {};
 
 
 (function() {
 
 	/**
-	 * @class
-	 * Gauge
+	 * @class tm.ui.Gauge
+	 * ゲーム用ゲージクラス
+     * @extends tm.display.RectangleShape
 	 */
 	tm.ui.Gauge = tm.createClass({
         superClass: tm.display.RectangleShape,
@@ -169,8 +169,9 @@ tm.ui = tm.ui || {};
 (function() {
     
     /**
-     * @class
-     * pad
+     * @class tm.ui.Pad
+     * padクラス
+     * @extends tm.display.Shape
      */
     tm.ui.Pad = tm.createClass({
         superClass: tm.display.Shape,

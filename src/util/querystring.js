@@ -4,10 +4,12 @@
 
 tm.util = tm.util || {};
 
+
 (function() {
     
-    /*
-     * 
+    /**
+     * @class tm.util.QueryString
+     * @TODO ?
      */
     tm.util.QueryString = {
         /*

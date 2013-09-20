@@ -4,11 +4,13 @@
 
 tm.util = tm.util || {};
 
+
 (function() {
     
     /**
-     * @class
+     * @class tm.util.Random
      * ランダムクラス
+     * 
      * ## Reference
      * - <http://www.python.jp/doc/2.5/lib/module-random.html>
      * - <http://www.yukun.info/blog/2008/06/python-random.html>

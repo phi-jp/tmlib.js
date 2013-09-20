@@ -1,5 +1,5 @@
 /*
- * sprite.js
+ * shape.js
  */
 
 
@@ -9,8 +9,9 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * Shape
+     * @class tm.display.Shape
+     * 図形を描画するクラス
+     * @extends tm.display.CanvasElement
      */
     tm.display.Shape = tm.createClass({
         
@@ -19,8 +20,7 @@ tm.display = tm.display || {};
         /**
          * 初期化
          */
-        init: function(width, height)
-        {
+        init: function(width, height) {
             this.superInit();
             
             width = width   || 64;
@@ -239,8 +239,9 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * CircleShape
+     * @class tm.display.CircleShape
+     * 簡単に円を描画できるクラス
+     * @extends tm.display.Shape
      */
     tm.display.CircleShape = tm.createClass({
         
@@ -264,8 +265,9 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * TriangleShape
+     * @class tm.display.TriangleShape
+     * 簡単に三角形を描画できるクラス
+     * @extends tm.display.Shape
      */
     tm.display.TriangleShape = tm.createClass({
         
@@ -290,8 +292,9 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * RectangleShape
+     * @class tm.display.RectangleShape
+     * 簡単に矩形を描画できるクラス
+     * @extends tm.display.Shape
      */
     tm.display.RectangleShape = tm.createClass({
         
@@ -314,8 +317,9 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * StarShape
+     * @class tm.display.StarShape
+     * 簡単に星形を描画できるクラス
+     * @extends tm.display.Shape
      */
     tm.display.StarShape = tm.createClass({
         
@@ -339,8 +343,9 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * PolygonShape
+     * @class tm.display.PolygonShape
+     * @TODO なにを描画するクラス？
+     * @extends tm.display.Shape
      */
     tm.display.PolygonShape = tm.createClass({
         
@@ -365,8 +370,9 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * HeartShape
+     * @class tm.display.HeartShape
+     * 簡単にハートを描画できるクラス
+     * @extends tm.display.Shape
      */
     tm.display.HeartShape = tm.createClass({
         
@@ -391,8 +397,9 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * HeartShape
+     * @class tm.display.TextShape
+     * @TODO なにするクラス？
+     * @extends tm.display.Shape
      */
     tm.define("tm.display.TextShape", {
 

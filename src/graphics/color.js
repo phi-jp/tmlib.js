@@ -2,15 +2,13 @@
  * color.js
  */
 
-/*
- * 
- */
 tm.graphics = tm.graphics || {};
 
 (function() {
     
     /**
-     * @class   カラークラス
+     * @class tm.graphics.Color
+     * カラークラス
      */
     tm.graphics.Color = tm.createClass({
         
@@ -239,12 +237,10 @@ tm.graphics = tm.graphics || {};
         if (str[0] === '#') {
             type = (str.length == 4) ?  "hex111" : "hex222";
         }
-        else if (str[0] === 'r' && str[1] === 'g' && str[2] === 'b')
-        {
+        else if (str[0] === 'r' && str[1] === 'g' && str[2] === 'b') {
             type = (str[3] == 'a') ? "rgba" : "rgb";
         }
-        else if (str[0] === 'h' && str[1] === 's' && str[2] === 'l')
-        {
+        else if (str[0] === 'h' && str[1] === 's' && str[2] === 'l') {
             type = (str[3] == 'a') ? "hsla" : "hsl";
         }
         
@@ -261,8 +257,7 @@ tm.graphics = tm.graphics || {};
     };
 
 
-    tm.graphics.Color.HSLtoRGB = function(h, s, l)
-    {
+    tm.graphics.Color.HSLtoRGB = function(h, s, l) {
         var r, g, b;
         
         h%=360;
@@ -305,8 +300,7 @@ tm.graphics = tm.graphics || {};
             ];
     };
     
-    tm.graphics.Color.HSLAtoRGBA = function(h, s, l, a)
-    {
+    tm.graphics.Color.HSLAtoRGBA = function(h, s, l, a) {
         var temp = Color.HSLtoRGB(h, s, l); temp[3] = a;
         return rgb;
     };

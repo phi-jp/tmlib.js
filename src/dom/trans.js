@@ -1,8 +1,8 @@
 (function(){
     
     /**
-     * @class
-     * スタイル
+     * @class tm.dom.Trans
+     * @TODO ?
      */
     tm.dom.Trans = tm.createClass({
         
@@ -144,7 +144,6 @@
     })();
     
     /**
-     * Trans クラス
      * @property    trans
      */
     tm.dom.Element.prototype.getter("trans", function(){
@@ -154,8 +153,7 @@
     var _styleList = {
         "transform": true,
     };
-    var _checkStyleProperty = function(name)
-    {
+    var _checkStyleProperty = function(name) {
         if (_styleList[name] === true) {
             return '-'+tm.VENDER_PREFIX + name.capitalizeFirstLetter();
         }

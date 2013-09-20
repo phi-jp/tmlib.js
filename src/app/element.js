@@ -33,8 +33,7 @@ tm.app = tm.app || {};
         /**
          * 親から離れる
          */
-        remove: function()
-        {
+        remove: function() {
             console.assert(this.parent);
             this.parent.removeChild(this);
             
@@ -73,8 +72,7 @@ tm.app = tm.app || {};
          * scene 遷移時に子供をごっそり移譲するときなどに使用
          * まだ動作確認していない
          */
-        addChildren: function(children)
-        {
+        addChildren: function(children) {
             var tempChildren = children.slice();
             for (var i=beginIndex,len=tempChildren.length; i<len; ++i) {
                 this.addChild(tempChildren[i]);
@@ -91,8 +89,7 @@ tm.app = tm.app || {};
         /**
          * child に一致するエレメントを離す
          */
-        removeChild: function(child)
-        {
+        removeChild: function(child) {
             var index = this.children.indexOf(child);
             if (index != -1) {
                 this.children.splice(index, 1);
@@ -104,8 +101,7 @@ tm.app = tm.app || {};
         /**
          * すべての child を離す
          */
-        removeChildren: function(beginIndex)
-        {
+        removeChildren: function(beginIndex) {
             beginIndex = beginIndex || 0;
             var tempChildren = this.children.slice();
             for (var i=beginIndex,len=tempChildren.length; i<len; ++i) {
@@ -117,8 +113,7 @@ tm.app = tm.app || {};
         /**
          * 名前の一致する child を取得
          */
-        getChildByName: function(name)
-        {
+        getChildByName: function(name) {
             for (var i=0,len=this.children.length; i<len; ++i)
                 if (this.children[i].name == name) return this.children[i];
             
@@ -128,8 +123,7 @@ tm.app = tm.app || {};
         /**
          * 関数実行
          */
-        execChildren: function(func, args)
-        {
+        execChildren: function(func, args) {
             args = (args && args.length) ? args : [args];
             // 関数内で remove される可能性があるので配列をコピーする
             var tempChildren = this.children.slice();

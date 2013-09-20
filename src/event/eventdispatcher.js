@@ -7,7 +7,7 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.EventDispatcher
      * Event Dispatcher
      * ### Reference
      * -(EventDispatcher - ActionScript 3.0 コンポーネントリファレンスガイド)[http://livedocs.adobe.com/flash/9.0_jp/ActionScriptLangRefV3/flash/events/EventDispatcher.html]

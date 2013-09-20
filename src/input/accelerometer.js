@@ -2,15 +2,14 @@
  * accelerometer.js
  */
 
-
 tm.input = tm.input || {};
 
 
 (function() {
     
     /**
-     * @class
-     * タッチクラス
+     * @class tm.input.Accelerometer
+     * @TODO ?
      */
     tm.input.Accelerometer = tm.createClass({
         
