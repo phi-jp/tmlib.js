@@ -9484,7 +9484,7 @@ tm.graphics = tm.graphics || {};
             for (var i=0; i<len; ++i) {
                 var p = src.getPixelIndex(i);
                 var grayscale = p[0]*0.3 + p[1]*0.59 + p[2]*0.11;
-                dst.setPixel32Index(i, grayscale, grayscale, grayscale, 255);
+                dst.setPixel32Index(i, grayscale, grayscale, grayscale, p[3]);
             }
             
             return dst;
