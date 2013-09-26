@@ -9436,7 +9436,7 @@ tm.graphics = tm.graphics || {};
             for (var i=0; i<this.height; ++i) {
                 for (var j=0; j<this.width; ++j) {
                     var index = this.posToIndex(j, i);
-                    var p = this.getPixel(index);
+                    var p = this.getPixel(j, i);
                     
                     filter.calc(p, index, j, i, this);
                 }
@@ -9541,7 +9541,7 @@ tm.graphics = tm.graphics || {};
             for (var i=0; i<len; ++i) {
                 var p = src.getPixelIndex(i);
                 var grayscale = p[0]*0.3 + p[1]*0.59 + p[2]*0.11;
-                dst.setPixel32Index(i, grayscale, grayscale, grayscale, 255);
+                dst.setPixel32Index(i, grayscale, grayscale, grayscale, p[3]);
             }
             
             return dst;
