@@ -27,7 +27,7 @@ tm.app = tm.app || {};
         _sceneIndex  : 0,
 
         /**
-         * @property    init
+         * @property init
          * コンストラクタ
          * @param {Object} elm
          */

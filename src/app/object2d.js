@@ -34,6 +34,11 @@
          */
         _height: 64,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} elm
+         */
         init: function() {
             this.superInit();
             this.position = tm.geom.Vector2(0, 0);
@@ -53,6 +58,10 @@
             this._worldAlpha = 1.0;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         getFinalMatrix: function() {
             var matrix = tm.geom.Matrix33();
  
@@ -67,7 +76,10 @@
         },
         
         /**
+         * @property
          * 点と衝突しているかを判定
+         * @param {Number} x
+         * @param {Number} y
          */
         isHitPoint: function(x, y) {
             // 円判定
@@ -81,6 +93,12 @@
             return false;
         },
  
+        /**
+         * @property
+         * @TODO ?
+         * @param {Number} x
+         * @param {Number} y
+         */
         isHitPointCircle: function(x, y) {
             var lenX = this.x - x;
             var lenY = this.y - y;
@@ -90,6 +108,12 @@
             return false;
         },
  
+        /**
+         * @property
+         * @TODO ?
+         * @param {Number} x
+         * @param {Number} y
+         */
         isHitPointRect: function(x, y) {
             // ここから下のバージョンは四角形
             var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
@@ -106,7 +130,10 @@
         },
         
         /**
+         * @property
          * 階層を考慮した円衝突判定
+         * @param {Number} x
+         * @param {Number} y
          */
         isHitPointCircleHierarchy: function(x, y) {
             // 円判定
@@ -121,7 +148,10 @@
         },
         
         /**
+         * @property
          * 階層を考慮した矩形衝突判定
+         * @param {Number} x
+         * @param {Number} y
          */
         isHitPointRectHierarchy: function(x, y) {
             var p = this.globalToLocal(tm.geom.Vector2(x, y));
@@ -139,7 +169,9 @@
         },
         
         /**
+         * @property
          * 要素と衝突しているかを判定
+         * @param {Object} elm
          */
         isHitElement: function(elm) {
             var selfGlobalPos  = this.parent.localToGlobal(this);
@@ -150,42 +182,54 @@
         },
  
         /**
+         * @property
          * 円同士の衝突判定
+         * @param {Object} elm
          */
         isHitElementCircle: function(elm) {
             return tm.collision.testCircleCircle(this.getBoundingCircle(), elm.getBoundingCircle());
         },
  
         /**
+         * @property
          * 円同士の衝突判定
+         * @param {Object} elm
          */
         isHitElementRect: function(elm) {
             return tm.collision.testRectRect(this.getBoundingRect(), elm.getBoundingRect());    
         },
  
         /**
+         * @property
          * バウンディングサークル
+         * @param {Object} elm
          */
         getBoundingCircle: function() {
             return tm.geom.Circle(this.centerX, this.centerY, this.radius);
         },
  
         /**
+         * @property
          * バウンディングレクト
+         * @param {Object} elm
          */
         getBoundingRect: function() {
             return tm.geom.Rect(this.left, this.top, this.width, this.height);
         },
  
         /**
+         * @property
          * ローカル座標をグローバル座標に変換
+         * @param {Object} elm
          */
         localToGlobal: function(p) {
             return this.getFinalMatrix().multiplyVector2(p);
         },
         
         /**
+         * @property
          * グローバル座標をローカル座標に変換
+         * @param {Object} elm
          */
         globalToLocal: function(p) {
             // var matrix = this.getFinalMatrix();
@@ -197,7 +241,9 @@
         },
         
         /**
+         * @property
          * X 座標値をセット
+         * @param {Number} x
          */
         setX: function(x) {
             this.position.x = x;
@@ -205,24 +251,43 @@
         },
         
         /**
+         * @property
          * Y 座標値をセット
+         * @param {Number} y
          */
         setY: function(y) {
             this.position.y = y;
             return this;
         },
         
+        /**
+         * @property
+         * XY 座標をセット
+         * @param {Number} x
+         * @param {Number} y
+         */
         setPosition: function(x, y) {
             this.position.x = x;
             this.position.y = y;
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @param {Number} rotation
+         */
         setRotation: function(rotation) {
             this.rotation = rotation;
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @param {Number} x
+         * @param {Number} y
+         */
         setScale: function(x, y) {
             this.scale.x = x;
             if (arguments.length <= 1) {
@@ -233,6 +298,12 @@
             return this;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @param {Number} x
+         * @param {Number} y
+         */
         setOrigin: function(x, y) {
             this.origin.x = x;
             this.origin.y = y;
@@ -240,7 +311,9 @@
         },
         
         /**
+         * @property
          * 幅をセット
+         * @param {Number} width
          */
         setWidth: function(width) {
             this.width = width;
@@ -248,7 +321,9 @@
         },
         
         /**
+         * @property
          * 高さをセット
+         * @param {Number} height
          */
         setHeight: function(height) {
             this.height = height;
@@ -256,7 +331,10 @@
         },
         
         /**
+         * @property
          * サイズ(幅, 高さ)をセット
+         * @param {Number} width
+         * @param {Number} height
          */
         setSize: function(width, height) {
             this.width  = width;
@@ -265,6 +343,7 @@
         },
         
         /**
+         * @property
          * 起動
          */
         wakeUp: function() {
@@ -273,6 +352,7 @@
         },
         
         /**
+         * @property
          * 停止
          */
         sleep: function() {
@@ -281,7 +361,9 @@
         },
         
         /**
+         * @property
          * タッチ判定の有効/無効をセット
+         * @param {Boolean} flag
          */
         setInteractive: function(flag) {
             this.interactive = flag;
@@ -289,13 +371,21 @@
         },
         
         /**
+         * @property
          * バウンディングタイプをセット("circle" or "rect")
+         * @param {Object} type
          */
         setBoundingType: function(type) {
             this.boundingType = type;
             return this;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         * @param {Object} app
+         */
         _update: function(app) {
             // 更新有効チェック
             if (this.isUpdate == false) return ;
@@ -321,14 +411,32 @@
             }
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         * @param {Object} app
+         */
         _checkPointing: function(app) {
             console.assert(false);
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         * @param {Object} app
+         */
         _checkMouse: function(app) {
             this.__checkPointing(app, app.pointing, 0);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         * @param {Object} app
+         */
         _checkTouch: function(app) {
             var self = this;
             app.touches.each(function(touch, i) {
@@ -336,6 +444,14 @@
             });
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         * @param {Object} app
+         * @param {Object} p
+         * @param {Number} index
+         */
         __checkPointing: function(app, p, index) {
             var elm = this.element;
             
@@ -368,12 +484,27 @@
             }
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         * @param {Object} mouse
+         * @param {Object} touch
+         * @param {Object} pointing
+         * @param {Object} app
+         * @param {Object} p
+         */
         _dispatchPointingEvent: function(mouse, touch, pointing, app, p) {
             this.dispatchEvent( tm.event.MouseEvent(mouse, app, p) );
             this.dispatchEvent( tm.event.TouchEvent(touch, app, p) );
             this.dispatchEvent( tm.event.PointingEvent(pointing, app, p) );
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _calcWorldMatrix: function() {
             if (!this.parent) {
                 return ;
@@ -416,6 +547,11 @@
             worldTransform[5] = b10 * a02 + b11 * a12 + b12;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _dirtyCalc: function() {
             this._calcWorldMatrix();
         },
@@ -607,6 +743,11 @@
         "false": function() { return false; },
     };
  
+    /**
+     * @member      tm.app.Object2D
+     * @property    _setIsHitFunc
+     * @private
+     */
     tm.app.Object2D.prototype._setIsHitFunc = function() {
         var isHitFuncMap = (this.checkHierarchy) ? _isHitFuncMapHierarchy : _isHitFuncMap;
         var boundingType = this.boundingType;
@@ -616,6 +757,13 @@
         this.isHitElement = (_isHitElementMap[boundingType]) ? (_isHitElementMap[boundingType]) : (_isHitElementMap["true"]);
     };
     
+    /**
+     * @member      tm.app.Object2D
+     * @property    _checkPointing
+     * @TODO ?
+     * @param {Object} tm.isMobile
+     * @private
+     */
     tm.app.Object2D.prototype._checkPointing = (tm.isMobile) ?
         tm.app.Object2D.prototype._checkTouch : tm.app.Object2D.prototype._checkMouse;
 

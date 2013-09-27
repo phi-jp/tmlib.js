@@ -32,7 +32,8 @@ tm.app = tm.app || {};
         },
         
         /**
-         * 親から離れる
+         * @property
+         * 親から離す
          */
         remove: function() {
             console.assert(this.parent);
@@ -42,7 +43,9 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 子供を追加
+         * @param {Object} child
          */
         addChild: function(child) {
             if (child.parent) child.remove();
@@ -56,7 +59,9 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * parent に自分を子供として追加
+         * @param {Object} parent
          */
         addChildTo: function(parent) {
             parent.addChild(this);
@@ -69,9 +74,11 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * まとめて追加
          * scene 遷移時に子供をごっそり移譲するときなどに使用
          * まだ動作確認していない
+         * @param {Object} children
          */
         addChildren: function(children) {
             var tempChildren = children.slice();
@@ -81,6 +88,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * index 指定で子供を取得
          */
         getChildAt: function() {
@@ -88,7 +96,9 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * child に一致するエレメントを離す
+         * @param {Object} child
          */
         removeChild: function(child) {
             var index = this.children.indexOf(child);
@@ -100,7 +110,9 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * すべての child を離す
+         * @param {Object} beginIndex
          */
         removeChildren: function(beginIndex) {
             beginIndex = beginIndex || 0;
@@ -112,7 +124,9 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 名前の一致する child を取得
+         * @param {String} name
          */
         getChildByName: function(name) {
             for (var i=0,len=this.children.length; i<len; ++i)
@@ -122,7 +136,10 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 関数実行
+         * @param {Function} func
+         * @param {Object} args
          */
         execChildren: function(func, args) {
             args = (args && args.length) ? args : [args];
@@ -134,11 +151,13 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 親を取得
          */
         getParent: function() { return this.parent; },
         
         /**
+         * @property
          * ルートを取得
          */
         getRoot: function() {
