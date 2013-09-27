@@ -32,6 +32,14 @@ tm.anim = tm.anim || {};
          */
         fps     : 30,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {} target
+         * @param {} finishProps
+         * @param {} duration
+         * @param {} func
+         */
         init: function(target, finishProps, duration, func) {
             this.superInit();
             
@@ -44,6 +52,14 @@ tm.anim = tm.anim || {};
             }
         },
 
+        /**
+         * @property
+         * 指定した値までアニメーション
+         * @param {} target
+         * @param {} finishProps
+         * @param {} duration
+         * @param {} func
+         */
         to: function(target, finishProps, duration, func) {
             var beginProps = {};
 
@@ -56,6 +72,14 @@ tm.anim = tm.anim || {};
             return this;
         },
 
+        /**
+         * @property
+         * 指定した値を足した値までアニメーション
+         * @param {} target
+         * @param {} props
+         * @param {} duration
+         * @param {} func
+         */
         by: function(target, props, duration, func) {
             var beginProps = {};
             var finishProps = {};
@@ -70,6 +94,15 @@ tm.anim = tm.anim || {};
             return this;
         },
 
+        /**
+         * @property
+         * 開始の値から終了の値までアニメーション
+         * @param {} target
+         * @param {} beginProps
+         * @param {} finishProps
+         * @param {} duration
+         * @param {} func
+         */
         fromTo: function(target, beginProps, finishProps, duration, func) {
             this.target = target;
             this.beginProps  = beginProps;
@@ -86,6 +119,14 @@ tm.anim = tm.anim || {};
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @param {} target
+         * @param {} beginProps
+         * @param {} duration
+         * @param {} func
+         */
         from: function(target, beginProps, duration, func) {
             var finishProps = {};
 
@@ -98,6 +139,11 @@ tm.anim = tm.anim || {};
             return this;
         },
         
+        /**
+         * @property
+         * easingの指定か、コールバックの指定か調べる
+         * @param {} func
+         */
         setTransition: function(func) {
             if (typeof func == 'function') {
                 this.func = func;
@@ -112,7 +158,8 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * 再開
+         * @property
+         * アニメーションの再開
          */
         resume: function() {
             this.isPlaying = true;
@@ -122,7 +169,8 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * 開始
+         * @property
+         * アニメーションの開始
          */
         start: function() {
             this.isPlaying = true;
@@ -132,7 +180,8 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * ストップ
+         * @property
+         * アニメーションのストップ
          */
         stop: function() {
             this.isPlaying = false;
@@ -140,6 +189,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
+         * @property
          * 開始位置まで戻る
          */
         rewind: function() {
@@ -148,15 +198,17 @@ tm.anim = tm.anim || {};
         },
         
         /**
+         * @property
          * 最後位置まで早送り
          */
         fforward: function() {
             this.time = this.duration;
             this.update();
         },
-        
-        /**
-         * ヨーヨー
+
+        /**        
+         * @property
+         * ヨーヨーのアニメーション
          */
         yoyo: function() {
             var temp = this.finishProps;
@@ -169,6 +221,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
+         * @property
          * 更新
          */
         update: function() {
@@ -179,14 +232,29 @@ tm.anim = tm.anim || {};
             this.dispatchEvent(tm.event.TweenEvent("change", this.time, this.nowProps));
         },
         
+        /**
+         * @property
+         * 時間を巻き戻す
+         * @private
+         */
         _resumeTime: function() {
             this.startTime = (new Date()).getTime() - this.time;
         },
         
+        /**
+         * @property
+         * スタート時間を設定
+         * @private
+         */
         _startTime: function() {
             this.startTime = (new Date()).getTime();
         },
         
+        /**
+         * @property
+         * 時間を進める
+         * @private
+         */
         _updateTime: function() {
             if (this.isPlaying) {
                 this._setTime((new Date()).getTime() - this.startTime);
@@ -194,6 +262,12 @@ tm.anim = tm.anim || {};
             }
         },
         
+        /**
+         * @property
+         * 時間を設定する
+         * @param {} t
+         * @private
+         */
         _setTime: function(t) {
             var time = t;
             // モーション終了
