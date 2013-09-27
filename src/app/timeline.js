@@ -12,7 +12,9 @@ tm.namespace("tm.app", function() {
         superClass: "tm.event.EventDispatcher",
         
         /**
-         * 初期化
+         * @property
+         * コンストラクタ
+         * @param {Object} elm
          */
         init: function(elm) {
             this.superInit();
@@ -29,7 +31,9 @@ tm.namespace("tm.app", function() {
         },
         
         /**
+         * @property
          * 更新
+         * @param {Object} app
          */
         update: function(app) {
             if (!this.isPlay) return ;
@@ -45,6 +49,11 @@ tm.namespace("tm.app", function() {
             this.currentFrame++;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _updateTween: function() {
             var tweens = this._tweens;
             for (var i=0,len=tweens.length; i<len; ++i) {
@@ -64,6 +73,11 @@ tm.namespace("tm.app", function() {
             }
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _updateAction: function() {
             var actions = this._actions;
             
@@ -85,7 +99,12 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * アニメーション
+         * @property
+         * 指定した値までアニメーション
+         * @param {Object} props
+         * @param {Object} duration
+         * @param {Object} delay
+         * @param {Function} func
          */
         to: function(props, duration, delay, fn) {
             this._addTween({
@@ -99,7 +118,12 @@ tm.namespace("tm.app", function() {
         },
 
         /**
-         * アニメーション
+         * @property
+         * 指定した値を足した値までアニメーション
+         * @param {Object} props
+         * @param {Object} duration
+         * @param {Object} delay
+         * @param {Function} func
          */
         by: function(props, duration, delay, fn) {
             for (var key in props) {
@@ -116,7 +140,10 @@ tm.namespace("tm.app", function() {
         },
         
         /**
+         * @property
          * 関数を実行
+         * @param {Function} func
+         * @param {Object} delay
          */
         call: function(func, delay) {
             this._addAction({
@@ -128,7 +155,10 @@ tm.namespace("tm.app", function() {
         },
         
         /**
+         * @property
          * プロパティをセット
+         * @param {Object} props
+         * @param {Object} delay
          */
         set: function(props, delay) {
             this._addAction({
@@ -140,7 +170,9 @@ tm.namespace("tm.app", function() {
         },
         
         /**
+         * @property
          * ターゲットをセット
+         * @param {Object} target
          */
         setTarget: function(target) {
             if (this._fn) {
@@ -153,14 +185,18 @@ tm.namespace("tm.app", function() {
         },
         
         /**
+         * @property
          * ターゲットをゲット
          */
-        getTarget: function(target) {
+        getTarget: function() {
             return this.element;
         },
         
         /**
-         * ターゲットをゲット
+         * @property
+         * アニメーション開始
+         * アニメーションが終了したら再度アニメーションを行う
+         * @param {Number} frame
          */
         gotoAndPlay: function(frame) {
             this.isPlay = true;
@@ -168,12 +204,24 @@ tm.namespace("tm.app", function() {
             this._updateTween();
         },
         
+        /**
+         * @property
+         * アニメーション開始
+         * アニメーションが終了したらストップする
+         * @param {Number} frame
+         */
         gotoAndStop: function(frame) {
             this.currentFrame = frame;
             this.isPlay = false;
             this._updateTween();
         },
 
+        /**
+         * @property
+         * tween を追加
+         * @private
+         * @param {Object} tween
+         */
         _addTween: function(tween) {
             tween.duration = tween.duration || 1000;
             tween.duration = this._dirty(tween.duration);
@@ -188,6 +236,12 @@ tm.namespace("tm.app", function() {
             this._updateDuration(tweenObj);
         },
 
+        /**
+         * @property
+         * アニメーションを追加
+         * @private
+         * @param {Object} action
+         */
         _addAction: function(action) {
             action.delay = action.delay || 0;
             action.delay = this._dirty(action.delay);
@@ -196,16 +250,33 @@ tm.namespace("tm.app", function() {
             this._updateDuration(action);
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         * @param {Object} task
+         */
         _updateDuration: function(task) {
             var duration = task.delay + (task.duration ? task.duration : 0);
             if (this.duration < duration) this.duration = duration;
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         * @param {Object} t
+         */
         _dirty: function(t) {
             return (t/this.fps).toInt();
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @param {Object} data
+         */
         load: function(data) {
             
             for (var key in data.timeline) {
@@ -215,6 +286,10 @@ tm.namespace("tm.app", function() {
             return this;
         },
         
+        /**
+         * @property
+         * アニメーションをクリア
+         */
         clear: function() {
             this.currentFrame = 0;
             this.duration = 0;

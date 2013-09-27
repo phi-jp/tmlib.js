@@ -48,8 +48,9 @@ tm.app = tm.app || {};
             this._listeners = {};
         },
         
-<span id='tm-app-Element-method-remove'>        /**
-</span>         * 親から離れる
+<span id='tm-app-Element-property-remove'>        /**
+</span>         * @property
+         * 親から離す
          */
         remove: function() {
             console.assert(this.parent);
@@ -58,8 +59,10 @@ tm.app = tm.app || {};
             return this;
         },
         
-<span id='tm-app-Element-method-addChild'>        /**
-</span>         * 子供を追加
+<span id='tm-app-Element-property-addChild'>        /**
+</span>         * @property
+         * 子供を追加
+         * @param {Object} child
          */
         addChild: function(child) {
             if (child.parent) child.remove();
@@ -72,8 +75,10 @@ tm.app = tm.app || {};
             return child;
         },
         
-<span id='tm-app-Element-method-addChildTo'>        /**
-</span>         * parent に自分を子供として追加
+<span id='tm-app-Element-property-addChildTo'>        /**
+</span>         * @property
+         * parent に自分を子供として追加
+         * @param {Object} parent
          */
         addChildTo: function(parent) {
             parent.addChild(this);
@@ -85,10 +90,12 @@ tm.app = tm.app || {};
             return this;
         },
         
-<span id='tm-app-Element-method-addChildren'>        /**
-</span>         * まとめて追加
+<span id='tm-app-Element-property-addChildren'>        /**
+</span>         * @property
+         * まとめて追加
          * scene 遷移時に子供をごっそり移譲するときなどに使用
          * まだ動作確認していない
+         * @param {Object} children
          */
         addChildren: function(children) {
             var tempChildren = children.slice();
@@ -97,15 +104,18 @@ tm.app = tm.app || {};
             }
         },
         
-<span id='tm-app-Element-method-getChildAt'>        /**
-</span>         * index 指定で子供を取得
+<span id='tm-app-Element-property-getChildAt'>        /**
+</span>         * @property
+         * index 指定で子供を取得
          */
         getChildAt: function() {
             // TODO: 
         },
         
-<span id='tm-app-Element-method-removeChild'>        /**
-</span>         * child に一致するエレメントを離す
+<span id='tm-app-Element-property-removeChild'>        /**
+</span>         * @property
+         * child に一致するエレメントを離す
+         * @param {Object} child
          */
         removeChild: function(child) {
             var index = this.children.indexOf(child);
@@ -116,8 +126,10 @@ tm.app = tm.app || {};
             }
         },
         
-<span id='tm-app-Element-method-removeChildren'>        /**
-</span>         * すべての child を離す
+<span id='tm-app-Element-property-removeChildren'>        /**
+</span>         * @property
+         * すべての child を離す
+         * @param {Object} beginIndex
          */
         removeChildren: function(beginIndex) {
             beginIndex = beginIndex || 0;
@@ -128,8 +140,10 @@ tm.app = tm.app || {};
             this.children = [];
         },
         
-<span id='tm-app-Element-method-getChildByName'>        /**
-</span>         * 名前の一致する child を取得
+<span id='tm-app-Element-property-getChildByName'>        /**
+</span>         * @property
+         * 名前の一致する child を取得
+         * @param {String} name
          */
         getChildByName: function(name) {
             for (var i=0,len=this.children.length; i&lt;len; ++i)
@@ -138,8 +152,11 @@ tm.app = tm.app || {};
             return null;
         },
         
-<span id='tm-app-Element-method-execChildren'>        /**
-</span>         * 関数実行
+<span id='tm-app-Element-property-execChildren'>        /**
+</span>         * @property
+         * 関数実行
+         * @param {Function} func
+         * @param {Object} args
          */
         execChildren: function(func, args) {
             args = (args &amp;&amp; args.length) ? args : [args];
@@ -150,13 +167,15 @@ tm.app = tm.app || {};
             }
         },
         
-<span id='tm-app-Element-method-getParent'>        /**
-</span>         * 親を取得
+<span id='tm-app-Element-property-getParent'>        /**
+</span>         * @property
+         * 親を取得
          */
         getParent: function() { return this.parent; },
         
-<span id='tm-app-Element-method-getRoot'>        /**
-</span>         * ルートを取得
+<span id='tm-app-Element-property-getRoot'>        /**
+</span>         * @property
+         * ルートを取得
          */
         getRoot: function() {
             if (!this.parent) return null;

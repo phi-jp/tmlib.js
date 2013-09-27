@@ -744,7 +744,7 @@
     };
  
     /**
-     * @member      tm.app.Object2D
+     * @member      tm.app.Object2D.prototype
      * @property    _setIsHitFunc
      * @private
      */
@@ -758,10 +758,10 @@
     };
     
     /**
-     * @member      tm.app.Object2D
+     * @member      tm.app.Object2D.prototype
      * @property    _checkPointing
      * @TODO ?
-     * @param {Object} tm.isMobile
+     * @param {Object} isMobile
      * @private
      */
     tm.app.Object2D.prototype._checkPointing = (tm.isMobile) ?

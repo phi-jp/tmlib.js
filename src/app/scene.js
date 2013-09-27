@@ -19,7 +19,8 @@ tm.app = tm.app || {};
         _sceneResultCallback: null,
 
         /**
-         * 初期化
+         * @property
+         * コンストラクタ
          */
         init: function() {
             this.superInit();
@@ -33,7 +34,7 @@ tm.app = tm.app || {};
     });
     
 })();
-    
+
 (function() {
     
     var DEFAULT_PARAM = {
@@ -49,6 +50,11 @@ tm.app = tm.app || {};
     tm.app.LoadingScene = tm.createClass({
         superClass: tm.app.Scene,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} param
+         */
         init: function(param) {
             this.superInit();
             
@@ -122,6 +128,11 @@ tm.app = tm.app || {};
     tm.app.TitleScene = tm.createClass({
         superClass: tm.app.Scene,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} param
+         */
         init: function(param) {
             this.superInit();
             
@@ -143,6 +154,11 @@ tm.app = tm.app || {};
             label.fontSize = param.titleSize;
             this.addChild(label);
         },
+
+        /**
+         * @property
+         * pointingstartイベント登録
+         */
         onpointingstart: function() {
             var e = tm.event.Event("nextscene");
             this.dispatchEvent(e);
@@ -174,6 +190,11 @@ tm.app = tm.app || {};
         
         superClass: tm.app.Scene,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} param
+         */
         init: function(param) {
             this.superInit();
             
