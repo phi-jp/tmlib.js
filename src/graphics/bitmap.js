@@ -27,6 +27,11 @@ tm.graphics = tm.graphics || {};
             this.init = this._init;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _init: function(imageData) {
             if (arguments.length == 1) {
                 this.imageData = imageData;
@@ -41,6 +46,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * index 指定でピクセル値を取得
          * 最も高速
          */
@@ -55,6 +61,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * x, y 指定でピクセル値を取得
          */
         getPixelXY: function(x, y) {
@@ -62,6 +69,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ピクセル値を取得
          * ### Memo
          * - index 指定か x, y 指定にするか検討中
@@ -70,12 +78,20 @@ tm.graphics = tm.graphics || {};
         getPixel: function(x, y) {
             return this.getPixelIndex( this.posToIndex(x, y) );
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         getPixelAsNumber: function(index) {
             var i = index*4;
             return (this.data[i+3] << 24) | (this.data[i+0] << 16) | (this.data[i+1] << 8) | this.data[i+2];
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         getPixelAsObject: function(index) {
             var i = index*4;
             return {
@@ -85,7 +101,11 @@ tm.graphics = tm.graphics || {};
                 a: this.data[i+3]
             };
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         getPixelAsArray: function(index) {
             var i = index*4;
             return [
@@ -97,6 +117,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 指定した範囲内のピクセル平均値を取得
          */
         getPixelAverage: function(x, y, width, height) {
@@ -144,6 +165,7 @@ tm.graphics = tm.graphics || {};
         
         
         /**
+         * @property
          * index 指定でピクセル値をセット
          * 最も高速
          */
@@ -156,6 +178,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * x, y指定でピクセル値をセット
          */
         setPixelXY: function(x, y, r, g, b) {
@@ -163,12 +186,17 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ピクセル値をセット
          */
         setPixel: function(index, r, g, b) {
             return this.setPixelIndex(y*this.imageData.width+x, r, g, b);
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setPixel32Index: function(index, r, g, b, a) {
             var i = index*4;
             this.data[i+0] = r;
@@ -177,24 +205,41 @@ tm.graphics = tm.graphics || {};
             this.data[i+3] = a;
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setPixel32: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setPixel32XY: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setPixelFromArray: function(index, pixel) {
             return this.setPixel(index, pixel[0], pixel[1], pixel[2]);
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setPixel32FromArray: function(index, pixel) {
             return this.setPixel32(index, pixel[0], pixel[1], pixel[2], pixel[3]);
         },
 
         /**
+         * @property
          * argb
          */
         setPixelFromNumber: function(index, pixel) {
@@ -202,6 +247,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * argb
          */
         setPixel32FromNumber: function(index, pixel) {
@@ -209,16 +255,22 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * object
          */
         setPixelFromObject: function(index, pixel) {
             return this.setPixel(pixel.r, pixel.g, pixel.b);
         },
+        /**
+         * @property
+         * @TODO ?
+         */
         setPixel32FromObject: function(index, pixel) {
             return this.setPixel32(pixel.r, pixel.g, pixel.b, pixel.a);
         },
         
         /**
+         * @property
          * string
          * rgb, hsl, #... #...... などに対応予定
          */
@@ -227,6 +279,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 位置をインデックスに変換
          */
         posToIndex: function(x, y) {
@@ -234,6 +287,10 @@ tm.graphics = tm.graphics || {};
         },
         
         // filter: function(rect, filter)
+        /**
+         * @property
+         * @TODO ?
+         */
         filter: function(filter) {
             for (var i=0; i<this.height; ++i) {
                 for (var j=0; j<this.width; ++j) {
@@ -248,6 +305,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ノイズ
          */
         noise: function(low, high) {
@@ -264,7 +322,11 @@ tm.graphics = tm.graphics || {};
                 this.setPixel32Index(i, p[0], p[1], p[2], p[3]);
             }
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         applyFilter: function(filter) {
             
         },

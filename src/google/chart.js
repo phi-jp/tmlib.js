@@ -17,6 +17,7 @@ tm.google = tm.google || {};
     var QR_CODE_BASE_URL        = "https://chart.googleapis.com/chart?chs={size}&cht={type}&chl={text}&chco={color}";
     
     /**
+     * @property
      * ダイナミックアイコン
      * @param {string}  type    d_bubble_text_small OR d_fnote_title OR chst=d_fnote etc...
      * @param {string}  data    
@@ -36,6 +37,7 @@ tm.google = tm.google || {};
     };
     
     /**
+     * @property
      * QRCode 生成
      * @param {Object} prop
      * ### Reference
@@ -57,6 +59,7 @@ tm.google = tm.google || {};
     };
     
     /**
+     * @property
      * Tex 生成
      */
     tm.google.Chart.createTeX = function() {

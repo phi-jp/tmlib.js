@@ -46,6 +46,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * リサイズする
          */
         resize: function(width, height) {
@@ -55,6 +56,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * リサイズウィンドウ
          */
         resizeWindow: function() {
@@ -67,6 +69,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * フィット
          */
         resizeToFitScreen: function() {
@@ -79,6 +82,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 拡縮で画面にフィットさせる
          * 名前は仮. 検討する
          */
@@ -118,7 +122,8 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         *  クリア
+         * @property
+         * クリア
          */
         clear: function(x, y, width, height) {
             x = x || 0;
@@ -131,6 +136,7 @@ tm.graphics = tm.graphics || {};
         
         
         /**
+         * @property
          * 色指定クリア
          * @param {String}  fillStyle
          * @param {Number}  [x=0]
@@ -154,7 +160,8 @@ tm.graphics = tm.graphics || {};
         },
                 
         /**
-         *  パスを開始(リセット)
+         * @property
+         * パスを開始(リセット)
          */
         beginPath: function() {
             this.context.beginPath();
@@ -162,6 +169,7 @@ tm.graphics = tm.graphics || {};
         },
                 
         /**
+         * @property
          *  パスを閉じる
          */
         closePath: function() {
@@ -171,6 +179,7 @@ tm.graphics = tm.graphics || {};
         
 
         /**
+         * @property
          *  新規パス生成
          */
         moveTo: function(x, y) {
@@ -179,6 +188,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * パスに追加
          */
         lineTo: function(x, y) {
@@ -187,6 +197,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * パス内を塗りつぶす
          */
         fill: function() {
@@ -195,6 +206,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * パス上にラインを引く
          */
         stroke: function() {
@@ -203,6 +215,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * クリップ
          */
         clip: function() {
@@ -211,6 +224,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 点描画
          */
         drawPoint: function(x, y) {
@@ -219,6 +233,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * ラインパスを作成
          */
         line: function(x0, y0, x1, y1) {
@@ -226,6 +241,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ラインを描画
          */
         drawLine: function(x0, y0, x1, y1) {
@@ -233,6 +249,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ダッシュラインを描画
          */
         drawDashLine: function(x0, y0, x1, y1, pattern) {
@@ -266,6 +283,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * v0(x0, y0), v1(x1, y1) から角度を求めて矢印を描画
          * http://hakuhin.jp/as/rotation.html
          */
@@ -282,6 +300,7 @@ tm.graphics = tm.graphics || {};
         
         
         /**
+         * @property
          * lines
          */
         lines: function() {
@@ -291,14 +310,22 @@ tm.graphics = tm.graphics || {};
             }
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         strokeLines: function() {
             this.beginPath();
             this.lines.apply(this, arguments);
             this.stroke();
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         fillLines: function() {
             this.beginPath();
             this.lines.apply(this, arguments);
@@ -307,6 +334,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 四角形パスを作成する
          */
         rect: function(x, y, width, height) {
@@ -315,6 +343,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 四角形塗りつぶし描画
          */
         fillRect: function() {
@@ -323,6 +352,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 四角形ライン描画
          */
         strokeRect: function() {
@@ -331,6 +361,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 角丸四角形パス
          */
         roundRect: function(x, y, width, height, radius) {
@@ -361,12 +392,14 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         /**
+         * @property
          * 角丸四角形塗りつぶし
          */
         fillRoundRect: function(x, y, width, height, radius) {
             return this.beginPath().roundRect(x, y, width, height, radius).fill();
         },
         /**
+         * @property
          * 角丸四角形ストローク描画
          */
         strokeRoundRect: function(x, y, width, height, radius) {
@@ -374,6 +407,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ポリゴンパス
          */
         polygon: function(x, y, size, sides, offsetAngle) {
@@ -392,12 +426,14 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         /**
+         * @property
          * ポリゴン塗りつぶし
          */
         fillPolygon: function(x, y, radius, sides, offsetAngle) {
             return this.beginPath().polygon(x, y, radius, sides, offsetAngle).fill();
         },
         /**
+         * @property
          * ポリゴンストローク描画
          */
         strokePolygon: function(x, y, radius, sides, offsetAngle) {
@@ -405,6 +441,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * star
          */
         star: function(x, y, radius, sides, sideIndent, offsetAngle) {
@@ -427,15 +464,25 @@ tm.graphics = tm.graphics || {};
             this.closePath();
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         fillStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).fill();
         },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         strokeStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).stroke();
         },
 
         /*
+         * @property
          * heart
          */
         heart: function(x, y, radius, angle) {
@@ -465,6 +512,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /*
+         * @property
          * fill heart
          */
         fillHeart: function(x, y, radius, angle) {
@@ -472,6 +520,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /*
+         * @property
          * stroke heart
          */
         strokeHeart: function(x, y, radius, angle) {
@@ -479,6 +528,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 円のパスを設定
          */
         circle: function(x, y, radius) {
@@ -487,6 +537,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 塗りつぶし円を描画
          */
         fillCircle: function(x, y, radius) {
@@ -500,6 +551,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ストローク円を描画
          */
         strokeCircle: function(x, y, radius) {
@@ -508,6 +560,7 @@ tm.graphics = tm.graphics || {};
         
         
         /**
+         * @property
          * 円弧のパスを設定
          */
         arc: function(x, y, radius, startAngle, endAngle, anticlockwise) {
@@ -516,6 +569,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 塗りつぶし円弧を描画
          */
         fillArc: function(x, y, radius, startAngle, endAngle, anticlockwise) {
@@ -523,6 +577,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ストローク円弧を描画
          */
         strokeArc: function(x, y, radius, startAngle, endAngle, anticlockwise) {
@@ -530,6 +585,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 三角形パスを設定
          */
         triangle: function(x0, y0, x1, y1, x2, y2) {
@@ -539,6 +595,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 塗りつぶし三角形を描画
          */
         fillTriangle: function(x0, y0, x1, y1, x2, y2) {
@@ -546,6 +603,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ストローク三角形を描画
          */
         strokeTriangle: function(x0, y0, x1, y1, x2, y2) {
@@ -554,6 +612,7 @@ tm.graphics = tm.graphics || {};
         
 
         /**
+         * @property
          * 塗りつぶしテキストを描画
          */
         fillText: function(text, x, y) {
@@ -561,6 +620,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ストロークテキスト
          */
         strokeText: function(text, x, y) {
@@ -568,6 +628,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 塗りつぶしテキスト
          */
         fillTextList: function(text_list, x, y, offsetX, offsetY) {
@@ -582,6 +643,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ストロークテキストリスト
          */
         strokeTextList: function(text_list, x, y, offsetX, offsetY) {
@@ -596,6 +658,7 @@ tm.graphics = tm.graphics || {};
         },
                 
         /**
+         * @property
          * 画像描画
          */
         drawImage: function(image, x, y) {
@@ -612,6 +675,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * テクスチャ描画
          */
         drawTexture: function(texture, x, y) {
@@ -622,6 +686,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ビットマップ描画
          */
         drawBitmap: function(bitmap, x, y) {
@@ -632,6 +697,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 行列をセット
          */
         setTransform: function(m11, m12, m21, m22, dx, dy) {
@@ -641,6 +707,7 @@ tm.graphics = tm.graphics || {};
         
         
         /**
+         * @property
          * 行列をリセット
          */
         resetTransform: function() {
@@ -650,6 +717,7 @@ tm.graphics = tm.graphics || {};
         
         
         /**
+         * @property
          * 中心に移動
          */
         setTransformCenter: function() {
@@ -658,6 +726,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 行列を掛ける
          */
         transform: function(m11, m12, m21, m22, dx, dy) {
@@ -666,6 +735,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 保存
          */
         save: function() {
@@ -674,6 +744,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 復元
          */
         restore: function() {
@@ -682,6 +753,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 移動
          */
         translate: function(x, y) {
@@ -690,6 +762,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 回転
          */
         rotate: function(rotation) {
@@ -698,6 +771,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * スケール
          */
         scale: function(scaleX, scaleY) {
@@ -706,6 +780,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 画像として保存
          */
         saveAsImage: function(mime_type) {
@@ -717,23 +792,35 @@ tm.graphics = tm.graphics || {};
             // toDataURL を使えば下記のようなツールが作れるかも!!
             // TODO: プログラムで絵をかいて保存できるツール
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setCompositing: function(alpha, compositeOperation) {
             // TODO
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setFillStyle: function(style) {
             this.context.fillStyle = style;
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setStrokeStyle: function(style) {
             this.context.strokeStyle = style;
             return this;
         },
         
         /**
-         * 
+         * @property
          * <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#colors-and-styles</a>
          */
         setColorStyle: function(stroke, fill) {
@@ -745,6 +832,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * テキストをセット
          */
         setText: function(font, align, baseline) {
@@ -755,6 +843,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ラインスタイルを一括セット
          * <a href="http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles">http://www.w3.org/TR/2010/WD-2dcontext-20100624/#line-styles</a>
          */
@@ -769,6 +858,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 影をセット
          * - <http://www.html5.jp/canvas/ref/property/shadowColor.html>
          * - <http://www.w3.org/TR/2010/WD-2dcontext-20100624/#shadows>

@@ -41,6 +41,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * セッター.
          */
         set: function(r, g, b, a) {
@@ -52,6 +53,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 数値によるセッター.
          */
         setFromNumber: function(r, g, b, a) {
@@ -63,6 +65,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 配列によるセッター
          */
         setFromArray: function(arr) {
@@ -70,6 +73,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * オブジェクトによるセッター
          */
         setFromObject: function(obj) {
@@ -77,6 +81,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 文字列によるセッター
          */
         setFromString: function(str) {
@@ -85,6 +90,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * 賢いセッター
          */
         setSmart: function() {
@@ -105,6 +111,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * CSS 用 16進数文字列に変換
          */
         toStyleAsHex: function() {
@@ -116,6 +123,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * CSS 用 RGB文字列に変換
          */
         toStyleAsRGB: function() {
@@ -128,6 +136,7 @@ tm.graphics = tm.graphics || {};
         
         
         /**
+         * @property
          * CSS 用 RGBA文字列に変換
          */
         toStyleAsRGBA: function() {
@@ -140,6 +149,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * CSS 用 RGBA 文字列に変換
          */
         toStyle: function() {
@@ -153,6 +163,9 @@ tm.graphics = tm.graphics || {};
         
     });
     
+    /**
+     * @enum
+     */
     var MATCH_SET_LIST = {
         "hex111": {
             reg: /^#(\w{1})(\w{1})(\w{1})$/,
@@ -210,7 +223,9 @@ tm.graphics = tm.graphics || {};
         },
     };
 
-
+    /**
+     * @enum
+     */
     tm.graphics.Color.COLOR_LIST = {
         "black"     : [0x00, 0x00, 0x00],
         "silver"    : [0xc0, 0xc0, 0xc0],
@@ -230,6 +245,10 @@ tm.graphics = tm.graphics || {};
         "aqua"      : [0x00, 0xff, 0xff],
     };
 
+    /**
+     * @property
+     * @TODO ?
+     */
     tm.graphics.Color.strToNum = tm.graphics.Color.stringToNumber = function(str){
         var vlaue = null;
         var type = null;
@@ -256,7 +275,10 @@ tm.graphics = tm.graphics || {};
         return value;
     };
 
-
+    /**
+     * @property
+     * @TODO ?
+     */
     tm.graphics.Color.HSLtoRGB = function(h, s, l) {
         var r, g, b;
         
@@ -299,13 +321,18 @@ tm.graphics = tm.graphics || {};
             parseInt(b*255)
             ];
     };
-    
+
+    /**
+     * @property
+     * @TODO ?
+     */
     tm.graphics.Color.HSLAtoRGBA = function(h, s, l, a) {
         var temp = Color.HSLtoRGB(h, s, l); temp[3] = a;
         return rgb;
     };
 
     /**
+     * @property
      * rgb 値を作成
      */
     tm.graphics.Color.createStyleRGB = function(r, g, b) {
@@ -313,6 +340,7 @@ tm.graphics = tm.graphics || {};
     };
     
     /**
+     * @property
      * rgba 値を作成
      */
     tm.graphics.Color.createStyleRGBA = function(r, g, b, a) {
@@ -320,6 +348,7 @@ tm.graphics = tm.graphics || {};
     };
 
     /**
+     * @property
      * hsl 値を作成
      */
     tm.graphics.Color.createStyleHSL = function(h, s, l) {
@@ -327,6 +356,7 @@ tm.graphics = tm.graphics || {};
     };
     
     /**
+     * @property
      * hsla 値を作成
      */
     tm.graphics.Color.createStyleHSLA = function(h, s, l, a) {
