@@ -54,6 +54,7 @@ tm.sound = tm.sound || {};
         },
         
         /**
+         * @property
          * 再生
          */
         play: function() {
@@ -63,6 +64,7 @@ tm.sound = tm.sound || {};
         },
         
         /**
+         * @property
          * 停止
          */
         stop: function() {
@@ -76,6 +78,7 @@ tm.sound = tm.sound || {};
         },
         
         /**
+         * @property
          * 一時停止
          */
         pause: function() {
@@ -84,6 +87,7 @@ tm.sound = tm.sound || {};
         },
         
         /**
+         * @property
          * クローン
          */
         clone: function() {
@@ -239,6 +243,8 @@ tm.sound = tm.sound || {};
     };
     
     /**
+     * @static
+     * @method
      * ロードチェック
      */
     tm.sound.SoundManager.isLoaded = function() {

@@ -60,6 +60,10 @@ tm.mml = tm.mml || {};
      * MML Player
      */
     tm.mml.Driver = {
+        /**
+         * @property
+         * @TODO ?
+         */
         compile: function(source) {
             var buffer = new Array();
             var trackList = source.split(';');

@@ -95,6 +95,10 @@ tm.graphics = tm.graphics || {};
             this.camera = tm.graphics.Camera();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         resize: function(width, height) {
             this.canvas.width  = width;
             this.canvas.height = height;
@@ -105,6 +109,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * シェーダーを生成
          */
         createShader: function(script, type) {
@@ -135,6 +140,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * シェーダプログラムを生成
          */
         createProgram: function(vs, fs) {
@@ -157,6 +163,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * Vertex Buffer Object
          */
         createBuffer: function(buffer) {
@@ -173,6 +180,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * 画面クリア
          */
         clear: function() {
@@ -181,6 +189,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * ビューポートをセット
          */
         setViewport: function(x, y, width, height) {
@@ -193,6 +202,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * 配列から描画
          */
         drawArrays: function(vbo, colors, texCoords) {
@@ -223,6 +233,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * メッシュを秒gあ
          */
         drawMesh: function(mesh) {
@@ -230,7 +241,8 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         *　描画開始
+         * @property
+         * 描画開始
          */
         beginDraw: function() {
             this._vertices  = [];
@@ -239,6 +251,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * vertex2
          */
         vertex2: function(x, y) {
@@ -249,6 +262,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * vertex3
          */
         vertex3: function(x, y, z) {
@@ -259,6 +273,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * color4
          */
         color4: function(r, g, b, a) {
@@ -274,6 +289,7 @@ tm.graphics = tm.graphics || {};
 
 
         /**
+         * @property
          * texCoord2
          */
         texCoord2: function(s, t) {
@@ -283,6 +299,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * 描画終了
          */
         endDraw: function() {
@@ -302,6 +319,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          * 矩形描画
          */
         drawRectangle: function(x, y, width, height) {
@@ -329,6 +347,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          *　サークル描画
          */
         drawCircle: function(x, y, radius) {
@@ -352,6 +371,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          *　キューブ描画
          */
         drawCube: function() {
@@ -460,6 +480,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          *　ピラミット描画
          */
         drawPyramid: function() {
@@ -508,6 +529,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
+         * @property
          *　テクスチャを生成
          */
         createTexture: function(texture) {
@@ -525,6 +547,11 @@ tm.graphics = tm.graphics || {};
             return tex;
         },
 
+        /**
+         * @property
+         *　テクスチャを生成
+         * @private
+         */
         _initGL: function() {
             var gl = this.gl;
 
@@ -568,6 +595,10 @@ tm.graphics = tm.graphics || {};
      * カメラクラス
      */
     tm.graphics.Camera = tm.createClass({
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function() {
             this.projectionMatrix = tm.geom.Matrix44();
             
@@ -577,7 +608,11 @@ tm.graphics = tm.graphics || {};
             
             this.lookAt();
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         lookAt: function() {
             this.cameraMatrix = tm.geom.Matrix44.lookAt(
                 this.eye,
@@ -585,7 +620,11 @@ tm.graphics = tm.graphics || {};
                 this.up
             );
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         getCameraMatrix: function() {
             return this.cameraMatrix;
         },

@@ -26,6 +26,7 @@ tm.input = tm.input || {};
         last    : null, // 押していたキー
         
         /**
+         * @constructor
          * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html">Test Program</a>.
          * ### Example
          * TM.loadScript("input", "keyboard");
@@ -63,6 +64,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * run.
          * 自動でマウス情報を更新したい際に使用する
          */
@@ -76,8 +78,10 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * 情報更新処理
          * マイフレーム呼んで下さい.
+         * @private
          */
         _update: function() {
             // TODO: 一括ビット演算で行うよう修正する
@@ -93,6 +97,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * キーを押しているかをチェック
          * @param   {Number/String} key keyCode or keyName
          * @returns {Boolean}   チェック結果
@@ -105,6 +110,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * キーを押したかをチェック
          * @param   {Number/String} key keyCode or keyName
          * @returns {Boolean}   チェック結果
@@ -117,6 +123,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * キーを離したかをチェック
          * @param   {Number/String} key keyCode or keyName
          * @returns {Boolean}   チェック結果
@@ -129,6 +136,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * キーの方向を Angle(Degree) で取得
          * @returns {Boolean}   角度(Degree)
          */
@@ -148,7 +156,10 @@ tm.input = tm.input || {};
         }
         
     });
-    
+
+    /**
+     * @enum
+     */
     var ARROW_BIT_TO_ANGLE_TABLE = {
         // 上下左右
         0x01: 270,      // 下
@@ -168,6 +179,9 @@ tm.input = tm.input || {};
         0x07:   0,      // 下右上
     };
 
+    /**
+     * @enum
+     */
     var KEY_CODE = {
         "backspace" : 8,
         "tab"       : 9,

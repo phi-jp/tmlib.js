@@ -29,7 +29,8 @@ tm.sound = tm.sound || {};
         volume: 0.8,
 
         /**
-         *　初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(src_or_buffer) {
             this.superInit();
@@ -54,6 +55,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
+         * @property
          * 再生
          * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
          */
@@ -70,6 +72,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
+         * @property
          * 停止
          */
         stop: function(time) {
@@ -89,12 +92,20 @@ tm.sound = tm.sound || {};
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         pause: function() {
             this.source.disconnect();
 
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         resume: function() {
             this.source.connect(this.panner);
 
@@ -102,6 +113,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
+         * @property
          * 複製
          */
         clone: function() {
@@ -110,6 +122,7 @@ tm.sound = tm.sound || {};
             return webAudio;
         },
         /**
+         * @property
          * dummy
          */
         setPosition: function(x, y, z) {
@@ -118,6 +131,7 @@ tm.sound = tm.sound || {};
             return this;
         },
         /**
+         * @property
          * dummy
          */
         setVelocity: function(x, y, z) {
@@ -126,6 +140,7 @@ tm.sound = tm.sound || {};
             return this;
         },
         /**
+         * @property
          * dummy
          */
         setOrientation: function(x, y, z) {
@@ -135,6 +150,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
+         * @property
          * dummy
          * チェーンメソッド用
          */
@@ -145,6 +161,7 @@ tm.sound = tm.sound || {};
 
 
         /**
+         * @property
          * dummy
          * チェーンメソッド用
          */
@@ -155,6 +172,7 @@ tm.sound = tm.sound || {};
 
 
         /**
+         * @property
          * dummy
          * チェーンメソッド用
          */
@@ -165,6 +183,7 @@ tm.sound = tm.sound || {};
 
 
         /**
+         * @property
          * チェーンメソッド用
          */
         setPlaybackRate: function(v) {
@@ -172,6 +191,11 @@ tm.sound = tm.sound || {};
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _load: function(src) {
             var xhr = new XMLHttpRequest();
             var self = this;
@@ -194,6 +218,11 @@ tm.sound = tm.sound || {};
             xhr.send();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _setup: function() {
             this.source     = this.context.createBufferSource();
 //            this.gainNode   = this.context.createGainNode();
@@ -205,6 +234,10 @@ tm.sound = tm.sound || {};
             this.analyser.connect(this.context.destination);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         tone: function(hertz, seconds) {
             // handle parameter
             hertz   = hertz !== undefined ? hertz : 200;
@@ -228,21 +261,37 @@ tm.sound = tm.sound || {};
         },
     });
 
+    /**
+     * @property    buffer
+     * @TODO ?
+     */
     tm.sound.WebAudio.prototype.accessor("buffer", {
         get: function()  { return this.source.buffer; },
         set: function(v) { this.source.buffer = v; }
     });
 
+    /**
+     * @property    loop
+     * @TODO ?
+     */
     tm.sound.WebAudio.prototype.accessor("loop", {
         get: function()  { return this.source.loop; },
         set: function(v) { this.source.loop = v; }
     });
 
+    /**
+     * @property    valume
+     * @TODO ?
+     */
     tm.sound.WebAudio.prototype.accessor("volume", {
         get: function()  { return this.source.gain.value; },
         set: function(v) { this.source.gain.value = v; }
     });
 
+    /**
+     * @property    playbackRate
+     * @TODO ?
+     */
     tm.sound.WebAudio.prototype.accessor("playbackRate", {
         get: function()  { return this.source.playbackRate.value; },
         set: function(v) { this.source.playbackRate.value = v; }

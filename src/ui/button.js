@@ -14,7 +14,11 @@ tm.ui = tm.ui || {};
      */
     tm.ui.LabelButton = tm.createClass({
         superClass: tm.display.Label,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(text) {
             this.superInit(text);
             
@@ -100,7 +104,11 @@ tm.ui = tm.ui || {};
      */
     tm.ui.GlossyButton = tm.createClass({
         superClass: tm.display.Shape,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
             
@@ -125,7 +133,11 @@ tm.ui = tm.ui || {};
             
             this._refresh();
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setBackgroundColor: function(backgroundColor) {
             this.backgroundColor = backgroundColor;
             
@@ -133,7 +145,12 @@ tm.ui = tm.ui || {};
             
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _refresh: function() {
             // ボタン描画
             var c = this.canvas;
@@ -182,6 +199,10 @@ tm.ui = tm.ui || {};
     tm.define("tm.ui.FlatButton", {
         superClass: tm.display.Shape,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(param) {
             param.$safe({
                 width: 300,

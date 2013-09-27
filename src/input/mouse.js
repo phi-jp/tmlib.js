@@ -45,6 +45,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * run
          * 自動でマウス情報を更新したい際に使用する
          */
@@ -60,6 +61,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * 情報更新処理
          * マイフレーム呼んで下さい.
          */
@@ -79,6 +81,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * ボタン取得
          */
         getButton: function(button) {
@@ -90,6 +93,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * ボタンダウン取得
          */
         getButtonDown: function(button) {
@@ -101,6 +105,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * ボタンアップ取得
          */
         getButtonUp: function(button) {
@@ -110,19 +115,34 @@ tm.input = tm.input || {};
             
             return (this.up & button) != 0;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _mousemove: function(e) {
             var rect = e.target.getBoundingClientRect();
             this.x = e.clientX - rect.left;
             this.y = e.clientY - rect.top;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _mousemoveNormal: function(e) {
             var rect = e.target.getBoundingClientRect();
             this.x = e.clientX - rect.left;
             this.y = e.clientY - rect.top;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _mousemoveScale: function(e) {
             var rect = e.target.getBoundingClientRect();
             this.x = e.clientX - rect.left;
@@ -146,6 +166,9 @@ tm.input = tm.input || {};
     tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
     tm.input.Mouse.BUTTON_RIGHT     = 0x4;
     
+    /**
+     * @enum
+     */
     var BUTTON_MAP = {
         "left"  : tm.input.Mouse.BUTTON_LEFT,
         "middle": tm.input.Mouse.BUTTON_MIDDLE,

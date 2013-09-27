@@ -21,6 +21,7 @@ tm.util = tm.util || {};
     tm.util.Random = {
         
         /**
+         * @property
          * Dummy
          */
         randint: function(min, max) {
@@ -28,6 +29,7 @@ tm.util = tm.util || {};
         },
         
         /**
+         * @property
          * Dummy
          */
         randfloat: function(min, max) {
@@ -35,6 +37,7 @@ tm.util = tm.util || {};
         },
         
         /**
+         * @property
          * Dummy
          */
         randbool: function() {

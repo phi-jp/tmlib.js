@@ -7,6 +7,9 @@ tm.util = tm.util || {};
 
 (function() {
     
+    /**
+     * @enum
+     */
     var AJAX_DEFAULT_SETTINGS = {
         type :"GET",
         async: true,

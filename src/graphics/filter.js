@@ -21,6 +21,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -58,6 +59,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -100,6 +102,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -173,6 +176,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -217,6 +221,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {

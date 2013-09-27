@@ -125,6 +125,8 @@ tm.util = tm.util || {};
     };
     
     /**
+     * @static
+     * @method
      * ロードチェック
      */
     tm.util.ScriptManager.isLoaded = function() {

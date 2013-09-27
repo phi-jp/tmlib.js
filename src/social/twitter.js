@@ -15,8 +15,10 @@ tm.social = tm.social || {};
     
     tm.social.Twitter.API_URL = "http://api.twitter.com/1";    // version 1 は廃止予定らしい
     var BASE_URL = "http://twitter.com/intent";
-    
+
+
     /**
+     * @member      tm.social.Twitter
      * Tweet する
      * @param {Object} prop
      * ### Reference
@@ -58,7 +60,11 @@ tm.social = tm.social || {};
 (function() {
     
     var BASE_URL = "http://api.twitter.com/1/{type}/{kind}.json";
-    
+
+    /**
+     * @member      tm.social.Twitter
+     * @property    api
+     */
     tm.social.Twitter.api = function(type, kind, param, callback) {
         var url = BASE_URL.format({ type:type, kind:kind });
         var qs  = tm.util.QueryString.stringify(param);
@@ -73,7 +79,11 @@ tm.social = tm.social || {};
 (function() {
     
     var BASE_URL = "http://search.twitter.com/search.json";
-    
+
+    /**
+     * @member      tm.social.Twitter
+     * @property    search
+     */
     tm.social.Twitter.search = function(param, callback) {
         var url = BASE_URL;
         var qs  = tm.util.QueryString.stringify(param);
@@ -93,6 +103,8 @@ tm.social = tm.social || {};
     //http://api.twitter.com/1/statuses/followers.json?id=tmlife_jp
     
     /**
+     * @member      tm.social.Twitter
+     * @property    getFollowers
      * 
      * user_id      ユーザーID
      * screen_name  screen_name

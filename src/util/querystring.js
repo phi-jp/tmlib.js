@@ -12,8 +12,9 @@ tm.util = tm.util || {};
      * @TODO ?
      */
     tm.util.QueryString = {
-        /*
-         * 
+        /**
+         * @property
+         * @TODO ?
          */
         parse: function(str, sep, eq) {
             sep = sep || '&';
@@ -34,8 +35,9 @@ tm.util = tm.util || {};
             return obj;
         },
         
-        /*
-         * 
+        /**
+         * @property
+         * @TODO ?
          */
         stringify: function(obj, sep, eq) {
             sep = sep || '&';

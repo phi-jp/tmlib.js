@@ -12,7 +12,11 @@ tm.util = tm.util || {};
      * @TODO ?
      */
     tm.util.File = tm.createClass({
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(params) {
             this.loaded = false;
             if (arguments.length == 1) {
@@ -20,6 +24,10 @@ tm.util = tm.util || {};
             }
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         loadFile: function(params) {
             if (typeof params == "string") {
                 var url = params;
@@ -34,6 +42,10 @@ tm.util = tm.util || {};
             tm.util.Ajax.load(params);
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         loadLocalStorage: function() {
             
         },
@@ -54,13 +66,23 @@ tm.util = tm.util || {};
     tm.util.FileManager = {
         files: {}
     };
-    
+
+    /**
+     * @static
+     * @method
+     * @TODO ?
+     */
     tm.util.FileManager.load = function(key, params) {
         var file = tm.util.File(params);
         this.files[key] = file;
         return file;
     };
-    
+
+    /**
+     * @static
+     * @method
+     * @TODO ?
+     */
     tm.util.FileManager.get = function(key) {
         return this.files[key];
     };

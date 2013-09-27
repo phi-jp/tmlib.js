@@ -40,7 +40,8 @@
         _screenHeight: 0,
 
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          * @param {Object} params
          */
         init: function(params) {
@@ -84,6 +85,11 @@
                 .addChildTo(this);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _onOpen: function() {
             var self = this;
             var y = this._screenHeight*0.5 - this.menu.length * 25;
@@ -135,6 +141,11 @@
             this.dispatchEvent(e);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _createCursor: function() {
             var cursor = tm.display.RectangleShape(this._screenWidth*0.7, 30, {
                 strokeStyle: "rgba(0,0,0,0)",
@@ -156,10 +167,18 @@
             return cursor;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         update: function(app) {
             this.description.text = this.descriptions[this._selected];
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         closeDialog: function(result) {
             this._finished = true;
 
@@ -194,6 +213,10 @@
                 .setLoop(true);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         draw: function(canvas) {
             canvas.fillStyle = "rgba(0,0,0,0.8)";
             canvas.fillRect(0,0,this._screenWidth,this._screenHeight);
