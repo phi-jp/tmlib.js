@@ -16,17 +16,16 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * bitmap.js
+ * filter.js
  */
 
 tm.graphics = tm.graphics || {};
 
-
 (function() {
     
 <span id='tm-graphics-MonochromeFilter'>    /**
-</span>     * @class
-     * フィルタ
+</span>     * @class tm.graphics.MonochromeFilter
+     * モノクロフィルタ
      */
     tm.graphics.MonochromeFilter = tm.createClass({
         
@@ -61,8 +60,8 @@ tm.graphics = tm.graphics || {};
 (function() {
     
 <span id='tm-graphics-ReverseFilter'>    /**
-</span>     * @class
-     * フィルタ
+</span>     * @class tm.graphics.ReverseFilter
+     * リバースフィルタ
      */
     tm.graphics.ReverseFilter = tm.createClass({
         
@@ -96,7 +95,7 @@ tm.graphics = tm.graphics || {};
 (function() {
     
 <span id='tm-graphics-BlurFilter'>    /**
-</span>     * @class
+</span>     * @class tm.graphics.BlurFilter
      * ブラーフィルタ
      * 
      * ### Reference
@@ -172,7 +171,7 @@ tm.graphics = tm.graphics || {};
     }
     
 <span id='tm-graphics-ToonFilter'>    /**
-</span>     * @class
+</span>     * @class tm.graphics.ToonFilter
      * トゥーンフィルタ
      */
     tm.graphics.ToonFilter = tm.createClass({
@@ -210,7 +209,7 @@ tm.graphics = tm.graphics || {};
 (function() {
     
 <span id='tm-graphics-ColorMatrixFilter'>    /**
-</span>     * @class
+</span>     * @class tm.graphics.ColorMatrixFilter
      * カラーマトリックスフィルタ
      * 
      * ### Reference
@@ -249,16 +248,6 @@ tm.graphics = tm.graphics || {};
     });
     
 })();
-
-
-
-
-
-
-
-
-
-
 
 
 

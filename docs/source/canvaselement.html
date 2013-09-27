@@ -16,53 +16,54 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- *
+ * canvaselement.js
  */
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
 
-<span id='tm-app-CanvasElement'>    /**
-</span>     * @class
+<span id='tm-display-CanvasElement'>    /**
+</span>     * @class tm.display.CanvasElement
      * キャンバスエレメント
+     * @extends tm.app.Object2D
      */
-    tm.app.CanvasElement = tm.createClass({
+    tm.display.CanvasElement = tm.createClass({
 
         superClass: tm.app.Object2D,
 
-<span id='tm-app-CanvasElement-property-isUpdate'>        /**
+<span id='tm-display-CanvasElement-property-isUpdate'>        /**
 </span>         * 更新フラグ
          */
         isUpdate: true,
 
-<span id='tm-app-CanvasElement-property-visible'>        /**
+<span id='tm-display-CanvasElement-property-visible'>        /**
 </span>         * 表示フラグ
          */
         visible: true,
 
-<span id='tm-app-CanvasElement-property-fillStyle'>        /**
+<span id='tm-display-CanvasElement-property-fillStyle'>        /**
 </span>         * fillStyle
          */
         fillStyle: &quot;white&quot;,
 
-<span id='tm-app-CanvasElement-property-strokeStyle'>        /**
+<span id='tm-display-CanvasElement-property-strokeStyle'>        /**
 </span>         * strokeStyle
          */
         strokeStyle: &quot;white&quot;,
 
-<span id='tm-app-CanvasElement-property-alpha'>        /**
+<span id='tm-display-CanvasElement-property-alpha'>        /**
 </span>         * アルファ
          */
         alpha: 1.0,
 
-<span id='tm-app-CanvasElement-property-blendMode'>        /**
+<span id='tm-display-CanvasElement-property-blendMode'>        /**
 </span>         * ブレンドモード
          */
         blendMode: &quot;source-over&quot;,
 
-<span id='tm-app-CanvasElement-property-shadowColor'>        /**
+<span id='tm-display-CanvasElement-property-shadowColor'>        /**
 </span>         * シャドウカラー
          */
         shadowColor: &quot;black&quot;,
@@ -70,11 +71,32 @@ tm.app = tm.app || {};
         shadowOffsetY: 0,
         shadowBlur: 0,
 
-<span id='tm-app-CanvasElement-method-init'>        /**
+<span id='tm-display-CanvasElement-method-init'>        /**
 </span>         * ゲーム用エレメントクラス
          */
         init: function() {
             this.superInit();
+        },
+        
+        setAlpha: function(alpha) {
+            this.alpha = alpha;
+            return this;
+        },
+        
+        setShadowColor: function(color) {
+            this.shadowColor = color;
+            return this;
+        },
+        
+        setShadowBlur: function(blur) {
+            this.shadowBlur = blur;
+            return this;
+        },
+        
+        setShadowOffset: function(x, y) {
+            this.shadowOffsetX = x;
+            this.shadowOffsetY = y;
+            return this;
         },
 
         drawBoundingCircle: function(canvas) {
@@ -146,14 +168,14 @@ tm.app = tm.app || {};
             data.layers.forEach(function(layer) {
                 if (layer.type != &quot;objectgroup&quot;) return ;
 
-                var group = tm.app.CanvasElement().addChildTo(self);
+                var group = tm.display.CanvasElement().addChildTo(self);
                 group.width = layer.width;
                 group.height = layer.height;
 
                 layer.objects.forEach(function(obj) {
                     var _class = tm.using(obj.type);
                     if (Object.keys(_class).length === 0) {
-                        _class=tm.app[obj.type];
+                        _class=tm.display[obj.type];
                     }
                     var initParam = null;
                     if (obj.properties.init) {
@@ -186,7 +208,7 @@ tm.app = tm.app || {};
                         var init = data[&quot;init&quot;] || [];
                         var _class = tm.using(data.type);
                         if (Object.keys(_class).length === 0) {
-                            _class=tm.app[data.type];
+                            _class = tm.display[data.type];
                         }
                         var elm = _class.apply(null, init).addChildTo(this);
                         elm.fromJSON(data);

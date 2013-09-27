@@ -16,13 +16,17 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * phi
+ * renderer.js
  */
 
  
 (function() {
     
-    tm.define(&quot;tm.app.CanvasRenderer&quot;, {
+<span id='tm-display-CanvasRenderer'>    /**
+</span>     * @class tm.display.CanvasRenderer
+     * @TODO キャンバス描画クラス？
+     */
+    tm.define(&quot;tm.display.CanvasRenderer&quot;, {
         canvas: null,
 
         init: function(canvas) {
@@ -78,16 +82,16 @@
         },
 
         _setRenderFunction: function(obj) {
-            if (obj instanceof tm.app.Sprite) {
+            if (obj instanceof tm.display.Sprite) {
                 obj.draw = renderFuncList[&quot;sprite&quot;];
             }
-            else if (obj instanceof tm.app.MapSprite) {
+            else if (obj instanceof tm.display.MapSprite) {
                 obj.draw = function() {};
             }
-            else if (obj instanceof tm.app.Label) {
+            else if (obj instanceof tm.display.Label) {
                 obj.draw = renderFuncList[&quot;label&quot;];
             }
-            else if (obj instanceof tm.app.Shape) {
+            else if (obj instanceof tm.display.Shape) {
                 obj.draw = renderFuncList[&quot;shape&quot;];
             }
             else {
@@ -153,8 +157,13 @@
  
 (function() {
     
-    tm.define(&quot;tm.app.BoundingRectRenderer&quot;, {
-        superClass: &quot;tm.app.CanvasRenderer&quot;,
+<span id='tm-display-BoundingRectRenderer'>    /**
+</span>     * @class tm.display.BoundingRectRenderer
+     * @TODO なにをするクラス？
+     * @extends tm.display.CanvasRenderer
+     */
+    tm.define(&quot;tm.display.BoundingRectRenderer&quot;, {
+        superClass: &quot;tm.display.CanvasRenderer&quot;,
 
         init: function(canvas) {
             this.superInit(canvas);

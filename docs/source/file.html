@@ -21,8 +21,13 @@
 
 tm.util = tm.util || {};
 
+
 (function() {
     
+<span id='tm-util-File'>    /**
+</span>     * @class tm.util.File
+     * @TODO ?
+     */
     tm.util.File = tm.createClass({
         
         init: function(params) {
@@ -60,15 +65,14 @@ tm.util = tm.util || {};
 (function() {
     
 <span id='tm-util-FileManager'>    /**
-</span>     * @class
+</span>     * @class tm.util.FileManager
      * ファイルマネージャ
      */
     tm.util.FileManager = {
 <span id='tm-util-FileManager-property-files'>        files: {}
 </span>    };
     
-    tm.util.FileManager.load = function(key, params)
-    {
+    tm.util.FileManager.load = function(key, params) {
         var file = tm.util.File(params);
         this.files[key] = file;
         return file;
@@ -83,8 +87,7 @@ tm.util = tm.util || {};
      * @method  isLoaded
      * ロードチェック
      */
-    tm.util.FileManager.isLoaded = function()
-    {
+    tm.util.FileManager.isLoaded = function() {
         for (var key in this.files) {
             var file = this.files[key];
             

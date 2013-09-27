@@ -19,11 +19,10 @@
  * list.js
  */
 
-
-(function(){
+(function() {
     
 <span id='tm-Item'>    /**
-</span>     * @class
+</span>     * @class tm.Item
      * Item クラス
      */
     tm.Item = tm.createClass({
@@ -40,7 +39,7 @@
     });
     
 <span id='tm-List'>    /**
-</span>     * @class
+</span>     * @class tm.List
      * List クラス
      * ### Reference
      * - &lt;http://java.sun.com/javase/ja/6/docs/ja/api/java/util/LinkedList.html&gt;
@@ -85,8 +84,7 @@
 <span id='tm-List-method-remove'>        /**
 </span>         * 削除
          */
-        remove: function(index)
-        {
+        remove: function(index) {
             var current = this.getItem(index);
             
             current.prev.next = current.next;
@@ -100,16 +98,14 @@
 <span id='tm-List-method-get'>        /**
 </span>         * 取得
          */
-        get: function(index)
-        {
+        get: function(index) {
             return this.getItem(index).data;
         },
         
 <span id='tm-List-method-getItem'>        /**
 </span>         * アイテムを取得
          */
-        getItem: function(index)
-        {
+        getItem: function(index) {
             var current = this._head.next;
             var i=0;
             

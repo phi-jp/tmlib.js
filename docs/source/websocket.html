@@ -15,13 +15,19 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">tm.net = tm.net || {};
+  <pre class="prettyprint lang-js">/*
+ * websocket.js
+ */
+
+tm.net = tm.net || {};
 tm.net.event = tm.net.event || {};
 
 (function() {
 
 <span id='tm-net-WebSocket'>    /**
-</span>     * WebSocket.
+</span>     * @class tm.net.WebSocket
+     * WebSocket対応クラス
+     * @extends tm.event.EventDispatcher
      */
     tm.net.WebSocket = tm.createClass({
         superClass: tm.event.EventDispatcher,

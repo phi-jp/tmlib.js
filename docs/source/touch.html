@@ -16,9 +16,8 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * phi
+ * touch.js
  */
-
 
 tm.input = tm.input || {};
 
@@ -26,7 +25,7 @@ tm.input = tm.input || {};
 (function() {
     
 <span id='tm-input-Touch'>    /**
-</span>     * @class
+</span>     * @class tm.input.Touch
      * タッチクラス
      */
     tm.input.Touch = tm.createClass({
@@ -209,6 +208,10 @@ tm.input = tm.input || {};
 
 (function() {
 
+<span id='tm-input-Touches'>    /**
+</span>     * @class tm.input.Touches
+     * マルチタッチ対応クラス
+     */
     tm.define(&quot;tm.input.Touches&quot;, {
         superClass: Array,
 

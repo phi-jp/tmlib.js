@@ -63,8 +63,7 @@ tm.graphics = tm.graphics || {};
 
 
 <span id='tm-graphics-Graphics'>    /**
-</span>     * @class
-     * Graphics クラス
+</span>     * @class tm.graphics.Graphics
      * WebGL を簡単に扱うためのラッパークラス
      */
     tm.graphics.Graphics = tm.createClass({
@@ -581,6 +580,10 @@ tm.graphics = tm.graphics || {};
 
 (function() {
     
+<span id='tm-graphics-Camera'>    /**
+</span>     * @class tm.graphics.Camera
+     * カメラクラス
+     */
     tm.graphics.Camera = tm.createClass({
         init: function() {
             this.projectionMatrix = tm.geom.Matrix44();
@@ -611,6 +614,11 @@ tm.graphics = tm.graphics || {};
 
 (function() {
     
+<span id='tm-graphics-PerspectiveCamera'>    /**
+</span>     * @class tm.graphics.PerspectiveCamera
+     * 透視投影カメラクラス
+     * @extends tm.graphics.Camera
+     */
     tm.graphics.PerspectiveCamera = tm.createClass({
         superClass: tm.graphics.Camera,
         

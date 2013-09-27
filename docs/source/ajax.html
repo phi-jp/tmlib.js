@@ -19,8 +19,8 @@
  * ajax.js
  */
 
-
 tm.util = tm.util || {};
+
 
 (function() {
     
@@ -36,11 +36,13 @@ tm.util = tm.util || {};
         error   : function(data){ alert(&quot;error!!&quot;); }
     };
     
-    
+<span id='tm-util-Ajax'>    /**
+</span>     * @class tm.util.Ajax
+     * @TODO ?
+     */
     tm.util.Ajax = {
-        load: function(params)
-        {
-            for (var key in AJAX_DEFAULT_SETTINGS) {
+<span id='tm-util-Ajax-method-load'>        load: function(params) {
+</span>            for (var key in AJAX_DEFAULT_SETTINGS) {
                 params[key] = params[key] || AJAX_DEFAULT_SETTINGS[key];
             }
             
@@ -49,8 +51,7 @@ tm.util = tm.util || {};
             var conv_func = tm.util.Ajax.DATA_CONVERTE_TABLE[params.dataType];
             
             // コールバック
-            httpRequest.onreadystatechange = function()
-            {
+            httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState == 4) {
                     // 成功
                     if (httpRequest.status === 200) {
@@ -78,8 +79,8 @@ tm.util = tm.util || {};
             httpRequest.send(null);
         },
         
-        loadJSONP: function(url, callback) {
-            var g = tm.global;
+<span id='tm-util-Ajax-method-loadJSONP'>        loadJSONP: function(url, callback) {
+</span>            var g = tm.global;
             g.tmlib_js_dummy_func_count = tm.global.tmlib_js_dummy_func || 0;
             var dummy_func_name = &quot;tmlib_js_dummy_func&quot; + (g.tmlib_js_dummy_func_count++);
             g[dummy_func_name]  = callback;
@@ -93,40 +94,48 @@ tm.util = tm.util || {};
         }
     };
     
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE'>    /**
-</span>     * データコンバータテーブル
+<span id='tm-util-Ajax-property-DATA_CONVERTE_TABLE'>    /**
+</span>     * @property
+     * データコンバータテーブル
+     * @TODO propertyでいいの？定数はなんだろう
      */
     tm.util.Ajax.DATA_CONVERTE_TABLE = {
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-undefined'>        undefined: function(data) {
-</span>            return data;
+        undefined: function(data) {
+            return data;
         },
         
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-text'>        text: function(data) {
-</span>            return data;
+        text: function(data) {
+            return data;
         },
         
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-xml'>        xml: function(data) {
-</span>            var div = document.createElement(&quot;div&quot;);
+        xml: function(data) {
+            var div = document.createElement(&quot;div&quot;);
             div.innerHTML = data;
             return div;
         },
         
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-dom'>        dom: function(data) {
-</span>            var div = document.createElement(&quot;div&quot;);
+        dom: function(data) {
+            var div = document.createElement(&quot;div&quot;);
             div.innerHTML = data;
             return tm.dom.Element(div);
         },
         
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-json'>        json: function(data) {
-</span>            return JSON.parse(data);
+        json: function(data) {
+            try {
+                return JSON.parse(data);
+            }
+            catch(e) {
+                console.dir(e);
+                console.dir(data);
+            }
         },
         
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-script'>        script: function(data) {
-</span>            eval(data);
+        script: function(data) {
+            eval(data);
             return data;
         },
         
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-method-bin'>        /**
+<span id='tm-util-Ajax-method-bin'>        /**
 </span>         * ### Reference
          * - &lt;http://efcl.info/adiary/Javascript/treat-binary&gt;
          * @param {Object} data

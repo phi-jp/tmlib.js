@@ -33,12 +33,12 @@ tm.anim = tm.anim || {};
         fps     : 30,
         
         /**
-         * @property
+         * @property init
          * コンストラクタ
-         * @param {} target
-         * @param {} finishProps
-         * @param {} duration
-         * @param {} func
+         * @param {Object} target
+         * @param {Object} finishProps
+         * @param {Object} duration
+         * @param {Function} func
          */
         init: function(target, finishProps, duration, func) {
             this.superInit();
@@ -53,12 +53,12 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @property to
          * 指定した値までアニメーション
-         * @param {} target
-         * @param {} finishProps
-         * @param {} duration
-         * @param {} func
+         * @param {Object} target
+         * @param {Object} finishProps
+         * @param {Object} duration
+         * @param {Function} func
          */
         to: function(target, finishProps, duration, func) {
             var beginProps = {};
@@ -73,12 +73,12 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @property by
          * 指定した値を足した値までアニメーション
-         * @param {} target
-         * @param {} props
-         * @param {} duration
-         * @param {} func
+         * @param {Object} target
+         * @param {Object} props
+         * @param {Object} duration
+         * @param {Function} func
          */
         by: function(target, props, duration, func) {
             var beginProps = {};
@@ -95,13 +95,13 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @property fromTo
          * 開始の値から終了の値までアニメーション
-         * @param {} target
-         * @param {} beginProps
-         * @param {} finishProps
-         * @param {} duration
-         * @param {} func
+         * @param {Object} target
+         * @param {Object} beginProps
+         * @param {Object} finishProps
+         * @param {Object} duration
+         * @param {Function} func
          */
         fromTo: function(target, beginProps, finishProps, duration, func) {
             this.target = target;
@@ -120,12 +120,12 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @property from
          * @TODO ?
-         * @param {} target
-         * @param {} beginProps
-         * @param {} duration
-         * @param {} func
+         * @param {Object} target
+         * @param {Object} beginProps
+         * @param {Object} duration
+         * @param {Function} func
          */
         from: function(target, beginProps, duration, func) {
             var finishProps = {};
@@ -140,9 +140,9 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property setTransition
          * easingの指定か、コールバックの指定か調べる
-         * @param {} func
+         * @param {Function} func
          */
         setTransition: function(func) {
             if (typeof func == 'function') {
@@ -158,7 +158,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property resume
          * アニメーションの再開
          */
         resume: function() {
@@ -169,7 +169,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property start
          * アニメーションの開始
          */
         start: function() {
@@ -180,7 +180,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property stop
          * アニメーションのストップ
          */
         stop: function() {
@@ -189,7 +189,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property rewind
          * 開始位置まで戻る
          */
         rewind: function() {
@@ -198,7 +198,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property fforward
          * 最後位置まで早送り
          */
         fforward: function() {
@@ -207,7 +207,7 @@ tm.anim = tm.anim || {};
         },
 
         /**        
-         * @property
+         * @property yoyo
          * ヨーヨーのアニメーション
          */
         yoyo: function() {
@@ -221,7 +221,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property update
          * 更新
          */
         update: function() {
@@ -233,7 +233,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property _resumeTime
          * 時間を巻き戻す
          * @private
          */
@@ -242,7 +242,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property _startTime
          * スタート時間を設定
          * @private
          */
@@ -251,7 +251,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property _updateTime
          * 時間を進める
          * @private
          */
@@ -263,9 +263,9 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @property _setTime
          * 時間を設定する
-         * @param {} t
+         * @param {Object} t
          * @private
          */
         _setTime: function(t) {
@@ -299,8 +299,6 @@ tm.anim = tm.anim || {};
             }
         }
     });
-    
-    
 })();
 
 

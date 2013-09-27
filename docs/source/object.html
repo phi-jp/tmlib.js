@@ -23,7 +23,7 @@
     
 <span id='Object'>    /**
 </span>     * @class Object
-     * オブジェクト
+     * Objectの拡張
      */
     
 <span id='Object-method-defineVariable'>    /**
@@ -91,8 +91,7 @@
         // this.__defineGetter__(name, fn);
     });
     
-    Object.defineInstanceMethod(&quot;accessor&quot;, function(name, param)
-    {
+    Object.defineInstanceMethod(&quot;accessor&quot;, function(name, param) {
         Object.defineProperty(this, name, {
             set: param[&quot;set&quot;],
             get: param[&quot;get&quot;],

@@ -180,6 +180,14 @@ tm.dom = tm.dom || {};
             this.element.webkitRequestFullScreen();
         },
         
+        show: function() {
+            this.visible = true;
+        },
+        
+        hide: function() {
+            this.visible = false;
+        },
+        
 <span id='tm-dom-Element-method-toString'>        /**
 </span>         * 文字列化
          */

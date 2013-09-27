@@ -24,7 +24,7 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-Event'>    /**
-</span>     * @class
+</span>     * @class tm.event.Event
      * イベントクラス
      */
     tm.event.Event = tm.createClass({
@@ -49,8 +49,9 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-TweenEvent'>    /**
-</span>     * @class
+</span>     * @class tm.event.TweenEvent
      * Tween Event
+     * @extends tm.event.Event
      */
     tm.event.TweenEvent = tm.createClass({
         
@@ -80,8 +81,9 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-MouseEvent'>    /**
-</span>     * @class
+</span>     * @class tm.event.MouseEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.MouseEvent = tm.createClass({
         
@@ -104,8 +106,9 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-TouchEvent'>    /**
-</span>     * @class
+</span>     * @class tm.event.TouchEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.TouchEvent = tm.createClass({
         
@@ -127,8 +130,9 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-PointingEvent'>    /**
-</span>     * @class
+</span>     * @class tm.event.PointingEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.PointingEvent = tm.createClass({
         

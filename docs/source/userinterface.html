@@ -19,18 +19,18 @@
  * userinterface.js
  */
 
-
-tm.app = tm.app || {};
+tm.ui = tm.ui || {};
 
 
 (function() {
 
-<span id='tm-app-Gauge'>	/**
-</span>	 * @class
-	 * Gauge
+<span id='tm-ui-Gauge'>	/**
+</span>	 * @class tm.ui.Gauge
+	 * ゲーム用ゲージクラス
+     * @extends tm.display.RectangleShape
 	 */
-	tm.app.Gauge = tm.createClass({
-        superClass: tm.app.RectangleShape,
+	tm.ui.Gauge = tm.createClass({
+        superClass: tm.display.RectangleShape,
 
         init: function(width, height, color, direction) {
             this.superInit(width, height, {
@@ -126,11 +126,11 @@ tm.app = tm.app || {};
         },
     });
     
-<span id='tm-app-Gauge-property-value'>    /**
+<span id='tm-ui-Gauge-property-value'>    /**
 </span>     * @property    value
      * 値
      */
-    tm.app.Gauge.prototype.accessor(&quot;value&quot;, {
+    tm.ui.Gauge.prototype.accessor(&quot;value&quot;, {
         get: function() {
             return this._value;
         },
@@ -139,11 +139,11 @@ tm.app = tm.app || {};
         },
     });
 
-<span id='tm-app-Gauge-property-percent'>    /**
+<span id='tm-ui-Gauge-property-percent'>    /**
 </span>     * @property    percent
      * パーセント
      */
-    tm.app.Gauge.prototype.accessor(&quot;percent&quot;, {
+    tm.ui.Gauge.prototype.accessor(&quot;percent&quot;, {
         get: function() {
             return this.getPercent();
         },
@@ -153,11 +153,11 @@ tm.app = tm.app || {};
     });
     
     
-<span id='tm-app-Gauge-property-ratio'>    /**
+<span id='tm-ui-Gauge-property-ratio'>    /**
 </span>     * @property    ratio
      * 比率
      */
-    tm.app.Gauge.prototype.accessor(&quot;ratio&quot;, {
+    tm.ui.Gauge.prototype.accessor(&quot;ratio&quot;, {
         get: function() {
             return this.getRatio();
         },
@@ -166,11 +166,11 @@ tm.app = tm.app || {};
         },
     });
     
-<span id='tm-app-Gauge-property-targetProp'>    /**
+<span id='tm-ui-Gauge-property-targetProp'>    /**
 </span>     * @property    targetProp
      * ターゲット
      */
-    tm.app.Gauge.prototype.accessor(&quot;targetProp&quot;, {
+    tm.ui.Gauge.prototype.accessor(&quot;targetProp&quot;, {
         get: function() {
             return this[this._targetPropName];
         },
@@ -185,12 +185,13 @@ tm.app = tm.app || {};
 
 (function() {
     
-<span id='tm-app-Pad'>    /**
-</span>     * @class
-     * pad
+<span id='tm-ui-Pad'>    /**
+</span>     * @class tm.ui.Pad
+     * padクラス
+     * @extends tm.display.Shape
      */
-    tm.app.Pad = tm.createClass({
-        superClass: tm.app.Shape,
+    tm.ui.Pad = tm.createClass({
+        superClass: tm.display.Shape,
         
         isTouching: false,
         circle: null,
@@ -211,7 +212,7 @@ tm.app = tm.app || {};
         },
         
         _createCircle: function() {
-            var circle = this.circle = tm.app.Shape(80, 80);
+            var circle = this.circle = tm.display.Shape(80, 80);
             this.addChild(circle);
             
             var c = circle.canvas;

@@ -25,9 +25,11 @@ tm.app = tm.app || {};
         
         _scenes      : null,
         _sceneIndex  : 0,
-        
+
         /**
-         * 初期化
+         * @property    init
+         * コンストラクタ
+         * @param {Object} elm
          */
         init: function(elm) {
             this.element = elm;
@@ -69,6 +71,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 実行
          */
         run: function() {
@@ -97,6 +100,11 @@ tm.app = tm.app || {};
             tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
         },
         
+        /*
+         * @property
+         * ループ処理
+         * @private
+         */
         _loop: function() {
             // update
             if (this.update) this.update();
@@ -111,7 +119,9 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * シーンを切り替える
+         * @param {Object} scene
          * ## Reference
          * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
          */
@@ -131,8 +141,9 @@ tm.app = tm.app || {};
         },
         
         /**
-         * シーンをプッシュする
-         * ポーズやオブション画面などで使用する
+         * @property
+         * シーンをプッシュする(ポーズやオブション画面などで使用)
+         * @param {Object} scene
          */
         pushScene: function(scene) {
             e = tm.event.Event("exit");
@@ -149,8 +160,8 @@ tm.app = tm.app || {};
         },
         
         /**
-         * シーンをポップする
-         * ポーズやオブション画面などで使用する
+         * @property
+         * シーンをポップする(ポーズやオブション画面などで使用)
          */
         popScene: function() {
             var scene = this._scenes.pop();
@@ -169,6 +180,12 @@ tm.app = tm.app || {};
             return scene;
         },
         
+        /**
+         * @property
+         * 外部のFPS表示ライブラリ Stats を生成、配置する
+         * ## Reference
+         * - <https://github.com/mrdoob/stats.js>
+         */
         enableStats: function() {
             if (window["Stats"]) {
                 // Stats
@@ -184,6 +201,10 @@ tm.app = tm.app || {};
             }
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         enableDatGUI: function() {
             if (window.dat) {
                 var gui = new dat.GUI();
@@ -192,14 +213,27 @@ tm.app = tm.app || {};
             }
         },
         
+        /**
+         * @property
+         * シーンのupdateを実行するようにする
+         */
         start: function() {
             this.isPlaying = true;
         },
         
+        /**
+         * @property
+         * シーンのupdateを実行しないようにする
+         */
         stop: function() {
             this.isPlaying = false;
         },
         
+        /**
+         * @property
+         * デバイスやシーンのアップデート呼び出し処理
+         * @private
+         */
         _update: function() {
             // デバイス系 Update
             this.mouse.update();
@@ -212,12 +246,27 @@ tm.app = tm.app || {};
             }
         },
         
+        /**
+         * @property
+         * @TODO ? オーバーライド予定？
+         * @private
+         */
         _draw: function() {},
         
+        /**
+         * @property
+         * elementの取得
+         */
         getElement: function() {
             return this.element;
         },
 
+        /**
+         * @property
+         * クリックイベント登録
+         * @private
+         * @param {Object} e
+         */
         _onclick: function(e) {
             var px = e.pointX;
             var py = e.pointY;
@@ -240,13 +289,12 @@ tm.app = tm.app || {};
                     });
                 }
             };
-
             _fn(this.currentScene);
         },
-        
     });
     
     /**
+     * @member      tm.app.BaseApp
      * @property    currentScene
      * カレントシーン
      */

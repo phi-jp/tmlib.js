@@ -20,7 +20,8 @@ tm.app = tm.app || {};
         children: null,
         
         /**
-         * 初期化
+         * @property init
+         * コンストラクタ
          */
         init: function() {
             

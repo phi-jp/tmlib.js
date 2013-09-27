@@ -16,7 +16,7 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * evnet.js
+ * dom/evnet.js
  */
 
 tm.dom = tm.dom || {};
@@ -25,8 +25,7 @@ tm.dom = tm.dom || {};
     
 <span id='Event'>    /**
 </span>     * @class Event
-     * 
-     * Event クラス
+     * 既存のEventオブジェクト拡張
      */
     
     // 仕方なしの IE 対応(これ引っかかったら他のもダメだから必要ないかも)
@@ -59,7 +58,6 @@ tm.dom = tm.dom || {};
     
 <span id='KeyboardEvent'>    /**
 </span>     * @class KeyboardEvent
-     * 
      * KeyboardEvent クラス
      */
     
@@ -78,7 +76,6 @@ tm.dom = tm.dom || {};
     
 <span id='MouseEvent'>    /**
 </span>     * @class MouseEvent
-     * 
      * MouseEvent クラス
      */
     
@@ -112,7 +109,6 @@ tm.dom = tm.dom || {};
     
 <span id='TouchEvent'>    /**
 </span>     * @class TouchEvent
-     * 
      * TouchEvent クラス
      */
     
@@ -141,7 +137,7 @@ tm.dom = tm.dom || {};
 (function() {
     
 <span id='tm-dom-Event'>    /**
-</span>     * @class
+</span>     * @class tm.dom.Event
      * Event クラス
      */
     tm.dom.Event = tm.createClass({

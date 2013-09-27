@@ -16,7 +16,7 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * 
+ * element.js
  */
 
 tm.app = tm.app || {};
@@ -25,8 +25,9 @@ tm.app = tm.app || {};
 (function() {
     
 <span id='tm-app-Element'>    /**
-</span>     * @class
+</span>     * @class tm.app.Element
      * アプリケーション用オブジェクトの基底となるクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.app.Element = tm.createClass({
         
@@ -35,8 +36,9 @@ tm.app = tm.app || {};
         parent: null,
         children: null,
         
-<span id='tm-app-Element-method-init'>        /**
-</span>         * 初期化
+<span id='tm-app-Element-property-init'>        /**
+</span>         * @property init
+         * コンストラクタ
          */
         init: function() {
             
@@ -49,8 +51,7 @@ tm.app = tm.app || {};
 <span id='tm-app-Element-method-remove'>        /**
 </span>         * 親から離れる
          */
-        remove: function()
-        {
+        remove: function() {
             console.assert(this.parent);
             this.parent.removeChild(this);
             
@@ -89,8 +90,7 @@ tm.app = tm.app || {};
          * scene 遷移時に子供をごっそり移譲するときなどに使用
          * まだ動作確認していない
          */
-        addChildren: function(children)
-        {
+        addChildren: function(children) {
             var tempChildren = children.slice();
             for (var i=beginIndex,len=tempChildren.length; i&lt;len; ++i) {
                 this.addChild(tempChildren[i]);
@@ -107,8 +107,7 @@ tm.app = tm.app || {};
 <span id='tm-app-Element-method-removeChild'>        /**
 </span>         * child に一致するエレメントを離す
          */
-        removeChild: function(child)
-        {
+        removeChild: function(child) {
             var index = this.children.indexOf(child);
             if (index != -1) {
                 this.children.splice(index, 1);
@@ -120,8 +119,7 @@ tm.app = tm.app || {};
 <span id='tm-app-Element-method-removeChildren'>        /**
 </span>         * すべての child を離す
          */
-        removeChildren: function(beginIndex)
-        {
+        removeChildren: function(beginIndex) {
             beginIndex = beginIndex || 0;
             var tempChildren = this.children.slice();
             for (var i=beginIndex,len=tempChildren.length; i&lt;len; ++i) {
@@ -133,8 +131,7 @@ tm.app = tm.app || {};
 <span id='tm-app-Element-method-getChildByName'>        /**
 </span>         * 名前の一致する child を取得
          */
-        getChildByName: function(name)
-        {
+        getChildByName: function(name) {
             for (var i=0,len=this.children.length; i&lt;len; ++i)
                 if (this.children[i].name == name) return this.children[i];
             
@@ -144,8 +141,7 @@ tm.app = tm.app || {};
 <span id='tm-app-Element-method-execChildren'>        /**
 </span>         * 関数実行
          */
-        execChildren: function(func, args)
-        {
+        execChildren: function(func, args) {
             args = (args &amp;&amp; args.length) ? args : [args];
             // 関数内で remove される可能性があるので配列をコピーする
             var tempChildren = this.children.slice();

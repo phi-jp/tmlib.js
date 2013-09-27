@@ -16,9 +16,8 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * phi
+ * keyboard.js
  */
-
 
 tm.input = tm.input || {};
 
@@ -26,11 +25,10 @@ tm.input = tm.input || {};
 (function() {
     
 <span id='tm-input-Keyboard'>    /**
-</span>     * @class
+</span>     * @class tm.input.Keyboard
      * キーボードクラス
      */
     tm.input.Keyboard = tm.createClass({
-        
         
 <span id='tm-input-Keyboard-property-element'>        /**
 </span>         * target element
@@ -89,15 +87,16 @@ tm.input = tm.input || {};
             var self = this;
             fps = fps || 30;
             tm.setLoop(function(){
-                self.update();
+                self._update();
+                if (self.update) self.update();
             }, 1000/fps);
         },
         
-<span id='tm-input-Keyboard-method-update'>        /**
+<span id='tm-input-Keyboard-method-_update'>        /**
 </span>         * 情報更新処理
          * マイフレーム呼んで下さい.
          */
-        update: function() {
+        _update: function() {
             // TODO: 一括ビット演算で行うよう修正する
             for (var k in this.key) {
                 this.last[k]    = this.press[k];

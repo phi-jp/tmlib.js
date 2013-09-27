@@ -25,8 +25,9 @@ tm.anim = tm.anim || {};
     
     
 <span id='tm-anim-Tween'>    /**
-</span>     * @class
+</span>     * @class tm.anim.Tween
      * Tween クラス
+     * @extends tm.event.EventDispatcher
      */
     tm.anim.Tween = tm.createClass({
         
@@ -48,6 +49,14 @@ tm.anim = tm.anim || {};
          */
         fps     : 30,
         
+<span id='tm-anim-Tween-property-init'>        /**
+</span>         * @property init
+         * コンストラクタ
+         * @param {Object} target
+         * @param {Object} finishProps
+         * @param {Object} duration
+         * @param {Function} func
+         */
         init: function(target, finishProps, duration, func) {
             this.superInit();
             
@@ -60,6 +69,14 @@ tm.anim = tm.anim || {};
             }
         },
 
+<span id='tm-anim-Tween-property-to'>        /**
+</span>         * @property to
+         * 指定した値までアニメーション
+         * @param {Object} target
+         * @param {Object} finishProps
+         * @param {Object} duration
+         * @param {Function} func
+         */
         to: function(target, finishProps, duration, func) {
             var beginProps = {};
 
@@ -72,6 +89,14 @@ tm.anim = tm.anim || {};
             return this;
         },
 
+<span id='tm-anim-Tween-property-by'>        /**
+</span>         * @property by
+         * 指定した値を足した値までアニメーション
+         * @param {Object} target
+         * @param {Object} props
+         * @param {Object} duration
+         * @param {Function} func
+         */
         by: function(target, props, duration, func) {
             var beginProps = {};
             var finishProps = {};
@@ -86,6 +111,15 @@ tm.anim = tm.anim || {};
             return this;
         },
 
+<span id='tm-anim-Tween-property-fromTo'>        /**
+</span>         * @property fromTo
+         * 開始の値から終了の値までアニメーション
+         * @param {Object} target
+         * @param {Object} beginProps
+         * @param {Object} finishProps
+         * @param {Object} duration
+         * @param {Function} func
+         */
         fromTo: function(target, beginProps, finishProps, duration, func) {
             this.target = target;
             this.beginProps  = beginProps;
@@ -102,6 +136,14 @@ tm.anim = tm.anim || {};
             return this;
         },
 
+<span id='tm-anim-Tween-property-from'>        /**
+</span>         * @property from
+         * @TODO ?
+         * @param {Object} target
+         * @param {Object} beginProps
+         * @param {Object} duration
+         * @param {Function} func
+         */
         from: function(target, beginProps, duration, func) {
             var finishProps = {};
 
@@ -114,6 +156,11 @@ tm.anim = tm.anim || {};
             return this;
         },
         
+<span id='tm-anim-Tween-property-setTransition'>        /**
+</span>         * @property setTransition
+         * easingの指定か、コールバックの指定か調べる
+         * @param {Function} func
+         */
         setTransition: function(func) {
             if (typeof func == 'function') {
                 this.func = func;
@@ -127,8 +174,9 @@ tm.anim = tm.anim || {};
             return this;
         },
         
-<span id='tm-anim-Tween-method-resume'>        /**
-</span>         * 再開
+<span id='tm-anim-Tween-property-resume'>        /**
+</span>         * @property resume
+         * アニメーションの再開
          */
         resume: function() {
             this.isPlaying = true;
@@ -137,8 +185,9 @@ tm.anim = tm.anim || {};
             this.dispatchEvent(tm.event.TweenEvent(&quot;resume&quot;, this.time, this.nowProps));
         },
         
-<span id='tm-anim-Tween-method-start'>        /**
-</span>         * 開始
+<span id='tm-anim-Tween-property-start'>        /**
+</span>         * @property start
+         * アニメーションの開始
          */
         start: function() {
             this.isPlaying = true;
@@ -147,32 +196,36 @@ tm.anim = tm.anim || {};
             this.dispatchEvent(tm.event.TweenEvent(&quot;start&quot;, this.time, this.nowProps));
         },
         
-<span id='tm-anim-Tween-method-stop'>        /**
-</span>         * ストップ
+<span id='tm-anim-Tween-property-stop'>        /**
+</span>         * @property stop
+         * アニメーションのストップ
          */
         stop: function() {
             this.isPlaying = false;
             this.dispatchEvent(tm.event.TweenEvent(&quot;stop&quot;, this.time, this.nowProps));
         },
         
-<span id='tm-anim-Tween-method-rewind'>        /**
-</span>         * 開始位置まで戻る
+<span id='tm-anim-Tween-property-rewind'>        /**
+</span>         * @property rewind
+         * 開始位置まで戻る
          */
         rewind: function() {
             this.time = 0;
             this.update();
         },
         
-<span id='tm-anim-Tween-method-fforward'>        /**
-</span>         * 最後位置まで早送り
+<span id='tm-anim-Tween-property-fforward'>        /**
+</span>         * @property fforward
+         * 最後位置まで早送り
          */
         fforward: function() {
             this.time = this.duration;
             this.update();
         },
-        
-<span id='tm-anim-Tween-method-yoyo'>        /**
-</span>         * ヨーヨー
+
+<span id='tm-anim-Tween-property-yoyo'>        /**        
+</span>         * @property yoyo
+         * ヨーヨーのアニメーション
          */
         yoyo: function() {
             var temp = this.finishProps;
@@ -184,8 +237,9 @@ tm.anim = tm.anim || {};
             this.start();
         },
         
-<span id='tm-anim-Tween-method-update'>        /**
-</span>         * 更新
+<span id='tm-anim-Tween-property-update'>        /**
+</span>         * @property update
+         * 更新
          */
         update: function() {
             for (var key in this.changeProps) {
@@ -195,14 +249,29 @@ tm.anim = tm.anim || {};
             this.dispatchEvent(tm.event.TweenEvent(&quot;change&quot;, this.time, this.nowProps));
         },
         
+<span id='tm-anim-Tween-property-_resumeTime'>        /**
+</span>         * @property _resumeTime
+         * 時間を巻き戻す
+         * @private
+         */
         _resumeTime: function() {
             this.startTime = (new Date()).getTime() - this.time;
         },
         
+<span id='tm-anim-Tween-property-_startTime'>        /**
+</span>         * @property _startTime
+         * スタート時間を設定
+         * @private
+         */
         _startTime: function() {
             this.startTime = (new Date()).getTime();
         },
         
+<span id='tm-anim-Tween-property-_updateTime'>        /**
+</span>         * @property _updateTime
+         * 時間を進める
+         * @private
+         */
         _updateTime: function() {
             if (this.isPlaying) {
                 this._setTime((new Date()).getTime() - this.startTime);
@@ -210,6 +279,12 @@ tm.anim = tm.anim || {};
             }
         },
         
+<span id='tm-anim-Tween-property-_setTime'>        /**
+</span>         * @property _setTime
+         * 時間を設定する
+         * @param {Object} t
+         * @private
+         */
         _setTime: function(t) {
             var time = t;
             // モーション終了
@@ -241,8 +316,6 @@ tm.anim = tm.anim || {};
             }
         }
     });
-    
-    
 })();
 
 

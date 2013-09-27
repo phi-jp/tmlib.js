@@ -18,8 +18,8 @@
   <pre class="prettyprint lang-js">(function(){
     
 <span id='tm-dom-Trans'>    /**
-</span>     * @class
-     * スタイル
+</span>     * @class tm.dom.Trans
+     * @TODO ?
      */
     tm.dom.Trans = tm.createClass({
         
@@ -161,8 +161,7 @@
     })();
     
 <span id='tm-dom-Trans-property-trans'>    /**
-</span>     * Trans クラス
-     * @property    trans
+</span>     * @property    trans
      */
     tm.dom.Element.prototype.getter(&quot;trans&quot;, function(){
         return this._trans || ( this._trans = tm.dom.Trans(this.element) );
@@ -171,8 +170,7 @@
     var _styleList = {
         &quot;transform&quot;: true,
     };
-    var _checkStyleProperty = function(name)
-    {
+    var _checkStyleProperty = function(name) {
         if (_styleList[name] === true) {
             return '-'+tm.VENDER_PREFIX + name.capitalizeFirstLetter();
         }

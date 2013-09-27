@@ -15,12 +15,18 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">
+  <pre class="prettyprint lang-js">/*
+ * spritesheet.js
+ */
 
 (function() {
     
+<span id='tm-asset-SpriteSheet'>    /**
+</span>     * @class tm.asset.SpriteSheet
+     * マップシート
+     * @extends tm.event.EventDispatcher
+     */
     tm.define(&quot;tm.asset.SpriteSheet&quot;, {
-
         superClass: &quot;tm.event.EventDispatcher&quot;,
 
         init: function(src) {

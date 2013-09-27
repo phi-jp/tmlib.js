@@ -19,12 +19,11 @@
  * date.js
  */
 
-
 (function() {
     
 <span id='Date'>    /**
 </span>     * @class   Date
-     * Date クラス
+     * Date(日付)の拡張
      */
     
     var MONTH = [
@@ -35,13 +34,11 @@
         &quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;
     ];
     
-<span id='Date-method-round'>    /**
-</span>     * @method  round
-     * 四捨五入
-     * 桁数指定版
+<span id='Date-method-format'>    /**
+</span>     * @method  format
+     * 日付フォーマットに合わせた文字列を返す
      */
-    Date.prototype.format = function(pattern)
-    {
+    Date.prototype.format = function(pattern) {
         /*
         var str = &quot;{y}/{m}/{d}&quot;.format({
             y: this.getYear()+1900,

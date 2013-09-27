@@ -32,7 +32,7 @@ tm.sound = tm.sound || {};
 (function() {
     
 <span id='tm-sound-Sound'>    /**
-</span>     * @class
+</span>     * @class tm.sound.Sound
      * サウンドクラス
      */
     tm.sound.Sound = tm.createClass({
@@ -178,7 +178,7 @@ tm.sound = tm.sound || {};
     var DEFAULT_CACHE_NUM = (tm.isMobile) ? 1 : 4;
     
 <span id='tm-sound-SoundManager'>    /**
-</span>     * @class   サウンドマネージャクラス
+</span>     * @class tm.sound.SoundManager
      * サウンドを管理するクラス
      */
     tm.sound.SoundManager = {
@@ -207,8 +207,6 @@ tm.sound = tm.sound || {};
         return this;
     };
     
-
-    
 <span id='tm-sound-SoundManager-static-method-get'>    /**
 </span>     * @static
      * @method
@@ -224,7 +222,6 @@ tm.sound = tm.sound || {};
         // 仕方なく0番目を返す
         return cacheList[0];
     };
-    
     
 <span id='tm-sound-SoundManager-static-method-getByIndex'>    /**
 </span>     * @static
@@ -257,13 +254,10 @@ tm.sound = tm.sound || {};
         return this;
     };
     
-    
-    
 <span id='tm-sound-SoundManager-method-isLoaded'>    /**
 </span>     * ロードチェック
      */
-    tm.sound.SoundManager.isLoaded = function()
-    {
+    tm.sound.SoundManager.isLoaded = function() {
         for (var key in this.sounds) {
             var soundList = this.sounds[key];
             

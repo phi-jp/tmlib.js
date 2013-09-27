@@ -15,11 +15,16 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">(function() {
+  <pre class="prettyprint lang-js">/*
+ * tweener.js
+ */
+
+(function() {
 
 <span id='tm-app-Tweener'>    /**
 </span>     * @class tm.app.Tweener
      * トゥイーナークラス
+     * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.app.Tweener&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,

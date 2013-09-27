@@ -19,25 +19,23 @@
  * button.js
  */
 
-
-tm.app = tm.app || {};
-
-
+tm.ui = tm.ui || {};
 
 
 (function() {
     
-<span id='tm-app-LabelButton'>    /**
-</span>     * @class
+<span id='tm-ui-LabelButton'>    /**
+</span>     * @class tm.ui.LabelButton
      * LabelButton
+     * @extends tm.display.Label
      */
-    tm.app.LabelButton = tm.createClass({
-        superClass: tm.app.Label,
+    tm.ui.LabelButton = tm.createClass({
+        superClass: tm.display.Label,
         
         init: function(text) {
             this.superInit(text);
             
-            this.alpha = tm.app.LabelButton.DEFAULT_ALPHA;
+            this.alpha = tm.ui.LabelButton.DEFAULT_ALPHA;
             this.setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
             
             this.setInteractive(true);
@@ -49,7 +47,7 @@ tm.app = tm.app || {};
             }.bind(this));
             this.addEventListener(&quot;pointingout&quot;, function() {
                 this.tweener.clear();
-                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+                this.tweener.fade(tm.ui.LabelButton.DEFAULT_ALPHA, 250);
             }.bind(this));
             
             /*
@@ -63,34 +61,33 @@ tm.app = tm.app || {};
         }
     });
     
-    tm.app.LabelButton.DEFAULT_ALPHA = 0.5;
+    tm.ui.LabelButton.DEFAULT_ALPHA = 0.5;
     
 })();
 
 
 (function() {
     
-<span id='tm-app-IconButton'>    /**
-</span>     * @class
+<span id='tm-ui-IconButton'>    /**
+</span>     * @class tm.ui.IconButton
      * IconButton
+     * @extends tm.display.Sprite
      */
-    tm.app.IconButton = tm.createClass({
+    tm.ui.IconButton = tm.createClass({
+        superClass: tm.display.Sprite,
         
-        superClass: tm.app.Sprite,
-        
-<span id='tm-app-IconButton-method-init'>        /**
+<span id='tm-ui-IconButton-method-init'>        /**
 </span>         * 初期化
          */
-        init: function(texture)
-        {
+        init: function(texture) {
             if (texture) {
-                this.superInit(texture.width, texture.height, texture);
+                this.superInit(texture, texture.width, texture.height);
             }
             else {
                 this.superInit();
             }
             
-            this.alpha = tm.app.IconButton.DEFAULT_ALPHA;
+            this.alpha = tm.ui.IconButton.DEFAULT_ALPHA;
             
             this.setInteractive(true);
             this.boundingType = &quot;rect&quot;;
@@ -100,31 +97,32 @@ tm.app = tm.app || {};
             });
             this.addEventListener(&quot;pointingout&quot;, function() {
                 this.tweener.clear();
-                this.tweener.fade(tm.app.LabelButton.DEFAULT_ALPHA, 250);
+                this.tweener.fade(tm.ui.LabelButton.DEFAULT_ALPHA, 250);
             });
         },
     });
     
-    tm.app.IconButton.DEFAULT_ALPHA = 0.5;
+    tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
     
 })();
 
 
 (function() {
     
-<span id='tm-app-GlossyButton'>    /**
-</span>     * @class
+<span id='tm-ui-GlossyButton'>    /**
+</span>     * @class tm.ui.GlossyButton
      * glossy button
+     * @extends tm.display.Shape
      */
-    tm.app.GlossyButton = tm.createClass({
-        superClass: tm.app.Shape,
+    tm.ui.GlossyButton = tm.createClass({
+        superClass: tm.display.Shape,
         
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
             
             text  = text  || &quot;Button&quot;;
             this.backgroundColor = backgroundColor || &quot;black&quot;;
-            this.alpha = tm.app.GlossyButton.DEFAULT_ALPHA;
+            this.alpha = tm.ui.GlossyButton.DEFAULT_ALPHA;
             
             this.setInteractive(true);
             this.boundingType = &quot;rect&quot;;
@@ -134,11 +132,11 @@ tm.app = tm.app || {};
             });
             this.addEventListener(&quot;pointingout&quot;, function() {
                 this.tweener.clear();
-                this.tweener.fade(tm.app.GlossyButton.DEFAULT_ALPHA, 250);
+                this.tweener.fade(tm.ui.GlossyButton.DEFAULT_ALPHA, 250);
             });
             
             // ラベル
-            this.label = tm.app.Label(text || &quot;&quot;).addChildTo(this);
+            this.label = tm.display.Label(text || &quot;&quot;).addChildTo(this);
             this.label.setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
             
             this._refresh();
@@ -184,7 +182,7 @@ tm.app = tm.app || {};
     });
     
     
-    tm.app.GlossyButton.DEFAULT_ALPHA = 0.5;
+    tm.ui.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     
 })();
@@ -192,8 +190,13 @@ tm.app = tm.app || {};
 
 (function() {
 
-    tm.define(&quot;tm.app.FlatButton&quot;, {
-        superClass: tm.app.Shape,
+<span id='tm-ui-FlatButton'>    /**
+</span>     * @class tm.ui.FlatButton
+     * フラットデザインのボタン
+     * @extends tm.display.Shape
+     */
+    tm.define(&quot;tm.ui.FlatButton&quot;, {
+        superClass: tm.display.Shape,
 
         init: function(param) {
             param.$safe({
@@ -212,7 +215,7 @@ tm.app = tm.app || {};
             this.setInteractive(true);
             this.setBoundingType(&quot;rect&quot;);
 
-            this.label = tm.app.Label(param.text).addChildTo(this);
+            this.label = tm.display.Label(param.text).addChildTo(this);
             this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
         },
     });

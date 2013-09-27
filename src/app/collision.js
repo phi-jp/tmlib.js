@@ -16,7 +16,9 @@ tm.app = tm.app || {};
         collideList: null,
         
         /**
-         * 初期化
+         * @property
+         * コンストラクタ
+         * @param {Object} elm
          */
         init: function(elm) {
             this.element = elm;
@@ -24,8 +26,9 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @method
+         * @property
          * 更新
+         * @param {Object} app
          */
         update: function(app) {
             var cl  = this.collideList.clone();
@@ -59,7 +62,9 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 追加
+         * @param {Object} elm
          */
         add: function(elm) {
             this.collideList.push({
@@ -69,7 +74,9 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 削除
+         * @param {Object} elm
          */
         remove: function(elm) {
             this.collideList.eraseIf(function(v) {

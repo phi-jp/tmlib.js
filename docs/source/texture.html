@@ -24,9 +24,10 @@
 <span id='tm-asset-Texture'>    /**
 </span>     * @class tm.asset.Texture
      * テクスチャクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.asset.Texture&quot;, {
-        superClass: tm.event.EventDispatcher,
+        superClass: &quot;tm.event.EventDispatcher&quot;,
         
         element: null,
         loaded: false,
@@ -80,8 +81,7 @@
      * http://dummyimage.com/
      */
     /*
-    tm.graphics.TextureManager.loadDummy = function(key, param)
-    {
+    tm.graphics.TextureManager.loadDummy = function(key, param) {
         param = param || {};
 
         var paths = [&quot;http://dummyimage.com&quot;];

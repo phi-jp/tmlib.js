@@ -15,10 +15,15 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">tm.namespace(&quot;tm.app&quot;, function() {
+  <pre class="prettyprint lang-js">/*
+ * timeline.js
+ */
+
+tm.namespace(&quot;tm.app&quot;, function() {
 <span id='tm-app-Timeline'>    /**
 </span>     * @class tm.app.Timeline
      * タイムラインクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.app.Timeline&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
@@ -216,6 +221,15 @@
 
         _dirty: function(t) {
             return (t/this.fps).toInt();
+        },
+        
+        load: function(data) {
+            
+            for (var key in data.timeline) {
+                var value = data.timeline[key];
+            }
+            
+            return this;
         },
         
         clear: function() {
