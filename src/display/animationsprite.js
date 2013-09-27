@@ -17,7 +17,8 @@ tm.display = tm.display || {};
         superClass: tm.display.CanvasElement,
 
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(ss, width, height) {
             this.superInit();
@@ -48,6 +49,7 @@ tm.display = tm.display || {};
         },
 
         /**
+         * @property
          * 描画
          */
         draw: function(canvas) {
@@ -59,6 +61,10 @@ tm.display = tm.display || {};
                 -this.width*this.originX, -this.height*this.originY, this.width, this.height);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         gotoAndPlay: function(name) {
             name = name || "default";
 
@@ -71,6 +77,10 @@ tm.display = tm.display || {};
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         gotoAndStop: function(name) {
             name = name || "default";
 
@@ -83,11 +93,21 @@ tm.display = tm.display || {};
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _updateFrame: function() {
             this.currentFrameIndex += 1;
             this._normalizeFrame();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _normalizeFrame: function() {
             var anim = this.currentAnimation;
             if (anim) {

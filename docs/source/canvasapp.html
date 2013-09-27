@@ -32,8 +32,9 @@ tm.display = tm.display || {};
 
         superClass: tm.app.BaseApp,
         
-<span id='tm-display-CanvasApp-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-CanvasApp-property-init'>        /**
+</span>         * @property
+         * コンストラクタ
          */
         init: function(canvas) {
             if (canvas instanceof HTMLCanvasElement) {
@@ -60,13 +61,21 @@ tm.display = tm.display || {};
             this._scenes = [ tm.app.Scene() ];
         },
         
+<span id='tm-display-CanvasApp-property-resize'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         resize: function(width, height) {
             this.width = width;
             this.height= height;
             
             return this;
         },
-        
+
+<span id='tm-display-CanvasApp-property-resizeWindow'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         resizeWindow: function() {
             this.width = innerWidth;
             this.height= innerHeight;
@@ -88,6 +97,11 @@ tm.display = tm.display || {};
             });
         },
         
+<span id='tm-display-CanvasApp-property-_draw'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _draw: function() {
             this.canvas.clearColor(this.background, 0, 0);
             

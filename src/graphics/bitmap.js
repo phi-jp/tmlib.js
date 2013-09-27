@@ -15,7 +15,8 @@ tm.graphics = tm.graphics || {};
         imageData: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(imageData) {
             if (!dummyCanvas) {

@@ -60,7 +60,8 @@ tm.ui = tm.ui || {};
         superClass: tm.display.Sprite,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(texture) {
             if (texture) {

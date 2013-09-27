@@ -130,7 +130,8 @@ tm.dom = tm.dom || {};
         
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
@@ -139,6 +140,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * イベントを追加
          */
         add: function(type, fn, id) {
@@ -171,6 +173,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * イベントを解除
          */
         remove: function(type, fn_or_id) {
@@ -182,6 +185,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * クリックイベント
          */
         click: function(fn, id) {
@@ -189,6 +193,10 @@ tm.dom = tm.dom || {};
             return this;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         mdlclick: function(fn, id) {
             var temp_fn = function(e) {
                 if (e.button == 1) {
@@ -199,19 +207,29 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * ポインティング
+         * @property
+         * ポインティングスタート
          */
         pointstart: function(fn, id) {
             this.add(tm.dom.Event.POINT_START, fn, id);
         },
+        /**
+         * @property
+         * ポインティング中
+         */
         pointmove: function(fn, id) {
             this.add(tm.dom.Event.POINT_MOVE, fn, id);
         },
+        /**
+         * @property
+         * ポインティングエンド
+         */
         pointend: function(fn, id) {
             this.add(tm.dom.Event.POINT_END, fn, id);
         },
         
         /**
+         * @property
          * ホバーイベント
          */
         hover: function(fn, id) {
@@ -220,6 +238,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 一度だけ呼ばれるイベントを登録
          */
         one: function(type, fn, id) {
@@ -238,6 +257,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * トグルイベント登録
          */
         toggle: function(type, fn_list) {
@@ -265,6 +285,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 指定したイベントタイプ & id の関数を取得
          */
         getFunc: function(type, id) {

@@ -13,7 +13,8 @@ tm.graphics = tm.graphics || {};
     tm.graphics.MonochromeFilter = tm.createClass({
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             
@@ -49,7 +50,8 @@ tm.graphics = tm.graphics || {};
     tm.graphics.ReverseFilter = tm.createClass({
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             
@@ -88,7 +90,8 @@ tm.graphics = tm.graphics || {};
     tm.graphics.BlurFilter = tm.createClass({
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(blurX, blurY, quality) {
             this.blurX      = blurX || 4;
@@ -162,7 +165,8 @@ tm.graphics = tm.graphics || {};
         toonTable: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(toonTable) {
             this.toonTable = toonTable || defaultToonTable;
@@ -205,7 +209,8 @@ tm.graphics = tm.graphics || {};
     tm.graphics.ColorMatrixFilter = tm.createClass({
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(colorMatrix) {
             this.colorMatrix = colorMatrix;

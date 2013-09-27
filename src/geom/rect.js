@@ -17,13 +17,15 @@ tm.geom = tm.geom || {};
         height: 0,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(x, y, width, height) {
             this.set(x, y, width, height);
         },
         
         /**
+         * @property
          * セッター
          */
         set: function(x, y, width, height) {
@@ -37,6 +39,7 @@ tm.geom = tm.geom || {};
         
 
         /**
+         * @property
          * 移動
          */
         move: function(x, y) {
@@ -46,6 +49,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 現在位置を基準に移動
          */
         moveBy: function(x, y) {
@@ -55,6 +59,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * リサイズ
          */
         resize: function(w, h) {
@@ -64,6 +69,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 現在のサイズを基準にリサイズ
          */
         resizeBy: function(w, h) {
@@ -73,6 +79,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * パディング.
          * 縮めたりなど. 画面ハミ出しチェック時などに便利
          * ## example
@@ -107,11 +114,19 @@ tm.geom = tm.geom || {};
             
             return this;
         },
-        
+
+        /**
+         * @property
+         * クローン
+         */
         clone: function() {
             
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         toCircle: function() {
             return tm.geom.Circle(
                 this.centerX,
@@ -119,7 +134,11 @@ tm.geom = tm.geom || {};
                 (this.width < this.height) ? this.width : this.height
                 );
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         toArray: function() {
             return [this.x, this.y, this.width, this.height];
         },

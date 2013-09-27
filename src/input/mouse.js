@@ -16,7 +16,8 @@ tm.input = tm.input || {};
         element: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element || window.document;

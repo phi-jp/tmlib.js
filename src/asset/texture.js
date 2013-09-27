@@ -16,7 +16,8 @@
         loaded: false,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(src) {
             this.superInit();
@@ -32,6 +33,10 @@
             };
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         getElement: function() {
             return this.element;
         },

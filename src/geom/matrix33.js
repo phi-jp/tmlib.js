@@ -17,7 +17,8 @@ tm.geom = tm.geom || {};
         m: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             this.m = [];
@@ -30,6 +31,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * クローン
          */
         clone: function() {
@@ -42,6 +44,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * セッター
          */
         set: function(m00, m01, m02, m10, m11, m12, m20, m21, m22) {
@@ -67,6 +70,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 配列からセット
          */
         setArray: function(arr) {
@@ -80,6 +84,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * オブジェクトからセット
          */
         setObject: function(obj) {
@@ -93,6 +98,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 単位行列
          */
         identity: function() {
@@ -106,6 +112,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 転置
          */
         transpose: function() {
@@ -117,6 +124,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 逆行列
          */
         invert: function() {
@@ -146,7 +154,11 @@ tm.geom = tm.geom || {};
             
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         determinant: function() {
             var m = this.m;
             
@@ -158,6 +170,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * ゼロクリア
          */
         zero: function() {
@@ -171,6 +184,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 移動
          */
         translate: function(x, y) {
@@ -186,6 +200,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * X軸回転
          */
         rotateX: function(rad) {
@@ -193,6 +208,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * Y軸回転
          */
         rotateY: function(rad) {
@@ -200,6 +216,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * Z軸回転
          */
         rotateZ: function(rad) {
@@ -219,6 +236,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * スケーリング
          */
         scale: function(x, y) {
@@ -233,6 +251,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 掛け算
          */
         multiply: function(mat) {
@@ -263,6 +282,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * ベクトルとの掛け算
          */
         multiplyVector2: function(v) {
@@ -273,6 +293,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * ベクトルとの掛け算
          */
         multiplyVector3: function(v) {
@@ -284,6 +305,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 配列に変換
          */
         toArray: function() {
@@ -291,6 +313,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 文字列化
          */
         toString: function() {

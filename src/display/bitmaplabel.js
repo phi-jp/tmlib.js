@@ -22,6 +22,10 @@ tm.app = tm.app || {};
     tm.display.BitmapLabel = tm.createClass({
         superClass: tm.display.Shape,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(params) {
         	this.superInit();
 
@@ -35,6 +39,10 @@ tm.app = tm.app || {};
         	this.render(params.text);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         render: function(text) {
         	var c = this.canvas;
         	var width = text.length*this.fontSize;

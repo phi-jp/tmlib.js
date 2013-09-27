@@ -33,8 +33,9 @@ tm.display = tm.display || {};
     tm.display.AnimationSprite = tm.createClass({
         superClass: tm.display.CanvasElement,
 
-<span id='tm-display-AnimationSprite-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-AnimationSprite-property-init'>        /**
+</span>         * @property
+         * コンストラクタ
          */
         init: function(ss, width, height) {
             this.superInit();
@@ -64,8 +65,9 @@ tm.display = tm.display || {};
             });
         },
 
-<span id='tm-display-AnimationSprite-method-draw'>        /**
-</span>         * 描画
+<span id='tm-display-AnimationSprite-property-draw'>        /**
+</span>         * @property
+         * 描画
          */
         draw: function(canvas) {
             var srcRect = this.ss.getFrame(this.currentFrame);
@@ -76,6 +78,10 @@ tm.display = tm.display || {};
                 -this.width*this.originX, -this.height*this.originY, this.width, this.height);
         },
 
+<span id='tm-display-AnimationSprite-property-gotoAndPlay'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         gotoAndPlay: function(name) {
             name = name || &quot;default&quot;;
 
@@ -88,6 +94,10 @@ tm.display = tm.display || {};
             return this;
         },
 
+<span id='tm-display-AnimationSprite-property-gotoAndStop'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         gotoAndStop: function(name) {
             name = name || &quot;default&quot;;
 
@@ -100,11 +110,21 @@ tm.display = tm.display || {};
             return this;
         },
 
+<span id='tm-display-AnimationSprite-property-_updateFrame'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _updateFrame: function() {
             this.currentFrameIndex += 1;
             this._normalizeFrame();
         },
 
+<span id='tm-display-AnimationSprite-property-_normalizeFrame'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _normalizeFrame: function() {
             var anim = this.currentAnimation;
             if (anim) {

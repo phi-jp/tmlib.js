@@ -18,7 +18,8 @@ tm.event = tm.event || {};
         type: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(type) {
             this.type = type;
@@ -40,6 +41,10 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
         
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(type, time, now) {
             this.superInit(type);
             
@@ -71,7 +76,11 @@ tm.event = tm.event || {};
     tm.event.MouseEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(type, app, pointing) {
             this.superInit(type);
             
@@ -96,7 +105,11 @@ tm.event = tm.event || {};
     tm.event.TouchEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(type, app, pointing) {
             this.superInit(type);
             
@@ -120,7 +133,11 @@ tm.event = tm.event || {};
     tm.event.PointingEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(type, app, pointing) {
             this.superInit(type);
             

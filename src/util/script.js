@@ -17,7 +17,8 @@ tm.util = tm.util || {};
         loaded: false,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(src, callback) {
             this.loaded = false;

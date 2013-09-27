@@ -25,7 +25,8 @@ tm.sound = tm.sound || {};
         isPlay      : false,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(src) {
             this.element = new Audio();

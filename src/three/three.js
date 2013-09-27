@@ -25,7 +25,8 @@ tm.three = tm.three || {};
         _sceneIndex  : 0,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(canvas) {
             if (canvas instanceof HTMLCanvasElement) {
@@ -152,7 +153,8 @@ tm.three = tm.three || {};
         superClass: THREE.Object3D,
 
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             // THREE.Object3D の初期化 
@@ -205,7 +207,8 @@ tm.three = tm.three || {};
         superClass: THREE.Mesh,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(geometry, material) {
             material = material || new THREE.MeshNormalMaterial();
@@ -339,7 +342,8 @@ tm.three = tm.three || {};
         superClass: THREE.Scene,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(fov, aspect) {
             fov = fov || 60;

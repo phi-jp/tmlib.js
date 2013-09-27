@@ -448,6 +448,11 @@
 
     });
 
+    /**
+     * @member      tm.app.Element.prototype
+     * @property    tweener
+     * @TODO ?
+     */
     tm.app.Element.prototype.getter("tweener", function() {
         if (!this._tweener) {
             this._tweener = tm.app.Tweener(this);

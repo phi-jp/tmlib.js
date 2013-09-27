@@ -12,17 +12,29 @@
     tm.define("tm.display.CanvasRenderer", {
         canvas: null,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(canvas) {
             this.canvas = canvas;
             this._context = this.canvas.context;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         render: function(root) {
             this.canvas.save();
             this.renderObject(root);
             this.canvas.restore();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         renderObject: function(obj) {
             obj._dirtyCalc();
 
@@ -64,6 +76,11 @@
             }
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _setRenderFunction: function(obj) {
             if (obj instanceof tm.display.Sprite) {
                 obj.draw = renderFuncList["sprite"];
@@ -84,6 +101,10 @@
 
     });
     
+    /**
+     * @TODO ?
+     * コンストラクタ
+     */
     var renderFuncList = {
         "sprite": function(canvas) {
             var srcRect = this.srcRect;
@@ -148,15 +169,28 @@
     tm.define("tm.display.BoundingRectRenderer", {
         superClass: "tm.display.CanvasRenderer",
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(canvas) {
             this.superInit(canvas);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _setRenderFunction: function(obj) {
             obj.draw = render;
         }
     });
 
+    /**
+     * @TODO ?
+     * コンストラクタ
+     */
     var render = function(canvas) {
         canvas.save();
         canvas.lineWidth = 2;

@@ -15,13 +15,15 @@ tm.dom = tm.dom || {};
         element: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
         },
         
         /**
+         * @property
          * セット
          */
         set: function(name, value) {
@@ -30,6 +32,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 削除
          */
         remove: function(name) {
@@ -39,6 +42,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * クリア
          */
         clear: function(name) {
@@ -47,6 +51,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 取得
          */
         get: function(name) {
@@ -54,6 +59,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * CSS の値も考慮した上での値を取得
          */
         getPropValue: function(prop_name) {

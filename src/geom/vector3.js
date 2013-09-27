@@ -40,6 +40,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * セット
          */
         set: function(x, y, z) {
@@ -51,6 +52,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 数値からセット
          */
         setNumber: function(x, y, z) {
@@ -62,6 +64,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 配列からセット
          */
         setArray: function(arr) {
@@ -73,6 +76,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * オブジェクトからセット
          */
         setObject: function(obj) {
@@ -84,6 +88,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 文字列からセット
          */
         setString: function(str) {
@@ -96,6 +101,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 角度(radian)と長さでベクトルをセット
          */
         setAngle: function(thetaRad, phiRad, len) {
@@ -109,6 +115,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 角度(radian)と長さでベクトルをセット
          */
         setRadian: function(thetaRad, phiRad, len) {
@@ -116,6 +123,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 角度(degree)と長さでベクトルをセット
          */
         setDegree: function(thetaDegree, phiDegree, len) {
@@ -123,6 +131,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 賢いセット
          */
         setSmart: function(x, y, z) {
@@ -157,6 +166,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 加算
          */
         add: function(v) {
@@ -168,6 +178,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 減算
          */
         sub: function(v) {
@@ -179,6 +190,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 乗算
          */
         mul: function(n) {
@@ -190,6 +202,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 除算
          */
         div: function(n) {
@@ -202,6 +215,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 反転
          */
         negate: function() {
@@ -213,6 +227,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 長さを取得
          * or magnitude
          */
@@ -221,6 +236,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 2乗された長さを取得
          * C# の名前を引用
          * or lengthSquare or lengthSqrt
@@ -230,6 +246,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 正規化
          */
         normalize: function() {
@@ -239,13 +256,17 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-
+        /**
+         * @property
+         * @TODO ?
+         */
         toVector2: function() {
             // TODO:
         },
         
 
         /**
+         * @property
          * 角度(radian)に変換
          */
         toAngleXY: function() {
@@ -254,6 +275,7 @@ tm.geom = tm.geom || {};
         
         
         /**
+         * @property
          * 3D化する
          */
         to3D: function() {
@@ -261,6 +283,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 等しいか
          */
         equals: function(x, y, z) {
@@ -271,6 +294,7 @@ tm.geom = tm.geom || {};
         // },
         
         /**
+         * @property
          * 配列と等しいか
          */
         equalsArray: function(arr) {
@@ -278,6 +302,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * オブジェクトと等しいか
          */
         equalsObject: function(obj) {
@@ -285,22 +310,32 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 賢い比較
          */
         equalsSmart: function() {
             // TODO: 
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         toStyleString: function() {
             return "{x:{x}, y:{y}, z:{z}}".format(this);
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         toString: function() {
             return "{x:{x}, y:{y}, z:{z}}".format(this);
         },
         
         
         /**
+         * @property
          * X値をセット
          * チェーンメソッド用セッター
          */
@@ -310,6 +345,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * Y値をセット
          * チェーンメソッド用セッター
          */
@@ -319,6 +355,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * Z値をセット
          * チェーンメソッド用セッター
          */

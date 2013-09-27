@@ -18,7 +18,8 @@ tm.display = tm.display || {};
         superClass: tm.display.CanvasElement,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(width, height) {
             this.superInit();
@@ -33,6 +34,10 @@ tm.display = tm.display || {};
             this.canvas.resize(width, height);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         renderCircle: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
@@ -51,6 +56,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         renderTriangle: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
@@ -69,6 +78,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         renderRectangle: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
@@ -89,6 +102,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         renderStar: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
@@ -112,6 +129,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         renderPolygon: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
@@ -137,6 +158,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         renderHeart: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
@@ -155,6 +180,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         renderText: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
@@ -178,24 +207,36 @@ tm.display = tm.display || {};
         
     });
 
+    /**
+     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
         fillStyle: "red",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
+    /**
+     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
         fillStyle: "green",
         strokeStyle: "white",
         lineWidth: "2",
     };
-    
+
+    /**
+     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
         fillStyle: "blue",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
+    /**
+     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR = {
         fillStyle: "yellow",
         strokeStyle: "white",
@@ -206,6 +247,9 @@ tm.display = tm.display || {};
         offsetAngle: undefined,
     };
 
+    /**
+     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
         fillStyle: "cyan",
         strokeStyle: "white",
@@ -215,6 +259,9 @@ tm.display = tm.display || {};
         offsetAngle: undefined,
     };
 
+    /**
+     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART = {
         fillStyle: "pink",
         strokeStyle: "white",
@@ -223,6 +270,9 @@ tm.display = tm.display || {};
         angle: 45,
     };
 
+    /**
+     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
         text: "hello, world",
         fillStyle: "pink",
@@ -248,7 +298,8 @@ tm.display = tm.display || {};
         superClass: tm.display.Shape,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -274,7 +325,8 @@ tm.display = tm.display || {};
         superClass: tm.display.Shape,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -301,7 +353,8 @@ tm.display = tm.display || {};
         superClass: tm.display.Shape,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -326,7 +379,8 @@ tm.display = tm.display || {};
         superClass: tm.display.Shape,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -352,7 +406,8 @@ tm.display = tm.display || {};
         superClass: tm.display.Shape,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -379,7 +434,8 @@ tm.display = tm.display || {};
         superClass: tm.display.Shape,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -406,7 +462,8 @@ tm.display = tm.display || {};
         superClass: "tm.display.Shape",
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);

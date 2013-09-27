@@ -10,6 +10,7 @@
      */
     
     /**
+     * @method
      * クランプ
      */
     Math.clamp = function(x, a, b) {

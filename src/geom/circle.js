@@ -16,13 +16,15 @@ tm.geom = tm.geom || {};
         radius: 0,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(x, y, radius) {
             this.set(x, y, radius);
         },
         
         /**
+         * @property
          * セッター
          */
         set: function(x, y, radius) {
@@ -34,6 +36,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 移動
          */
         move: function(x, y) {
@@ -43,6 +46,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 現在位置を基準に移動
          */
         moveBy: function(x, y) {
@@ -52,6 +56,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * リサイズ
          */
         resize: function(size) {
@@ -60,18 +65,24 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 現在のサイズを基準にリサイズ
          */
         resizeBy: function(size) {
             this.radius += size;
             return this;
         },
-        
+
+        /**
+         * @property
+         * クローン作成
+         */
         clone: function() {
             // TODO
         },
         
         /**
+         * @property
          * 四角形に変換
          */
         toRectangle: function() {
@@ -79,6 +90,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 配列に変換
          */
         toArray: function() {

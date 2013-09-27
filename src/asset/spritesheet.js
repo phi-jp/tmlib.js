@@ -12,6 +12,10 @@
     tm.define("tm.asset.SpriteSheet", {
         superClass: "tm.event.EventDispatcher",
 
+        /**
+         * @property
+         * コンストラクタ
+         */
         init: function(src) {
             this.superInit();
 
@@ -26,6 +30,10 @@
 
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         load: function(path) {
         	tm.util.Ajax.load({
         		url: path,
@@ -38,6 +46,10 @@
         	});
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         parse: function(param) {
             this.frame = param.frame;
 
@@ -67,14 +79,27 @@
             this._calcAnim(param.animations);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         getFrame: function(index) {
             return this.frames[index];
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         getAnimation: function(name) {
             return this.animations[name];
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _calcFrames: function(frame) {
             var frames = this.frames = [];
             
@@ -98,6 +123,11 @@
             }
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _calcAnim: function(animations) {
             this.animations = {};
             for (var key in animations) {

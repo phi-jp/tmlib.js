@@ -13,6 +13,10 @@
     tm.define("tm.display.MapSprite", {
         superClass: "tm.display.CanvasElement",
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(mapSheet, chipWidth, chipHeight) {
             this.superInit();
 
@@ -34,6 +38,11 @@
             this._build();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _build: function() {
             var self = this;
 
@@ -47,6 +56,11 @@
             });
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _buildLayer: function(layer) {
             var self        = this;
             var mapSheet    = this.mapSheet;
@@ -79,6 +93,11 @@
 
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _buildObject: function(layer) {
             var self = this;
             

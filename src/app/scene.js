@@ -19,7 +19,7 @@ tm.app = tm.app || {};
         _sceneResultCallback: null,
 
         /**
-         * @property
+         * @constructor
          * コンストラクタ
          */
         init: function() {

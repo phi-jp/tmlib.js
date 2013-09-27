@@ -30,7 +30,8 @@ tm.display = tm.display || {};
         debugBox: false,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(text, size) {
             this.superInit();
@@ -49,31 +50,56 @@ tm.display = tm.display || {};
             this.maxWidth   = null;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         setAlign: function(align) {
             this.align = align;
             return this;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         setBaseline: function(baseline) {
             this.baseline = baseline;
             return this;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         setFontSize: function(size) {
             this.fontSize = size;
             return this;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         setFontFamily: function(family) {
             this.fontFamily= family;
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setFontWeight: function(weight) {
             this.fontWeight= weight;
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _updateFont: function() {
             this.fontStyle = "{fontWeight} {fontSize}px {fontFamily}".format(this);
             if (!dummyCanvas) {
@@ -83,7 +109,12 @@ tm.display = tm.display || {};
             dummyContext.font = this.fontStyle;
             this.textSize = dummyContext.measureText('あ').width * this.lineHeight;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _updateLines: function() {
             this._lines = (this._text+'').split('\n');
         }

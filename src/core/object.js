@@ -41,7 +41,10 @@
         }
     });
     
-    
+    /**
+     * @method defineInstanceVariable
+     * @TODO ?
+     */
     Object.prototype.defineFunction("defineInstanceVariable", function(name, val){
         Object.defineProperty(this.prototype, name, {
             value: val,
@@ -50,6 +53,10 @@
         });
     });
     
+    /**
+     * @method defineInstanceMethod
+     * @TODO ?
+     */
     Object.prototype.defineFunction("defineInstanceMethod", function(name, fn){
         Object.defineProperty(this.prototype, name, {
             value: fn,
@@ -58,6 +65,10 @@
         });
     });
     
+    /**
+     * @method setter
+     * @TODO ?
+     */
     Object.defineInstanceMethod("setter", function(name, fn){
         Object.defineProperty(this, name, {
             set: fn,
@@ -66,6 +77,10 @@
         // this.__defineSetter__(name, fn);
     });
     
+    /**
+     * @method getter
+     * @TODO ?
+     */
     Object.defineInstanceMethod("getter", function(name, fn){
         Object.defineProperty(this, name, {
             get: fn,
@@ -74,6 +89,10 @@
         // this.__defineGetter__(name, fn);
     });
     
+    /**
+     * @method accessor
+     * @TODO ?
+     */
     Object.defineInstanceMethod("accessor", function(name, param) {
         Object.defineProperty(this, name, {
             set: param["set"],

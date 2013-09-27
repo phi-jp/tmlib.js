@@ -34,6 +34,7 @@ tm.geom = tm.geom || {};
         
         
         /**
+         * @property
          * 複製
          */
         clone: function() {
@@ -42,6 +43,7 @@ tm.geom = tm.geom || {};
         
         
         /**
+         * @property
          * 等しいかどうかをチェック
          * @param   {tm.geom.Vector2}   v   比較対象となる２次元ベクトル
          */
@@ -50,6 +52,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 数値と等しいかどうかをチェック
          * @param   {Number}   x    比較対象となる x 値
          * @param   {Number}   y    比較対象となる y 値
@@ -59,6 +62,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 配列と等しいかどうかをチェック
          * @param   {Number}   arr  比較対象となる配列
          */
@@ -68,6 +72,7 @@ tm.geom = tm.geom || {};
         
         
         /**
+         * @property
          * セッター
          */
         set: function(x, y) {
@@ -76,6 +81,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 数値からセット
          */
         setNumber: function(x, y) {
@@ -86,6 +92,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 配列からセット
          */
         setArray: function(arr) {
@@ -96,6 +103,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * オブジェクトからセット
          */
         setObject: function(obj) {
@@ -106,6 +114,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 文字列からセット
          */
         setString: function(str) {
@@ -117,6 +126,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 賢いセット
          */
         setSmart: function(x, y) {
@@ -147,6 +157,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 角度と長さでベクトルをセット
          * Angle は Degree 値で指定
          */
@@ -161,6 +172,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 角度(radian)と長さでベクトルをセット
          */
         setRadian: function(radian, len) {
@@ -172,6 +184,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 角度(degree)と長さでベクトルをセット
          */
         setDegree: function(degree, len) {
@@ -185,6 +198,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * ランダムベクトルをセット
          */
         setRandom: function(min, max, len) {
@@ -196,6 +210,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 加算
          */
         add: function(v) {
@@ -206,6 +221,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 減算
          */
         sub: function(v) {
@@ -216,6 +232,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 乗算
          */
         mul: function(n) {
@@ -226,6 +243,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 除算
          */
         div: function(n) {
@@ -238,6 +256,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 反転
          */
         negate: function() {
@@ -248,6 +267,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 長さを取得
          * ### memo
          * magnitude って名前の方が良いかも. 検討中.
@@ -257,6 +277,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 2乗された長さを取得
          * C# の名前を引用
          * or lengthSquare or lengthSqrt
@@ -266,6 +287,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * ２点間の距離を返す
          */
         distance: function(v) {
@@ -273,6 +295,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * ２点間の距離を返す
          */
         distanceSquared: function(v) {
@@ -280,6 +303,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 正規化
          */
         normalize: function() {
@@ -290,21 +314,31 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 角度(radian)に変換
          */
         toAngle: function() {
             return Math.atan2(this.y, this.x);
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         toStyleString: function() {
             return "{x:{x}, y:{y}}".format(this);
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         toString: function() {
             return "{x:{x}, y:{y}}".format(this);
         },
         
         /**
+         * @property
          * X値をセット
          * チェーンメソッド用セッター
          */
@@ -314,6 +348,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * Y値をセット
          * チェーンメソッド用セッター
          */

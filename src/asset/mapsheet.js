@@ -11,6 +11,10 @@
     tm.define("tm.asset.MapSheet", {
         superClass: "tm.event.EventDispatcher",
         
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(path) {
             this.superInit();
             
@@ -33,6 +37,11 @@
             }
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _parse: function(str) {
             var each = Array.prototype.forEach;
             var data = {};
@@ -51,6 +60,11 @@
             return data;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _parseTilesets: function(xml) {
             var each = Array.prototype.forEach;
             var self = this;
@@ -72,6 +86,11 @@
             return data;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _parseLayers: function(xml) {
             var each = Array.prototype.forEach;
             var data = [];
@@ -124,6 +143,11 @@
             return data;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _parseCSV: function(data) {
             var dataList = data.split(',');
             var layer = [];
@@ -137,7 +161,9 @@
         },
 
         /**
+         * @property
          * http://thekannon-server.appspot.com/herpity-derpity.appspot.com/pastebin.com/75Kks0WH
+         * @private
          */
         _parseBase64: function(data) {
             var dataList = atob(data.trim());
@@ -155,6 +181,11 @@
             return rst;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _propertiesToJson: function(elm) {
             var obj = {};
             var properties = elm.getElementsByTagName('property');
@@ -165,6 +196,11 @@
             return obj;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _attrToJSON: function(source) {
             var obj = {};
             for (var i = 0; i < source.attributes.length; i++) {
@@ -176,6 +212,11 @@
             return obj;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _checkImage: function() {
             var self = this;
             if (this.tilesets.length) {
@@ -222,9 +263,6 @@
                 this.dispatchEvent(e);
             }
         },
-        
     });
-
-
 
 })();

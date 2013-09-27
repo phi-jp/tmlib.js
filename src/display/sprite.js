@@ -18,7 +18,8 @@ tm.display = tm.display || {};
         superClass: tm.display.CanvasElement,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(texture, width, height) {
             this.superInit();
@@ -50,6 +51,10 @@ tm.display = tm.display || {};
             }
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         setFrameIndex: function(index, width, height) {
             var w   = width || this.width;
             var h   = width || this.height;
@@ -64,9 +69,12 @@ tm.display = tm.display || {};
             return this;
         },
         
-        _refreshSize: function() {
-            
-        },
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
+        _refreshSize: function() {},
 
         _update: tm.display.CanvasElement.prototype._update,
     });

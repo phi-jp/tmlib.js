@@ -15,13 +15,15 @@ tm.dom = tm.dom || {};
         element: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
         },
         
         /**
+         * @property
          * 属性をセット
          */
         set: function(name, value) {
@@ -30,6 +32,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 属性を追加
          */
         add: function(name, value) {
@@ -39,6 +42,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 属性を削除
          */
         remove: function(name, value) {
@@ -49,6 +53,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 属性を取得
          */
         get: function(name) {
@@ -56,6 +61,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
+         * @property
          * 属性の存在チェック
          */
         contains: function(name, value) {
@@ -70,6 +76,10 @@ tm.dom = tm.dom || {};
             return false;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         toggle: function(name, value) {
             if (this.contains(name, value)) {
                 this.remove(name, value);
