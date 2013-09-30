@@ -27,12 +27,10 @@ tm.define("tests.canvaselement.fromJSON", {
 
     setup: function() {
         
-        var layer = tm.display.CanvasElement().addChildTo(this);
-
-        layer.fromJSON({
+        this.fromJSON({
             children: [
                 {
-                    type: "tm.display.Label",
+                    type: "Label",
                     name: "titleLabel",
                     x   : SCREEN_CENTER_X,
                     y   : 100,

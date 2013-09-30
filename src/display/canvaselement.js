@@ -181,30 +181,6 @@ tm.display = tm.display || {};
             });
         },
 
-        fromJSON: function(data) {
-            for (var key in data) {
-                var value = data[key];
-                if (key == "children") {
-                    for (var i=0,len=value.length; i<len; ++i) {
-                        var data = value[i];
-                        var init = data["init"] || [];
-                        var _class = tm.using(data.type);
-                        if (Object.keys(_class).length === 0) {
-                            _class = tm.display[data.type];
-                        }
-                        var elm = _class.apply(null, init).addChildTo(this);
-                        elm.fromJSON(data);
-                        this[data.name] = elm;
-                    }
-                }
-                else {
-                    this[key] = value;
-                }
-            }
-
-            return this;
-        },
-
         toJSON: function() {
             // TODO:
         },
