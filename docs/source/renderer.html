@@ -16,42 +16,26 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * renderer.js
+ * phi
  */
 
  
 (function() {
     
-<span id='tm-display-CanvasRenderer'>    /**
-</span>     * @class tm.display.CanvasRenderer
-     * @TODO キャンバス描画クラス？
-     */
-    tm.define(&quot;tm.display.CanvasRenderer&quot;, {
+    tm.define(&quot;tm.app.CanvasRenderer&quot;, {
         canvas: null,
 
-<span id='tm-display-CanvasRenderer-method-constructor'>        /**
-</span>         * @constructor
-         * コンストラクタ
-         */
         init: function(canvas) {
             this.canvas = canvas;
             this._context = this.canvas.context;
         },
 
-<span id='tm-display-CanvasRenderer-property-render'>        /**
-</span>         * @property
-         * @TODO ?
-         */
         render: function(root) {
             this.canvas.save();
             this.renderObject(root);
             this.canvas.restore();
         },
 
-<span id='tm-display-CanvasRenderer-property-renderObject'>        /**
-</span>         * @property
-         * @TODO ?
-         */
         renderObject: function(obj) {
             obj._dirtyCalc();
 
@@ -93,22 +77,17 @@
             }
         },
 
-<span id='tm-display-CanvasRenderer-property-_setRenderFunction'>        /**
-</span>         * @property
-         * @TODO ?
-         * @private
-         */
         _setRenderFunction: function(obj) {
-            if (obj instanceof tm.display.Sprite) {
+            if (obj instanceof tm.app.Sprite) {
                 obj.draw = renderFuncList[&quot;sprite&quot;];
             }
-            else if (obj instanceof tm.display.MapSprite) {
+            else if (obj instanceof tm.app.MapSprite) {
                 obj.draw = function() {};
             }
-            else if (obj instanceof tm.display.Label) {
+            else if (obj instanceof tm.app.Label) {
                 obj.draw = renderFuncList[&quot;label&quot;];
             }
-            else if (obj instanceof tm.display.Shape) {
+            else if (obj instanceof tm.app.Shape) {
                 obj.draw = renderFuncList[&quot;shape&quot;];
             }
             else {
@@ -174,36 +153,18 @@
  
 (function() {
     
-<span id='tm-display-BoundingRectRenderer'>    /**
-</span>     * @class tm.display.BoundingRectRenderer
-     * @TODO なにをするクラス？
-     * @extends tm.display.CanvasRenderer
-     */
-    tm.define(&quot;tm.display.BoundingRectRenderer&quot;, {
-        superClass: &quot;tm.display.CanvasRenderer&quot;,
+    tm.define(&quot;tm.app.BoundingRectRenderer&quot;, {
+        superClass: &quot;tm.app.CanvasRenderer&quot;,
 
-<span id='tm-display-BoundingRectRenderer-method-constructor'>        /**
-</span>         * @constructor
-         * コンストラクタ
-         */
         init: function(canvas) {
             this.superInit(canvas);
         },
 
-<span id='tm-display-BoundingRectRenderer-property-_setRenderFunction'>        /**
-</span>         * @property
-         * @TODO ?
-         * @private
-         */
         _setRenderFunction: function(obj) {
             obj.draw = render;
         }
     });
 
-<span id='tm-display-BoundingRectRenderer-method-render'>    /**
-</span>     * @TODO ?
-     * コンストラクタ
-     */
     var render = function(canvas) {
         canvas.save();
         canvas.lineWidth = 2;

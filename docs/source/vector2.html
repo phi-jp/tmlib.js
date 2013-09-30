@@ -28,8 +28,7 @@ tm.geom = tm.geom || {};
 (function() {
     
 <span id='tm-geom-Vector2'>    /**
-</span>     * @class tm.geom.Vector2
-     * 2次元ベクトル
+</span>     * 2次元ベクトル
      */
     tm.geom.Vector2 = tm.createClass({
 <span id='tm-geom-Vector2-property-x'>        /**
@@ -50,27 +49,24 @@ tm.geom = tm.geom || {};
         },
         
         
-<span id='tm-geom-Vector2-property-clone'>        /**
-</span>         * @property
-         * 複製
+<span id='tm-geom-Vector2-method-clone'>        /**
+</span>         * 複製
          */
         clone: function() {
             return tm.geom.Vector2(this.x, this.y);
         },
         
         
-<span id='tm-geom-Vector2-property-equals'>        /**
-</span>         * @property
-         * 等しいかどうかをチェック
+<span id='tm-geom-Vector2-method-equals'>        /**
+</span>         * 等しいかどうかをチェック
          * @param   {tm.geom.Vector2}   v   比較対象となる２次元ベクトル
          */
         equals: function(v) {
             return (this.x === v.x &amp;&amp; this.y === v.y) ? true : false;
         },
         
-<span id='tm-geom-Vector2-property-equalsNumber'>        /**
-</span>         * @property
-         * 数値と等しいかどうかをチェック
+<span id='tm-geom-Vector2-method-equalsNumber'>        /**
+</span>         * 数値と等しいかどうかをチェック
          * @param   {Number}   x    比較対象となる x 値
          * @param   {Number}   y    比較対象となる y 値
          */
@@ -78,9 +74,8 @@ tm.geom = tm.geom || {};
             return (this.x === x &amp;&amp; this.y === y) ? true : false;
         },
         
-<span id='tm-geom-Vector2-property-equalsArray'>        /**
-</span>         * @property
-         * 配列と等しいかどうかをチェック
+<span id='tm-geom-Vector2-method-equalsArray'>        /**
+</span>         * 配列と等しいかどうかをチェック
          * @param   {Number}   arr  比較対象となる配列
          */
         equalsArray: function(arr) {
@@ -88,18 +83,16 @@ tm.geom = tm.geom || {};
         },
         
         
-<span id='tm-geom-Vector2-property-set'>        /**
-</span>         * @property
-         * セッター
+<span id='tm-geom-Vector2-method-set'>        /**
+</span>         * セッター
          */
         set: function(x, y) {
             this.x = x;
             this.y = y;
         },
         
-<span id='tm-geom-Vector2-property-setNumber'>        /**
-</span>         * @property
-         * 数値からセット
+<span id='tm-geom-Vector2-method-setNumber'>        /**
+</span>         * 数値からセット
          */
         setNumber: function(x, y) {
             this.x = x;
@@ -108,9 +101,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-setArray'>        /**
-</span>         * @property
-         * 配列からセット
+<span id='tm-geom-Vector2-method-setArray'>        /**
+</span>         * 配列からセット
          */
         setArray: function(arr) {
             this.x = arr[0];
@@ -119,9 +111,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-setObject'>        /**
-</span>         * @property
-         * オブジェクトからセット
+<span id='tm-geom-Vector2-method-setObject'>        /**
+</span>         * オブジェクトからセット
          */
         setObject: function(obj) {
             this.x = obj.x;
@@ -130,9 +121,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-setString'>        /**
-</span>         * @property
-         * 文字列からセット
+<span id='tm-geom-Vector2-method-setString'>        /**
+</span>         * 文字列からセット
          */
         setString: function(str) {
             var m = str.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
@@ -142,9 +132,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-setSmart'>        /**
-</span>         * @property
-         * 賢いセット
+<span id='tm-geom-Vector2-method-setSmart'>        /**
+</span>         * 賢いセット
          */
         setSmart: function(x, y) {
             var v = arguments[0];
@@ -173,9 +162,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-setAngle'>        /**
-</span>         * @property
-         * 角度と長さでベクトルをセット
+<span id='tm-geom-Vector2-method-setAngle'>        /**
+</span>         * 角度と長さでベクトルをセット
          * Angle は Degree 値で指定
          */
         setAngle: function(angle, len) {
@@ -188,9 +176,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-setRadian'>        /**
-</span>         * @property
-         * 角度(radian)と長さでベクトルをセット
+<span id='tm-geom-Vector2-method-setRadian'>        /**
+</span>         * 角度(radian)と長さでベクトルをセット
          */
         setRadian: function(radian, len) {
             len = len || 1;
@@ -200,9 +187,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-setDegree'>        /**
-</span>         * @property
-         * 角度(degree)と長さでベクトルをセット
+<span id='tm-geom-Vector2-method-setDegree'>        /**
+</span>         * 角度(degree)と長さでベクトルをセット
          */
         setDegree: function(degree, len) {
             var rad = degree*Math.DEG_TO_RAD;
@@ -214,9 +200,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-setRandom'>        /**
-</span>         * @property
-         * ランダムベクトルをセット
+<span id='tm-geom-Vector2-method-setRandom'>        /**
+</span>         * ランダムベクトルをセット
          */
         setRandom: function(min, max, len) {
             min = min || 0;
@@ -226,9 +211,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-add'>        /**
-</span>         * @property
-         * 加算
+<span id='tm-geom-Vector2-method-add'>        /**
+</span>         * 加算
          */
         add: function(v) {
             this.x += v.x;
@@ -237,9 +221,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-sub'>        /**
-</span>         * @property
-         * 減算
+<span id='tm-geom-Vector2-method-sub'>        /**
+</span>         * 減算
          */
         sub: function(v) {
             this.x -= v.x;
@@ -248,9 +231,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-mul'>        /**
-</span>         * @property
-         * 乗算
+<span id='tm-geom-Vector2-method-mul'>        /**
+</span>         * 乗算
          */
         mul: function(n) {
             this.x *= n;
@@ -259,9 +241,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-div'>        /**
-</span>         * @property
-         * 除算
+<span id='tm-geom-Vector2-method-div'>        /**
+</span>         * 除算
          */
         div: function(n) {
             //console.assert(n != 0, &quot;0 division!!&quot;);
@@ -272,9 +253,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-negate'>        /**
-</span>         * @property
-         * 反転
+<span id='tm-geom-Vector2-method-negate'>        /**
+</span>         * 反転
          */
         negate: function() {
             this.x = -this.x;
@@ -283,9 +263,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-length'>        /**
-</span>         * @property
-         * 長さを取得
+<span id='tm-geom-Vector2-method-length'>        /**
+</span>         * 長さを取得
          * ### memo
          * magnitude って名前の方が良いかも. 検討中.
          */
@@ -293,9 +272,8 @@ tm.geom = tm.geom || {};
             return Math.sqrt(this.x*this.x + this.y*this.y);
         },
         
-<span id='tm-geom-Vector2-property-lengthSquared'>        /**
-</span>         * @property
-         * 2乗された長さを取得
+<span id='tm-geom-Vector2-method-lengthSquared'>        /**
+</span>         * 2乗された長さを取得
          * C# の名前を引用
          * or lengthSquare or lengthSqrt
          */
@@ -303,25 +281,22 @@ tm.geom = tm.geom || {};
             return this.x*this.x + this.y*this.y;
         },
         
-<span id='tm-geom-Vector2-property-distance'>        /**
-</span>         * @property
-         * ２点間の距離を返す
+<span id='tm-geom-Vector2-method-distance'>        /**
+</span>         * ２点間の距離を返す
          */
         distance: function(v) {
             return Math.sqrt( Math.pow(this.x-v.x, 2) + Math.pow(this.y-v.y, 2) );
         },
         
-<span id='tm-geom-Vector2-property-distanceSquared'>        /**
-</span>         * @property
-         * ２点間の距離を返す
+<span id='tm-geom-Vector2-method-distanceSquared'>        /**
+</span>         * ２点間の距離を返す
          */
         distanceSquared: function(v) {
             return Math.pow(this.x-v.x, 2) + Math.pow(this.y-v.y, 2);
         },
         
-<span id='tm-geom-Vector2-property-normalize'>        /**
-</span>         * @property
-         * 正規化
+<span id='tm-geom-Vector2-method-normalize'>        /**
+</span>         * 正規化
          */
         normalize: function() {
             var length = this.length();
@@ -330,33 +305,23 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-toAngle'>        /**
-</span>         * @property
-         * 角度(radian)に変換
+<span id='tm-geom-Vector2-method-toAngle'>        /**
+</span>         * 角度(radian)に変換
          */
         toAngle: function() {
             return Math.atan2(this.y, this.x);
         },
-
-<span id='tm-geom-Vector2-property-toStyleString'>        /**
-</span>         * @property
-         * @TODO ?
-         */
+        
         toStyleString: function() {
             return &quot;{x:{x}, y:{y}}&quot;.format(this);
         },
-
-<span id='tm-geom-Vector2-property-toString'>        /**
-</span>         * @property
-         * @TODO ?
-         */
+        
         toString: function() {
             return &quot;{x:{x}, y:{y}}&quot;.format(this);
         },
         
-<span id='tm-geom-Vector2-property-setX'>        /**
-</span>         * @property
-         * X値をセット
+<span id='tm-geom-Vector2-method-setX'>        /**
+</span>         * X値をセット
          * チェーンメソッド用セッター
          */
         setX: function(x) {
@@ -364,9 +329,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector2-property-setY'>        /**
-</span>         * @property
-         * Y値をセット
+<span id='tm-geom-Vector2-method-setY'>        /**
+</span>         * Y値をセット
          * チェーンメソッド用セッター
          */
         setY: function(y) {

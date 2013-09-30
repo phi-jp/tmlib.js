@@ -25,16 +25,16 @@ tm.mml = tm.mml || {};
 (function() {
 
     /*
-     * 音色
-     *
-     * 0 sin
-     * 1 upward saw
-     * 2 downward saw
-     * 3 triangle
-     * 4 rectangle
-     * 5 white noise
-     * 6 noise
-     */
+        音色
+
+        0 sin
+        1 upward saw
+        2 downward saw
+        3 triangle
+        4 rectangle
+        5 white noise
+        6 noise
+    */
     var timberFuncList = [
         Math.sin,
         function(p){ return p/Math.PI-1; },
@@ -73,16 +73,12 @@ tm.mml = tm.mml || {};
 
 
 <span id='tm-mml-Driver'>    /**
-</span>     * @class tm.mml.Driver
+</span>     * @class
      * MML Player
      */
     tm.mml.Driver = {
-<span id='tm-mml-Driver-property-compile'>        /**
-</span>         * @property
-         * @TODO ?
-         */
-        compile: function(source) {
-            var buffer = new Array();
+<span id='tm-mml-Driver-method-compile'>        compile: function(source) {
+</span>            var buffer = new Array();
             var trackList = source.split(';');
             var trackNum = trackList.length;
 

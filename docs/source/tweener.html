@@ -15,25 +15,15 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">/*
- * tweener.js
- */
-
-(function() {
+  <pre class="prettyprint lang-js">(function() {
 
 <span id='tm-app-Tweener'>    /**
 </span>     * @class tm.app.Tweener
      * トゥイーナークラス
-     * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.app.Tweener&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
 
-<span id='tm-app-Tweener-property-init'>        /**
-</span>         * @property
-         * コンストラクタ
-         * @param {Object} elm
-         */
         init: function(elm) {
             this.superInit();
 
@@ -43,10 +33,6 @@
             this._init();
         },
 
-<span id='tm-app-Tweener-property-_init'>        /**
-</span>         * @property
-         * 初期化
-         */
         _init: function() {
             this._index = 0;
             this._tasks = [];
@@ -54,11 +40,6 @@
             this.isPlaying = true;
         },
 
-<span id='tm-app-Tweener-property-setTarget'>        /**
-</span>         * @property
-         * ターゲットのセット
-         * @param {Object} target
-         */
         setTarget: function(target) {
             if (this._fn) {
                 this.element.removeEventListener(&quot;enterframe&quot;, this._fn);
@@ -69,10 +50,9 @@
             this.element.addEventListener(&quot;enterframe&quot;, this._fn);
         },
 
-<span id='tm-app-Tweener-property-update'>        /**
-</span>         * @property
+<span id='tm-app-Tweener-method-update'>        /**
+</span>         * @method
          * 更新
-         * @param {Object} app
          */
         update: function(app) {
             this._func(app);
@@ -108,12 +88,6 @@
             }
         },
 
-<span id='tm-app-Tweener-property-_updateTask'>        /**
-</span>         * @property
-         * タスクの更新
-         * @private
-         * @param {Object} app
-         */
         _updateTask: function(app) {
             if (!this.isPlaying) return ;
 
@@ -157,12 +131,6 @@
             }
         },
 
-<span id='tm-app-Tweener-property-_updateTween'>        /**
-</span>         * @property
-         * Tween の更新
-         * @private
-         * @param {Object} elm
-         */
         _updateTween: function(app) {
             var tween = this._tween;
             var time = tween.time + 1000/app.fps;
@@ -180,12 +148,6 @@
 
         },
 
-<span id='tm-app-Tweener-property-_updateWait'>        /**
-</span>         * @property
-         * 時間の更新
-         * @private
-         * @param {Object} elm
-         */
         _updateWait: function(app) {
             var wait = this._wait;
             wait.time += 1000/app.fps;
@@ -197,11 +159,6 @@
             }
         },
 
-<span id='tm-app-Tweener-property-add'>        /**
-</span>         * @property
-         * @TODO ?
-         * @param {Object} param
-         */
         add: function(param) {
             if (!param.target) param.target = this.element;
 
@@ -219,13 +176,6 @@
             return this;
         },
 
-<span id='tm-app-Tweener-property-by'>        /**
-</span>         * @property
-         * 指定した値を足した値までアニメーション
-         * @param {Object} props
-         * @param {Object} duration
-         * @param {Function} fn
-         */
         by: function(props, duration, fn) {
             this._addTweenTask({
                 props: props,
@@ -236,13 +186,6 @@
             return this;
         },
 
-<span id='tm-app-Tweener-property-to'>        /**
-</span>         * @property
-         * 指定した値までアニメーション
-         * @param {Object} props
-         * @param {Object} duration
-         * @param {Function} fn
-         */
         to: function(props, duration, fn) {
             this._addTweenTask({
                 props: props,
@@ -253,89 +196,37 @@
             return this;
         },
 
-<span id='tm-app-Tweener-property-move'>        /**
-</span>         * @property
-         * 移動アニメーション
-         * @param {Number} x
-         * @param {Number} y
-         * @param {Object} duration
-         * @param {Function} fn
-         */
         move: function(x, y, duration, fn) {
             return this.to({x:x, y:y}, duration, fn);
         },
 
-<span id='tm-app-Tweener-property-moveBy'>        /**
-</span>         * @property
-         * 指定した値を足した座標までアニメーション
-         * @param {Number} x
-         * @param {Number} y
-         * @param {Object} duration
-         * @param {Function} fn
-         */
         moveBy: function(x, y, duration, fn) {
             return this.by({x:x, y:y}, duration, fn);
         },
 
-<span id='tm-app-Tweener-property-rotate'>        /**
-</span>         * @property
-         * 回転アニメーション
-         * @param {Number} rotation
-         * @param {Object} duration
-         * @param {Function} fn
-         */
         rotate: function(rotation, duration, fn) {
             return this.to({rotation:rotation}, duration, fn);
         },
 
-<span id='tm-app-Tweener-property-scale'>        /**
-</span>         * @property
-         * 拡縮アニメーション
-         * @param {Number} scale
-         * @param {Object} duration
-         * @param {Function} fn
-         */
         scale: function(scale, duration, fn) {
             return this.to({scaleX:scale, scaleY:scale}, duration, fn);
         },
 
-<span id='tm-app-Tweener-property-fade'>        /**
-</span>         * @property
-         * フェードアニメーション
-         * @param {Object} value
-         * @param {Object} duration
-         */
         fade: function(value, duration) {
             this.to({&quot;alpha&quot;:value}, duration);
             return this;
         },
 
-<span id='tm-app-Tweener-property-fadeIn'>        /**
-</span>         * @property
-         * フェードイン
-         * @param {Object} duration
-         */
         fadeIn: function(duration) {
             this.fade(1.0, duration);
             return this;
         },
 
-<span id='tm-app-Tweener-property-fadeOut'>        /**
-</span>         * @property
-         * フェードアウト
-         * @param {Object} duration
-         */
         fadeOut: function(duration) {
             this.fade(0.0, duration);
             return this;
         },
 
-<span id='tm-app-Tweener-property-_addTweenTask'>        /**
-</span>         * @property
-         * Tween のタスクを追加
-         * @private
-         * @param {Object} param
-         */
         _addTweenTask: function(param) {
             param.target   = (param.target !== undefined) ? param.target : this.element;
             param.duration = (param.duration !== undefined) ? param.duration : 1000;
@@ -357,11 +248,6 @@
             return this;
         },
 
-<span id='tm-app-Tweener-property-wait'>        /**
-</span>         * @property
-         * 待ち時間
-         * @param {Object} time
-         */
         wait: function(time) {
             this._tasks.push({
                 type: &quot;wait&quot;,
@@ -372,12 +258,6 @@
             return this;
         },
 
-<span id='tm-app-Tweener-property-call'>        /**
-</span>         * @property
-         * コールバックを登録
-         * @param {Function} fn
-         * @param {Object} args
-         */
         call: function(fn, args) {
             this._tasks.push({
                 type: &quot;call&quot;,
@@ -390,12 +270,6 @@
             return this;
         },
 
-<span id='tm-app-Tweener-property-set'>        /**
-</span>         * @property
-         * プロパティをセット
-         * @param {Object} key
-         * @param {Object} value
-         */
         set: function(key, value) {
             var values = null;
             if (arguments.length == 2) {
@@ -415,28 +289,16 @@
             return this;
         },
 
-<span id='tm-app-Tweener-property-play'>        /**
-</span>         * @property
-         * アニメーション開始
-         */
         play: function() {
             this.isPlaying = true;
             return this;
         },
 
-<span id='tm-app-Tweener-property-pause'>        /**
-</span>         * @property
-         * アニメーションを一時停止
-         */
         pause: function() {
             this.isPlaying = false;
             return this;
         },
 
-<span id='tm-app-Tweener-property-rewind'>        /**
-</span>         * @property
-         * アニメーションを巻き戻す
-         */
         rewind: function() {
             this._func = this._updateTask;
             this._index = 0;
@@ -444,20 +306,11 @@
             return this;
         },
 
-<span id='tm-app-Tweener-property-setLoop'>        /**
-</span>         * @property
-         * アニメーションループ設定
-         * @param {Boolean} flag
-         */
         setLoop: function(flag) {
             this.loop = flag;
             return this;
         },
 
-<span id='tm-app-Tweener-property-clear'>        /**
-</span>         * @property
-         * アニメーションをクリア
-         */
         clear: function() {
             this._init();
             return this;
@@ -465,11 +318,6 @@
 
     });
 
-<span id='tm-app-Element-prototype-property-tweener'>    /**
-</span>     * @member      tm.app.Element.prototype
-     * @property    tweener
-     * @TODO ?
-     */
     tm.app.Element.prototype.getter(&quot;tweener&quot;, function() {
         if (!this._tweener) {
             this._tweener = tm.app.Tweener(this);

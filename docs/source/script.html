@@ -21,11 +21,10 @@
 
 tm.util = tm.util || {};
 
-
 (function() {
     
 <span id='tm-util-Script'>    /**
-</span>     * @class tm.util.Script
+</span>     * @class
      * スクリプトクラス
      */
     tm.util.Script = tm.createClass({
@@ -33,9 +32,8 @@ tm.util = tm.util || {};
         element: null,
         loaded: false,
         
-<span id='tm-util-Script-method-constructor'>        /**
-</span>         * @constructor
-         * コンストラクタ
+<span id='tm-util-Script-method-init'>        /**
+</span>         * 初期化
          */
         init: function(src, callback) {
             this.loaded = false;
@@ -64,7 +62,7 @@ tm.util = tm.util || {};
 (function(){
     
 <span id='tm-util-ScriptManager'>    /**
-</span>     * @class tm.util.ScriptManager
+</span>     * @class
      * スクリプトマネージャクラス
      */
     tm.util.ScriptManager = {
@@ -77,7 +75,8 @@ tm.util = tm.util || {};
      * @method
      * 追加
      */
-    tm.util.ScriptManager.load = function(src, callback) {
+    tm.util.ScriptManager.load = function(src, callback)
+    {
         this.scriptList[src] = tm.util.Script(src, callback);
     };
 
@@ -86,7 +85,8 @@ tm.util = tm.util || {};
      * @method
      * stats.js を動的ロード
      */
-    tm.util.ScriptManager.loadStats = function(version) {
+    tm.util.ScriptManager.loadStats = function(version)
+    {
         version = version || &quot;r11&quot;;
         var path = null;
         if ([&quot;r6&quot;, &quot;r7&quot;, &quot;r8&quot;, &quot;r9&quot;, &quot;10&quot;].indexOf(version) != -1) {
@@ -103,7 +103,8 @@ tm.util = tm.util || {};
      * @method
      * Dat GUI を動的ロード
      */
-    tm.util.ScriptManager.loadDatGUI = function(version) {
+    tm.util.ScriptManager.loadDatGUI = function(version)
+    {
         // http://dat-gui.googlecode.com/git/build/dat.gui.min.js
         // https://dat-gui.googlecode.com/git-history/0.5/build/dat.gui.min.js
 
@@ -141,12 +142,11 @@ tm.util = tm.util || {};
         this.load(path);
     };
     
-<span id='tm-util-ScriptManager-static-method-isLoaded'>    /**
-</span>     * @static
-     * @method
-     * ロードチェック
+<span id='tm-util-ScriptManager-method-isLoaded'>    /**
+</span>     * ロードチェック
      */
-    tm.util.ScriptManager.isLoaded = function() {
+    tm.util.ScriptManager.isLoaded = function()
+    {
         if (this.scriptList.length &lt;= 0) return true;
 
         for (var key in this.scriptList) {

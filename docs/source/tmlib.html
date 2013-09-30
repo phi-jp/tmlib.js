@@ -15,7 +15,15 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">
+  <pre class="prettyprint lang-js">/*
+ * tmlib.js v0.1.7
+ * http://github.com/phi1618/tmlib.js
+ * MIT licensed
+ * 
+ * Copyright (C) 2010 phi, http://tmlife.net
+ */
+
+
 (function() { &quot;use strict&quot;; })();
 
 /*
@@ -35,7 +43,7 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
 <span id='tm-VERSION'>    /**
 </span>     * バージョン
      */
-    tm.VERSION = &quot;0.1.8&quot;;
+    tm.VERSION = &quot;0.1.5&quot;;
 
 <span id='tm-LIB_ROOT'>    /**
 </span>     * tmlib.js のルートパス
@@ -229,19 +237,6 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
         tm.classes[ns] = current;
 
         return current;
-    };
-    
-    tm.globalize = function(obj) {
-        tm.global.$strict(obj);
-        
-        return this;
-    };
-    
-    tm.import = function(namespace) {
-        var target = tm[namespace];
-        tm.global.$strict(target);
-        
-        return this;
     };
 
 <span id='tm-VENDER_PREFIX-method-setLoop'>    /**

@@ -23,18 +23,10 @@
 
     tm.asset = tm.asset || {};
 
-<span id='tm-asset-AssetManager'>    /**
-</span>     * @class tm.asset.AssetManager
-     * マップシート
-     * @extends tm.event.EventDispatcher
-     */
+
     tm.define(&quot;tm.asset.AssetManager&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
 
-<span id='tm-asset-AssetManager-method-constructor'>        /**
-</span>         * @constructor
-         * コンストラクタ
-         */
         init: function() {
             this.superInit();
 
@@ -44,12 +36,6 @@
             this._loadedCounter = 0;
         },
 
-<span id='tm-asset-AssetManager-property-load'>        /**
-</span>         * @property
-         * アセットのロード
-         * @param {Object} key
-         * @param {Object} path
-         */
         load: function(key, path) {
             if (typeof arguments[0] == 'string') {
                 path = (arguments.length &lt; 2) ? key : path;
@@ -72,13 +58,6 @@
             return this;
         },
 
-<span id='tm-asset-AssetManager-property-_load'>        /**
-</span>         * @property
-         * アセットのロード
-         * private
-         * @param {Object} key
-         * @param {Object} path
-         */
         _load: function(key, path) {
             if (this.contains(key)) return ;
 
@@ -92,58 +71,28 @@
             return this;
         },
 
-<span id='tm-asset-AssetManager-property-get'>        /**
-</span>         * @property
-         * アセットのゲット
-         * @param {Object} key
-         */
         get: function(key) {
             return this.assets[key];
         },
 
-<span id='tm-asset-AssetManager-property-set'>        /**
-</span>         * @property
-         * アセットのセット
-         * @param {Object} key
-         * @param {Object} asset
-         */
         set: function(key, asset) {
             this.assets[key] = asset;
+
             return this;
         },
 
-<span id='tm-asset-AssetManager-property-contains'>        /**
-</span>         * @property
-         * @TODO ?
-         * @param {Object} key
-         */
         contains: function(key) {
             return (this.assets[key]) ? true : false;
         },
 
-<span id='tm-asset-AssetManager-property-register'>        /**
-</span>         * @property
-         * アセットのセット
-         * @param {Object} key
-         * @param {Object} asset
-         */
         register: function(type, fn) {
             this._funcs[type] = fn;
         },
 
-<span id='tm-asset-AssetManager-property-isLoaded'>        /**
-</span>         * @property
-         * ロード済みか調べる
-         */
         isLoaded: function() {
             return (this._loadedCounter == Object.keys(this.assets).length);
         },
 
-<span id='tm-asset-AssetManager-property-_checkLoadedFunc'>        /**
-</span>         * @property
-         * @TODO ?
-         * @private
-         */
         _checkLoadedFunc: function() {
             this._loadedCounter++;
 

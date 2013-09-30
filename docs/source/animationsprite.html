@@ -20,24 +20,24 @@
  */
 
 
-tm.display = tm.display || {};
+tm.app = tm.app || {};
 
 
 (function() {
 
-<span id='tm-display-AnimationSprite'>    /**
-</span>     * @class tm.display.AnimationSprite
-     * スプライトアニメーションクラス
-     * @extends tm.display.CanvasElement
+<span id='tm-app-AnimationSprite'>    /**
+</span>     * @class
+     * AnimationSprite
      */
-    tm.display.AnimationSprite = tm.createClass({
-        superClass: tm.display.CanvasElement,
+    tm.app.AnimationSprite = tm.createClass({
 
-<span id='tm-display-AnimationSprite-method-constructor'>        /**
-</span>         * @constructor
-         * コンストラクタ
+        superClass: tm.app.CanvasElement,
+
+<span id='tm-app-AnimationSprite-method-init'>        /**
+</span>         * 初期化
          */
-        init: function(ss, width, height) {
+        init: function(ss, width, height)
+        {
             this.superInit();
 
             if (typeof ss == &quot;string&quot;) {
@@ -65,9 +65,8 @@ tm.display = tm.display || {};
             });
         },
 
-<span id='tm-display-AnimationSprite-property-draw'>        /**
-</span>         * @property
-         * 描画
+<span id='tm-app-AnimationSprite-method-draw'>        /**
+</span>         * 描画
          */
         draw: function(canvas) {
             var srcRect = this.ss.getFrame(this.currentFrame);
@@ -78,10 +77,6 @@ tm.display = tm.display || {};
                 -this.width*this.originX, -this.height*this.originY, this.width, this.height);
         },
 
-<span id='tm-display-AnimationSprite-property-gotoAndPlay'>        /**
-</span>         * @property
-         * @TODO ?
-         */
         gotoAndPlay: function(name) {
             name = name || &quot;default&quot;;
 
@@ -94,10 +89,6 @@ tm.display = tm.display || {};
             return this;
         },
 
-<span id='tm-display-AnimationSprite-property-gotoAndStop'>        /**
-</span>         * @property
-         * @TODO ?
-         */
         gotoAndStop: function(name) {
             name = name || &quot;default&quot;;
 
@@ -110,21 +101,11 @@ tm.display = tm.display || {};
             return this;
         },
 
-<span id='tm-display-AnimationSprite-property-_updateFrame'>        /**
-</span>         * @property
-         * @TODO ?
-         * @private
-         */
         _updateFrame: function() {
             this.currentFrameIndex += 1;
             this._normalizeFrame();
         },
 
-<span id='tm-display-AnimationSprite-property-_normalizeFrame'>        /**
-</span>         * @property
-         * @TODO ?
-         * @private
-         */
         _normalizeFrame: function() {
             var anim = this.currentAnimation;
             if (anim) {
@@ -151,6 +132,105 @@ tm.display = tm.display || {};
 
 })();
 
+
+(function() {
+
+    tm.app.SpriteSheet = tm.createClass({
+        superClass: tm.event.EventDispatcher,
+
+        init: function(param) {
+            this.superInit();
+            this.frame = param.frame;
+
+            if (typeof param.image == &quot;string&quot;) {
+                if (!tm.asset.AssetManager.contains(param.image)) {
+                    tm.asset.AssetManager.load(param.image);
+                }
+                this.image = tm.asset.AssetManager.get(param.image);
+            }
+            else {
+                this.image = param.image;
+            }
+
+            if (this.image.loaded === false) {
+                this.image.addEventListener(&quot;load&quot;, function() {
+                    this._calcFrames(param.frame);
+                    var e = tm.event.Event(&quot;load&quot;);
+                    this.dispatchEvent(e);
+                }.bind(this), false);
+            }
+            else {
+                this._calcFrames(param.frame);
+                var e = tm.event.Event(&quot;load&quot;);
+                this.dispatchEvent(e);
+            }
+
+            this._calcAnim(param.animations);
+        },
+
+        getFrame: function(index) {
+            return this.frames[index];
+        },
+
+        getAnimation: function(name) {
+            return this.animations[name];
+        },
+
+        _calcFrames: function(frame) {
+            var frames = this.frames = [];
+
+            var w = frame.width;
+            var h = frame.height;
+            var row = ~~(this.image.width / w);
+            var col = ~~(this.image.height/ h);
+
+            if (!frame.count) frame.count = row*col;
+
+            for (var i=0,len=frame.count; i&lt;len; ++i) {
+                var x   = i%row;
+                var y   = (i/row)|0;
+                var rect = {
+                    x:x*w,
+                    y:y*h,
+                    width: w,
+                    height: h
+                };
+                frames.push(rect);
+            }
+        },
+
+        _calcAnim: function(animations) {
+            this.animations = [];
+            for (var key in animations) {
+                var anim = animations[key];
+
+                if (anim instanceof Array) {
+                    this.animations[key] = {
+                        frames: [].range(anim[0], anim[1]),
+                        next: anim[2],
+                        frequency: anim[3] || 1
+                    };
+                }
+                else {
+                    this.animations[key] = {
+                        frames: anim.frames,
+                        next: anim.next,
+                        frequency: anim.frequency || 1
+                    };
+                }
+            }
+
+            // デフォルトアニメーション
+            this.animations[&quot;default&quot;] = {
+                frames: [].range(0, this.frame.count),
+                next: &quot;default&quot;,
+                frequency: 1,
+            };
+        }
+
+    });
+
+})();
 </pre>
 </body>
 </html>

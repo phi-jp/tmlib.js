@@ -16,62 +16,44 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * util/data.js
+ * data.js
  */
 
 tm.util = tm.util || {};
 
-
 (function() {
     
 <span id='tm-util-DataManager'>    /**
-</span>     * @class tm.util.DataManager
+</span>     * @class
      * データマネージャ
      */
     tm.util.DataManager = {
 <span id='tm-util-DataManager-property-data'>        data: {}
 </span>    };
-
-<span id='tm-util-DataManager-static-method-save'>    /**
-</span>     * @static
-     * @method
-     * @TODO ?
-     */
-    tm.util.DataManager.save = function() {
+    
+    tm.util.DataManager.save = function()
+    {
         // TODO: ローカルストレージ?
         for (var key in this.data) {
             var data = this.data[key];
             localStorage[key] = JSON.stringify( data );
         }
     };
-
-<span id='tm-util-DataManager-static-method-load'>    /**
-</span>     * @static
-     * @method
-     * @TODO ?
-     */
-    tm.util.DataManager.load = function(key) {
+    
+    tm.util.DataManager.load = function(key)
+    {
         // TODO: ローカルストレージ?
         for (var key in localStorage) {
             this.data[key] = JSON.parse(localStorage[key]);
         }
     };
-
-<span id='tm-util-DataManager-static-method-set'>    /**
-</span>     * @static
-     * @method
-     * @TODO ?
-     */
-    tm.util.DataManager.set = function(key, value) {
+    
+    tm.util.DataManager.set = function(key, value)
+    {
         this.data[key] = value;
         return this;
     };
-
-<span id='tm-util-DataManager-static-method-get'>    /**
-</span>     * @static
-     * @method
-     * @TODO ?
-     */
+    
     tm.util.DataManager.get = function(key) {
         return this.data[key];
     };

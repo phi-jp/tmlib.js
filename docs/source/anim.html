@@ -23,64 +23,48 @@ tm.dom = tm.dom || {};
 
 (function() {
     
-    var prefix = tm.VENDER_PREFIX;
-    
-    var ANIMATION                   = prefix + &quot;Animation&quot;;
-    var ANIMATION_END               = prefix + &quot;AnimationEnd&quot;;
-    var ANIMATION_PLAY_STATE        = prefix + &quot;AnimationPlayState&quot;;
-    var ANIMATION_NAME              = prefix + &quot;AnimationName&quot;;
-    var ANIMATION_DURATION          = prefix + &quot;AnimationDuration&quot;;
-    var ANIMATION_TIMING_FUNCTION   = prefix + &quot;AnimationTimingFunction&quot;;
-    var ANIMATION_DELAY             = prefix + &quot;AnimationDelay&quot;;
-    var ANIMATION_DIRECTION         = prefix + &quot;AnimationDirection&quot;;
-    var ANIMATION_ITERATION_COUNT   = prefix + &quot;AnimationIterationCount&quot;;
-    
 <span id='tm-dom-Anim'>    /**
-</span>     * @class tm.dom.Anim
+</span>     * @class
      * アニメーションクラス
      */
     tm.dom.Anim = tm.createClass({
         
-<span id='tm-dom-Anim-method-constructor'>        /**
-</span>         * @constructor
-         * コンストラクタ
+<span id='tm-dom-Anim-method-init'>        /**
+</span>         * 初期化
          */
         init: function(element) {
             this.element = element;
             
             // アニメーションが終了したらステートを &quot;paused&quot; にする(何度も再生できるようにする為)
             var self = this;
-            this.element.addEventListener(ANIMATION_END, function() {
+            this.element.addEventListener(&quot;webkitAnimationEnd&quot;, function() {
                 self.stop();
             }, false);
         },
         
         
-<span id='tm-dom-Anim-property-start'>        /**
-</span>         * @property
-         * アニメーション開始
+<span id='tm-dom-Anim-method-start'>        /**
+</span>         * アニメーション開始
          */
         start: function() {
-            this.element.style[ANIMATION_PLAY_STATE] = &quot;running&quot;;
+            this.element.style[&quot;webkitAnimationPlayState&quot;] = &quot;running&quot;;
             return this;
         },
         
-<span id='tm-dom-Anim-property-stop'>        /**
-</span>         * @property
-         * アニメーション終了
+<span id='tm-dom-Anim-method-stop'>        /**
+</span>         * アニメーション終了
          */
         stop: function() {
-            this.element.style[ANIMATION_PLAY_STATE] = &quot;paused&quot;;
+            this.element.style[&quot;webkitAnimationPlayState&quot;] = &quot;paused&quot;;
             return this;
         },
         
-<span id='tm-dom-Anim-property-setProperty'>        /**
-</span>         * @property
-         * プロパティをセット
+<span id='tm-dom-Anim-method-setProperty'>        /**
+</span>         * プロパティをセット
          */
         setProperty: function(prop) {
             if (typeof prop == &quot;string&quot;) {
-                this.element.style[ANIMATION] = prop;
+                this.element.style[&quot;webkitAnimation&quot;] = prop;
             }
             else {
                 for (var key in prop) {
@@ -92,65 +76,56 @@ tm.dom = tm.dom || {};
             return this;
         },
         
-<span id='tm-dom-Anim-property-setName'>        /**
-</span>         * @property
-         * 名前をセット
+<span id='tm-dom-Anim-method-setName'>        /**
+</span>         * 名前をセット
          */
         setName: function(name) {
-            this.element.style[ANIMATION_NAME] = name;
+            this.element.style[&quot;webkitAnimationName&quot;] = name;
             return this;
         },
         
-<span id='tm-dom-Anim-property-setDuration'>        /**
-</span>         * @property
-         * アニメーション時間の長さをセット
+<span id='tm-dom-Anim-method-setDuration'>        /**
+</span>         * アニメーション時間の長さをセット
          */
         setDuration: function(s) {
-            this.element.style[ANIMATION_DURATION] = s;
+            this.element.style[&quot;webkitAnimationDuration&quot;] = s;
             return this;
         },
         
-<span id='tm-dom-Anim-property-setTimingFunction'>        /**
-</span>         * @property
-         * 補間関数をセット
+<span id='tm-dom-Anim-method-setTimingFunction'>        /**
+</span>         * 補間関数をセット
          */
         setTimingFunction: function(func) {
-            this.element.style[ANIMATION_TIMING_FUNCTION] = func;
+            this.element.style[&quot;webkitAnimationTimingFunction&quot;] = func;
             return this;
         },
         
-<span id='tm-dom-Anim-property-setIterationCount'>        /**
-</span>         * @property
-         * イテレータカウントをセット
+<span id='tm-dom-Anim-method-setIterationCount'>        /**
+</span>         * イテレータカウントをセット
          */
         setIterationCount: function(n) {
-            this.element.style[ANIMATION_ITERATION_COUNT] = n;
+            this.element.style[&quot;webkitAnimationIterationCount&quot;] = n;
             return this;
         },
         
-<span id='tm-dom-Anim-property-setDelay'>        /**
-</span>         * @property
-         * アニメーション開始待ち時間をセット
+<span id='tm-dom-Anim-method-setDelay'>        /**
+</span>         * アニメーション開始待ち時間をセット
          */
         setDelay: function(s) {
-            this.element.style[ANIMATION_DELAY] = s;
+            this.element.style[&quot;webkitAnimationDelay&quot;] = s;
             return this;
         },
         
-<span id='tm-dom-Anim-property-setDirection'>        /**
-</span>         * @property
-         * 判定再生させるかどうかを指定
+<span id='tm-dom-Anim-method-setDirection'>        /**
+</span>         * 判定再生させるかどうかを指定
          * &quot;normal&quot; or &quot;alternate&quot;
          */
         setDirection: function(t) {
-            this.element.style[ANIMATION_DURATION] = t;
+            this.element.style[&quot;webkitAnimationDirection&quot;] = t;
             return this;
         },
     });
     
-<span id='ANIM_SETTER_FUNC_NAME_MAP'>    /**
-</span>     * @enum
-     */
     var ANIM_SETTER_FUNC_NAME_MAP = {
         // 小文字対応
         &quot;name&quot;          : tm.dom.Anim.prototype.setName,
@@ -167,7 +142,7 @@ tm.dom = tm.dom || {};
         &quot;Delay&quot;         : tm.dom.Anim.prototype.setDelay,
     };
     
-<span id='ANIM_SETTER_FUNC_NAME_MAP-property-anim'>    /**
+<span id='tm-dom-Anim-property-anim'>    /**
 </span>     * @property    anim
      * アニメーション
      */
