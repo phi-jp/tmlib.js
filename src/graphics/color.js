@@ -236,9 +236,8 @@ tm.graphics = tm.graphics || {};
     };
 
     /**
-     * @enum
+     * @property
      * @TODO ?
-     * @private
      */
     tm.graphics.Color.COLOR_LIST = {
         /** @property black */
