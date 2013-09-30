@@ -20,24 +20,24 @@
  */
 
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
     
-<span id='tm-app-Sprite'>    /**
-</span>     * @class
-     * Sprite
+<span id='tm-display-Sprite'>    /**
+</span>     * @class tm.display.Sprite
+     * 画像の描画を行うクラス
+     * @extends tm.display.CanvasElement
      */
-    tm.app.Sprite = tm.createClass({
+    tm.display.Sprite = tm.createClass({
+        superClass: tm.display.CanvasElement,
         
-        superClass: tm.app.CanvasElement,
-        
-<span id='tm-app-Sprite-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-Sprite-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
-        init: function(texture, width, height)
-        {
+        init: function(texture, width, height) {
             this.superInit();
             
             console.assert(arguments.length == 0 || texture instanceof tm.asset.Texture || typeof texture == &quot;string&quot;, &quot;Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました&quot;);
@@ -67,6 +67,10 @@ tm.app = tm.app || {};
             }
         },
         
+<span id='tm-display-Sprite-property-setFrameIndex'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setFrameIndex: function(index, width, height) {
             var w   = width || this.width;
             var h   = width || this.height;
@@ -81,18 +85,21 @@ tm.app = tm.app || {};
             return this;
         },
         
-        _refreshSize: function() {
-            
-        },
+<span id='tm-display-Sprite-property-_refreshSize'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
+        _refreshSize: function() {},
 
-        _update: tm.app.CanvasElement.prototype._update,
+        _update: tm.display.CanvasElement.prototype._update,
     });
     
-<span id='tm-app-Sprite-property-image'>    /**
+<span id='tm-display-Sprite-property-image'>    /**
 </span>     * @property    image
      * 高さ
      */
-    tm.app.Sprite.prototype.accessor(&quot;image&quot;, {
+    tm.display.Sprite.prototype.accessor(&quot;image&quot;, {
         &quot;get&quot;: function()   {
             return this._image;
         },

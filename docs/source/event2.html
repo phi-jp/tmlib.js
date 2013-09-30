@@ -24,18 +24,20 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-Event'>    /**
-</span>     * @class
+</span>     * @class tm.event.Event
      * イベントクラス
      */
     tm.event.Event = tm.createClass({
         
 <span id='tm-event-Event-property-type'>        /**
-</span>         * タイプ
+</span>         * @property
+         * タイプ
          */
         type: null,
         
-<span id='tm-event-Event-method-init'>        /**
-</span>         * 初期化
+<span id='tm-event-Event-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(type) {
             this.type = type;
@@ -49,13 +51,18 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-TweenEvent'>    /**
-</span>     * @class
+</span>     * @class tm.event.TweenEvent
      * Tween Event
+     * @extends tm.event.Event
      */
     tm.event.TweenEvent = tm.createClass({
         
         superClass: tm.event.Event,
         
+<span id='tm-event-TweenEvent-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(type, time, now) {
             this.superInit(type);
             
@@ -80,13 +87,18 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-MouseEvent'>    /**
-</span>     * @class
+</span>     * @class tm.event.MouseEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.MouseEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+<span id='tm-event-MouseEvent-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(type, app, pointing) {
             this.superInit(type);
             
@@ -104,13 +116,18 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-TouchEvent'>    /**
-</span>     * @class
+</span>     * @class tm.event.TouchEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.TouchEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+<span id='tm-event-TouchEvent-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(type, app, pointing) {
             this.superInit(type);
             
@@ -127,13 +144,18 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-PointingEvent'>    /**
-</span>     * @class
+</span>     * @class tm.event.PointingEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.PointingEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+<span id='tm-event-PointingEvent-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(type, app, pointing) {
             this.superInit(type);
             

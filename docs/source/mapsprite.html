@@ -22,9 +22,18 @@
 
 (function() {
 
-    tm.define(&quot;tm.app.MapSprite&quot;, {
-        superClass: &quot;tm.app.CanvasElement&quot;,
+<span id='tm-display-MapSprite'>    /**
+</span>     * @class tm.display.MapSprite
+     * マップ描画クラス
+     * @extends tm.display.CanvasElement
+     */
+    tm.define(&quot;tm.display.MapSprite&quot;, {
+        superClass: &quot;tm.display.CanvasElement&quot;,
 
+<span id='tm-display-MapSprite-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(mapSheet, chipWidth, chipHeight) {
             this.superInit();
 
@@ -46,6 +55,11 @@
             this._build();
         },
 
+<span id='tm-display-MapSprite-property-_build'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _build: function() {
             var self = this;
 
@@ -59,12 +73,17 @@
             });
         },
 
+<span id='tm-display-MapSprite-property-_buildLayer'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _buildLayer: function(layer) {
             var self        = this;
             var mapSheet    = this.mapSheet;
             var texture     = tm.asset.AssetManager.get(mapSheet.tilesets[0].image);
             var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
-            var shape       = tm.app.Shape(this.width, this.height).addChildTo(this);
+            var shape       = tm.display.Shape(this.width, this.height).addChildTo(this);
             shape.origin.set(0, 0);
 
             layer.data.each(function(d, index) {
@@ -91,17 +110,22 @@
 
         },
 
+<span id='tm-display-MapSprite-property-_buildObject'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _buildObject: function(layer) {
             var self = this;
             
-            var group = tm.app.CanvasElement().addChildTo(self);
+            var group = tm.display.CanvasElement().addChildTo(self);
             group.width = layer.width;
             group.height = layer.height;
             
             layer.objects.forEach(function(obj) {
                 var _class = tm.using(obj.type);
                 if (Object.keys(_class).length === 0) {
-                    _class=tm.app[obj.type];
+                    _class=tm.display[obj.type];
                 }
 
                 var initParam = null;

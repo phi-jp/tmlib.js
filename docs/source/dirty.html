@@ -25,6 +25,31 @@
     tm.app.Element.prototype.getter(&quot;interaction&quot;, function() {
         console.assert(false, &quot;interaction は Object2d に統合されました. obj.setInteractive(true); とすればタッチ判定が有効になります.&quot;);
     });
+    
+    
+    var dirtyClass = [
+        &quot;Sprite&quot;,
+        &quot;Shape&quot;,
+        &quot;CircleShape&quot;,
+        &quot;TriangleShape&quot;,
+        &quot;RectangleShape&quot;,
+        &quot;StarShape&quot;,
+        &quot;PolygonShape&quot;,
+        &quot;HeartShape&quot;,
+        &quot;TextShape&quot;,
+        &quot;CanvasRenderer&quot;,
+        &quot;BoundingRectRenderer&quot;,
+        &quot;Label&quot;,
+        &quot;MapSprite&quot;,
+        &quot;CanvasElement&quot;,
+        &quot;CanvasApp&quot;,
+        &quot;AnimationSprite&quot;,
+        &quot;SpriteSheet&quot;,
+    ];
+    
+    dirtyClass.each(function(className) {
+        tm.app[className] = tm.display[className];
+    });
 
 
 })();
