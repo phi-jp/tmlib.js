@@ -33,63 +33,63 @@ tm.dom = tm.dom || {};
 </span>         * @property
          * エレメント
          */
-        element: null,
-        
-<span id='tm-dom-Style-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-dom-Style-method-constructor'>        element: null,
+</span>        
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(element) {
-            this.element = element;
-        },
+<span id='tm-dom-Style-property-set'>            this.element = element;
+</span>        },
         
-<span id='tm-dom-Style-property-set'>        /**
-</span>         * @property
+        /**
+         * @property
          * セット
          */
         set: function(name, value) {
             this.element.style[name] = value;
-            return this;
-        },
+<span id='tm-dom-Style-property-remove'>            return this;
+</span>        },
         
-<span id='tm-dom-Style-property-remove'>        /**
-</span>         * @property
+        /**
+         * @property
          * 削除
          */
         remove: function(name) {
             this.element.style.removeProperty(name);
             // delete this.element.style[name];
-            return this;
-        },
+<span id='tm-dom-Style-property-clear'>            return this;
+</span>        },
         
-<span id='tm-dom-Style-property-clear'>        /**
-</span>         * @property
+        /**
+         * @property
          * クリア
          */
         clear: function(name) {
             
-            return this;
-        },
+<span id='tm-dom-Style-property-get'>            return this;
+</span>        },
         
-<span id='tm-dom-Style-property-get'>        /**
-</span>         * @property
+        /**
+         * @property
          * 取得
          */
         get: function(name) {
-            return this.element.style[name];
-        },
+<span id='tm-dom-Style-property-getPropValue'>            return this.element.style[name];
+</span>        },
         
-<span id='tm-dom-Style-property-getPropValue'>        /**
-</span>         * @property
+        /**
+         * @property
          * CSS の値も考慮した上での値を取得
          */
         getPropValue: function(prop_name) {
-            return document.defaultView.getComputedStyle(this.element, '').getPropertyValue(prop_name);
-        },
+<span id='tm-dom-Style-property-style'>            return document.defaultView.getComputedStyle(this.element, '').getPropertyValue(prop_name);
+</span>        },
     });
     
-<span id='tm-dom-Style-property-style'>    /**
-</span>     * スタイルクラス
+    /**
+     * スタイルクラス
      * @property    style
      */
     tm.dom.Element.prototype.getter(&quot;style&quot;, function(){

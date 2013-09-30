@@ -30,17 +30,17 @@ tm.app = tm.app || {};
      * @extends tm.app.Object2D
      */
     tm.app.Scene = tm.createClass({
-        superClass: tm.app.Object2D,
-    
-<span id='tm-app-Scene-property-_sceneResultCallback'>        /**
-</span>         * @property
+<span id='tm-app-Scene-property-_sceneResultCallback'>        superClass: tm.app.Object2D,
+</span>    
+        /**
+         * @property
          * @TODO ?
          * @private
          */
-        _sceneResultCallback: null,
-
-<span id='tm-app-Scene-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-app-Scene-method-constructor'>        _sceneResultCallback: null,
+</span>
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function() {
@@ -58,21 +58,21 @@ tm.app = tm.app || {};
 
 (function() {
     
-    var DEFAULT_PARAM = {
-        width: 465,
+<span id='tm-app-LoadingScene'>    var DEFAULT_PARAM = {
+</span>        width: 465,
         height: 465,
     };
     
-<span id='tm-app-LoadingScene'>    /**
-</span>     * @class tm.app.LoadingScene
+    /**
+     * @class tm.app.LoadingScene
      * ローディングシーン
      * @extends tm.app.Scene
      */
-    tm.app.LoadingScene = tm.createClass({
-        superClass: tm.app.Scene,
+<span id='tm-app-LoadingScene-property-init'>    tm.app.LoadingScene = tm.createClass({
+</span>        superClass: tm.app.Scene,
         
-<span id='tm-app-LoadingScene-property-init'>        /**
-</span>         * @property
+        /**
+         * @property
          * コンストラクタ
          * @param {Object} param
          */
@@ -134,23 +134,23 @@ tm.app = tm.app || {};
     
 (function() {
     
-    var DEFAULT_PARAM = {
-        title: &quot;Time is money&quot;,
+<span id='tm-app-TitleScene'>    var DEFAULT_PARAM = {
+</span>        title: &quot;Time is money&quot;,
         titleSize: 32,
         width: 465,
         height: 465,
     };
     
-<span id='tm-app-TitleScene'>    /**
-</span>     * @class tm.app.TitleScene
-     * ローディングシーン
-     * @extends tm.app.Scene
+    /**
+     * @class tm.app.TitleScene
+<span id='tm-app-TitleScene-property-init'>     * ローディングシーン
+</span>     * @extends tm.app.Scene
      */
     tm.app.TitleScene = tm.createClass({
         superClass: tm.app.Scene,
         
-<span id='tm-app-TitleScene-property-init'>        /**
-</span>         * @property
+        /**
+         * @property
          * コンストラクタ
          * @param {Object} param
          */
@@ -170,14 +170,14 @@ tm.app = tm.app || {};
             label.x = param.width/2;
             label.y = param.height/2;
             label.width = param.width;
-            label.align     = &quot;center&quot;;
-            label.baseline  = &quot;middle&quot;;
+<span id='tm-app-TitleScene-property-onpointingstart'>            label.align     = &quot;center&quot;;
+</span>            label.baseline  = &quot;middle&quot;;
             label.fontSize = param.titleSize;
             this.addChild(label);
         },
 
-<span id='tm-app-TitleScene-property-onpointingstart'>        /**
-</span>         * @property
+        /**
+         * @property
          * pointingstartイベント登録
          */
         onpointingstart: function() {
@@ -195,23 +195,23 @@ tm.app = tm.app || {};
     var DEFAULT_PARAM = {
         score: 256,
         msg: &quot;tmlib.js のサンプルです!&quot;,
-        hashtags: &quot;tmlibjs&quot;,
-        url: &quot;https://github.com/phi1618/tmlib.js/&quot;,
+<span id='tm-app-ResultScene'>        hashtags: &quot;tmlibjs&quot;,
+</span>        url: &quot;https://github.com/phi1618/tmlib.js/&quot;,
         width: 465,
         height: 465,
         related: &quot;tmlib.js tmlife javascript&quot;,
     };
     
-<span id='tm-app-ResultScene'>    /**
-</span>     * @class tm.app.ResultScene
-     * ローディングシーン
+    /**
+<span id='tm-app-ResultScene-property-init'>     * @class tm.app.ResultScene
+</span>     * ローディングシーン
      * @extends tm.app.Scene
      */
     tm.app.ResultScene = tm.createClass({
         superClass: tm.app.Scene,
         
-<span id='tm-app-ResultScene-property-init'>        /**
-</span>         * @property
+        /**
+         * @property
          * コンストラクタ
          * @param {Object} param
          */

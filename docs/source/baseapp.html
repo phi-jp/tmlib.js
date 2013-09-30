@@ -28,78 +28,78 @@ tm.app = tm.app || {};
 </span>     * @class tm.app.BaseApp
      * ベースアプリケーション
      */
-    tm.app.BaseApp = tm.createClass({
-        
-<span id='tm-app-BaseApp-property-element'>        /**
-</span>         * @property
+<span id='tm-app-BaseApp-property-element'>    tm.app.BaseApp = tm.createClass({
+</span>        
+        /**
+         * @property
          * エレメント
          */
-        element     : null,
-
-<span id='tm-app-BaseApp-property-mouse'>        /**
-</span>         * @property
+<span id='tm-app-BaseApp-property-mouse'>        element     : null,
+</span>
+        /**
+         * @property
          * マウスクラス
-         */
-        mouse       : null,
+<span id='tm-app-BaseApp-property-touch'>         */
+</span>        mouse       : null,
 
-<span id='tm-app-BaseApp-property-touch'>        /**
-</span>         * @property
-         * タッチクラス
-         */
+        /**
+         * @property
+<span id='tm-app-BaseApp-property-pointing'>         * タッチクラス
+</span>         */
         touch       : null,
 
-<span id='tm-app-BaseApp-property-pointing'>        /**
-</span>         * @property
-         * マウスクラス + タッチクラス
-         */
+        /**
+         * @property
+<span id='tm-app-BaseApp-property-keyboard'>         * マウスクラス + タッチクラス
+</span>         */
         pointing    : null,
 
-<span id='tm-app-BaseApp-property-keyboard'>        /**
-</span>         * @property
-         * キーボードクラス
+        /**
+<span id='tm-app-BaseApp-property-stats'>         * @property
+</span>         * キーボードクラス
          */
         keyboard    : null,
 
-<span id='tm-app-BaseApp-property-stats'>        /**
+<span id='tm-app-BaseApp-property-frame'>        /**
 </span>         * @property
          * statsライブラリ
          */
-        stats       : null,
-
-<span id='tm-app-BaseApp-property-frame'>        /**
-</span>         * @property
+<span id='tm-app-BaseApp-property-fps'>        stats       : null,
+</span>
+        /**
+         * @property
          * フレーム
          */
-        frame       : 0,
-
-<span id='tm-app-BaseApp-property-fps'>        /**
-</span>         * @property
+<span id='tm-app-BaseApp-property-isPlaying'>        frame       : 0,
+</span>
+        /**
+         * @property
          * フレームレート
          */
-        fps         : 30,
-
-<span id='tm-app-BaseApp-property-isPlaying'>        /**
-</span>         * @property
+<span id='tm-app-BaseApp-property-_scenes'>        fps         : 30,
+</span>
+        /**
+         * @property
          * 現在更新中か
          */
-        isPlaying   : null,
-        
-<span id='tm-app-BaseApp-property-_scenes'>        /**
-</span>         * @property
+<span id='tm-app-BaseApp-property-_sceneIndex'>        isPlaying   : null,
+</span>        
+        /**
+         * @property
          * シーン情報の管理
          * @private
-         */
-        _scenes      : null,
+<span id='tm-app-BaseApp-property-init'>         */
+</span>        _scenes      : null,
 
-<span id='tm-app-BaseApp-property-_sceneIndex'>        /**
-</span>         * @property
+        /**
+         * @property
          * シーンのインデックス
          * @private
          */
         _sceneIndex  : 0,
 
-<span id='tm-app-BaseApp-property-init'>        /**
-</span>         * @property init
+        /**
+         * @property init
          * コンストラクタ
          * @param {Object} elm
          */
@@ -132,8 +132,8 @@ tm.app = tm.app || {};
             
             // ウィンドウフォーカス時イベントリスナを登録
             window.addEventListener(&quot;focus&quot;, function() {
-                this.currentScene.dispatchEvent(tm.event.Event(&quot;focus&quot;));
-            }.bind(this));
+<span id='tm-app-BaseApp-property-run'>                this.currentScene.dispatchEvent(tm.event.Event(&quot;focus&quot;));
+</span>            }.bind(this));
             // ウィンドウブラー時イベントリスナを登録
             window.addEventListener(&quot;blur&quot;, function() {
                 this.currentScene.dispatchEvent(tm.event.Event(&quot;blur&quot;));
@@ -142,8 +142,8 @@ tm.app = tm.app || {};
             this.element.addEventListener((tm.isMobile) ? &quot;touchstart&quot; : &quot;mousedown&quot;, this._onclick.bind(this));
         },
         
-<span id='tm-app-BaseApp-property-run'>        /**
-</span>         * @property
+        /**
+         * @property
          * 実行
          */
         run: function() {
@@ -170,8 +170,8 @@ tm.app = tm.app || {};
             var self = this;
             // setInterval(function(){ self._loop(); }, 1000/self.fps);
             tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
-        },
-        
+<span id='tm-app-BaseApp-property-replaceScene'>        },
+</span>        
         /*
          * @property
          * ループ処理
@@ -190,16 +190,16 @@ tm.app = tm.app || {};
             if (this.stats) this.stats.update();
         },
         
-<span id='tm-app-BaseApp-property-replaceScene'>        /**
-</span>         * @property
+        /**
+         * @property
          * シーンを切り替える
          * @param {Object} scene
          * ## Reference
          * - &lt;http://ameblo.jp/hash-r-1234/entry-10967942550.html&gt;
          */
         replaceScene: function(scene) {
-            var e = null;
-            if (this.currentScene) {
+<span id='tm-app-BaseApp-property-pushScene'>            var e = null;
+</span>            if (this.currentScene) {
                 e = tm.event.Event(&quot;exit&quot;);
                 e.app = this;
                 this.currentScene.dispatchEvent(e);
@@ -212,10 +212,10 @@ tm.app = tm.app || {};
             this.currentScene.dispatchEvent(e);
         },
         
-<span id='tm-app-BaseApp-property-pushScene'>        /**
-</span>         * @property
-         * シーンをプッシュする(ポーズやオブション画面などで使用)
-         * @param {Object} scene
+        /**
+         * @property
+<span id='tm-app-BaseApp-property-popScene'>         * シーンをプッシュする(ポーズやオブション画面などで使用)
+</span>         * @param {Object} scene
          */
         pushScene: function(scene) {
             e = tm.event.Event(&quot;exit&quot;);
@@ -231,10 +231,10 @@ tm.app = tm.app || {};
             scene.dispatchEvent(e);
         },
         
-<span id='tm-app-BaseApp-property-popScene'>        /**
-</span>         * @property
-         * シーンをポップする(ポーズやオブション画面などで使用)
-         */
+        /**
+         * @property
+<span id='tm-app-BaseApp-property-enableStats'>         * シーンをポップする(ポーズやオブション画面などで使用)
+</span>         */
         popScene: function() {
             var scene = this._scenes.pop();
             --this._sceneIndex;
@@ -252,29 +252,29 @@ tm.app = tm.app || {};
             return scene;
         },
         
-<span id='tm-app-BaseApp-property-enableStats'>        /**
-</span>         * @property
+        /**
+         * @property
          * 外部のFPS表示ライブラリ Stats を生成、配置する
          * ## Reference
-         * - &lt;https://github.com/mrdoob/stats.js&gt;
-         */
+<span id='tm-app-BaseApp-property-enableDatGUI'>         * - &lt;https://github.com/mrdoob/stats.js&gt;
+</span>         */
         enableStats: function() {
             if (window[&quot;Stats&quot;]) {
                 // Stats
                 this.stats = new Stats();
                 // 右上に設定
-                this.stats.domElement.style.position = &quot;fixed&quot;;
-                this.stats.domElement.style.left     = &quot;5px&quot;;
-                this.stats.domElement.style.top      = &quot;20px&quot;;
-                document.body.appendChild(this.stats.domElement);
+<span id='tm-app-BaseApp-property-start'>                this.stats.domElement.style.position = &quot;fixed&quot;;
+</span>                this.stats.domElement.style.left     = &quot;5px&quot;;
+<span id='tm-app-BaseApp-property-stop'>                this.stats.domElement.style.top      = &quot;20px&quot;;
+</span>                document.body.appendChild(this.stats.domElement);
             }
             else {
                 console.warn(&quot;not defined stats.&quot;);
-            }
-        },
+<span id='tm-app-BaseApp-property-_update'>            }
+</span>        },
         
-<span id='tm-app-BaseApp-property-enableDatGUI'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         enableDatGUI: function() {
@@ -285,26 +285,26 @@ tm.app = tm.app || {};
             }
         },
         
-<span id='tm-app-BaseApp-property-start'>        /**
-</span>         * @property
+        /**
+         * @property
          * シーンのupdateを実行するようにする
          */
         start: function() {
-            this.isPlaying = true;
-        },
+<span id='tm-app-BaseApp-property-_draw'>            this.isPlaying = true;
+</span>        },
         
-<span id='tm-app-BaseApp-property-stop'>        /**
-</span>         * @property
-         * シーンのupdateを実行しないようにする
-         */
+        /**
+         * @property
+<span id='tm-app-BaseApp-property-getElement'>         * シーンのupdateを実行しないようにする
+</span>         */
         stop: function() {
             this.isPlaying = false;
         },
         
-<span id='tm-app-BaseApp-property-_update'>        /**
-</span>         * @property
-         * デバイスやシーンのアップデート呼び出し処理
-         * @private
+        /**
+         * @property
+<span id='tm-app-BaseApp-property-_onclick'>         * デバイスやシーンのアップデート呼び出し処理
+</span>         * @private
          */
         _update: function() {
             // デバイス系 Update
@@ -318,23 +318,23 @@ tm.app = tm.app || {};
             }
         },
         
-<span id='tm-app-BaseApp-property-_draw'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ? オーバーライド予定？
          * @private
          */
         _draw: function() {},
         
-<span id='tm-app-BaseApp-property-getElement'>        /**
-</span>         * @property
+        /**
+         * @property
          * elementの取得
          */
         getElement: function() {
             return this.element;
         },
 
-<span id='tm-app-BaseApp-property-_onclick'>        /**
-</span>         * @property
+        /**
+         * @property
          * クリックイベント登録
          * @private
          * @param {Object} e
@@ -343,8 +343,8 @@ tm.app = tm.app || {};
             var px = e.pointX;
             var py = e.pointY;
 
-            if (this.element.style.width) {
-                px *= this.element.width / parseInt(this.element.style.width);
+<span id='tm-app-BaseApp-property-currentScene'>            if (this.element.style.width) {
+</span>                px *= this.element.width / parseInt(this.element.style.width);
             }
             if (this.element.style.height) {
                 py *= this.element.height / parseInt(this.element.style.height);
@@ -365,8 +365,8 @@ tm.app = tm.app || {};
         },
     });
     
-<span id='tm-app-BaseApp-property-currentScene'>    /**
-</span>     * @member      tm.app.BaseApp
+    /**
+     * @member      tm.app.BaseApp
      * @property    currentScene
      * カレントシーン
      */
