@@ -2,19 +2,23 @@
  * userinterface.js
  */
 
-
 tm.ui = tm.ui || {};
 
 
 (function() {
 
 	/**
-	 * @class
-	 * Gauge
+	 * @class tm.ui.Gauge
+	 * ゲーム用ゲージクラス
+     * @extends tm.display.RectangleShape
 	 */
 	tm.ui.Gauge = tm.createClass({
         superClass: tm.display.RectangleShape,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(width, height, color, direction) {
             this.superInit(width, height, {
                 fillStyle: color || "red",
@@ -24,14 +28,27 @@ tm.ui = tm.ui || {};
             this._reset(direction);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         isFull: function() {
             return this.targetProp === this._maxValue;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         isEmpty: function() {
             return this.targetProp == 0;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _reset: function(direction) {
             this.direction = direction || "left";
             switch (this.direction) {
@@ -61,6 +78,10 @@ tm.ui = tm.ui || {};
             }
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         setValue: function(value, anim) {
         	value= Math.clamp(value, 0, this._maxValue);
             anim = (anim !== undefined) ? anim : true;
@@ -90,20 +111,43 @@ tm.ui = tm.ui || {};
 
             return this;
         },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         getValue: function() {
             return this.value;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         setPercent: function(percent, anim) {
             this.setValue(this._maxValue*percent*0.01, anim);
         },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         getPercent: function() {
             return (this._value/this._maxValue)*100;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         setRatio: function(ratio) {
             this.setValue(this._maxValue*percent, anim);
         },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         getRatio: function() {
             return this._value/this._maxValue;
         },
@@ -169,15 +213,20 @@ tm.ui = tm.ui || {};
 (function() {
     
     /**
-     * @class
-     * pad
+     * @class tm.ui.Pad
+     * padクラス
+     * @extends tm.display.Shape
      */
     tm.ui.Pad = tm.createClass({
         superClass: tm.display.Shape,
         
         isTouching: false,
         circle: null,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function() {
             this.superInit(120, 120);
             
@@ -192,7 +241,12 @@ tm.ui = tm.ui || {};
             
             this.alpha = 0.75;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _createCircle: function() {
             var circle = this.circle = tm.display.Shape(80, 80);
             this.addChild(circle);
@@ -202,16 +256,28 @@ tm.ui = tm.ui || {};
             c.setShadow("black", 2, 2, 2);
             c.fillCircle(40, 40, 35);
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         onpointingstart: function() {
             this.isTouching = true;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         onpointingend: function() {
             this.isTouching = false;
             this.circle.position.set(0, 0);
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         onpointingmove: function(e) {
             if (this.isTouching==false) return ;
             var p = e.pointing;

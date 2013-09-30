@@ -7,17 +7,25 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.EventDispatcher
      * Event Dispatcher
      * ### Reference
      * -(EventDispatcher - ActionScript 3.0 コンポーネントリファレンスガイド)[http://livedocs.adobe.com/flash/9.0_jp/ActionScriptLangRefV3/flash/events/EventDispatcher.html]
      */
     tm.event.EventDispatcher = tm.createClass({
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function() {
             this._listeners = {};
         },
 
+        /**
+         * @property
+         * イベントリスナー追加(addEventListenerと同様)
+         */
         on: function(type, listener) {
             if (this._listeners[type] === undefined) {
                 this._listeners[type] = [];
@@ -28,6 +36,7 @@ tm.event = tm.event || {};
         },
         
         /**
+         * @property
          * イベントリスナー追加
          */
         addEventListener: function(type, listener) {
@@ -40,6 +49,7 @@ tm.event = tm.event || {};
         },
         
         /**
+         * @property
          * イベント起動
          */
         dispatchEvent: function(e) {
@@ -56,6 +66,7 @@ tm.event = tm.event || {};
         },
         
         /**
+         * @property
          * 登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
@@ -64,6 +75,7 @@ tm.event = tm.event || {};
         },
         
         /**
+         * @property
          * リスナーを削除
          */
         removeEventListener: function(type, listener) {
@@ -76,6 +88,7 @@ tm.event = tm.event || {};
         },
         
         /**
+         * @property
          * リスナーを全てクリア
          */
         clearEventListener: function(type) {

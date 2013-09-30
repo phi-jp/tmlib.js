@@ -16,9 +16,8 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * phi
+ * touch.js
  */
-
 
 tm.input = tm.input || {};
 
@@ -26,7 +25,7 @@ tm.input = tm.input || {};
 (function() {
     
 <span id='tm-input-Touch'>    /**
-</span>     * @class
+</span>     * @class tm.input.Touch
      * タッチクラス
      */
     tm.input.Touch = tm.createClass({
@@ -34,8 +33,9 @@ tm.input = tm.input || {};
         element: null,
         touched: false,
         
-<span id='tm-input-Touch-method-init'>        /**
-</span>         * &lt;a href=&quot;http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html&quot;&gt;Test Program&lt;/a&gt;.
+<span id='tm-input-Touch-method-constructor'>        /**
+</span>         * @constructor
+         * &lt;a href=&quot;http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html&quot;&gt;Test Program&lt;/a&gt;.
          */
         init: function(element) {
             this.element = element || window.document;
@@ -68,8 +68,9 @@ tm.input = tm.input || {};
             // });
         },
         
-<span id='tm-input-Touch-method-run'>        /**
-</span>         * run.
+<span id='tm-input-Touch-property-run'>        /**
+</span>         * @property
+         * run.
          * 自動でマウス情報を更新したい際に使用する
          */
         run: function(fps) {
@@ -85,8 +86,9 @@ tm.input = tm.input || {};
             return this;
         },
         
-<span id='tm-input-Touch-method-update'>        /**
-</span>         * 情報更新処理
+<span id='tm-input-Touch-property-update'>        /**
+</span>         * @property
+         * 情報更新処理
          * マイフレーム呼んで下さい.
          */
         update: function() {
@@ -103,34 +105,47 @@ tm.input = tm.input || {};
             this.prevPosition.setObject(this.position);
         },
         
-<span id='tm-input-Touch-method-getTouch'>        /**
-</span>         * タッチしているかを判定
+<span id='tm-input-Touch-property-getTouch'>        /**
+</span>         * @property
+         * タッチしているかを判定
          */
         getTouch: function() {
             return this.touched != 0;
         },
         
-<span id='tm-input-Touch-method-getTouchStart'>        /**
-</span>         * タッチ開始時に true
+<span id='tm-input-Touch-property-getTouchStart'>        /**
+</span>         * @property
+         * タッチ開始時に true
          */
         getTouchStart: function() {
             return this.start != 0;
         },
         
-<span id='tm-input-Touch-method-getTouchEnd'>        /**
-</span>         * タッチ終了時に true
+<span id='tm-input-Touch-property-getTouchEnd'>        /**
+</span>         * @property
+         * タッチ終了時に true
          */
         getTouchEnd: function() {
             return this.end != 0;
         },
-        
+
+<span id='tm-input-Touch-property-_touchmove'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _touchmove: function(e) {
             var t = this._touch;
             var r = e.target.getBoundingClientRect();
             this.x = t.clientX - r.left;
             this.y = t.clientY - r.top;
         },
-        
+
+<span id='tm-input-Touch-property-_touchmoveScale'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _touchmoveScale: function(e) {
             var t = this._touch;
             var r = e.target.getBoundingClientRect();
@@ -209,9 +224,17 @@ tm.input = tm.input || {};
 
 (function() {
 
+<span id='tm-input-Touches'>    /**
+</span>     * @class tm.input.Touches
+     * マルチタッチ対応クラス
+     */
     tm.define(&quot;tm.input.Touches&quot;, {
         superClass: Array,
 
+<span id='tm-input-Touches-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(elm, length) {
             this.element = elm;
             for (var i=0; i&lt;length; ++i) {
@@ -258,6 +281,10 @@ tm.input = tm.input || {};
             });
         },
 
+<span id='tm-input-Touches-property-update'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         update: function() {
             this.each(function(touch) {
                 touch.update();

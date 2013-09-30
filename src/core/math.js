@@ -2,15 +2,15 @@
  * math.js
  */
 
-
 (function() {
     
     /**
      * @class Math
-     * 数学
+     * Mathの拡張
      */
     
     /**
+     * @method
      * クランプ
      */
     Math.clamp = function(x, a, b) {

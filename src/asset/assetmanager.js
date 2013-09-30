@@ -6,10 +6,18 @@
 
     tm.asset = tm.asset || {};
 
-
+    /**
+     * @class tm.asset.AssetManager
+     * マップシート
+     * @extends tm.event.EventDispatcher
+     */
     tm.define("tm.asset.AssetManager", {
         superClass: "tm.event.EventDispatcher",
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function() {
             this.superInit();
 
@@ -19,6 +27,12 @@
             this._loadedCounter = 0;
         },
 
+        /**
+         * @property
+         * アセットのロード
+         * @param {Object} key
+         * @param {Object} path
+         */
         load: function(key, path) {
             if (typeof arguments[0] == 'string') {
                 path = (arguments.length < 2) ? key : path;
@@ -41,6 +55,13 @@
             return this;
         },
 
+        /**
+         * @property
+         * アセットのロード
+         * private
+         * @param {Object} key
+         * @param {Object} path
+         */
         _load: function(key, path) {
             if (this.contains(key)) return ;
 
@@ -54,28 +75,58 @@
             return this;
         },
 
+        /**
+         * @property
+         * アセットのゲット
+         * @param {Object} key
+         */
         get: function(key) {
             return this.assets[key];
         },
 
+        /**
+         * @property
+         * アセットのセット
+         * @param {Object} key
+         * @param {Object} asset
+         */
         set: function(key, asset) {
             this.assets[key] = asset;
-
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @param {Object} key
+         */
         contains: function(key) {
             return (this.assets[key]) ? true : false;
         },
 
+        /**
+         * @property
+         * アセットのセット
+         * @param {Object} key
+         * @param {Object} asset
+         */
         register: function(type, fn) {
             this._funcs[type] = fn;
         },
 
+        /**
+         * @property
+         * ロード済みか調べる
+         */
         isLoaded: function() {
             return (this._loadedCounter == Object.keys(this.assets).length);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _checkLoadedFunc: function() {
             this._loadedCounter++;
 

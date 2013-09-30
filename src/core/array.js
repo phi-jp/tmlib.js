@@ -2,14 +2,12 @@
  * array.js
  */
 
-
 (function() {
     
     /**
      * @class   Array
-     * 配列
+     * Arrayの拡張
      */
-    
     
     /**
      * @property    first
@@ -28,7 +26,6 @@
         "get": function()   { return this[this.length-1]; },
         "set": function(v)  { this[this.length-1] = v; }
     });
-    
     
     /**
      * @method  equals

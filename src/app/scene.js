@@ -5,21 +5,26 @@
 tm.app = tm.app || {};
 
 
-
 (function() {
     
     /**
-     * @class
+     * @class tm.app.Scene
      * シーンとして使用するゲームエレメントクラス
+     * @extends tm.app.Object2D
      */
     tm.app.Scene = tm.createClass({
-        
         superClass: tm.app.Object2D,
     
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _sceneResultCallback: null,
 
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             this.superInit();
@@ -33,7 +38,7 @@ tm.app = tm.app || {};
     });
     
 })();
-    
+
 (function() {
     
     var DEFAULT_PARAM = {
@@ -41,9 +46,19 @@ tm.app = tm.app || {};
         height: 465,
     };
     
+    /**
+     * @class tm.app.LoadingScene
+     * ローディングシーン
+     * @extends tm.app.Scene
+     */
     tm.app.LoadingScene = tm.createClass({
         superClass: tm.app.Scene,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} param
+         */
         init: function(param) {
             this.superInit();
             
@@ -109,9 +124,19 @@ tm.app = tm.app || {};
         height: 465,
     };
     
+    /**
+     * @class tm.app.TitleScene
+     * ローディングシーン
+     * @extends tm.app.Scene
+     */
     tm.app.TitleScene = tm.createClass({
         superClass: tm.app.Scene,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} param
+         */
         init: function(param) {
             this.superInit();
             
@@ -133,6 +158,11 @@ tm.app = tm.app || {};
             label.fontSize = param.titleSize;
             this.addChild(label);
         },
+
+        /**
+         * @property
+         * pointingstartイベント登録
+         */
         onpointingstart: function() {
             var e = tm.event.Event("nextscene");
             this.dispatchEvent(e);
@@ -155,10 +185,19 @@ tm.app = tm.app || {};
         related: "tmlib.js tmlife javascript",
     };
     
+    /**
+     * @class tm.app.ResultScene
+     * ローディングシーン
+     * @extends tm.app.Scene
+     */
     tm.app.ResultScene = tm.createClass({
-        
         superClass: tm.app.Scene,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} param
+         */
         init: function(param) {
             this.superInit();
             

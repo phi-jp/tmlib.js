@@ -7,7 +7,7 @@ tm.geom = tm.geom || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.geom.Rect
      * 四角形クラス
      */
     tm.geom.Rect = tm.createClass({
@@ -17,14 +17,15 @@ tm.geom = tm.geom || {};
         height: 0,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
-        init: function(x, y, width, height)
-        {
+        init: function(x, y, width, height) {
             this.set(x, y, width, height);
         },
         
         /**
+         * @property
          * セッター
          */
         set: function(x, y, width, height) {
@@ -38,46 +39,47 @@ tm.geom = tm.geom || {};
         
 
         /**
+         * @property
          * 移動
          */
-        move: function(x, y)
-        {
+        move: function(x, y) {
             this.x = x;
             this.y = y;
             return this;
         },
         
         /**
+         * @property
          * 現在位置を基準に移動
          */
-        moveBy: function(x, y)
-        {
+        moveBy: function(x, y) {
             this.x += x;
             this.y += y;
             return this;
         },
         
         /**
+         * @property
          * リサイズ
          */
-        resize: function(w, h)
-        {
+        resize: function(w, h) {
             this.width = w;
             this.height= h;
             return this;
         },
         
         /**
+         * @property
          * 現在のサイズを基準にリサイズ
          */
-        resizeBy: function(w, h)
-        {
+        resizeBy: function(w, h) {
             this.width += w;
             this.height+= h;
             return this;
         },
         
         /**
+         * @property
          * パディング.
          * 縮めたりなど. 画面ハミ出しチェック時などに便利
          * ## example
@@ -88,8 +90,7 @@ tm.geom = tm.geom || {};
          *         // 左にはみ出した時の処理
          *     }
          */
-        padding: function(top, right, bottom, left)
-        {
+        padding: function(top, right, bottom, left) {
             // css の padding に合わせて時計回りにパラメータ調整
             switch (arguments.length) {
                 case 1:
@@ -113,23 +114,32 @@ tm.geom = tm.geom || {};
             
             return this;
         },
-        
-        clone: function()
-        {
+
+        /**
+         * @property
+         * クローン
+         */
+        clone: function() {
             
         },
         
-        toCircle: function()
-        {
+        /**
+         * @property
+         * @TODO ?
+         */
+        toCircle: function() {
             return tm.geom.Circle(
                 this.centerX,
                 this.centerY,
                 (this.width < this.height) ? this.width : this.height
                 );
         },
-        
-        toArray: function()
-        {
+
+        /**
+         * @property
+         * @TODO ?
+         */
+        toArray: function() {
             return [this.x, this.y, this.width, this.height];
         },
         

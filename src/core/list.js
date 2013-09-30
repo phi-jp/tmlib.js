@@ -2,11 +2,10 @@
  * list.js
  */
 
-
-(function(){
+(function() {
     
     /**
-     * @class
+     * @class tm.Item
      * Item クラス
      */
     tm.Item = tm.createClass({
@@ -16,14 +15,15 @@
         data: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
         }
     });
     
     /**
-     * @class
+     * @class tm.List
      * List クラス
      * ### Reference
      * - <http://java.sun.com/javase/ja/6/docs/ja/api/java/util/LinkedList.html>
@@ -36,7 +36,8 @@
     tm.List = tm.createClass({
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             this._length = 0;
@@ -48,6 +49,7 @@
         },
         
         /**
+         * @property
          * 追加
          */
         add: function(data) {
@@ -66,10 +68,10 @@
         },
         
         /**
+         * @property
          * 削除
          */
-        remove: function(index)
-        {
+        remove: function(index) {
             var current = this.getItem(index);
             
             current.prev.next = current.next;
@@ -81,18 +83,18 @@
         },
         
         /**
-         * 取得
+         * @property
+         * ゲット
          */
-        get: function(index)
-        {
+        get: function(index) {
             return this.getItem(index).data;
         },
         
         /**
+         * @property
          * アイテムを取得
          */
-        getItem: function(index)
-        {
+        getItem: function(index) {
             var current = this._head.next;
             var i=0;
             
@@ -104,6 +106,7 @@
         },
         
         /**
+         * @property
          * 繰り返し
          */
         forEach: function(fn) {
@@ -111,6 +114,7 @@
         },
         
         /**
+         * @property
          * クリア
          */
         clear: function() {
@@ -118,6 +122,7 @@
         },
         
         /**
+         * @property
          * クローン
          */
         clone: function() {
@@ -125,6 +130,7 @@
         },
         
         /**
+         * @property
          * 最初の要素を取得
          */
         getFirst: function() {
@@ -132,6 +138,7 @@
         },
         
         /**
+         * @property
          * 最後の要素を取得
          */
         getLast: function() {
@@ -139,6 +146,7 @@
         },
         
         /**
+         * @property
          * 最初に一致した位置のインデックスを取得
          */
         indexOf: function(obj) {
@@ -146,6 +154,7 @@
         },
         
         /**
+         * @property
          * 最後に一致した位置のインデックスを取得
          */
         lastIndexOf: function(obj) {
@@ -153,6 +162,7 @@
         },
         
         /**
+         * @property
          * 配列に変換
          */
         toArray: function() {
@@ -170,6 +180,7 @@
         },
         
         /**
+         * @property
          * 文字列に変換
          */
         toString: function() {

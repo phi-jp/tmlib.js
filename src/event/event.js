@@ -7,18 +7,20 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.Event
      * イベントクラス
      */
     tm.event.Event = tm.createClass({
         
         /**
+         * @property
          * タイプ
          */
         type: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(type) {
             this.type = type;
@@ -32,13 +34,18 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.TweenEvent
      * Tween Event
+     * @extends tm.event.Event
      */
     tm.event.TweenEvent = tm.createClass({
         
         superClass: tm.event.Event,
         
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(type, time, now) {
             this.superInit(type);
             
@@ -63,13 +70,18 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.MouseEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.MouseEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(type, app, pointing) {
             this.superInit(type);
             
@@ -87,13 +99,18 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.TouchEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.TouchEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(type, app, pointing) {
             this.superInit(type);
             
@@ -110,13 +127,18 @@ tm.event = tm.event || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.event.PointingEvent
      * Pointing Event
+     * @extends tm.event.Event
      */
     tm.event.PointingEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(type, app, pointing) {
             this.superInit(type);
             

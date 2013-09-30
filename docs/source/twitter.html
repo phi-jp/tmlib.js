@@ -24,23 +24,19 @@ tm.social = tm.social || {};
 
 (function() {
     
-    
 <span id='tm-social-Twitter'>    /**
-</span>     * @class
+</span>     * @class tm.social.Twitter
      * ツイッター関連ネームスペース
      */
     tm.social.Twitter = tm.social.Twitter || {};
     
-    
     tm.social.Twitter.API_URL = &quot;http://api.twitter.com/1&quot;;    // version 1 は廃止予定らしい
-    
-    
-    
     var BASE_URL = &quot;http://twitter.com/intent&quot;;
-    
-    
+
+
 <span id='tm-social-Twitter-method-createURL'>    /**
-</span>     * Tweet する
+</span>     * @member      tm.social.Twitter
+     * Tweet する
      * @param {Object} prop
      * ### Reference
      * - &lt;https://dev.twitter.com/docs/intents&gt;
@@ -57,8 +53,7 @@ tm.social = tm.social || {};
      *          related     : &quot;tmlib.js tmlife&quot;,    // 関連ワード
      *      });
      */
-    tm.social.Twitter.createURL = function(prop)
-    {
+    tm.social.Twitter.createURL = function(prop) {
         var param_string_list = [];
         for (var key in prop) {
             if (key == &quot;type&quot;) continue;
@@ -82,7 +77,11 @@ tm.social = tm.social || {};
 (function() {
     
     var BASE_URL = &quot;http://api.twitter.com/1/{type}/{kind}.json&quot;;
-    
+
+<span id='tm-social-Twitter-property-api'>    /**
+</span>     * @member      tm.social.Twitter
+     * @property    api
+     */
     tm.social.Twitter.api = function(type, kind, param, callback) {
         var url = BASE_URL.format({ type:type, kind:kind });
         var qs  = tm.util.QueryString.stringify(param);
@@ -97,7 +96,11 @@ tm.social = tm.social || {};
 (function() {
     
     var BASE_URL = &quot;http://search.twitter.com/search.json&quot;;
-    
+
+<span id='tm-social-Twitter-property-search'>    /**
+</span>     * @member      tm.social.Twitter
+     * @property    search
+     */
     tm.social.Twitter.search = function(param, callback) {
         var url = BASE_URL;
         var qs  = tm.util.QueryString.stringify(param);
@@ -116,8 +119,10 @@ tm.social = tm.social || {};
     var BASE_URL = &quot;http://api.twitter.com/1/statuses/followers.json&quot;;
     //http://api.twitter.com/1/statuses/followers.json?id=tmlife_jp
     
-<span id='tm-social-Twitter-method-getFollowers'>    /**
-</span>     * 
+<span id='tm-social-Twitter-property-getFollowers'>    /**
+</span>     * @member      tm.social.Twitter
+     * @property    getFollowers
+     * 
      * user_id      ユーザーID
      * screen_name  screen_name
      * cursor       -1 を指定すると先頭から 100
@@ -136,7 +141,6 @@ tm.social = tm.social || {};
         tm.social.Twitter.api(&quot;statuses&quot;, &quot;mentions&quot;, param, callback);
         */
     };
-    
     
 })();
 

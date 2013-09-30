@@ -1,5 +1,5 @@
 /*
- * 
+ * baseapp.js
  */
 
 tm.app = tm.app || {};
@@ -8,29 +8,85 @@ tm.app = tm.app || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.app.BaseApp
      * ベースアプリケーション
      */
     tm.app.BaseApp = tm.createClass({
         
+        /**
+         * @property
+         * エレメント
+         */
         element     : null,
+
+        /**
+         * @property
+         * マウスクラス
+         */
         mouse       : null,
+
+        /**
+         * @property
+         * タッチクラス
+         */
         touch       : null,
+
+        /**
+         * @property
+         * マウスクラス + タッチクラス
+         */
         pointing    : null,
+
+        /**
+         * @property
+         * キーボードクラス
+         */
         keyboard    : null,
+
+        /**
+         * @property
+         * statsライブラリ
+         */
         stats       : null,
+
+        /**
+         * @property
+         * フレーム
+         */
         frame       : 0,
+
+        /**
+         * @property
+         * フレームレート
+         */
         fps         : 30,
+
+        /**
+         * @property
+         * 現在更新中か
+         */
         isPlaying   : null,
         
-        _scenes      : null,
-        _sceneIndex  : 0,
-        
         /**
-         * 初期化
+         * @property
+         * シーン情報の管理
+         * @private
          */
-        init: function(elm)
-        {
+        _scenes      : null,
+
+        /**
+         * @property
+         * シーンのインデックス
+         * @private
+         */
+        _sceneIndex  : 0,
+
+        /**
+         * @property init
+         * コンストラクタ
+         * @param {Object} elm
+         */
+        init: function(elm) {
             this.element = elm;
 
             // マウスを生成
@@ -70,10 +126,10 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 実行
          */
-        run: function()
-        {
+        run: function() {
             var self = this;
             
             // // requestAnimationFrame version
@@ -99,8 +155,12 @@ tm.app = tm.app || {};
             tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
         },
         
-        _loop: function()
-        {
+        /*
+         * @property
+         * ループ処理
+         * @private
+         */
+        _loop: function() {
             // update
             if (this.update) this.update();
             this._update();
@@ -114,12 +174,13 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * シーンを切り替える
+         * @param {Object} scene
          * ## Reference
          * - <http://ameblo.jp/hash-r-1234/entry-10967942550.html>
          */
-        replaceScene: function(scene)
-        {
+        replaceScene: function(scene) {
             var e = null;
             if (this.currentScene) {
                 e = tm.event.Event("exit");
@@ -135,11 +196,11 @@ tm.app = tm.app || {};
         },
         
         /**
-         * シーンをプッシュする
-         * ポーズやオブション画面などで使用する
+         * @property
+         * シーンをプッシュする(ポーズやオブション画面などで使用)
+         * @param {Object} scene
          */
-        pushScene: function(scene)
-        {
+        pushScene: function(scene) {
             e = tm.event.Event("exit");
             e.app = this;
             this.currentScene.dispatchEvent(e);
@@ -154,11 +215,10 @@ tm.app = tm.app || {};
         },
         
         /**
-         * シーンをポップする
-         * ポーズやオブション画面などで使用する
+         * @property
+         * シーンをポップする(ポーズやオブション画面などで使用)
          */
-        popScene: function()
-        {
+        popScene: function() {
             var scene = this._scenes.pop();
             --this._sceneIndex;
             
@@ -175,6 +235,12 @@ tm.app = tm.app || {};
             return scene;
         },
         
+        /**
+         * @property
+         * 外部のFPS表示ライブラリ Stats を生成、配置する
+         * ## Reference
+         * - <https://github.com/mrdoob/stats.js>
+         */
         enableStats: function() {
             if (window["Stats"]) {
                 // Stats
@@ -190,6 +256,10 @@ tm.app = tm.app || {};
             }
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         enableDatGUI: function() {
             if (window.dat) {
                 var gui = new dat.GUI();
@@ -198,18 +268,28 @@ tm.app = tm.app || {};
             }
         },
         
-        start: function()
-        {
+        /**
+         * @property
+         * シーンのupdateを実行するようにする
+         */
+        start: function() {
             this.isPlaying = true;
         },
         
-        stop: function()
-        {
+        /**
+         * @property
+         * シーンのupdateを実行しないようにする
+         */
+        stop: function() {
             this.isPlaying = false;
         },
         
-        _update: function()
-        {
+        /**
+         * @property
+         * デバイスやシーンのアップデート呼び出し処理
+         * @private
+         */
+        _update: function() {
             // デバイス系 Update
             this.mouse.update();
             this.keyboard._update();
@@ -221,15 +301,27 @@ tm.app = tm.app || {};
             }
         },
         
-        _draw: function()
-        {
-
-        },
+        /**
+         * @property
+         * @TODO ? オーバーライド予定？
+         * @private
+         */
+        _draw: function() {},
         
+        /**
+         * @property
+         * elementの取得
+         */
         getElement: function() {
             return this.element;
         },
 
+        /**
+         * @property
+         * クリックイベント登録
+         * @private
+         * @param {Object} e
+         */
         _onclick: function(e) {
             var px = e.pointX;
             var py = e.pointY;
@@ -252,13 +344,12 @@ tm.app = tm.app || {};
                     });
                 }
             };
-
             _fn(this.currentScene);
         },
-        
     });
     
     /**
+     * @member      tm.app.BaseApp
      * @property    currentScene
      * カレントシーン
      */

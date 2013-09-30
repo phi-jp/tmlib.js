@@ -21,10 +21,19 @@
 
 tm.util = tm.util || {};
 
+
 (function() {
     
+<span id='tm-util-File'>    /**
+</span>     * @class tm.util.File
+     * @TODO ?
+     */
     tm.util.File = tm.createClass({
-        
+
+<span id='tm-util-File-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(params) {
             this.loaded = false;
             if (arguments.length == 1) {
@@ -32,6 +41,10 @@ tm.util = tm.util || {};
             }
         },
         
+<span id='tm-util-File-property-loadFile'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         loadFile: function(params) {
             if (typeof params == &quot;string&quot;) {
                 var url = params;
@@ -46,6 +59,10 @@ tm.util = tm.util || {};
             tm.util.Ajax.load(params);
         },
         
+<span id='tm-util-File-property-loadLocalStorage'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         loadLocalStorage: function() {
             
         },
@@ -60,20 +77,29 @@ tm.util = tm.util || {};
 (function() {
     
 <span id='tm-util-FileManager'>    /**
-</span>     * @class
+</span>     * @class tm.util.FileManager
      * ファイルマネージャ
      */
     tm.util.FileManager = {
 <span id='tm-util-FileManager-property-files'>        files: {}
 </span>    };
-    
-    tm.util.FileManager.load = function(key, params)
-    {
+
+<span id='tm-util-FileManager-static-method-load'>    /**
+</span>     * @static
+     * @method
+     * @TODO ?
+     */
+    tm.util.FileManager.load = function(key, params) {
         var file = tm.util.File(params);
         this.files[key] = file;
         return file;
     };
-    
+
+<span id='tm-util-FileManager-static-method-get'>    /**
+</span>     * @static
+     * @method
+     * @TODO ?
+     */
     tm.util.FileManager.get = function(key) {
         return this.files[key];
     };
@@ -83,8 +109,7 @@ tm.util = tm.util || {};
      * @method  isLoaded
      * ロードチェック
      */
-    tm.util.FileManager.isLoaded = function()
-    {
+    tm.util.FileManager.isLoaded = function() {
         for (var key in this.files) {
             var file = this.files[key];
             

@@ -9,18 +9,18 @@ tm.display = tm.display || {};
 (function() {
     
     /**
-     * @class
-     * Sprite
+     * @class tm.display.Sprite
+     * 画像の描画を行うクラス
+     * @extends tm.display.CanvasElement
      */
     tm.display.Sprite = tm.createClass({
-        
         superClass: tm.display.CanvasElement,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
-        init: function(texture, width, height)
-        {
+        init: function(texture, width, height) {
             this.superInit();
             
             console.assert(arguments.length == 0 || texture instanceof tm.asset.Texture || typeof texture == "string", "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
@@ -50,6 +50,10 @@ tm.display = tm.display || {};
             }
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         setFrameIndex: function(index, width, height) {
             var w   = width || this.width;
             var h   = width || this.height;
@@ -64,9 +68,14 @@ tm.display = tm.display || {};
             return this;
         },
         
-        _refreshSize: function() {
-            
-        },
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
+        _refreshSize: function() {},
+
+        _update: tm.display.CanvasElement.prototype._update,
     });
     
     /**

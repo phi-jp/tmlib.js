@@ -1,7 +1,6 @@
 /*
- * phi
+ * keyboard.js
  */
-
 
 tm.input = tm.input || {};
 
@@ -9,11 +8,10 @@ tm.input = tm.input || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.input.Keyboard
      * キーボードクラス
      */
     tm.input.Keyboard = tm.createClass({
-        
         
         /**
          * target element
@@ -28,6 +26,7 @@ tm.input = tm.input || {};
         last    : null, // 押していたキー
         
         /**
+         * @constructor
          * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/keyboard-test.html">Test Program</a>.
          * ### Example
          * TM.loadScript("input", "keyboard");
@@ -65,6 +64,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * run.
          * 自動でマウス情報を更新したい際に使用する
          */
@@ -78,8 +78,10 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * 情報更新処理
          * マイフレーム呼んで下さい.
+         * @private
          */
         _update: function() {
             // TODO: 一括ビット演算で行うよう修正する
@@ -95,6 +97,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * キーを押しているかをチェック
          * @param   {Number/String} key keyCode or keyName
          * @returns {Boolean}   チェック結果
@@ -107,6 +110,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * キーを押したかをチェック
          * @param   {Number/String} key keyCode or keyName
          * @returns {Boolean}   チェック結果
@@ -119,6 +123,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * キーを離したかをチェック
          * @param   {Number/String} key keyCode or keyName
          * @returns {Boolean}   チェック結果
@@ -131,6 +136,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * キーの方向を Angle(Degree) で取得
          * @returns {Boolean}   角度(Degree)
          */
@@ -167,130 +173,301 @@ tm.input = tm.input || {};
         }
         
     });
-    
+
+    /*
+     * @enum ARROW_BIT_TO_ANGLE_TABLE
+     * 方向のアングル jsduckでは数字をプロパティに指定できない？
+     * @private
+     */
     var ARROW_BIT_TO_ANGLE_TABLE = {
-        // 上下左右
-        0x01: 270,      // 下
-        0x02:   0,      // 右
-        0x04:  90,      // 上
-        0x08: 180,      // 左
-        // 斜め
-        0x06:  45,      // 右上
-        0x03: 315,      // 右下
-        0x0c: 135,      // 左上
-        0x09: 225,      // 左下
+        /* @property 下 */
+        0x01: 270,
+        /* @property 右 */
+        0x02:   0,
+        /* @property 上 */
+        0x04:  90,
+        /* @property 左 */
+        0x08: 180,
+
+        /* @property 右上 */
+        0x06:  45,
+        /* @property 右下 */
+        0x03: 315,
+        /* @property 左上 */
+        0x0c: 135,
+        /* @property 左下 */
+        0x09: 225,
+
         // 三方向同時押し対応
         // 想定外の操作だが対応しといたほうが無難
-        0x0e:  90,      // 右上左
-        0x0d: 180,      // 上左下
-        0x0b: 270,      // 左下右
-        0x07:   0,      // 下右上
+        /* @property 右上左 */
+        0x0e:  90,
+        /* @property 上左下 */
+        0x0d: 180,
+        /* @property 左下右 */
+        0x0b: 270,
+        /* @property 下右上 */
+        0x07:   0,
     };
 
+    /**
+     * @enum KEY_CODE
+     * キー番号
+     * @private
+     */
     var KEY_CODE = {
+        /** @property */
         "backspace" : 8,
+        /** @property */
         "tab"       : 9,
-        "enter"     : 13, "return"    : 13,
+        /** @property */
+        "enter"     : 13,
+        /** @property */
+        "return"    : 13,
+        /** @property */
         "shift"     : 16,
+        /** @property */
         "ctrl"      : 17,
+        /** @property */
         "alt"       : 18,
+        /** @property */
         "pause"     : 19,
+        /** @property */
         "capslock"  : 20,
+        /** @property */
         "escape"    : 27,
+        /** @property */
         "pageup"    : 33,
+        /** @property */
         "pagedown"  : 34,
+        /** @property */
         "end"       : 35,
+        /** @property */
         "home"      : 36,
+        /** @property */
         "left"      : 37,
+        /** @property */
         "up"        : 38,
+        /** @property */
         "right"     : 39,
+        /** @property */
         "down"      : 40,
+        /** @property */
         "insert"    : 45,
+        /** @property */
         "delete"    : 46,
         
+        /** @property */
         "0" : 48,
+        /** @property */
         "1" : 49,
+        /** @property */
         "2" : 50,
+        /** @property */
         "3" : 51,
+        /** @property */
         "4" : 52,
+        /** @property */
         "5" : 53,
+        /** @property */
         "6" : 54,
+        /** @property */
         "7" : 55,
+        /** @property */
         "8" : 56,
+        /** @property */
         "9" : 57,
+        /** @property */
         
-        "a" : 65, "A" : 65,
-        "b" : 66, "B" : 66,
-        "c" : 67, "C" : 67,
-        "d" : 68, "D" : 68,
-        "e" : 69, "E" : 69,
-        "f" : 70, "F" : 70,
-        "g" : 71, "G" : 71,
-        "h" : 72, "H" : 72,
-        "i" : 73, "I" : 73,
-        "j" : 74, "J" : 74,
-        "k" : 75, "K" : 75,
-        "l" : 76, "L" : 76,
-        "m" : 77, "M" : 77,
-        "n" : 78, "N" : 78,
-        "o" : 79, "O" : 79,
-        "p" : 80, "P" : 80,
-        "q" : 81, "Q" : 81,
-        "r" : 82, "R" : 82,
-        "s" : 83, "S" : 83,
-        "t" : 84, "T" : 84,
-        "u" : 85, "U" : 85,
-        "v" : 86, "V" : 86,
-        "w" : 87, "W" : 87,
-        "x" : 88, "X" : 88,
-        "y" : 89, "Y" : 89,
-        "z" : 90, "Z" : 90,
+        "a" : 65,
+        /** @property */
+        "A" : 65,
+        /** @property */
+        "b" : 66,
+        /** @property */
+        "B" : 66,
+        /** @property */
+        "c" : 67,
+        /** @property */
+        "C" : 67,
+        /** @property */
+        "d" : 68,
+        /** @property */
+        "D" : 68,
+        /** @property */
+        "e" : 69,
+        /** @property */
+        "E" : 69,
+        /** @property */
+        "f" : 70,
+        /** @property */
+        "F" : 70,
+        /** @property */
+        "g" : 71,
+        /** @property */
+        "G" : 71,
+        /** @property */
+        "h" : 72,
+        /** @property */
+        "H" : 72,
+        /** @property */
+        "i" : 73,
+        /** @property */
+        "I" : 73,
+        /** @property */
+        "j" : 74,
+        /** @property */
+        "J" : 74,
+        /** @property */
+        "k" : 75,
+        /** @property */
+        "K" : 75,
+        /** @property */
+        "l" : 76,
+        /** @property */
+        "L" : 76,
+        /** @property */
+        "m" : 77,
+        /** @property */
+        "M" : 77,
+        /** @property */
+        "n" : 78,
+        /** @property */
+        "N" : 78,
+        /** @property */
+        "o" : 79,
+        /** @property */
+        "O" : 79,
+        /** @property */
+        "p" : 80,
+        /** @property */
+        "P" : 80,
+        /** @property */
+        "q" : 81,
+        /** @property */
+        "Q" : 81,
+        /** @property */
+        "r" : 82,
+        /** @property */
+        "R" : 82,
+        /** @property */
+        "s" : 83,
+        /** @property */
+        "S" : 83,
+        /** @property */
+        "t" : 84,
+        /** @property */
+        "T" : 84,
+        /** @property */
+        "u" : 85,
+        /** @property */
+        "U" : 85,
+        /** @property */
+        "v" : 86,
+        /** @property */
+        "V" : 86,
+        /** @property */
+        "w" : 87,
+        /** @property */
+        "W" : 87,
+        /** @property */
+        "x" : 88,
+        /** @property */
+        "X" : 88,
+        /** @property */
+        "y" : 89,
+        /** @property */
+        "Y" : 89,
+        /** @property */
+        "z" : 90,
+        /** @property */
+        "Z" : 90,
         
+        /** @property */
         "numpad0" : 96,
+        /** @property */
         "numpad1" : 97,
+        /** @property */
         "numpad2" : 98,
+        /** @property */
         "numpad3" : 99,
+        /** @property */
         "numpad4" : 100,
+        /** @property */
         "numpad5" : 101,
+        /** @property */
         "numpad6" : 102,
+        /** @property */
         "numpad7" : 103,
+        /** @property */
         "numpad8" : 104,
+        /** @property */
         "numpad9" : 105,
+        /** @property */
         "multiply"      : 106,
+        /** @property */
         "add"           : 107,
+        /** @property */
         "subtract"      : 109,
+        /** @property */
         "decimalpoint"  : 110,
+        /** @property */
         "divide"        : 111,
-        
+
+        /** @property */
         "f1"    : 112,
+        /** @property */
         "f2"    : 113,
+        /** @property */
         "f3"    : 114,
+        /** @property */
         "f4"    : 115,
+        /** @property */
         "f5"    : 116,
+        /** @property */
         "f6"    : 117,
+        /** @property */
         "f7"    : 118,
+        /** @property */
         "f8"    : 119,
+        /** @property */
         "f9"    : 120,
+        /** @property */
         "f10"   : 121,
+        /** @property */
         "f11"   : 122,
+        /** @property */
         "f12"   : 123,
         
+        /** @property */
         "numlock"   : 144,
+        /** @property */
         "scrolllock": 145,
+        /** @property */
         "semicolon" : 186,
+        /** @property */
         "equalsign" : 187,
+        /** @property */
         "comma"     : 188,
+        /** @property */
         "dash"      : 189,
+        /** @property */
         "period"    : 190,
-        "forward slash" : 191,  "/": 191,
+        /** @property */
+        "forward slash" : 191,
+        /** @property */
+        "/": 191,
+        /** @property */
         "grave accent"  : 192,
+        /** @property */
         "open bracket"  : 219,
+        /** @property */
         "back slash"    : 220,
+        /** @property */
         "close braket"  : 221,
+        /** @property */
         "single quote"  : 222,
-        
-        
-        
+        /** @property */
         "space"         : 32
     };
     

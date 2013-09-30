@@ -1,18 +1,35 @@
 /*
- * 
+ * three.js
  */
 
 tm.three = tm.three || {};
 
 
-
 (function() {
 
     if (!tm.global.THREE) return ;
+
+    /**
+     * @class THREE.Texture
+     * Three.js ライブラリ内クラス
+     */
+    /**
+     * @class THREE.Scene
+     * Three.js ライブラリ内クラス
+     */
+    /**
+     * @class THREE.Mesh
+     * Three.js ライブラリ内クラス
+     */
+    /**
+     * @class THREE.Object3D
+     * Three.js ライブラリ内クラス
+     */
     
     /**
-     * @class
-     * キャンバスアプリケーション
+     * @class tm.three.ThreeApp
+     * 3Dライブラリ - Three.jsをtmlib.jsで対応
+     * @extends tm.app.BaseApp
      */
     tm.three.ThreeApp = tm.createClass({
 
@@ -25,10 +42,10 @@ tm.three = tm.three || {};
         _sceneIndex  : 0,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
-        init: function(canvas)
-        {
+        init: function(canvas) {
             if (canvas instanceof HTMLCanvasElement) {
                 this.element = canvas;
             }
@@ -53,6 +70,10 @@ tm.three = tm.three || {};
             this._scenes = [ tm.three.Scene() ];
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         resize: function(width, height) {
             this.width = width;
             this.height= height;
@@ -60,7 +81,11 @@ tm.three = tm.three || {};
             
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         resizeWindow: function() {
             this.width = innerWidth;
             this.height= innerHeight;
@@ -70,6 +95,7 @@ tm.three = tm.three || {};
         },
         
         /**
+         * @property
          * 画面にフィットさせる
          */
         fitWindow: function(everFlag) {
@@ -109,8 +135,12 @@ tm.three = tm.three || {};
             this.touch._touchmove = this.touch._touchmoveScale;
         },
 
-        _draw: function()
-        {
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
+        _draw: function() {
             // 描画は全てのシーン行う
             for (var i=0, len=this._scenes.length; i<len; ++i) {
                 this.renderer.render(this.currentScene, this.currentScene.camera);
@@ -146,15 +176,17 @@ tm.three = tm.three || {};
     if (!tm.global.THREE) return ;
 
     /**
-     * @class
-     * シーン
+     * @class tm.three.Element
+     * @TODO ?
+     * @extends THREE.Object3D
      */
     tm.three.Element = tm.createClass({
 
         superClass: THREE.Object3D,
 
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             // THREE.Object3D の初期化 
@@ -164,10 +196,16 @@ tm.three = tm.three || {};
         },
         
         /**
+         * @property
          * 更新処理
          */
         update: function() {},
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _update: function(app) {
             // 更新有効チェック
             if (this.isUpdate == false) return ;
@@ -199,15 +237,17 @@ tm.three = tm.three || {};
     if (!tm.global.THREE) return ;
 
     /**
-     * @class
-     * Mesh
+     * @class tm.three.MeshElement
+     * @TODO ?
+     * @extends THREE.Mesh
      */
     tm.three.MeshElement = tm.createClass({
         
         superClass: THREE.Mesh,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(geometry, material) {
             material = material || new THREE.MeshNormalMaterial();
@@ -222,9 +262,18 @@ tm.three = tm.three || {};
     tm.three.MeshElement.prototype.$safe(tm.three.Element.prototype);
 
     
+    /**
+     * @class tm.three.CubeElement
+     * @TODO ?
+     * @extends tm.three.MeshElement
+     */
     tm.three.CubeElement = tm.createClass({
         superClass: tm.three.MeshElement,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(width, height, depth) {
             width  = width || 100;
             height = height || 100;
@@ -238,10 +287,18 @@ tm.three = tm.three || {};
     });
 
 
-
+    /**
+     * @class tm.three.SphereElement
+     * @TODO ?
+     * @extends tm.three.MeshElement
+     */
     tm.three.SphereElement = tm.createClass({
         superClass: tm.three.MeshElement,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(radius, widthSegments, heightSegments) {
             radius          = radius || 45;
             widthSegments   = widthSegments || 16;
@@ -254,10 +311,18 @@ tm.three = tm.three || {};
         }
     });
 
-
+    /**
+     * @class tm.three.PlaneElement
+     * @TODO ?
+     * @extends tm.three.MeshElement
+     */
     tm.three.PlaneElement = tm.createClass({
         superClass: tm.three.MeshElement,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(width, height) {
             var geometry = new THREE.PlaneGeometry(width, height);
             var material = new THREE.MeshNormalMaterial();
@@ -267,9 +332,18 @@ tm.three = tm.three || {};
     });
 
 
+    /**
+     * @class tm.three.FloorElement
+     * @TODO ?
+     * @extends tm.three.MeshElement
+     */
     tm.three.FloorElement = tm.createClass({
         superClass: tm.three.MeshElement,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(width, height) {
             width  = width || 1000;
             height = height || 1000;
@@ -282,6 +356,11 @@ tm.three = tm.three || {};
             this._render();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _render: function() {
             var c = tm.graphics.Canvas();
             c.resize(128, 128);
@@ -298,10 +377,18 @@ tm.three = tm.three || {};
         }
     });
 
-
+    /**
+     * @class tm.three.TextElement
+     * @TODO ?
+     * @extends tm.three.MeshElement
+     */
     tm.three.TextElement = tm.createClass({
         superClass: tm.three.MeshElement,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(text, param) {
             var geometry = new THREE.TextGeometry(text, param);
             var material = new THREE.MeshNormalMaterial();
@@ -310,12 +397,20 @@ tm.three = tm.three || {};
         }
     });
 
-
+    /**
+     * @class tm.three.CanvasTexture
+     * @TODO ?
+     * @extends THREE.Texture
+     */
     tm.three.CanvasTexture = tm.createClass({
         superClass: THREE.Texture,
 
         canvas: null,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function() {
             this.canvas = tm.graphics.Canvas();
 
@@ -333,15 +428,17 @@ tm.three = tm.three || {};
     if (!tm.global.THREE) return ;
 
     /**
-     * @class
+     * @class tm.three.Scene
      * シーン
+     * @extends THREE.Scene
      */
     tm.three.Scene = tm.createClass({
         
         superClass: THREE.Scene,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(fov, aspect) {
             fov = fov || 60;
@@ -359,6 +456,10 @@ tm.three = tm.three || {};
             this.projector = new THREE.Projector();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         intersect: function(objects) {
             objects = objects || this.children;
             var mouseX = this.app.pointing.x;

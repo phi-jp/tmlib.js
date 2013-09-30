@@ -2,21 +2,23 @@
  * button.js
  */
 
-
 tm.ui = tm.ui || {};
-
-
 
 
 (function() {
     
     /**
-     * @class
+     * @class tm.ui.LabelButton
      * LabelButton
+     * @extends tm.display.Label
      */
     tm.ui.LabelButton = tm.createClass({
         superClass: tm.display.Label,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(text) {
             this.superInit(text);
             
@@ -54,18 +56,18 @@ tm.ui = tm.ui || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.ui.IconButton
      * IconButton
+     * @extends tm.display.Sprite
      */
     tm.ui.IconButton = tm.createClass({
-        
         superClass: tm.display.Sprite,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
-        init: function(texture)
-        {
+        init: function(texture) {
             if (texture) {
                 this.superInit(texture, texture.width, texture.height);
             }
@@ -96,12 +98,17 @@ tm.ui = tm.ui || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.ui.GlossyButton
      * glossy button
+     * @extends tm.display.Shape
      */
     tm.ui.GlossyButton = tm.createClass({
         superClass: tm.display.Shape,
-        
+
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
             
@@ -126,7 +133,11 @@ tm.ui = tm.ui || {};
             
             this._refresh();
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setBackgroundColor: function(backgroundColor) {
             this.backgroundColor = backgroundColor;
             
@@ -134,7 +145,12 @@ tm.ui = tm.ui || {};
             
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _refresh: function() {
             // ボタン描画
             var c = this.canvas;
@@ -175,9 +191,18 @@ tm.ui = tm.ui || {};
 
 (function() {
 
+    /**
+     * @class tm.ui.FlatButton
+     * フラットデザインのボタン
+     * @extends tm.display.Shape
+     */
     tm.define("tm.ui.FlatButton", {
         superClass: tm.display.Shape,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(param) {
             param.$safe({
                 width: 300,

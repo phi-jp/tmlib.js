@@ -2,19 +2,19 @@
  * accelerometer.js
  */
 
-
 tm.input = tm.input || {};
 
 
 (function() {
     
     /**
-     * @class
-     * タッチクラス
+     * @class tm.input.Accelerometer
+     * @TODO ?
      */
     tm.input.Accelerometer = tm.createClass({
         
         /**
+         * @constructor
          * ### Example
          * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
          * 

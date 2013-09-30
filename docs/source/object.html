@@ -23,7 +23,7 @@
     
 <span id='Object'>    /**
 </span>     * @class Object
-     * オブジェクト
+     * Objectの拡張
      */
     
 <span id='Object-method-defineVariable'>    /**
@@ -58,7 +58,10 @@
         }
     });
     
-    
+<span id='Object-method-defineInstanceVariable'>    /**
+</span>     * @method defineInstanceVariable
+     * @TODO ?
+     */
     Object.prototype.defineFunction(&quot;defineInstanceVariable&quot;, function(name, val){
         Object.defineProperty(this.prototype, name, {
             value: val,
@@ -67,6 +70,10 @@
         });
     });
     
+<span id='Object-method-defineInstanceMethod'>    /**
+</span>     * @method defineInstanceMethod
+     * @TODO ?
+     */
     Object.prototype.defineFunction(&quot;defineInstanceMethod&quot;, function(name, fn){
         Object.defineProperty(this.prototype, name, {
             value: fn,
@@ -75,6 +82,10 @@
         });
     });
     
+<span id='Object-method-setter'>    /**
+</span>     * @method setter
+     * @TODO ?
+     */
     Object.defineInstanceMethod(&quot;setter&quot;, function(name, fn){
         Object.defineProperty(this, name, {
             set: fn,
@@ -83,6 +94,10 @@
         // this.__defineSetter__(name, fn);
     });
     
+<span id='Object-method-getter'>    /**
+</span>     * @method getter
+     * @TODO ?
+     */
     Object.defineInstanceMethod(&quot;getter&quot;, function(name, fn){
         Object.defineProperty(this, name, {
             get: fn,
@@ -91,8 +106,11 @@
         // this.__defineGetter__(name, fn);
     });
     
-    Object.defineInstanceMethod(&quot;accessor&quot;, function(name, param)
-    {
+<span id='Object-method-accessor'>    /**
+</span>     * @method accessor
+     * @TODO ?
+     */
+    Object.defineInstanceMethod(&quot;accessor&quot;, function(name, param) {
         Object.defineProperty(this, name, {
             set: param[&quot;set&quot;],
             get: param[&quot;get&quot;],

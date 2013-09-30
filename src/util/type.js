@@ -1,8 +1,7 @@
 /*
- * phi
+ * type.js
  */
 
-    
 /**
  * @class tm.util.Type
  * 型チェック
