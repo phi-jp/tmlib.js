@@ -252,7 +252,7 @@ tm.graphics = tm.graphics || {};
             for (var i=0; i<this.height; ++i) {
                 for (var j=0; j<this.width; ++j) {
                     var index = this.posToIndex(j, i);
-                    var p = this.getPixel(index);
+                    var p = this.getPixel(j, i);
                     
                     filter.calc(p, index, j, i, this);
                 }

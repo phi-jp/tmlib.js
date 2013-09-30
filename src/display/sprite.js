@@ -67,8 +67,6 @@ tm.display = tm.display || {};
         _refreshSize: function() {
             
         },
-
-        _update: tm.display.CanvasElement.prototype._update,
     });
     
     /**

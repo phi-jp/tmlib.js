@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <title>Fireworks | tmlib.js</title>
+        
+        <link rel="apple-touch-icon-precomposed" href="icon.png" />
+        
+        <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
+        <script src="http://rawgithub.com/mrdoob/stats.js/master/src/Stats.js"></script>
+        <script src="../../build/tmlib.js"></script>
+        <script>
+        
+/*
+ * constant
+ */
+var SCREEN_WIDTH    = 640;              // スクリーン幅
+var SCREEN_HEIGHT   = 960;              // スクリーン高さ
+var SCREEN_CENTER_X = SCREEN_WIDTH/2;   // スクリーン幅の半分
+var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;  // スクリーン高さの半分
+
+var PARTICLE_NUM = 64;
+var PARTICLE_IMAGES = [];
+
+tm.preload(function() {
+    for (var i=0; i<36; ++i) {
+        var c = tm.graphics.Canvas();
+        var angle = 360/36*i;
+        c.setTransformCenter();
+        c.fillStyle = "hsla({0}, 80%, 60%, 1.0)".format(angle);
+        c.fillStar(0, 0, 8, 5);
+        
+        PARTICLE_IMAGES.push(c);
+    }
+});
+
+
+/*
+ * main
+ */
+tm.main(function() {
+    var app = tm.app.CanvasApp("#world");
+    app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    app.fitWindow();
+    app.background = "rgba(0, 0, 0, 0.1)";
+    
+    app.replaceScene(MainScene());
+//    app.enableStats();
+    
+    app.run();
+});
+
+/*
+ * main scene
+ */
+tm.define("MainScene", {
+    superClass: "tm.app.Scene",
+    
+    init: function() {
+        this.superInit();
+        
+        this.particles = tm.app.CanvasElement().addChildTo(this);
+        
+        this.launch(SCREEN_CENTER_X, SCREEN_CENTER_Y);
+    },
+    
+    onpointingstart: function(app) {
+        var p = app.pointing;
+        this.launch(p.x, p.y);
+    },
+    
+    launch: function(x, y) {
+        var fireworks = Fireworks().addChildTo(this);
+        
+        fireworks.x = x;
+        fireworks.y = y;
+    }
+});
+
+
+tm.define("Particle", {
+    superClass: "tm.app.Sprite",
+    
+    init: function(param) {
+        param = param || {};
+        var angle = param.angle || 22;
+        
+        this.superInit(PARTICLE_IMAGES[angle]);
+        
+        this.blendMode = "lighter";
+        
+        this.velocity = tm.geom.Vector2().setAngle(Math.rand(0, 360)).mul(12);
+        this.velocity.y -= 1;
+        
+        this.tweener.fadeOut(3000).call(function() {
+            this.remove();
+        }.bind(this));
+    },
+    
+    update: function() {
+        this.velocity.mul(0.94);
+        this.velocity.y += 0.04;
+        this.position.add(this.velocity);
+    }
+});
+
+tm.define("Fireworks", {
+    superClass: "tm.app.CanvasElement",
+    
+    init: function() {
+        this.superInit();
+        
+        var angle = Math.rand(0, 35);
+        
+        for (var i=0; i<PARTICLE_NUM; ++i) {
+            var particle = Particle({
+                angle: angle
+            }).addChildTo(this);
+            var x = Math.rand(-20, 20);
+            var y = Math.rand(-20, 20);
+            particle.x = x;
+            particle.y = y;
+        }
+
+    },
+    
+    update: function() {
+        if (this.children.length <= 0) {
+            this.remove();
+        }
+    }
+});
+
+        </script>
+    </head>
+    
+    <body>
+        <canvas id="world" width="480" height="720"></canvas>
+    </body>
+    
+</html>

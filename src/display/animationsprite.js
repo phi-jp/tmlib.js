@@ -61,7 +61,7 @@ tm.display = tm.display || {};
         },
 
         gotoAndPlay: function(name) {
-            name = name || "default";
+            name = (name !== undefined) ? name : "default";
 
             this.paused = false;
             this.currentAnimation = this.ss.animations[name];
@@ -73,7 +73,7 @@ tm.display = tm.display || {};
         },
 
         gotoAndStop: function(name) {
-            name = name || "default";
+            name = (name !== undefined) ? name : "default";
 
             this.paused = true;
             this.currentAnimation = this.ss.animations[name];
