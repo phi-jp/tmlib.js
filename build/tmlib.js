@@ -7113,6 +7113,23 @@ tm.input = tm.input || {};
             }
             
             return angle;
+        },
+        
+        /**
+         * キーの状態を設定する
+         */
+        setKey: function(key, flag) {
+            if (typeof(key) == "string") {
+                key = KEY_CODE[key];
+            }
+            return this.press[key] = flag;
+        },
+
+        /**
+         * キーを全て離したことにする
+         */
+        clearKey: function() {
+            this.press = {};
         }
         
     });
@@ -7321,6 +7338,8 @@ tm.input = tm.input || {};
             this.down = (this.press ^ this.last) & this.press;
             this.up   = (this.press ^ this.last) & this.last;
             
+            this.position.set(this._x, this._y);
+            
             // 変化値を保存
             this.deltaPosition.setObject(this.position).sub(this.prevPosition);
             
@@ -7363,28 +7382,28 @@ tm.input = tm.input || {};
         
         _mousemove: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
         },
         
         _mousemoveNormal: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
         },
         
         _mousemoveScale: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
             
             //if (e.target instanceof HTMLCanvasElement) {
                 // スケールを考慮した拡縮
                 if (e.target.style.width) {
-                    this.x *= e.target.width / parseInt(e.target.style.width);
+                    this._x *= e.target.width / parseInt(e.target.style.width);
                 }
                 if (e.target.style.height) {
-                    this.y *= e.target.height / parseInt(e.target.style.height);
+                    this._y *= e.target.height / parseInt(e.target.style.height);
                 }
             //}
         },
@@ -9432,7 +9451,7 @@ tm.graphics = tm.graphics || {};
             for (var i=0; i<this.height; ++i) {
                 for (var j=0; j<this.width; ++j) {
                     var index = this.posToIndex(j, i);
-                    var p = this.getPixel(index);
+                    var p = this.getPixel(j, i);
                     
                     filter.calc(p, index, j, i, this);
                 }
@@ -10617,6 +10636,8 @@ tm.app = tm.app || {};
         {
             console.assert(this.parent);
             this.parent.removeChild(this);
+
+            this.parent = null;
             
             return this;
         },
@@ -10662,10 +10683,24 @@ tm.app = tm.app || {};
         },
         
         /**
-         * index 指定で子供を取得
+         * index 指定で要素を追加
          */
-        getChildAt: function() {
-            // TODO: 
+        addChildAt: function(child, index) {
+            if (child.parent) child.remove();
+            child.parent = this;
+            this.children.splice(index, 0, child);
+
+            var e = tm.event.Event("added");
+            child.dispatchEvent(e);
+
+            return child;
+        },
+        
+        /**
+         * index 指定で要素を取得
+         */
+        getChildAt: function(child) {
+            return this.children.indexOf(child);
         },
         
         /**
@@ -10734,7 +10769,50 @@ tm.app = tm.app || {};
             return elm;
         },
         
+        fromJSON: function(data) {
+            for (var key in data) {
+                var value = data[key];
+                if (key == "children") {
+                    for (var i=0,len=value.length; i<len; ++i) {
+                        var data = value[i];
+                        var init = data["init"] || [];
+                        var type = (DIRTY_CLASS_MAP[data.type]) ? DIRTY_CLASS_MAP[data.type] : data.type;
+                        var _class = tm.using(type);
+                        
+                        console.assert(Object.keys(_class).length !== 0, _class + " is not defined.");
+                        
+                        var elm = _class.apply(null, init).addChildTo(this);
+                        elm.fromJSON(data);
+                        this[data.name] = elm;
+                    }
+                }
+                else {
+                    this[key] = value;
+                }
+            }
+
+            return this;
+        },
+        
     });
+
+    var DIRTY_CLASS_MAP = {
+        "Sprite"            : "tm.display.Sprite",
+        "Label"             : "tm.display.Label",
+        "Shape"             : "tm.display.Shape",
+        "CircleShape"       : "tm.display.CircleShape",
+        "TriangleShape"     : "tm.display.TriangleShape",
+        "RectangleShape"    : "tm.display.RectangleShape",
+        "StarShape"         : "tm.display.StarShape",
+        "PolygonShape"      : "tm.display.PolygonShape",
+        "HeartShape"        : "tm.display.HeartShape",
+        "AnimationSprite"   : "tm.display.AnimationSprite",
+        
+        "LabelButton"       : "tm.ui.LabelButton",
+        "IconButton"        : "tm.ui.IconButton",
+        "GlossyButton"      : "tm.ui.GlossyButton",
+        "FlatButton"        : "tm.ui.FlatButton",
+    };
     
 })();
 
@@ -10837,9 +10915,9 @@ tm.app = tm.app || {};
             // var globalPos = this;
             
             var left   = globalPos.x - this.width*this.originX;
-            var right  = globalPos.x + this.width*this.originX;
+            var right  = globalPos.x + this.width*(1-this.originX);
             var top    = globalPos.y - this.height*this.originY;
-            var bottom = globalPos.y + this.height*this.originY;
+            var bottom = globalPos.y + this.height*(1-this.originY);
             
             if ( left < x && x < right && top  < y && y < bottom ) { return true; }
             
@@ -10870,9 +10948,9 @@ tm.app = tm.app || {};
             this.pointing.y = p.y;
             
             var left   = -this.width*this.originX;
-            var right  = +this.width*this.originX;
+            var right  = +this.width*(1-this.originX);
             var top    = -this.height*this.originY;
-            var bottom = +this.height*this.originY;
+            var bottom = +this.height*(1-this.originY);
             
             if ( left < p.x && p.x < right && top  < p.y && p.y < bottom ) { return true; }
             
@@ -12533,30 +12611,6 @@ tm.display = tm.display || {};
             });
         },
 
-        fromJSON: function(data) {
-            for (var key in data) {
-                var value = data[key];
-                if (key == "children") {
-                    for (var i=0,len=value.length; i<len; ++i) {
-                        var data = value[i];
-                        var init = data["init"] || [];
-                        var _class = tm.using(data.type);
-                        if (Object.keys(_class).length === 0) {
-                            _class = tm.display[data.type];
-                        }
-                        var elm = _class.apply(null, init).addChildTo(this);
-                        elm.fromJSON(data);
-                        this[data.name] = elm;
-                    }
-                }
-                else {
-                    this[key] = value;
-                }
-            }
-
-            return this;
-        },
-
         toJSON: function() {
             // TODO:
         },
@@ -12669,8 +12723,6 @@ tm.display = tm.display || {};
         _refreshSize: function() {
             
         },
-
-        _update: tm.display.CanvasElement.prototype._update,
     });
     
     /**
@@ -13339,7 +13391,7 @@ tm.display = tm.display || {};
         },
 
         gotoAndPlay: function(name) {
-            name = name || "default";
+            name = (name !== undefined) ? name : "default";
 
             this.paused = false;
             this.currentAnimation = this.ss.animations[name];
@@ -13351,7 +13403,7 @@ tm.display = tm.display || {};
         },
 
         gotoAndStop: function(name) {
-            name = name || "default";
+            name = (name !== undefined) ? name : "default";
 
             this.paused = true;
             this.currentAnimation = this.ss.animations[name];
