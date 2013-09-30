@@ -12,6 +12,10 @@ tm.dom = tm.dom || {};
      */
     tm.dom.Style = tm.createClass({
         
+        /**
+         * @property
+         * エレメント
+         */
         element: null,
         
         /**

@@ -32,6 +32,10 @@ tm.ui = tm.ui || {};
 	tm.ui.Gauge = tm.createClass({
         superClass: tm.display.RectangleShape,
 
+<span id='tm-ui-Gauge-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(width, height, color, direction) {
             this.superInit(width, height, {
                 fillStyle: color || &quot;red&quot;,
@@ -41,14 +45,27 @@ tm.ui = tm.ui || {};
             this._reset(direction);
         },
 
+<span id='tm-ui-Gauge-property-isFull'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         isFull: function() {
             return this.targetProp === this._maxValue;
         },
 
+<span id='tm-ui-Gauge-property-isEmpty'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         isEmpty: function() {
             return this.targetProp == 0;
         },
 
+<span id='tm-ui-Gauge-property-_reset'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _reset: function(direction) {
             this.direction = direction || &quot;left&quot;;
             switch (this.direction) {
@@ -78,6 +95,10 @@ tm.ui = tm.ui || {};
             }
         },
 
+<span id='tm-ui-Gauge-property-setValue'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setValue: function(value, anim) {
         	value= Math.clamp(value, 0, this._maxValue);
             anim = (anim !== undefined) ? anim : true;
@@ -107,20 +128,43 @@ tm.ui = tm.ui || {};
 
             return this;
         },
+
+<span id='tm-ui-Gauge-property-getValue'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         getValue: function() {
             return this.value;
         },
 
+<span id='tm-ui-Gauge-property-setPercent'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setPercent: function(percent, anim) {
             this.setValue(this._maxValue*percent*0.01, anim);
         },
+
+<span id='tm-ui-Gauge-property-getPercent'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         getPercent: function() {
             return (this._value/this._maxValue)*100;
         },
 
+<span id='tm-ui-Gauge-property-setRatio'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setRatio: function(ratio) {
             this.setValue(this._maxValue*percent, anim);
         },
+
+<span id='tm-ui-Gauge-property-getRatio'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         getRatio: function() {
             return this._value/this._maxValue;
         },
@@ -195,7 +239,11 @@ tm.ui = tm.ui || {};
         
         isTouching: false,
         circle: null,
-        
+
+<span id='tm-ui-Pad-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function() {
             this.superInit(120, 120);
             
@@ -210,7 +258,12 @@ tm.ui = tm.ui || {};
             
             this.alpha = 0.75;
         },
-        
+
+<span id='tm-ui-Pad-property-_createCircle'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _createCircle: function() {
             var circle = this.circle = tm.display.Shape(80, 80);
             this.addChild(circle);
@@ -220,16 +273,28 @@ tm.ui = tm.ui || {};
             c.setShadow(&quot;black&quot;, 2, 2, 2);
             c.fillCircle(40, 40, 35);
         },
-        
+
+<span id='tm-ui-Pad-property-onpointingstart'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         onpointingstart: function() {
             this.isTouching = true;
         },
-        
+
+<span id='tm-ui-Pad-property-onpointingend'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         onpointingend: function() {
             this.isTouching = false;
             this.circle.position.set(0, 0);
         },
-        
+
+<span id='tm-ui-Pad-property-onpointingmove'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         onpointingmove: function(e) {
             if (this.isTouching==false) return ;
             var p = e.pointing;

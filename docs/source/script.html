@@ -33,8 +33,9 @@ tm.util = tm.util || {};
         element: null,
         loaded: false,
         
-<span id='tm-util-Script-method-init'>        /**
-</span>         * 初期化
+<span id='tm-util-Script-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(src, callback) {
             this.loaded = false;
@@ -140,8 +141,10 @@ tm.util = tm.util || {};
         this.load(path);
     };
     
-<span id='tm-util-ScriptManager-method-isLoaded'>    /**
-</span>     * ロードチェック
+<span id='tm-util-ScriptManager-static-method-isLoaded'>    /**
+</span>     * @static
+     * @method
+     * ロードチェック
      */
     tm.util.ScriptManager.isLoaded = function() {
         if (this.scriptList.length &lt;= 0) return true;

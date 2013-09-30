@@ -56,8 +56,9 @@
         _screenWidth: 0,
         _screenHeight: 0,
 
-<span id='tm-ui-MenuDialog-method-init'>        /**
-</span>         * 初期化
+<span id='tm-ui-MenuDialog-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          * @param {Object} params
          */
         init: function(params) {
@@ -101,6 +102,11 @@
                 .addChildTo(this);
         },
 
+<span id='tm-ui-MenuDialog-property-_onOpen'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _onOpen: function() {
             var self = this;
             var y = this._screenHeight*0.5 - this.menu.length * 25;
@@ -152,6 +158,11 @@
             this.dispatchEvent(e);
         },
 
+<span id='tm-ui-MenuDialog-property-_createCursor'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _createCursor: function() {
             var cursor = tm.display.RectangleShape(this._screenWidth*0.7, 30, {
                 strokeStyle: &quot;rgba(0,0,0,0)&quot;,
@@ -173,10 +184,18 @@
             return cursor;
         },
 
+<span id='tm-ui-MenuDialog-property-update'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         update: function(app) {
             this.description.text = this.descriptions[this._selected];
         },
 
+<span id='tm-ui-MenuDialog-property-closeDialog'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         closeDialog: function(result) {
             this._finished = true;
 
@@ -211,6 +230,10 @@
                 .setLoop(true);
         },
 
+<span id='tm-ui-MenuDialog-property-draw'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         draw: function(canvas) {
             canvas.fillStyle = &quot;rgba(0,0,0,0.8)&quot;;
             canvas.fillRect(0,0,this._screenWidth,this._screenHeight);

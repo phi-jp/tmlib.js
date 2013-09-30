@@ -13,6 +13,10 @@ tm.app = tm.app || {};
      */
     tm.app.Collision = tm.createClass({
         
+        /**
+         * @property
+         * @TODO ?
+         */
         collideList: null,
         
         /**

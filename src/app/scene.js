@@ -13,9 +13,13 @@ tm.app = tm.app || {};
      * @extends tm.app.Object2D
      */
     tm.app.Scene = tm.createClass({
-        
         superClass: tm.app.Object2D,
     
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _sceneResultCallback: null,
 
         /**
@@ -187,7 +191,6 @@ tm.app = tm.app || {};
      * @extends tm.app.Scene
      */
     tm.app.ResultScene = tm.createClass({
-        
         superClass: tm.app.Scene,
         
         /**

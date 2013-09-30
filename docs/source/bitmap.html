@@ -31,8 +31,9 @@ tm.graphics = tm.graphics || {};
         
         imageData: null,
         
-<span id='tm-graphics-Bitmap-method-init'>        /**
-</span>         * 初期化
+<span id='tm-graphics-Bitmap-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(imageData) {
             if (!dummyCanvas) {
@@ -43,6 +44,11 @@ tm.graphics = tm.graphics || {};
             this.init = this._init;
         },
 
+<span id='tm-graphics-Bitmap-property-_init'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _init: function(imageData) {
             if (arguments.length == 1) {
                 this.imageData = imageData;
@@ -56,8 +62,9 @@ tm.graphics = tm.graphics || {};
             }
         },
         
-<span id='tm-graphics-Bitmap-method-getPixelIndex'>        /**
-</span>         * index 指定でピクセル値を取得
+<span id='tm-graphics-Bitmap-property-getPixelIndex'>        /**
+</span>         * @property
+         * index 指定でピクセル値を取得
          * 最も高速
          */
         getPixelIndex: function(index) {
@@ -70,15 +77,17 @@ tm.graphics = tm.graphics || {};
             ];
         },
         
-<span id='tm-graphics-Bitmap-method-getPixelXY'>        /**
-</span>         * x, y 指定でピクセル値を取得
+<span id='tm-graphics-Bitmap-property-getPixelXY'>        /**
+</span>         * @property
+         * x, y 指定でピクセル値を取得
          */
         getPixelXY: function(x, y) {
             return this.getPixelIndex( this.posToIndex(x, y) );
         },
         
-<span id='tm-graphics-Bitmap-method-getPixel'>        /**
-</span>         * ピクセル値を取得
+<span id='tm-graphics-Bitmap-property-getPixel'>        /**
+</span>         * @property
+         * ピクセル値を取得
          * ### Memo
          * - index 指定か x, y 指定にするか検討中
          * - 配列で返すか数値で返すか検討中. 速度の早いやつを採用する
@@ -86,12 +95,20 @@ tm.graphics = tm.graphics || {};
         getPixel: function(x, y) {
             return this.getPixelIndex( this.posToIndex(x, y) );
         },
-        
+
+<span id='tm-graphics-Bitmap-property-getPixelAsNumber'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         getPixelAsNumber: function(index) {
             var i = index*4;
             return (this.data[i+3] &lt;&lt; 24) | (this.data[i+0] &lt;&lt; 16) | (this.data[i+1] &lt;&lt; 8) | this.data[i+2];
         },
-        
+
+<span id='tm-graphics-Bitmap-property-getPixelAsObject'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         getPixelAsObject: function(index) {
             var i = index*4;
             return {
@@ -101,7 +118,11 @@ tm.graphics = tm.graphics || {};
                 a: this.data[i+3]
             };
         },
-        
+
+<span id='tm-graphics-Bitmap-property-getPixelAsArray'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         getPixelAsArray: function(index) {
             var i = index*4;
             return [
@@ -112,8 +133,9 @@ tm.graphics = tm.graphics || {};
             ];
         },
         
-<span id='tm-graphics-Bitmap-method-getPixelAverage'>        /**
-</span>         * 指定した範囲内のピクセル平均値を取得
+<span id='tm-graphics-Bitmap-property-getPixelAverage'>        /**
+</span>         * @property
+         * 指定した範囲内のピクセル平均値を取得
          */
         getPixelAverage: function(x, y, width, height) {
             var rgba = [0, 0, 0, 0];
@@ -159,8 +181,9 @@ tm.graphics = tm.graphics || {};
         },
         
         
-<span id='tm-graphics-Bitmap-method-setPixelIndex'>        /**
-</span>         * index 指定でピクセル値をセット
+<span id='tm-graphics-Bitmap-property-setPixelIndex'>        /**
+</span>         * @property
+         * index 指定でピクセル値をセット
          * 最も高速
          */
         setPixelIndex: function(index, r, g, b) {
@@ -171,20 +194,26 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
-<span id='tm-graphics-Bitmap-method-setPixelXY'>        /**
-</span>         * x, y指定でピクセル値をセット
+<span id='tm-graphics-Bitmap-property-setPixelXY'>        /**
+</span>         * @property
+         * x, y指定でピクセル値をセット
          */
         setPixelXY: function(x, y, r, g, b) {
             return this.setPixelIndex(y*this.imageData.width+x, r, g, b);
         },
         
-<span id='tm-graphics-Bitmap-method-setPixel'>        /**
-</span>         * ピクセル値をセット
+<span id='tm-graphics-Bitmap-property-setPixel'>        /**
+</span>         * @property
+         * ピクセル値をセット
          */
         setPixel: function(index, r, g, b) {
             return this.setPixelIndex(y*this.imageData.width+x, r, g, b);
         },
-        
+
+<span id='tm-graphics-Bitmap-property-setPixel32Index'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setPixel32Index: function(index, r, g, b, a) {
             var i = index*4;
             this.data[i+0] = r;
@@ -193,63 +222,92 @@ tm.graphics = tm.graphics || {};
             this.data[i+3] = a;
             return this;
         },
-        
+
+<span id='tm-graphics-Bitmap-property-setPixel32'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setPixel32: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
-        
+
+<span id='tm-graphics-Bitmap-property-setPixel32XY'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setPixel32XY: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
-        
+
+<span id='tm-graphics-Bitmap-property-setPixelFromArray'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setPixelFromArray: function(index, pixel) {
             return this.setPixel(index, pixel[0], pixel[1], pixel[2]);
         },
-        
+
+<span id='tm-graphics-Bitmap-property-setPixel32FromArray'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setPixel32FromArray: function(index, pixel) {
             return this.setPixel32(index, pixel[0], pixel[1], pixel[2], pixel[3]);
         },
 
-<span id='tm-graphics-Bitmap-method-setPixelFromNumber'>        /**
-</span>         * argb
+<span id='tm-graphics-Bitmap-property-setPixelFromNumber'>        /**
+</span>         * @property
+         * argb
          */
         setPixelFromNumber: function(index, pixel) {
             return this.setPixel(index, (pixel &amp; 0x00ff0000)&gt;&gt;&gt;16, (pixel &amp; 0x0000ff00)&gt;&gt;&gt;8, (pixel &amp; 0x000000ff)&gt;&gt;&gt;0);
         },
 
-<span id='tm-graphics-Bitmap-method-setPixel32FromNumber'>        /**
-</span>         * argb
+<span id='tm-graphics-Bitmap-property-setPixel32FromNumber'>        /**
+</span>         * @property
+         * argb
          */
         setPixel32FromNumber: function(index, pixel) {
             return this.setPixel32(index, (pixel &amp; 0x00ff0000)&gt;&gt;&gt;16, (pixel &amp; 0x0000ff00)&gt;&gt;&gt;8, (pixel &amp; 0x000000ff)&gt;&gt;&gt;0, (pixel &amp; 0xff000000)&gt;&gt;&gt;24);
         },
         
-<span id='tm-graphics-Bitmap-method-setPixelFromObject'>        /**
-</span>         * object
+<span id='tm-graphics-Bitmap-property-setPixelFromObject'>        /**
+</span>         * @property
+         * object
          */
         setPixelFromObject: function(index, pixel) {
             return this.setPixel(pixel.r, pixel.g, pixel.b);
         },
+<span id='tm-graphics-Bitmap-property-setPixel32FromObject'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setPixel32FromObject: function(index, pixel) {
             return this.setPixel32(pixel.r, pixel.g, pixel.b, pixel.a);
         },
         
-<span id='tm-graphics-Bitmap-method-setPixelFromString'>        /**
-</span>         * string
+<span id='tm-graphics-Bitmap-property-setPixelFromString'>        /**
+</span>         * @property
+         * string
          * rgb, hsl, #... #...... などに対応予定
          */
         setPixelFromString: function(index, pixel) {
             // TODO
         },
         
-<span id='tm-graphics-Bitmap-method-posToIndex'>        /**
-</span>         * 位置をインデックスに変換
+<span id='tm-graphics-Bitmap-property-posToIndex'>        /**
+</span>         * @property
+         * 位置をインデックスに変換
          */
         posToIndex: function(x, y) {
             return y*this.imageData.width + x;
         },
         
         // filter: function(rect, filter)
+<span id='tm-graphics-Bitmap-property-filter'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         filter: function(filter) {
             for (var i=0; i&lt;this.height; ++i) {
                 for (var j=0; j&lt;this.width; ++j) {
@@ -263,8 +321,9 @@ tm.graphics = tm.graphics || {};
             return this;
         },
         
-<span id='tm-graphics-Bitmap-method-noise'>        /**
-</span>         * ノイズ
+<span id='tm-graphics-Bitmap-property-noise'>        /**
+</span>         * @property
+         * ノイズ
          */
         noise: function(low, high) {
             low = low  || 0;
@@ -280,7 +339,11 @@ tm.graphics = tm.graphics || {};
                 this.setPixel32Index(i, p[0], p[1], p[2], p[3]);
             }
         },
-        
+
+<span id='tm-graphics-Bitmap-property-applyFilter'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         applyFilter: function(filter) {
             
         },

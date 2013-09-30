@@ -30,45 +30,66 @@ tm.display = tm.display || {};
      * @extends tm.app.Object2D
      */
     tm.display.CanvasElement = tm.createClass({
-
         superClass: tm.app.Object2D,
 
 <span id='tm-display-CanvasElement-property-isUpdate'>        /**
-</span>         * 更新フラグ
+</span>         * @property
+         * 更新フラグ
          */
         isUpdate: true,
 
 <span id='tm-display-CanvasElement-property-visible'>        /**
-</span>         * 表示フラグ
+</span>         * @property
+         * 表示フラグ
          */
         visible: true,
 
 <span id='tm-display-CanvasElement-property-fillStyle'>        /**
-</span>         * fillStyle
+</span>         * @property
+         * fillStyle
          */
         fillStyle: &quot;white&quot;,
 
 <span id='tm-display-CanvasElement-property-strokeStyle'>        /**
-</span>         * strokeStyle
+</span>         * @property
+         * strokeStyle
          */
         strokeStyle: &quot;white&quot;,
 
 <span id='tm-display-CanvasElement-property-alpha'>        /**
-</span>         * アルファ
+</span>         * @property
+         * アルファ
          */
         alpha: 1.0,
 
 <span id='tm-display-CanvasElement-property-blendMode'>        /**
-</span>         * ブレンドモード
+</span>         * @property
+         * ブレンドモード
          */
         blendMode: &quot;source-over&quot;,
 
 <span id='tm-display-CanvasElement-property-shadowColor'>        /**
-</span>         * シャドウカラー
+</span>         * @property
+         * シャドウカラー
          */
         shadowColor: &quot;black&quot;,
+
+<span id='tm-display-CanvasElement-property-shadowOffsetX'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         shadowOffsetX: 0,
+
+<span id='tm-display-CanvasElement-property-shadowOffsetY'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         shadowOffsetY: 0,
+
+<span id='tm-display-CanvasElement-property-shadowBlur'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         shadowBlur: 0,
 
 <span id='tm-display-CanvasElement-property-init'>        /**

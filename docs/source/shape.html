@@ -31,11 +31,11 @@ tm.display = tm.display || {};
      * @extends tm.display.CanvasElement
      */
     tm.display.Shape = tm.createClass({
-        
         superClass: tm.display.CanvasElement,
         
-<span id='tm-display-Shape-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-Shape-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(width, height) {
             this.superInit();
@@ -50,6 +50,10 @@ tm.display = tm.display || {};
             this.canvas.resize(width, height);
         },
 
+<span id='tm-display-Shape-property-renderCircle'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         renderCircle: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE, param);
@@ -68,6 +72,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+<span id='tm-display-Shape-property-renderTriangle'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         renderTriangle: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE, param);
@@ -86,6 +94,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+<span id='tm-display-Shape-property-renderRectangle'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         renderRectangle: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE, param);
@@ -106,6 +118,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+<span id='tm-display-Shape-property-renderStar'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         renderStar: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR, param);
@@ -129,6 +145,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+<span id='tm-display-Shape-property-renderPolygon'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         renderPolygon: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON, param);
@@ -154,6 +174,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+<span id='tm-display-Shape-property-renderHeart'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         renderHeart: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART, param);
@@ -172,6 +196,10 @@ tm.display = tm.display || {};
             c.restore();
         },
 
+<span id='tm-display-Shape-property-renderText'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         renderText: function(param) {
             var c = this.canvas;
             param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT, param);
@@ -195,60 +223,81 @@ tm.display = tm.display || {};
         
     });
 
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_CIRCLE'>    /**
+</span>     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
-        fillStyle: &quot;red&quot;,
-        strokeStyle: &quot;white&quot;,
-        lineWidth: &quot;2&quot;,
-    };
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_CIRCLE-property-fillStyle'>        fillStyle: &quot;red&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_CIRCLE-property-strokeStyle'>        strokeStyle: &quot;white&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_CIRCLE-property-lineWidth'>        lineWidth: &quot;2&quot;,
+</span>    };
 
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TRIANGLE'>    /**
+</span>     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
-        fillStyle: &quot;green&quot;,
-        strokeStyle: &quot;white&quot;,
-        lineWidth: &quot;2&quot;,
-    };
-    
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TRIANGLE-property-fillStyle'>        fillStyle: &quot;green&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TRIANGLE-property-strokeStyle'>        strokeStyle: &quot;white&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TRIANGLE-property-lineWidth'>        lineWidth: &quot;2&quot;,
+</span>    };
+
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_RECTANGLE'>    /**
+</span>     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
-        fillStyle: &quot;blue&quot;,
-        strokeStyle: &quot;white&quot;,
-        lineWidth: &quot;2&quot;,
-    };
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_RECTANGLE-property-fillStyle'>        fillStyle: &quot;blue&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_RECTANGLE-property-strokeStyle'>        strokeStyle: &quot;white&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_RECTANGLE-property-lineWidth'>        lineWidth: &quot;2&quot;,
+</span>    };
 
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_STAR'>    /**
+</span>     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR = {
-        fillStyle: &quot;yellow&quot;,
-        strokeStyle: &quot;white&quot;,
-        lineWidth: &quot;2&quot;,
-        
-        sides: 5,
-        sideIndent: undefined,
-        offsetAngle: undefined,
-    };
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_STAR-property-fillStyle'>        fillStyle: &quot;yellow&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_STAR-property-strokeStyle'>        strokeStyle: &quot;white&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_STAR-property-lineWidth'>        lineWidth: &quot;2&quot;,
+</span>        
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_STAR-property-sides'>        sides: 5,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_STAR-property-sideIndent'>        sideIndent: undefined,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_STAR-property-offsetAngle'>        offsetAngle: undefined,
+</span>    };
 
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_POLYGON'>    /**
+</span>     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
-        fillStyle: &quot;cyan&quot;,
-        strokeStyle: &quot;white&quot;,
-        lineWidth: &quot;2&quot;,
-        
-        sides: 5,
-        offsetAngle: undefined,
-    };
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_POLYGON-property-fillStyle'>        fillStyle: &quot;cyan&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_POLYGON-property-strokeStyle'>        strokeStyle: &quot;white&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_POLYGON-property-lineWidth'>        lineWidth: &quot;2&quot;,
+</span>        
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_POLYGON-property-sides'>        sides: 5,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_POLYGON-property-offsetAngle'>        offsetAngle: undefined,
+</span>    };
 
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_HEART'>    /**
+</span>     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART = {
-        fillStyle: &quot;pink&quot;,
-        strokeStyle: &quot;white&quot;,
-        lineWidth: &quot;2&quot;,
-        
-        angle: 45,
-    };
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_HEART-property-fillStyle'>        fillStyle: &quot;pink&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_HEART-property-strokeStyle'>        strokeStyle: &quot;white&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_HEART-property-lineWidth'>        lineWidth: &quot;2&quot;,
+</span>        
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_HEART-property-angle'>        angle: 45,
+</span>    };
 
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TEXT'>    /**
+</span>     * @enum
+     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
-        text: &quot;hello, world&quot;,
-        fillStyle: &quot;pink&quot;,
-        strokeStyle: &quot;white&quot;,
-        lineWidth: &quot;1&quot;,
-        textAlign: &quot;center&quot;,
-        textBaseline: &quot;middle&quot;,
-        font: &quot;24px 'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;,
-    };
+<span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TEXT-property-text'>        text: &quot;hello, world&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TEXT-property-fillStyle'>        fillStyle: &quot;pink&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TEXT-property-strokeStyle'>        strokeStyle: &quot;white&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TEXT-property-lineWidth'>        lineWidth: &quot;1&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TEXT-property-textAlign'>        textAlign: &quot;center&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TEXT-property-textBaseline'>        textBaseline: &quot;middle&quot;,
+</span><span id='tm-display-Shape-DEFAULT_SHAPE_PARAM_TEXT-property-font'>        font: &quot;24px 'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;,
+</span>    };
     
 })();
 
@@ -264,8 +313,9 @@ tm.display = tm.display || {};
         
         superClass: tm.display.Shape,
         
-<span id='tm-display-CircleShape-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-CircleShape-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -290,8 +340,9 @@ tm.display = tm.display || {};
         
         superClass: tm.display.Shape,
         
-<span id='tm-display-TriangleShape-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-TriangleShape-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -317,8 +368,9 @@ tm.display = tm.display || {};
         
         superClass: tm.display.Shape,
         
-<span id='tm-display-RectangleShape-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-RectangleShape-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -342,8 +394,9 @@ tm.display = tm.display || {};
         
         superClass: tm.display.Shape,
         
-<span id='tm-display-StarShape-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-StarShape-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -368,8 +421,9 @@ tm.display = tm.display || {};
         
         superClass: tm.display.Shape,
         
-<span id='tm-display-PolygonShape-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-PolygonShape-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -395,8 +449,9 @@ tm.display = tm.display || {};
         
         superClass: tm.display.Shape,
         
-<span id='tm-display-HeartShape-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-HeartShape-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -422,8 +477,9 @@ tm.display = tm.display || {};
 
         superClass: &quot;tm.display.Shape&quot;,
         
-<span id='tm-display-TextShape-method-init'>        /**
-</span>         * 初期化
+<span id='tm-display-TextShape-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);

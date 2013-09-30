@@ -29,11 +29,20 @@
     tm.define(&quot;tm.asset.Texture&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
         
+<span id='tm-asset-Texture-property-element'>        /**
+</span>         * @property
+         * window.document.Image
+         */
         element: null,
+
+<span id='tm-asset-Texture-property-loaded'>        /**
+</span>         * @property
+         * ロード済みかどうか
+         */
         loaded: false,
         
-<span id='tm-asset-Texture-property-init'>        /**
-</span>         * @property
+<span id='tm-asset-Texture-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function(src) {
@@ -52,7 +61,7 @@
         
 <span id='tm-asset-Texture-property-getElement'>        /**
 </span>         * @property
-         * @TODO ?
+         * window.document.Imageクラスのインスタンスを返す
          */
         getElement: function() {
             return this.element;

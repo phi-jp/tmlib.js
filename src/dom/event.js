@@ -124,8 +124,23 @@ tm.dom = tm.dom || {};
      * Event クラス
      */
     tm.dom.Event = tm.createClass({
+
+        /**
+         * @property
+         * DOMエレメント
+         */
         element     : null,
+
+        /**
+         * @property
+         * イベント発火時に実行する関数リスト
+         */
         funcList    : null,
+
+        /**
+         * @property
+         * 関数リストのインデックス　未使用？
+         */
         funcIndex   : 0,
         
         

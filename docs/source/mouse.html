@@ -32,8 +32,9 @@ tm.input = tm.input || {};
         
         element: null,
         
-<span id='tm-input-Mouse-method-init'>        /**
-</span>         * 初期化
+<span id='tm-input-Mouse-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element || window.document;
@@ -60,8 +61,9 @@ tm.input = tm.input || {};
             });
         },
         
-<span id='tm-input-Mouse-method-run'>        /**
-</span>         * run
+<span id='tm-input-Mouse-property-run'>        /**
+</span>         * @property
+         * run
          * 自動でマウス情報を更新したい際に使用する
          */
         run: function(fps) {
@@ -75,8 +77,9 @@ tm.input = tm.input || {};
             return this;
         },
         
-<span id='tm-input-Mouse-method-update'>        /**
-</span>         * 情報更新処理
+<span id='tm-input-Mouse-property-update'>        /**
+</span>         * @property
+         * 情報更新処理
          * マイフレーム呼んで下さい.
          */
         update: function() {
@@ -94,8 +97,9 @@ tm.input = tm.input || {};
             this.prevPosition.setObject(this.position);
         },
         
-<span id='tm-input-Mouse-method-getButton'>        /**
-</span>         * ボタン取得
+<span id='tm-input-Mouse-property-getButton'>        /**
+</span>         * @property
+         * ボタン取得
          */
         getButton: function(button) {
             if (typeof(button) == &quot;string&quot;) {
@@ -105,8 +109,9 @@ tm.input = tm.input || {};
             return (this.press &amp; button) != 0;
         },
         
-<span id='tm-input-Mouse-method-getButtonDown'>        /**
-</span>         * ボタンダウン取得
+<span id='tm-input-Mouse-property-getButtonDown'>        /**
+</span>         * @property
+         * ボタンダウン取得
          */
         getButtonDown: function(button) {
             if (typeof(button) == &quot;string&quot;) {
@@ -116,8 +121,9 @@ tm.input = tm.input || {};
             return (this.down &amp; button) != 0;
         },
         
-<span id='tm-input-Mouse-method-getButtonUp'>        /**
-</span>         * ボタンアップ取得
+<span id='tm-input-Mouse-property-getButtonUp'>        /**
+</span>         * @property
+         * ボタンアップ取得
          */
         getButtonUp: function(button) {
             if (typeof(button) == &quot;string&quot;) {
@@ -126,19 +132,34 @@ tm.input = tm.input || {};
             
             return (this.up &amp; button) != 0;
         },
-        
+
+<span id='tm-input-Mouse-property-_mousemove'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _mousemove: function(e) {
             var rect = e.target.getBoundingClientRect();
             this.x = e.clientX - rect.left;
             this.y = e.clientY - rect.top;
         },
-        
+
+<span id='tm-input-Mouse-property-_mousemoveNormal'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _mousemoveNormal: function(e) {
             var rect = e.target.getBoundingClientRect();
             this.x = e.clientX - rect.left;
             this.y = e.clientY - rect.top;
         },
-        
+
+<span id='tm-input-Mouse-property-_mousemoveScale'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _mousemoveScale: function(e) {
             var rect = e.target.getBoundingClientRect();
             this.x = e.clientX - rect.left;
@@ -207,17 +228,17 @@ tm.input = tm.input || {};
     
     
 <span id='tm-input-Mouse-method-getPointing'>    /**
-</span>     * @method
+</span>     * @method getPointing
      * ポインティング状態取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointing        = function() { return this.getButton(&quot;left&quot;); };
 <span id='tm-input-Mouse-method-getPointingStart'>    /**
-</span>     * @method
+</span>     * @method getPointingStart
      * ポインティングを開始したかを取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown(&quot;left&quot;); };
 <span id='tm-input-Mouse-method-getPointingEnd'>    /**
-</span>     * @method
+</span>     * @method getPointingEnd
      * ポインティングを終了したかを取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointingEnd     = function() { return this.getButtonUp(&quot;left&quot;); };

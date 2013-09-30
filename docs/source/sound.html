@@ -41,8 +41,9 @@ tm.sound = tm.sound || {};
         loaded      : false,
         isPlay      : false,
         
-<span id='tm-sound-Sound-method-init'>        /**
-</span>         * 初期化
+<span id='tm-sound-Sound-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(src) {
             this.element = new Audio();
@@ -69,8 +70,9 @@ tm.sound = tm.sound || {};
             }
         },
         
-<span id='tm-sound-Sound-method-play'>        /**
-</span>         * 再生
+<span id='tm-sound-Sound-property-play'>        /**
+</span>         * @property
+         * 再生
          */
         play: function() {
             this.element.play();
@@ -78,8 +80,9 @@ tm.sound = tm.sound || {};
             return this;
         },
         
-<span id='tm-sound-Sound-method-stop'>        /**
-</span>         * 停止
+<span id='tm-sound-Sound-property-stop'>        /**
+</span>         * @property
+         * 停止
          */
         stop: function() {
             this.element.pause();
@@ -91,16 +94,18 @@ tm.sound = tm.sound || {};
             return this;
         },
         
-<span id='tm-sound-Sound-method-pause'>        /**
-</span>         * 一時停止
+<span id='tm-sound-Sound-property-pause'>        /**
+</span>         * @property
+         * 一時停止
          */
         pause: function() {
             this.element.pause();
             return this;
         },
         
-<span id='tm-sound-Sound-method-clone'>        /**
-</span>         * クローン
+<span id='tm-sound-Sound-property-clone'>        /**
+</span>         * @property
+         * クローン
          */
         clone: function() {
             return tm.sound.Sound( this.element.src );
@@ -254,8 +259,10 @@ tm.sound = tm.sound || {};
         return this;
     };
     
-<span id='tm-sound-SoundManager-method-isLoaded'>    /**
-</span>     * ロードチェック
+<span id='tm-sound-SoundManager-static-method-isLoaded'>    /**
+</span>     * @static
+     * @method
+     * ロードチェック
      */
     tm.sound.SoundManager.isLoaded = function() {
         for (var key in this.sounds) {

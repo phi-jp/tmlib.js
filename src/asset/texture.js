@@ -12,7 +12,16 @@
     tm.define("tm.asset.Texture", {
         superClass: "tm.event.EventDispatcher",
         
+        /**
+         * @property
+         * window.document.Image
+         */
         element: null,
+
+        /**
+         * @property
+         * ロード済みかどうか
+         */
         loaded: false,
         
         /**
@@ -35,7 +44,7 @@
         
         /**
          * @property
-         * @TODO ?
+         * window.document.Imageクラスのインスタンスを返す
          */
         getElement: function() {
             return this.element;

@@ -6,6 +6,10 @@
      */
     tm.dom.Trans = tm.createClass({
         
+        /**
+         * @property
+         * エレメント
+         */
         element: null,
         
         /**

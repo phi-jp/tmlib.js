@@ -13,45 +13,66 @@ tm.display = tm.display || {};
      * @extends tm.app.Object2D
      */
     tm.display.CanvasElement = tm.createClass({
-
         superClass: tm.app.Object2D,
 
         /**
+         * @property
          * 更新フラグ
          */
         isUpdate: true,
 
         /**
+         * @property
          * 表示フラグ
          */
         visible: true,
 
         /**
+         * @property
          * fillStyle
          */
         fillStyle: "white",
 
         /**
+         * @property
          * strokeStyle
          */
         strokeStyle: "white",
 
         /**
+         * @property
          * アルファ
          */
         alpha: 1.0,
 
         /**
+         * @property
          * ブレンドモード
          */
         blendMode: "source-over",
 
         /**
+         * @property
          * シャドウカラー
          */
         shadowColor: "black",
+
+        /**
+         * @property
+         * @TODO ?
+         */
         shadowOffsetX: 0,
+
+        /**
+         * @property
+         * @TODO ?
+         */
         shadowOffsetY: 0,
+
+        /**
+         * @property
+         * @TODO ?
+         */
         shadowBlur: 0,
 
         /**

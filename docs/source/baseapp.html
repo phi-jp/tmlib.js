@@ -30,17 +30,72 @@ tm.app = tm.app || {};
      */
     tm.app.BaseApp = tm.createClass({
         
+<span id='tm-app-BaseApp-property-element'>        /**
+</span>         * @property
+         * エレメント
+         */
         element     : null,
+
+<span id='tm-app-BaseApp-property-mouse'>        /**
+</span>         * @property
+         * マウスクラス
+         */
         mouse       : null,
+
+<span id='tm-app-BaseApp-property-touch'>        /**
+</span>         * @property
+         * タッチクラス
+         */
         touch       : null,
+
+<span id='tm-app-BaseApp-property-pointing'>        /**
+</span>         * @property
+         * マウスクラス + タッチクラス
+         */
         pointing    : null,
+
+<span id='tm-app-BaseApp-property-keyboard'>        /**
+</span>         * @property
+         * キーボードクラス
+         */
         keyboard    : null,
+
+<span id='tm-app-BaseApp-property-stats'>        /**
+</span>         * @property
+         * statsライブラリ
+         */
         stats       : null,
+
+<span id='tm-app-BaseApp-property-frame'>        /**
+</span>         * @property
+         * フレーム
+         */
         frame       : 0,
+
+<span id='tm-app-BaseApp-property-fps'>        /**
+</span>         * @property
+         * フレームレート
+         */
         fps         : 30,
+
+<span id='tm-app-BaseApp-property-isPlaying'>        /**
+</span>         * @property
+         * 現在更新中か
+         */
         isPlaying   : null,
         
+<span id='tm-app-BaseApp-property-_scenes'>        /**
+</span>         * @property
+         * シーン情報の管理
+         * @private
+         */
         _scenes      : null,
+
+<span id='tm-app-BaseApp-property-_sceneIndex'>        /**
+</span>         * @property
+         * シーンのインデックス
+         * @private
+         */
         _sceneIndex  : 0,
 
 <span id='tm-app-BaseApp-property-init'>        /**

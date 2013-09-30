@@ -13,21 +13,25 @@ tm.graphics = tm.graphics || {};
     tm.graphics.Color = tm.createClass({
         
         /**
+         * @property
          * R値
          */
         r: 255,
         
         /**
+         * @property
          * G値
          */
         g: 255,
         
         /**
+         * @property
          * B値
          */
         b: 255,
         
         /**
+         * @property
          * A値
          */
         a: 1.0,
@@ -165,8 +169,11 @@ tm.graphics = tm.graphics || {};
     
     /**
      * @enum
+     * @TODO ?
+     * @private
      */
     var MATCH_SET_LIST = {
+        /** @property hex111 */
         "hex111": {
             reg: /^#(\w{1})(\w{1})(\w{1})$/,
             exec: function(m) {
@@ -177,6 +184,7 @@ tm.graphics = tm.graphics || {};
                 ];
             }
         },
+        /** @property hex222 */
         "hex222": {
             reg: /^#(\w{2})(\w{2})(\w{2})$/,
             exec: function(m) {
@@ -187,6 +195,7 @@ tm.graphics = tm.graphics || {};
                 ];
             }
         },
+        /** @property rgb */
         "rgb": {
             reg: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
             exec: function(m) {
@@ -197,6 +206,7 @@ tm.graphics = tm.graphics || {};
                 ];
             }
         },
+        /** @property rgba */
         "rgba": {
             reg: /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d{1}(\.{1}\d+)?)\)$/,
             exec: function(m) {
@@ -208,6 +218,7 @@ tm.graphics = tm.graphics || {};
                 ];
             }
         },
+        /** @property hsl */
         "hsl": {
             reg: /^hsl\((\d{1,3}),\s*(\d{1,3})%,\s*(\d{1,3})%\)$/,
             exec: function(m) {
@@ -215,6 +226,7 @@ tm.graphics = tm.graphics || {};
             }
         },
 
+        /** @property hsla */
         "hsla": {
             reg: /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d{1}(\.{1}\d+)?)\)$/,
             exec: function(m) {
@@ -225,23 +237,41 @@ tm.graphics = tm.graphics || {};
 
     /**
      * @enum
+     * @TODO ?
+     * @private
      */
     tm.graphics.Color.COLOR_LIST = {
+        /** @property black */
         "black"     : [0x00, 0x00, 0x00],
+        /** @property silver */
         "silver"    : [0xc0, 0xc0, 0xc0],
+        /** @property gray */
         "gray"      : [0x80, 0x80, 0x80],
+        /** @property white */
         "white"     : [0xff, 0xff, 0xff],
+        /** @property maroon */
         "maroon"    : [0x80, 0x00, 0x00],
+        /** @property red */
         "red"       : [0xff, 0x00, 0x00],
+        /** @property purple */
         "purple"    : [0x80, 0x00, 0x80],
+        /** @property fuchsia */
         "fuchsia"   : [0xff, 0x00, 0xff],
+        /** @property green */
         "green"     : [0x00, 0x80, 0x00],
+        /** @property lime */
         "lime"      : [0x00, 0xff, 0x00],
+        /** @property olive */
         "olive"     : [0x80, 0x80, 0x00],
+        /** @property yellow */
         "yellow"    : [0xff, 0xff, 0x00],
+        /** @property navy */
         "navy"      : [0x00, 0x00, 0x80],
+        /** @property blue */
         "blue"      : [0x00, 0x00, 0xff],
+        /** @property teal */
         "teal"      : [0x00, 0x80, 0x80],
+        /** @property aqua */
         "aqua"      : [0x00, 0xff, 0xff],
     };
 

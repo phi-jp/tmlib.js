@@ -20,13 +20,21 @@ tm.display = tm.display || {};
         superClass: tm.display.CanvasElement,
         
         /**
+         * @property
          * 塗りつぶしフラグ
          */
         fill: true,
+
         /**
+         * @property
          * ストロークフラグ
          */
         stroke: false,
+
+        /**
+         * @property
+         * @TODO ?
+         */
         debugBox: false,
         
         /**

@@ -60,21 +60,21 @@ tm.net.event = tm.net.event || {};
             }
         },
 
-        /**
+        /*
          * @property
-         * @TODO ?
+         * @TODO 重複している関数 念のためコメントアウト
          */
-        send: function(message) {
-            if (this.isOpen()) {
-                this.socket.send(message);
-            } else {
+        // send: function(message) {
+        //     if (this.isOpen()) {
+        //         this.socket.send(message);
+        //     } else {
 
-            }
-        },
+        //     }
+        // },
 
-        /**
+        /*
          * @property
-         * @TODO ?
+         * @TODO 重複している関数 念のためコメントアウト
          */
         sendData: function(object) {
             this.send(JSON.stringify(object));
@@ -117,6 +117,11 @@ tm.net.event = tm.net.event || {};
         }
     });
 
+    /**
+     * @class tm.net.event.WebSocketEvent
+     * @TODO ?
+     * @extends tm.event.Event
+     */
     tm.net.event.WebSocketEvent = tm.createClass({        
         superClass: tm.event.Event,
 
@@ -130,7 +135,9 @@ tm.net.event = tm.net.event || {};
     });
 
     /**
+     * @class tm.net.event.Open
      * 接続時に発生するイベント.
+     * @extends tm.net.event.WebSocketEvent
      */
     tm.net.event.Open = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,
@@ -145,11 +152,14 @@ tm.net.event = tm.net.event || {};
     });
 
     /**
+     * @class tm.net.event.Message
      * メッセージ受信時に発生するイベント.
+     * @extends tm.net.event.WebSocketEvent
      */
     tm.net.event.Message = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,
         /**
+         * @property
          * 受信したメッセージを文字列として取り出す.
          */
         message: null,
@@ -165,7 +175,6 @@ tm.net.event = tm.net.event || {};
         /**
          * @property
          * 受信したメッセージをオブジェクトとして取り出す.
-         *
          * JSONとしてパースする.
          */
         getData: function() {
@@ -174,7 +183,9 @@ tm.net.event = tm.net.event || {};
     });
 
     /**
+     * @class tm.net.event.Close
      * 接続解除時に発生するイベント.
+     * @extends tm.net.event.WebSocketEvent
      */
     tm.net.event.Close = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,
@@ -189,7 +200,9 @@ tm.net.event = tm.net.event || {};
     });
 
     /**
+     * @class tm.net.event.Error
      * エラー時に発生するイベント.
+     * @extends tm.net.event.WebSocketEvent
      */
     tm.net.event.Error = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,

@@ -31,7 +31,11 @@ tm.ui = tm.ui || {};
      */
     tm.ui.LabelButton = tm.createClass({
         superClass: tm.display.Label,
-        
+
+<span id='tm-ui-LabelButton-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(text) {
             this.superInit(text);
             
@@ -76,8 +80,9 @@ tm.ui = tm.ui || {};
     tm.ui.IconButton = tm.createClass({
         superClass: tm.display.Sprite,
         
-<span id='tm-ui-IconButton-method-init'>        /**
-</span>         * 初期化
+<span id='tm-ui-IconButton-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(texture) {
             if (texture) {
@@ -116,7 +121,11 @@ tm.ui = tm.ui || {};
      */
     tm.ui.GlossyButton = tm.createClass({
         superClass: tm.display.Shape,
-        
+
+<span id='tm-ui-GlossyButton-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
             
@@ -141,7 +150,11 @@ tm.ui = tm.ui || {};
             
             this._refresh();
         },
-        
+
+<span id='tm-ui-GlossyButton-property-setBackgroundColor'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setBackgroundColor: function(backgroundColor) {
             this.backgroundColor = backgroundColor;
             
@@ -149,7 +162,12 @@ tm.ui = tm.ui || {};
             
             return this;
         },
-        
+
+<span id='tm-ui-GlossyButton-property-_refresh'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _refresh: function() {
             // ボタン描画
             var c = this.canvas;
@@ -198,6 +216,10 @@ tm.ui = tm.ui || {};
     tm.define(&quot;tm.ui.FlatButton&quot;, {
         superClass: tm.display.Shape,
 
+<span id='tm-ui-FlatButton-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(param) {
             param.$safe({
                 width: 300,

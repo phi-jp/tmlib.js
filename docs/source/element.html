@@ -27,13 +27,22 @@ tm.app = tm.app || {};
 <span id='tm-app-Element'>    /**
 </span>     * @class tm.app.Element
      * アプリケーション用オブジェクトの基底となるクラス
+     * 親子関係の情報を管理する
      * @extends tm.event.EventDispatcher
      */
     tm.app.Element = tm.createClass({
-        
         superClass: tm.event.EventDispatcher,
         
+<span id='tm-app-Element-property-parent'>        /**
+</span>         * @property
+         * 親
+         */
         parent: null,
+
+<span id='tm-app-Element-property-children'>        /**
+</span>         * @property
+         * 子
+         */
         children: null,
         
 <span id='tm-app-Element-property-init'>        /**

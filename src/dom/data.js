@@ -9,6 +9,11 @@
      * @TODO ?
      */
     tm.define("tm.dom.Data", {
+
+        /**
+         * @property
+         * エレメント
+         */
         element: null,
         
         /**

@@ -14,7 +14,6 @@ tm.display = tm.display || {};
      * @extends tm.display.CanvasElement
      */
     tm.display.Sprite = tm.createClass({
-        
         superClass: tm.display.CanvasElement,
         
         /**

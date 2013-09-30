@@ -30,13 +30,17 @@ tm.app = tm.app || {};
      * @extends tm.app.Object2D
      */
     tm.app.Scene = tm.createClass({
-        
         superClass: tm.app.Object2D,
     
+<span id='tm-app-Scene-property-_sceneResultCallback'>        /**
+</span>         * @property
+         * @TODO ?
+         * @private
+         */
         _sceneResultCallback: null,
 
-<span id='tm-app-Scene-property-init'>        /**
-</span>         * @property
+<span id='tm-app-Scene-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function() {
@@ -204,7 +208,6 @@ tm.app = tm.app || {};
      * @extends tm.app.Scene
      */
     tm.app.ResultScene = tm.createClass({
-        
         superClass: tm.app.Scene,
         
 <span id='tm-app-ResultScene-property-init'>        /**

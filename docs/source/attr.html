@@ -29,25 +29,32 @@ tm.dom = tm.dom || {};
      */
     tm.dom.Attr = tm.createClass({
         
+<span id='tm-dom-Attr-property-element'>        /**
+</span>         * @property
+         * エレメント
+         */
         element: null,
         
-<span id='tm-dom-Attr-method-init'>        /**
-</span>         * 初期化
+<span id='tm-dom-Attr-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
         },
         
-<span id='tm-dom-Attr-method-set'>        /**
-</span>         * 属性をセット
+<span id='tm-dom-Attr-property-set'>        /**
+</span>         * @property
+         * 属性をセット
          */
         set: function(name, value) {
             this.element.setAttribute(name, value);
             return this;
         },
         
-<span id='tm-dom-Attr-method-add'>        /**
-</span>         * 属性を追加
+<span id='tm-dom-Attr-property-add'>        /**
+</span>         * @property
+         * 属性を追加
          */
         add: function(name, value) {
             var now = this.get(name);
@@ -55,8 +62,9 @@ tm.dom = tm.dom || {};
             this.element.setAttribute(name, value);
         },
         
-<span id='tm-dom-Attr-method-remove'>        /**
-</span>         * 属性を削除
+<span id='tm-dom-Attr-property-remove'>        /**
+</span>         * @property
+         * 属性を削除
          */
         remove: function(name, value) {
             var now = this.get(name);
@@ -65,15 +73,17 @@ tm.dom = tm.dom || {};
 //            this.element.removeAttribute(name);
         },
         
-<span id='tm-dom-Attr-method-get'>        /**
-</span>         * 属性を取得
+<span id='tm-dom-Attr-property-get'>        /**
+</span>         * @property
+         * 属性を取得
          */
         get: function(name) {
             return this.element.getAttribute(name);
         },
 
-<span id='tm-dom-Attr-method-contains'>        /**
-</span>         * 属性の存在チェック
+<span id='tm-dom-Attr-property-contains'>        /**
+</span>         * @property
+         * 属性の存在チェック
          */
         contains: function(name, value) {
             var now = this.get(name);
@@ -87,6 +97,10 @@ tm.dom = tm.dom || {};
             return false;
         },
 
+<span id='tm-dom-Attr-property-toggle'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         toggle: function(name, value) {
             if (this.contains(name, value)) {
                 this.remove(name, value);

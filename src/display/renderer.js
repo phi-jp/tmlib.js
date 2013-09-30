@@ -101,10 +101,6 @@
 
     });
     
-    /**
-     * @TODO ?
-     * コンストラクタ
-     */
     var renderFuncList = {
         "sprite": function(canvas) {
             var srcRect = this.srcRect;

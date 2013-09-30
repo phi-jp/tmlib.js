@@ -13,24 +13,34 @@
         superClass: "tm.app.Element",
         
         /**
+         * @property
          * 位置
          */
         position: null,
+
         /**
+         * @property
          * 回転
          */
         rotation: 0,
+
         /**
+         * @property
          * スケール
          */
         scale: null,
         
         /**
+         * @property
          * 幅
+         * @private
          */
         _width:  64,
+
         /**
+         * @property
          * 高さ
+         * @private
          */
         _height: 64,
         

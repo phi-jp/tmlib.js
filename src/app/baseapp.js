@@ -13,17 +13,72 @@ tm.app = tm.app || {};
      */
     tm.app.BaseApp = tm.createClass({
         
+        /**
+         * @property
+         * エレメント
+         */
         element     : null,
+
+        /**
+         * @property
+         * マウスクラス
+         */
         mouse       : null,
+
+        /**
+         * @property
+         * タッチクラス
+         */
         touch       : null,
+
+        /**
+         * @property
+         * マウスクラス + タッチクラス
+         */
         pointing    : null,
+
+        /**
+         * @property
+         * キーボードクラス
+         */
         keyboard    : null,
+
+        /**
+         * @property
+         * statsライブラリ
+         */
         stats       : null,
+
+        /**
+         * @property
+         * フレーム
+         */
         frame       : 0,
+
+        /**
+         * @property
+         * フレームレート
+         */
         fps         : 30,
+
+        /**
+         * @property
+         * 現在更新中か
+         */
         isPlaying   : null,
         
+        /**
+         * @property
+         * シーン情報の管理
+         * @private
+         */
         _scenes      : null,
+
+        /**
+         * @property
+         * シーンのインデックス
+         * @private
+         */
         _sceneIndex  : 0,
 
         /**

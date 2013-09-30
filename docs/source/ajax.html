@@ -24,16 +24,30 @@ tm.util = tm.util || {};
 
 (function() {
     
+<span id='AJAX_DEFAULT_SETTINGS'>    /**
+</span>     * @enum
+     * @TODO ?
+     * @private
+     */
     var AJAX_DEFAULT_SETTINGS = {
-        type :&quot;GET&quot;,
-        async: true,
-        data: null,
-        contentType: 'application/x-www-form-urlencoded',
-        dataType: 'text',
-        username: null,
-        password: null,
-        success : function(data){ alert(&quot;success!!\n&quot;+data); },
-        error   : function(data){ alert(&quot;error!!&quot;); }
+<span id='AJAX_DEFAULT_SETTINGS-property-type'>        /** @property type */
+</span>        type :&quot;GET&quot;,
+<span id='AJAX_DEFAULT_SETTINGS-property-async'>        /** @property async */
+</span>        async: true,
+<span id='AJAX_DEFAULT_SETTINGS-property-data'>        /** @property data */
+</span>        data: null,
+<span id='AJAX_DEFAULT_SETTINGS-property-contentType'>        /** @property contentType */
+</span>        contentType: 'application/x-www-form-urlencoded',
+<span id='AJAX_DEFAULT_SETTINGS-property-dataType'>        /** @property dataType */
+</span>        dataType: 'text',
+<span id='AJAX_DEFAULT_SETTINGS-property-username'>        /** @property username */
+</span>        username: null,
+<span id='AJAX_DEFAULT_SETTINGS-property-password'>        /** @property password */
+</span>        password: null,
+<span id='AJAX_DEFAULT_SETTINGS-property-success'>        /** @property success */
+</span>        success : function(data){ alert(&quot;success!!\n&quot;+data); },
+<span id='AJAX_DEFAULT_SETTINGS-property-error'>        /** @property error */
+</span>        error   : function(data){ alert(&quot;error!!&quot;); }
     };
     
 <span id='tm-util-Ajax'>    /**
@@ -41,8 +55,11 @@ tm.util = tm.util || {};
      * @TODO ?
      */
     tm.util.Ajax = {
-<span id='tm-util-Ajax-method-load'>        load: function(params) {
-</span>            for (var key in AJAX_DEFAULT_SETTINGS) {
+<span id='tm-util-Ajax-property-load'>        /**
+</span>         * @property load
+         */
+        load: function(params) {
+            for (var key in AJAX_DEFAULT_SETTINGS) {
                 params[key] = params[key] || AJAX_DEFAULT_SETTINGS[key];
             }
             
@@ -79,8 +96,11 @@ tm.util = tm.util || {};
             httpRequest.send(null);
         },
         
-<span id='tm-util-Ajax-method-loadJSONP'>        loadJSONP: function(url, callback) {
-</span>            var g = tm.global;
+<span id='tm-util-Ajax-property-loadJSONP'>        /**
+</span>         * @property loadJSONP
+         */
+        loadJSONP: function(url, callback) {
+            var g = tm.global;
             g.tmlib_js_dummy_func_count = tm.global.tmlib_js_dummy_func || 0;
             var dummy_func_name = &quot;tmlib_js_dummy_func&quot; + (g.tmlib_js_dummy_func_count++);
             g[dummy_func_name]  = callback;
@@ -94,33 +114,37 @@ tm.util = tm.util || {};
         }
     };
     
-<span id='tm-util-Ajax-property-DATA_CONVERTE_TABLE'>    /**
-</span>     * @property
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE'>    /**
+</span>     * @enum tm.util.Ajax.DATA_CONVERTE_TABLE
      * データコンバータテーブル
-     * @TODO propertyでいいの？定数はなんだろう
      */
     tm.util.Ajax.DATA_CONVERTE_TABLE = {
-        undefined: function(data) {
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-undefined'>        /** @property */
+</span>        undefined: function(data) {
             return data;
         },
         
-        text: function(data) {
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-text'>        /** @property */
+</span>        text: function(data) {
             return data;
         },
         
-        xml: function(data) {
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-xml'>        /** @property */
+</span>        xml: function(data) {
             var div = document.createElement(&quot;div&quot;);
             div.innerHTML = data;
             return div;
         },
         
-        dom: function(data) {
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-dom'>        /** @property */
+</span>        dom: function(data) {
             var div = document.createElement(&quot;div&quot;);
             div.innerHTML = data;
             return tm.dom.Element(div);
         },
         
-        json: function(data) {
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-json'>        /** @property */
+</span>        json: function(data) {
             try {
                 return JSON.parse(data);
             }
@@ -130,13 +154,15 @@ tm.util = tm.util || {};
             }
         },
         
-        script: function(data) {
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-script'>        /** @property */
+</span>        script: function(data) {
             eval(data);
             return data;
         },
         
-<span id='tm-util-Ajax-method-bin'>        /**
-</span>         * ### Reference
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-bin'>        /**
+</span>         * @property
+         * ### Reference
          * - &lt;http://efcl.info/adiary/Javascript/treat-binary&gt;
          * @param {Object} data
          */

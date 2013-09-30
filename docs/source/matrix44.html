@@ -34,8 +34,9 @@ tm.geom = tm.geom || {};
         m: null,
         
 
-<span id='tm-geom-Matrix44-method-init'>        /**
-</span>         * 初期化
+<span id='tm-geom-Matrix44-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function() {
             this.m = [];
@@ -47,8 +48,9 @@ tm.geom = tm.geom || {};
             }
         },
         
-<span id='tm-geom-Matrix44-method-set'>        /**
-</span>         * セット
+<span id='tm-geom-Matrix44-property-set'>        /**
+</span>         * @property
+         * セット
          */
         set: function(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33) {
             console.assert(arguments.length&gt;=16, &quot;&quot;);
@@ -66,8 +68,9 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Matrix44-method-setArray'>        /**
-</span>         * 配列からセット
+<span id='tm-geom-Matrix44-property-setArray'>        /**
+</span>         * @property
+         * 配列からセット
          */
         setArray: function(arr) {
             this.set(
@@ -80,8 +83,9 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Matrix44-method-setObject'>        /**
-</span>         * オブジェクトからセット.
+<span id='tm-geom-Matrix44-property-setObject'>        /**
+</span>         * @property
+         * オブジェクトからセット.
          * Matrix44 もこいつでいける!!
          */
         setObject: function(obj) {
@@ -96,8 +100,9 @@ tm.geom = tm.geom || {};
         },
         
         
-<span id='tm-geom-Matrix44-method-identity'>        /**
-</span>         * 単位行列
+<span id='tm-geom-Matrix44-property-identity'>        /**
+</span>         * @property
+         * 単位行列
          */
         identity: function() {
             this.set(
@@ -109,8 +114,9 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Matrix44-method-transpose'>        /**
-</span>         * 転置
+<span id='tm-geom-Matrix44-property-transpose'>        /**
+</span>         * @property
+         * 転置
          */
         transpose: function() {
             this.m.swap(1, 4);
@@ -123,59 +129,67 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Matrix44-method-translate'>        /**
-</span>         * 移動
+<span id='tm-geom-Matrix44-property-translate'>        /**
+</span>         * @property
+         * 移動
          */
         translate: function(x, y, z) {
             return this.multiply( tm.geom.Matrix44.translate(x, y, z) );
         },
         
-<span id='tm-geom-Matrix44-method-rotate'>        /**
-</span>         * 回転
+<span id='tm-geom-Matrix44-property-rotate'>        /**
+</span>         * @property
+         * 回転
          */
         rotate: function(angle) {
             // TODO: いつか実装する
             console.error(&quot;Unimplemented&quot;);
         },
         
-<span id='tm-geom-Matrix44-method-rotateX'>        /**
-</span>         * X軸を基軸に回転する
+<span id='tm-geom-Matrix44-property-rotateX'>        /**
+</span>         * @property
+         * X軸を基軸に回転する
          */
         rotateX: function(rad) {
             return this.multiply( tm.geom.Matrix44.rotateX(rad) );
         },
         
-<span id='tm-geom-Matrix44-method-rotateY'>        /**
-</span>         * Y軸を基軸に回転する
+<span id='tm-geom-Matrix44-property-rotateY'>        /**
+</span>         * @property
+         * Y軸を基軸に回転する
          */
         rotateY: function(rad) {
             return this.multiply( tm.geom.Matrix44.rotateY(rad) );
         },
         
-<span id='tm-geom-Matrix44-method-rotateZ'>        /**
-</span>         * Z軸を基軸に回転する
+<span id='tm-geom-Matrix44-property-rotateZ'>        /**
+</span>         * @property
+         * Z軸を基軸に回転する
          */
         rotateZ: function(rad) {
             return this.multiply( tm.geom.Matrix44.rotateZ(rad) );
         },
         
-<span id='tm-geom-Matrix44-method-scale'>        /**
-</span>         * スケーリング
+<span id='tm-geom-Matrix44-property-scale'>        /**
+</span>         * @property
+         * スケーリング
          */
         scale: function(x, y, z) {
             return this.multiply( tm.geom.Matrix44.scale(x, y, z) );
         },
         
-<span id='tm-geom-Matrix44-method-zero'>        /**
-</span>         * ゼロ
+<span id='tm-geom-Matrix44-property-zero'>        /**
+</span>         * @property
+         * ゼロ
          */
         zero: function() {
             this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             return this;
         },
         
-<span id='tm-geom-Matrix44-method-multiply'>        /**
-</span>         * 乗算
+<span id='tm-geom-Matrix44-property-multiply'>        /**
+</span>         * @property
+         * 乗算
          * this * mat
          */
         multiply: function(mat) {
@@ -213,30 +227,57 @@ tm.geom = tm.geom || {};
         getAxisZ: function() { return TM.Geom.Vector3(this.m02, this.m12, this.m22); },
         */
         
+<span id='tm-geom-Matrix44-property-getAxisX'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         getAxisX: function() { return TM.Geom.Vector3(this.m00, this.m01, this.m02); },
+<span id='tm-geom-Matrix44-property-getAxisY'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         getAxisY: function() { return TM.Geom.Vector3(this.m10, this.m11, this.m12); },
+<span id='tm-geom-Matrix44-property-getAxisZ'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         getAxisZ: function() { return TM.Geom.Vector3(this.m20, this.m21, this.m22); },
-        
+
+<span id='tm-geom-Matrix44-property-setAxisX'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setAxisX: function(v) { this.m00=v.x, this.m01=v.y, this.m02=v.z; },
+<span id='tm-geom-Matrix44-property-setAxisY'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setAxisY: function(v) { this.m10=v.x, this.m11=v.y, this.m12=v.z; },
+<span id='tm-geom-Matrix44-property-setAxisZ'>        /**
+</span>         * @property
+         * @TODO ?
+         */
         setAxisZ: function(v) { this.m20=v.x, this.m21=v.y, this.m22=v.z; },
         
-<span id='tm-geom-Matrix44-method-toMatrix33'>        /**
-</span>         * Matrix33 に変換
+<span id='tm-geom-Matrix44-property-toMatrix33'>        /**
+</span>         * @property
+         * Matrix33 に変換
          */
         toMatrix33: function() {
             // TODO:
         },
         
-<span id='tm-geom-Matrix44-method-toArray'>        /**
-</span>         * 配列に変換
+<span id='tm-geom-Matrix44-property-toArray'>        /**
+</span>         * @property
+         * 配列に変換
          */
         toArray: function() {
             return this.m.slice();
         },
         
-<span id='tm-geom-Matrix44-method-toString'>        /**
-</span>         * 文字列化
+<span id='tm-geom-Matrix44-property-toString'>        /**
+</span>         * @property
+         * 文字列化
          */
         toString: function() {
             return &quot;|{m00}, {m01}, {m02}, {m03}|\n|{m10}, {m11}, {m12}, {m13}|\n|{m20}, {m21}, {m22}, {m23}|\n|{m30}, {m31}, {m32}, {m33}|&quot;.format(this);

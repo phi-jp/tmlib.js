@@ -12,7 +12,6 @@ tm.display = tm.display || {};
      * @extends tm.app.BaseApp
      */
     tm.display.CanvasApp = tm.createClass({
-
         superClass: tm.app.BaseApp,
         
         /**

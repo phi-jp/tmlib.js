@@ -166,9 +166,6 @@ tm.input = tm.input || {};
     tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
     tm.input.Mouse.BUTTON_RIGHT     = 0x4;
     
-    /**
-     * @enum
-     */
     var BUTTON_MAP = {
         "left"  : tm.input.Mouse.BUTTON_LEFT,
         "middle": tm.input.Mouse.BUTTON_MIDDLE,
@@ -214,17 +211,17 @@ tm.input = tm.input || {};
     
     
     /**
-     * @method
+     * @method getPointing
      * ポインティング状態取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointing        = function() { return this.getButton("left"); };
     /**
-     * @method
+     * @method getPointingStart
      * ポインティングを開始したかを取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown("left"); };
     /**
-     * @method
+     * @method getPointingEnd
      * ポインティングを終了したかを取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointingEnd     = function() { return this.getButtonUp("left"); };

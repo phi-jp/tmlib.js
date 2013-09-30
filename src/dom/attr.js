@@ -12,6 +12,10 @@ tm.dom = tm.dom || {};
      */
     tm.dom.Attr = tm.createClass({
         
+        /**
+         * @property
+         * エレメント
+         */
         element: null,
         
         /**

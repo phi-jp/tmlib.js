@@ -29,25 +29,32 @@ tm.dom = tm.dom || {};
      */
     tm.dom.Style = tm.createClass({
         
+<span id='tm-dom-Style-property-element'>        /**
+</span>         * @property
+         * エレメント
+         */
         element: null,
         
-<span id='tm-dom-Style-method-init'>        /**
-</span>         * 初期化
+<span id='tm-dom-Style-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
         },
         
-<span id='tm-dom-Style-method-set'>        /**
-</span>         * セット
+<span id='tm-dom-Style-property-set'>        /**
+</span>         * @property
+         * セット
          */
         set: function(name, value) {
             this.element.style[name] = value;
             return this;
         },
         
-<span id='tm-dom-Style-method-remove'>        /**
-</span>         * 削除
+<span id='tm-dom-Style-property-remove'>        /**
+</span>         * @property
+         * 削除
          */
         remove: function(name) {
             this.element.style.removeProperty(name);
@@ -55,23 +62,26 @@ tm.dom = tm.dom || {};
             return this;
         },
         
-<span id='tm-dom-Style-method-clear'>        /**
-</span>         * クリア
+<span id='tm-dom-Style-property-clear'>        /**
+</span>         * @property
+         * クリア
          */
         clear: function(name) {
             
             return this;
         },
         
-<span id='tm-dom-Style-method-get'>        /**
-</span>         * 取得
+<span id='tm-dom-Style-property-get'>        /**
+</span>         * @property
+         * 取得
          */
         get: function(name) {
             return this.element.style[name];
         },
         
-<span id='tm-dom-Style-method-getPropValue'>        /**
-</span>         * CSS の値も考慮した上での値を取得
+<span id='tm-dom-Style-property-getPropValue'>        /**
+</span>         * @property
+         * CSS の値も考慮した上での値を取得
          */
         getPropValue: function(prop_name) {
             return document.defaultView.getComputedStyle(this.element, '').getPropertyValue(prop_name);

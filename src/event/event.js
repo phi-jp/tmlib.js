@@ -13,6 +13,7 @@ tm.event = tm.event || {};
     tm.event.Event = tm.createClass({
         
         /**
+         * @property
          * タイプ
          */
         type: null,
