@@ -451,11 +451,11 @@
         /**
          * @property
          * @TODO ?
-<span id='tm-app-Object2D-property-__checkPointing'>         * @private
-</span>         * @param {Object} app
+         * @private
+         * @param {Object} app
          */
-        _checkMouse: function(app) {
-            this.__checkPointing(app, app.pointing, 0);
+<span id='tm-app-Object2D-property-__checkPointing'>        _checkMouse: function(app) {
+</span>            this.__checkPointing(app, app.pointing, 0);
         },
 
         /**
@@ -466,9 +466,10 @@
          */
         _checkTouch: function(app) {
             var self = this;
-            app.touches.each(function(touch, i) {
-                self.__checkPointing(app, touch, i);
-            });
+            this.__checkPointing(app, app.pointing, 0);
+            // app.touches.each(function(touch, i) {
+            //     self.__checkPointing(app, touch, i);
+            // });
         },
         
         /**

@@ -8171,11 +8171,15 @@ tm.input = tm.input || {};
             this.down = (this.press ^ this.last) & this.press;
             this.up   = (this.press ^ this.last) & this.last;
             
-            // 変化値を保存
-            this.deltaPosition.setObject(this.position).sub(this.prevPosition);
+            // 変化値を更新
+            this.deltaPosition.x = this._x - this.prevPosition.x;
+            this.deltaPosition.y = this._y - this.prevPosition.y;
             
-            // 前回の座標を保存
+            // 前回の座標を更新
             this.prevPosition.setObject(this.position);
+            
+            // 現在の位置を更新
+            this.position.set(this._x, this._y);
         },
         
         /**
@@ -8221,8 +8225,8 @@ tm.input = tm.input || {};
          */
         _mousemove: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
         },
 
         /**
@@ -8232,8 +8236,8 @@ tm.input = tm.input || {};
          */
         _mousemoveNormal: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
         },
 
         /**
@@ -8243,16 +8247,16 @@ tm.input = tm.input || {};
          */
         _mousemoveScale: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
             
             //if (e.target instanceof HTMLCanvasElement) {
                 // スケールを考慮した拡縮
                 if (e.target.style.width) {
-                    this.x *= e.target.width / parseInt(e.target.style.width);
+                    this._x *= e.target.width / parseInt(e.target.style.width);
                 }
                 if (e.target.style.height) {
-                    this.y *= e.target.height / parseInt(e.target.style.height);
+                    this._y *= e.target.height / parseInt(e.target.style.height);
                 }
             //}
         },
@@ -8357,6 +8361,21 @@ tm.input = tm.input || {};
             this.deltaPosition  = tm.geom.Vector2(0, 0);
             this.prevPosition   = tm.geom.Vector2(0, 0);
             
+            var self = this;
+            this.element.addEventListener("touchstart", function(e){
+                self._touchmove(e);
+                self.prevPosition.setObject(self.position);
+                self.touched = true;
+            });
+            this.element.addEventListener("touchend", function(e){
+                self.touched = false;
+            });
+            this.element.addEventListener("touchmove", function(e){
+                self._touchmove(e);
+                // 画面移動を止める
+                e.stop();
+            });
+            
             // var self = this;
             // this.element.addEventListener("touchstart", function(e) {
             //     if (self._touch) return ;
@@ -8411,11 +8430,15 @@ tm.input = tm.input || {};
             this.start  = (this.now ^ this.last) & this.now;
             this.end    = (this.now ^ this.last) & this.last;
             
-            // 変化値を保存
-            this.deltaPosition.setObject(this.position).sub(this.prevPosition);
+            // 変化値を更新
+            this.deltaPosition.x = this._x - this.prevPosition.x;
+            this.deltaPosition.y = this._y - this.prevPosition.y;
             
-            // 前回の座標を保存
+            // 前回の座標を更新
             this.prevPosition.setObject(this.position);
+            
+            // 現在の位置を更新
+            this.position.set(this._x, this._y);
         },
         
         /**
@@ -8448,10 +8471,10 @@ tm.input = tm.input || {};
          * @private
          */
         _touchmove: function(e) {
-            var t = this._touch;
+            var t = e.touches[0];
             var r = e.target.getBoundingClientRect();
-            this.x = t.clientX - r.left;
-            this.y = t.clientY - r.top;
+            this._x = t.clientX - r.left;
+            this._y = t.clientY - r.top;
         },
 
         /**
@@ -8460,16 +8483,16 @@ tm.input = tm.input || {};
          * @private
          */
         _touchmoveScale: function(e) {
-            var t = this._touch;
+            var t = e.touches[0];
             var r = e.target.getBoundingClientRect();
-            this.x = t.clientX - r.left;
-            this.y = t.clientY - r.top;
+            this._x = t.clientX - r.left;
+            this._y = t.clientY - r.top;
             
             if (e.target.style.width) {
-                this.x *= e.target.width / parseInt(e.target.style.width);
+                this._x *= e.target.width / parseInt(e.target.style.width);
             }
             if (e.target.style.height) {
-                this.y *= e.target.height / parseInt(e.target.style.height);
+                this._y *= e.target.height / parseInt(e.target.style.height);
             }
         },
         
@@ -8536,6 +8559,7 @@ tm.input = tm.input || {};
 
 
 (function() {
+    return ;
 
     /**
      * @class tm.input.Touches
@@ -11794,8 +11818,7 @@ tm.app = tm.app || {};
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
-            this.touches    = tm.input.Touches(this.element, 3);
-            this.touch      = this.touches[0];
+            this.touch      = tm.input.Touch(this.element, 0);
             // キーボードを生成
             this.keyboard   = tm.input.Keyboard();
             
@@ -11995,7 +12018,8 @@ tm.app = tm.app || {};
             // デバイス系 Update
             this.mouse.update();
             this.keyboard._update();
-            this.touches.update();
+            this.touch.update();
+            // this.touches.update();
             
             if (this.isPlaying) {
                 this.currentScene._update(this);
@@ -12755,9 +12779,10 @@ tm.app = tm.app || {};
          */
         _checkTouch: function(app) {
             var self = this;
-            app.touches.each(function(touch, i) {
-                self.__checkPointing(app, touch, i);
-            });
+            this.__checkPointing(app, app.pointing, 0);
+            // app.touches.each(function(touch, i) {
+            //     self.__checkPointing(app, touch, i);
+            // });
         },
         
         /**

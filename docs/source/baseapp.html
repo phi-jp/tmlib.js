@@ -109,8 +109,7 @@ tm.app = tm.app || {};
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
-            this.touches    = tm.input.Touches(this.element, 3);
-            this.touch      = this.touches[0];
+            this.touch      = tm.input.Touch(this.element, 0);
             // キーボードを生成
             this.keyboard   = tm.input.Keyboard();
             
@@ -290,15 +289,15 @@ tm.app = tm.app || {};
          * シーンのupdateを実行するようにする
          */
         start: function() {
-<span id='tm-app-BaseApp-property-_draw'>            this.isPlaying = true;
-</span>        },
-        
+            this.isPlaying = true;
+<span id='tm-app-BaseApp-property-_draw'>        },
+</span>        
         /**
          * @property
-<span id='tm-app-BaseApp-property-getElement'>         * シーンのupdateを実行しないようにする
-</span>         */
-        stop: function() {
-            this.isPlaying = false;
+         * シーンのupdateを実行しないようにする
+         */
+<span id='tm-app-BaseApp-property-getElement'>        stop: function() {
+</span>            this.isPlaying = false;
         },
         
         /**
@@ -310,7 +309,8 @@ tm.app = tm.app || {};
             // デバイス系 Update
             this.mouse.update();
             this.keyboard._update();
-            this.touches.update();
+            this.touch.update();
+            // this.touches.update();
             
             if (this.isPlaying) {
                 this.currentScene._update(this);

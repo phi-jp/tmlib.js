@@ -27,6 +27,21 @@ tm.input = tm.input || {};
             this.deltaPosition  = tm.geom.Vector2(0, 0);
             this.prevPosition   = tm.geom.Vector2(0, 0);
             
+            var self = this;
+            this.element.addEventListener("touchstart", function(e){
+                self._touchmove(e);
+                self.prevPosition.setObject(self.position);
+                self.touched = true;
+            });
+            this.element.addEventListener("touchend", function(e){
+                self.touched = false;
+            });
+            this.element.addEventListener("touchmove", function(e){
+                self._touchmove(e);
+                // 画面移動を止める
+                e.stop();
+            });
+            
             // var self = this;
             // this.element.addEventListener("touchstart", function(e) {
             //     if (self._touch) return ;
@@ -81,11 +96,15 @@ tm.input = tm.input || {};
             this.start  = (this.now ^ this.last) & this.now;
             this.end    = (this.now ^ this.last) & this.last;
             
-            // 変化値を保存
-            this.deltaPosition.setObject(this.position).sub(this.prevPosition);
+            // 変化値を更新
+            this.deltaPosition.x = this._x - this.prevPosition.x;
+            this.deltaPosition.y = this._y - this.prevPosition.y;
             
-            // 前回の座標を保存
+            // 前回の座標を更新
             this.prevPosition.setObject(this.position);
+            
+            // 現在の位置を更新
+            this.position.set(this._x, this._y);
         },
         
         /**
@@ -118,10 +137,10 @@ tm.input = tm.input || {};
          * @private
          */
         _touchmove: function(e) {
-            var t = this._touch;
+            var t = e.touches[0];
             var r = e.target.getBoundingClientRect();
-            this.x = t.clientX - r.left;
-            this.y = t.clientY - r.top;
+            this._x = t.clientX - r.left;
+            this._y = t.clientY - r.top;
         },
 
         /**
@@ -130,16 +149,16 @@ tm.input = tm.input || {};
          * @private
          */
         _touchmoveScale: function(e) {
-            var t = this._touch;
+            var t = e.touches[0];
             var r = e.target.getBoundingClientRect();
-            this.x = t.clientX - r.left;
-            this.y = t.clientY - r.top;
+            this._x = t.clientX - r.left;
+            this._y = t.clientY - r.top;
             
             if (e.target.style.width) {
-                this.x *= e.target.width / parseInt(e.target.style.width);
+                this._x *= e.target.width / parseInt(e.target.style.width);
             }
             if (e.target.style.height) {
-                this.y *= e.target.height / parseInt(e.target.style.height);
+                this._y *= e.target.height / parseInt(e.target.style.height);
             }
         },
         
@@ -206,6 +225,7 @@ tm.input = tm.input || {};
 
 
 (function() {
+    return ;
 
     /**
      * @class tm.input.Touches

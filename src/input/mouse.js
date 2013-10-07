@@ -73,11 +73,15 @@ tm.input = tm.input || {};
             this.down = (this.press ^ this.last) & this.press;
             this.up   = (this.press ^ this.last) & this.last;
             
-            // 変化値を保存
-            this.deltaPosition.setObject(this.position).sub(this.prevPosition);
+            // 変化値を更新
+            this.deltaPosition.x = this._x - this.prevPosition.x;
+            this.deltaPosition.y = this._y - this.prevPosition.y;
             
-            // 前回の座標を保存
+            // 前回の座標を更新
             this.prevPosition.setObject(this.position);
+            
+            // 現在の位置を更新
+            this.position.set(this._x, this._y);
         },
         
         /**
@@ -123,8 +127,8 @@ tm.input = tm.input || {};
          */
         _mousemove: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
         },
 
         /**
@@ -134,8 +138,8 @@ tm.input = tm.input || {};
          */
         _mousemoveNormal: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
         },
 
         /**
@@ -145,16 +149,16 @@ tm.input = tm.input || {};
          */
         _mousemoveScale: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
             
             //if (e.target instanceof HTMLCanvasElement) {
                 // スケールを考慮した拡縮
                 if (e.target.style.width) {
-                    this.x *= e.target.width / parseInt(e.target.style.width);
+                    this._x *= e.target.width / parseInt(e.target.style.width);
                 }
                 if (e.target.style.height) {
-                    this.y *= e.target.height / parseInt(e.target.style.height);
+                    this._y *= e.target.height / parseInt(e.target.style.height);
                 }
             //}
         },

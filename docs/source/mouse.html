@@ -90,11 +90,15 @@ tm.input = tm.input || {};
             this.down = (this.press ^ this.last) &amp; this.press;
             this.up   = (this.press ^ this.last) &amp; this.last;
             
-            // 変化値を保存
-<span id='tm-input-Mouse-property-getButton'>            this.deltaPosition.setObject(this.position).sub(this.prevPosition);
+            // 変化値を更新
+            this.deltaPosition.x = this._x - this.prevPosition.x;
+            this.deltaPosition.y = this._y - this.prevPosition.y;
+            
+            // 前回の座標を更新
+<span id='tm-input-Mouse-property-getButton'>            this.prevPosition.setObject(this.position);
 </span>            
-            // 前回の座標を保存
-            this.prevPosition.setObject(this.position);
+            // 現在の位置を更新
+            this.position.set(this._x, this._y);
         },
         
         /**
@@ -137,11 +141,11 @@ tm.input = tm.input || {};
          * @property
          * @TODO ?
          * @private
-         */
-<span id='tm-input-Mouse-property-_mousemoveNormal'>        _mousemove: function(e) {
-</span>            var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+<span id='tm-input-Mouse-property-_mousemoveNormal'>         */
+</span>        _mousemove: function(e) {
+            var rect = e.target.getBoundingClientRect();
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
         },
 
         /**
@@ -151,8 +155,8 @@ tm.input = tm.input || {};
          */
 <span id='tm-input-Mouse-property-_mousemoveScale'>        _mousemoveNormal: function(e) {
 </span>            var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
         },
 
         /**
@@ -162,16 +166,16 @@ tm.input = tm.input || {};
          */
         _mousemoveScale: function(e) {
             var rect = e.target.getBoundingClientRect();
-            this.x = e.clientX - rect.left;
-            this.y = e.clientY - rect.top;
+            this._x = e.clientX - rect.left;
+            this._y = e.clientY - rect.top;
             
             //if (e.target instanceof HTMLCanvasElement) {
                 // スケールを考慮した拡縮
                 if (e.target.style.width) {
-                    this.x *= e.target.width / parseInt(e.target.style.width);
+                    this._x *= e.target.width / parseInt(e.target.style.width);
                 }
                 if (e.target.style.height) {
-                    this.y *= e.target.height / parseInt(e.target.style.height);
+                    this._y *= e.target.height / parseInt(e.target.style.height);
                 }
             //}
         },
@@ -189,37 +193,37 @@ tm.input = tm.input || {};
         &quot;right&quot; : tm.input.Mouse.BUTTON_RIGHT
     };
     
-    
-    /**
-<span id='tm-input-Mouse-property-y'>     * @property    x
-</span>     * x座標値
+<span id='tm-input-Mouse-property-y'>    
+</span>    /**
+     * @property    x
+     * x座標値
      */
     tm.input.Mouse.prototype.accessor(&quot;x&quot;, {
         &quot;get&quot;: function()   { return this.position.x; },
         &quot;set&quot;: function(v)  { this.position.x = v; }
-    });
-    
-<span id='tm-input-Mouse-property-dx'>    /**
-</span>     * @property    y
+<span id='tm-input-Mouse-property-dx'>    });
+</span>    
+    /**
+     * @property    y
      * y座標値
      */
     tm.input.Mouse.prototype.accessor(&quot;y&quot;, {
         &quot;get&quot;: function()   { return this.position.y; },
         &quot;set&quot;: function(v)  { this.position.y = v; }
     });
-    
-    /**
-<span id='tm-input-Mouse-property-dy'>     * @property    dx
-</span>     * dx値
+<span id='tm-input-Mouse-property-dy'>    
+</span>    /**
+     * @property    dx
+     * dx値
      */
     tm.input.Mouse.prototype.accessor(&quot;dx&quot;, {
         &quot;get&quot;: function()   { return this.deltaPosition.x; },
         &quot;set&quot;: function(v)  { this.deltaPosition.x = v; }
     });
-    
-    /**
-<span id='tm-input-Mouse-method-getPointing'>     * @property    dy
-</span>     * dy値
+<span id='tm-input-Mouse-method-getPointing'>    
+</span>    /**
+     * @property    dy
+     * dy値
      */
     tm.input.Mouse.prototype.accessor(&quot;dy&quot;, {
         &quot;get&quot;: function()   { return this.deltaPosition.y; },

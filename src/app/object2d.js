@@ -449,9 +449,10 @@
          */
         _checkTouch: function(app) {
             var self = this;
-            app.touches.each(function(touch, i) {
-                self.__checkPointing(app, touch, i);
-            });
+            this.__checkPointing(app, app.pointing, 0);
+            // app.touches.each(function(touch, i) {
+            //     self.__checkPointing(app, touch, i);
+            // });
         },
         
         /**

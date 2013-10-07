@@ -10,6 +10,7 @@
         "scripts/label.js",
         "scripts/animationsprite.js",
         "scripts/mapsprite.js",
+        "scripts/example.js",
     ]);
 })(this);
 

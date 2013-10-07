@@ -92,8 +92,7 @@ tm.app = tm.app || {};
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
-            this.touches    = tm.input.Touches(this.element, 3);
-            this.touch      = this.touches[0];
+            this.touch      = tm.input.Touch(this.element, 0);
             // キーボードを生成
             this.keyboard   = tm.input.Keyboard();
             
@@ -293,7 +292,8 @@ tm.app = tm.app || {};
             // デバイス系 Update
             this.mouse.update();
             this.keyboard._update();
-            this.touches.update();
+            this.touch.update();
+            // this.touches.update();
             
             if (this.isPlaying) {
                 this.currentScene._update(this);
