@@ -206,36 +206,24 @@ tm.display = tm.display || {};
         
     });
 
-    /**
-     * @enum
-     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
         fillStyle: "red",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
-    /**
-     * @enum
-     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
         fillStyle: "green",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
-    /**
-     * @enum
-     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
         fillStyle: "blue",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
-    /**
-     * @enum
-     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR = {
         fillStyle: "yellow",
         strokeStyle: "white",
@@ -246,9 +234,6 @@ tm.display = tm.display || {};
         offsetAngle: undefined,
     };
 
-    /**
-     * @enum
-     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
         fillStyle: "cyan",
         strokeStyle: "white",
@@ -258,9 +243,6 @@ tm.display = tm.display || {};
         offsetAngle: undefined,
     };
 
-    /**
-     * @enum
-     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART = {
         fillStyle: "pink",
         strokeStyle: "white",
@@ -269,9 +251,6 @@ tm.display = tm.display || {};
         angle: 45,
     };
 
-    /**
-     * @enum
-     */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
         text: "hello, world",
         fillStyle: "pink",

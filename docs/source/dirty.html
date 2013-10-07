@@ -27,35 +27,40 @@
     });
     
     
-    var dirtyClass = [
-        &quot;Sprite&quot;,
-        &quot;Shape&quot;,
-        &quot;CircleShape&quot;,
-        &quot;TriangleShape&quot;,
-        &quot;RectangleShape&quot;,
-        &quot;StarShape&quot;,
-        &quot;PolygonShape&quot;,
-        &quot;HeartShape&quot;,
-        &quot;TextShape&quot;,
-        &quot;CanvasRenderer&quot;,
-        &quot;BoundingRectRenderer&quot;,
-        &quot;Label&quot;,
-        &quot;MapSprite&quot;,
-        &quot;CanvasElement&quot;,
-        &quot;CanvasApp&quot;,
-        &quot;AnimationSprite&quot;,
-        &quot;SpriteSheet&quot;,
-        
-        &quot;LabelButton&quot;,
-        &quot;IconButton&quot;,
-        &quot;GlossyButton&quot;,
-        &quot;FlatButton&quot;,
-    ];
+    var dirtyClass = {
+        &quot;display&quot;: [
+            &quot;Sprite&quot;,
+            &quot;Shape&quot;,
+            &quot;CircleShape&quot;,
+            &quot;TriangleShape&quot;,
+            &quot;RectangleShape&quot;,
+            &quot;StarShape&quot;,
+            &quot;PolygonShape&quot;,
+            &quot;HeartShape&quot;,
+            &quot;TextShape&quot;,
+            &quot;CanvasRenderer&quot;,
+            &quot;BoundingRectRenderer&quot;,
+            &quot;Label&quot;,
+            &quot;MapSprite&quot;,
+            &quot;CanvasElement&quot;,
+            &quot;CanvasApp&quot;,
+            &quot;AnimationSprite&quot;,
+            &quot;SpriteSheet&quot;,
+        ],
+        &quot;ui&quot;: [
+            &quot;LabelButton&quot;,
+            &quot;IconButton&quot;,
+            &quot;GlossyButton&quot;,
+            &quot;FlatButton&quot;,
+        ],
+    };
     
-    dirtyClass.each(function(className) {
-        tm.app[className] = tm.display[className];
-    });
-
+    for (var key in dirtyClass) {
+        var namespace = dirtyClass[key];
+        namespace.each(function(className) {
+            tm.app[className] = tm[key][className];
+        });
+    }
 
 })();
 </pre>
