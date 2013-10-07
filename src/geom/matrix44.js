@@ -18,7 +18,8 @@ tm.geom = tm.geom || {};
         
 
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             this.m = [];
@@ -31,10 +32,10 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * セット
          */
-        set: function(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)
-        {
+        set: function(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33) {
             console.assert(arguments.length>=16, "");
             
             // |m00, m01, m02, m03|
@@ -51,10 +52,10 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 配列からセット
          */
-        setArray: function(arr)
-        {
+        setArray: function(arr) {
             this.set(
                 arr[0], arr[4],  arr[8], arr[12],
                 arr[1], arr[5],  arr[9], arr[13],
@@ -66,11 +67,11 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * オブジェクトからセット.
          * Matrix44 もこいつでいける!!
          */
-        setObject: function(obj)
-        {
+        setObject: function(obj) {
             this.set(
                 obj.m00, obj.m01, obj.m02, obj.m03,
                 obj.m10, obj.m11, obj.m12, obj.m13,
@@ -83,6 +84,7 @@ tm.geom = tm.geom || {};
         
         
         /**
+         * @property
          * 単位行列
          */
         identity: function() {
@@ -96,6 +98,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 転置
          */
         transpose: function() {
@@ -110,6 +113,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 移動
          */
         translate: function(x, y, z) {
@@ -117,6 +121,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 回転
          */
         rotate: function(angle) {
@@ -125,6 +130,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * X軸を基軸に回転する
          */
         rotateX: function(rad) {
@@ -132,6 +138,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * Y軸を基軸に回転する
          */
         rotateY: function(rad) {
@@ -139,6 +146,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * Z軸を基軸に回転する
          */
         rotateZ: function(rad) {
@@ -146,6 +154,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * スケーリング
          */
         scale: function(x, y, z) {
@@ -153,6 +162,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * ゼロ
          */
         zero: function() {
@@ -161,11 +171,11 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 乗算
          * this * mat
          */
-        multiply: function(mat)
-        {
+        multiply: function(mat) {
             var m00 = this.m00*mat.m00 + this.m01*mat.m10 + this.m02*mat.m20 + this.m03*mat.m30;
             var m01 = this.m00*mat.m01 + this.m01*mat.m11 + this.m02*mat.m21 + this.m03*mat.m31;
             var m02 = this.m00*mat.m02 + this.m01*mat.m12 + this.m02*mat.m22 + this.m03*mat.m32;
@@ -200,15 +210,40 @@ tm.geom = tm.geom || {};
         getAxisZ: function() { return TM.Geom.Vector3(this.m02, this.m12, this.m22); },
         */
         
+        /**
+         * @property
+         * @TODO ?
+         */
         getAxisX: function() { return TM.Geom.Vector3(this.m00, this.m01, this.m02); },
+        /**
+         * @property
+         * @TODO ?
+         */
         getAxisY: function() { return TM.Geom.Vector3(this.m10, this.m11, this.m12); },
+        /**
+         * @property
+         * @TODO ?
+         */
         getAxisZ: function() { return TM.Geom.Vector3(this.m20, this.m21, this.m22); },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setAxisX: function(v) { this.m00=v.x, this.m01=v.y, this.m02=v.z; },
+        /**
+         * @property
+         * @TODO ?
+         */
         setAxisY: function(v) { this.m10=v.x, this.m11=v.y, this.m12=v.z; },
+        /**
+         * @property
+         * @TODO ?
+         */
         setAxisZ: function(v) { this.m20=v.x, this.m21=v.y, this.m22=v.z; },
         
         /**
+         * @property
          * Matrix33 に変換
          */
         toMatrix33: function() {
@@ -216,6 +251,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 配列に変換
          */
         toArray: function() {
@@ -223,6 +259,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
+         * @property
          * 文字列化
          */
         toString: function() {

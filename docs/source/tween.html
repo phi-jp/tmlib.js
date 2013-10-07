@@ -25,46 +25,104 @@ tm.anim = tm.anim || {};
     
     
 <span id='tm-anim-Tween'>    /**
-</span>     * @class
+</span>     * @class tm.anim.Tween
      * Tween クラス
+     * @extends tm.event.EventDispatcher
      */
     tm.anim.Tween = tm.createClass({
         
         superClass: tm.event.EventDispatcher,
         
-        target      : null,
+<span id='tm-anim-Tween-property-target'>        /**
+</span>         * @property
+         * アニメーションさせる対象
+         */
+<span id='tm-anim-Tween-property-time'>        target      : null,
+</span>        /**
+         * @property
+<span id='tm-anim-Tween-property-prop'>         * アニメーションの時間
+</span>         */
         time        : null,
+        /**
+         * @property
+<span id='tm-anim-Tween-property-now'>         * プロパティ 未使用？
+</span>         */
         prop        : null,
+        /**
+<span id='tm-anim-Tween-property-begin'>         * @property
+</span>         * ?
+         */
         now         : null,
+        /**
+<span id='tm-anim-Tween-property-finish'>         * @property
+</span>         * ?
+         */
         begin       : null,
+        /**
+<span id='tm-anim-Tween-property-duration'>         * @property
+</span>         * ?
+         */
         finish      : null,
+        /**
+         * @property
+<span id='tm-anim-Tween-property-isLooping'>         * アニメーションにかける時間
+</span>         */
         duration    : null,
-        isLooping   : null,
-        isPlaying   : null,
-        func        : Math.linear,
+<span id='tm-anim-Tween-property-isPlaying'>        /**
+</span>         * @property
+         * ループするかどうか
+         */
+<span id='tm-anim-Tween-property-func'>        isLooping   : null,
+</span>        /**
+         * @property
+         * アニメーション中かどうか
+         */
+<span id='tm-anim-Tween-property-fps'>        isPlaying   : null,
+</span>        /**
+         * @property
+         * アニメーション実行関数
+<span id='tm-anim-Tween-property-init'>         */
+</span>        func        : Math.linear,
         
-<span id='tm-anim-Tween-property-fps'>        /**
-</span>         * frame rate
+        /**
+         * @property
+         * フレームレート
          */
         fps     : 30,
         
+        /**
+         * @property init
+         * コンストラクタ
+         * @param {Object} target
+         * @param {Object} finishProps
+         * @param {Object} duration
+         * @param {Function} func
+         */
         init: function(target, finishProps, duration, func) {
             this.superInit();
             
             this.time = 0;
-            this.nowProps = {};
-            this.isPlaying = false;
+<span id='tm-anim-Tween-property-to'>            this.nowProps = {};
+</span>            this.isPlaying = false;
 
             if (arguments.length &gt; 0) {
                 this.to.apply(this, arguments);
             }
         },
 
+        /**
+         * @property to
+         * 指定した値までアニメーション
+         * @param {Object} target
+         * @param {Object} finishProps
+         * @param {Object} duration
+         * @param {Function} func
+         */
         to: function(target, finishProps, duration, func) {
             var beginProps = {};
 
-            for (var key in finishProps) {
-                beginProps[key] = target[key];
+<span id='tm-anim-Tween-property-by'>            for (var key in finishProps) {
+</span>                beginProps[key] = target[key];
             }
 
             this.fromTo(target, beginProps, finishProps, duration, func);
@@ -72,12 +130,20 @@ tm.anim = tm.anim || {};
             return this;
         },
 
+        /**
+         * @property by
+         * 指定した値を足した値までアニメーション
+         * @param {Object} target
+         * @param {Object} props
+         * @param {Object} duration
+         * @param {Function} func
+         */
         by: function(target, props, duration, func) {
             var beginProps = {};
             var finishProps = {};
 
-            for (var key in props) {
-                beginProps[key] = target[key];
+<span id='tm-anim-Tween-property-fromTo'>            for (var key in props) {
+</span>                beginProps[key] = target[key];
                 finishProps[key] = target[key] + props[key];
             }
 
@@ -86,12 +152,21 @@ tm.anim = tm.anim || {};
             return this;
         },
 
+        /**
+         * @property fromTo
+         * 開始の値から終了の値までアニメーション
+         * @param {Object} target
+         * @param {Object} beginProps
+         * @param {Object} finishProps
+         * @param {Object} duration
+         * @param {Function} func
+         */
         fromTo: function(target, beginProps, finishProps, duration, func) {
             this.target = target;
             this.beginProps  = beginProps;
             this.finishProps = finishProps;
-            this.duration = duration;
-            
+<span id='tm-anim-Tween-property-from'>            this.duration = duration;
+</span>            
             // setup
             this.changeProps = {};
             for (var key in beginProps) {
@@ -102,8 +177,16 @@ tm.anim = tm.anim || {};
             return this;
         },
 
-        from: function(target, beginProps, duration, func) {
-            var finishProps = {};
+        /**
+         * @property from
+         * @TODO ?
+         * @param {Object} target
+         * @param {Object} beginProps
+         * @param {Object} duration
+         * @param {Function} func
+         */
+<span id='tm-anim-Tween-property-setTransition'>        from: function(target, beginProps, duration, func) {
+</span>            var finishProps = {};
 
             for (var key in beginProps) {
                 finishProps[key] = target[key];
@@ -114,9 +197,14 @@ tm.anim = tm.anim || {};
             return this;
         },
         
+        /**
+         * @property setTransition
+         * easingの指定か、コールバックの指定か調べる
+         * @param {Function} func
+         */
         setTransition: function(func) {
-            if (typeof func == 'function') {
-                this.func = func;
+<span id='tm-anim-Tween-property-resume'>            if (typeof func == 'function') {
+</span>                this.func = func;
             }
             else if (typeof func == 'string'){
                 this.func = tm.anim.easing[func];
@@ -126,53 +214,59 @@ tm.anim = tm.anim || {};
             }
             return this;
         },
-        
-<span id='tm-anim-Tween-method-resume'>        /**
-</span>         * 再開
+<span id='tm-anim-Tween-property-start'>        
+</span>        /**
+         * @property resume
+         * アニメーションの再開
          */
         resume: function() {
             this.isPlaying = true;
             this._resumeTime();
             this._updateTime();
-            this.dispatchEvent(tm.event.TweenEvent(&quot;resume&quot;, this.time, this.nowProps));
-        },
+<span id='tm-anim-Tween-property-stop'>            this.dispatchEvent(tm.event.TweenEvent(&quot;resume&quot;, this.time, this.nowProps));
+</span>        },
         
-<span id='tm-anim-Tween-method-start'>        /**
-</span>         * 開始
+        /**
+         * @property start
+         * アニメーションの開始
          */
         start: function() {
             this.isPlaying = true;
             this._startTime();
-            this._updateTime();
-            this.dispatchEvent(tm.event.TweenEvent(&quot;start&quot;, this.time, this.nowProps));
+<span id='tm-anim-Tween-property-rewind'>            this._updateTime();
+</span>            this.dispatchEvent(tm.event.TweenEvent(&quot;start&quot;, this.time, this.nowProps));
         },
         
-<span id='tm-anim-Tween-method-stop'>        /**
-</span>         * ストップ
-         */
+        /**
+         * @property stop
+<span id='tm-anim-Tween-property-fforward'>         * アニメーションのストップ
+</span>         */
         stop: function() {
             this.isPlaying = false;
-            this.dispatchEvent(tm.event.TweenEvent(&quot;stop&quot;, this.time, this.nowProps));
-        },
+<span id='tm-anim-Tween-method-yoyo'>            this.dispatchEvent(tm.event.TweenEvent(&quot;stop&quot;, this.time, this.nowProps));
+</span>        },
         
-<span id='tm-anim-Tween-method-rewind'>        /**
-</span>         * 開始位置まで戻る
+        /**
+         * @property rewind
+         * 開始位置まで戻る
          */
         rewind: function() {
             this.time = 0;
             this.update();
         },
         
-<span id='tm-anim-Tween-method-fforward'>        /**
-</span>         * 最後位置まで早送り
+        /**
+         * @property fforward
+         * 最後位置まで早送り
          */
         fforward: function() {
             this.time = this.duration;
             this.update();
         },
-        
-<span id='tm-anim-Tween-method-yoyo'>        /**
-</span>         * ヨーヨー
+
+<span id='tm-anim-Tween-property-update'>        /**        
+</span>         * @property yoyo
+         * ヨーヨーのアニメーション
          */
         yoyo: function() {
             var temp = this.finishProps;
@@ -184,25 +278,41 @@ tm.anim = tm.anim || {};
             this.start();
         },
         
-<span id='tm-anim-Tween-method-update'>        /**
-</span>         * 更新
+<span id='tm-anim-Tween-property-_resumeTime'>        /**
+</span>         * @property update
+         * 更新
          */
         update: function() {
             for (var key in this.changeProps) {
-                this.nowProps[key] = this.func(this.time, this.beginProps[key], this.changeProps[key], this.duration);
-                this.target[key] = this.nowProps[key];
+<span id='tm-anim-Tween-property-_startTime'>                this.nowProps[key] = this.func(this.time, this.beginProps[key], this.changeProps[key], this.duration);
+</span>                this.target[key] = this.nowProps[key];
             }
-            this.dispatchEvent(tm.event.TweenEvent(&quot;change&quot;, this.time, this.nowProps));
-        },
+<span id='tm-anim-Tween-property-_updateTime'>            this.dispatchEvent(tm.event.TweenEvent(&quot;change&quot;, this.time, this.nowProps));
+</span>        },
         
+        /**
+         * @property _resumeTime
+         * 時間を巻き戻す
+         * @private
+         */
         _resumeTime: function() {
             this.startTime = (new Date()).getTime() - this.time;
         },
         
+        /**
+         * @property _startTime
+         * スタート時間を設定
+<span id='tm-anim-Tween-property-_setTime'>         * @private
+</span>         */
         _startTime: function() {
             this.startTime = (new Date()).getTime();
         },
         
+        /**
+         * @property _updateTime
+         * 時間を進める
+         * @private
+         */
         _updateTime: function() {
             if (this.isPlaying) {
                 this._setTime((new Date()).getTime() - this.startTime);
@@ -210,6 +320,12 @@ tm.anim = tm.anim || {};
             }
         },
         
+        /**
+         * @property _setTime
+         * 時間を設定する
+         * @param {Object} t
+         * @private
+         */
         _setTime: function(t) {
             var time = t;
             // モーション終了
@@ -223,8 +339,8 @@ tm.anim = tm.anim || {};
                     this.dispatchEvent(tm.event.TweenEvent(&quot;loop&quot;, this.time, this.nowProps));
                 }
                 // 終了
-                else {
-                    this.time = this.duration;
+<span id='tm-anim-easing'>                else {
+</span>                    this.time = this.duration;
                     // 座標を更新
                     this.update();
                     // 停止
@@ -234,199 +350,402 @@ tm.anim = tm.anim || {};
                 }
             }
             // 更新
-            else {
-                this.time = time;
+<span id='tm-anim-easing-property-default'>            else {
+</span>                this.time = time;
                 // 座標を更新
                 this.update();
             }
         }
     });
-    
-    
 })();
 
 
 /*
- * easing
- */
+<span id='tm-anim-easing-property-linear'> * easing
+</span> */
 (function() {
     
-<span id='tm-anim-Tween-property-easing'>    /**
-</span>     * イージング
+    /**
+     * @class tm.anim.easing
+     * イージング
      * ### Reference
-     * - &lt;http://coderepos.org/share/wiki/JSTweener&gt;
-     * - &lt;http://coderepos.org/share/browser/lang/javascript/jstweener/trunk/src/JSTweener.js&gt;
-     * - &lt;http://gsgd.co.uk/sandbox/jquery/easing/jquery.easing.1.3.js&gt;
-     * - &lt;http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html&gt;
+<span id='tm-anim-easing-property-swing'>     * - &lt;http://coderepos.org/share/wiki/JSTweener&gt;
+</span>     * - &lt;http://coderepos.org/share/browser/lang/javascript/jstweener/trunk/src/JSTweener.js&gt;
+<span id='tm-anim-easing-property-easeInQuad'>     * - &lt;http://gsgd.co.uk/sandbox/jquery/easing/jquery.easing.1.3.js&gt;
+</span>     * - &lt;http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html&gt;
      */
     tm.anim.easing = {
+        /**
+         * @property
+<span id='tm-anim-easing-property-easeOutQuad'>         * default
+</span>         */
         &quot;default&quot;: function(t, b, c, d) {
             return c*t/d + b;
         },
         
-        linear: function(t, b, c, d) {
+        /**
+         * @property
+         * linear
+<span id='tm-anim-easing-property-easeInOutQuad'>         */
+</span>        linear: function(t, b, c, d) {
             return c*t/d + b;
         },
         
+        /**
+         * @property
+         * swing
+         */
         swing: function(t, b, c, d) {
-            return -c *(t/=d)*(t-2) + b;
-        },
+<span id='tm-anim-easing-property-easeInCubic'>            return -c *(t/=d)*(t-2) + b;
+</span>        },
         
+        /**
+         * @property
+         * easeInQuad
+         */
         easeInQuad: function(t, b, c, d) {
-            return c*(t/=d)*t + b;
-        },
+<span id='tm-anim-easing-property-easeOutCubic'>            return c*(t/=d)*t + b;
+</span>        },
         
+        /**
+         * @property
+         * easeOutQuad
+         */
         easeOutQuad: function(t, b, c, d) {
-            return -c *(t/=d)*(t-2) + b;
-        },
+<span id='tm-anim-easing-property-easeInOutCubic'>            return -c *(t/=d)*(t-2) + b;
+</span>        },
         
+        /**
+         * @property
+         * easeInOutQuad
+         */
         easeInOutQuad: function(t, b, c, d) {
             if((t/=d/2) &lt; 1) return c/2*t*t + b;
-            return -c/2 *((--t)*(t-2) - 1) + b;
-        },    
+<span id='tm-anim-easing-property-easeOutInCubic'>            return -c/2 *((--t)*(t-2) - 1) + b;
+</span>        },
+
+        /**
+         * @property
+         * defeInCubic
+         */   
         easeInCubic: function(t, b, c, d) {
             return c*(t/=d)*t*t + b;
-        },    
-        easeOutCubic: function(t, b, c, d) {
-            return c*((t=t/d-1)*t*t + 1) + b;
-        },    
-        easeInOutCubic: function(t, b, c, d) {
-            if((t/=d/2) &lt; 1) return c/2*t*t*t + b;
+        },
+
+        /**
+         * @property
+         * easeOutCubic
+         */
+<span id='tm-anim-easing-property-easeInQuart'>        easeOutCubic: function(t, b, c, d) {
+</span>            return c*((t=t/d-1)*t*t + 1) + b;
+        },
+
+        /**
+         * @property
+         * easeInOutCubic
+         */
+<span id='tm-anim-easing-property-easeOutQuart'>        easeInOutCubic: function(t, b, c, d) {
+</span>            if((t/=d/2) &lt; 1) return c/2*t*t*t + b;
             return c/2*((t-=2)*t*t + 2) + b;
-        },    
+        },
+
+        /**
+<span id='tm-anim-easing-property-easeInOutQuart'>         * @property
+</span>         * easeOutInCubic
+         */
         easeOutInCubic: function(t, b, c, d) {
             if(t &lt; d/2) return tm.anim.easing.easeOutCubic(t*2, b, c/2, d);
-            return tm.anim.easing.easeInCubic((t*2)-d, b+c/2, c/2, d);
-        },    
+<span id='tm-anim-easing-property-easeOutInQuart'>            return tm.anim.easing.easeInCubic((t*2)-d, b+c/2, c/2, d);
+</span>        },
+
+        /**
+         * @property
+         * easeInQuart
+         */
         easeInQuart: function(t, b, c, d) {
             return c*(t/=d)*t*t*t + b;
-        },    
-        easeOutQuart: function(t, b, c, d) {
-            return -c *((t=t/d-1)*t*t*t - 1) + b;
-        },    
-        easeInOutQuart: function(t, b, c, d) {
-            if((t/=d/2) &lt; 1) return c/2*t*t*t*t + b;
+        },
+
+        /**
+         * @property
+         * easeOutQuart
+         */
+<span id='tm-anim-easing-property-easeInQuint'>        easeOutQuart: function(t, b, c, d) {
+</span>            return -c *((t=t/d-1)*t*t*t - 1) + b;
+        },
+
+        /**
+         * @property
+         * easeInOutQuart
+         */
+<span id='tm-anim-easing-property-easeOutQuint'>        easeInOutQuart: function(t, b, c, d) {
+</span>            if((t/=d/2) &lt; 1) return c/2*t*t*t*t + b;
             return -c/2 *((t-=2)*t*t*t - 2) + b;
-        },    
+        },
+
+        /**
+<span id='tm-anim-easing-property-easeInOutQuint'>         * @property
+</span>         * easeOutInQuart
+         */
         easeOutInQuart: function(t, b, c, d) {
             if(t &lt; d/2) return tm.anim.easing.easeOutQuart(t*2, b, c/2, d);
-            return tm.anim.easing.easeInQuart((t*2)-d, b+c/2, c/2, d);
-        },    
+<span id='tm-anim-easing-property-easeOutInQuint'>            return tm.anim.easing.easeInQuart((t*2)-d, b+c/2, c/2, d);
+</span>        },
+
+        /**
+         * @property
+         * easeInQuint
+         */
         easeInQuint: function(t, b, c, d) {
             return c*(t/=d)*t*t*t*t + b;
-        },    
-        easeOutQuint: function(t, b, c, d) {
-            return c*((t=t/d-1)*t*t*t*t + 1) + b;
-        },    
-        easeInOutQuint: function(t, b, c, d) {
-            if((t/=d/2) &lt; 1) return c/2*t*t*t*t*t + b;
+        },
+
+        /**
+         * @property
+         * easeOutQuint
+         */
+<span id='tm-anim-easing-property-easeInSine'>        easeOutQuint: function(t, b, c, d) {
+</span>            return c*((t=t/d-1)*t*t*t*t + 1) + b;
+        },
+
+        /**
+         * @property
+         * easeInOutQuint
+         */
+<span id='tm-anim-easing-property-easeOutSine'>        easeInOutQuint: function(t, b, c, d) {
+</span>            if((t/=d/2) &lt; 1) return c/2*t*t*t*t*t + b;
             return c/2*((t-=2)*t*t*t*t + 2) + b;
-        },    
+        },
+
+        /**
+         * @property
+<span id='tm-anim-easing-property-easeInOutSine'>         * easeOutInQuint
+</span>         */
         easeOutInQuint: function(t, b, c, d) {
             if(t &lt; d/2) return tm.anim.easing.easeOutQuint(t*2, b, c/2, d);
-            return tm.anim.easing.easeInQuint((t*2)-d, b+c/2, c/2, d);
-        },    
+<span id='tm-anim-easing-property-easeOutInSine'>            return tm.anim.easing.easeInQuint((t*2)-d, b+c/2, c/2, d);
+</span>        },
+
+        /**
+         * @property
+         * easeInSine
+         */
         easeInSine: function(t, b, c, d) {
             return -c * Math.cos(t/d *(Math.PI/2)) + c + b;
-        },    
+        },
+
+        /**
+         * @property
+<span id='tm-anim-easing-property-easeInExpo'>         * easeOutSine
+</span>         */
         easeOutSine: function(t, b, c, d) {
             return c * Math.sin(t/d *(Math.PI/2)) + b;
-        },    
-        easeInOutSine: function(t, b, c, d) {
+        },
+
+        /**
+         * @property
+         * easeInOutSine
+<span id='tm-anim-easing-property-easeOutExpo'>         */
+</span>        easeInOutSine: function(t, b, c, d) {
             return -c/2 *(Math.cos(Math.PI*t/d) - 1) + b;
-        },    
-        easeOutInSine: function(t, b, c, d) {
-            if(t &lt; d/2) return tm.anim.easing.easeOutSine(t*2, b, c/2, d);
+        },
+
+        /**
+         * @property
+         * easeOutInSine
+         */
+<span id='tm-anim-easing-property-easeInOutExpo'>        easeOutInSine: function(t, b, c, d) {
+</span>            if(t &lt; d/2) return tm.anim.easing.easeOutSine(t*2, b, c/2, d);
             return tm.anim.easing.easeInSine((t*2)-d, b+c/2, c/2, d);
-        },    
+        },
+
+        /**
+         * @property
+         * easeInExpo
+         */
         easeInExpo: function(t, b, c, d) {
-            return(t==0) ? b : c * Math.pow(2, 10 *(t/d - 1)) + b - c * 0.001;
-        },    
+<span id='tm-anim-easing-property-easeOutInExpo'>            return(t==0) ? b : c * Math.pow(2, 10 *(t/d - 1)) + b - c * 0.001;
+</span>        },
+
+        /**
+         * @property
+         * easeOutExpo
+         */
         easeOutExpo: function(t, b, c, d) {
             return(t==d) ? b+c : c * 1.001 *(-Math.pow(2, -10 * t/d) + 1) + b;
-        },    
+        },
+
+        /**
+<span id='tm-anim-easing-property-easeInCirc'>         * @property
+</span>         * easeInOutExpo
+         */
         easeInOutExpo: function(t, b, c, d) {
             if(t==0) return b;
             if(t==d) return b+c;
-            if((t/=d/2) &lt; 1) return c/2 * Math.pow(2, 10 *(t - 1)) + b - c * 0.0005;
-            return c/2 * 1.0005 *(-Math.pow(2, -10 * --t) + 2) + b;
-        },    
+<span id='tm-anim-easing-property-easeOutCirc'>            if((t/=d/2) &lt; 1) return c/2 * Math.pow(2, 10 *(t - 1)) + b - c * 0.0005;
+</span>            return c/2 * 1.0005 *(-Math.pow(2, -10 * --t) + 2) + b;
+        },
+
+        /**
+         * @property
+<span id='tm-anim-easing-property-easeInOutCirc'>         * easeOutInExpo
+</span>         */
         easeOutInExpo: function(t, b, c, d) {
             if(t &lt; d/2) return tm.anim.easing.easeOutExpo(t*2, b, c/2, d);
             return tm.anim.easing.easeInExpo((t*2)-d, b+c/2, c/2, d);
-        },    
+        },
+
+        /**
+<span id='tm-anim-easing-property-easeOutInCirc'>         * @property
+</span>         * easeInCirc
+         */
         easeInCirc: function(t, b, c, d) {
             return -c *(Math.sqrt(1 -(t/=d)*t) - 1) + b;
-        },    
+        },
+
+        /**
+         * @property
+         * easeOutCirc
+         */
         easeOutCirc: function(t, b, c, d) {
-            return c * Math.sqrt(1 -(t=t/d-1)*t) + b;
-        },    
+<span id='tm-anim-easing-property-easeInElastic'>            return c * Math.sqrt(1 -(t=t/d-1)*t) + b;
+</span>        },
+
+        /**
+         * @property
+         * easeInOutCirc
+         */
         easeInOutCirc: function(t, b, c, d) {
             if((t/=d/2) &lt; 1) return -c/2 *(Math.sqrt(1 - t*t) - 1) + b;
             return c/2 *(Math.sqrt(1 -(t-=2)*t) + 1) + b;
-        },    
-        easeOutInCirc: function(t, b, c, d) {
-            if(t &lt; d/2) return tm.anim.easing.easeOutCirc(t*2, b, c/2, d);
+        },
+
+        /**
+         * @property
+         * easeOutInCirc
+         */
+<span id='tm-anim-easing-property-easeOutElastic'>        easeOutInCirc: function(t, b, c, d) {
+</span>            if(t &lt; d/2) return tm.anim.easing.easeOutCirc(t*2, b, c/2, d);
             return tm.anim.easing.easeInCirc((t*2)-d, b+c/2, c/2, d);
-        },    
+        },
+
+        /**
+         * @property
+         * easeInElastic
+         */
         easeInElastic: function(t, b, c, d, a, p) {
             var s;
             if(t==0) return b;  if((t/=d)==1) return b+c;  if(!p) p=d*.3;
-            if(!a || a &lt; Math.abs(c)) { a=c; s=p/4; } else s = p/(2*Math.PI) * Math.asin(c/a);
-            return -(a*Math.pow(2,10*(t-=1)) * Math.sin((t*d-s)*(2*Math.PI)/p )) + b;
-        },    
+<span id='tm-anim-easing-property-easeInOutElastic'>            if(!a || a &lt; Math.abs(c)) { a=c; s=p/4; } else s = p/(2*Math.PI) * Math.asin(c/a);
+</span>            return -(a*Math.pow(2,10*(t-=1)) * Math.sin((t*d-s)*(2*Math.PI)/p )) + b;
+        },
+
+        /**
+         * @property
+         * easeOutElastic
+         */
         easeOutElastic: function(t, b, c, d, a, p) {
             var s;
             if(t==0) return b;  if((t/=d)==1) return b+c;  if(!p) p=d*.3;
             if(!a || a &lt; Math.abs(c)) { a=c; s=p/4; } else s = p/(2*Math.PI) * Math.asin(c/a);
-            return(a*Math.pow(2,-10*t) * Math.sin((t*d-s)*(2*Math.PI)/p ) + c + b);
-        },    
+<span id='tm-anim-easing-property-easeOutInElastic'>            return(a*Math.pow(2,-10*t) * Math.sin((t*d-s)*(2*Math.PI)/p ) + c + b);
+</span>        },
+
+        /**
+         * @property
+         * easeInOutElastic
+         */
         easeInOutElastic: function(t, b, c, d, a, p) {
             var s;
             if(t==0) return b;  if((t/=d/2)==2) return b+c;  if(!p) p=d*(.3*1.5);
-            if(!a || a &lt; Math.abs(c)) { a=c; s=p/4; }       else s = p/(2*Math.PI) * Math.asin(c/a);
-            if(t &lt; 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin((t*d-s)*(2*Math.PI)/p )) + b;
-            return a*Math.pow(2,-10*(t-=1)) * Math.sin((t*d-s)*(2*Math.PI)/p )*.5 + c + b;
-        },    
+<span id='tm-anim-easing-property-easeInBack'>            if(!a || a &lt; Math.abs(c)) { a=c; s=p/4; }       else s = p/(2*Math.PI) * Math.asin(c/a);
+</span>            if(t &lt; 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin((t*d-s)*(2*Math.PI)/p )) + b;
+<span id='tm-anim-easing-property-easeOutBack'>            return a*Math.pow(2,-10*(t-=1)) * Math.sin((t*d-s)*(2*Math.PI)/p )*.5 + c + b;
+</span>        },
+
+        /**
+         * @property
+         * easeOutInElastic
+         */
         easeOutInElastic: function(t, b, c, d, a, p) {
-            if(t &lt; d/2) return tm.anim.easing.easeOutElastic(t*2, b, c/2, d, a, p);
-            return tm.anim.easing.easeInElastic((t*2)-d, b+c/2, c/2, d, a, p);
-        },    
+<span id='tm-anim-easing-property-easeInOutBack'>            if(t &lt; d/2) return tm.anim.easing.easeOutElastic(t*2, b, c/2, d, a, p);
+</span>            return tm.anim.easing.easeInElastic((t*2)-d, b+c/2, c/2, d, a, p);
+        },
+
+        /**
+         * @property
+         * easeInBack
+         */
         easeInBack: function(t, b, c, d, s) {
             if(s == undefined) s = 1.70158;
-            return c*(t/=d)*t*((s+1)*t - s) + b;
-        },    
+<span id='tm-anim-easing-property-easeOutInBack'>            return c*(t/=d)*t*((s+1)*t - s) + b;
+</span>        },
+
+        /**
+         * @property
+         * easeOutBack
+         */
         easeOutBack: function(t, b, c, d, s) {
             if(s == undefined) s = 1.70158;
             return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
-        },    
+        },
+
+<span id='tm-anim-easing-property-easeInBounce'>        /**
+</span>         * @property
+         * easeInOutBack
+         */
         easeInOutBack: function(t, b, c, d, s) {
             if(s == undefined) s = 1.70158;
-            if((t/=d/2) &lt; 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
-            return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
-        },    
+<span id='tm-anim-easing-property-easeOutBounce'>            if((t/=d/2) &lt; 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
+</span>            return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
+        },
+
+        /**
+         * @property
+         * easeOutInBack
+         */
         easeOutInBack: function(t, b, c, d, s) {
             if(t &lt; d/2) return tm.anim.easing.easeOutBack(t*2, b, c/2, d, s);
             return tm.anim.easing.easeInBack((t*2)-d, b+c/2, c/2, d, s);
-        },    
+        },
+
+        /**
+         * @property
+         * easeInBounce
+         */
         easeInBounce: function(t, b, c, d) {
-            return c - tm.anim.easing.easeOutBounce(d-t, 0, c, d) + b;
-        },    
+<span id='tm-anim-easing-property-easeInOutBounce'>            return c - tm.anim.easing.easeOutBounce(d-t, 0, c, d) + b;
+</span>        },
+
+        /**
+         * @property
+         * easeOutBounce
+         */
         easeOutBounce: function(t, b, c, d) {
             if((t/=d) &lt;(1/2.75)) {
                 return c*(7.5625*t*t) + b;
-            } else if(t &lt;(2/2.75)) {
-                return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
+<span id='tm-anim-easing-property-easeOutInBounce'>            } else if(t &lt;(2/2.75)) {
+</span>                return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
             } else if(t &lt;(2.5/2.75)) {
                 return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
             } else {
                 return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
             }
-        },    
+        },
+
+        /**
+         * @property
+         * easeInOutBounce
+         */
         easeInOutBounce: function(t, b, c, d) {
             if(t &lt; d/2) return tm.anim.easing.easeInBounce(t*2, 0, c, d) * .5 + b;
             else return tm.anim.easing.easeOutBounce(t*2-d, 0, c, d) * .5 + c*.5 + b;
-        },    
+        },
+
+        /**
+         * @property
+         * easeOutInBounce
+         */
         easeOutInBounce: function(t, b, c, d) {
             if(t &lt; d/2) return tm.anim.easing.easeOutBounce(t*2, b, c/2, d);
             return tm.anim.easing.easeInBounce((t*2)-d, b+c/2, c/2, d);

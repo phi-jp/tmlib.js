@@ -24,40 +24,50 @@ tm.event = tm.event || {};
 (function() {
     
 <span id='tm-event-EventDispatcher'>    /**
-</span>     * @class
+</span>     * @class tm.event.EventDispatcher
      * Event Dispatcher
      * ### Reference
      * -(EventDispatcher - ActionScript 3.0 コンポーネントリファレンスガイド)[http://livedocs.adobe.com/flash/9.0_jp/ActionScriptLangRefV3/flash/events/EventDispatcher.html]
      */
-    tm.event.EventDispatcher = tm.createClass({
-        
+<span id='tm-event-EventDispatcher-method-constructor'>    tm.event.EventDispatcher = tm.createClass({
+</span>
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function() {
-            this._listeners = {};
-        },
+<span id='tm-event-EventDispatcher-property-on'>            this._listeners = {};
+</span>        },
 
+        /**
+         * @property
+         * イベントリスナー追加(addEventListenerと同様)
+         */
         on: function(type, listener) {
             if (this._listeners[type] === undefined) {
                 this._listeners[type] = [];
             }
             
-            this._listeners[type].push(listener);
-            return this;
+<span id='tm-event-EventDispatcher-property-addEventListener'>            this._listeners[type].push(listener);
+</span>            return this;
         },
         
-<span id='tm-event-EventDispatcher-method-addEventListener'>        /**
-</span>         * イベントリスナー追加
+        /**
+         * @property
+         * イベントリスナー追加
          */
         addEventListener: function(type, listener) {
             if (this._listeners[type] === undefined) {
                 this._listeners[type] = [];
             }
             
-            this._listeners[type].push(listener);
-            return this;
+<span id='tm-event-EventDispatcher-property-dispatchEvent'>            this._listeners[type].push(listener);
+</span>            return this;
         },
         
-<span id='tm-event-EventDispatcher-method-dispatchEvent'>        /**
-</span>         * イベント起動
+        /**
+         * @property
+         * イベント起動
          */
         dispatchEvent: function(e) {
             e.target = this;
@@ -67,33 +77,36 @@ tm.event = tm.event || {};
             var listeners = this._listeners[e.type];
             if (listeners) {
                 for (var i=0,len=listeners.length; i&lt;len; ++i) {
-                    listeners[i].call(this, e);
-                }
+<span id='tm-event-EventDispatcher-property-hasEventListener'>                    listeners[i].call(this, e);
+</span>                }
             }
         },
         
-<span id='tm-event-EventDispatcher-method-hasEventListener'>        /**
-</span>         * 登録されたイベントがあるかをチェック
+        /**
+         * @property
+         * 登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
-            if (this._listeners[type] === undefined &amp;&amp; !this[&quot;on&quot; + type]) return false;
-            return true;
+<span id='tm-event-EventDispatcher-property-removeEventListener'>            if (this._listeners[type] === undefined &amp;&amp; !this[&quot;on&quot; + type]) return false;
+</span>            return true;
         },
         
-<span id='tm-event-EventDispatcher-method-removeEventListener'>        /**
-</span>         * リスナーを削除
+        /**
+         * @property
+         * リスナーを削除
          */
         removeEventListener: function(type, listener) {
             var listeners = this._listeners[type];
-            var index = listeners.indexOf(listener);
-            if (index != -1) {
+<span id='tm-event-EventDispatcher-property-clearEventListener'>            var index = listeners.indexOf(listener);
+</span>            if (index != -1) {
                 listeners.splice(index,1);
             }
             return this;
         },
         
-<span id='tm-event-EventDispatcher-method-clearEventListener'>        /**
-</span>         * リスナーを全てクリア
+        /**
+         * @property
+         * リスナーを全てクリア
          */
         clearEventListener: function(type) {
             this._listeners[type] = [];

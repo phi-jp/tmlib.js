@@ -4,11 +4,13 @@
 
 tm.util = tm.util || {};
 
+
 (function() {
     
     /**
-     * @class
+     * @class tm.util.Random
      * ランダムクラス
+     * 
      * ## Reference
      * - <http://www.python.jp/doc/2.5/lib/module-random.html>
      * - <http://www.yukun.info/blog/2008/06/python-random.html>
@@ -19,6 +21,7 @@ tm.util = tm.util || {};
     tm.util.Random = {
         
         /**
+         * @property
          * Dummy
          */
         randint: function(min, max) {
@@ -26,6 +29,7 @@ tm.util = tm.util || {};
         },
         
         /**
+         * @property
          * Dummy
          */
         randfloat: function(min, max) {
@@ -33,6 +37,7 @@ tm.util = tm.util || {};
         },
         
         /**
+         * @property
          * Dummy
          */
         randbool: function() {

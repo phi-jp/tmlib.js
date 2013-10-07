@@ -24,22 +24,30 @@ tm.social = tm.social || {};
 
 (function() {
     
-<span id='tm-social-Nineleap'>    /**
-</span>     * @class
+<span id='tm-social-NineLeap'>    /**
+</span>     * @class tm.social.NineLeap
      * 9leap ネームスペース
      */
     tm.social.Nineleap = tm.social.Nineleap || {};
     
-    var BASE_URL = &quot;http://9leap.net/games/{id}/result?score={score}&amp;result={result}&quot;;
-    
+<span id='tm-social-Nineleap-property-createURL'>    var BASE_URL = &quot;http://9leap.net/games/{id}/result?score={score}&amp;result={result}&quot;;
+</span>
+    /**
+     * @member      tm.social.Nineleap
+     * @property    createURL
+     */
     tm.social.Nineleap.createURL = function(id, score, result) {
         return BASE_URL.format({
             id      : id,
             score   : score,
             result  : result
-        });
-    };
-    
+<span id='tm-social-Nineleap-property-postRanking'>        });
+</span>    };
+
+    /**
+     * @member      tm.social.Nineleap
+     * @property    postRanking
+     */
     tm.social.Nineleap.postRanking = function(score, result) {
         if (location.hostname == 'r.jsgames.jp') {
             var id = location.pathname.match(/^\/games\/(\d+)/)[1]; 

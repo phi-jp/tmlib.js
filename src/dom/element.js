@@ -13,16 +13,22 @@ tm.dom = tm.dom || {};
      */
     tm.dom.Element = tm.createClass({
         
+        /**
+         * @property
+         * エレメント
+         */
         element: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             this.set.apply(this, arguments);
         },
         
         /**
+         * @property
          * セッター
          */
         set: function(q) {
@@ -40,6 +46,7 @@ tm.dom = tm.dom || {};
         
 
         /**
+         * @property
          * 子供の最後尾に追加
          */
         append: function(child) {
@@ -48,6 +55,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 子供の先頭に追加
          */
         prepend: function(child) {
@@ -56,6 +64,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 自分の後に追加
          */
         after: function(child) {
@@ -64,6 +73,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 自分の前に追加
          */
         before: function(child) {
@@ -72,6 +82,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 引数に渡された要素に自分を append
          */
         appendTo: function(parent) {
@@ -80,6 +91,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 引数に渡された要素に自分を prepend
          */
         prependTo: function(parent) {
@@ -87,11 +99,16 @@ tm.dom = tm.dom || {};
             return this;
         },
         
+        /**
+         * @property
+         * 複製
+         */
         clone: function() {
             return tm.dom.Element(this.element.cloneNode(true));
         },
         
         /**
+         * @property
          * 親から自分を引っぺがす
          */
         remove: function() {
@@ -100,6 +117,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 要素生成
          */
         create: function(tag, addFuncName) {
@@ -114,6 +132,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * query
          */
         query: function(query, index) {
@@ -125,6 +144,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * queryAll
          */
         queryAll: function(query) {
@@ -133,6 +153,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 固定化
          */
         fixed: function(x, y, width, height) {
@@ -145,6 +166,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * absolute 化
          */
         absolute: function(x, y, width, height) {
@@ -157,27 +179,41 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * フルスクリーン化
          */
         fullScreen: function() {
             this.element.webkitRequestFullScreen();
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         show: function() {
             this.visible = true;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         hide: function() {
             this.visible = false;
         },
         
         /**
-         * 文字列化
+         * @property
+         * @TODO ?
          */
         toString: function() {
             return "tm.dom.element";
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         getElement: function() {
             return this.element;
         },
@@ -325,6 +361,8 @@ tm.dom = tm.dom || {};
         superClass: Array,
         
         /**
+         * @constructor
+         * コンストラクタ
          * TM.DOM.Element 用配列
          */
         init: function(arr) {
@@ -341,6 +379,10 @@ tm.dom = tm.dom || {};
             }
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         toString: function() {
             return "";
         }

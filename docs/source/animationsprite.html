@@ -20,24 +20,24 @@
  */
 
 
-tm.app = tm.app || {};
+tm.display = tm.display || {};
 
 
 (function() {
 
-<span id='tm-app-AnimationSprite'>    /**
-</span>     * @class
-     * AnimationSprite
+<span id='tm-display-AnimationSprite'>    /**
+</span>     * @class tm.display.AnimationSprite
+     * スプライトアニメーションクラス
+     * @extends tm.display.CanvasElement
      */
-    tm.app.AnimationSprite = tm.createClass({
-
-        superClass: tm.app.CanvasElement,
-
-<span id='tm-app-AnimationSprite-method-init'>        /**
-</span>         * 初期化
+    tm.display.AnimationSprite = tm.createClass({
+<span id='tm-display-AnimationSprite-method-constructor'>        superClass: tm.display.CanvasElement,
+</span>
+        /**
+         * @constructor
+         * コンストラクタ
          */
-        init: function(ss, width, height)
-        {
+        init: function(ss, width, height) {
             this.superInit();
 
             if (typeof ss == &quot;string&quot;) {
@@ -59,53 +59,72 @@ tm.app = tm.app || {};
             this.currentAnimation = null;
 
             this.addEventListener(&quot;enterframe&quot;, function(e) {
-                if (!this.paused &amp;&amp; e.app.frame%this.currentAnimation.frequency === 0) {
-                    this._updateFrame();
+<span id='tm-display-AnimationSprite-property-draw'>                if (!this.paused &amp;&amp; e.app.frame%this.currentAnimation.frequency === 0) {
+</span>                    this._updateFrame();
                 }
             });
         },
 
-<span id='tm-app-AnimationSprite-method-draw'>        /**
-</span>         * 描画
+        /**
+         * @property
+         * 描画
          */
         draw: function(canvas) {
             var srcRect = this.ss.getFrame(this.currentFrame);
             var element = this.ss.image.element;
 
             canvas.drawImage(element,
-                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+<span id='tm-display-AnimationSprite-property-gotoAndPlay'>                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
+</span>                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         gotoAndPlay: function(name) {
-            name = name || &quot;default&quot;;
+            name = (name !== undefined) ? name : &quot;default&quot;;
 
             this.paused = false;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
-            this.currentFrameIndex = 0;
-            this._normalizeFrame();
+<span id='tm-display-AnimationSprite-property-gotoAndStop'>            this.currentFrameIndex = 0;
+</span>            this._normalizeFrame();
 
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         gotoAndStop: function(name) {
-            name = name || &quot;default&quot;;
+            name = (name !== undefined) ? name : &quot;default&quot;;
 
             this.paused = true;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
-            this.currentFrameIndex = 0;
-            this._normalizeFrame();
+<span id='tm-display-AnimationSprite-property-_updateFrame'>            this.currentFrameIndex = 0;
+</span>            this._normalizeFrame();
 
             return this;
         },
 
-        _updateFrame: function() {
-            this.currentFrameIndex += 1;
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
+<span id='tm-display-AnimationSprite-property-_normalizeFrame'>        _updateFrame: function() {
+</span>            this.currentFrameIndex += 1;
             this._normalizeFrame();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _normalizeFrame: function() {
             var anim = this.currentAnimation;
             if (anim) {
@@ -132,105 +151,6 @@ tm.app = tm.app || {};
 
 })();
 
-
-(function() {
-
-    tm.app.SpriteSheet = tm.createClass({
-        superClass: tm.event.EventDispatcher,
-
-        init: function(param) {
-            this.superInit();
-            this.frame = param.frame;
-
-            if (typeof param.image == &quot;string&quot;) {
-                if (!tm.asset.AssetManager.contains(param.image)) {
-                    tm.asset.AssetManager.load(param.image);
-                }
-                this.image = tm.asset.AssetManager.get(param.image);
-            }
-            else {
-                this.image = param.image;
-            }
-
-            if (this.image.loaded === false) {
-                this.image.addEventListener(&quot;load&quot;, function() {
-                    this._calcFrames(param.frame);
-                    var e = tm.event.Event(&quot;load&quot;);
-                    this.dispatchEvent(e);
-                }.bind(this), false);
-            }
-            else {
-                this._calcFrames(param.frame);
-                var e = tm.event.Event(&quot;load&quot;);
-                this.dispatchEvent(e);
-            }
-
-            this._calcAnim(param.animations);
-        },
-
-        getFrame: function(index) {
-            return this.frames[index];
-        },
-
-        getAnimation: function(name) {
-            return this.animations[name];
-        },
-
-        _calcFrames: function(frame) {
-            var frames = this.frames = [];
-
-            var w = frame.width;
-            var h = frame.height;
-            var row = ~~(this.image.width / w);
-            var col = ~~(this.image.height/ h);
-
-            if (!frame.count) frame.count = row*col;
-
-            for (var i=0,len=frame.count; i&lt;len; ++i) {
-                var x   = i%row;
-                var y   = (i/row)|0;
-                var rect = {
-                    x:x*w,
-                    y:y*h,
-                    width: w,
-                    height: h
-                };
-                frames.push(rect);
-            }
-        },
-
-        _calcAnim: function(animations) {
-            this.animations = [];
-            for (var key in animations) {
-                var anim = animations[key];
-
-                if (anim instanceof Array) {
-                    this.animations[key] = {
-                        frames: [].range(anim[0], anim[1]),
-                        next: anim[2],
-                        frequency: anim[3] || 1
-                    };
-                }
-                else {
-                    this.animations[key] = {
-                        frames: anim.frames,
-                        next: anim.next,
-                        frequency: anim.frequency || 1
-                    };
-                }
-            }
-
-            // デフォルトアニメーション
-            this.animations[&quot;default&quot;] = {
-                frames: [].range(0, this.frame.count),
-                next: &quot;default&quot;,
-                frequency: 1,
-            };
-        }
-
-    });
-
-})();
 </pre>
 </body>
 </html>

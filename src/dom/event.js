@@ -1,5 +1,5 @@
 /*
- * evnet.js
+ * dom/evnet.js
  */
 
 tm.dom = tm.dom || {};
@@ -8,8 +8,7 @@ tm.dom = tm.dom || {};
     
     /**
      * @class Event
-     * 
-     * Event クラス
+     * 既存のEventオブジェクト拡張
      */
     
     // 仕方なしの IE 対応(これ引っかかったら他のもダメだから必要ないかも)
@@ -42,7 +41,6 @@ tm.dom = tm.dom || {};
     
     /**
      * @class KeyboardEvent
-     * 
      * KeyboardEvent クラス
      */
     
@@ -61,7 +59,6 @@ tm.dom = tm.dom || {};
     
     /**
      * @class MouseEvent
-     * 
      * MouseEvent クラス
      */
     
@@ -95,7 +92,6 @@ tm.dom = tm.dom || {};
     
     /**
      * @class TouchEvent
-     * 
      * TouchEvent クラス
      */
     
@@ -124,17 +120,33 @@ tm.dom = tm.dom || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.dom.Event
      * Event クラス
      */
     tm.dom.Event = tm.createClass({
+
+        /**
+         * @property
+         * DOMエレメント
+         */
         element     : null,
+
+        /**
+         * @property
+         * イベント発火時に実行する関数リスト
+         */
         funcList    : null,
+
+        /**
+         * @property
+         * 関数リストのインデックス　未使用？
+         */
         funcIndex   : 0,
         
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
@@ -143,6 +155,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * イベントを追加
          */
         add: function(type, fn, id) {
@@ -175,6 +188,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * イベントを解除
          */
         remove: function(type, fn_or_id) {
@@ -186,6 +200,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * クリックイベント
          */
         click: function(fn, id) {
@@ -193,6 +208,10 @@ tm.dom = tm.dom || {};
             return this;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         mdlclick: function(fn, id) {
             var temp_fn = function(e) {
                 if (e.button == 1) {
@@ -203,19 +222,29 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * ポインティング
+         * @property
+         * ポインティングスタート
          */
         pointstart: function(fn, id) {
             this.add(tm.dom.Event.POINT_START, fn, id);
         },
+        /**
+         * @property
+         * ポインティング中
+         */
         pointmove: function(fn, id) {
             this.add(tm.dom.Event.POINT_MOVE, fn, id);
         },
+        /**
+         * @property
+         * ポインティングエンド
+         */
         pointend: function(fn, id) {
             this.add(tm.dom.Event.POINT_END, fn, id);
         },
         
         /**
+         * @property
          * ホバーイベント
          */
         hover: function(fn, id) {
@@ -224,6 +253,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 一度だけ呼ばれるイベントを登録
          */
         one: function(type, fn, id) {
@@ -242,6 +272,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * トグルイベント登録
          */
         toggle: function(type, fn_list) {
@@ -269,6 +300,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
+         * @property
          * 指定したイベントタイプ & id の関数を取得
          */
         getFunc: function(type, id) {

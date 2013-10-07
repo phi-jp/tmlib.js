@@ -24,15 +24,26 @@
 <span id='tm-asset-Texture'>    /**
 </span>     * @class tm.asset.Texture
      * テクスチャクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.asset.Texture&quot;, {
-        superClass: tm.event.EventDispatcher,
-        
-        element: null,
-        loaded: false,
-        
-<span id='tm-asset-Texture-method-init'>        /**
-</span>         * 初期化
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+<span id='tm-asset-Texture-property-element'>        
+</span>        /**
+         * @property
+         * window.document.Image
+         */
+<span id='tm-asset-Texture-property-loaded'>        element: null,
+</span>
+        /**
+         * @property
+         * ロード済みかどうか
+         */
+<span id='tm-asset-Texture-method-constructor'>        loaded: false,
+</span>        
+        /**
+         * @constructor
+         * コンストラクタ
          */
         init: function(src) {
             this.superInit();
@@ -44,25 +55,29 @@
             this.element.onload = function() {
                 self.loaded = true;
                 var e = tm.event.Event(&quot;load&quot;);
-                self.dispatchEvent( e );
-            };
+<span id='tm-asset-Texture-property-getElement'>                self.dispatchEvent( e );
+</span>            };
         },
         
-        getElement: function() {
-            return this.element;
+        /**
+         * @property
+         * window.document.Imageクラスのインスタンスを返す
+         */
+<span id='tm-asset-Texture-property-width'>        getElement: function() {
+</span>            return this.element;
         },
     });
     
-<span id='tm-asset-Texture-property-width'>    /**
-</span>     * @property    width
+    /**
+     * @property    width
      * 幅
      */
-    tm.asset.Texture.prototype.getter(&quot;width&quot;, function() {
-        return this.element.width;
+<span id='tm-asset-Texture-property-height'>    tm.asset.Texture.prototype.getter(&quot;width&quot;, function() {
+</span>        return this.element.width;
     });
     
-<span id='tm-asset-Texture-property-height'>    /**
-</span>     * @property    height
+    /**
+     * @property    height
      * 高さ
      */
     tm.asset.Texture.prototype.getter(&quot;height&quot;, function() {
@@ -80,8 +95,7 @@
      * http://dummyimage.com/
      */
     /*
-    tm.graphics.TextureManager.loadDummy = function(key, param)
-    {
+    tm.graphics.TextureManager.loadDummy = function(key, param) {
         param = param || {};
 
         var paths = [&quot;http://dummyimage.com&quot;];

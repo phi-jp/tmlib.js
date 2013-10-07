@@ -213,6 +213,19 @@ if (typeof module !== 'undefined' && module.exports) {
 
         return current;
     };
+    
+    tm.globalize = function(obj) {
+        tm.global.$strict(obj);
+        
+        return this;
+    };
+    
+    tm.import = function(namespace) {
+        var target = tm[namespace];
+        tm.global.$strict(target);
+        
+        return this;
+    };
 
     /**
      * ループ

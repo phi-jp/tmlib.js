@@ -1,6 +1,6 @@
 {
   "name": "tmlib.js",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "javascript library for game programming.",
   "main": "index.js",
   "directories": {

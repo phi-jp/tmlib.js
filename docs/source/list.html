@@ -19,11 +19,10 @@
  * list.js
  */
 
-
-(function(){
+(function() {
     
 <span id='tm-Item'>    /**
-</span>     * @class
+</span>     * @class tm.Item
      * Item クラス
      */
     tm.Item = tm.createClass({
@@ -32,15 +31,16 @@
         next: null,
         data: null,
         
-<span id='tm-Item-method-init'>        /**
-</span>         * 初期化
+<span id='tm-Item-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
          */
         init: function() {
-        }
-    });
+<span id='tm-List'>        }
+</span>    });
     
-<span id='tm-List'>    /**
-</span>     * @class
+    /**
+     * @class tm.List
      * List クラス
      * ### Reference
      * - &lt;http://java.sun.com/javase/ja/6/docs/ja/api/java/util/LinkedList.html&gt;
@@ -50,10 +50,11 @@
      * - &lt;http://www.nczonline.net/blog/2009/04/21/computer-science-in-javascript-doubly-linked-lists/&gt;
      * - &lt;http://www.nczonline.net/blog/2009/04/13/computer-science-in-javascript-linked-list/&gt;
      */
-    tm.List = tm.createClass({
-        
-<span id='tm-List-method-init'>        /**
-</span>         * 初期化
+<span id='tm-List-method-constructor'>    tm.List = tm.createClass({
+</span>        
+        /**
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             this._length = 0;
@@ -61,11 +62,12 @@
             this._tail = tm.Item();
             
             this._head.next = this._tail;
-            this._tail.prev = this._head;
-        },
+<span id='tm-List-property-add'>            this._tail.prev = this._head;
+</span>        },
         
-<span id='tm-List-method-add'>        /**
-</span>         * 追加
+        /**
+         * @property
+         * 追加
          */
         add: function(data) {
             var item = tm.Item();
@@ -79,14 +81,14 @@
             
             ++this._length;
             
-            return this;
-        },
+<span id='tm-List-property-remove'>            return this;
+</span>        },
         
-<span id='tm-List-method-remove'>        /**
-</span>         * 削除
+        /**
+         * @property
+         * 削除
          */
-        remove: function(index)
-        {
+        remove: function(index) {
             var current = this.getItem(index);
             
             current.prev.next = current.next;
@@ -94,91 +96,99 @@
             
             --this._length;
             
-            return current;
-        },
+<span id='tm-List-property-get'>            return current;
+</span>        },
         
-<span id='tm-List-method-get'>        /**
-</span>         * 取得
+        /**
+         * @property
+         * ゲット
          */
-        get: function(index)
-        {
-            return this.getItem(index).data;
-        },
+        get: function(index) {
+<span id='tm-List-property-getItem'>            return this.getItem(index).data;
+</span>        },
         
-<span id='tm-List-method-getItem'>        /**
-</span>         * アイテムを取得
+        /**
+         * @property
+         * アイテムを取得
          */
-        getItem: function(index)
-        {
+        getItem: function(index) {
             var current = this._head.next;
             var i=0;
             
             while (i++ &lt; index) {
                 current = current.next;
             }
-            
-            return current;
+<span id='tm-List-property-forEach'>            
+</span>            return current;
         },
         
-<span id='tm-List-method-forEach'>        /**
-</span>         * 繰り返し
+        /**
+         * @property
+         * 繰り返し
          */
-        forEach: function(fn) {
+<span id='tm-List-property-clear'>        forEach: function(fn) {
+</span>            // TODO:
+        },
+        
+        /**
+         * @property
+         * クリア
+<span id='tm-List-property-clone'>         */
+</span>        clear: function() {
             // TODO:
         },
         
-<span id='tm-List-method-clear'>        /**
-</span>         * クリア
-         */
-        clear: function() {
-            // TODO:
-        },
-        
-<span id='tm-List-method-clone'>        /**
-</span>         * クローン
-         */
+        /**
+         * @property
+<span id='tm-List-property-getFirst'>         * クローン
+</span>         */
         clone: function() {
             // TODO:
         },
         
-<span id='tm-List-method-getFirst'>        /**
-</span>         * 最初の要素を取得
-         */
+        /**
+         * @property
+<span id='tm-List-property-getLast'>         * 最初の要素を取得
+</span>         */
         getFirst: function() {
             // TODO:
         },
         
-<span id='tm-List-method-getLast'>        /**
-</span>         * 最後の要素を取得
-         */
+        /**
+         * @property
+<span id='tm-List-property-indexOf'>         * 最後の要素を取得
+</span>         */
         getLast: function() {
             // TODO:
         },
         
-<span id='tm-List-method-indexOf'>        /**
-</span>         * 最初に一致した位置のインデックスを取得
-         */
+        /**
+         * @property
+<span id='tm-List-property-lastIndexOf'>         * 最初に一致した位置のインデックスを取得
+</span>         */
         indexOf: function(obj) {
             // TODO:
         },
         
-<span id='tm-List-method-lastIndexOf'>        /**
-</span>         * 最後に一致した位置のインデックスを取得
+<span id='tm-List-property-toArray'>        /**
+</span>         * @property
+         * 最後に一致した位置のインデックスを取得
          */
         lastIndexOf: function(obj) {
             // TODO:
         },
         
-<span id='tm-List-method-toArray'>        /**
-</span>         * 配列に変換
+        /**
+         * @property
+         * 配列に変換
          */
         toArray: function() {
             if (this._length &lt;= 0) return [];
             
             var current = this._head.next;
             var arr = [];
-            
-            while (current.data != null) {
+<span id='tm-List-property-toString'>            
+</span>            while (current.data != null) {
                 arr.push(current.data);
                 current = current.next;
             }
@@ -186,8 +196,9 @@
             return arr;
         },
         
-<span id='tm-List-method-toString'>        /**
-</span>         * 文字列に変換
+        /**
+         * @property
+         * 文字列に変換
          */
         toString: function() {
             var arr = this.toArray();

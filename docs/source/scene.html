@@ -22,21 +22,26 @@
 tm.app = tm.app || {};
 
 
-
 (function() {
     
 <span id='tm-app-Scene'>    /**
-</span>     * @class
+</span>     * @class tm.app.Scene
      * シーンとして使用するゲームエレメントクラス
+     * @extends tm.app.Object2D
      */
     tm.app.Scene = tm.createClass({
-        
-        superClass: tm.app.CanvasElement,
-    
-        _sceneResultCallback: null,
-
-<span id='tm-app-Scene-method-init'>        /**
-</span>         * 初期化
+<span id='tm-app-Scene-property-_sceneResultCallback'>        superClass: tm.app.Object2D,
+</span>    
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
+<span id='tm-app-Scene-method-constructor'>        _sceneResultCallback: null,
+</span>
+        /**
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             this.superInit();
@@ -50,23 +55,33 @@ tm.app = tm.app || {};
     });
     
 })();
-    
+
 (function() {
     
-    var DEFAULT_PARAM = {
-        width: 465,
+<span id='tm-app-LoadingScene'>    var DEFAULT_PARAM = {
+</span>        width: 465,
         height: 465,
     };
     
-    tm.app.LoadingScene = tm.createClass({
-        superClass: tm.app.Scene,
+    /**
+     * @class tm.app.LoadingScene
+     * ローディングシーン
+     * @extends tm.app.Scene
+     */
+<span id='tm-app-LoadingScene-property-init'>    tm.app.LoadingScene = tm.createClass({
+</span>        superClass: tm.app.Scene,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} param
+         */
         init: function(param) {
             this.superInit();
             
             param = {}.$extend(DEFAULT_PARAM, param);
             
-            var label = tm.app.Label(&quot;Loading&quot;);
+            var label = tm.display.Label(&quot;Loading&quot;);
             label.x = param.width/2;
             label.y = param.height/2;
             label.width = param.width;
@@ -87,7 +102,7 @@ tm.app = tm.app || {};
             this.addChild(label);
 
             // ひよこさん
-            var piyo = tm.app.Shape(84, 84);
+            var piyo = tm.display.Shape(84, 84);
             piyo.setPosition(param.width, param.height - 80);
             piyo.canvas.setColorStyle(&quot;white&quot;, &quot;yellow&quot;).fillCircle(42, 42, 32);
             piyo.canvas.setColorStyle(&quot;white&quot;, &quot;black&quot;).fillCircle(27, 27, 2);
@@ -119,16 +134,26 @@ tm.app = tm.app || {};
     
 (function() {
     
-    var DEFAULT_PARAM = {
-        title: &quot;Time is money&quot;,
+<span id='tm-app-TitleScene'>    var DEFAULT_PARAM = {
+</span>        title: &quot;Time is money&quot;,
         titleSize: 32,
         width: 465,
         height: 465,
     };
     
+    /**
+     * @class tm.app.TitleScene
+<span id='tm-app-TitleScene-property-init'>     * ローディングシーン
+</span>     * @extends tm.app.Scene
+     */
     tm.app.TitleScene = tm.createClass({
         superClass: tm.app.Scene,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} param
+         */
         init: function(param) {
             this.superInit();
             
@@ -136,20 +161,25 @@ tm.app = tm.app || {};
 
             if (param.backgroundImage) {
                 var texture = tm.asset.AssetManager.get(param.backgroundImage);
-                this._backgroundImage = tm.app.Sprite(param.width, param.height, texture);
+                this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);
             }
             
-            var label = tm.app.Label(param.title);
+            var label = tm.display.Label(param.title);
             label.x = param.width/2;
             label.y = param.height/2;
             label.width = param.width;
-            label.align     = &quot;center&quot;;
-            label.baseline  = &quot;middle&quot;;
+<span id='tm-app-TitleScene-property-onpointingstart'>            label.align     = &quot;center&quot;;
+</span>            label.baseline  = &quot;middle&quot;;
             label.fontSize = param.titleSize;
             this.addChild(label);
         },
+
+        /**
+         * @property
+         * pointingstartイベント登録
+         */
         onpointingstart: function() {
             var e = tm.event.Event(&quot;nextscene&quot;);
             this.dispatchEvent(e);
@@ -165,17 +195,26 @@ tm.app = tm.app || {};
     var DEFAULT_PARAM = {
         score: 256,
         msg: &quot;tmlib.js のサンプルです!&quot;,
-        hashtags: &quot;tmlibjs&quot;,
-        url: &quot;https://github.com/phi1618/tmlib.js/&quot;,
+<span id='tm-app-ResultScene'>        hashtags: &quot;tmlibjs&quot;,
+</span>        url: &quot;https://github.com/phi1618/tmlib.js/&quot;,
         width: 465,
         height: 465,
         related: &quot;tmlib.js tmlife javascript&quot;,
     };
     
+    /**
+<span id='tm-app-ResultScene-property-init'>     * @class tm.app.ResultScene
+</span>     * ローディングシーン
+     * @extends tm.app.Scene
+     */
     tm.app.ResultScene = tm.createClass({
-        
         superClass: tm.app.Scene,
         
+        /**
+         * @property
+         * コンストラクタ
+         * @param {Object} param
+         */
         init: function(param) {
             this.superInit();
             
@@ -191,12 +230,12 @@ tm.app = tm.app || {};
 
             if (param.backgroundImage) {
                 var texture = tm.asset.AssetManager.get(param.backgroundImage);
-                this._backgroundImage = tm.app.Sprite(param.width, param.height, texture);
+                this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);
             }
             
-            var scoreLabel = tm.app.Label(&quot;SCORE: {score}&quot;.format(param));
+            var scoreLabel = tm.display.Label(&quot;SCORE: {score}&quot;.format(param));
             scoreLabel.x = param.width/2;
             scoreLabel.y = param.height/2-70;
             scoreLabel.width = param.width;
@@ -205,7 +244,7 @@ tm.app = tm.app || {};
             scoreLabel.fontSize = 32;
             this.addChild(scoreLabel);
             
-            var msgLabel = tm.app.Label(param.msg);
+            var msgLabel = tm.display.Label(param.msg);
             msgLabel.x = param.width/2;
             msgLabel.y = param.height/2-20;
             msgLabel.width = param.width;
@@ -215,14 +254,14 @@ tm.app = tm.app || {};
             this.addChild(msgLabel);
             
             // ツイートボタン
-            var tweetButton = this.tweetButton = tm.app.GlossyButton(120, 50, &quot;blue&quot;, &quot;Tweet&quot;).addChildTo(this);
+            var tweetButton = this.tweetButton = tm.ui.GlossyButton(120, 50, &quot;blue&quot;, &quot;Tweet&quot;).addChildTo(this);
             tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
             tweetButton.onclick = function() {
                 window.open(twitterURL);
             };
             
             // 戻るボタン
-            var backButton = tm.app.GlossyButton(120, 50, &quot;black&quot;, &quot;Back&quot;).addChildTo(this);
+            var backButton = tm.ui.GlossyButton(120, 50, &quot;black&quot;, &quot;Back&quot;).addChildTo(this);
             backButton.setPosition(param.width/2 + 65, param.height/2 + 50);
             backButton.onpointingstart = function() {
                 var e = tm.event.Event(&quot;nextscene&quot;);

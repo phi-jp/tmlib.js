@@ -1,7 +1,6 @@
 /*
- * phi
+ * mouse.js
  */
-
 
 tm.input = tm.input || {};
 
@@ -9,16 +8,16 @@ tm.input = tm.input || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.input.Mouse
      * マウスクラス
      */
     tm.input.Mouse = tm.createClass({
         
-        
         element: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element || window.document;
@@ -46,6 +45,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * run
          * 自動でマウス情報を更新したい際に使用する
          */
@@ -61,6 +61,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * 情報更新処理
          * マイフレーム呼んで下さい.
          */
@@ -80,6 +81,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * ボタン取得
          */
         getButton: function(button) {
@@ -91,6 +93,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * ボタンダウン取得
          */
         getButtonDown: function(button) {
@@ -102,6 +105,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * ボタンアップ取得
          */
         getButtonUp: function(button) {
@@ -111,19 +115,34 @@ tm.input = tm.input || {};
             
             return (this.up & button) != 0;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _mousemove: function(e) {
             var rect = e.target.getBoundingClientRect();
             this.x = e.clientX - rect.left;
             this.y = e.clientY - rect.top;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _mousemoveNormal: function(e) {
             var rect = e.target.getBoundingClientRect();
             this.x = e.clientX - rect.left;
             this.y = e.clientY - rect.top;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _mousemoveScale: function(e) {
             var rect = e.target.getBoundingClientRect();
             this.x = e.clientX - rect.left;
@@ -192,17 +211,17 @@ tm.input = tm.input || {};
     
     
     /**
-     * @method
+     * @method getPointing
      * ポインティング状態取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointing        = function() { return this.getButton("left"); };
     /**
-     * @method
+     * @method getPointingStart
      * ポインティングを開始したかを取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown("left"); };
     /**
-     * @method
+     * @method getPointingEnd
      * ポインティングを終了したかを取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointingEnd     = function() { return this.getButtonUp("left"); };

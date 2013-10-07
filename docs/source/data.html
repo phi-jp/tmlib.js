@@ -16,46 +16,54 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * phi
+ * dom/data.js
  */
 
 (function(){
     
 <span id='tm-dom-Data'>    /**
 </span>     * @class tm.dom.Data
-     * スタイル
+     * @TODO ?
      */
     tm.define(&quot;tm.dom.Data&quot;, {
+
+<span id='tm-dom-Data-property-element'>        /**
+</span>         * @property
+         * エレメント
+         */
         element: null,
-        
-<span id='tm-dom-Data-method-init'>        /**
-</span>         * 初期化
+<span id='tm-dom-Data-method-constructor'>        
+</span>        /**
+         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
-        },
-        
-<span id='tm-dom-Data-method-set'>        /**
-</span>         * 属性をセット
+<span id='tm-dom-Data-property-set'>        },
+</span>        
+        /**
+         * @property
+         * 属性をセット
          */
         set: function(name, value) {
         	var key = &quot;data-&quot; + name.toDash();
             this.element.setAttribute(key, value);
 
-            return this;
-        },
+<span id='tm-dom-Data-property-get'>            return this;
+</span>        },
         
-<span id='tm-dom-Data-method-get'>        /**
-</span>         * 属性をゲット
+        /**
+         * @property
+         * 属性をゲット
          */
         get: function(name, value) {
         	var key = &quot;data-&quot; + name.toDash();
-        	return this.element.attributes[key].value;
-        },
+<span id='tm-dom-Data-property-data'>        	return this.element.attributes[key].value;
+</span>        },
     });
     
-<span id='tm-dom-Data-property-data'>    /**
-</span>     * Attr クラス
+    /**
+     * Attr クラス
      * @property    data
      */
     tm.dom.Element.prototype.getter(&quot;data&quot;, function(){

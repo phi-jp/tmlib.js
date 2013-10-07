@@ -19,14 +19,13 @@
  * tmline.js
  */
 
-
 tm.util = tm.util || {};
+
 
 (function() {
     
-    
 <span id='tm-util-Timeline'>    /**
-</span>     * @class
+</span>     * @class tm.util.Timeline
      * タイムラインクラス
      */
     tm.util.Timeline = tm.createClass({
@@ -34,62 +33,103 @@ tm.util = tm.util || {};
         target  : null,
         tasks   : null,
         
-        fps     : 30,
-        
-<span id='tm-util-Timeline-method-init'>        /**
-</span>         * 初期化
+<span id='tm-util-Timeline-method-constructor'>        fps     : 30,
+</span>        
+        /**
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             this.tasks = [];
-            this.time = 0;
-        },
+<span id='tm-util-Timeline-property-at'>            this.time = 0;
+</span>        },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         at: function(time, action) {
             this.tasks.push({
                 time: time,
                 action: action,
             });
-            return this;
-        },
-        
+<span id='tm-util-Timeline-property-after'>            return this;
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         after: function(time, action) {
             this.at(this.time + time, action);
-            return this;
-        },
-        
+<span id='tm-util-Timeline-property-clear'>            return this;
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         clear: function() {
             this.tasks = [];
-            return this;
-        },
-        
+<span id='tm-util-Timeline-property-removeTime'>            return this;
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         removeTime: function(time) {
-            // TODO: 
-        },
-        
+<span id='tm-util-Timeline-property-removeAction'>            // TODO: 
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         removeAction: function(action) {
-            // TODO: 
-        },
+<span id='tm-util-Timeline-property-start'>            // TODO: 
+</span>        },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         start: function() {
             this.isPlaying = true;
             this._startTime();
-            this._updateTime();
-        },
-        
+<span id='tm-util-Timeline-property-resume'>            this._updateTime();
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         resume: function() {
             this.isPlaying = true;
             this._resumeTime();
-            this._updateTime();
-        },
-        
+<span id='tm-util-Timeline-property-stop'>            this._updateTime();
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         stop: function() {
-            this.isPlaying = false;
-        },
-        
+<span id='tm-util-Timeline-property-rewind'>            this.isPlaying = false;
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         rewind: function() {
-            this.time = 0;
-        },
-        
+<span id='tm-util-Timeline-property-update'>            this.time = 0;
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         */
         update: function() {
             // タスク更新
             if (this.tasks.length &gt; 0) {
@@ -101,24 +141,44 @@ tm.util = tm.util || {};
                         // break;
                     }
                 }
-            }
-        },
+<span id='tm-util-Timeline-property-_startTime'>            }
+</span>        },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _startTime: function() {
-            this.startTime = (new Date()).getTime();
-        },
-        
+<span id='tm-util-Timeline-property-_resumeTime'>            this.startTime = (new Date()).getTime();
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _resumeTime: function() {
-            this.startTime = (new Date()).getTime() - this.time;
-        },
-        
+<span id='tm-util-Timeline-property-_updateTime'>            this.startTime = (new Date()).getTime() - this.time;
+</span>        },
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _updateTime: function() {
             if (this.isPlaying) {
                 this._nextTime();
                 setTimeout(arguments.callee.bind(this), 1000/this.fps);
-            }
-        },
+<span id='tm-util-Timeline-property-_nextTime'>            }
+</span>        },
         
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _nextTime: function() {
             // 前回の時間
             this.prev = this.time;
