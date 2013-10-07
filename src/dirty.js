@@ -28,6 +28,11 @@
         "CanvasApp",
         "AnimationSprite",
         "SpriteSheet",
+        
+        "LabelButton",
+        "IconButton",
+        "GlossyButton",
+        "FlatButton",
     ];
     
     dirtyClass.each(function(className) {
