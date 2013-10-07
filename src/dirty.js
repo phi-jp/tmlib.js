@@ -10,7 +10,7 @@
     });
     
     
-    var dirtyClass = [
+    var dirtyClass = {
         "display": [
             "Sprite",
             "Shape",
@@ -36,13 +36,13 @@
             "GlossyButton",
             "FlatButton",
         ],
-    ];
+    };
     
-    dirtyClass.each(function(namespace) {
+    for (var key in dirtyClass) {
+        var namespace = dirtyClass[key];
         namespace.each(function(className) {
-            tm.app[className] = tm[namespace][className];
+            tm.app[className] = tm[key][className];
         });
-    });
-
+    }
 
 })();
