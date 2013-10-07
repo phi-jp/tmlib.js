@@ -14338,9 +14338,7 @@ tm.display = tm.display || {};
             
             // マウスとタッチの座標更新関数をパワーアップ
             this.mouse._mousemove = this.mouse._mousemoveScale;
-            this.touches.each(function(touch) {
-                touch._touchmove = touch._touchmoveScale;
-            });
+            this.touch._touchmove = this.touch._touchmoveScale;
         },
         
         /**
