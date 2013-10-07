@@ -1,7 +1,6 @@
 /*
- * phi
+ * touch.js
  */
-
 
 tm.input = tm.input || {};
 
@@ -9,7 +8,7 @@ tm.input = tm.input || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.input.Touch
      * タッチクラス
      */
     tm.input.Touch = tm.createClass({
@@ -18,6 +17,7 @@ tm.input = tm.input || {};
         touched: false,
         
         /**
+         * @constructor
          * <a href="http://tmlib-js.googlecode.com/svn/trunk/test/input/touch-test.html">Test Program</a>.
          */
         init: function(element) {
@@ -52,6 +52,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * run.
          * 自動でマウス情報を更新したい際に使用する
          */
@@ -69,6 +70,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * 情報更新処理
          * マイフレーム呼んで下さい.
          */
@@ -87,6 +89,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * タッチしているかを判定
          */
         getTouch: function() {
@@ -94,6 +97,7 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * タッチ開始時に true
          */
         getTouchStart: function() {
@@ -101,19 +105,30 @@ tm.input = tm.input || {};
         },
         
         /**
+         * @property
          * タッチ終了時に true
          */
         getTouchEnd: function() {
             return this.end != 0;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _touchmove: function(e) {
             var t = this._touch;
             var r = e.target.getBoundingClientRect();
             this.x = t.clientX - r.left;
             this.y = t.clientY - r.top;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _touchmoveScale: function(e) {
             var t = this._touch;
             var r = e.target.getBoundingClientRect();
@@ -192,9 +207,17 @@ tm.input = tm.input || {};
 
 (function() {
 
+    /**
+     * @class tm.input.Touches
+     * マルチタッチ対応クラス
+     */
     tm.define("tm.input.Touches", {
         superClass: Array,
 
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(elm, length) {
             this.element = elm;
             for (var i=0; i<length; ++i) {
@@ -241,6 +264,10 @@ tm.input = tm.input || {};
             });
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         update: function() {
             this.each(function(touch) {
                 touch.update();

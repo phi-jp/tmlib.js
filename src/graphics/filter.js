@@ -1,26 +1,27 @@
 /*
- * bitmap.js
+ * filter.js
  */
 
 tm.graphics = tm.graphics || {};
 
-
 (function() {
     
     /**
-     * @class
-     * フィルタ
+     * @class tm.graphics.MonochromeFilter
+     * モノクロフィルタ
      */
     tm.graphics.MonochromeFilter = tm.createClass({
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -44,19 +45,21 @@ tm.graphics = tm.graphics || {};
 (function() {
     
     /**
-     * @class
-     * フィルタ
+     * @class tm.graphics.ReverseFilter
+     * リバースフィルタ
      */
     tm.graphics.ReverseFilter = tm.createClass({
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function() {
             
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -79,7 +82,7 @@ tm.graphics = tm.graphics || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.graphics.BlurFilter
      * ブラーフィルタ
      * 
      * ### Reference
@@ -89,7 +92,8 @@ tm.graphics = tm.graphics || {};
     tm.graphics.BlurFilter = tm.createClass({
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(blurX, blurY, quality) {
             this.blurX      = blurX || 4;
@@ -98,6 +102,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -155,7 +160,7 @@ tm.graphics = tm.graphics || {};
     }
     
     /**
-     * @class
+     * @class tm.graphics.ToonFilter
      * トゥーンフィルタ
      */
     tm.graphics.ToonFilter = tm.createClass({
@@ -163,13 +168,15 @@ tm.graphics = tm.graphics || {};
         toonTable: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(toonTable) {
             this.toonTable = toonTable || defaultToonTable;
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -193,7 +200,7 @@ tm.graphics = tm.graphics || {};
 (function() {
     
     /**
-     * @class
+     * @class tm.graphics.ColorMatrixFilter
      * カラーマトリックスフィルタ
      * 
      * ### Reference
@@ -206,13 +213,15 @@ tm.graphics = tm.graphics || {};
     tm.graphics.ColorMatrixFilter = tm.createClass({
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(colorMatrix) {
             this.colorMatrix = colorMatrix;
         },
         
         /**
+         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -232,16 +241,6 @@ tm.graphics = tm.graphics || {};
     });
     
 })();
-
-
-
-
-
-
-
-
-
-
 
 
 

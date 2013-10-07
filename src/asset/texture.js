@@ -7,15 +7,26 @@
     /**
      * @class tm.asset.Texture
      * テクスチャクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.define("tm.asset.Texture", {
-        superClass: tm.event.EventDispatcher,
+        superClass: "tm.event.EventDispatcher",
         
+        /**
+         * @property
+         * window.document.Image
+         */
         element: null,
+
+        /**
+         * @property
+         * ロード済みかどうか
+         */
         loaded: false,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(src) {
             this.superInit();
@@ -31,6 +42,10 @@
             };
         },
         
+        /**
+         * @property
+         * window.document.Imageクラスのインスタンスを返す
+         */
         getElement: function() {
             return this.element;
         },
@@ -63,8 +78,7 @@
      * http://dummyimage.com/
      */
     /*
-    tm.graphics.TextureManager.loadDummy = function(key, param)
-    {
+    tm.graphics.TextureManager.loadDummy = function(key, param) {
         param = param || {};
 
         var paths = ["http://dummyimage.com"];

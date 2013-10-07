@@ -12,6 +12,7 @@ var CIRCLE_RADIUS   = 30;
 var TIME            = 10;
 
 
+
 var Circle = tm.createClass({
     superClass: tm.app.CanvasElement,
     
@@ -126,7 +127,6 @@ var StartScene = tm.createClass({
         this.score.baseline = "middle";
         this.score.addChildTo(this);
         
-        
         //this.addChild( tm.fade.FadeIn(SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000) );
         
         this.alpha = 0.0;
@@ -135,11 +135,15 @@ var StartScene = tm.createClass({
     
     onpointingstart: function() {
         tm.sound.SoundManager.get("decide").play();
-        
-        this.tweener.clear();
-        this.tweener.fadeOut(1000).call(function() {
-            app.replaceScene(MainScene());
+
+        var fadeScene = FadeScene({
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
+            fadeTime: 2000,
+            bgColor: "white",
+            nextScene: MainScene()
         });
+        this.app.pushScene(fadeScene);
     },
     
     onblur: function() {

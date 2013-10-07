@@ -16,26 +16,42 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * phi
+ * renderer.js
  */
 
  
 (function() {
     
-    tm.define(&quot;tm.app.CanvasRenderer&quot;, {
-        canvas: null,
-
+<span id='tm-display-CanvasRenderer'>    /**
+</span>     * @class tm.display.CanvasRenderer
+     * @TODO キャンバス描画クラス？
+     */
+    tm.define(&quot;tm.display.CanvasRenderer&quot;, {
+<span id='tm-display-CanvasRenderer-method-constructor'>        canvas: null,
+</span>
+        /**
+         * @constructor
+         * コンストラクタ
+         */
         init: function(canvas) {
             this.canvas = canvas;
-            this._context = this.canvas.context;
-        },
+<span id='tm-display-CanvasRenderer-property-render'>            this._context = this.canvas.context;
+</span>        },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         render: function(root) {
             this.canvas.save();
             this.renderObject(root);
-            this.canvas.restore();
-        },
+<span id='tm-display-CanvasRenderer-property-renderObject'>            this.canvas.restore();
+</span>        },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         renderObject: function(obj) {
             obj._dirtyCalc();
 
@@ -72,22 +88,27 @@
             if (obj.children.length &gt; 0) {
                 var tempChildren = obj.children.slice();
                 for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
-                    this.renderObject(tempChildren[i]);
-                }
+<span id='tm-display-CanvasRenderer-property-_setRenderFunction'>                    this.renderObject(tempChildren[i]);
+</span>                }
             }
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _setRenderFunction: function(obj) {
-            if (obj instanceof tm.app.Sprite) {
+            if (obj instanceof tm.display.Sprite) {
                 obj.draw = renderFuncList[&quot;sprite&quot;];
             }
-            else if (obj instanceof tm.app.MapSprite) {
+            else if (obj instanceof tm.display.MapSprite) {
                 obj.draw = function() {};
             }
-            else if (obj instanceof tm.app.Label) {
+            else if (obj instanceof tm.display.Label) {
                 obj.draw = renderFuncList[&quot;label&quot;];
             }
-            else if (obj instanceof tm.app.Shape) {
+            else if (obj instanceof tm.display.Shape) {
                 obj.draw = renderFuncList[&quot;shape&quot;];
             }
             else {
@@ -141,8 +162,8 @@
             }
             
             if (this.debugBox) {
-                canvas.strokeRect(0, 0, this.width, -this.size);
-            }
+<span id='tm-display-BoundingRectRenderer'>                canvas.strokeRect(0, 0, this.width, -this.size);
+</span>            }
         }
     };
 
@@ -153,18 +174,36 @@
  
 (function() {
     
-    tm.define(&quot;tm.app.BoundingRectRenderer&quot;, {
-        superClass: &quot;tm.app.CanvasRenderer&quot;,
+    /**
+     * @class tm.display.BoundingRectRenderer
+     * @TODO なにをするクラス？
+     * @extends tm.display.CanvasRenderer
+     */
+<span id='tm-display-BoundingRectRenderer-method-constructor'>    tm.define(&quot;tm.display.BoundingRectRenderer&quot;, {
+</span>        superClass: &quot;tm.display.CanvasRenderer&quot;,
 
+        /**
+         * @constructor
+<span id='tm-display-BoundingRectRenderer-property-_setRenderFunction'>         * コンストラクタ
+</span>         */
         init: function(canvas) {
             this.superInit(canvas);
         },
 
-        _setRenderFunction: function(obj) {
+        /**
+         * @property
+         * @TODO ?
+         * @private
+<span id='tm-display-BoundingRectRenderer-method-render'>         */
+</span>        _setRenderFunction: function(obj) {
             obj.draw = render;
         }
     });
 
+    /**
+     * @TODO ?
+     * コンストラクタ
+     */
     var render = function(canvas) {
         canvas.save();
         canvas.lineWidth = 2;

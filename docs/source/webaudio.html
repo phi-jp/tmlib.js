@@ -21,14 +21,16 @@
 
 tm.sound = tm.sound || {};
 
+
 (function() {
 
     var isAvailable = tm.global.webkitAudioContext ? true : false;
     var context = isAvailable ? new webkitAudioContext() : null;
 
 <span id='tm-sound-WebAudio'>    /**
-</span>     * @class
+</span>     * @class tm.sound.WebAudio
      * WebAudioクラス
+     * @extends tm.event.EventDispatcher
      */
     tm.sound.WebAudio = tm.createClass({
         superClass: tm.event.EventDispatcher,
@@ -41,10 +43,11 @@ tm.sound = tm.sound || {};
 <span id='tm-sound-WebAudio-property-volume'>        /**
 </span>         * ボリューム
          */
-        volume: 0.8,
-
-<span id='tm-sound-WebAudio-method-init'>        /**
-</span>         *　初期化
+<span id='tm-sound-WebAudio-method-constructor'>        volume: 0.8,
+</span>
+        /**
+         * @constructor
+         * コンストラクタ
          */
         init: function(src_or_buffer) {
             this.superInit();
@@ -65,11 +68,12 @@ tm.sound = tm.sound || {};
             else {
                 this._setup();
                 this.loaded = false;
-            }
-        },
+<span id='tm-sound-WebAudio-property-play'>            }
+</span>        },
 
-<span id='tm-sound-WebAudio-method-play'>        /**
-</span>         * 再生
+        /**
+         * @property
+         * 再生
          * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
          */
         play: function(time) {
@@ -81,11 +85,12 @@ tm.sound = tm.sound || {};
             console.dir(this.context.currentTime)
             */
 
-            return this;
-        },
+<span id='tm-sound-WebAudio-property-stop'>            return this;
+</span>        },
 
-<span id='tm-sound-WebAudio-method-stop'>        /**
-</span>         * 停止
+        /**
+         * @property
+         * 停止
          */
         stop: function(time) {
             if (time === undefined) time = 0;
@@ -101,92 +106,113 @@ tm.sound = tm.sound || {};
             this.volume = volume;
             this.loop = loop;
 
-            return this;
-        },
+<span id='tm-sound-WebAudio-property-pause'>            return this;
+</span>        },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         pause: function() {
             this.source.disconnect();
 
-            return this;
-        },
+<span id='tm-sound-WebAudio-property-resume'>            return this;
+</span>        },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         resume: function() {
             this.source.connect(this.panner);
 
-            return this;
-        },
+<span id='tm-sound-WebAudio-property-clone'>            return this;
+</span>        },
 
-<span id='tm-sound-WebAudio-method-clone'>        /**
-</span>         * 複製
+        /**
+         * @property
+         * 複製
          */
         clone: function() {
             var webAudio = tm.sound.WebAudio(this.buffer);
             webAudio.volume = this.volume;
-            return webAudio;
-        },
-<span id='tm-sound-WebAudio-method-setPosition'>        /**
-</span>         * dummy
+<span id='tm-sound-WebAudio-property-setPosition'>            return webAudio;
+</span>        },
+        /**
+         * @property
+         * dummy
          */
         setPosition: function(x, y, z) {
             this.panner.setPosition(x, y||0, z||0);
 
-            return this;
-        },
-<span id='tm-sound-WebAudio-method-setVelocity'>        /**
-</span>         * dummy
+<span id='tm-sound-WebAudio-property-setVelocity'>            return this;
+</span>        },
+        /**
+         * @property
+         * dummy
          */
         setVelocity: function(x, y, z) {
             this.panner.setVelocity(x, y||0, z||0);
 
-            return this;
-        },
-<span id='tm-sound-WebAudio-method-setOrientation'>        /**
-</span>         * dummy
+<span id='tm-sound-WebAudio-property-setOrientation'>            return this;
+</span>        },
+        /**
+         * @property
+         * dummy
          */
         setOrientation: function(x, y, z) {
             this.panner.setOrientation(x, y||0, z||0);
 
-            return this;
-        },
+<span id='tm-sound-WebAudio-property-setBuffer'>            return this;
+</span>        },
 
-<span id='tm-sound-WebAudio-method-setBuffer'>        /**
-</span>         * dummy
+        /**
+         * @property
+         * dummy
          * チェーンメソッド用
          */
         setBuffer: function(v) {
-            this.buffer = v;
-            return this;
+<span id='tm-sound-WebAudio-property-setLoop'>            this.buffer = v;
+</span>            return this;
         },
 
 
-<span id='tm-sound-WebAudio-method-setLoop'>        /**
-</span>         * dummy
+        /**
+         * @property
+         * dummy
          * チェーンメソッド用
          */
-        setLoop: function(v) {
-            this.loop = v;
+<span id='tm-sound-WebAudio-property-setVolume'>        setLoop: function(v) {
+</span>            this.loop = v;
             return this;
         },
 
 
-<span id='tm-sound-WebAudio-method-setVolume'>        /**
-</span>         * dummy
+        /**
+         * @property
+         * dummy
          * チェーンメソッド用
          */
-        setVolume: function(v) {
-            this.volume = v;
+<span id='tm-sound-WebAudio-property-setPlaybackRate'>        setVolume: function(v) {
+</span>            this.volume = v;
             return this;
         },
 
 
-<span id='tm-sound-WebAudio-method-setPlaybackRate'>        /**
-</span>         * チェーンメソッド用
+        /**
+         * @property
+         * チェーンメソッド用
          */
-        setPlaybackRate: function(v) {
-            this.playbackRate = v;
+<span id='tm-sound-WebAudio-property-_load'>        setPlaybackRate: function(v) {
+</span>            this.playbackRate = v;
             return this;
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _load: function(src) {
             var xhr = new XMLHttpRequest();
             var self = this;
@@ -204,11 +230,16 @@ tm.sound = tm.sound || {};
                     }
                 }
             };
-            xhr.open(&quot;GET&quot;, src, true);
-            xhr.responseType = &quot;arraybuffer&quot;;
+<span id='tm-sound-WebAudio-property-_setup'>            xhr.open(&quot;GET&quot;, src, true);
+</span>            xhr.responseType = &quot;arraybuffer&quot;;
             xhr.send();
         },
 
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _setup: function() {
             this.source     = this.context.createBufferSource();
 //            this.gainNode   = this.context.createGainNode();
@@ -216,10 +247,14 @@ tm.sound = tm.sound || {};
             this.analyser   = this.context.createAnalyser();
 
             this.source.connect(this.panner);
-            this.panner.connect(this.analyser);
-            this.analyser.connect(this.context.destination);
+<span id='tm-sound-WebAudio-property-tone'>            this.panner.connect(this.analyser);
+</span>            this.analyser.connect(this.context.destination);
         },
 
+        /**
+         * @property
+         * @TODO ?
+         */
         tone: function(hertz, seconds) {
             // handle parameter
             hertz   = hertz !== undefined ? hertz : 200;
@@ -237,27 +272,43 @@ tm.sound = tm.sound || {};
                 var angle   = hertz * time * Math.PI;
                 fArray[i]   = Math.sin(angle)*amplitude;
             }
-            // set the buffer
-            this.buffer = buffer;
+<span id='tm-sound-WebAudio-property-buffer'>            // set the buffer
+</span>            this.buffer = buffer;
             return this;    // for chained API
         },
     });
 
+    /**
+     * @property    buffer
+     * @TODO ?
+     */
     tm.sound.WebAudio.prototype.accessor(&quot;buffer&quot;, {
-        get: function()  { return this.source.buffer; },
-        set: function(v) { this.source.buffer = v; }
+<span id='tm-sound-WebAudio-property-loop'>        get: function()  { return this.source.buffer; },
+</span>        set: function(v) { this.source.buffer = v; }
     });
 
+    /**
+     * @property    loop
+     * @TODO ?
+     */
     tm.sound.WebAudio.prototype.accessor(&quot;loop&quot;, {
-        get: function()  { return this.source.loop; },
-        set: function(v) { this.source.loop = v; }
+<span id='tm-sound-WebAudio-property-valume'>        get: function()  { return this.source.loop; },
+</span>        set: function(v) { this.source.loop = v; }
     });
 
+    /**
+     * @property    valume
+     * @TODO ?
+     */
     tm.sound.WebAudio.prototype.accessor(&quot;volume&quot;, {
-        get: function()  { return this.source.gain.value; },
-        set: function(v) { this.source.gain.value = v; }
+<span id='tm-sound-WebAudio-property-playbackRate'>        get: function()  { return this.source.gain.value; },
+</span>        set: function(v) { this.source.gain.value = v; }
     });
 
+    /**
+     * @property    playbackRate
+     * @TODO ?
+     */
     tm.sound.WebAudio.prototype.accessor(&quot;playbackRate&quot;, {
         get: function()  { return this.source.playbackRate.value; },
         set: function(v) { this.source.playbackRate.value = v; }

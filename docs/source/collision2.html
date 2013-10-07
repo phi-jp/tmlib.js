@@ -19,10 +19,8 @@
  * collision.js
  */
 
-
 tm.collision = tm.collision || {};
  
-
 (function() {
 
 <span id='tm-collision'>    /**
@@ -30,23 +28,21 @@ tm.collision = tm.collision || {};
      * 衝突判定
      */
     tm.collision;
-    
-<span id='tm-collision-method-testCircleCircle'>    /**
-</span>     * @method testCircleCircle
+<span id='tm-collision-method-testCircleCircle'>    
+</span>    /**
+     * @method testCircleCircle
      * 円同士の衝突判定
      */
-    tm.collision.testCircleCircle = function(circle0, circle1)
-    {
+    tm.collision.testCircleCircle = function(circle0, circle1) {
         var distanceSquared = tm.geom.Vector2.distanceSquared(circle0, circle1);
-        return distanceSquared &lt;= Math.pow(circle0.radius + circle1.radius, 2);
-    }
+<span id='tm-collision-method-testRectRect'>        return distanceSquared &lt;= Math.pow(circle0.radius + circle1.radius, 2);
+</span>    }
     
-<span id='tm-collision-method-testRectRect'>    /**
-</span>     * @method testRectRect
+    /**
+     * @method testRectRect
      * 矩形同士の衝突判定
      */
-    tm.collision.testRectRect = function(rect0, rect1)
-    {
+    tm.collision.testRectRect = function(rect0, rect1) {
         return (rect0.left &lt; rect1.right) &amp;&amp; (rect0.right &gt; rect1.left) &amp;&amp;
                (rect0.top &lt; rect1.bottom) &amp;&amp; (rect0.bottom &gt; rect1.top);
     }

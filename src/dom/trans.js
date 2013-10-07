@@ -1,25 +1,38 @@
 (function(){
     
     /**
-     * @class
-     * スタイル
+     * @class tm.dom.Trans
+     * @TODO ?
      */
     tm.dom.Trans = tm.createClass({
         
+        /**
+         * @property
+         * エレメント
+         */
         element: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
         },
         
+        /**
+         * @property
+         * @TODO ?
+         */
         to: function(props, t) {
             this.set(props).duration(t||1000);
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         set: function(props) {
             var style = this.element.style;
             var names = [];
@@ -34,63 +47,107 @@
             
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         duration: function(t) {
             var style = this.element.style;
             if (typeof t == "number") t = t + "ms";
             style[tm.dom.Trans.DURATION] = t;
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         easing: function(ease) {
             var style = this.element.style;
             style[tm.dom.Trans.TIMING_FUNCTION] = func;
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         end: function(fn) {
             var elm  = tm.dom.Element(this.element);
             elm.event.add(tm.dom.Trans.END_EVENT, fn);
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         reset: function() {
             var style = this.element.style;
             style[tm.dom.Trans.PROPERTY] = "none";
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         translate: function(x, y, t) {
             this.to({"transform": "translate({0}px,{1}px)".format(x, y)}, t);
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         translate3d: function(x, y, z, t) {
             this.to({"transform": "translate3d({0}px,{1}px,{2}px)".format(x, y, z)}, t);
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         rotate: function(deg, t) {
             this.to({"transform": "rotate({0}deg)".format(deg)}, t);
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         rotate3d: function(x, y, z, deg, t) {
             this.to({"transform": "rotate3d({0},{1},{2},{3}deg)".format(x, y, z, deg)}, t);
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         scale: function(x, y, t) {
             this.to({"transform": "scale({0},{1})".format(x, y)}, t);
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         transform: function() {
             // TODO: 実装する
         },
         
         // -------------------------------------
         
+        /**
+         * @property
+         * @TODO ?
+         */
         setProp: function(prop) {
             var style = this.element.style;
             var prop_list = [];
@@ -105,25 +162,41 @@
             
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setDuration: function(t) {
             var style = this.element.style;
             style[tm.dom.Trans.DURATION] = t;
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setTimingFunction: function(func) {
             var style = this.element.style;
             style[tm.dom.Trans.TIMING_FUNCTION] = func;
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         resetProp: function() {
             var style = this.element.style;
             style[tm.dom.Trans.PROPERTY] = "none";
             return this;
         },
-        
+
+        /**
+         * @property
+         * @TODO ?
+         */
         setEndFunction: function(fn) {
             var elm  = tm.dom.Element(this.element);
             elm.event.add(tm.dom.Trans.END_EVENT, fn);
@@ -144,7 +217,6 @@
     })();
     
     /**
-     * Trans クラス
      * @property    trans
      */
     tm.dom.Element.prototype.getter("trans", function(){
@@ -154,8 +226,7 @@
     var _styleList = {
         "transform": true,
     };
-    var _checkStyleProperty = function(name)
-    {
+    var _checkStyleProperty = function(name) {
         if (_styleList[name] === true) {
             return '-'+tm.VENDER_PREFIX + name.capitalizeFirstLetter();
         }

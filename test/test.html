@@ -37,19 +37,19 @@
         
         <script src="../src/graphics/canvas.js"></script>
         <script src="../src/graphics/gradient.js"></script>
-        <script src="../src/graphics/texture.js"></script>
+        <script src="../src/asset/texture.js"></script>
         
         <script src="../src/sound/sound.js"></script>
         
         <script src="../src/app/element.js"></script>
-        <script src="../src/app/canvaselement.js"></script>
-        <script src="../src/app/sprite.js"></script>
-        <script src="../src/app/label.js"></script>
-        <script src="../src/app/shape.js"></script>
-        <script src="../src/app/button.js"></script>
+        <script src="../src/display/canvaselement.js"></script>
+        <script src="../src/display/sprite.js"></script>
+        <script src="../src/display/label.js"></script>
+        <script src="../src/display/shape.js"></script>
+        <script src="../src/ui/button.js"></script>
         <script src="../src/app/scene.js"></script>
-        <script src="../src/app/animation.js"></script>
-        <script src="../src/app/canvasapp.js"></script>
+        <script src="../src/dom/anim.js"></script>
+        <script src="../src/display/canvasapp.js"></script>
         <script src="../src/app/interaction.js"></script>
         
         <script src="../src/google/chart.js"></script>
@@ -57,7 +57,7 @@
         <script src="../src/social/twitter.js"></script>
         
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
-        <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
+        <script src="https://rawgithub.com/mrdoob/stats.js/master/src/Stats.js"></script>
         
         <script>
             
@@ -67,7 +67,7 @@
             });
             
             tm.main(function() {
-                var app = tm.app.CanvasApp("#world");
+                var app = tm.display.CanvasApp("#world");
                 app.resize(465, 465);
                 app.enableStats();
                 app.background = "black";
@@ -107,7 +107,7 @@
                 app.run();
                 
                 // 
-                var sprite = tm.app.Sprite(64, 64);
+                var sprite = tm.display.Sprite("dummy", 64, 64);
                 sprite.position.set(150, 75);
                 /*
                 sprite.scaleX = 3;
@@ -125,7 +125,7 @@
                 // タッチ
                 mainScene.onpointingstart = function() {
                     var p = app.pointing;
-                    var crash = tm.app.Sprite(128, 128);
+                    var crash = tm.display.Sprite("dummy", 128, 128);
                     crash.position.set(p.x, p.y);
                     crash.image = tm.graphics.TextureManager.get("crash");
                     crash.frameIndex = 0;

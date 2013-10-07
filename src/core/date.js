@@ -2,12 +2,11 @@
  * date.js
  */
 
-
 (function() {
     
     /**
      * @class   Date
-     * Date クラス
+     * Date(日付)の拡張
      */
     
     var MONTH = [
@@ -19,12 +18,10 @@
     ];
     
     /**
-     * @method  round
-     * 四捨五入
-     * 桁数指定版
+     * @method  format
+     * 日付フォーマットに合わせた文字列を返す
      */
-    Date.prototype.format = function(pattern)
-    {
+    Date.prototype.format = function(pattern) {
         /*
         var str = "{y}/{m}/{d}".format({
             y: this.getYear()+1900,

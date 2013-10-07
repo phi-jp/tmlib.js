@@ -16,7 +16,7 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">/*
- * 
+ * element.js
  */
 
 tm.app = tm.app || {};
@@ -25,91 +25,125 @@ tm.app = tm.app || {};
 (function() {
     
 <span id='tm-app-Element'>    /**
-</span>     * @class
+</span>     * @class tm.app.Element
      * アプリケーション用オブジェクトの基底となるクラス
+     * 親子関係の情報を管理する
+     * @extends tm.event.EventDispatcher
      */
-    tm.app.Element = tm.createClass({
+<span id='tm-app-Element-property-parent'>    tm.app.Element = tm.createClass({
+</span>        superClass: tm.event.EventDispatcher,
         
-        superClass: tm.event.EventDispatcher,
-        
+        /**
+<span id='tm-app-Element-property-children'>         * @property
+</span>         * 親
+         */
         parent: null,
+
+        /**
+<span id='tm-app-Element-property-init'>         * @property
+</span>         * 子
+         */
         children: null,
         
-<span id='tm-app-Element-method-init'>        /**
-</span>         * 初期化
+        /**
+         * @property init
+         * コンストラクタ
          */
         init: function() {
             
             this.superInit();
             
-            this.children = [];
-            this._listeners = {};
+<span id='tm-app-Element-property-remove'>            this.children = [];
+</span>            this._listeners = {};
         },
         
-<span id='tm-app-Element-method-remove'>        /**
-</span>         * 親から離れる
+        /**
+         * @property
+         * 親から離す
          */
-        remove: function()
-        {
+        remove: function() {
             console.assert(this.parent);
-            this.parent.removeChild(this);
+<span id='tm-app-Element-property-addChild'>            this.parent.removeChild(this);
+</span>
+            this.parent = null;
             
             return this;
         },
         
-<span id='tm-app-Element-method-addChild'>        /**
-</span>         * 子供を追加
+        /**
+         * @property
+         * 子供を追加
+         * @param {Object} child
          */
         addChild: function(child) {
             if (child.parent) child.remove();
             child.parent = this;
             this.children.push(child);
 
-            var e = tm.event.Event(&quot;added&quot;);
-            child.dispatchEvent(e);
+<span id='tm-app-Element-property-addChildTo'>            var e = tm.event.Event(&quot;added&quot;);
+</span>            child.dispatchEvent(e);
             
             return child;
         },
         
-<span id='tm-app-Element-method-addChildTo'>        /**
-</span>         * parent に自分を子供として追加
+        /**
+         * @property
+         * parent に自分を子供として追加
+         * @param {Object} parent
          */
         addChildTo: function(parent) {
             parent.addChild(this);
             
             // if (this.parent) this.remove();
-            // this.parent = parent;
-            // parent.children.push(child);
+<span id='tm-app-Element-property-addChildren'>            // this.parent = parent;
+</span>            // parent.children.push(child);
             
             return this;
         },
         
-<span id='tm-app-Element-method-addChildren'>        /**
-</span>         * まとめて追加
+        /**
+         * @property
+         * まとめて追加
          * scene 遷移時に子供をごっそり移譲するときなどに使用
          * まだ動作確認していない
+         * @param {Object} children
          */
-        addChildren: function(children)
-        {
-            var tempChildren = children.slice();
-            for (var i=beginIndex,len=tempChildren.length; i&lt;len; ++i) {
+        addChildren: function(children) {
+<span id='tm-app-Element-property-addChildAt'>            var tempChildren = children.slice();
+</span>            for (var i=beginIndex,len=tempChildren.length; i&lt;len; ++i) {
                 this.addChild(tempChildren[i]);
             }
         },
         
-<span id='tm-app-Element-method-getChildAt'>        /**
-</span>         * index 指定で子供を取得
+        /**
+         * @property
+         * index 指定で要素を取得
          */
-        getChildAt: function() {
-            // TODO: 
+        addChildAt: function(child, index) {
+<span id='tm-app-Element-method-getChildAt'>            if (child.parent) child.remove();
+</span>            child.parent = this;
+            this.children.splice(index, 0, child);
+
+            var e = tm.event.Event(&quot;added&quot;);
+<span id='tm-app-Element-property-removeChild'>            child.dispatchEvent(e);
+</span>
+            return child;
         },
         
-<span id='tm-app-Element-method-removeChild'>        /**
-</span>         * child に一致するエレメントを離す
+        /**
+         * index 指定で要素を取得
          */
-        removeChild: function(child)
-        {
-            var index = this.children.indexOf(child);
+        getChildAt: function(child) {
+            return this.children.indexOf(child);
+        },
+        
+        /**
+         * @property
+         * child に一致するエレメントを離す
+         * @param {Object} child
+         */
+<span id='tm-app-Element-property-removeChildren'>        removeChild: function(child) {
+</span>            var index = this.children.indexOf(child);
             if (index != -1) {
                 this.children.splice(index, 1);
                 var e = tm.event.Event(&quot;removed&quot;);
@@ -117,50 +151,56 @@ tm.app = tm.app || {};
             }
         },
         
-<span id='tm-app-Element-method-removeChildren'>        /**
-</span>         * すべての child を離す
+        /**
+         * @property
+         * すべての child を離す
+         * @param {Object} beginIndex
          */
-        removeChildren: function(beginIndex)
-        {
-            beginIndex = beginIndex || 0;
-            var tempChildren = this.children.slice();
+        removeChildren: function(beginIndex) {
+<span id='tm-app-Element-property-getChildByName'>            beginIndex = beginIndex || 0;
+</span>            var tempChildren = this.children.slice();
             for (var i=beginIndex,len=tempChildren.length; i&lt;len; ++i) {
                 tempChildren[i].remove();
             }
             this.children = [];
         },
         
-<span id='tm-app-Element-method-getChildByName'>        /**
-</span>         * 名前の一致する child を取得
+        /**
+         * @property
+<span id='tm-app-Element-property-execChildren'>         * 名前の一致する child を取得
+</span>         * @param {String} name
          */
-        getChildByName: function(name)
-        {
+        getChildByName: function(name) {
             for (var i=0,len=this.children.length; i&lt;len; ++i)
                 if (this.children[i].name == name) return this.children[i];
             
             return null;
         },
         
-<span id='tm-app-Element-method-execChildren'>        /**
-</span>         * 関数実行
+        /**
+         * @property
+         * 関数実行
+         * @param {Function} func
+         * @param {Object} args
          */
-        execChildren: function(func, args)
-        {
-            args = (args &amp;&amp; args.length) ? args : [args];
-            // 関数内で remove される可能性があるので配列をコピーする
-            var tempChildren = this.children.slice();
+        execChildren: function(func, args) {
+<span id='tm-app-Element-property-getParent'>            args = (args &amp;&amp; args.length) ? args : [args];
+</span><span id='tm-app-Element-property-getRoot'>            // 関数内で remove される可能性があるので配列をコピーする
+</span>            var tempChildren = this.children.slice();
             for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
                 func.apply(tempChildren[i], args);
             }
         },
         
-<span id='tm-app-Element-method-getParent'>        /**
-</span>         * 親を取得
+        /**
+         * @property
+         * 親を取得
          */
         getParent: function() { return this.parent; },
         
-<span id='tm-app-Element-method-getRoot'>        /**
-</span>         * ルートを取得
+        /**
+         * @property
+         * ルートを取得
          */
         getRoot: function() {
             if (!this.parent) return null;
@@ -170,7 +210,50 @@ tm.app = tm.app || {};
             return elm;
         },
         
+        fromJSON: function(data) {
+            for (var key in data) {
+                var value = data[key];
+                if (key == &quot;children&quot;) {
+                    for (var i=0,len=value.length; i&lt;len; ++i) {
+                        var data = value[i];
+                        var init = data[&quot;init&quot;] || [];
+                        var type = (DIRTY_CLASS_MAP[data.type]) ? DIRTY_CLASS_MAP[data.type] : data.type;
+                        var _class = tm.using(type);
+                        
+                        console.assert(Object.keys(_class).length !== 0, _class + &quot; is not defined.&quot;);
+                        
+                        var elm = _class.apply(null, init).addChildTo(this);
+                        elm.fromJSON(data);
+                        this[data.name] = elm;
+                    }
+                }
+                else {
+                    this[key] = value;
+                }
+            }
+
+            return this;
+        },
+        
     });
+
+    var DIRTY_CLASS_MAP = {
+        &quot;Sprite&quot;            : &quot;tm.display.Sprite&quot;,
+        &quot;Label&quot;             : &quot;tm.display.Label&quot;,
+        &quot;Shape&quot;             : &quot;tm.display.Shape&quot;,
+        &quot;CircleShape&quot;       : &quot;tm.display.CircleShape&quot;,
+        &quot;TriangleShape&quot;     : &quot;tm.display.TriangleShape&quot;,
+        &quot;RectangleShape&quot;    : &quot;tm.display.RectangleShape&quot;,
+        &quot;StarShape&quot;         : &quot;tm.display.StarShape&quot;,
+        &quot;PolygonShape&quot;      : &quot;tm.display.PolygonShape&quot;,
+        &quot;HeartShape&quot;        : &quot;tm.display.HeartShape&quot;,
+        &quot;AnimationSprite&quot;   : &quot;tm.display.AnimationSprite&quot;,
+        
+        &quot;LabelButton&quot;       : &quot;tm.ui.LabelButton&quot;,
+        &quot;IconButton&quot;        : &quot;tm.ui.IconButton&quot;,
+        &quot;GlossyButton&quot;      : &quot;tm.ui.GlossyButton&quot;,
+        &quot;FlatButton&quot;        : &quot;tm.ui.FlatButton&quot;,
+    };
     
 })();
 </pre>

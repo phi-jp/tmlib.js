@@ -2,27 +2,46 @@
  * ajax.js
  */
 
-
 tm.util = tm.util || {};
+
 
 (function() {
     
+    /**
+     * @enum
+     * @TODO ?
+     * @private
+     */
     var AJAX_DEFAULT_SETTINGS = {
+        /** @property type */
         type :"GET",
+        /** @property async */
         async: true,
+        /** @property data */
         data: null,
+        /** @property contentType */
         contentType: 'application/x-www-form-urlencoded',
+        /** @property dataType */
         dataType: 'text',
+        /** @property username */
         username: null,
+        /** @property password */
         password: null,
+        /** @property success */
         success : function(data){ alert("success!!\n"+data); },
+        /** @property error */
         error   : function(data){ alert("error!!"); }
     };
     
-    
+    /**
+     * @class tm.util.Ajax
+     * @TODO ?
+     */
     tm.util.Ajax = {
-        load: function(params)
-        {
+        /**
+         * @property load
+         */
+        load: function(params) {
             for (var key in AJAX_DEFAULT_SETTINGS) {
                 params[key] = params[key] || AJAX_DEFAULT_SETTINGS[key];
             }
@@ -32,8 +51,7 @@ tm.util = tm.util || {};
             var conv_func = tm.util.Ajax.DATA_CONVERTE_TABLE[params.dataType];
             
             // コールバック
-            httpRequest.onreadystatechange = function()
-            {
+            httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState == 4) {
                     // 成功
                     if (httpRequest.status === 200) {
@@ -61,6 +79,9 @@ tm.util = tm.util || {};
             httpRequest.send(null);
         },
         
+        /**
+         * @property loadJSONP
+         */
         loadJSONP: function(url, callback) {
             var g = tm.global;
             g.tmlib_js_dummy_func_count = tm.global.tmlib_js_dummy_func || 0;
@@ -77,29 +98,35 @@ tm.util = tm.util || {};
     };
     
     /**
+     * @enum tm.util.Ajax.DATA_CONVERTE_TABLE
      * データコンバータテーブル
      */
     tm.util.Ajax.DATA_CONVERTE_TABLE = {
+        /** @property */
         undefined: function(data) {
             return data;
         },
         
+        /** @property */
         text: function(data) {
             return data;
         },
         
+        /** @property */
         xml: function(data) {
             var div = document.createElement("div");
             div.innerHTML = data;
             return div;
         },
         
+        /** @property */
         dom: function(data) {
             var div = document.createElement("div");
             div.innerHTML = data;
             return tm.dom.Element(div);
         },
         
+        /** @property */
         json: function(data) {
             try {
                 return JSON.parse(data);
@@ -110,12 +137,14 @@ tm.util = tm.util || {};
             }
         },
         
+        /** @property */
         script: function(data) {
             eval(data);
             return data;
         },
         
         /**
+         * @property
          * ### Reference
          * - <http://efcl.info/adiary/Javascript/treat-binary>
          * @param {Object} data

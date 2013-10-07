@@ -1,24 +1,31 @@
 /*
- * phi
+ * dom/data.js
  */
 
 (function(){
     
     /**
      * @class tm.dom.Data
-     * スタイル
+     * @TODO ?
      */
     tm.define("tm.dom.Data", {
+
+        /**
+         * @property
+         * エレメント
+         */
         element: null,
         
         /**
-         * 初期化
+         * @constructor
+         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
         },
         
         /**
+         * @property
          * 属性をセット
          */
         set: function(name, value) {
@@ -29,6 +36,7 @@
         },
         
         /**
+         * @property
          * 属性をゲット
          */
         get: function(name, value) {
