@@ -1,5 +1,5 @@
 /*
- * tmlib.js 0.1.9
+ * tmlib.js 0.2.0
  * http://github.com/phi1618/tmlib.js
  * MIT Licensed
  * 
@@ -18119,32 +18119,37 @@ tm.google = tm.google || {};
     
     
     var dirtyClass = [
-        "Sprite",
-        "Shape",
-        "CircleShape",
-        "TriangleShape",
-        "RectangleShape",
-        "StarShape",
-        "PolygonShape",
-        "HeartShape",
-        "TextShape",
-        "CanvasRenderer",
-        "BoundingRectRenderer",
-        "Label",
-        "MapSprite",
-        "CanvasElement",
-        "CanvasApp",
-        "AnimationSprite",
-        "SpriteSheet",
-        
-        "LabelButton",
-        "IconButton",
-        "GlossyButton",
-        "FlatButton",
+        "display": [
+            "Sprite",
+            "Shape",
+            "CircleShape",
+            "TriangleShape",
+            "RectangleShape",
+            "StarShape",
+            "PolygonShape",
+            "HeartShape",
+            "TextShape",
+            "CanvasRenderer",
+            "BoundingRectRenderer",
+            "Label",
+            "MapSprite",
+            "CanvasElement",
+            "CanvasApp",
+            "AnimationSprite",
+            "SpriteSheet",
+        ],
+        "ui": [
+            "LabelButton",
+            "IconButton",
+            "GlossyButton",
+            "FlatButton",
+        ],
     ];
     
-    dirtyClass.each(function(className) {
-        tm.app[className] = tm.display[className];
+    dirtyClass.each(function(namespace) {
+        namespace.each(function(className) {
+            tm.app[className] = tm[namespace][className];
+        });
     });
 
 

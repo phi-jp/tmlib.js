@@ -11,32 +11,37 @@
     
     
     var dirtyClass = [
-        "Sprite",
-        "Shape",
-        "CircleShape",
-        "TriangleShape",
-        "RectangleShape",
-        "StarShape",
-        "PolygonShape",
-        "HeartShape",
-        "TextShape",
-        "CanvasRenderer",
-        "BoundingRectRenderer",
-        "Label",
-        "MapSprite",
-        "CanvasElement",
-        "CanvasApp",
-        "AnimationSprite",
-        "SpriteSheet",
-        
-        "LabelButton",
-        "IconButton",
-        "GlossyButton",
-        "FlatButton",
+        "display": [
+            "Sprite",
+            "Shape",
+            "CircleShape",
+            "TriangleShape",
+            "RectangleShape",
+            "StarShape",
+            "PolygonShape",
+            "HeartShape",
+            "TextShape",
+            "CanvasRenderer",
+            "BoundingRectRenderer",
+            "Label",
+            "MapSprite",
+            "CanvasElement",
+            "CanvasApp",
+            "AnimationSprite",
+            "SpriteSheet",
+        ],
+        "ui": [
+            "LabelButton",
+            "IconButton",
+            "GlossyButton",
+            "FlatButton",
+        ],
     ];
     
-    dirtyClass.each(function(className) {
-        tm.app[className] = tm.display[className];
+    dirtyClass.each(function(namespace) {
+        namespace.each(function(className) {
+            tm.app[className] = tm[namespace][className];
+        });
     });
 
 
