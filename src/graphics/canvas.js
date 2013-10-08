@@ -682,7 +682,7 @@ tm.graphics = tm.graphics || {};
             arguments[0] = texture.element;
             this.context.drawImage.apply(this.context, arguments);
             
-            return ;
+            return this;
         },
         
         /**
@@ -693,7 +693,35 @@ tm.graphics = tm.graphics || {};
             arguments[0] = bitmap.imageData;
             this.context.putImageData.apply(this.context, arguments);
             
-            return ;
+            return this;
+        },
+        
+        /**
+         * @property
+         * dummy
+         */
+        drawScale9Image: function(image, rect0, rect1) {
+            
+            var leftWidth   = rect1.x;
+            var middleWidth = rect1.width;
+            var rightWidth  = image.width - (leftWidth+middleWidth);
+            var finalWidth  = rect0.width - (leftWidth+rightWidth);
+            var topHeight   = rect1.y;
+            
+            // left top
+            this.drawImage(image,
+                0, 0, leftWidth, topHeight,
+                rect0.x, rect0.y, leftWidth, topHeight);
+            // middle top
+            this.drawImage(image,
+                leftWidth, 0, middleWidth, topHeight,
+                rect0.x + leftWidth, rect0.y, finalWidth, topHeight)
+            // right top
+            this.drawImage(image,
+                leftWidth+middleWidth, 0, rightWidth, topHeight,
+                rect0.x + leftWidth + finalWidth, rect0.y, rightWidth, topHeight);
+            
+            return this;
         },
         
         /**

@@ -74,8 +74,6 @@ tm.display = tm.display || {};
          * @private
          */
         _refreshSize: function() {},
-
-        _update: tm.display.CanvasElement.prototype._update,
     });
     
     /**
