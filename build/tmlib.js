@@ -8125,20 +8125,17 @@ tm.input = tm.input || {};
             this.prevPosition   = tm.geom.Vector2(0, 0);
             
             var self = this;
-            this.element.addEventListener("mousemove", function(e){
-                // 座標更新
-                self._mousemove(e);
-            });
             this.element.addEventListener("mousedown", function(e){
+                self._mousemove(e);
+                self.prevPosition.set(this._x, this._y);    // prevPostion をリセット
                 self.button |= 1<<e.button;
             });
             this.element.addEventListener("mouseup", function(e){
                 self.button &= ~(1<<e.button);
             });
-            this.element.addEventListener("mouseover", function(e){
+            this.element.addEventListener("mousemove", function(e){
                 // 座標更新
                 self._mousemove(e);
-                self.prevPosition.setObject(self.position);
             });
         },
         
@@ -8364,7 +8361,7 @@ tm.input = tm.input || {};
             var self = this;
             this.element.addEventListener("touchstart", function(e){
                 self._touchmove(e);
-                self.prevPosition.setObject(self.position);
+                self.prevPosition.set(this._x, this._y);    // prevPostion をリセット
                 self.touched = true;
             });
             this.element.addEventListener("touchend", function(e){
@@ -9777,7 +9774,7 @@ tm.graphics = tm.graphics || {};
             arguments[0] = texture.element;
             this.context.drawImage.apply(this.context, arguments);
             
-            return ;
+            return this;
         },
         
         /**
@@ -9788,7 +9785,35 @@ tm.graphics = tm.graphics || {};
             arguments[0] = bitmap.imageData;
             this.context.putImageData.apply(this.context, arguments);
             
-            return ;
+            return this;
+        },
+        
+        /**
+         * @property
+         * dummy
+         */
+        drawScale9Image: function(image, rect0, rect1) {
+            
+            var leftWidth   = rect1.x;
+            var middleWidth = rect1.width;
+            var rightWidth  = image.width - (leftWidth+middleWidth);
+            var finalWidth  = rect0.width - (leftWidth+rightWidth);
+            var topHeight   = rect1.y;
+            
+            // left top
+            this.drawImage(image,
+                0, 0, leftWidth, topHeight,
+                rect0.x, rect0.y, leftWidth, topHeight);
+            // middle top
+            this.drawImage(image,
+                leftWidth, 0, middleWidth, topHeight,
+                rect0.x + leftWidth, rect0.y, finalWidth, topHeight)
+            // right top
+            this.drawImage(image,
+                leftWidth+middleWidth, 0, rightWidth, topHeight,
+                rect0.x + leftWidth + finalWidth, rect0.y, rightWidth, topHeight);
+            
+            return this;
         },
         
         /**
