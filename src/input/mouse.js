@@ -27,20 +27,17 @@ tm.input = tm.input || {};
             this.prevPosition   = tm.geom.Vector2(0, 0);
             
             var self = this;
-            this.element.addEventListener("mousemove", function(e){
-                // 座標更新
-                self._mousemove(e);
-            });
             this.element.addEventListener("mousedown", function(e){
+                self._mousemove(e);
+                self.prevPosition.set(this._x, this._y);    // prevPostion をリセット
                 self.button |= 1<<e.button;
             });
             this.element.addEventListener("mouseup", function(e){
                 self.button &= ~(1<<e.button);
             });
-            this.element.addEventListener("mouseover", function(e){
+            this.element.addEventListener("mousemove", function(e){
                 // 座標更新
                 self._mousemove(e);
-                self.prevPosition.setObject(self.position);
             });
         },
         
