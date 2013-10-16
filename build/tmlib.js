@@ -446,7 +446,8 @@ if (typeof module !== 'undefined' && module.exports) {
     Object.defineInstanceMethod("setter", function(name, fn){
         Object.defineProperty(this, name, {
             set: fn,
-            enumerable: true,
+            enumerable: false,
+            configurable: true
         });
         // this.__defineSetter__(name, fn);
     });
@@ -458,7 +459,8 @@ if (typeof module !== 'undefined' && module.exports) {
     Object.defineInstanceMethod("getter", function(name, fn){
         Object.defineProperty(this, name, {
             get: fn,
-            enumerable: true,
+            enumerable: false,
+            configurable: true
         });
         // this.__defineGetter__(name, fn);
     });
@@ -471,7 +473,8 @@ if (typeof module !== 'undefined' && module.exports) {
         Object.defineProperty(this, name, {
             set: param["set"],
             get: param["get"],
-            enumerable: true,
+            enumerable: false,
+            configurable: true
         });
         // (param["get"]) && this.getter(name, param["get"]);
         // (param["set"]) && this.setter(name, param["set"]);
