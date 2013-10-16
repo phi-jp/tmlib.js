@@ -446,7 +446,7 @@ if (typeof module !== 'undefined' && module.exports) {
     Object.defineInstanceMethod("setter", function(name, fn){
         Object.defineProperty(this, name, {
             set: fn,
-            enumerable: false,
+            enumerable: true,
         });
         // this.__defineSetter__(name, fn);
     });
@@ -458,7 +458,7 @@ if (typeof module !== 'undefined' && module.exports) {
     Object.defineInstanceMethod("getter", function(name, fn){
         Object.defineProperty(this, name, {
             get: fn,
-            enumerable: false,
+            enumerable: true,
         });
         // this.__defineGetter__(name, fn);
     });
@@ -471,7 +471,7 @@ if (typeof module !== 'undefined' && module.exports) {
         Object.defineProperty(this, name, {
             set: param["set"],
             get: param["get"],
-            enumerable: false,
+            enumerable: true,
         });
         // (param["get"]) && this.getter(name, param["get"]);
         // (param["set"]) && this.setter(name, param["set"]);
@@ -7592,6 +7592,19 @@ tm.event = tm.event || {};
     var _tmssFunc = function(path) {
         var mapSheet = tm.asset.SpriteSheet(path);
         return mapSheet;
+    };
+
+    var _jsonFunc = function(path) {
+        if (typeof path == 'string') {
+            tm.util.Ajax.load({
+                url: path,
+                dataType: 'json',
+                success: function(o) {
+                    self.$extend(o);
+                    self.loaded = true;
+                }
+            });
+        }
     };
 
     tm.asset.AssetManager.register("png", _textureFunc);
