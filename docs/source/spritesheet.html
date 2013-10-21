@@ -27,7 +27,9 @@
      * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.asset.SpriteSheet&quot;, {
-<span id='tm-asset-SpriteSheet-property-init'>        superClass: &quot;tm.event.EventDispatcher&quot;,
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+
+<span id='tm-asset-SpriteSheet-property-init'>        loaded: false,
 </span>
         /**
          * @property
@@ -35,6 +37,8 @@
          */
         init: function(src) {
             this.superInit();
+
+            this.loaded = false;
 
             if (typeof src == &quot;string&quot;) {
             	this.load(src);

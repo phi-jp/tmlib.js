@@ -90,6 +90,7 @@
         Object.defineProperty(this, name, {
             set: fn,
             enumerable: false,
+            configurable: true
         });
 <span id='Object-method-getter'>        // this.__defineSetter__(name, fn);
 </span>    });
@@ -102,6 +103,7 @@
         Object.defineProperty(this, name, {
             get: fn,
             enumerable: false,
+            configurable: true
         });
 <span id='Object-method-accessor'>        // this.__defineGetter__(name, fn);
 </span>    });
@@ -115,6 +117,7 @@
             set: param[&quot;set&quot;],
             get: param[&quot;get&quot;],
             enumerable: false,
+            configurable: true
         });
         // (param[&quot;get&quot;]) &amp;&amp; this.getter(name, param[&quot;get&quot;]);
 <span id='Object-method-S-has'>        // (param[&quot;set&quot;]) &amp;&amp; this.setter(name, param[&quot;set&quot;]);

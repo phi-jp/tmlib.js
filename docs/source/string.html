@@ -140,19 +140,27 @@
         
         return str;
     });
-<span id='String-method-repeat'>    
+<span id='String-method-quotemeta'>    
 </span>    /**
      * @method  paddingRight
      * 右側に指定された文字を詰めて左寄せにする
      */
     String.defineInstanceMethod(&quot;paddingRight&quot;, function(n, ch) {
-        var str = this.toString();
-        n  = n-str.length;
+<span id='String-method-repeat'>        var str = this.toString();
+</span>        n  = n-str.length;
         ch = ch || ' ';
         
         while(n-- &gt; 0) { str = str + ch; }
         
         return str;
+    });
+    
+    /**
+     * @method  quotemeta
+     * メタ文字をクォート
+     */
+    String.defineInstanceMethod(&quot;quotemeta&quot;, function(n) {
+        return this.replace(/([^0-9A-Za-z_])/g, '\\$1');
     });
     
     /**

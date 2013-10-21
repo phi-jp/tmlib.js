@@ -431,9 +431,9 @@ tm.geom = tm.geom || {};
     /**
      * @method
      * @static
-     * 割算
-<span id='tm-geom-Vector2-static-method-distance'>     */
-</span>    tm.geom.Vector2.div = function(v, n) {
+<span id='tm-geom-Vector2-static-method-distance'>     * 割算
+</span>     */
+    tm.geom.Vector2.div = function(v, n) {
         return tm.geom.Vector2(v.x/n, v.y/n);
     };
     
@@ -442,8 +442,8 @@ tm.geom = tm.geom || {};
      * @static
      * 反転
      */
-<span id='tm-geom-Vector2-static-method-distanceSquared'>    tm.geom.Vector2.negate = function() {
-</span>        return tm.geom.Vector2(-this.x, -this.y);
+<span id='tm-geom-Vector2-static-method-distanceSquared'>    tm.geom.Vector2.negate = function(v) {
+</span>        return tm.geom.Vector2(-v.x, -v.y);
     };
     
     /**

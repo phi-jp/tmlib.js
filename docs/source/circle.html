@@ -92,18 +92,22 @@ tm.geom = tm.geom || {};
 
         /**
          * @property
-<span id='tm-geom-Circle-property-toRectangle'>         * クローン作成
-</span>         */
-        clone: function() {
-            // TODO
+         * クローン作成
+         */
+<span id='tm-geom-Circle-property-toRect'>        clone: function() {
+</span>            return tm.geom.Circle(this.x, this.y, this.radius);
         },
         
         /**
          * @property
          * 四角形に変換
          */
-<span id='tm-geom-Circle-property-toArray'>        toRectangle: function() {
-</span>            return tm.geom.Rectangle(this.x, this.y, this.radius*2, this.radius*2);
+        toRect: function() {
+            return tm.geom.Rect(
+                this.x - this.radius,
+<span id='tm-geom-Circle-property-toArray'>                this.y - this.radius,
+</span>                this.radius*2, this.radius*2
+                );
         },
         
         /**

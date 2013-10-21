@@ -44,20 +44,17 @@ tm.input = tm.input || {};
             this.prevPosition   = tm.geom.Vector2(0, 0);
             
             var self = this;
-            this.element.addEventListener(&quot;mousemove&quot;, function(e){
-                // 座標更新
-                self._mousemove(e);
-            });
             this.element.addEventListener(&quot;mousedown&quot;, function(e){
+                self._mousemove(e);
+                self.prevPosition.set(this._x, this._y);    // prevPostion をリセット
                 self.button |= 1&lt;&lt;e.button;
             });
             this.element.addEventListener(&quot;mouseup&quot;, function(e){
                 self.button &amp;= ~(1&lt;&lt;e.button);
             });
-            this.element.addEventListener(&quot;mouseover&quot;, function(e){
+            this.element.addEventListener(&quot;mousemove&quot;, function(e){
                 // 座標更新
                 self._mousemove(e);
-                self.prevPosition.setObject(self.position);
 <span id='tm-input-Mouse-property-run'>            });
 </span>        },
         
@@ -192,9 +189,9 @@ tm.input = tm.input || {};
         &quot;middle&quot;: tm.input.Mouse.BUTTON_MIDDLE,
         &quot;right&quot; : tm.input.Mouse.BUTTON_RIGHT
     };
-    
 <span id='tm-input-Mouse-property-y'>    
-</span>    /**
+</span>    
+    /**
      * @property    x
      * x座標値
      */
@@ -210,9 +207,9 @@ tm.input = tm.input || {};
     tm.input.Mouse.prototype.accessor(&quot;y&quot;, {
         &quot;get&quot;: function()   { return this.position.y; },
         &quot;set&quot;: function(v)  { this.position.y = v; }
-    });
-<span id='tm-input-Mouse-property-dy'>    
-</span>    /**
+<span id='tm-input-Mouse-property-dy'>    });
+</span>    
+    /**
      * @property    dx
      * dx値
      */

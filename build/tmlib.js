@@ -1462,6 +1462,14 @@ if (typeof module !== 'undefined' && module.exports) {
     });
     
     /**
+     * @method  quotemeta
+     * メタ文字をクォート
+     */
+    String.defineInstanceMethod("quotemeta", function(n) {
+        return this.replace(/([^0-9A-Za-z_])/g, '\\$1');
+    });
+    
+    /**
      * @method  repeat
      * リピート
      */

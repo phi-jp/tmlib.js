@@ -41,6 +41,10 @@ describe('String Test', function() {
     it('paddingRight', function() {
         assert.equal("1234".paddingRight(10, '0'), '1234000000');
     });
+    
+    it('quotemeta', function() {
+        assert.equal("Hello world. (can you hear me?)".quotemeta(), 'Hello\\ world\\.\\ \\(can\\ you\\ hear\\ me\\?\\)');
+    });
 
     it('repeat', function() {
         assert.equal("1234".repeat(4), '1234123412341234');

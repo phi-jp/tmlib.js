@@ -89,11 +89,9 @@ tm.display = tm.display || {};
             // 画面にフィット
             this.canvas.fitWindow(everFlag);
             
-            // マウスとタッチの座標更新関数をパワーアップ
-<span id='tm-display-CanvasApp-property-_draw'>            this.mouse._mousemove = this.mouse._mousemoveScale;
-</span>            this.touches.each(function(touch) {
-                touch._touchmove = touch._touchmoveScale;
-            });
+<span id='tm-display-CanvasApp-property-_draw'>            // マウスとタッチの座標更新関数をパワーアップ
+</span>            this.mouse._mousemove = this.mouse._mousemoveScale;
+            this.touch._touchmove = this.touch._touchmoveScale;
         },
         
         /**

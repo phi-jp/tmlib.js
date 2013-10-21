@@ -679,38 +679,66 @@ tm.graphics = tm.graphics || {};
          * 画像描画
          */
         drawImage: function(image, x, y) {
-<span id='tm-graphics-Canvas-property-setTransform'>            this.context.drawImage.apply(this.context, arguments);
-</span>            return ;
-            
+            this.context.drawImage.apply(this.context, arguments);
+<span id='tm-graphics-Canvas-property-drawScale9Image'>            return ;
+</span>            
             x = x || 0;
             y = y || 0;
             this.context.drawImage(image, x, y);
             return this;
             // ctx.drawImage(this.image.canvas,
-<span id='tm-graphics-Canvas-property-resetTransform'>                // 0, 0, this.width, this.height,
-</span>                // -this.width/2, -this.height/2, this.width, this.height);
+                // 0, 0, this.width, this.height,
+                // -this.width/2, -this.height/2, this.width, this.height);
         },
         
         /**
          * @property
          * テクスチャ描画
          */
-<span id='tm-graphics-Canvas-property-setTransformCenter'>        drawTexture: function(texture, x, y) {
-</span>            arguments[0] = texture.element;
+        drawTexture: function(texture, x, y) {
+            arguments[0] = texture.element;
             this.context.drawImage.apply(this.context, arguments);
             
-            return ;
+            return this;
         },
         
         /**
          * @property
-<span id='tm-graphics-Canvas-property-transform'>         * ビットマップ描画
-</span>         */
+         * ビットマップ描画
+         */
         drawBitmap: function(bitmap, x, y) {
             arguments[0] = bitmap.imageData;
             this.context.putImageData.apply(this.context, arguments);
             
-<span id='tm-graphics-Canvas-property-save'>            return ;
+            return this;
+        },
+        
+        /**
+         * @property
+         * dummy
+         */
+<span id='tm-graphics-Canvas-property-setTransform'>        drawScale9Image: function(image, rect0, rect1) {
+</span>            
+            var leftWidth   = rect1.x;
+            var middleWidth = rect1.width;
+            var rightWidth  = image.width - (leftWidth+middleWidth);
+<span id='tm-graphics-Canvas-property-resetTransform'>            var finalWidth  = rect0.width - (leftWidth+rightWidth);
+</span>            var topHeight   = rect1.y;
+            
+            // left top
+            this.drawImage(image,
+                0, 0, leftWidth, topHeight,
+<span id='tm-graphics-Canvas-property-setTransformCenter'>                rect0.x, rect0.y, leftWidth, topHeight);
+</span>            // middle top
+            this.drawImage(image,
+                leftWidth, 0, middleWidth, topHeight,
+                rect0.x + leftWidth, rect0.y, finalWidth, topHeight)
+<span id='tm-graphics-Canvas-property-transform'>            // right top
+</span>            this.drawImage(image,
+                leftWidth+middleWidth, 0, rightWidth, topHeight,
+                rect0.x + leftWidth + finalWidth, rect0.y, rightWidth, topHeight);
+            
+<span id='tm-graphics-Canvas-property-save'>            return this;
 </span>        },
         
         /**
