@@ -78,15 +78,19 @@ tm.geom = tm.geom || {};
          * クローン作成
          */
         clone: function() {
-            // TODO
+            return tm.geom.Circle(this.x, this.y, this.radius);
         },
         
         /**
          * @property
          * 四角形に変換
          */
-        toRectangle: function() {
-            return tm.geom.Rectangle(this.x, this.y, this.radius*2, this.radius*2);
+        toRect: function() {
+            return tm.geom.Rect(
+                this.x - this.radius,
+                this.y - this.radius,
+                this.radius*2, this.radius*2
+                );
         },
         
         /**

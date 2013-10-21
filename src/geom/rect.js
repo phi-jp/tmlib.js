@@ -97,8 +97,8 @@ tm.geom = tm.geom || {};
                     top = right = bottom = left = arguments[0];
                     break;
                 case 2:
-                    top     = bottom= arguments[0];
-                    right   = left  = arguments[1];
+                    top     = bottom = arguments[0];
+                    right   = left   = arguments[1];
                     break;
                 case 3:
                     top     = arguments[0];
@@ -120,7 +120,7 @@ tm.geom = tm.geom || {};
          * クローン
          */
         clone: function() {
-            
+            return tm.geom.Rect(this.x, this.y, this.width, this.height);
         },
         
         /**
@@ -131,7 +131,7 @@ tm.geom = tm.geom || {};
             return tm.geom.Circle(
                 this.centerX,
                 this.centerY,
-                (this.width < this.height) ? this.width : this.height
+                ((this.width < this.height) ? this.width : this.height)/2
                 );
         },
 
