@@ -24,6 +24,9 @@ module.exports = function(grunt) {
     "src/core/string.js",
     "src/core/list.js",
 
+    "src/event/event.js",
+    "src/event/eventdispatcher.js",
+    
     "src/util/random.js",
     "src/util/ajax.js",
     "src/util/file.js",
@@ -49,9 +52,6 @@ module.exports = function(grunt) {
     "src/dom/anim.js",
     "src/dom/trans.js",
     "src/dom/data.js",
-
-    "src/event/event.js",
-    "src/event/eventdispatcher.js",
 
     "src/asset/texture.js",
     "src/asset/spritesheet.js",
