@@ -98,37 +98,3 @@ tm.define("tests.animationsprite.hiyocos", {
 
 
 
-
-tm.define("tests.benchmark.CrashScene", {
-    superClass: "tm.app.Scene",
-
-    init: function() {
-        this.superInit();
-
-        app.fps = 60;
-        app.enableStats();
-        app.stats.domElement.style.zIndex = 1100;
-
-        var as = tm.asset.AssetManager;
-        as.load("sample", "../../resource/tmss/crash.tmss");
-
-        as.onload = function() {
-            for (var i=0; i<512; ++i) {
-                var crash = tm.display.AnimationSprite(PLAYER_SPRITE_SHEET, 128, 128).addChildTo(this);
-                var x = tm.util.Random.randint(0, SCREEN_WIDTH);
-                var y = tm.util.Random.randint(0, SCREEN_HEIGHT);
-                crash.position.set(x, y);
-                crash.blendMode = "lighter";
-                crash.timeline.call(function() {
-                    this.gotoAndPlay("crash");
-                }.bind(crash), i*50);
-            }
-        }.bind(this);
-
-    },
-
-    onpointingstart: function(e) {
-        var p = e.app.pointing;
-
-    }
-});

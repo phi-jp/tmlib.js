@@ -11,6 +11,7 @@
         "scripts/animationsprite.js",
         "scripts/mapsprite.js",
         "scripts/example.js",
+        "scripts/benchmark.js",
     ]);
 })(this);
 
