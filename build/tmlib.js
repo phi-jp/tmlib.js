@@ -14865,7 +14865,7 @@ tm.display = tm.display || {};
         init: function(texture, width, height) {
             this.superInit();
             
-            console.assert(arguments.length == 0 || texture instanceof tm.asset.Texture || typeof texture == "string", "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
+            console.assert(typeof texture != 'number', "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
             
             this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             
