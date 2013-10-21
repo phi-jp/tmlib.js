@@ -3268,8 +3268,8 @@ tm.geom = tm.geom || {};
      * @static
      * 反転
      */
-    tm.geom.Vector2.negate = function() {
-        return tm.geom.Vector2(-this.x, -this.y);
+    tm.geom.Vector2.negate = function(v) {
+        return tm.geom.Vector2(-v.x, -v.y);
     };
     
     /**
@@ -3530,7 +3530,7 @@ tm.geom = tm.geom || {};
          * 角度(radian)と長さでベクトルをセット
          */
         setRadian: function(thetaRad, phiRad, len) {
-            return this.setFromAngle(thetaRad, phiRad, len);
+            return this.setAngle(thetaRad, phiRad, len);
         },
         
         /**
@@ -3538,7 +3538,7 @@ tm.geom = tm.geom || {};
          * 角度(degree)と長さでベクトルをセット
          */
         setDegree: function(thetaDegree, phiDegree, len) {
-            return this.setFromAngle(thetaDegree*Math.PI/180, phiDegree*Math.PI/180, len);
+            return this.setAngle(thetaDegree*Math.DEG_TO_RAD, phiDegree*Math.DEG_TO_RAD, len);
         },
         
         /**

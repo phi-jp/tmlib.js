@@ -425,8 +425,8 @@ tm.geom = tm.geom || {};
      * @static
      * 反転
      */
-    tm.geom.Vector2.negate = function() {
-        return tm.geom.Vector2(-this.x, -this.y);
+    tm.geom.Vector2.negate = function(v) {
+        return tm.geom.Vector2(-v.x, -v.y);
     };
     
     /**

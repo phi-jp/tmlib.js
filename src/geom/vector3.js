@@ -119,7 +119,7 @@ tm.geom = tm.geom || {};
          * 角度(radian)と長さでベクトルをセット
          */
         setRadian: function(thetaRad, phiRad, len) {
-            return this.setFromAngle(thetaRad, phiRad, len);
+            return this.setAngle(thetaRad, phiRad, len);
         },
         
         /**
@@ -127,7 +127,7 @@ tm.geom = tm.geom || {};
          * 角度(degree)と長さでベクトルをセット
          */
         setDegree: function(thetaDegree, phiDegree, len) {
-            return this.setFromAngle(thetaDegree*Math.PI/180, phiDegree*Math.PI/180, len);
+            return this.setAngle(thetaDegree*Math.DEG_TO_RAD, phiDegree*Math.DEG_TO_RAD, len);
         },
         
         /**
