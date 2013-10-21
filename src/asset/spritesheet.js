@@ -12,12 +12,16 @@
     tm.define("tm.asset.SpriteSheet", {
         superClass: "tm.event.EventDispatcher",
 
+        loaded: false,
+
         /**
          * @property
          * コンストラクタ
          */
         init: function(src) {
             this.superInit();
+
+            this.loaded = false;
 
             if (typeof src == "string") {
             	this.load(src);

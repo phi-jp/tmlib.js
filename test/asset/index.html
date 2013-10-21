@@ -50,11 +50,12 @@
         <script src="../../src/dom/event.js"></script>
         <script src="../../src/dom/attr.js"></script>
 
-        <script src="../../src/util/querystring.js"></script>
-        <script src="../../src/util/ajax.js"></script>
-
         <script src="../../src/event/event.js"></script>
         <script src="../../src/event/eventdispatcher.js"></script>
+
+        <script src="../../src/util/querystring.js"></script>
+        <script src="../../src/util/ajax.js"></script>
+        <script src="../../src/util/file.js"></script>
 
         <script src="../../src/asset/texture.js"></script>
         <script src="../../src/asset/spritesheet.js"></script>
@@ -120,6 +121,26 @@
                         console.dir(as.get("sample"));
                     };
                 },
+
+                loadJSON: function() {
+                    var as = tm.asset.AssetManager;
+                    as.load("sample", "../../resource/tmss/crash.tmss", "json");
+                    as.onload = function() {
+                        console.dir(as.get("sample"));
+                    };
+                },
+
+                loadMultiData: function() {
+                    var as = tm.asset.AssetManager;
+                    as.load({
+                        "kenkyo": "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg",
+                        "sample": { url: "../../resource/tmss/crash.tmss", type: "json" },
+                        "foo": { url: {hoge:100, foo:200}, type: "json" },
+                    });
+                    as.onload = function() {
+                        console.dir(as);
+                    };
+                }
             };
 
 

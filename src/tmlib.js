@@ -140,6 +140,9 @@ if (typeof module !== 'undefined' && module.exports) {
         var bind        = Function.prototype.bind;
         var unshift     = Array.prototype.unshift;
 
+        prop._path      = path;
+        prop._className = className;
+
         var _class = null;
         var superClass = prop.superClass;
 

@@ -11,16 +11,22 @@ tm.util = tm.util || {};
      * @class tm.util.File
      * @TODO ?
      */
-    tm.util.File = tm.createClass({
+    tm.define("tm.util.File", {
+        superClass: "tm.event.EventDispatcher",
+
+        data: null,
+        loaded: false,
 
         /**
          * @constructor
          * コンストラクタ
          */
         init: function(params) {
+            this.superInit();
+
             this.loaded = false;
             if (arguments.length == 1) {
-                this.loadFile(params);
+                this.load(params);
             }
         },
         
@@ -28,7 +34,7 @@ tm.util = tm.util || {};
          * @property
          * @TODO ?
          */
-        loadFile: function(params) {
+        load: function(params) {
             if (typeof params == "string") {
                 var url = params;
                 params = { url: url, };
@@ -36,10 +42,16 @@ tm.util = tm.util || {};
             
             var self = this;
             params.success = function(data) {
-                self.loaded = true;
-                self.data = data;
+                self.setData(data);
+                var e = tm.event.Event("load");
+                self.dispatchEvent( e );
             };
             tm.util.Ajax.load(params);
+        },
+
+        setData: function(data) {
+            this.data = data;
+            this.loaded = true;
         },
         
         /**
@@ -50,6 +62,7 @@ tm.util = tm.util || {};
             
         },
         
+
     });
     
     

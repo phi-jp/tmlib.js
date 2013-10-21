@@ -21,7 +21,7 @@
         init: function() {
             this.superInit();
 
-            this.assets = [];
+            this.assets = {};
 
             this._funcs = [];
             this._loadedCounter = 0;
@@ -33,16 +33,21 @@
          * @param {Object} key
          * @param {Object} path
          */
-        load: function(key, path) {
+        load: function(key, path, type) {
             if (typeof arguments[0] == 'string') {
                 path = (arguments.length < 2) ? key : path;
-                this._load(key, path);
+                this._load(key, path, type);
             }
             else {
                 var hash = arguments[0];
                 for (var key in hash) {
-                    var path = hash[key];
-                    this._load(key, path);
+                    var value = hash[key];
+                    if (typeof value == 'string') {
+                        this._load(key, value);
+                    }
+                    else {
+                        this._load(key, value['url'], value['type']);
+                    }
                 }
             }
 
@@ -61,16 +66,23 @@
          * private
          * @param {Object} key
          * @param {Object} path
+         * @param {Object} type
          */
-        _load: function(key, path) {
+        _load: function(key, path, type) {
             if (this.contains(key)) return ;
 
-            var pathes = path.split('.');
-            var ext = pathes.last;
+            // type が省略されている場合は拡張子から判定する
+            type = type || path.split('.').last;
 
-            var asset = this._funcs[ext](path);
-            asset.addEventListener("load", this._checkLoadedFunc.bind(this));
+            var asset = this._funcs[type](path);
             this.assets[key] = asset;
+
+            if (asset.loaded == false) {
+                asset.addEventListener("load", this._checkLoadedFunc.bind(this));
+            }
+            else {
+                this._checkLoadedFunc();
+            }
 
             return this;
         },
@@ -155,23 +167,50 @@
     };
     
     var _tmssFunc = function(path) {
-        var mapSheet = tm.asset.SpriteSheet(path);
-        return mapSheet;
+        var ss = tm.asset.SpriteSheet(path);
+        return ss;
     };
 
+    var _jsonFunc = function(path) {
+        var file = tm.util.File();
+        if (typeof path == 'string') {
+            file.load({
+                url: path,
+                dataType: 'json',
+                success: function(o) {
+                    self.$extend(o);
+                    self.loaded = true;
+                }
+            });
+        }
+        else {
+            var data = path;
+            file.setData(path);
+        }
+
+        return file;
+    };
+
+    // image
     tm.asset.AssetManager.register("png", _textureFunc);
     tm.asset.AssetManager.register("gif", _textureFunc);
     tm.asset.AssetManager.register("jpg", _textureFunc);
     tm.asset.AssetManager.register("jpeg", _textureFunc);
 
+    // sound
     tm.asset.AssetManager.register("wav", _soundFunc);
     tm.asset.AssetManager.register("mp3", _soundFunc);
     tm.asset.AssetManager.register("ogg", _soundFunc);
-    
+
+    // json
+    tm.asset.AssetManager.register("json", _jsonFunc);
+
+    // map data
     tm.asset.AssetManager.register("tmx", _tmxFunc);
     
+    // spritesheet for tmlib.js
     tm.asset.AssetManager.register("tmss", _tmssFunc);
-    
+
 })();
 
 

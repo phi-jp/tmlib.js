@@ -147,6 +147,9 @@ if (typeof module !== 'undefined' && module.exports) {
         var bind        = Function.prototype.bind;
         var unshift     = Array.prototype.unshift;
 
+        prop._path      = path;
+        prop._className = className;
+
         var _class = null;
         var superClass = prop.superClass;
 
@@ -1916,16 +1919,22 @@ tm.util = tm.util || {};
      * @class tm.util.File
      * @TODO ?
      */
-    tm.util.File = tm.createClass({
+    tm.define("tm.util.File", {
+        superClass: "tm.event.EventDispatcher",
+
+        data: null,
+        loaded: false,
 
         /**
          * @constructor
          * コンストラクタ
          */
         init: function(params) {
+            this.superInit();
+
             this.loaded = false;
             if (arguments.length == 1) {
-                this.loadFile(params);
+                this.load(params);
             }
         },
         
@@ -1933,7 +1942,7 @@ tm.util = tm.util || {};
          * @property
          * @TODO ?
          */
-        loadFile: function(params) {
+        load: function(params) {
             if (typeof params == "string") {
                 var url = params;
                 params = { url: url, };
@@ -1941,10 +1950,16 @@ tm.util = tm.util || {};
             
             var self = this;
             params.success = function(data) {
-                self.loaded = true;
-                self.data = data;
+                self.setData(data);
+                var e = tm.event.Event("load");
+                self.dispatchEvent( e );
             };
             tm.util.Ajax.load(params);
+        },
+
+        setData: function(data) {
+            this.data = data;
+            this.loaded = true;
         },
         
         /**
@@ -1955,6 +1970,7 @@ tm.util = tm.util || {};
             
         },
         
+
     });
     
     
@@ -7012,12 +7028,16 @@ tm.event = tm.event || {};
     tm.define("tm.asset.SpriteSheet", {
         superClass: "tm.event.EventDispatcher",
 
+        loaded: false,
+
         /**
          * @property
          * コンストラクタ
          */
         init: function(src) {
             this.superInit();
+
+            this.loaded = false;
 
             if (typeof src == "string") {
             	this.load(src);
@@ -7459,7 +7479,7 @@ tm.event = tm.event || {};
         init: function() {
             this.superInit();
 
-            this.assets = [];
+            this.assets = {};
 
             this._funcs = [];
             this._loadedCounter = 0;
@@ -7471,16 +7491,21 @@ tm.event = tm.event || {};
          * @param {Object} key
          * @param {Object} path
          */
-        load: function(key, path) {
+        load: function(key, path, type) {
             if (typeof arguments[0] == 'string') {
                 path = (arguments.length < 2) ? key : path;
-                this._load(key, path);
+                this._load(key, path, type);
             }
             else {
                 var hash = arguments[0];
                 for (var key in hash) {
-                    var path = hash[key];
-                    this._load(key, path);
+                    var value = hash[key];
+                    if (typeof value == 'string') {
+                        this._load(key, value);
+                    }
+                    else {
+                        this._load(key, value['url'], value['type']);
+                    }
                 }
             }
 
@@ -7499,16 +7524,23 @@ tm.event = tm.event || {};
          * private
          * @param {Object} key
          * @param {Object} path
+         * @param {Object} type
          */
-        _load: function(key, path) {
+        _load: function(key, path, type) {
             if (this.contains(key)) return ;
 
-            var pathes = path.split('.');
-            var ext = pathes.last;
+            // type が省略されている場合は拡張子から判定する
+            type = type || path.split('.').last;
 
-            var asset = this._funcs[ext](path);
-            asset.addEventListener("load", this._checkLoadedFunc.bind(this));
+            var asset = this._funcs[type](path);
             this.assets[key] = asset;
+
+            if (asset.loaded == false) {
+                asset.addEventListener("load", this._checkLoadedFunc.bind(this));
+            }
+            else {
+                this._checkLoadedFunc();
+            }
 
             return this;
         },
@@ -7593,13 +7625,14 @@ tm.event = tm.event || {};
     };
     
     var _tmssFunc = function(path) {
-        var mapSheet = tm.asset.SpriteSheet(path);
-        return mapSheet;
+        var ss = tm.asset.SpriteSheet(path);
+        return ss;
     };
 
     var _jsonFunc = function(path) {
+        var file = tm.util.File();
         if (typeof path == 'string') {
-            tm.util.Ajax.load({
+            file.load({
                 url: path,
                 dataType: 'json',
                 success: function(o) {
@@ -7608,21 +7641,34 @@ tm.event = tm.event || {};
                 }
             });
         }
+        else {
+            var data = path;
+            file.setData(path);
+        }
+
+        return file;
     };
 
+    // image
     tm.asset.AssetManager.register("png", _textureFunc);
     tm.asset.AssetManager.register("gif", _textureFunc);
     tm.asset.AssetManager.register("jpg", _textureFunc);
     tm.asset.AssetManager.register("jpeg", _textureFunc);
 
+    // sound
     tm.asset.AssetManager.register("wav", _soundFunc);
     tm.asset.AssetManager.register("mp3", _soundFunc);
     tm.asset.AssetManager.register("ogg", _soundFunc);
-    
+
+    // json
+    tm.asset.AssetManager.register("json", _jsonFunc);
+
+    // map data
     tm.asset.AssetManager.register("tmx", _tmxFunc);
     
+    // spritesheet for tmlib.js
     tm.asset.AssetManager.register("tmss", _tmssFunc);
-    
+
 })();
 
 
@@ -15931,6 +15977,8 @@ tm.display = tm.display || {};
     
     var renderFuncList = {
         "sprite": function(canvas) {
+            if (!this._image) return ;
+
             var srcRect = this.srcRect;
             var element = this._image.element;
             
