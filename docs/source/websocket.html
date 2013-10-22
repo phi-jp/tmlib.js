@@ -31,17 +31,17 @@ tm.net.event = tm.net.event || {};
      */
     tm.net.WebSocket = tm.createClass({
         superClass: tm.event.EventDispatcher,
-<span id='tm-net-WebSocket-method-constructor'>        socket: null,
-</span>        /**
-         * @constructor
+        socket: null,
+<span id='tm-net-WebSocket-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ.
          */
         init: function(url) {
             this.superInit();
-<span id='tm-net-WebSocket-property-connect'>            this.url = url;
-</span>        },
-        /**
-         * @property
+            this.url = url;
+        },
+<span id='tm-net-WebSocket-property-connect'>        /**
+</span>         * @property
          * 接続する.
          */
         connect: function() {
@@ -64,10 +64,10 @@ tm.net.event = tm.net.event || {};
             };
             this.socket.onerror = function(e) {
                 self.dispatchEvent(tm.net.event.Error(e.data));
-<span id='tm-net-WebSocket-property-disconnect'>            };
-</span>        },
-        /**
-         * @property
+            };
+        },
+<span id='tm-net-WebSocket-property-disconnect'>        /**
+</span>         * @property
          * 切断する.
          */
         disconnect: function() {
@@ -92,123 +92,123 @@ tm.net.event = tm.net.event || {};
         /*
          * @property
          * @TODO 重複している関数 念のためコメントアウト
-<span id='tm-net-WebSocket-property-close'>         */
-</span>        sendData: function(object) {
+         */
+        sendData: function(object) {
             this.send(JSON.stringify(object));
         },
 
-        /**
-         * @property
+<span id='tm-net-WebSocket-property-close'>        /**
+</span>         * @property
          * @TODO ?
          */
         close: function() {
-<span id='tm-net-WebSocket-property-send'>            if (this.socket !== null) {
-</span>                this.socket.close();
+            if (this.socket !== null) {
+                this.socket.close();
             }
             this.socket = null;
         },
-        /**
-         * @property
+<span id='tm-net-WebSocket-property-send'>        /**
+</span>         * @property
          * テキストメッセージを送信する.  
-<span id='tm-net-WebSocket-property-sendData'>         */
-</span>        send: function(message) {
+         */
+        send: function(message) {
             if (this.isOpen()) {
                 this.socket.send(message);
             }
         },
-        /**
-         * @property
-<span id='tm-net-WebSocket-property-isOpen'>         * オブジェクトを送信する.
-</span>         *
+<span id='tm-net-WebSocket-property-sendData'>        /**
+</span>         * @property
+         * オブジェクトを送信する.
+         *
          * JSONに変換し、テキストメッセージとして送信する.
          */
         sendData: function(object) {
             this.send(JSON.stringify(object));
-<span id='tm-net-event-WebSocketEvent'>        },
-</span>        /**
-         * @property
+        },
+<span id='tm-net-WebSocket-property-isOpen'>        /**
+</span>         * @property
          * 接続中.
          */
         isOpen: function() {
             return this.socket !== null &amp;&amp; this.socket.readyState === WebSocket.OPEN;
         }
-<span id='tm-net-event-WebSocketEvent-method-constructor'>    });
-</span>
-    /**
-     * @class tm.net.event.WebSocketEvent
+    });
+
+<span id='tm-net-event-WebSocketEvent'>    /**
+</span>     * @class tm.net.event.WebSocketEvent
      * @TODO ?
      * @extends tm.event.Event
      */
-<span id='tm-net-event-Open'>    tm.net.event.WebSocketEvent = tm.createClass({        
-</span>        superClass: tm.event.Event,
+    tm.net.event.WebSocketEvent = tm.createClass({        
+        superClass: tm.event.Event,
 
-        /**
-         * @constructor
+<span id='tm-net-event-WebSocketEvent-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function(type) {
             this.superInit(type);
-<span id='tm-net-event-Open-method-constructor'>        }
-</span>    });
+        }
+    });
 
-    /**
-     * @class tm.net.event.Open
+<span id='tm-net-event-Open'>    /**
+</span>     * @class tm.net.event.Open
      * 接続時に発生するイベント.
      * @extends tm.net.event.WebSocketEvent
-<span id='tm-net-event-Message'>     */
-</span>    tm.net.event.Open = tm.createClass({
+     */
+    tm.net.event.Open = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,
 
-        /**
-         * @constructor
+<span id='tm-net-event-Open-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function() {
-<span id='tm-net-event-Message-property-message'>            this.superInit(&quot;open&quot;);
-</span>        }
+            this.superInit(&quot;open&quot;);
+        }
     });
 
-    /**
-     * @class tm.net.event.Message
-<span id='tm-net-event-Message-method-constructor'>     * メッセージ受信時に発生するイベント.
-</span>     * @extends tm.net.event.WebSocketEvent
+<span id='tm-net-event-Message'>    /**
+</span>     * @class tm.net.event.Message
+     * メッセージ受信時に発生するイベント.
+     * @extends tm.net.event.WebSocketEvent
      */
     tm.net.event.Message = tm.createClass({
-<span id='tm-net-event-Message-property-getData'>        superClass: tm.net.event.WebSocketEvent,
-</span>        /**
-         * @property
+        superClass: tm.net.event.WebSocketEvent,
+<span id='tm-net-event-Message-property-message'>        /**
+</span>         * @property
          * 受信したメッセージを文字列として取り出す.
          */
         message: null,
 
-        /**
-         * @constructor
-<span id='tm-net-event-Close'>         * コンストラクタ
-</span>         */
+<span id='tm-net-event-Message-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(message) {
             this.superInit(&quot;message&quot;);
             this.message = message;
         },
-        /**
-         * @property
-<span id='tm-net-event-Close-method-constructor'>         * 受信したメッセージをオブジェクトとして取り出す.
-</span>         * JSONとしてパースする.
+<span id='tm-net-event-Message-property-getData'>        /**
+</span>         * @property
+         * 受信したメッセージをオブジェクトとして取り出す.
+         * JSONとしてパースする.
          */
         getData: function() {
-<span id='tm-net-event-Error'>            return JSON.parse(this.message);
-</span>        }
+            return JSON.parse(this.message);
+        }
     });
 
-    /**
-     * @class tm.net.event.Close
+<span id='tm-net-event-Close'>    /**
+</span>     * @class tm.net.event.Close
      * 接続解除時に発生するイベント.
      * @extends tm.net.event.WebSocketEvent
      */
-<span id='tm-net-event-Error-property-data'>    tm.net.event.Close = tm.createClass({
-</span><span id='tm-net-event-Error-method-constructor'>        superClass: tm.net.event.WebSocketEvent,
-</span>
-        /**
-         * @constructor
+    tm.net.event.Close = tm.createClass({
+        superClass: tm.net.event.WebSocketEvent,
+
+<span id='tm-net-event-Close-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function() {
@@ -216,20 +216,20 @@ tm.net.event = tm.net.event || {};
         }
     });
 
-    /**
-     * @class tm.net.event.Error
+<span id='tm-net-event-Error'>    /**
+</span>     * @class tm.net.event.Error
      * エラー時に発生するイベント.
      * @extends tm.net.event.WebSocketEvent
      */
     tm.net.event.Error = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,
-        /**
-         * エラー情報.
+<span id='tm-net-event-Error-property-data'>        /**
+</span>         * エラー情報.
          */
         data: null,
 
-        /**
-         * @constructor
+<span id='tm-net-event-Error-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function(data) {

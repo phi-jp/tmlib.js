@@ -46,9 +46,9 @@ tm.util = tm.util || {};
                 this.load(params);
             }
         },
-<span id='tm-util-File-property-load'>        
-</span>        /**
-         * @property
+        
+<span id='tm-util-File-property-load'>        /**
+</span>         * @property
          * @TODO ?
          */
         load: function(params) {
@@ -70,9 +70,9 @@ tm.util = tm.util || {};
             this.data = data;
             this.loaded = true;
         },
-<span id='tm-util-File-property-loadLocalStorage'>        
-</span>        /**
-         * @property
+        
+<span id='tm-util-File-property-loadLocalStorage'>        /**
+</span>         * @property
          * @TODO ?
          */
         loadLocalStorage: function() {
@@ -87,38 +87,38 @@ tm.util = tm.util || {};
 
 
 
-<span id='tm-util-FileManager'>(function() {
-</span>    
-    /**
-     * @class tm.util.FileManager
+(function() {
+    
+<span id='tm-util-FileManager'>    /**
+</span>     * @class tm.util.FileManager
      * ファイルマネージャ
      */
-<span id='tm-util-FileManager-static-method-load'>    tm.util.FileManager = {
-</span><span id='tm-util-FileManager-property-files'>        files: {}
+    tm.util.FileManager = {
+<span id='tm-util-FileManager-property-files'>        files: {}
 </span>    };
 
-    /**
-     * @static
+<span id='tm-util-FileManager-static-method-load'>    /**
+</span>     * @static
      * @method
      * @TODO ?
      */
     tm.util.FileManager.load = function(key, params) {
         var file = tm.util.File(params);
         this.files[key] = file;
-<span id='tm-util-FileManager-static-method-get'>        return file;
-</span>    };
+        return file;
+    };
 
-    /**
-     * @static
+<span id='tm-util-FileManager-static-method-get'>    /**
+</span>     * @static
      * @method
      * @TODO ?
      */
     tm.util.FileManager.get = function(key) {
-<span id='tm-util-FileManager-static-method-isLoaded'>        return this.files[key];
-</span>    };
+        return this.files[key];
+    };
     
-    /**
-     * @static
+<span id='tm-util-FileManager-static-method-isLoaded'>    /**
+</span>     * @static
      * @method  isLoaded
      * ロードチェック
      */

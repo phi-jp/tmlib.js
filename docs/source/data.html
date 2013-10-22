@@ -32,38 +32,38 @@
          * エレメント
          */
         element: null,
-<span id='tm-dom-Data-method-constructor'>        
-</span>        /**
-         * @constructor
+        
+<span id='tm-dom-Data-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function(element) {
             this.element = element;
-<span id='tm-dom-Data-property-set'>        },
-</span>        
-        /**
-         * @property
+        },
+        
+<span id='tm-dom-Data-property-set'>        /**
+</span>         * @property
          * 属性をセット
          */
         set: function(name, value) {
         	var key = &quot;data-&quot; + name.toDash();
             this.element.setAttribute(key, value);
 
-<span id='tm-dom-Data-property-get'>            return this;
-</span>        },
+            return this;
+        },
         
-        /**
-         * @property
+<span id='tm-dom-Data-property-get'>        /**
+</span>         * @property
          * 属性をゲット
          */
         get: function(name, value) {
         	var key = &quot;data-&quot; + name.toDash();
-<span id='tm-dom-Data-property-data'>        	return this.element.attributes[key].value;
-</span>        },
+        	return this.element.attributes[key].value;
+        },
     });
     
-    /**
-     * Attr クラス
+<span id='tm-dom-Data-property-data'>    /**
+</span>     * Attr クラス
      * @property    data
      */
     tm.dom.Element.prototype.getter(&quot;data&quot;, function(){

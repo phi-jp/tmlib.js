@@ -33,19 +33,19 @@ tm.util = tm.util || {};
         target  : null,
         tasks   : null,
         
-<span id='tm-util-Timeline-method-constructor'>        fps     : 30,
-</span>        
-        /**
-         * @constructor
+        fps     : 30,
+        
+<span id='tm-util-Timeline-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function() {
             this.tasks = [];
-<span id='tm-util-Timeline-property-at'>            this.time = 0;
-</span>        },
+            this.time = 0;
+        },
         
-        /**
-         * @property
+<span id='tm-util-Timeline-property-at'>        /**
+</span>         * @property
          * @TODO ?
          */
         at: function(time, action) {
@@ -53,81 +53,81 @@ tm.util = tm.util || {};
                 time: time,
                 action: action,
             });
-<span id='tm-util-Timeline-property-after'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-after'>        /**
+</span>         * @property
          * @TODO ?
          */
         after: function(time, action) {
             this.at(this.time + time, action);
-<span id='tm-util-Timeline-property-clear'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-clear'>        /**
+</span>         * @property
          * @TODO ?
          */
         clear: function() {
             this.tasks = [];
-<span id='tm-util-Timeline-property-removeTime'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-removeTime'>        /**
+</span>         * @property
          * @TODO ?
          */
         removeTime: function(time) {
-<span id='tm-util-Timeline-property-removeAction'>            // TODO: 
-</span>        },
+            // TODO: 
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-removeAction'>        /**
+</span>         * @property
          * @TODO ?
          */
         removeAction: function(action) {
-<span id='tm-util-Timeline-property-start'>            // TODO: 
-</span>        },
+            // TODO: 
+        },
         
-        /**
-         * @property
+<span id='tm-util-Timeline-property-start'>        /**
+</span>         * @property
          * @TODO ?
          */
         start: function() {
             this.isPlaying = true;
             this._startTime();
-<span id='tm-util-Timeline-property-resume'>            this._updateTime();
-</span>        },
+            this._updateTime();
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-resume'>        /**
+</span>         * @property
          * @TODO ?
          */
         resume: function() {
             this.isPlaying = true;
             this._resumeTime();
-<span id='tm-util-Timeline-property-stop'>            this._updateTime();
-</span>        },
+            this._updateTime();
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-stop'>        /**
+</span>         * @property
          * @TODO ?
          */
         stop: function() {
-<span id='tm-util-Timeline-property-rewind'>            this.isPlaying = false;
-</span>        },
+            this.isPlaying = false;
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-rewind'>        /**
+</span>         * @property
          * @TODO ?
          */
         rewind: function() {
-<span id='tm-util-Timeline-property-update'>            this.time = 0;
-</span>        },
+            this.time = 0;
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-update'>        /**
+</span>         * @property
          * @TODO ?
          */
         update: function() {
@@ -141,29 +141,29 @@ tm.util = tm.util || {};
                         // break;
                     }
                 }
-<span id='tm-util-Timeline-property-_startTime'>            }
-</span>        },
+            }
+        },
         
-        /**
-         * @property
+<span id='tm-util-Timeline-property-_startTime'>        /**
+</span>         * @property
          * @TODO ?
          * @private
          */
         _startTime: function() {
-<span id='tm-util-Timeline-property-_resumeTime'>            this.startTime = (new Date()).getTime();
-</span>        },
+            this.startTime = (new Date()).getTime();
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-_resumeTime'>        /**
+</span>         * @property
          * @TODO ?
          * @private
          */
         _resumeTime: function() {
-<span id='tm-util-Timeline-property-_updateTime'>            this.startTime = (new Date()).getTime() - this.time;
-</span>        },
+            this.startTime = (new Date()).getTime() - this.time;
+        },
 
-        /**
-         * @property
+<span id='tm-util-Timeline-property-_updateTime'>        /**
+</span>         * @property
          * @TODO ?
          * @private
          */
@@ -171,11 +171,11 @@ tm.util = tm.util || {};
             if (this.isPlaying) {
                 this._nextTime();
                 setTimeout(arguments.callee.bind(this), 1000/this.fps);
-<span id='tm-util-Timeline-property-_nextTime'>            }
-</span>        },
+            }
+        },
         
-        /**
-         * @property
+<span id='tm-util-Timeline-property-_nextTime'>        /**
+</span>         * @property
          * @TODO ?
          * @private
          */

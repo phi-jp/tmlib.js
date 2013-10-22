@@ -3644,6 +3644,29 @@ tm.geom = tm.geom || {};
             
             return this;
         },
+
+        /**
+         * @method
+         * 内積.
+         * 投影ベクトルを求めたり, 類似度に使ったり.
+         */
+        dot: function(v) {
+            return this.x * v.x + this.y * v.y + this.z * v.z;
+        },
+
+        /**
+         * @method
+         * 外積
+         */
+        cross: function(v) {
+            var x = this.y*v.z - this.z*v.y;
+            var y = this.z*v.x - this.x*v.z;
+            var z = this.x*v.y - this.y*v.x;
+
+            this.set(x, y, z);
+
+            return this;
+        },
         
         /**
          * @property

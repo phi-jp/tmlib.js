@@ -28,26 +28,26 @@
          * エレメント
          */
         element: null,
-<span id='tm-dom-Trans-method-constructor'>        
-</span>        /**
-         * @constructor
+        
+<span id='tm-dom-Trans-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function(element) {
             this.element = element;
-<span id='tm-dom-Trans-property-to'>        },
-</span>        
-        /**
-         * @property
+        },
+        
+<span id='tm-dom-Trans-property-to'>        /**
+</span>         * @property
          * @TODO ?
          */
         to: function(props, t) {
             this.set(props).duration(t||1000);
-<span id='tm-dom-Trans-property-set'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-set'>        /**
+</span>         * @property
          * @TODO ?
          */
         set: function(props) {
@@ -62,107 +62,107 @@
             
             style[tm.dom.Trans.PROPERTY] = names.join(', ');   // none;
             
-<span id='tm-dom-Trans-property-duration'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-duration'>        /**
+</span>         * @property
          * @TODO ?
          */
         duration: function(t) {
             var style = this.element.style;
             if (typeof t == &quot;number&quot;) t = t + &quot;ms&quot;;
             style[tm.dom.Trans.DURATION] = t;
-<span id='tm-dom-Trans-property-easing'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-easing'>        /**
+</span>         * @property
          * @TODO ?
          */
         easing: function(ease) {
             var style = this.element.style;
             style[tm.dom.Trans.TIMING_FUNCTION] = func;
-<span id='tm-dom-Trans-property-end'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-end'>        /**
+</span>         * @property
          * @TODO ?
          */
         end: function(fn) {
             var elm  = tm.dom.Element(this.element);
             elm.event.add(tm.dom.Trans.END_EVENT, fn);
-<span id='tm-dom-Trans-property-reset'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-reset'>        /**
+</span>         * @property
          * @TODO ?
          */
         reset: function() {
             var style = this.element.style;
             style[tm.dom.Trans.PROPERTY] = &quot;none&quot;;
-<span id='tm-dom-Trans-property-translate'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-translate'>        /**
+</span>         * @property
          * @TODO ?
          */
         translate: function(x, y, t) {
             this.to({&quot;transform&quot;: &quot;translate({0}px,{1}px)&quot;.format(x, y)}, t);
-<span id='tm-dom-Trans-property-translate3d'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-translate3d'>        /**
+</span>         * @property
          * @TODO ?
          */
         translate3d: function(x, y, z, t) {
             this.to({&quot;transform&quot;: &quot;translate3d({0}px,{1}px,{2}px)&quot;.format(x, y, z)}, t);
-<span id='tm-dom-Trans-property-rotate'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-rotate'>        /**
+</span>         * @property
          * @TODO ?
          */
         rotate: function(deg, t) {
             this.to({&quot;transform&quot;: &quot;rotate({0}deg)&quot;.format(deg)}, t);
-<span id='tm-dom-Trans-property-rotate3d'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-rotate3d'>        /**
+</span>         * @property
          * @TODO ?
          */
         rotate3d: function(x, y, z, deg, t) {
             this.to({&quot;transform&quot;: &quot;rotate3d({0},{1},{2},{3}deg)&quot;.format(x, y, z, deg)}, t);
-<span id='tm-dom-Trans-property-scale'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-scale'>        /**
+</span>         * @property
          * @TODO ?
          */
         scale: function(x, y, t) {
             this.to({&quot;transform&quot;: &quot;scale({0},{1})&quot;.format(x, y)}, t);
-<span id='tm-dom-Trans-property-transform'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-transform'>        /**
+</span>         * @property
          * @TODO ?
          */
         transform: function() {
             // TODO: 実装する
         },
         
-<span id='tm-dom-Trans-property-setProp'>        // -------------------------------------
-</span>        
-        /**
-         * @property
+        // -------------------------------------
+        
+<span id='tm-dom-Trans-property-setProp'>        /**
+</span>         * @property
          * @TODO ?
          */
         setProp: function(prop) {
@@ -177,41 +177,41 @@
             
             style[tm.dom.Trans.PROPERTY] = prop_list.join(', ');   // none;
             
-<span id='tm-dom-Trans-property-setDuration'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-setDuration'>        /**
+</span>         * @property
          * @TODO ?
          */
         setDuration: function(t) {
             var style = this.element.style;
             style[tm.dom.Trans.DURATION] = t;
-<span id='tm-dom-Trans-property-setTimingFunction'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-setTimingFunction'>        /**
+</span>         * @property
          * @TODO ?
          */
         setTimingFunction: function(func) {
             var style = this.element.style;
             style[tm.dom.Trans.TIMING_FUNCTION] = func;
-<span id='tm-dom-Trans-property-resetProp'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-resetProp'>        /**
+</span>         * @property
          * @TODO ?
          */
         resetProp: function() {
             var style = this.element.style;
             style[tm.dom.Trans.PROPERTY] = &quot;none&quot;;
-<span id='tm-dom-Trans-property-setEndFunction'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @property
+<span id='tm-dom-Trans-property-setEndFunction'>        /**
+</span>         * @property
          * @TODO ?
          */
         setEndFunction: function(fn) {
@@ -230,11 +230,11 @@
             &quot;webkit&quot;: &quot;webkitTransitionEnd&quot;,
             &quot;moz&quot;   : &quot;transitionend&quot;,
             &quot;o&quot;     : &quot;oTransitionEnd&quot;,
-<span id='tm-dom-Trans-property-trans'>        }[tm.VENDER_PREFIX];
-</span>    })();
+        }[tm.VENDER_PREFIX];
+    })();
     
-    /**
-     * @property    trans
+<span id='tm-dom-Trans-property-trans'>    /**
+</span>     * @property    trans
      */
     tm.dom.Element.prototype.getter(&quot;trans&quot;, function(){
         return this._trans || ( this._trans = tm.dom.Trans(this.element) );

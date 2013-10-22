@@ -31,10 +31,10 @@ tm.display = tm.display || {};
      * @extends tm.display.CanvasElement
      */
     tm.display.AnimationSprite = tm.createClass({
-<span id='tm-display-AnimationSprite-method-constructor'>        superClass: tm.display.CanvasElement,
-</span>
-        /**
-         * @constructor
+        superClass: tm.display.CanvasElement,
+
+<span id='tm-display-AnimationSprite-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function(ss, width, height) {
@@ -59,14 +59,14 @@ tm.display = tm.display || {};
             this.currentAnimation = null;
 
             this.addEventListener(&quot;enterframe&quot;, function(e) {
-<span id='tm-display-AnimationSprite-property-draw'>                if (!this.paused &amp;&amp; e.app.frame%this.currentAnimation.frequency === 0) {
-</span>                    this._updateFrame();
+                if (!this.paused &amp;&amp; e.app.frame%this.currentAnimation.frequency === 0) {
+                    this._updateFrame();
                 }
             });
         },
 
-        /**
-         * @property
+<span id='tm-display-AnimationSprite-property-draw'>        /**
+</span>         * @property
          * 描画
          */
         draw: function(canvas) {
@@ -74,12 +74,12 @@ tm.display = tm.display || {};
             var element = this.ss.image.element;
 
             canvas.drawImage(element,
-<span id='tm-display-AnimationSprite-property-gotoAndPlay'>                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-</span>                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
+                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
         },
 
-        /**
-         * @property
+<span id='tm-display-AnimationSprite-property-gotoAndPlay'>        /**
+</span>         * @property
          * @TODO ?
          */
         gotoAndPlay: function(name) {
@@ -88,14 +88,14 @@ tm.display = tm.display || {};
             this.paused = false;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
-<span id='tm-display-AnimationSprite-property-gotoAndStop'>            this.currentFrameIndex = 0;
-</span>            this._normalizeFrame();
+            this.currentFrameIndex = 0;
+            this._normalizeFrame();
 
             return this;
         },
 
-        /**
-         * @property
+<span id='tm-display-AnimationSprite-property-gotoAndStop'>        /**
+</span>         * @property
          * @TODO ?
          */
         gotoAndStop: function(name) {
@@ -104,24 +104,24 @@ tm.display = tm.display || {};
             this.paused = true;
             this.currentAnimation = this.ss.animations[name];
             this.currentFrame = 0;
-<span id='tm-display-AnimationSprite-property-_updateFrame'>            this.currentFrameIndex = 0;
-</span>            this._normalizeFrame();
+            this.currentFrameIndex = 0;
+            this._normalizeFrame();
 
             return this;
         },
 
-        /**
-         * @property
+<span id='tm-display-AnimationSprite-property-_updateFrame'>        /**
+</span>         * @property
          * @TODO ?
          * @private
          */
-<span id='tm-display-AnimationSprite-property-_normalizeFrame'>        _updateFrame: function() {
-</span>            this.currentFrameIndex += 1;
+        _updateFrame: function() {
+            this.currentFrameIndex += 1;
             this._normalizeFrame();
         },
 
-        /**
-         * @property
+<span id='tm-display-AnimationSprite-property-_normalizeFrame'>        /**
+</span>         * @property
          * @TODO ?
          * @private
          */

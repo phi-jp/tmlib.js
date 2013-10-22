@@ -265,6 +265,25 @@ tm.geom = tm.geom || {};
             
             return this;
         },
+
+        /**
+         * @method
+         * @static
+         * 内積.
+         * 投影ベクトルを求めたり, 類似度に使ったり.
+         */
+        dot: function(v) {
+            return this.x * v.x + this.y * v.y;
+        },
+
+        /**
+         * @method
+         * @static
+         * 外積
+         */
+        cross: function(v) {
+            return (this.x*v.y) - (this.y*v.x);
+        },
         
         /**
          * @property

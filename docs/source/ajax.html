@@ -92,12 +92,12 @@ tm.util = tm.util || {};
             };
             
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
-<span id='tm-util-Ajax-property-loadJSONP'>            httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
-</span>            httpRequest.send(null);
+            httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
+            httpRequest.send(null);
         },
         
-        /**
-         * @property loadJSONP
+<span id='tm-util-Ajax-property-loadJSONP'>        /**
+</span>         * @property loadJSONP
          */
         loadJSONP: function(url, callback) {
             var g = tm.global;
@@ -109,59 +109,59 @@ tm.util = tm.util || {};
             elm.type = &quot;text/javascript&quot;;
             elm.charset = &quot;UTF-8&quot;;
             elm.src = url + &quot;&amp;callback=&quot; + dummy_func_name;
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE'>            elm.setAttribute(&quot;defer&quot;, true);
-</span>            document.getElementsByTagName(&quot;head&quot;)[0].appendChild(elm);
+            elm.setAttribute(&quot;defer&quot;, true);
+            document.getElementsByTagName(&quot;head&quot;)[0].appendChild(elm);
         }
     };
     
-    /**
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-undefined'>     * @enum tm.util.Ajax.DATA_CONVERTE_TABLE
-</span>     * データコンバータテーブル
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE'>    /**
+</span>     * @enum tm.util.Ajax.DATA_CONVERTE_TABLE
+     * データコンバータテーブル
      */
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-text'>    tm.util.Ajax.DATA_CONVERTE_TABLE = {
-</span>        /** @property */
-        undefined: function(data) {
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-xml'>            return data;
-</span>        },
-        
-        /** @property */
-        text: function(data) {
+    tm.util.Ajax.DATA_CONVERTE_TABLE = {
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-undefined'>        /** @property */
+</span>        undefined: function(data) {
             return data;
         },
         
-        /** @property */
-        xml: function(data) {
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-dom'>            var div = document.createElement(&quot;div&quot;);
-</span>            div.innerHTML = data;
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-text'>        /** @property */
+</span>        text: function(data) {
+            return data;
+        },
+        
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-xml'>        /** @property */
+</span>        xml: function(data) {
+            var div = document.createElement(&quot;div&quot;);
+            div.innerHTML = data;
             return div;
         },
         
-        /** @property */
-        dom: function(data) {
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-json'>            var div = document.createElement(&quot;div&quot;);
-</span>            div.innerHTML = data;
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-dom'>        /** @property */
+</span>        dom: function(data) {
+            var div = document.createElement(&quot;div&quot;);
+            div.innerHTML = data;
             return tm.dom.Element(div);
         },
         
-        /** @property */
-        json: function(data) {
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-json'>        /** @property */
+</span>        json: function(data) {
             try {
                 return JSON.parse(data);
             }
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-script'>            catch(e) {
-</span>                console.dir(e);
+            catch(e) {
+                console.dir(e);
                 console.dir(data);
             }
         },
         
-<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-bin'>        /** @property */
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-script'>        /** @property */
 </span>        script: function(data) {
             eval(data);
             return data;
         },
         
-        /**
-         * @property
+<span id='tm-util-Ajax-DATA_CONVERTE_TABLE-property-bin'>        /**
+</span>         * @property
          * ### Reference
          * - &lt;http://efcl.info/adiary/Javascript/treat-binary&gt;
          * @param {Object} data
