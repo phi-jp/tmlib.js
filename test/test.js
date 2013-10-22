@@ -225,6 +225,22 @@ describe('Vector2 Test', function() {
             
             assert( v.negate().equalsNumber(-4, -8) );
         });
+
+        it('dot', function() {
+            var va  = tm.geom.Vector2(1, 0);
+            var vb  = tm.geom.Vector2(4, 4);
+            
+            assert( va.dot(vb) === 4 );
+        });
+    
+        
+        it('cross', function() {
+            var va  = tm.geom.Vector2(1, 0);
+            var vb  = tm.geom.Vector2(4, 4);
+            
+            assert( va.cross(vb) === 4 );
+        });
+
         
     });
     

@@ -1880,7 +1880,7 @@ tm.event = tm.event || {};
      * ### Reference
      * -(EventDispatcher - ActionScript 3.0 コンポーネントリファレンスガイド)[http://livedocs.adobe.com/flash/9.0_jp/ActionScriptLangRefV3/flash/events/EventDispatcher.html]
      */
-    tm.event.EventDispatcher = tm.createClass({
+    tm.define("tm.event.EventDispatcher", {
 
         /**
          * @constructor
@@ -7750,6 +7750,9 @@ tm.input = tm.input || {};
     /**
      * @class tm.input.Keyboard
      * キーボードクラス
+     * 
+     *      @example
+     *      
      */
     tm.input.Keyboard = tm.createClass({
         
@@ -7893,6 +7896,33 @@ tm.input = tm.input || {};
             }
             
             return angle;
+        },
+
+        /**
+         * キーの押している向きを取得
+         * 正規化されている
+         */
+        getKeyDirection: function() {
+            var direction = tm.geom.Vector2(0, 0);
+
+            if (this.getKey("left")) {
+                direction.x = -1;
+            }
+            else if (this.getKey("right")) {
+                direction.x = 1;
+            }
+            if (this.getKey("up")) {
+                direction.y = -1;
+            }
+            else if (this.getKey("down")) {
+                direction.y = 1;
+            }
+
+            if (direction.x && direction.y) {
+                direction.div(Math.SQRT2);
+            }
+
+            return direction;
         },
         
         /**

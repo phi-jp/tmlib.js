@@ -1,7 +1,7 @@
 /*
  * main scene
  */
-tm.define("tests.shape.Shodo", {
+tm.define("tests.example.Shodo", {
     superClass: "tm.app.Scene",
     
     init: function() {
@@ -66,7 +66,24 @@ tm.define("tests.shape.Shodo", {
     }
 });
 
+/*
+ * main scene
+ */
+tm.define("tests.example.Keyboard", {
+    superClass: "tm.app.Scene",
+    
+    init: function() {
+        this.superInit();
+        
+        this.player = tm.display.TriangleShape().addChildTo(this);
+        this.player.setPosition(320, 240);
+    },
 
+    update: function(app) {
+        var direction = app.keyboard.getKeyDirection();
+        this.player.position.add(direction.mul(8));
+    }
+});
 
 
 

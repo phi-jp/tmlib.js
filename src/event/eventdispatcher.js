@@ -12,7 +12,7 @@ tm.event = tm.event || {};
      * ### Reference
      * -(EventDispatcher - ActionScript 3.0 コンポーネントリファレンスガイド)[http://livedocs.adobe.com/flash/9.0_jp/ActionScriptLangRefV3/flash/events/EventDispatcher.html]
      */
-    tm.event.EventDispatcher = tm.createClass({
+    tm.define("tm.event.EventDispatcher", {
 
         /**
          * @constructor
