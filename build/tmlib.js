@@ -601,6 +601,9 @@ if (typeof module !== 'undefined' && module.exports) {
     /**
      * @class   Array
      * Arrayの拡張
+     * 
+     *      @example display
+     *      [1, 2, 3].first;
      */
     
     /**
@@ -7558,7 +7561,7 @@ tm.dom = tm.dom || {};
                         this._load(key, value);
                     }
                     else {
-                        this._load(key, value['url'], value['type']);
+                        this._load(key, value['url'] || value['src'], value['type']);
                     }
                 }
             }
@@ -14995,6 +14998,9 @@ tm.display = tm.display || {};
      * @class tm.display.Shape
      * 図形を描画するクラス
      * @extends tm.display.CanvasElement
+     * 
+     *      @example display
+     *      [1, 2, 3].first;
      */
     tm.display.Shape = tm.createClass({
         superClass: tm.display.CanvasElement,
@@ -15252,7 +15258,10 @@ tm.display = tm.display || {};
     /**
      * @class tm.display.CircleShape
      * 簡単に円を描画できるクラス
-     * @extends tm.display.Shape
+     * 
+     *      @example display
+     *      var shape = tm.display.CircleShape().addChildTo(this);
+     *      shape.setPosition(50, 50);
      */
     tm.display.CircleShape = tm.createClass({
         

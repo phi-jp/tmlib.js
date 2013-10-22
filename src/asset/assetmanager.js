@@ -46,7 +46,7 @@
                         this._load(key, value);
                     }
                     else {
-                        this._load(key, value['url'], value['type']);
+                        this._load(key, value['url'] || value['src'], value['type']);
                     }
                 }
             }
