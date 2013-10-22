@@ -16011,8 +16011,8 @@ tm.display = tm.display || {};
             if (!obj.draw) this._setRenderFunction(obj);
 
             // 情報をセット
-            context.fillStyle      = obj.fillStyle;
-            context.strokeStyle    = obj.strokeStyle;
+            if (obj.fillStyle)   context.fillStyle   = obj.fillStyle;
+            if (obj.strokeStyle) context.strokeStyle = obj.strokeStyle;
             context.globalAlpha    = obj._worldAlpha;
             context.globalCompositeOperation = obj.blendMode;
             
