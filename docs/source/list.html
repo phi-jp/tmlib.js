@@ -36,11 +36,11 @@
          * コンストラクタ
          */
         init: function() {
-        }
-    });
+<span id='tm-List'>        }
+</span>    });
     
-<span id='tm-List'>    /**
-</span>     * @class tm.List
+    /**
+     * @class tm.List
      * List クラス
      * ### Reference
      * - &lt;http://java.sun.com/javase/ja/6/docs/ja/api/java/util/LinkedList.html&gt;
@@ -50,10 +50,10 @@
      * - &lt;http://www.nczonline.net/blog/2009/04/21/computer-science-in-javascript-doubly-linked-lists/&gt;
      * - &lt;http://www.nczonline.net/blog/2009/04/13/computer-science-in-javascript-linked-list/&gt;
      */
-    tm.List = tm.createClass({
-        
-<span id='tm-List-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-List-method-constructor'>    tm.List = tm.createClass({
+</span>        
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function() {
@@ -62,11 +62,11 @@
             this._tail = tm.Item();
             
             this._head.next = this._tail;
-            this._tail.prev = this._head;
-        },
+<span id='tm-List-property-add'>            this._tail.prev = this._head;
+</span>        },
         
-<span id='tm-List-property-add'>        /**
-</span>         * @property
+        /**
+         * @property
          * 追加
          */
         add: function(data) {
@@ -81,11 +81,11 @@
             
             ++this._length;
             
-            return this;
-        },
+<span id='tm-List-property-remove'>            return this;
+</span>        },
         
-<span id='tm-List-property-remove'>        /**
-</span>         * @property
+        /**
+         * @property
          * 削除
          */
         remove: function(index) {
@@ -96,19 +96,19 @@
             
             --this._length;
             
-            return current;
-        },
+<span id='tm-List-property-get'>            return current;
+</span>        },
         
-<span id='tm-List-property-get'>        /**
-</span>         * @property
+        /**
+         * @property
          * ゲット
          */
         get: function(index) {
-            return this.getItem(index).data;
-        },
+<span id='tm-List-property-getItem'>            return this.getItem(index).data;
+</span>        },
         
-<span id='tm-List-property-getItem'>        /**
-</span>         * @property
+        /**
+         * @property
          * アイテムを取得
          */
         getItem: function(index) {
@@ -118,59 +118,59 @@
             while (i++ &lt; index) {
                 current = current.next;
             }
-            
-            return current;
+<span id='tm-List-property-forEach'>            
+</span>            return current;
         },
         
-<span id='tm-List-property-forEach'>        /**
-</span>         * @property
+        /**
+         * @property
          * 繰り返し
          */
-        forEach: function(fn) {
-            // TODO:
+<span id='tm-List-property-clear'>        forEach: function(fn) {
+</span>            // TODO:
         },
         
-<span id='tm-List-property-clear'>        /**
-</span>         * @property
+        /**
+         * @property
          * クリア
-         */
-        clear: function() {
+<span id='tm-List-property-clone'>         */
+</span>        clear: function() {
             // TODO:
         },
         
-<span id='tm-List-property-clone'>        /**
-</span>         * @property
-         * クローン
-         */
+        /**
+         * @property
+<span id='tm-List-property-getFirst'>         * クローン
+</span>         */
         clone: function() {
             // TODO:
         },
         
-<span id='tm-List-property-getFirst'>        /**
-</span>         * @property
-         * 最初の要素を取得
-         */
+        /**
+         * @property
+<span id='tm-List-property-getLast'>         * 最初の要素を取得
+</span>         */
         getFirst: function() {
             // TODO:
         },
         
-<span id='tm-List-property-getLast'>        /**
-</span>         * @property
-         * 最後の要素を取得
-         */
+        /**
+         * @property
+<span id='tm-List-property-indexOf'>         * 最後の要素を取得
+</span>         */
         getLast: function() {
             // TODO:
         },
         
-<span id='tm-List-property-indexOf'>        /**
-</span>         * @property
-         * 最初に一致した位置のインデックスを取得
-         */
+        /**
+         * @property
+<span id='tm-List-property-lastIndexOf'>         * 最初に一致した位置のインデックスを取得
+</span>         */
         indexOf: function(obj) {
             // TODO:
         },
         
-<span id='tm-List-property-lastIndexOf'>        /**
+<span id='tm-List-property-toArray'>        /**
 </span>         * @property
          * 最後に一致した位置のインデックスを取得
          */
@@ -178,8 +178,8 @@
             // TODO:
         },
         
-<span id='tm-List-property-toArray'>        /**
-</span>         * @property
+        /**
+         * @property
          * 配列に変換
          */
         toArray: function() {
@@ -187,8 +187,8 @@
             
             var current = this._head.next;
             var arr = [];
-            
-            while (current.data != null) {
+<span id='tm-List-property-toString'>            
+</span>            while (current.data != null) {
                 arr.push(current.data);
                 current = current.next;
             }
@@ -196,8 +196,8 @@
             return arr;
         },
         
-<span id='tm-List-property-toString'>        /**
-</span>         * @property
+        /**
+         * @property
          * 文字列に変換
          */
         toString: function() {

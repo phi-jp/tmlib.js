@@ -27,9 +27,9 @@
      */
     tm.define(&quot;tm.asset.MapSheet&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
-        
-<span id='tm-asset-MapSheet-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-asset-MapSheet-method-constructor'>        
+</span>        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(path) {
@@ -51,11 +51,11 @@
                 this.$extend(arguments[0]);
                 
                 this._checkImage();
-            }
-        },
+<span id='tm-asset-MapSheet-property-_parse'>            }
+</span>        },
 
-<span id='tm-asset-MapSheet-property-_parse'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          * @private
          */
@@ -75,10 +75,10 @@
             data.layers = this._parseLayers(xml);
             
             return data;
-        },
-        
-<span id='tm-asset-MapSheet-property-_parseTilesets'>        /**
-</span>         * @property
+<span id='tm-asset-MapSheet-property-_parseTilesets'>        },
+</span>        
+        /**
+         * @property
          * @TODO ?
          * @private
          */
@@ -101,10 +101,10 @@
             });
             
             return data;
-        },
-        
-<span id='tm-asset-MapSheet-property-_parseLayers'>        /**
-</span>         * @property
+<span id='tm-asset-MapSheet-property-_parseLayers'>        },
+</span>        
+        /**
+         * @property
          * @TODO ?
          * @private
          */
@@ -157,11 +157,11 @@
                 }
             }.bind(this));
 
-            return data;
-        },
+<span id='tm-asset-MapSheet-property-_parseCSV'>            return data;
+</span>        },
 
-<span id='tm-asset-MapSheet-property-_parseCSV'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          * @private
          */
@@ -174,11 +174,11 @@
                 layer.push(num);
             });
 
-            return layer;
-        },
+<span id='tm-asset-MapSheet-property-_parseBase64'>            return layer;
+</span>        },
 
-<span id='tm-asset-MapSheet-property-_parseBase64'>        /**
-</span>         * @property
+        /**
+         * @property
          * http://thekannon-server.appspot.com/herpity-derpity.appspot.com/pastebin.com/75Kks0WH
          * @private
          */
@@ -196,10 +196,10 @@
             }
             
             return rst;
-        },
-        
-<span id='tm-asset-MapSheet-property-_propertiesToJson'>        /**
-</span>         * @property
+<span id='tm-asset-MapSheet-property-_propertiesToJson'>        },
+</span>        
+        /**
+         * @property
          * @TODO ?
          * @private
          */
@@ -211,10 +211,10 @@
             }
             
             return obj;
-        },
-        
-<span id='tm-asset-MapSheet-property-_attrToJSON'>        /**
-</span>         * @property
+<span id='tm-asset-MapSheet-property-_attrToJSON'>        },
+</span>        
+        /**
+         * @property
          * @TODO ?
          * @private
          */
@@ -227,10 +227,10 @@
             }
             
             return obj;
-        },
-        
-<span id='tm-asset-MapSheet-property-_checkImage'>        /**
-</span>         * @property
+<span id='tm-asset-MapSheet-property-_checkImage'>        },
+</span>        
+        /**
+         * @property
          * @TODO ?
          * @private
          */

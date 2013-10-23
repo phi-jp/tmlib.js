@@ -34,55 +34,55 @@ tm.dom = tm.dom || {};
          * エレメント
          */
         element: null,
-        
-<span id='tm-dom-Attr-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-dom-Attr-method-constructor'>        
+</span>        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(element) {
             this.element = element;
-        },
-        
-<span id='tm-dom-Attr-property-set'>        /**
-</span>         * @property
+<span id='tm-dom-Attr-property-set'>        },
+</span>        
+        /**
+         * @property
          * 属性をセット
          */
         set: function(name, value) {
             this.element.setAttribute(name, value);
-            return this;
-        },
+<span id='tm-dom-Attr-property-add'>            return this;
+</span>        },
         
-<span id='tm-dom-Attr-property-add'>        /**
-</span>         * @property
+        /**
+         * @property
          * 属性を追加
          */
         add: function(name, value) {
             var now = this.get(name);
             value = (now) ? now + ' ' + value : value;
-            this.element.setAttribute(name, value);
-        },
+<span id='tm-dom-Attr-property-remove'>            this.element.setAttribute(name, value);
+</span>        },
         
-<span id='tm-dom-Attr-property-remove'>        /**
-</span>         * @property
+        /**
+         * @property
          * 属性を削除
          */
         remove: function(name, value) {
             var now = this.get(name);
             var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
             this.element.setAttribute(name, next.trim());
-//            this.element.removeAttribute(name);
-        },
+<span id='tm-dom-Attr-property-get'>//            this.element.removeAttribute(name);
+</span>        },
         
-<span id='tm-dom-Attr-property-get'>        /**
-</span>         * @property
+        /**
+         * @property
          * 属性を取得
          */
         get: function(name) {
-            return this.element.getAttribute(name);
-        },
+<span id='tm-dom-Attr-property-contains'>            return this.element.getAttribute(name);
+</span>        },
 
-<span id='tm-dom-Attr-property-contains'>        /**
-</span>         * @property
+        /**
+         * @property
          * 属性の存在チェック
          */
         contains: function(name, value) {
@@ -91,28 +91,28 @@ tm.dom = tm.dom || {};
                 return now != null;
             }
             else if (arguments.length == 2) {
-                return (' '+now+' ').indexOf(' '+value+' ') &gt; -1;
-            }
+<span id='tm-dom-Attr-property-toggle'>                return (' '+now+' ').indexOf(' '+value+' ') &gt; -1;
+</span>            }
 
             return false;
         },
 
-<span id='tm-dom-Attr-property-toggle'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         toggle: function(name, value) {
             if (this.contains(name, value)) {
                 this.remove(name, value);
             } else {
-                this.add(name, value);
-            }
+<span id='tm-dom-Attr-property-attr'>                this.add(name, value);
+</span>            }
             return this;
         }
     });
     
-<span id='tm-dom-Attr-property-attr'>    /**
-</span>     * Attr クラス
+    /**
+     * Attr クラス
      * @property    attr
      */
     tm.dom.Element.prototype.getter(&quot;attr&quot;, function(){

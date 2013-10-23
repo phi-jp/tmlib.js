@@ -136,7 +136,7 @@ module.exports = function(grunt) {
     },
     shell: {
       docs: {
-        command: 'jsduck ./src --output ./docs --title "tmlib.js docs"',
+        command: 'jsduck ./src --output ./docs --title "tmlib.js docs" --eg-iframe=tm-iframe.html',
         options: {
             stdout: true,
             callback: function(err, stdout, stderr, cb) {

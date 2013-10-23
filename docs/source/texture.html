@@ -28,21 +28,21 @@
      */
     tm.define(&quot;tm.asset.Texture&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
-        
-<span id='tm-asset-Texture-property-element'>        /**
-</span>         * @property
+<span id='tm-asset-Texture-property-element'>        
+</span>        /**
+         * @property
          * window.document.Image
          */
-        element: null,
-
-<span id='tm-asset-Texture-property-loaded'>        /**
-</span>         * @property
+<span id='tm-asset-Texture-property-loaded'>        element: null,
+</span>
+        /**
+         * @property
          * ロード済みかどうか
          */
-        loaded: false,
-        
-<span id='tm-asset-Texture-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-asset-Texture-method-constructor'>        loaded: false,
+</span>        
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(src) {
@@ -55,29 +55,29 @@
             this.element.onload = function() {
                 self.loaded = true;
                 var e = tm.event.Event(&quot;load&quot;);
-                self.dispatchEvent( e );
-            };
+<span id='tm-asset-Texture-property-getElement'>                self.dispatchEvent( e );
+</span>            };
         },
         
-<span id='tm-asset-Texture-property-getElement'>        /**
-</span>         * @property
+        /**
+         * @property
          * window.document.Imageクラスのインスタンスを返す
          */
-        getElement: function() {
-            return this.element;
+<span id='tm-asset-Texture-property-width'>        getElement: function() {
+</span>            return this.element;
         },
     });
     
-<span id='tm-asset-Texture-property-width'>    /**
-</span>     * @property    width
+    /**
+     * @property    width
      * 幅
      */
-    tm.asset.Texture.prototype.getter(&quot;width&quot;, function() {
-        return this.element.width;
+<span id='tm-asset-Texture-property-height'>    tm.asset.Texture.prototype.getter(&quot;width&quot;, function() {
+</span>        return this.element.width;
     });
     
-<span id='tm-asset-Texture-property-height'>    /**
-</span>     * @property    height
+    /**
+     * @property    height
      * 高さ
      */
     tm.asset.Texture.prototype.getter(&quot;height&quot;, function() {

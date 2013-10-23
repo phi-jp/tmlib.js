@@ -30,222 +30,222 @@ tm.display = tm.display || {};
      * @extends tm.app.Object2D
      */
     tm.display.CanvasElement = tm.createClass({
-        superClass: tm.app.Object2D,
-
-<span id='tm-display-CanvasElement-property-isUpdate'>        /**
-</span>         * @property
+<span id='tm-display-CanvasElement-property-isUpdate'>        superClass: tm.app.Object2D,
+</span>
+        /**
+         * @property
          * 更新フラグ
          */
-        isUpdate: true,
-
-<span id='tm-display-CanvasElement-property-visible'>        /**
-</span>         * @property
+<span id='tm-display-CanvasElement-property-visible'>        isUpdate: true,
+</span>
+        /**
+         * @property
          * 表示フラグ
-         */
-        visible: true,
+<span id='tm-display-CanvasElement-property-fillStyle'>         */
+</span>        visible: true,
 
-<span id='tm-display-CanvasElement-property-fillStyle'>        /**
-</span>         * @property
+        /**
+         * @property
          * fillStyle
-         */
-        fillStyle: &quot;white&quot;,
+<span id='tm-display-CanvasElement-property-strokeStyle'>         */
+</span>        fillStyle: &quot;white&quot;,
 
-<span id='tm-display-CanvasElement-property-strokeStyle'>        /**
-</span>         * @property
+        /**
+         * @property
          * strokeStyle
-         */
-        strokeStyle: &quot;white&quot;,
+<span id='tm-display-CanvasElement-property-alpha'>         */
+</span>        strokeStyle: &quot;white&quot;,
 
-<span id='tm-display-CanvasElement-property-alpha'>        /**
-</span>         * @property
-         * アルファ
-         */
+        /**
+         * @property
+<span id='tm-display-CanvasElement-property-blendMode'>         * アルファ
+</span>         */
         alpha: 1.0,
 
-<span id='tm-display-CanvasElement-property-blendMode'>        /**
-</span>         * @property
-         * ブレンドモード
-         */
+        /**
+         * @property
+<span id='tm-display-CanvasElement-property-shadowColor'>         * ブレンドモード
+</span>         */
         blendMode: &quot;source-over&quot;,
 
-<span id='tm-display-CanvasElement-property-shadowColor'>        /**
-</span>         * @property
-         * シャドウカラー
-         */
+        /**
+         * @property
+<span id='tm-display-CanvasElement-property-shadowOffsetX'>         * シャドウカラー
+</span>         */
         shadowColor: &quot;black&quot;,
 
-<span id='tm-display-CanvasElement-property-shadowOffsetX'>        /**
-</span>         * @property
-         * @TODO ?
+        /**
+<span id='tm-display-CanvasElement-property-shadowOffsetY'>         * @property
+</span>         * @TODO ?
          */
         shadowOffsetX: 0,
 
-<span id='tm-display-CanvasElement-property-shadowOffsetY'>        /**
-</span>         * @property
-         * @TODO ?
+        /**
+<span id='tm-display-CanvasElement-property-shadowBlur'>         * @property
+</span>         * @TODO ?
          */
         shadowOffsetY: 0,
 
-<span id='tm-display-CanvasElement-property-shadowBlur'>        /**
-</span>         * @property
-         * @TODO ?
+        /**
+<span id='tm-display-CanvasElement-property-init'>         * @property
+</span>         * @TODO ?
          */
         shadowBlur: 0,
 
-<span id='tm-display-CanvasElement-property-init'>        /**
-</span>         * @property
-         * コンストラクタ: ゲーム用エレメントクラス
-         */
+        /**
+         * @property
+<span id='tm-display-CanvasElement-property-setAlpha'>         * コンストラクタ: ゲーム用エレメントクラス
+</span>         */
         init: function() {
             this.superInit();
         },
 
-<span id='tm-display-CanvasElement-property-setAlpha'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
-         */
-        setAlpha: function(alpha) {
+<span id='tm-display-CanvasElement-property-setShadowColor'>         */
+</span>        setAlpha: function(alpha) {
             this.alpha = alpha;
             return this;
         },
 
-<span id='tm-display-CanvasElement-property-setShadowColor'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
-        setShadowColor: function(color) {
-            this.shadowColor = color;
+<span id='tm-display-CanvasElement-property-setShadowBlur'>        setShadowColor: function(color) {
+</span>            this.shadowColor = color;
             return this;
         },
         
-<span id='tm-display-CanvasElement-property-setShadowBlur'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
-        setShadowBlur: function(blur) {
-            this.shadowBlur = blur;
+<span id='tm-display-CanvasElement-property-setShadowOffset'>        setShadowBlur: function(blur) {
+</span>            this.shadowBlur = blur;
             return this;
         },
         
-<span id='tm-display-CanvasElement-property-setShadowOffset'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         setShadowOffset: function(x, y) {
-            this.shadowOffsetX = x;
-            this.shadowOffsetY = y;
+<span id='tm-display-CanvasElement-property-drawBoundingCircle'>            this.shadowOffsetX = x;
+</span>            this.shadowOffsetY = y;
             return this;
         },
 
-<span id='tm-display-CanvasElement-property-drawBoundingCircle'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         drawBoundingCircle: function(canvas) {
             canvas.save();
-            canvas.lineWidth = 2;
-            canvas.strokeCircle(0, 0, this.radius);
+<span id='tm-display-CanvasElement-property-drawBoundingRect'>            canvas.lineWidth = 2;
+</span>            canvas.strokeCircle(0, 0, this.radius);
             canvas.restore();
         },
 
-<span id='tm-display-CanvasElement-property-drawBoundingRect'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         drawBoundingRect: function(canvas) {
             canvas.save();
             canvas.lineWidth = 2;
-            canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
-            canvas.restore();
+<span id='tm-display-CanvasElement-property-drawFillRect'>            canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
+</span>            canvas.restore();
         },
 
-<span id='tm-display-CanvasElement-property-drawFillRect'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         drawFillRect: function(ctx) {
-            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
-            return this;
+<span id='tm-display-CanvasElement-property-drawStrokeRect'>            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+</span>            return this;
         },
-<span id='tm-display-CanvasElement-property-drawStrokeRect'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         drawStrokeRect: function(ctx) {
-            ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
-            return this;
+<span id='tm-display-CanvasElement-property-drawFillArc'>            ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
+</span>            return this;
         },
 
-<span id='tm-display-CanvasElement-property-drawFillArc'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         drawFillArc: function(ctx) {
             ctx.beginPath();
-            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
-            ctx.fill();
+<span id='tm-display-CanvasElement-property-drawStrokeArc'>            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
+</span>            ctx.fill();
             ctx.closePath();
             return this;
         },
-<span id='tm-display-CanvasElement-property-drawStrokeArc'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         drawStrokeArc: function(ctx) {
             ctx.beginPath();
-            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
-            ctx.stroke();
+<span id='tm-display-CanvasElement-property-show'>            ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
+</span>            ctx.stroke();
             ctx.closePath();
             return this;
         },
 
-<span id='tm-display-CanvasElement-property-show'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
-         */
-        show: function() {
+<span id='tm-display-CanvasElement-property-hide'>         */
+</span>        show: function() {
             this.visible = true;
             return this;
         },
 
-<span id='tm-display-CanvasElement-property-hide'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
-         */
-        hide: function() {
+<span id='tm-display-CanvasElement-property-setFillStyle'>         */
+</span>        hide: function() {
             this.visible = false;
             return this;
         },
 
-<span id='tm-display-CanvasElement-property-setFillStyle'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
-        setFillStyle: function(style) {
-            this.fillStyle = style;
+<span id='tm-display-CanvasElement-property-setStrokeStyle'>        setFillStyle: function(style) {
+</span>            this.fillStyle = style;
             return this;
         },
 
-<span id='tm-display-CanvasElement-property-setStrokeStyle'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
-        setStrokeStyle: function(style) {
-            this.strokeStyle = style;
+<span id='tm-display-CanvasElement-property-setBlendMode'>        setStrokeStyle: function(style) {
+</span>            this.strokeStyle = style;
             return this;
         },
 
-<span id='tm-display-CanvasElement-property-setBlendMode'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
-        setBlendMode: function(blendMode) {
-            this.blendMode = blendMode;
+<span id='tm-display-CanvasElement-property-load'>        setBlendMode: function(blendMode) {
+</span>            this.blendMode = blendMode;
             return this;
         },
 
-<span id='tm-display-CanvasElement-property-load'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         load: function(data) {
@@ -278,15 +278,15 @@ tm.display = tm.display || {};
                     element.x = obj.x;
                     element.y = obj.y;
                     element.width = obj.width;
-                    element.height = obj.height;
-                });
+<span id='tm-display-CanvasElement-property-fromJSON'>                    element.height = obj.height;
+</span>                });
 
                 self[layer.name] = group;
             });
         },
 
-<span id='tm-display-CanvasElement-property-fromJSON'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         fromJSON: function(data) {
@@ -306,23 +306,23 @@ tm.display = tm.display || {};
                     }
                 }
                 else {
-                    this[key] = value;
-                }
+<span id='tm-display-CanvasElement-property-toJSON'>                    this[key] = value;
+</span>                }
             }
 
             return this;
         },
 
-<span id='tm-display-CanvasElement-property-toJSON'>        /**
-</span>         * @property
-         * @TODO ?
+        /**
+<span id='tm-display-CanvasElement-property-_calcAlpha'>         * @property
+</span>         * @TODO ?
          */
         toJSON: function() {
             // TODO:
         },
 
-<span id='tm-display-CanvasElement-property-_calcAlpha'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          * @private
          */
@@ -332,13 +332,13 @@ tm.display = tm.display || {};
                 return ;
             }
             else {
-                // alpha
-                this._worldAlpha = this.parent._worldAlpha * this.alpha;
+<span id='tm-display-CanvasElement-property-_dirtyCalc'>                // alpha
+</span>                this._worldAlpha = this.parent._worldAlpha * this.alpha;
             }
         },
 
-<span id='tm-display-CanvasElement-property-_dirtyCalc'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          * @private
          */
