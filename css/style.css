@@ -6,6 +6,9 @@ body {
   font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif;
   font-size: 12px;
 }
+p {
+  line-height: 1.5em;
+}
 .hero-unit {
   padding: 30px;
   font-size: 15px;

@@ -21,6 +21,7 @@
         <script src="../../src/geom/vector2.js"></script>
         <script src="../../src/geom/vector3.js"></script>
         <script src="../../src/geom/circle.js"></script>
+        <script src="../../src/geom/rect.js"></script>
         
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
@@ -37,11 +38,41 @@
             });
             
             tm.main(function() {
+                
                 // キャンバス取得
                 var canvas = tm.graphics.Canvas("#world");
                 canvas.resize(465, 465);
                 canvas.clearColor("black");
                 canvas.fitWindow();
+                
+                testDrawScale9Sprite();
+            });
+            
+            var testDrawScale9Sprite = function() {
+                // キャンバス取得
+                var canvas = tm.graphics.Canvas("#world");
+                
+                var image = new Image();
+                image.src = "data:image/jpeg;base64,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";
+                
+                image.onload = function() {
+                    // setup
+                    canvas.setFillStyle("pink");
+                    canvas.setStrokeStyle("pink");
+                    // canvas.setTransformCenter();
+                    
+                    canvas.drawScale9Image(
+                        image,
+                        tm.geom.Rect(100, 100, 300, 300),
+                        tm.geom.Rect(70, 70, 100, 50)
+                    );
+                }
+                
+            };
+            
+            var testHeart = function() {
+                // キャンバス取得
+                var canvas = tm.graphics.Canvas("#world");
                 
                 // setup
                 canvas.setFillStyle("pink");
@@ -61,7 +92,7 @@
                 canvas.fillHeart(-100, 100, 50, 35);
                 canvas.fillHeart(0, 100, 50, 30);
                 canvas.fillHeart(100, 100, 50, 25);
-            });
+            };
             
         </script>
     </head>
