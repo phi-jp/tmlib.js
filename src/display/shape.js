@@ -269,7 +269,10 @@ tm.display = tm.display || {};
     /**
      * @class tm.display.CircleShape
      * 簡単に円を描画できるクラス
-     * @extends tm.display.Shape
+     * 
+     *      @example display
+     *      var shape = tm.display.CircleShape().addChildTo(this);
+     *      shape.setPosition(50, 50);
      */
     tm.display.CircleShape = tm.createClass({
         

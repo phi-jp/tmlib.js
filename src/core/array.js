@@ -7,6 +7,9 @@
     /**
      * @class   Array
      * Arrayの拡張
+     * 
+     *      @example display
+     *      [1, 2, 3].first;
      */
     
     /**
