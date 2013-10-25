@@ -31,7 +31,7 @@ tm.input = tm.input || {};
             var self = this;
             this.element.addEventListener("mousedown", function(e){
                 self._mousemove(e);
-                self.prevPosition.set(this._x, this._y);    // prevPostion をリセット
+                self.prevPosition.set(self._x, self._y);    // prevPostion をリセット
                 self.button |= 1<<e.button;
             });
             this.element.addEventListener("mouseup", function(e){

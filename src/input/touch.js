@@ -32,7 +32,7 @@ tm.input = tm.input || {};
             var self = this;
             this.element.addEventListener("touchstart", function(e){
                 self._touchmove(e);
-                self.prevPosition.set(this._x, this._y);    // prevPostion をリセット
+                self.prevPosition.set(self._x, self._y);    // prevPostion をリセット
                 self.touched = true;
             });
             this.element.addEventListener("touchend", function(e){
