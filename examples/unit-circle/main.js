@@ -123,7 +123,6 @@ var UnitCircle = tm.createClass({
     superClass: tm.app.Sprite,
     
     init: function() {
-        this.superInit(SCREEN_WIDTH, SCREEN_HEIGHT);
-        this.image = UNIT_CIRCLE_IMAGE;
+        this.superInit(UNIT_CIRCLE_IMAGE, SCREEN_WIDTH, SCREEN_HEIGHT);
     },
 });
