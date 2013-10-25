@@ -124,6 +124,7 @@ window.onload = function() {
     }
     
     app.currentScene.update = function(app) {
+        console.log(app.pointing.position.x);
         if (app.keyboard.getKeyDown("space")) {
             app.currentScene._update = function() {};
         }

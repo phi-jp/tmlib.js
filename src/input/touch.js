@@ -26,6 +26,8 @@ tm.input = tm.input || {};
             this.position       = tm.geom.Vector2(0, 0);
             this.deltaPosition  = tm.geom.Vector2(0, 0);
             this.prevPosition   = tm.geom.Vector2(0, 0);
+            this._x = 0;
+            this._y = 0;
             
             var self = this;
             this.element.addEventListener("touchstart", function(e){

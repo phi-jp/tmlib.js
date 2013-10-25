@@ -8272,6 +8272,8 @@ tm.input = tm.input || {};
             this.position       = tm.geom.Vector2(0, 0);
             this.deltaPosition  = tm.geom.Vector2(0, 0);
             this.prevPosition   = tm.geom.Vector2(0, 0);
+            this._x = 0;
+            this._y = 0;
             
             var self = this;
             this.element.addEventListener("mousedown", function(e){
@@ -8506,6 +8508,8 @@ tm.input = tm.input || {};
             this.position       = tm.geom.Vector2(0, 0);
             this.deltaPosition  = tm.geom.Vector2(0, 0);
             this.prevPosition   = tm.geom.Vector2(0, 0);
+            this._x = 0;
+            this._y = 0;
             
             var self = this;
             this.element.addEventListener("touchstart", function(e){
@@ -15028,9 +15032,6 @@ tm.display = tm.display || {};
      * @class tm.display.Shape
      * 図形を描画するクラス
      * @extends tm.display.CanvasElement
-     * 
-     *      @example display
-     *      [1, 2, 3].first;
      */
     tm.display.Shape = tm.createClass({
         superClass: tm.display.CanvasElement,
