@@ -99,8 +99,7 @@ var Particle = tm.createClass({
     superClass: tm.app.Sprite,
     
     init: function(x, y, angle) {
-        this.superInit(PARTICLE_WIDTH, PARTICLE_HEIGHT);
-        this.image = PARTICLE_IMAGE;
+        this.superInit(PARTICLE_IMAGE, PARTICLE_WIDTH, PARTICLE_HEIGHT);
         this.srcRect.x      = angle*10;
         this.srcRect.width  = 10;
         

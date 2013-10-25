@@ -18,7 +18,7 @@
         
         <script src="../../build/tmlib.js"></script>
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
-        <script src="https://raw.github.com/mrdoob/stats.js/master/src/Stats.js"></script>
+        <script src="http://rawgithub.com/mrdoob/stats.js/master/src/Stats.js"></script>
         
         <script>
             
@@ -41,7 +41,7 @@
             tm.main(function() {
                 var element = tm.dom.Element("#world");
                 var canvas  = tm.graphics.Canvas("#world");
-                var image   = tm.graphics.Texture("../../resource/img/kenkyo-big.jpg");
+                var image   = tm.asset.Texture("../../resource/img/kenkyo-big.jpg");
                 image.onload = function() {
                     // リサイズ
                     canvas.resize(image.element.width*2, image.element.height);
