@@ -5,7 +5,7 @@
 (function() {
     
     /**
-     * @class   window.Date
+     * @class   global.Date
      * Date(日付)の拡張
      */
     

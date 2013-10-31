@@ -204,7 +204,7 @@ tm.app = tm.app || {};
         
     });
 
-    /**
+    /*
      * @private
      * namespaceの後方互換
      */

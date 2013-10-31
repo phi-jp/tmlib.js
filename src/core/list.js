@@ -9,9 +9,11 @@
      * Item クラス
      */
     tm.Item = tm.createClass({
-        
+        /** prev */
         prev: null,
+        /** next */
         next: null,
+        /** data */
         data: null,
         
         /**

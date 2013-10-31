@@ -12,9 +12,16 @@ tm.input = tm.input || {};
      * タッチクラス
      */
     tm.input.Touch = tm.createClass({
-        
+        /** element */
         element: null,
+        /** touched */
         touched: false,
+
+        /** @property position */
+        /** @property deltaPosition */
+        /** @property prevPosition */
+        /** @private @property _x */
+        /** @private @property _y */
         
         /**
          * @constructor
@@ -69,7 +76,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * run.
          * 自動でマウス情報を更新したい際に使用する
          */
@@ -87,7 +93,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * 情報更新処理
          * マイフレーム呼んで下さい.
          */
@@ -110,7 +115,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * タッチしているかを判定
          */
         getTouch: function() {
@@ -118,7 +122,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * タッチ開始時に true
          */
         getTouchStart: function() {
@@ -126,7 +129,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * タッチ終了時に true
          */
         getTouchEnd: function() {
@@ -134,7 +136,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -146,7 +147,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -232,13 +232,13 @@ tm.input = tm.input || {};
     /**
      * @class tm.input.Touches
      * マルチタッチ対応クラス
+     * @extends global.Array
      */
     tm.define("tm.input.Touches", {
         superClass: Array,
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(elm, length) {
             this.element = elm;
@@ -287,7 +287,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         update: function() {

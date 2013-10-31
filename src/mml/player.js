@@ -61,8 +61,7 @@ tm.mml = tm.mml || {};
      */
     tm.mml.Driver = {
         /**
-         * @property
-         * @TODO ?
+         * コンパイル
          */
         compile: function(source) {
             var buffer = new Array();

@@ -13,14 +13,15 @@ tm.util = tm.util || {};
      */
     tm.util.Timeline = tm.createClass({
         
+        /** target */
         target  : null,
+        /** tasks */
         tasks   : null,
-        
+        /** fps */
         fps     : 30,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this.tasks = [];
@@ -28,7 +29,6 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         at: function(time, action) {
@@ -40,7 +40,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         after: function(time, action) {
@@ -49,7 +48,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         clear: function() {
@@ -58,7 +56,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         removeTime: function(time) {
@@ -66,7 +63,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         removeAction: function(action) {
@@ -74,7 +70,6 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         start: function() {
@@ -84,7 +79,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         resume: function() {
@@ -94,7 +88,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         stop: function() {
@@ -102,7 +95,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         rewind: function() {
@@ -110,7 +102,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         update: function() {
@@ -128,7 +119,6 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -137,7 +127,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -146,7 +135,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -158,7 +146,6 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */

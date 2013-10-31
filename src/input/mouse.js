@@ -12,12 +12,17 @@ tm.input = tm.input || {};
      * マウスクラス
      */
     tm.input.Mouse = tm.createClass({
-        
+        /** element */
         element: null,
         
+        /** @property  position */
+        /** @property  deltaPosition */
+        /** @property  prevPosition */
+        /** @private @property  _x */
+        /** @private @property  _y */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(element) {
             this.element = element || window.document;
@@ -44,7 +49,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * run
          * 自動でマウス情報を更新したい際に使用する
          */
@@ -60,7 +64,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * 情報更新処理
          * マイフレーム呼んで下さい.
          */
@@ -84,7 +87,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * ボタン取得
          */
         getButton: function(button) {
@@ -96,7 +98,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * ボタンダウン取得
          */
         getButtonDown: function(button) {
@@ -108,7 +109,6 @@ tm.input = tm.input || {};
         },
         
         /**
-         * @property
          * ボタンアップ取得
          */
         getButtonUp: function(button) {
@@ -120,7 +120,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -131,7 +130,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -142,7 +140,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -164,11 +161,16 @@ tm.input = tm.input || {};
         
     });
     
-    
+    /** @static */
     tm.input.Mouse.BUTTON_LEFT      = 0x1;
+    /** @static */
     tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
+    /** @static */
     tm.input.Mouse.BUTTON_RIGHT     = 0x4;
     
+    /*
+     * 
+     */
     var BUTTON_MAP = {
         "left"  : tm.input.Mouse.BUTTON_LEFT,
         "middle": tm.input.Mouse.BUTTON_MIDDLE,
@@ -214,16 +216,19 @@ tm.input = tm.input || {};
     
     
     /**
+     * @static
      * @method getPointing
      * ポインティング状態取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointing        = function() { return this.getButton("left"); };
     /**
+     * @static
      * @method getPointingStart
      * ポインティングを開始したかを取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown("left"); };
     /**
+     * @static
      * @method getPointingEnd
      * ポインティングを終了したかを取得(touch との差異対策)
      */

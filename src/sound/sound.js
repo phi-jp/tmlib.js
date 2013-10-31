@@ -19,14 +19,15 @@ tm.sound = tm.sound || {};
      * サウンドクラス
      */
     tm.sound.Sound = tm.createClass({
-        
+        /** element */
         element     : null,
+        /** loaded */
         loaded      : false,
+        /** isPlay */
         isPlay      : false,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(src) {
             this.element = new Audio();
@@ -54,7 +55,6 @@ tm.sound = tm.sound || {};
         },
         
         /**
-         * @property
          * 再生
          */
         play: function() {
@@ -64,7 +64,6 @@ tm.sound = tm.sound || {};
         },
         
         /**
-         * @property
          * 停止
          */
         stop: function() {
@@ -78,7 +77,6 @@ tm.sound = tm.sound || {};
         },
         
         /**
-         * @property
          * 一時停止
          */
         pause: function() {
@@ -87,7 +85,6 @@ tm.sound = tm.sound || {};
         },
         
         /**
-         * @property
          * クローン
          */
         clone: function() {
@@ -143,7 +140,6 @@ tm.sound = tm.sound || {};
     
     /**
      * @static
-     * @property    SUPPORT_EXT
      * サポートしている拡張子
      */
     tm.sound.Sound.SUPPORT_EXT = (function(){

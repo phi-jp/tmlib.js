@@ -18,7 +18,6 @@ tm.dom = tm.dom || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this.set.apply(this, arguments);
@@ -287,7 +286,7 @@ tm.dom = tm.dom || {};
     /**
      * @class tm.dom.ElementList
      * エレメントリスト
-     * @extends window.Array
+     * @extends global.Array
      */
     tm.dom.ElementList = tm.createClass({
         superClass: Array,

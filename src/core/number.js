@@ -5,7 +5,7 @@
 (function() {
     
     /**
-     * @class   window.Number
+     * @class global.Number
      * Numberの拡張
      */
     

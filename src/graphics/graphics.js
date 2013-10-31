@@ -50,25 +50,15 @@ tm.graphics = tm.graphics || {};
      * WebGL を簡単に扱うためのラッパークラス
      */
     tm.graphics.Graphics = tm.createClass({
-
-        /**
-         * 要素
-         */
+        /** 要素 */
         element: null,
-
-        /**
-         * キャンバス
-         */
+        /** キャンバス */
         canvas: null,
-
-        /**
-         * gl
-         */
+        /** gl */
         gl: null,
 
         /**
          * @constructor
-         * 初期化
          */
         init: function(canvas) {
             this.canvas = null;
@@ -96,7 +86,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         resize: function(width, height) {
@@ -109,7 +98,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * シェーダーを生成
          */
         createShader: function(script, type) {
@@ -140,7 +128,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * シェーダプログラムを生成
          */
         createProgram: function(vs, fs) {
@@ -163,7 +150,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * Vertex Buffer Object
          */
         createBuffer: function(buffer) {
@@ -180,7 +166,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * 画面クリア
          */
         clear: function() {
@@ -189,7 +174,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * ビューポートをセット
          */
         setViewport: function(x, y, width, height) {
@@ -202,7 +186,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * 配列から描画
          */
         drawArrays: function(vbo, colors, texCoords) {
@@ -233,7 +216,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * メッシュを秒gあ
          */
         drawMesh: function(mesh) {
@@ -241,7 +223,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * 描画開始
          */
         beginDraw: function() {
@@ -251,7 +232,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * vertex2
          */
         vertex2: function(x, y) {
@@ -262,7 +242,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * vertex3
          */
         vertex3: function(x, y, z) {
@@ -273,7 +252,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * color4
          */
         color4: function(r, g, b, a) {
@@ -289,7 +267,6 @@ tm.graphics = tm.graphics || {};
 
 
         /**
-         * @property
          * texCoord2
          */
         texCoord2: function(s, t) {
@@ -299,7 +276,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * 描画終了
          */
         endDraw: function() {
@@ -319,7 +295,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * 矩形描画
          */
         drawRectangle: function(x, y, width, height) {
@@ -347,7 +322,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          *　サークル描画
          */
         drawCircle: function(x, y, radius) {
@@ -371,7 +345,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          *　キューブ描画
          */
         drawCube: function() {
@@ -480,7 +453,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          *　ピラミット描画
          */
         drawPyramid: function() {
@@ -529,7 +501,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          *　テクスチャを生成
          */
         createTexture: function(texture) {
@@ -548,7 +519,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          *　テクスチャを生成
          * @private
          */
@@ -597,7 +567,6 @@ tm.graphics = tm.graphics || {};
     tm.graphics.Camera = tm.createClass({
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this.projectionMatrix = tm.geom.Matrix44();
@@ -610,7 +579,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         lookAt: function() {
@@ -622,7 +590,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         getCameraMatrix: function() {
@@ -644,6 +611,9 @@ tm.graphics = tm.graphics || {};
     tm.graphics.PerspectiveCamera = tm.createClass({
         superClass: tm.graphics.Camera,
         
+        /**
+         * @constructor
+         */
         init: function() {
             this.superInit();
             

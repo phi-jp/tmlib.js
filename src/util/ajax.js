@@ -7,29 +7,29 @@ tm.util = tm.util || {};
 
 (function() {
     
-    /**
+    /*
      * @enum
      * @TODO ?
      * @private
      */
     var AJAX_DEFAULT_SETTINGS = {
-        /** @property type */
+        /* @property type */
         type :"GET",
-        /** @property async */
+        /* @property async */
         async: true,
-        /** @property data */
+        /* @property data */
         data: null,
-        /** @property contentType */
+        /* @property contentType */
         contentType: 'application/x-www-form-urlencoded',
-        /** @property dataType */
+        /* @property dataType */
         dataType: 'text',
-        /** @property username */
+        /* @property username */
         username: null,
-        /** @property password */
+        /* @property password */
         password: null,
-        /** @property success */
+        /* @property success */
         success : function(data){ alert("success!!\n"+data); },
-        /** @property error */
+        /* @property error */
         error   : function(data){ alert("error!!"); }
     };
     
@@ -39,7 +39,7 @@ tm.util = tm.util || {};
      */
     tm.util.Ajax = {
         /**
-         * @property load
+         * load
          */
         load: function(params) {
             for (var key in AJAX_DEFAULT_SETTINGS) {
@@ -80,7 +80,7 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @property loadJSONP
+         * loadJSONP
          */
         loadJSONP: function(url, callback) {
             var g = tm.global;
@@ -97,36 +97,36 @@ tm.util = tm.util || {};
         }
     };
     
-    /**
+    /*
      * @enum tm.util.Ajax.DATA_CONVERTE_TABLE
      * データコンバータテーブル
      */
     tm.util.Ajax.DATA_CONVERTE_TABLE = {
-        /** @property */
+        /* @method */
         undefined: function(data) {
             return data;
         },
         
-        /** @property */
+        /* @method */
         text: function(data) {
             return data;
         },
         
-        /** @property */
+        /* @method */
         xml: function(data) {
             var div = document.createElement("div");
             div.innerHTML = data;
             return div;
         },
         
-        /** @property */
+        /* @method */
         dom: function(data) {
             var div = document.createElement("div");
             div.innerHTML = data;
             return tm.dom.Element(div);
         },
         
-        /** @property */
+        /* @method */
         json: function(data) {
             try {
                 return JSON.parse(data);
@@ -137,14 +137,14 @@ tm.util = tm.util || {};
             }
         },
         
-        /** @property */
+        /* @method */
         script: function(data) {
             eval(data);
             return data;
         },
         
-        /**
-         * @property
+        /*
+         * @method
          * ### Reference
          * - <http://efcl.info/adiary/Javascript/treat-binary>
          * @param {Object} data

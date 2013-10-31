@@ -7,17 +7,19 @@ tm.dom = tm.dom || {};
 (function() {
     
     /**
-     * @class Event
+     * @class global.Event
      * 既存のEventオブジェクト拡張
      */
     
     // 仕方なしの IE 対応(これ引っかかったら他のもダメだから必要ないかも)
     if (!Event.prototype.stopPropagation) {
+        /** @method */
         Event.prototype.stopPropagation = function() {
             this.cancelBubble = true;
         };
     }
     if (!Event.prototype.preventDefault) {
+        /** @method */
         Event.prototype.preventDefault = function() {
             this.returnValue = false;
         };
@@ -40,12 +42,12 @@ tm.dom = tm.dom || {};
 (function() {
     
     /**
-     * @class KeyboardEvent
+     * @class global.KeyboardEvent
      * KeyboardEvent クラス
      */
     
     /**
-     * @property    character
+     * @method    character
      * 押したキーの文字を取得
      */
     KeyboardEvent.prototype.getter("character", function(){
@@ -58,12 +60,12 @@ tm.dom = tm.dom || {};
 (function() {
     
     /**
-     * @class MouseEvent
+     * @class global.MouseEvent
      * MouseEvent クラス
      */
     
     /**
-     * @property    pointX
+     * @method    pointX
      * マウスのX座標.
      */
     MouseEvent.prototype.getter("pointX", function() {
@@ -72,7 +74,7 @@ tm.dom = tm.dom || {};
     });
     
     /**
-     * @property    pointY
+     * @method    pointY
      * マウスのY座標.
      */
     MouseEvent.prototype.getter("pointY", function() {
@@ -91,12 +93,12 @@ tm.dom = tm.dom || {};
     
     
     /**
-     * @class TouchEvent
+     * @class global.TouchEvent
      * TouchEvent クラス
      */
     
     /**
-     * @property    pointX
+     * @method    pointX
      * タッチイベント.
      */
     TouchEvent.prototype.getter("pointX", function() {
@@ -105,7 +107,7 @@ tm.dom = tm.dom || {};
     });
     
     /**
-     * @property    pointY
+     * @method    pointY
      * タッチイベント.
      */
     TouchEvent.prototype.getter("pointY", function() {
@@ -127,13 +129,10 @@ tm.dom = tm.dom || {};
 
         /** DOMエレメント */
         element     : null,
-
         /** イベント発火時に実行する関数リスト */
         funcList    : null,
-
         /** 関数リストのインデックス　未使用？ */
         funcIndex   : 0,
-
         /** @property domElement */
         
         /**

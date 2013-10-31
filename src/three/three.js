@@ -32,18 +32,19 @@ tm.three = tm.three || {};
      * @extends tm.app.BaseApp
      */
     tm.three.ThreeApp = tm.createClass({
-
         superClass: tm.app.BaseApp,
         
+        /** canvas */
         canvas      : null,
+        /** canvas */
         background  : null,
-        
+        /** @private canvas */
         _scenes      : null,
+        /** @private canvas */
         _sceneIndex  : 0,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(canvas) {
             if (canvas instanceof HTMLCanvasElement) {
@@ -71,7 +72,6 @@ tm.three = tm.three || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         resize: function(width, height) {
@@ -83,7 +83,6 @@ tm.three = tm.three || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         resizeWindow: function() {
@@ -95,7 +94,6 @@ tm.three = tm.three || {};
         },
         
         /**
-         * @property
          * 画面にフィットさせる
          */
         fitWindow: function(everFlag) {
@@ -136,7 +134,6 @@ tm.three = tm.three || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -181,12 +178,10 @@ tm.three = tm.three || {};
      * @extends THREE.Object3D
      */
     tm.three.Element = tm.createClass({
-
         superClass: THREE.Object3D,
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             // THREE.Object3D の初期化 
@@ -196,13 +191,11 @@ tm.three = tm.three || {};
         },
         
         /**
-         * @property
          * 更新処理
          */
         update: function() {},
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -242,12 +235,10 @@ tm.three = tm.three || {};
      * @extends THREE.Mesh
      */
     tm.three.MeshElement = tm.createClass({
-        
         superClass: THREE.Mesh,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(geometry, material) {
             material = material || new THREE.MeshNormalMaterial();
@@ -272,7 +263,6 @@ tm.three = tm.three || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, depth) {
             width  = width || 100;
@@ -297,7 +287,6 @@ tm.three = tm.three || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(radius, widthSegments, heightSegments) {
             radius          = radius || 45;
@@ -321,7 +310,6 @@ tm.three = tm.three || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height) {
             var geometry = new THREE.PlaneGeometry(width, height);
@@ -342,7 +330,6 @@ tm.three = tm.three || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height) {
             width  = width || 1000;
@@ -357,7 +344,6 @@ tm.three = tm.three || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -387,7 +373,6 @@ tm.three = tm.three || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(text, param) {
             var geometry = new THREE.TextGeometry(text, param);
@@ -405,11 +390,12 @@ tm.three = tm.three || {};
     tm.three.CanvasTexture = tm.createClass({
         superClass: THREE.Texture,
 
+        /** canvas */
         canvas: null,
+        /** @property needsUpdate */
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this.canvas = tm.graphics.Canvas();
@@ -433,12 +419,13 @@ tm.three = tm.three || {};
      * @extends THREE.Scene
      */
     tm.three.Scene = tm.createClass({
-        
         superClass: THREE.Scene,
         
+        /** @property camera */
+        /** @property projector */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(fov, aspect) {
             fov = fov || 60;
@@ -457,7 +444,6 @@ tm.three = tm.three || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         intersect: function(objects) {

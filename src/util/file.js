@@ -14,12 +14,13 @@ tm.util = tm.util || {};
     tm.define("tm.util.File", {
         superClass: "tm.event.EventDispatcher",
 
+        /** deta */
         data: null,
+        /** deta */
         loaded: false,
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(params) {
             this.superInit();
@@ -31,7 +32,6 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         load: function(params) {
@@ -49,13 +49,15 @@ tm.util = tm.util || {};
             tm.util.Ajax.load(params);
         },
 
+        /**
+         * setData
+         */
         setData: function(data) {
             this.data = data;
             this.loaded = true;
         },
         
         /**
-         * @property
          * @TODO ?
          */
         loadLocalStorage: function() {

@@ -14,14 +14,10 @@ tm.graphics = tm.graphics || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
-        init: function() {
-            
-        },
+        init: function() {},
         
         /**
-         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -52,14 +48,10 @@ tm.graphics = tm.graphics || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
-        init: function() {
-            
-        },
+        init: function() {},
         
         /**
-         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -90,10 +82,13 @@ tm.graphics = tm.graphics || {};
      * - <http://www.flother.com/blog/2010/image-blur-html5-canvas/>
      */
     tm.graphics.BlurFilter = tm.createClass({
+
+        /** @property blurX */
+        /** @property blurY */
+        /** @property quality */
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(blurX, blurY, quality) {
             this.blurX      = blurX || 4;
@@ -102,7 +97,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -165,18 +159,17 @@ tm.graphics = tm.graphics || {};
      */
     tm.graphics.ToonFilter = tm.createClass({
         
+        /** トゥーンテーブル */
         toonTable: null,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(toonTable) {
             this.toonTable = toonTable || defaultToonTable;
         },
         
         /**
-         * @property
          * apply
          */
         apply: function(src, dst) {
@@ -212,9 +205,10 @@ tm.graphics = tm.graphics || {};
      */
     tm.graphics.ColorMatrixFilter = tm.createClass({
         
+        /** @property colorMatrix */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(colorMatrix) {
             this.colorMatrix = colorMatrix;

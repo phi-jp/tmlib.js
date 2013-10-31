@@ -12,13 +12,13 @@ tm.util = tm.util || {};
      * スクリプトクラス
      */
     tm.util.Script = tm.createClass({
-        
+        /** element */
         element: null,
+        /** loaded */
         loaded: false,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(src, callback) {
             this.loaded = false;
@@ -36,6 +36,9 @@ tm.util = tm.util || {};
             };
         },
         
+        /**
+         * getElement
+         */
         getElement: function() {
             return this.element;
         },

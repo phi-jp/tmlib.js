@@ -63,7 +63,6 @@ tm.social = tm.social || {};
 
     /**
      * @member      tm.social.Twitter
-     * @property    api
      */
     tm.social.Twitter.api = function(type, kind, param, callback) {
         var url = BASE_URL.format({ type:type, kind:kind });
@@ -82,7 +81,6 @@ tm.social = tm.social || {};
 
     /**
      * @member      tm.social.Twitter
-     * @property    search
      */
     tm.social.Twitter.search = function(param, callback) {
         var url = BASE_URL;
@@ -104,7 +102,6 @@ tm.social = tm.social || {};
     
     /**
      * @member      tm.social.Twitter
-     * @property    getFollowers
      * 
      * user_id      ユーザーID
      * screen_name  screen_name

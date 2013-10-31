@@ -5,7 +5,7 @@
 (function() {
     
     /**
-     * @class window.Math
+     * @class global.Math
      * Mathの拡張
      */
     

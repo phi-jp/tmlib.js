@@ -12,11 +12,11 @@ tm.graphics = tm.graphics || {};
      */
     tm.graphics.Bitmap = tm.createClass({
         
+        /** イメージデータ */
         imageData: null,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(imageData) {
             if (!dummyCanvas) {
@@ -28,7 +28,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -46,7 +45,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * index 指定でピクセル値を取得
          * 最も高速
          */
@@ -61,7 +59,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * x, y 指定でピクセル値を取得
          */
         getPixelXY: function(x, y) {
@@ -69,7 +66,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * ピクセル値を取得
          * ### Memo
          * - index 指定か x, y 指定にするか検討中
@@ -80,7 +76,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         getPixelAsNumber: function(index) {
@@ -89,7 +84,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         getPixelAsObject: function(index) {
@@ -103,7 +97,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         getPixelAsArray: function(index) {
@@ -117,7 +110,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * 指定した範囲内のピクセル平均値を取得
          */
         getPixelAverage: function(x, y, width, height) {
@@ -165,7 +157,6 @@ tm.graphics = tm.graphics || {};
         
         
         /**
-         * @property
          * index 指定でピクセル値をセット
          * 最も高速
          */
@@ -178,7 +169,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * x, y指定でピクセル値をセット
          */
         setPixelXY: function(x, y, r, g, b) {
@@ -186,7 +176,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * ピクセル値をセット
          */
         setPixel: function(index, r, g, b) {
@@ -194,7 +183,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setPixel32Index: function(index, r, g, b, a) {
@@ -207,7 +195,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setPixel32: function(x, y, r, g, b, a) {
@@ -215,7 +202,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setPixel32XY: function(x, y, r, g, b, a) {
@@ -223,7 +209,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setPixelFromArray: function(index, pixel) {
@@ -231,7 +216,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setPixel32FromArray: function(index, pixel) {
@@ -239,7 +223,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * argb
          */
         setPixelFromNumber: function(index, pixel) {
@@ -247,7 +230,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * argb
          */
         setPixel32FromNumber: function(index, pixel) {
@@ -255,14 +237,12 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * object
          */
         setPixelFromObject: function(index, pixel) {
             return this.setPixel(pixel.r, pixel.g, pixel.b);
         },
         /**
-         * @property
          * @TODO ?
          */
         setPixel32FromObject: function(index, pixel) {
@@ -270,7 +250,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * string
          * rgb, hsl, #... #...... などに対応予定
          */
@@ -279,7 +258,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * 位置をインデックスに変換
          */
         posToIndex: function(x, y) {
@@ -288,7 +266,6 @@ tm.graphics = tm.graphics || {};
         
         // filter: function(rect, filter)
         /**
-         * @property
          * @TODO ?
          */
         filter: function(filter) {
@@ -305,7 +282,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * ノイズ
          */
         noise: function(low, high) {
@@ -324,7 +300,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         applyFilter: function(filter) {
@@ -333,25 +308,24 @@ tm.graphics = tm.graphics || {};
         
     });
     
-    
+    /** @property width  幅 */
     tm.graphics.Bitmap.prototype.accessor("width", {
         "get": function()   { return this.imageData.width; },
         "set": function(v)  { this.iamgeData.width = v;    }
     });
-    
+    /** @property height  高さ */
     tm.graphics.Bitmap.prototype.accessor("height", {
         "get": function()   { return this.imageData.height; },
         "set": function(v)  { this.iamgeData.height = v;    }
     });
-    
+    /** @property length */
     tm.graphics.Bitmap.prototype.getter("length", function() {
         return this.imageData.width*this.imageData.height;
     });
     
     
     /**
-     * @member      tm.graphics.Canvas
-     * @property    getBitmap
+     * @member tm.graphics.Canvas
      * ビットマップ取得
      */
     tm.graphics.Canvas.prototype.getBitmap = function(x, y, width, height) {
@@ -359,8 +333,7 @@ tm.graphics = tm.graphics || {};
     };
     
     /**
-     * @member      tm.graphics.Canvas
-     * @property    createBitmap
+     * @member tm.graphics.Canvas
      * ビットマップ生成
      */
     tm.graphics.Canvas.prototype.createBitmap = function(width, height) {
@@ -369,7 +342,5 @@ tm.graphics = tm.graphics || {};
 
     var dummyCanvas = null;
     var dummyContext = null;
-    
-    
 })();
 
