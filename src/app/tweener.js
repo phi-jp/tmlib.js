@@ -134,9 +134,13 @@
             }
             else if (task.type == "call") {
                 task.data.func.apply(null, task.data.args);
+                // 1フレーム消費しないよう再帰
+                this._updateTask(app);
             }
             else if (task.type == "set") {
                 this.element.$extend(task.data.values);
+                // 1フレーム消費しないよう再帰
+                this._updateTask(app);
             }
         },
 
