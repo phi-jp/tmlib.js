@@ -12,41 +12,26 @@
     tm.define("tm.app.Object2D", {
         superClass: "tm.app.Element",
         
-        /**
-         * @property
-         * 位置
-         */
+        /** 位置 */
         position: null,
-
-        /**
-         * @property
-         * 回転
-         */
-        rotation: 0,
-
-        /**
-         * @property
-         * スケール
-         */
+        /** スケール */
         scale: null,
-        
-        /**
-         * @property
-         * 幅
-         * @private
-         */
+        /** 回転 */
+        rotation: 0,
+        /** @private  幅 */
         _width:  64,
-
-        /**
-         * @property
-         * 高さ
-         * @private
-         */
+        /** @private  高さ */
         _height: 64,
+        /** @property pointing      ポインティング */
+        /** @property origin        中心位置 */
+        /** @property _matrix       マトリックス */
+        /** @property hitFlags      ヒット判定フラグ */
+        /** @property downFlags     ダウンフラグ */
+        /** @property _worldMatrix  グローバル行列 */
+        /** @property _worldAlpha   グローバルのα値 */
         
         /**
-         * @property
-         * コンストラクタ
+         * @constructor
          * @param {Object} elm
          */
         init: function() {
@@ -69,7 +54,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          */
         getFinalMatrix: function() {
@@ -86,7 +70,6 @@
         },
         
         /**
-         * @property
          * 点と衝突しているかを判定
          * @param {Number} x
          * @param {Number} y
@@ -104,7 +87,6 @@
         },
  
         /**
-         * @property
          * @TODO ?
          * @param {Number} x
          * @param {Number} y
@@ -119,7 +101,6 @@
         },
  
         /**
-         * @property
          * @TODO ?
          * @param {Number} x
          * @param {Number} y
@@ -140,7 +121,6 @@
         },
         
         /**
-         * @property
          * 階層を考慮した円衝突判定
          * @param {Number} x
          * @param {Number} y
@@ -158,7 +138,6 @@
         },
         
         /**
-         * @property
          * 階層を考慮した矩形衝突判定
          * @param {Number} x
          * @param {Number} y
@@ -179,7 +158,6 @@
         },
         
         /**
-         * @property
          * 要素と衝突しているかを判定
          * @param {Object} elm
          */
@@ -192,7 +170,6 @@
         },
  
         /**
-         * @property
          * 円同士の衝突判定
          * @param {Object} elm
          */
@@ -201,7 +178,6 @@
         },
  
         /**
-         * @property
          * 円同士の衝突判定
          * @param {Object} elm
          */
@@ -210,7 +186,6 @@
         },
  
         /**
-         * @property
          * バウンディングサークル
          * @param {Object} elm
          */
@@ -219,7 +194,6 @@
         },
  
         /**
-         * @property
          * バウンディングレクト
          * @param {Object} elm
          */
@@ -228,7 +202,6 @@
         },
  
         /**
-         * @property
          * ローカル座標をグローバル座標に変換
          * @param {Object} elm
          */
@@ -237,7 +210,6 @@
         },
         
         /**
-         * @property
          * グローバル座標をローカル座標に変換
          * @param {Object} elm
          */
@@ -251,7 +223,6 @@
         },
         
         /**
-         * @property
          * X 座標値をセット
          * @param {Number} x
          */
@@ -261,7 +232,6 @@
         },
         
         /**
-         * @property
          * Y 座標値をセット
          * @param {Number} y
          */
@@ -271,7 +241,6 @@
         },
         
         /**
-         * @property
          * XY 座標をセット
          * @param {Number} x
          * @param {Number} y
@@ -283,7 +252,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @param {Number} rotation
          */
@@ -293,7 +261,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @param {Number} x
          * @param {Number} y
@@ -309,7 +276,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @param {Number} x
          * @param {Number} y
@@ -321,7 +287,6 @@
         },
         
         /**
-         * @property
          * 幅をセット
          * @param {Number} width
          */
@@ -331,7 +296,6 @@
         },
         
         /**
-         * @property
          * 高さをセット
          * @param {Number} height
          */
@@ -341,7 +305,6 @@
         },
         
         /**
-         * @property
          * サイズ(幅, 高さ)をセット
          * @param {Number} width
          * @param {Number} height
@@ -353,7 +316,6 @@
         },
         
         /**
-         * @property
          * 起動
          */
         wakeUp: function() {
@@ -362,7 +324,6 @@
         },
         
         /**
-         * @property
          * 停止
          */
         sleep: function() {
@@ -371,7 +332,6 @@
         },
         
         /**
-         * @property
          * タッチ判定の有効/無効をセット
          * @param {Boolean} flag
          */
@@ -381,7 +341,6 @@
         },
         
         /**
-         * @property
          * バウンディングタイプをセット("circle" or "rect")
          * @param {Object} type
          */
@@ -391,7 +350,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          * @param {Object} app
@@ -422,7 +380,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          * @param {Object} app
@@ -432,7 +389,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          * @param {Object} app
@@ -442,7 +398,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          * @param {Object} app
@@ -456,7 +411,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          * @param {Object} app
@@ -496,7 +450,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          * @param {Object} mouse
@@ -512,7 +465,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -559,7 +511,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -755,7 +706,7 @@
     };
  
     /**
-     * @member      tm.app.Object2D.prototype
+     * @member      tm.app.Object2D
      * @property    _setIsHitFunc
      * @private
      */
@@ -769,7 +720,7 @@
     };
     
     /**
-     * @member      tm.app.Object2D.prototype
+     * @member      tm.app.Object2D
      * @property    _checkPointing
      * @TODO ?
      * @param {Object} isMobile

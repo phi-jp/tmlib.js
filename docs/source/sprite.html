@@ -31,10 +31,10 @@ tm.display = tm.display || {};
      * @extends tm.display.CanvasElement
      */
     tm.display.Sprite = tm.createClass({
-<span id='tm-display-Sprite-method-constructor'>        superClass: tm.display.CanvasElement,
-</span>        
-        /**
-         * @constructor
+        superClass: tm.display.CanvasElement,
+        
+<span id='tm-display-Sprite-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function(texture, width, height) {
@@ -61,14 +61,14 @@ tm.display = tm.display || {};
                 
                 this.width  = width;
                 this.height = height;
-<span id='tm-display-Sprite-property-setFrameIndex'>                if (texture) {
-</span>                    this.image  = texture;
+                if (texture) {
+                    this.image  = texture;
                 }
             }
         },
         
-        /**
-         * @property
+<span id='tm-display-Sprite-property-setFrameIndex'>        /**
+</span>         * @property
          * @TODO ?
          */
         setFrameIndex: function(index, width, height) {
@@ -79,22 +79,22 @@ tm.display = tm.display || {};
             var y   = ~~(index/row);
             this.srcRect.x = x*w;
             this.srcRect.y = y*h;
-<span id='tm-display-Sprite-property-_refreshSize'>            this.srcRect.width  = w;
-</span>            this.srcRect.height = h;
+            this.srcRect.width  = w;
+            this.srcRect.height = h;
 
             return this;
         },
         
-        /**
-<span id='tm-display-Sprite-property-image'>         * @property
-</span>         * @TODO ?
+<span id='tm-display-Sprite-property-_refreshSize'>        /**
+</span>         * @property
+         * @TODO ?
          * @private
          */
         _refreshSize: function() {},
     });
     
-    /**
-     * @property    image
+<span id='tm-display-Sprite-property-image'>    /**
+</span>     * @property    image
      * 高さ
      */
     tm.display.Sprite.prototype.accessor(&quot;image&quot;, {

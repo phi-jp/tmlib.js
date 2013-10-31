@@ -3,6 +3,7 @@
  */
 
 tm.namespace("tm.app", function() {
+
     /**
      * @class tm.app.Timeline
      * タイムラインクラス
@@ -12,8 +13,7 @@ tm.namespace("tm.app", function() {
         superClass: "tm.event.EventDispatcher",
         
         /**
-         * @property
-         * コンストラクタ
+         * @constructor
          * @param {Object} elm
          */
         init: function(elm) {
@@ -31,7 +31,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * 更新
          * @param {Object} app
          */
@@ -50,7 +49,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -74,7 +72,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -99,7 +96,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * 指定した値までアニメーション
          * @param {Object} props
          * @param {Object} duration
@@ -118,7 +114,6 @@ tm.namespace("tm.app", function() {
         },
 
         /**
-         * @property
          * 指定した値を足した値までアニメーション
          * @param {Object} props
          * @param {Object} duration
@@ -140,7 +135,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * 関数を実行
          * @param {Function} func
          * @param {Object} delay
@@ -155,7 +149,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * プロパティをセット
          * @param {Object} props
          * @param {Object} delay
@@ -170,7 +163,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * ターゲットをセット
          * @param {Object} target
          */
@@ -185,7 +177,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * ターゲットをゲット
          */
         getTarget: function() {
@@ -193,7 +184,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * アニメーション開始
          * アニメーションが終了したら再度アニメーションを行う
          * @param {Number} frame
@@ -205,7 +195,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * アニメーション開始
          * アニメーションが終了したらストップする
          * @param {Number} frame
@@ -217,7 +206,6 @@ tm.namespace("tm.app", function() {
         },
 
         /**
-         * @property
          * tween を追加
          * @private
          * @param {Object} tween
@@ -237,7 +225,6 @@ tm.namespace("tm.app", function() {
         },
 
         /**
-         * @property
          * アニメーションを追加
          * @private
          * @param {Object} action
@@ -251,7 +238,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          * @param {Object} task
@@ -263,7 +249,6 @@ tm.namespace("tm.app", function() {
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          * @param {Object} t
@@ -273,7 +258,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * @TODO ?
          * @param {Object} data
          */
@@ -287,7 +271,6 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @property
          * アニメーションをクリア
          */
         clear: function() {
@@ -303,8 +286,9 @@ tm.namespace("tm.app", function() {
     
     
     /**
-     * @property    animation
-     * アニメーション
+     * @member      tm.app.Element
+     * @property    timeline
+     * タイムラインアニメーション
      */
     tm.app.Element.prototype.getter("timeline", function() {
         if (!this._timeline) {

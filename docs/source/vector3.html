@@ -26,38 +26,38 @@ tm.geom = tm.geom || {};
 
 
 (function() {
-<span id='tm-geom-Vector3'>    
-</span>    /**
-     * @class tm.geom.Vector3
+    
+<span id='tm-geom-Vector3'>    /**
+</span>     * @class tm.geom.Vector3
      * 3次元ベクトル
      */
-<span id='tm-geom-Vector3-property-x'>    tm.geom.Vector3 = tm.createClass({
-</span>        /**
-         * x 座標
+    tm.geom.Vector3 = tm.createClass({
+<span id='tm-geom-Vector3-property-x'>        /**
+</span>         * x 座標
          */
-<span id='tm-geom-Vector3-property-y'>        x: 0,
-</span>        /**
-         * y 座標
-<span id='tm-geom-Vector3-property-z'>         */
-</span>        y: 0,
-        /**
-         * z 座標
+        x: 0,
+<span id='tm-geom-Vector3-property-y'>        /**
+</span>         * y 座標
          */
-<span id='tm-geom-Vector3-method-constructor'>        z: 0,
-</span>        
+        y: 0,
+<span id='tm-geom-Vector3-property-z'>        /**
+</span>         * z 座標
+         */
+        z: 0,
+        
 
-        /**
-         * @constructor
+<span id='tm-geom-Vector3-method-constructor'>        /**
+</span>         * @constructor
          * ３次元ベクトル
          * 
          * - [Test Program](http://tmlib-js.googlecode.com/svn/trunk/test/geom/vector-test.html)
          */
         init: function(x, y, z) {
-<span id='tm-geom-Vector3-property-set'>            this.set(x, y, z);
-</span>        },
+            this.set(x, y, z);
+        },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-set'>        /**
+</span>         * @property
          * セット
          */
         set: function(x, y, z) {
@@ -65,90 +65,90 @@ tm.geom = tm.geom || {};
             this.y = y;
             this.z = z;
             
-<span id='tm-geom-Vector3-property-setNumber'>            return this;
-</span>        },
+            return this;
+        },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-setNumber'>        /**
+</span>         * @property
          * 数値からセット
          */
         setNumber: function(x, y, z) {
             this.x = x;
             this.y = y;
             this.z = z;
-<span id='tm-geom-Vector3-property-setArray'>            
-</span>            return this;
+            
+            return this;
         },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-setArray'>        /**
+</span>         * @property
          * 配列からセット
          */
         setArray: function(arr) {
             this.x = arr[0];
             this.y = arr[1];
-<span id='tm-geom-Vector3-property-setObject'>            this.z = arr[2];
-</span>            
-            return this;
-        },
-        
-        /**
-         * @property
-         * オブジェクトからセット
-         */
-        setObject: function(obj) {
-            this.x = obj.x;
-<span id='tm-geom-Vector3-property-setString'>            this.y = obj.y;
-</span>            this.z = obj.z;
+            this.z = arr[2];
             
             return this;
         },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-setObject'>        /**
+</span>         * @property
+         * オブジェクトからセット
+         */
+        setObject: function(obj) {
+            this.x = obj.x;
+            this.y = obj.y;
+            this.z = obj.z;
+            
+            return this;
+        },
+        
+<span id='tm-geom-Vector3-property-setString'>        /**
+</span>         * @property
          * 文字列からセット
          */
         setString: function(str) {
             var m = str.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
             this.x = parseFloat(m[1]);
-<span id='tm-geom-Vector3-property-setAngle'>            this.y = parseFloat(m[3]);
-</span>            this.z = parseFloat(m[5]);
+            this.y = parseFloat(m[3]);
+            this.z = parseFloat(m[5]);
             
             return this;
         },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-setAngle'>        /**
+</span>         * @property
          * 角度(radian)と長さでベクトルをセット
          */
         setAngle: function(thetaRad, phiRad, len) {
             len = len || 1;
             
             this.x = len * Math.cos(thetaRad) * Math.sin(phiRad);
-<span id='tm-geom-Vector3-property-setRadian'>            this.y = len * Math.sin(thetaRad);
-</span>            this.z = len * Math.cos(thetaRad) * Math.cos(phiRad);
+            this.y = len * Math.sin(thetaRad);
+            this.z = len * Math.cos(thetaRad) * Math.cos(phiRad);
             
             return this;
         },
         
-        /**
-         * @property
-<span id='tm-geom-Vector3-property-setDegree'>         * 角度(radian)と長さでベクトルをセット
-</span>         */
+<span id='tm-geom-Vector3-property-setRadian'>        /**
+</span>         * @property
+         * 角度(radian)と長さでベクトルをセット
+         */
         setRadian: function(thetaRad, phiRad, len) {
             return this.setAngle(thetaRad, phiRad, len);
         },
         
-        /**
-         * @property
-<span id='tm-geom-Vector3-property-setSmart'>         * 角度(degree)と長さでベクトルをセット
-</span>         */
+<span id='tm-geom-Vector3-property-setDegree'>        /**
+</span>         * @property
+         * 角度(degree)と長さでベクトルをセット
+         */
         setDegree: function(thetaDegree, phiDegree, len) {
             return this.setAngle(thetaDegree*Math.DEG_TO_RAD, phiDegree*Math.DEG_TO_RAD, len);
         },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-setSmart'>        /**
+</span>         * @property
          * 賢いセット
          */
         setSmart: function(x, y, z) {
@@ -173,8 +173,8 @@ tm.geom = tm.geom || {};
             }
             // String
             else if (typeof(v) == &quot;string&quot;) {
-<span id='tm-geom-Vector3-property-add'>                var m = v.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
-</span>                this.x = parseFloat(m[1]);
+                var m = v.match(/(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?),\s*(-?\d+(\.{1}\d+)?)/);
+                this.x = parseFloat(m[1]);
                 this.y = parseFloat(m[3]);
                 this.z = parseFloat(m[5]);
             }
@@ -182,9 +182,9 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-        /**
-<span id='tm-geom-Vector3-property-sub'>         * @property
-</span>         * 加算
+<span id='tm-geom-Vector3-property-add'>        /**
+</span>         * @property
+         * 加算
          */
         add: function(v) {
             this.x += v.x;
@@ -194,9 +194,9 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-        /**
-<span id='tm-geom-Vector3-property-mul'>         * @property
-</span>         * 減算
+<span id='tm-geom-Vector3-property-sub'>        /**
+</span>         * @property
+         * 減算
          */
         sub: function(v) {
             this.x -= v.x;
@@ -206,7 +206,7 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector3-property-div'>        /**
+<span id='tm-geom-Vector3-property-mul'>        /**
 </span>         * @property
          * 乗算
          */
@@ -218,11 +218,11 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-div'>        /**
+</span>         * @property
          * 除算
-<span id='tm-geom-Vector3-property-negate'>         */
-</span>        div: function(n) {
+         */
+        div: function(n) {
             console.assert(n != 0, &quot;0 division!!&quot;);
             this.x /= n;
             this.y /= n;
@@ -231,7 +231,7 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector3-method-dot'>        /**
+<span id='tm-geom-Vector3-property-negate'>        /**
 </span>         * @property
          * 反転
          */
@@ -240,11 +240,11 @@ tm.geom = tm.geom || {};
             this.y = -this.y;
             this.z = -this.z;
             
-<span id='tm-geom-Vector3-method-cross'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @method
+<span id='tm-geom-Vector3-method-dot'>        /**
+</span>         * @method
          * 内積.
          * 投影ベクトルを求めたり, 類似度に使ったり.
          */
@@ -252,43 +252,43 @@ tm.geom = tm.geom || {};
             return this.x * v.x + this.y * v.y + this.z * v.z;
         },
 
-        /**
-         * @method
-<span id='tm-geom-Vector3-property-length'>         * 外積
-</span>         */
+<span id='tm-geom-Vector3-method-cross'>        /**
+</span>         * @method
+         * 外積
+         */
         cross: function(v) {
             var x = this.y*v.z - this.z*v.y;
             var y = this.z*v.x - this.x*v.z;
             var z = this.x*v.y - this.y*v.x;
 
-<span id='tm-geom-Vector3-property-lengthSquared'>            this.set(x, y, z);
-</span>
+            this.set(x, y, z);
+
             return this;
         },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-length'>        /**
+</span>         * @property
          * 長さを取得
          * or magnitude
          */
         length: function() {
-<span id='tm-geom-Vector3-property-normalize'>            return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
-</span>        },
+            return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
+        },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-lengthSquared'>        /**
+</span>         * @property
          * 2乗された長さを取得
          * C# の名前を引用
          * or lengthSquare or lengthSqrt
          */
-<span id='tm-geom-Vector3-property-toVector2'>        lengthSquared: function() {
-</span>            return this.x*this.x + this.y*this.y + this.z*this.z;
+        lengthSquared: function() {
+            return this.x*this.x + this.y*this.y + this.z*this.z;
         },
         
-        /**
-         * @property
-<span id='tm-geom-Vector3-property-toAngleXY'>         * 正規化
-</span>         */
+<span id='tm-geom-Vector3-property-normalize'>        /**
+</span>         * @property
+         * 正規化
+         */
         normalize: function() {
             var length = this.length();
             this.div(length);
@@ -296,7 +296,7 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Vector3-property-to3D'>        /**
+<span id='tm-geom-Vector3-property-toVector2'>        /**
 </span>         * @property
          * @TODO ?
          */
@@ -305,7 +305,7 @@ tm.geom = tm.geom || {};
         },
         
 
-<span id='tm-geom-Vector3-property-equals'>        /**
+<span id='tm-geom-Vector3-property-toAngleXY'>        /**
 </span>         * @property
          * 角度(radian)に変換
          */
@@ -314,78 +314,78 @@ tm.geom = tm.geom || {};
         },
         
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-to3D'>        /**
+</span>         * @property
          * 3D化する
          */
         to3D: function() {
-<span id='tm-geom-Vector3-property-equalsArray'>            // TODO: 3d化する
-</span>        },
+            // TODO: 3d化する
+        },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-equals'>        /**
+</span>         * @property
          * 等しいか
          */
         equals: function(x, y, z) {
-<span id='tm-geom-Vector3-property-equalsObject'>            return ( (this.x === x) &amp;&amp; (this.y === y) &amp;&amp; (this.z === z) );
-</span>        },
+            return ( (this.x === x) &amp;&amp; (this.y === y) &amp;&amp; (this.z === z) );
+        },
         // equals: function(obj) {
             // return this.equals(obj.x, obj.y, obj.z);
         // },
         
-        /**
-<span id='tm-geom-Vector3-property-equalsSmart'>         * @property
-</span>         * 配列と等しいか
+<span id='tm-geom-Vector3-property-equalsArray'>        /**
+</span>         * @property
+         * 配列と等しいか
          */
         equalsArray: function(arr) {
-<span id='tm-geom-Vector3-property-toStyleString'>            return this.equals(arr[0], arr[1], arr[2]);
-</span>        },
+            return this.equals(arr[0], arr[1], arr[2]);
+        },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-equalsObject'>        /**
+</span>         * @property
          * オブジェクトと等しいか
          */
-<span id='tm-geom-Vector3-property-toString'>        equalsObject: function(obj) {
-</span>            return this.equals(obj.x, obj.y, obj.z);
+        equalsObject: function(obj) {
+            return this.equals(obj.x, obj.y, obj.z);
         },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-equalsSmart'>        /**
+</span>         * @property
          * 賢い比較
          */
-<span id='tm-geom-Vector3-property-setX'>        equalsSmart: function() {
-</span>            // TODO: 
+        equalsSmart: function() {
+            // TODO: 
         },
 
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-toStyleString'>        /**
+</span>         * @property
          * @TODO ?
          */
         toStyleString: function() {
-<span id='tm-geom-Vector3-property-setY'>            return &quot;{x:{x}, y:{y}, z:{z}}&quot;.format(this);
-</span>        },
+            return &quot;{x:{x}, y:{y}, z:{z}}&quot;.format(this);
+        },
 
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-toString'>        /**
+</span>         * @property
          * @TODO ?
          */
         toString: function() {
             return &quot;{x:{x}, y:{y}, z:{z}}&quot;.format(this);
         },
-<span id='tm-geom-Vector3-property-setZ'>        
-</span>        
-        /**
-         * @property
+        
+        
+<span id='tm-geom-Vector3-property-setX'>        /**
+</span>         * @property
          * X値をセット
          * チェーンメソッド用セッター
          */
         setX: function(x) {
             this.x = x;
-<span id='tm-geom-Vector3-static-method-min'>            return this;
-</span>        },
+            return this;
+        },
         
-        /**
-         * @property
+<span id='tm-geom-Vector3-property-setY'>        /**
+</span>         * @property
          * Y値をセット
          * チェーンメソッド用セッター
          */
@@ -394,9 +394,9 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-        /**
-<span id='tm-geom-Vector3-static-method-max'>         * @property
-</span>         * Z値をセット
+<span id='tm-geom-Vector3-property-setZ'>        /**
+</span>         * @property
+         * Z値をセット
          * チェーンメソッド用セッター
          */
         setZ: function(z) {
@@ -407,142 +407,142 @@ tm.geom = tm.geom || {};
     
     
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-min'>    /**
+</span>     * @method
      * @static
      * min
      */
-<span id='tm-geom-Vector3-static-method-add'>    tm.geom.Vector3.min = function(lhs, rhs) {
-</span>        return Vector3(
+    tm.geom.Vector3.min = function(lhs, rhs) {
+        return Vector3(
             (lhs.x &lt; rhs.x) ? lhs.x : rhs.x,
             (lhs.y &lt; rhs.y) ? lhs.y : rhs.y,
-<span id='tm-geom-Vector3-static-method-sub'>            (lhs.z &lt; rhs.z) ? lhs.z : rhs.z
-</span>        );
+            (lhs.z &lt; rhs.z) ? lhs.z : rhs.z
+        );
     };
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-max'>    /**
+</span>     * @method
      * @static
      * max
      */
     tm.geom.Vector3.max = function(lhs, rhs) {
         return Vector3(
-<span id='tm-geom-Vector3-static-method-mul'>            (lhs.x &gt; rhs.x) ? lhs.x : rhs.x,
-</span>            (lhs.y &gt; rhs.y) ? lhs.y : rhs.y,
+            (lhs.x &gt; rhs.x) ? lhs.x : rhs.x,
+            (lhs.y &gt; rhs.y) ? lhs.y : rhs.y,
             (lhs.z &gt; rhs.z) ? lhs.z : rhs.z
         );
     };
     
-    /**
-     * @method
-<span id='tm-geom-Vector3-static-method-div'>     * @static
-</span>     * 加算
+<span id='tm-geom-Vector3-static-method-add'>    /**
+</span>     * @method
+     * @static
+     * 加算
      */
     tm.geom.Vector3.add = function(lhs, rhs) {
         return tm.geom.Vector3(lhs.x+rhs.x, lhs.y+rhs.y, lhs.z+rhs.z);
     };
     
-    /**
-<span id='tm-geom-Vector3-static-method-dot'>     * @method
-</span>     * @static
+<span id='tm-geom-Vector3-static-method-sub'>    /**
+</span>     * @method
+     * @static
      * 減算
      */
     tm.geom.Vector3.sub = function(lhs, rhs) {
         return tm.geom.Vector3(lhs.x-rhs.x, lhs.y-rhs.y, lhs.z-rhs.z);
     };
     
-    /**
-     * @method
-<span id='tm-geom-Vector3-static-method-cross'>     * @static
-</span>     * 乗算
+<span id='tm-geom-Vector3-static-method-mul'>    /**
+</span>     * @method
+     * @static
+     * 乗算
      */
     tm.geom.Vector3.mul = function(v, n) {
         return tm.geom.Vector3(v.x*n, v.y*n, v.z*n);
     };
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-div'>    /**
+</span>     * @method
      * @static
      * 割算
      */
     tm.geom.Vector3.div = function(v, n) {
-<span id='tm-geom-Vector3-static-method-negate'>        return tm.geom.Vector3(v.x/n, v.y/n, v.z/n);
-</span>    };
+        return tm.geom.Vector3(v.x/n, v.y/n, v.z/n);
+    };
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-dot'>    /**
+</span>     * @method
      * @static
      * 内積.
      * 投影ベクトルを求めたり, 類似度に使ったり.
      */
-<span id='tm-geom-Vector3-static-method-distance'>    tm.geom.Vector3.dot = function(lhs, rhs) {
-</span>        return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+    tm.geom.Vector3.dot = function(lhs, rhs) {
+        return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
     };
     
 
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-cross'>    /**
+</span>     * @method
      * @static
      * 外積
      */
     tm.geom.Vector3.cross = function(lhs, rhs) {
-<span id='tm-geom-Vector3-static-method-distanceSquared'>        return tm.geom.Vector3(
-</span>            lhs.y*rhs.z - lhs.z*rhs.y,
+        return tm.geom.Vector3(
+            lhs.y*rhs.z - lhs.z*rhs.y,
             lhs.z*rhs.x - lhs.x*rhs.z,
             lhs.x*rhs.y - lhs.y*rhs.x
         );
     };
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-negate'>    /**
+</span>     * @method
      * @static
      * 反転
-<span id='tm-geom-Vector3-static-method-manhattanDistance'>     */
-</span>    tm.geom.Vector3.negate = function(v) {
+     */
+    tm.geom.Vector3.negate = function(v) {
         return tm.geom.Vector3(-v.x, -v.y, -v.z);
     };
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-distance'>    /**
+</span>     * @method
      * @static
      * ２点間の距離を返す
      */
-<span id='tm-geom-Vector3-static-method-reflect'>    tm.geom.Vector3.distance = function(lhs, rhs) {
-</span>        return Math.sqrt( Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2) );
+    tm.geom.Vector3.distance = function(lhs, rhs) {
+        return Math.sqrt( Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2) );
     };
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-distanceSquared'>    /**
+</span>     * @method
      * @static
      * ２点間の距離を返す
      */
-<span id='tm-geom-Vector3-static-method-lerp'>    tm.geom.Vector3.distanceSquared = function(lhs, rhs) {
-</span>        return Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2);
+    tm.geom.Vector3.distanceSquared = function(lhs, rhs) {
+        return Math.pow(lhs.x-rhs.x, 2) + Math.pow(lhs.y-rhs.y, 2) + Math.pow(lhs.z-rhs.z, 2);
     };
 
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-manhattanDistance'>    /**
+</span>     * @method
      * @static
      * マンハッタン距離
      */
     tm.geom.Vector3.manhattanDistance = function(lhs, rhs) {
-<span id='tm-geom-Vector3-static-method-slerp'>        return Math.abs(lhs.x-rhs.x) + Math.abs(lhs.y-rhs.y) + Math.abs(lhs.z-rhs.z);
-</span>    };
+        return Math.abs(lhs.x-rhs.x) + Math.abs(lhs.y-rhs.y) + Math.abs(lhs.z-rhs.z);
+    };
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-reflect'>    /**
+</span>     * @method
      * @static
      * 反射ベクトル
      */
-<span id='tm-geom-Vector3-static-method-random'>    tm.geom.Vector3.reflect = function(v, normal) {
-</span>        var len = Vector3.dot(v, normal);
+    tm.geom.Vector3.reflect = function(v, normal) {
+        var len = Vector3.dot(v, normal);
         var temp= Vector3.mul(normal, 2*len);
         
         return Vector3.sub(v, temp);
     };
 
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-lerp'>    /**
+</span>     * @method
      * @static
      * 補間.
      * 0.5 で lhs と rhs の中間ベクトルを求めることができます.
@@ -556,84 +556,84 @@ tm.geom = tm.geom || {};
     };
     
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-slerp'>    /**
+</span>     * @method
      * @static
      * 補間
      */
     tm.geom.Vector3.slerp = function(lhs, rhs, t) {
         // TODO:
-<span id='tm-geom-Vector3-static-property-ZERO'>        // cos...
-</span>    };
+        // cos...
+    };
     
-    /**
-     * @method
+<span id='tm-geom-Vector3-static-method-random'>    /**
+</span>     * @method
      * @static
-<span id='tm-geom-Vector3-static-property-LEFT'>     * min ~ max の間でランダムな方向のベクトルを生成する. len で長さ指定.
-</span>     */
-<span id='tm-geom-Vector3-static-property-RIGHT'>    tm.geom.Vector3.random = function(thetaMin, thetaMax, phiMin, phiMax, len) {
-</span>        thetaMin= thetaMin || 0;
+     * min ~ max の間でランダムな方向のベクトルを生成する. len で長さ指定.
+     */
+    tm.geom.Vector3.random = function(thetaMin, thetaMax, phiMin, phiMax, len) {
+        thetaMin= thetaMin || 0;
         thetaMax= thetaMax || 360;
         phiMin  = phiMin || 0;
-<span id='tm-geom-Vector3-static-property-UP'>        phiMax  = phiMax || 360;
-</span>        len = len || 1;
-<span id='tm-geom-Vector3-static-property-DOWN'>        return TM.Geom.Vector3().setFromDegree(TM.randomf(thetaMin, thetaMax), TM.randomf(phiMin, phiMax), len);
-</span>    };
+        phiMax  = phiMax || 360;
+        len = len || 1;
+        return TM.Geom.Vector3().setFromDegree(TM.randomf(thetaMin, thetaMax), TM.randomf(phiMin, phiMax), len);
+    };
     
     
     
     /*
     Vector3.prototype.accessor(&quot;length&quot;, {
-<span id='tm-geom-Vector3-static-property-FORWARD'>        &quot;get&quot;: function()    { return this.length(); },
-</span>        &quot;set&quot;: function(len) { this.normalize().mul(len); }
+        &quot;get&quot;: function()    { return this.length(); },
+        &quot;set&quot;: function(len) { this.normalize().mul(len); }
     });
     */
     
     
-<span id='tm-geom-Vector3-static-property-BACKWARD'>    /**
+<span id='tm-geom-Vector3-static-property-ZERO'>    /**
 </span>     * @property
      * @static
      * zero
      */
     tm.geom.Vector3.ZERO    = tm.geom.Vector3( 0, 0, 0);
     
-    /**
-     * @property
+<span id='tm-geom-Vector3-static-property-LEFT'>    /**
+</span>     * @property
      * @static
      * left
      */
     tm.geom.Vector3.LEFT    = tm.geom.Vector3(-1, 0, 0);
     
-    /**
-     * @property
+<span id='tm-geom-Vector3-static-property-RIGHT'>    /**
+</span>     * @property
      * @static
      * right
      */
     tm.geom.Vector3.RIGHT   = tm.geom.Vector3( 1, 0, 0);
     
-    /**
-     * @property
+<span id='tm-geom-Vector3-static-property-UP'>    /**
+</span>     * @property
      * @static
      * up
      */
     tm.geom.Vector3.UP      = tm.geom.Vector3( 0, 1, 0);
     
-    /**
-     * @property
+<span id='tm-geom-Vector3-static-property-DOWN'>    /**
+</span>     * @property
      * @static
      * down
      */
     tm.geom.Vector3.DOWN    = tm.geom.Vector3( 0,-1, 0);
     
-    /**
-     * @property
+<span id='tm-geom-Vector3-static-property-FORWARD'>    /**
+</span>     * @property
      * @static
      * forward
      */
     tm.geom.Vector3.FORWARD = tm.geom.Vector3( 0, 0,-1);
     
-    /**
-     * @property
+<span id='tm-geom-Vector3-static-property-BACKWARD'>    /**
+</span>     * @property
      * @static
      * backward
      */

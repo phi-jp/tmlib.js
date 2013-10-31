@@ -27,37 +27,37 @@
      * @extends tm.app.Scene
      */
     tm.define(&quot;tm.ui.MenuDialog&quot;, {
-<span id='tm-ui-MenuDialog-property-titleText'>        superClass: tm.app.Scene,
-</span>
-        /** @type {string} タイトル */
-<span id='tm-ui-MenuDialog-property-menu'>        titleText: null,
-</span><span id='tm-ui-MenuDialog-property-descriptions'>        /** @type {Array.&lt;string&gt;} メニュー名リスト */
+        superClass: tm.app.Scene,
+
+<span id='tm-ui-MenuDialog-property-titleText'>        /** @type {string} タイトル */
+</span>        titleText: null,
+<span id='tm-ui-MenuDialog-property-menu'>        /** @type {Array.&lt;string&gt;} メニュー名リスト */
 </span>        menu: null,
-<span id='tm-ui-MenuDialog-property-showExit'>        /** @type {Array.&lt;string&gt;} メニュー詳細リスト */
+<span id='tm-ui-MenuDialog-property-descriptions'>        /** @type {Array.&lt;string&gt;} メニュー詳細リスト */
 </span>        descriptions: null,
-<span id='tm-ui-MenuDialog-property-title'>        /** @type {boolean} exit の表示/非表示 */
+<span id='tm-ui-MenuDialog-property-showExit'>        /** @type {boolean} exit の表示/非表示 */
 </span>        showExit: false,
 
-<span id='tm-ui-MenuDialog-property-selections'>        /** @type {tm.display.Label} dummy */
+<span id='tm-ui-MenuDialog-property-title'>        /** @type {tm.display.Label} dummy */
 </span>        title: null,
-<span id='tm-ui-MenuDialog-property-description'>        /** @type {Array.&lt;tm.ui.LabelButton&gt;} dummy */
+<span id='tm-ui-MenuDialog-property-selections'>        /** @type {Array.&lt;tm.ui.LabelButton&gt;} dummy */
 </span>        selections: [],
-<span id='tm-ui-MenuDialog-property-box'>        /** @type {tm.display.Label} dummy */
+<span id='tm-ui-MenuDialog-property-description'>        /** @type {tm.display.Label} dummy */
 </span>        description: null,
-<span id='tm-ui-MenuDialog-property-cursor'>        /** @type {tm.display.RectangleShape} dummy */
+<span id='tm-ui-MenuDialog-property-box'>        /** @type {tm.display.RectangleShape} dummy */
 </span>        box: null,
-        /** @type {tm.display.RectangleShape} dummy */
-        cursor: null,
+<span id='tm-ui-MenuDialog-property-cursor'>        /** @type {tm.display.RectangleShape} dummy */
+</span>        cursor: null,
 
         _selected: 0,
         _opened: false,
-<span id='tm-ui-MenuDialog-method-constructor'>        _finished: false,
-</span>
+        _finished: false,
+
         _screenWidth: 0,
         _screenHeight: 0,
 
-        /**
-         * @constructor
+<span id='tm-ui-MenuDialog-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          * @param {Object} params
          */
@@ -98,12 +98,12 @@
             this.description = tm.display.Label(&quot;&quot;, 14)
                 .setAlign(&quot;center&quot;)
                 .setBaseline(&quot;middle&quot;)
-<span id='tm-ui-MenuDialog-property-_onOpen'>                .setPosition(this._screenWidth*0.5, this._screenHeight-10)
-</span>                .addChildTo(this);
+                .setPosition(this._screenWidth*0.5, this._screenHeight-10)
+                .addChildTo(this);
         },
 
-        /**
-         * @property
+<span id='tm-ui-MenuDialog-property-_onOpen'>        /**
+</span>         * @property
          * @TODO ?
          * @private
          */
@@ -154,12 +154,12 @@
             });
 
             // dispatch opened event
-<span id='tm-ui-MenuDialog-property-_createCursor'>            var e = tm.event.Event(&quot;menuopened&quot;);
-</span>            this.dispatchEvent(e);
+            var e = tm.event.Event(&quot;menuopened&quot;);
+            this.dispatchEvent(e);
         },
 
-        /**
-         * @property
+<span id='tm-ui-MenuDialog-property-_createCursor'>        /**
+</span>         * @property
          * @TODO ?
          * @private
          */
@@ -177,23 +177,23 @@
                     this.tweener.clear();
                     this.tweener.to({
                         y: this.parent.selections[this.parent._selected].y
-<span id='tm-ui-MenuDialog-property-update'>                    }, 200, &quot;easeOutExpo&quot;);
-</span>                }
+                    }, 200, &quot;easeOutExpo&quot;);
+                }
             };
 
             return cursor;
         },
 
-        /**
-         * @property
+<span id='tm-ui-MenuDialog-property-update'>        /**
+</span>         * @property
          * @TODO ?
          */
-<span id='tm-ui-MenuDialog-property-closeDialog'>        update: function(app) {
-</span>            this.description.text = this.descriptions[this._selected];
+        update: function(app) {
+            this.description.text = this.descriptions[this._selected];
         },
 
-        /**
-         * @property
+<span id='tm-ui-MenuDialog-property-closeDialog'>        /**
+</span>         * @property
          * @TODO ?
          */
         closeDialog: function(result) {
@@ -225,13 +225,13 @@
             this.cursor.tweener
                 .clear()
                 .call(function() {
-<span id='tm-ui-MenuDialog-property-draw'>                    this.visible = !this.visible;
-</span>                }.bind(this.cursor))
+                    this.visible = !this.visible;
+                }.bind(this.cursor))
                 .setLoop(true);
         },
 
-        /**
-         * @property
+<span id='tm-ui-MenuDialog-property-draw'>        /**
+</span>         * @property
          * @TODO ?
          */
         draw: function(canvas) {

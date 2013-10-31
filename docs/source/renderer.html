@@ -27,29 +27,29 @@
      * @TODO キャンバス描画クラス？
      */
     tm.define(&quot;tm.display.CanvasRenderer&quot;, {
-<span id='tm-display-CanvasRenderer-method-constructor'>        canvas: null,
-</span>
-        /**
-         * @constructor
+        canvas: null,
+
+<span id='tm-display-CanvasRenderer-method-constructor'>        /**
+</span>         * @constructor
          * コンストラクタ
          */
         init: function(canvas) {
             this.canvas = canvas;
-<span id='tm-display-CanvasRenderer-property-render'>            this._context = this.canvas.context;
-</span>        },
+            this._context = this.canvas.context;
+        },
 
-        /**
-         * @property
+<span id='tm-display-CanvasRenderer-property-render'>        /**
+</span>         * @property
          * @TODO ?
          */
         render: function(root) {
             this.canvas.save();
             this.renderObject(root);
-<span id='tm-display-CanvasRenderer-property-renderObject'>            this.canvas.restore();
-</span>        },
+            this.canvas.restore();
+        },
 
-        /**
-         * @property
+<span id='tm-display-CanvasRenderer-property-renderObject'>        /**
+</span>         * @property
          * @TODO ?
          */
         renderObject: function(obj) {
@@ -61,8 +61,8 @@
             if (!obj.draw) this._setRenderFunction(obj);
 
             // 情報をセット
-            context.fillStyle      = obj.fillStyle;
-            context.strokeStyle    = obj.strokeStyle;
+            if (obj.fillStyle)   context.fillStyle   = obj.fillStyle;
+            if (obj.strokeStyle) context.strokeStyle = obj.strokeStyle;
             context.globalAlpha    = obj._worldAlpha;
             context.globalCompositeOperation = obj.blendMode;
             
@@ -88,13 +88,13 @@
             if (obj.children.length &gt; 0) {
                 var tempChildren = obj.children.slice();
                 for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
-<span id='tm-display-CanvasRenderer-property-_setRenderFunction'>                    this.renderObject(tempChildren[i]);
-</span>                }
+                    this.renderObject(tempChildren[i]);
+                }
             }
         },
 
-        /**
-         * @property
+<span id='tm-display-CanvasRenderer-property-_setRenderFunction'>        /**
+</span>         * @property
          * @TODO ?
          * @private
          */
@@ -162,8 +162,8 @@
             }
             
             if (this.debugBox) {
-<span id='tm-display-BoundingRectRenderer'>                canvas.strokeRect(0, 0, this.width, -this.size);
-</span>            }
+                canvas.strokeRect(0, 0, this.width, -this.size);
+            }
         }
     };
 
@@ -174,34 +174,34 @@
  
 (function() {
     
-    /**
-     * @class tm.display.BoundingRectRenderer
+<span id='tm-display-BoundingRectRenderer'>    /**
+</span>     * @class tm.display.BoundingRectRenderer
      * @TODO なにをするクラス？
      * @extends tm.display.CanvasRenderer
      */
-<span id='tm-display-BoundingRectRenderer-method-constructor'>    tm.define(&quot;tm.display.BoundingRectRenderer&quot;, {
-</span>        superClass: &quot;tm.display.CanvasRenderer&quot;,
+    tm.define(&quot;tm.display.BoundingRectRenderer&quot;, {
+        superClass: &quot;tm.display.CanvasRenderer&quot;,
 
-        /**
-         * @constructor
-<span id='tm-display-BoundingRectRenderer-property-_setRenderFunction'>         * コンストラクタ
-</span>         */
+<span id='tm-display-BoundingRectRenderer-method-constructor'>        /**
+</span>         * @constructor
+         * コンストラクタ
+         */
         init: function(canvas) {
             this.superInit(canvas);
         },
 
-        /**
-         * @property
+<span id='tm-display-BoundingRectRenderer-property-_setRenderFunction'>        /**
+</span>         * @property
          * @TODO ?
          * @private
-<span id='tm-display-BoundingRectRenderer-method-render'>         */
-</span>        _setRenderFunction: function(obj) {
+         */
+        _setRenderFunction: function(obj) {
             obj.draw = render;
         }
     });
 
-    /**
-     * @TODO ?
+<span id='tm-display-BoundingRectRenderer-method-render'>    /**
+</span>     * @TODO ?
      * コンストラクタ
      */
     var render = function(canvas) {
