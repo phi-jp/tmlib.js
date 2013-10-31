@@ -19,27 +19,23 @@ tm.display = tm.display || {};
         
         superClass: tm.display.CanvasElement,
         
-        /**
-         * @property
-         * 塗りつぶしフラグ
-         */
+        /** 塗りつぶしフラグ */
         fill: true,
-
-        /**
-         * @property
-         * ストロークフラグ
-         */
+        /** ストロークフラグ */
         stroke: false,
-
-        /**
-         * @property
-         * @TODO ?
-         */
+        /** @TODO ? */
         debugBox: false,
-        
+
+        /** @property _fontSize @private */
+        /** @property _fontFamily @private */
+        /** @property _fontWeight @private */
+        /** @property _lineHeight @private */
+        /** @property align */
+        /** @property baseline */
+        /** @property maxWidth */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(text, size) {
             this.superInit();
@@ -59,7 +55,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         setAlign: function(align) {
@@ -68,7 +63,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         setBaseline: function(baseline) {
@@ -77,7 +71,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         setFontSize: function(size) {
@@ -86,7 +79,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         setFontFamily: function(family) {
@@ -95,7 +87,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setFontWeight: function(weight) {
@@ -104,7 +95,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -119,19 +109,18 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
         _updateLines: function() {
             this._lines = (this._text+'').split('\n');
-        }
+        },
         
     });
     
     /**
      * @property    text
-     * サイズ
+     * 文字
      */
     tm.display.Label.prototype.accessor("text", {
         "get": function() { return this._text; },
@@ -147,8 +136,8 @@ tm.display = tm.display || {};
     });
     
     /**
-     * @property    size
-     * サイズ
+     * @property    fontSize
+     * フォントサイズ
      */
     tm.display.Label.prototype.accessor("fontSize", {
         "get": function() { return this._fontSize; },
@@ -165,8 +154,7 @@ tm.display = tm.display || {};
     });
     
     /**
-     * @property fontWeight
-     * フォント
+     * @property    fontWeight
      */
     tm.display.Label.prototype.accessor("fontWeight", {
         "get": function() { return this._fontWeight; },
@@ -177,7 +165,6 @@ tm.display = tm.display || {};
     
     /**
      * @property lineHeight
-     * フォント
      */
     tm.display.Label.prototype.accessor("lineHeight", {
         "get": function() { return this._lineHeight; },

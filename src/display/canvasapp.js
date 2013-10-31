@@ -13,10 +13,17 @@ tm.display = tm.display || {};
      */
     tm.display.CanvasApp = tm.createClass({
         superClass: tm.app.BaseApp,
+
+        /** @property element */
+        /** @property canvas */
+        /** @property renderer */
+        /** @property background */
+        /** @property _scenes */
+        /** @property mouse */
+        /** @property touch */
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(canvas) {
             if (canvas instanceof HTMLCanvasElement) {
@@ -44,7 +51,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         resize: function(width, height) {
@@ -55,7 +61,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         resizeWindow: function() {
@@ -78,7 +83,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */

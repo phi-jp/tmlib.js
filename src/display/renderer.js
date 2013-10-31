@@ -10,7 +10,10 @@
      * @TODO キャンバス描画クラス？
      */
     tm.define("tm.display.CanvasRenderer", {
+        /** キャンバス */
         canvas: null,
+
+        /** @property _context @private */
 
         /**
          * @constructor

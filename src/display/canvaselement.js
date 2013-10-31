@@ -15,76 +15,35 @@ tm.display = tm.display || {};
     tm.display.CanvasElement = tm.createClass({
         superClass: tm.app.Object2D,
 
-        /**
-         * @property
-         * 更新フラグ
-         */
+        /** 更新フラグ */
         isUpdate: true,
-
-        /**
-         * @property
-         * 表示フラグ
-         */
+        /** 表示フラグ */
         visible: true,
-
-        /**
-         * @property
-         * fillStyle
-         */
+        /** fillStyle */
         fillStyle: "white",
-
-        /**
-         * @property
-         * strokeStyle
-         */
+        /** strokeStyle */
         strokeStyle: "white",
-
-        /**
-         * @property
-         * アルファ
-         */
+        /** アルファ */
         alpha: 1.0,
-
-        /**
-         * @property
-         * ブレンドモード
-         */
+        /** ブレンドモード */
         blendMode: "source-over",
-
-        /**
-         * @property
-         * シャドウカラー
-         */
+        /** シャドウカラー */
         shadowColor: "black",
-
-        /**
-         * @property
-         * @TODO ?
-         */
+        /** @TODO ? */
         shadowOffsetX: 0,
-
-        /**
-         * @property
-         * @TODO ?
-         */
+        /** @TODO ? */
         shadowOffsetY: 0,
-
-        /**
-         * @property
-         * @TODO ?
-         */
+        /** @TODO ? */
         shadowBlur: 0,
 
         /**
-         * @property
-         * コンストラクタ: ゲーム用エレメントクラス
+         * @constructor
          */
         init: function() {
             this.superInit();
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setAlpha: function(alpha) {
@@ -93,7 +52,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setShadowColor: function(color) {
@@ -102,7 +60,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         setShadowBlur: function(blur) {
@@ -111,7 +68,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         setShadowOffset: function(x, y) {
@@ -121,7 +77,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         drawBoundingCircle: function(canvas) {
@@ -132,7 +87,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         drawBoundingRect: function(canvas) {
@@ -143,7 +97,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         drawFillRect: function(ctx) {
@@ -151,7 +104,6 @@ tm.display = tm.display || {};
             return this;
         },
         /**
-         * @property
          * @TODO ?
          */
         drawStrokeRect: function(ctx) {
@@ -160,7 +112,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         drawFillArc: function(ctx) {
@@ -171,7 +122,6 @@ tm.display = tm.display || {};
             return this;
         },
         /**
-         * @property
          * @TODO ?
          */
         drawStrokeArc: function(ctx) {
@@ -183,7 +133,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         show: function() {
@@ -192,7 +141,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         hide: function() {
@@ -201,7 +149,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setFillStyle: function(style) {
@@ -210,7 +157,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setStrokeStyle: function(style) {
@@ -219,7 +165,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setBlendMode: function(blendMode) {
@@ -228,7 +173,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         load: function(data) {
@@ -269,7 +213,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         fromJSON: function(data) {
@@ -297,7 +240,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         toJSON: function() {
@@ -305,7 +247,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -321,7 +262,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -333,20 +273,4 @@ tm.display = tm.display || {};
 
 
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

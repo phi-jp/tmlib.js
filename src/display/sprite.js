@@ -16,9 +16,12 @@ tm.display = tm.display || {};
     tm.display.Sprite = tm.createClass({
         superClass: tm.display.CanvasElement,
         
+        /** @property srcRect */
+        /** @property width */
+        /** @property height */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(texture, width, height) {
             this.superInit();
@@ -51,7 +54,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         setFrameIndex: function(index, width, height) {
@@ -69,7 +71,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */

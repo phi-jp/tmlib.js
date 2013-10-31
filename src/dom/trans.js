@@ -6,22 +6,17 @@
      */
     tm.dom.Trans = tm.createClass({
         
-        /**
-         * @property
-         * エレメント
-         */
+        /** エレメント */
         element: null,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
         },
         
         /**
-         * @property
          * @TODO ?
          */
         to: function(props, t) {
@@ -30,7 +25,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         set: function(props) {
@@ -49,7 +43,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         duration: function(t) {
@@ -60,7 +53,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         easing: function(ease) {
@@ -70,7 +62,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         end: function(fn) {
@@ -80,7 +71,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         reset: function() {
@@ -90,7 +80,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         translate: function(x, y, t) {
@@ -99,7 +88,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         translate3d: function(x, y, z, t) {
@@ -108,7 +96,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         rotate: function(deg, t) {
@@ -117,7 +104,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         rotate3d: function(x, y, z, deg, t) {
@@ -126,7 +112,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         scale: function(x, y, t) {
@@ -135,7 +120,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         transform: function() {
@@ -145,7 +129,6 @@
         // -------------------------------------
         
         /**
-         * @property
          * @TODO ?
          */
         setProp: function(prop) {
@@ -164,7 +147,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setDuration: function(t) {
@@ -174,7 +156,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setTimingFunction: function(func) {
@@ -184,7 +165,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         resetProp: function() {
@@ -194,7 +174,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setEndFunction: function(fn) {
@@ -204,10 +183,15 @@
         },
     });
     
+    /** @static @property */
     tm.dom.Trans.PROPERTY        = tm.VENDER_PREFIX + "TransitionProperty";
+    /** @static @property */
     tm.dom.Trans.DURATION        = tm.VENDER_PREFIX + "TransitionDuration";
+    /** @static @property */
     tm.dom.Trans.TIMING_FUNCTION = tm.VENDER_PREFIX + "TransitionTimingFunction";
+    /** @static @property */
     tm.dom.Trans.DELAY           = tm.VENDER_PREFIX + "TransitionDelay";
+    /** @static @method @member tm.dom.Trans */
     tm.dom.Trans.END_EVENT       = (function(){
         return {
             "webkit": "webkitTransitionEnd",
