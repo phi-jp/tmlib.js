@@ -5,7 +5,7 @@
 (function() {
     
     /**
-     * @class Object
+     * @class window.Object
      * Objectの拡張
      */
     

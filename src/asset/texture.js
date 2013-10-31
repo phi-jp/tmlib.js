@@ -12,14 +12,10 @@
     tm.define("tm.asset.Texture", {
         superClass: "tm.event.EventDispatcher",
         
-        /**
-         * window.document.Image
-         */
+        /** window.document.Image */
         element: null,
 
-        /**
-         * ロード済みかどうか
-         */
+        /** ロード済みかどうか */
         loaded: false,
         
         /**

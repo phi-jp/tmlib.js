@@ -5,7 +5,7 @@
 (function() {
     
     /**
-     * @class   Array
+     * @class   window.Array
      * Arrayの拡張
      * 
      *      @example display

@@ -5,7 +5,7 @@
 (function() {
     
     /**
-     * @class   Function
+     * @class   window.Function
      * Functionの拡張
      */
     if (!Function.prototype.bind) {
