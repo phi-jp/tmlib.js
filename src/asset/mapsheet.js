@@ -7,13 +7,15 @@
     /**
      * @class tm.asset.MapSheet
      * マップシート
+     * @extends tm.event.EventDispatcher
      */
     tm.define("tm.asset.MapSheet", {
         superClass: "tm.event.EventDispatcher",
+
+        /** @property loaded  */
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(path) {
             this.superInit();
@@ -38,7 +40,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -61,7 +62,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -87,7 +87,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -144,7 +143,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -161,7 +159,6 @@
         },
 
         /**
-         * @property
          * http://thekannon-server.appspot.com/herpity-derpity.appspot.com/pastebin.com/75Kks0WH
          * @private
          */
@@ -182,13 +179,11 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
         _propertiesToJson: function(elm) {
             var obj = {};
-            var properties = elm.getElementsByTagName('property');
             for (var k = 0;k < properties.length;k++) {
                 obj[properties[k].getAttribute('name')] = properties[k].getAttribute('value');
             }
@@ -197,7 +192,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -213,7 +207,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */

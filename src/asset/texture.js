@@ -13,20 +13,17 @@
         superClass: "tm.event.EventDispatcher",
         
         /**
-         * @property
          * window.document.Image
          */
         element: null,
 
         /**
-         * @property
          * ロード済みかどうか
          */
         loaded: false,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(src) {
             this.superInit();
@@ -43,8 +40,7 @@
         },
         
         /**
-         * @property
-         * window.document.Imageクラスのインスタンスを返す
+         * window.document.Image クラスのインスタンスを返す
          */
         getElement: function() {
             return this.element;

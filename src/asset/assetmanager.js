@@ -14,9 +14,12 @@
     tm.define("tm.asset.AssetManager", {
         superClass: "tm.event.EventDispatcher",
 
+        /** @property assets  */
+        /** @property _funcs  @private */
+        /** @property _loadedCounter  @private */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this.superInit();
@@ -28,7 +31,6 @@
         },
 
         /**
-         * @property
          * アセットのロード
          * @param {Object} key
          * @param {Object} path
@@ -61,9 +63,8 @@
         },
 
         /**
-         * @property
          * アセットのロード
-         * private
+         * @private
          * @param {Object} key
          * @param {Object} path
          * @param {Object} type
@@ -88,7 +89,6 @@
         },
 
         /**
-         * @property
          * アセットのゲット
          * @param {Object} key
          */
@@ -97,7 +97,6 @@
         },
 
         /**
-         * @property
          * アセットのセット
          * @param {Object} key
          * @param {Object} asset
@@ -108,7 +107,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @param {Object} key
          */
@@ -117,7 +115,6 @@
         },
 
         /**
-         * @property
          * アセットのセット
          * @param {Object} key
          * @param {Object} asset
@@ -127,7 +124,6 @@
         },
 
         /**
-         * @property
          * ロード済みか調べる
          */
         isLoaded: function() {
@@ -135,7 +131,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
