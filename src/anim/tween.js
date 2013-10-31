@@ -16,65 +16,34 @@ tm.anim = tm.anim || {};
         
         superClass: tm.event.EventDispatcher,
         
-        /**
-         * @property
-         * アニメーションさせる対象
-         */
+
+        /** @property target     アニメーションさせる対象  */
         target      : null,
-        /**
-         * @property
-         * アニメーションの時間
-         */
+        /** @property time       アニメーションの時間  */
         time        : null,
-        /**
-         * @property
-         * プロパティ 未使用？
-         */
+        /** @property prop       プロパティ 未使用？  */
         prop        : null,
-        /**
-         * @property
-         * ?
-         */
+        /** @property nowProps   現在のプロパティ  */
+        nowProps    : null,
+        /** @property now        未使用  */
         now         : null,
-        /**
-         * @property
-         * ?
-         */
+        /** @property begin      未使用  */
         begin       : null,
-        /**
-         * @property
-         * ?
-         */
+        /** @property finish     未使用  */
         finish      : null,
-        /**
-         * @property
-         * アニメーションにかける時間
-         */
+        /** @property duration   アニメーションにかける時間  */
         duration    : null,
-        /**
-         * @property
-         * ループするかどうか
-         */
+        /** @property isLooping  ループするかどうか  */
         isLooping   : null,
-        /**
-         * @property
-         * アニメーション中かどうか
-         */
+        /** @property isPlaying  アニメーション中かどうか  */
         isPlaying   : null,
-        /**
-         * @property
-         * アニメーション実行関数
-         */
+        /** @method   func       アニメーション実行関数  */
         func        : Math.linear,
+        /** @property fps        フレームレート  */
+        fps         : 30,
         
         /**
-         * @property
-         * フレームレート
-         */
-        fps     : 30,
-        
-        /**
-         * @property init
+         * @constructor init
          * コンストラクタ
          * @param {Object} target
          * @param {Object} finishProps
@@ -94,7 +63,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property to
+         * @method to
          * 指定した値までアニメーション
          * @param {Object} target
          * @param {Object} finishProps
@@ -114,7 +83,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property by
+         * @method by
          * 指定した値を足した値までアニメーション
          * @param {Object} target
          * @param {Object} props
@@ -136,7 +105,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property fromTo
+         * @method fromTo
          * 開始の値から終了の値までアニメーション
          * @param {Object} target
          * @param {Object} beginProps
@@ -161,7 +130,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property from
+         * @method from
          * @TODO ?
          * @param {Object} target
          * @param {Object} beginProps
@@ -181,7 +150,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property setTransition
+         * @method setTransition
          * easingの指定か、コールバックの指定か調べる
          * @param {Function} func
          */
@@ -199,7 +168,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property resume
+         * @method resume
          * アニメーションの再開
          */
         resume: function() {
@@ -210,7 +179,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property start
+         * @method start
          * アニメーションの開始
          */
         start: function() {
@@ -221,7 +190,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property stop
+         * @method stop
          * アニメーションのストップ
          */
         stop: function() {
@@ -230,7 +199,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property rewind
+         * @method rewind
          * 開始位置まで戻る
          */
         rewind: function() {
@@ -239,7 +208,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property fforward
+         * @method fforward
          * 最後位置まで早送り
          */
         fforward: function() {
@@ -248,7 +217,7 @@ tm.anim = tm.anim || {};
         },
 
         /**        
-         * @property yoyo
+         * @method yoyo
          * ヨーヨーのアニメーション
          */
         yoyo: function() {
@@ -262,7 +231,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property update
+         * @method update
          * 更新
          */
         update: function() {
@@ -274,7 +243,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property _resumeTime
+         * @method _resumeTime
          * 時間を巻き戻す
          * @private
          */
@@ -283,7 +252,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property _startTime
+         * @method _startTime
          * スタート時間を設定
          * @private
          */
@@ -292,7 +261,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property _updateTime
+         * @method _updateTime
          * 時間を進める
          * @private
          */
@@ -304,7 +273,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property _setTime
+         * @method _setTime
          * 時間を設定する
          * @param {Object} t
          * @private
@@ -359,7 +328,7 @@ tm.anim = tm.anim || {};
      */
     tm.anim.easing = {
         /**
-         * @property
+         * @method
          * default
          */
         "default": function(t, b, c, d) {
@@ -367,7 +336,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @method
          * linear
          */
         linear: function(t, b, c, d) {
@@ -375,7 +344,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @method
          * swing
          */
         swing: function(t, b, c, d) {
@@ -383,7 +352,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @method
          * easeInQuad
          */
         easeInQuad: function(t, b, c, d) {
@@ -391,7 +360,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @method
          * easeOutQuad
          */
         easeOutQuad: function(t, b, c, d) {
@@ -399,7 +368,7 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property
+         * @method
          * easeInOutQuad
          */
         easeInOutQuad: function(t, b, c, d) {
@@ -408,7 +377,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * defeInCubic
          */   
         easeInCubic: function(t, b, c, d) {
@@ -416,7 +385,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutCubic
          */
         easeOutCubic: function(t, b, c, d) {
@@ -424,7 +393,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInOutCubic
          */
         easeInOutCubic: function(t, b, c, d) {
@@ -433,7 +402,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutInCubic
          */
         easeOutInCubic: function(t, b, c, d) {
@@ -442,7 +411,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInQuart
          */
         easeInQuart: function(t, b, c, d) {
@@ -450,7 +419,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutQuart
          */
         easeOutQuart: function(t, b, c, d) {
@@ -458,7 +427,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInOutQuart
          */
         easeInOutQuart: function(t, b, c, d) {
@@ -467,7 +436,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutInQuart
          */
         easeOutInQuart: function(t, b, c, d) {
@@ -476,7 +445,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInQuint
          */
         easeInQuint: function(t, b, c, d) {
@@ -484,7 +453,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutQuint
          */
         easeOutQuint: function(t, b, c, d) {
@@ -492,7 +461,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInOutQuint
          */
         easeInOutQuint: function(t, b, c, d) {
@@ -501,7 +470,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutInQuint
          */
         easeOutInQuint: function(t, b, c, d) {
@@ -510,7 +479,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInSine
          */
         easeInSine: function(t, b, c, d) {
@@ -518,7 +487,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutSine
          */
         easeOutSine: function(t, b, c, d) {
@@ -526,7 +495,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInOutSine
          */
         easeInOutSine: function(t, b, c, d) {
@@ -534,7 +503,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutInSine
          */
         easeOutInSine: function(t, b, c, d) {
@@ -543,7 +512,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInExpo
          */
         easeInExpo: function(t, b, c, d) {
@@ -551,7 +520,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutExpo
          */
         easeOutExpo: function(t, b, c, d) {
@@ -559,7 +528,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInOutExpo
          */
         easeInOutExpo: function(t, b, c, d) {
@@ -570,7 +539,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutInExpo
          */
         easeOutInExpo: function(t, b, c, d) {
@@ -579,7 +548,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInCirc
          */
         easeInCirc: function(t, b, c, d) {
@@ -587,7 +556,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutCirc
          */
         easeOutCirc: function(t, b, c, d) {
@@ -595,7 +564,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInOutCirc
          */
         easeInOutCirc: function(t, b, c, d) {
@@ -604,7 +573,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutInCirc
          */
         easeOutInCirc: function(t, b, c, d) {
@@ -613,7 +582,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInElastic
          */
         easeInElastic: function(t, b, c, d, a, p) {
@@ -624,7 +593,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutElastic
          */
         easeOutElastic: function(t, b, c, d, a, p) {
@@ -635,7 +604,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInOutElastic
          */
         easeInOutElastic: function(t, b, c, d, a, p) {
@@ -647,7 +616,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutInElastic
          */
         easeOutInElastic: function(t, b, c, d, a, p) {
@@ -656,7 +625,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInBack
          */
         easeInBack: function(t, b, c, d, s) {
@@ -665,7 +634,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutBack
          */
         easeOutBack: function(t, b, c, d, s) {
@@ -674,7 +643,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInOutBack
          */
         easeInOutBack: function(t, b, c, d, s) {
@@ -684,7 +653,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutInBack
          */
         easeOutInBack: function(t, b, c, d, s) {
@@ -693,7 +662,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInBounce
          */
         easeInBounce: function(t, b, c, d) {
@@ -701,7 +670,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutBounce
          */
         easeOutBounce: function(t, b, c, d) {
@@ -717,7 +686,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeInOutBounce
          */
         easeInOutBounce: function(t, b, c, d) {
@@ -726,7 +695,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property
+         * @method
          * easeOutInBounce
          */
         easeOutInBounce: function(t, b, c, d) {
