@@ -14,16 +14,16 @@ tm.event = tm.event || {};
      */
     tm.define("tm.event.EventDispatcher", {
 
+        /** @private @property _listeners */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this._listeners = {};
         },
 
         /**
-         * @property
          * イベントリスナー追加(addEventListenerと同様)
          */
         on: function(type, listener) {
@@ -36,7 +36,6 @@ tm.event = tm.event || {};
         },
         
         /**
-         * @property
          * イベントリスナー追加
          */
         addEventListener: function(type, listener) {
@@ -49,7 +48,6 @@ tm.event = tm.event || {};
         },
         
         /**
-         * @property
          * イベント起動
          */
         dispatchEvent: function(e) {
@@ -66,7 +64,6 @@ tm.event = tm.event || {};
         },
         
         /**
-         * @property
          * 登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
@@ -75,7 +72,6 @@ tm.event = tm.event || {};
         },
         
         /**
-         * @property
          * リスナーを削除
          */
         removeEventListener: function(type, listener) {
@@ -88,7 +84,6 @@ tm.event = tm.event || {};
         },
         
         /**
-         * @property
          * リスナーを全てクリア
          */
         clearEventListener: function(type) {

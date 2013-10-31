@@ -11,20 +11,21 @@ tm.geom = tm.geom || {};
      * 円クラス
      */
     tm.define("tm.geom.Circle", {
+        /** x */
         x: 0,
+        /** y */
         y: 0,
+        /** 半径 */
         radius: 0,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(x, y, radius) {
             this.set(x, y, radius);
         },
         
         /**
-         * @property
          * セッター
          */
         set: function(x, y, radius) {
@@ -36,7 +37,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * 移動
          */
         move: function(x, y) {
@@ -46,7 +46,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * 現在位置を基準に移動
          */
         moveBy: function(x, y) {
@@ -56,7 +55,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * リサイズ
          */
         resize: function(size) {
@@ -65,7 +63,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * 現在のサイズを基準にリサイズ
          */
         resizeBy: function(size) {
@@ -74,7 +71,6 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @property
          * クローン作成
          */
         clone: function() {
@@ -82,7 +78,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * 四角形に変換
          */
         toRect: function() {
@@ -94,7 +89,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * 配列に変換
          */
         toArray: function() {

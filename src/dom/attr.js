@@ -19,7 +19,6 @@ tm.dom = tm.dom || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(element) {
             this.element = element;

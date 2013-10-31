@@ -12,15 +12,11 @@ tm.event = tm.event || {};
      */
     tm.event.Event = tm.createClass({
         
-        /**
-         * @property
-         * タイプ
-         */
+        /** タイプ */
         type: null,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(type) {
             this.type = type;
@@ -41,10 +37,12 @@ tm.event = tm.event || {};
     tm.event.TweenEvent = tm.createClass({
         
         superClass: tm.event.Event,
-        
+
+        /** @property time */
+        /** @property now */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(type, time, now) {
             this.superInit(type);
@@ -55,11 +53,17 @@ tm.event = tm.event || {};
         
     });
     
+    /** @static @property */
     tm.event.TweenEvent.CHANGE    = "change";
+    /** @static @property */
     tm.event.TweenEvent.FINISH    = "finish";
+    /** @static @property */
     tm.event.TweenEvent.LOOP      = "loop";
+    /** @static @property */
     tm.event.TweenEvent.RESUME    = "resume";
+    /** @static @property */
     tm.event.TweenEvent.START     = "start";
+    /** @static @property */
     tm.event.TweenEvent.STOP      = "stop";
     
 })();
@@ -78,9 +82,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
+        /** @property app */
+        /** @property pointing */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(type, app, pointing) {
             this.superInit(type);
@@ -107,9 +113,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
+        /** @property app */
+        /** @property pointing */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(type, app, pointing) {
             this.superInit(type);
@@ -135,9 +143,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
+        /** @property app */
+        /** @property pointing */
+        
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(type, app, pointing) {
             this.superInit(type);
