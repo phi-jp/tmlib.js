@@ -13,15 +13,13 @@ tm.app = tm.app || {};
      */
     tm.app.Collision = tm.createClass({
         
-        /**
-         * @property
-         * @TODO ?
-         */
+        /** @property */
+        element: null,
+        /** @property */
         collideList: null,
-        
+
         /**
-         * @property
-         * コンストラクタ
+         * @constructor
          * @param {Object} elm
          */
         init: function(elm) {
@@ -30,7 +28,6 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @property
          * 更新
          * @param {Object} app
          */
@@ -66,7 +63,6 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @property
          * 追加
          * @param {Object} elm
          */
@@ -78,7 +74,6 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @property
          * 削除
          * @param {Object} elm
          */
