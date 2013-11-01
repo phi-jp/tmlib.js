@@ -15,9 +15,13 @@ tm.geom = tm.geom || {};
      * 2次元ベクトル
      */
     tm.geom.Vector2 = tm.createClass({
-        /** x座標 */
+        /**
+         * x 座標
+         */
         x: 0,
-        /** y座標 */
+        /**
+         * y 座標
+         */
         y: 0,
         
         /**
@@ -244,6 +248,7 @@ tm.geom = tm.geom || {};
 
         /**
          * @method
+         * @static
          * 内積.
          * 投影ベクトルを求めたり, 類似度に使ったり.
          */
@@ -253,6 +258,7 @@ tm.geom = tm.geom || {};
 
         /**
          * @method
+         * @static
          * 外積
          */
         cross: function(v) {

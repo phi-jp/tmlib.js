@@ -13,7 +13,8 @@
         superClass: "tm.event.EventDispatcher",
 
         /**
-         * @constructor
+         * @property
+         * コンストラクタ
          * @param {Object} elm
          */
         init: function(elm) {
@@ -26,6 +27,7 @@
         },
 
         /**
+         * @property
          * 初期化
          */
         _init: function() {
@@ -36,6 +38,7 @@
         },
 
         /**
+         * @property
          * ターゲットのセット
          * @param {Object} target
          */
@@ -50,6 +53,7 @@
         },
 
         /**
+         * @property
          * 更新
          * @param {Object} app
          */
@@ -88,6 +92,7 @@
         },
 
         /**
+         * @property
          * タスクの更新
          * @private
          * @param {Object} app
@@ -140,6 +145,7 @@
         },
 
         /**
+         * @property
          * Tween の更新
          * @private
          * @param {Object} elm
@@ -162,6 +168,7 @@
         },
 
         /**
+         * @property
          * 時間の更新
          * @private
          * @param {Object} elm
@@ -178,6 +185,7 @@
         },
 
         /**
+         * @property
          * @TODO ?
          * @param {Object} param
          */
@@ -199,6 +207,7 @@
         },
 
         /**
+         * @property
          * 指定した値を足した値までアニメーション
          * @param {Object} props
          * @param {Object} duration
@@ -215,6 +224,7 @@
         },
 
         /**
+         * @property
          * 指定した値までアニメーション
          * @param {Object} props
          * @param {Object} duration
@@ -231,6 +241,7 @@
         },
 
         /**
+         * @property
          * 移動アニメーション
          * @param {Number} x
          * @param {Number} y
@@ -242,6 +253,7 @@
         },
 
         /**
+         * @property
          * 指定した値を足した座標までアニメーション
          * @param {Number} x
          * @param {Number} y
@@ -253,6 +265,7 @@
         },
 
         /**
+         * @property
          * 回転アニメーション
          * @param {Number} rotation
          * @param {Object} duration
@@ -263,6 +276,7 @@
         },
 
         /**
+         * @property
          * 拡縮アニメーション
          * @param {Number} scale
          * @param {Object} duration
@@ -273,6 +287,7 @@
         },
 
         /**
+         * @property
          * フェードアニメーション
          * @param {Object} value
          * @param {Object} duration
@@ -283,6 +298,7 @@
         },
 
         /**
+         * @property
          * フェードイン
          * @param {Object} duration
          */
@@ -292,6 +308,7 @@
         },
 
         /**
+         * @property
          * フェードアウト
          * @param {Object} duration
          */
@@ -301,6 +318,7 @@
         },
 
         /**
+         * @property
          * Tween のタスクを追加
          * @private
          * @param {Object} param
@@ -327,6 +345,7 @@
         },
 
         /**
+         * @property
          * 待ち時間
          * @param {Object} time
          */
@@ -341,6 +360,7 @@
         },
 
         /**
+         * @property
          * コールバックを登録
          * @param {Function} fn
          * @param {Object} args
@@ -358,6 +378,7 @@
         },
 
         /**
+         * @property
          * プロパティをセット
          * @param {Object} key
          * @param {Object} value
@@ -382,6 +403,7 @@
         },
 
         /**
+         * @property
          * アニメーション開始
          */
         play: function() {
@@ -390,6 +412,7 @@
         },
 
         /**
+         * @property
          * アニメーションを一時停止
          */
         pause: function() {
@@ -398,6 +421,7 @@
         },
 
         /**
+         * @property
          * アニメーションを巻き戻す
          */
         rewind: function() {
@@ -408,6 +432,7 @@
         },
 
         /**
+         * @property
          * アニメーションループ設定
          * @param {Boolean} flag
          */
@@ -417,18 +442,20 @@
         },
 
         /**
+         * @property
          * アニメーションをクリア
          */
         clear: function() {
             this._init();
             return this;
         }
+
     });
 
     /**
-     * @member      tm.app.Element
+     * @member      tm.app.Element.prototype
      * @property    tweener
-     * トゥイーンアニメーション
+     * @TODO ?
      */
     tm.app.Element.prototype.getter("tweener", function() {
         if (!this._tweener) {

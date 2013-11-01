@@ -15,12 +15,16 @@ tm.app = tm.app || {};
     tm.app.Scene = tm.createClass({
         superClass: tm.app.Object2D,
     
-        /** @private  @TODO ? */
+        /**
+         * @property
+         * @TODO ?
+         * @private
+         */
         _sceneResultCallback: null,
-        /** @property  boundingType  当たり判定の形 */
 
         /**
          * @constructor
+         * コンストラクタ
          */
         init: function() {
             this.superInit();
@@ -51,7 +55,8 @@ tm.app = tm.app || {};
         superClass: tm.app.Scene,
         
         /**
-         * @constructor
+         * @property
+         * コンストラクタ
          * @param {Object} param
          */
         init: function(param) {
@@ -121,14 +126,15 @@ tm.app = tm.app || {};
     
     /**
      * @class tm.app.TitleScene
-     * タイトルシーン
+     * ローディングシーン
      * @extends tm.app.Scene
      */
     tm.app.TitleScene = tm.createClass({
         superClass: tm.app.Scene,
         
         /**
-         * @constructor
+         * @property
+         * コンストラクタ
          * @param {Object} param
          */
         init: function(param) {
@@ -154,6 +160,7 @@ tm.app = tm.app || {};
         },
 
         /**
+         * @property
          * pointingstartイベント登録
          */
         onpointingstart: function() {
@@ -180,14 +187,15 @@ tm.app = tm.app || {};
     
     /**
      * @class tm.app.ResultScene
-     * リザルトシーン
+     * ローディングシーン
      * @extends tm.app.Scene
      */
     tm.app.ResultScene = tm.createClass({
         superClass: tm.app.Scene,
         
         /**
-         * @constructor
+         * @property
+         * コンストラクタ
          * @param {Object} param
          */
         init: function(param) {

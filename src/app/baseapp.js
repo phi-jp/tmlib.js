@@ -13,33 +13,77 @@ tm.app = tm.app || {};
      */
     tm.app.BaseApp = tm.createClass({
         
-        /** エレメント */
-        element       : null,
-        /** マウスクラス */
-        mouse         : null,
-        /** タッチクラス */
-        touch         : null,
-        /** マウスクラス + タッチクラス */
-        pointing      : null,
-        /** キーボードクラス */
-        keyboard      : null,
-        /** 加速度センサー */
-        accelerometer : null,
-        /** statsライブラリ */
-        stats         : null,
-        /** フレーム */
-        frame         : 0,
-        /** フレームレート */
-        fps           : 30,
-        /** 現在更新中か */
-        isPlaying     : null,
-        /** @private  シーン情報の管理 */
-        _scenes       : null,
-        /** @private  シーンのインデックス */
-        _sceneIndex   : 0,
+        /**
+         * @property
+         * エレメント
+         */
+        element     : null,
 
         /**
-         * @constructor
+         * @property
+         * マウスクラス
+         */
+        mouse       : null,
+
+        /**
+         * @property
+         * タッチクラス
+         */
+        touch       : null,
+
+        /**
+         * @property
+         * マウスクラス + タッチクラス
+         */
+        pointing    : null,
+
+        /**
+         * @property
+         * キーボードクラス
+         */
+        keyboard    : null,
+
+        /**
+         * @property
+         * statsライブラリ
+         */
+        stats       : null,
+
+        /**
+         * @property
+         * フレーム
+         */
+        frame       : 0,
+
+        /**
+         * @property
+         * フレームレート
+         */
+        fps         : 30,
+
+        /**
+         * @property
+         * 現在更新中か
+         */
+        isPlaying   : null,
+        
+        /**
+         * @property
+         * シーン情報の管理
+         * @private
+         */
+        _scenes      : null,
+
+        /**
+         * @property
+         * シーンのインデックス
+         * @private
+         */
+        _sceneIndex  : 0,
+
+        /**
+         * @property init
+         * コンストラクタ
          * @param {Object} elm
          */
         init: function(elm) {
@@ -81,6 +125,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 実行
          */
         run: function() {
@@ -110,6 +155,7 @@ tm.app = tm.app || {};
         },
         
         /*
+         * @property
          * ループ処理
          * @private
          */
@@ -127,6 +173,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * シーンを切り替える
          * @param {Object} scene
          * ## Reference
@@ -148,6 +195,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * シーンをプッシュする(ポーズやオブション画面などで使用)
          * @param {Object} scene
          */
@@ -166,6 +214,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * シーンをポップする(ポーズやオブション画面などで使用)
          */
         popScene: function() {
@@ -186,6 +235,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 外部のFPS表示ライブラリ Stats を生成、配置する
          * ## Reference
          * - <https://github.com/mrdoob/stats.js>
@@ -206,6 +256,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * @TODO ?
          */
         enableDatGUI: function() {
@@ -217,6 +268,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * シーンのupdateを実行するようにする
          */
         start: function() {
@@ -224,6 +276,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * シーンのupdateを実行しないようにする
          */
         stop: function() {
@@ -231,6 +284,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * デバイスやシーンのアップデート呼び出し処理
          * @private
          */
@@ -248,12 +302,14 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * @TODO ? オーバーライド予定？
          * @private
          */
         _draw: function() {},
         
         /**
+         * @property
          * elementの取得
          */
         getElement: function() {
@@ -261,6 +317,7 @@ tm.app = tm.app || {};
         },
 
         /**
+         * @property
          * クリックイベント登録
          * @private
          * @param {Object} e
@@ -292,9 +349,9 @@ tm.app = tm.app || {};
     });
     
     /**
-     * @property currentScene
+     * @member      tm.app.BaseApp
+     * @property    currentScene
      * カレントシーン
-     * @TODO どうしよう？
      */
     tm.app.BaseApp.prototype.accessor("currentScene", {
         "get": function() { return this._scenes[this._sceneIndex]; },

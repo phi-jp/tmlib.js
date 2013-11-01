@@ -16,23 +16,32 @@ tm.app = tm.app || {};
     tm.app.Element = tm.createClass({
         superClass: tm.event.EventDispatcher,
         
-        /** 親 */
+        /**
+         * @property
+         * 親
+         */
         parent: null,
-        /** 子 */
+
+        /**
+         * @property
+         * 子
+         */
         children: null,
-        /** @private */
-        _listeners: null,
         
         /**
-         * @constructor
+         * @property init
+         * コンストラクタ
          */
         init: function() {
+            
             this.superInit();
+            
             this.children = [];
             this._listeners = {};
         },
         
         /**
+         * @property
          * 親から離す
          */
         remove: function() {
@@ -45,6 +54,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 子供を追加
          * @param {Object} child
          */
@@ -60,6 +70,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * parent に自分を子供として追加
          * @param {Object} parent
          */
@@ -74,6 +85,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * まとめて追加
          * scene 遷移時に子供をごっそり移譲するときなどに使用
          * まだ動作確認していない
@@ -87,6 +99,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * index 指定で要素を取得
          */
         addChildAt: function(child, index) {
@@ -101,13 +114,14 @@ tm.app = tm.app || {};
         },
         
         /**
-         * 指定で要素を取得
+         * index 指定で要素を取得
          */
         getChildAt: function(child) {
             return this.children.indexOf(child);
         },
         
         /**
+         * @property
          * child に一致するエレメントを離す
          * @param {Object} child
          */
@@ -121,6 +135,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * すべての child を離す
          * @param {Object} beginIndex
          */
@@ -134,6 +149,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 名前の一致する child を取得
          * @param {String} name
          */
@@ -145,6 +161,7 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 関数実行
          * @param {Function} func
          * @param {Object} args
@@ -159,11 +176,13 @@ tm.app = tm.app || {};
         },
         
         /**
+         * @property
          * 親を取得
          */
         getParent: function() { return this.parent; },
         
         /**
+         * @property
          * ルートを取得
          */
         getRoot: function() {
@@ -174,9 +193,6 @@ tm.app = tm.app || {};
             return elm;
         },
         
-        /**
-         * jsonをパースしてthisに展開
-         */
         fromJSON: function(data) {
             for (var key in data) {
                 var value = data[key];
