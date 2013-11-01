@@ -30,10 +30,10 @@ tm.social = tm.social || {};
      */
     tm.social.Nineleap = tm.social.Nineleap || {};
     
-    var BASE_URL = &quot;http://9leap.net/games/{id}/result?score={score}&amp;result={result}&quot;;
-
-<span id='tm-social-Nineleap-property-createURL'>    /**
-</span>     * @member      tm.social.Nineleap
+<span id='tm-social-Nineleap-property-createURL'>    var BASE_URL = &quot;http://9leap.net/games/{id}/result?score={score}&amp;result={result}&quot;;
+</span>
+    /**
+     * @member      tm.social.Nineleap
      * @property    createURL
      */
     tm.social.Nineleap.createURL = function(id, score, result) {
@@ -41,11 +41,11 @@ tm.social = tm.social || {};
             id      : id,
             score   : score,
             result  : result
-        });
-    };
+<span id='tm-social-Nineleap-property-postRanking'>        });
+</span>    };
 
-<span id='tm-social-Nineleap-property-postRanking'>    /**
-</span>     * @member      tm.social.Nineleap
+    /**
+     * @member      tm.social.Nineleap
      * @property    postRanking
      */
     tm.social.Nineleap.postRanking = function(score, result) {

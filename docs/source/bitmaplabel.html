@@ -37,10 +37,10 @@ tm.app = tm.app || {};
     // });
 
     tm.display.BitmapLabel = tm.createClass({
-        superClass: tm.display.Shape,
-
-<span id='tm-display-BitmapLabel-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-display-BitmapLabel-method-constructor'>        superClass: tm.display.Shape,
+</span>
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(params) {
@@ -53,11 +53,11 @@ tm.app = tm.app || {};
         	if (typeof texture == &quot;string&quot;) texture = tm.asset.AssetManager.get(texture);
         	this.texture = texture;
 
-        	this.render(params.text);
-        },
+<span id='tm-display-BitmapLabel-property-render'>        	this.render(params.text);
+</span>        },
 
-<span id='tm-display-BitmapLabel-property-render'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         render: function(text) {

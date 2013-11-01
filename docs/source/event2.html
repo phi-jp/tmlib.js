@@ -28,15 +28,15 @@ tm.event = tm.event || {};
      * イベントクラス
      */
     tm.event.Event = tm.createClass({
-        
-<span id='tm-event-Event-property-type'>        /**
-</span>         * @property
+<span id='tm-event-Event-property-type'>        
+</span>        /**
+         * @property
          * タイプ
          */
-        type: null,
-        
-<span id='tm-event-Event-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-event-Event-method-constructor'>        type: null,
+</span>        
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(type) {
@@ -44,23 +44,23 @@ tm.event = tm.event || {};
         },
         
     });
-    
-})();
+<span id='tm-event-TweenEvent'>    
+</span>})();
 
 
 (function() {
     
-<span id='tm-event-TweenEvent'>    /**
-</span>     * @class tm.event.TweenEvent
+    /**
+     * @class tm.event.TweenEvent
      * Tween Event
      * @extends tm.event.Event
      */
     tm.event.TweenEvent = tm.createClass({
         
-        superClass: tm.event.Event,
-        
-<span id='tm-event-TweenEvent-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-event-TweenEvent-method-constructor'>        superClass: tm.event.Event,
+</span>        
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(type, time, now) {
@@ -77,8 +77,8 @@ tm.event = tm.event || {};
     tm.event.TweenEvent.LOOP      = &quot;loop&quot;;
     tm.event.TweenEvent.RESUME    = &quot;resume&quot;;
     tm.event.TweenEvent.START     = &quot;start&quot;;
-    tm.event.TweenEvent.STOP      = &quot;stop&quot;;
-    
+<span id='tm-event-MouseEvent'>    tm.event.TweenEvent.STOP      = &quot;stop&quot;;
+</span>    
 })();
 
 
@@ -86,17 +86,17 @@ tm.event = tm.event || {};
 
 (function() {
     
-<span id='tm-event-MouseEvent'>    /**
-</span>     * @class tm.event.MouseEvent
+    /**
+     * @class tm.event.MouseEvent
      * Pointing Event
      * @extends tm.event.Event
      */
     tm.event.MouseEvent = tm.createClass({
-        
-        superClass: tm.event.Event,
+<span id='tm-event-MouseEvent-method-constructor'>        
+</span>        superClass: tm.event.Event,
 
-<span id='tm-event-MouseEvent-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(type, app, pointing) {
@@ -104,8 +104,8 @@ tm.event = tm.event || {};
             
             this.app = app;
             this.pointing = pointing;
-        }
-        
+<span id='tm-event-TouchEvent'>        }
+</span>        
     });
     
 })();
@@ -115,25 +115,25 @@ tm.event = tm.event || {};
 
 (function() {
     
-<span id='tm-event-TouchEvent'>    /**
-</span>     * @class tm.event.TouchEvent
+    /**
+     * @class tm.event.TouchEvent
      * Pointing Event
      * @extends tm.event.Event
      */
-    tm.event.TouchEvent = tm.createClass({
-        
+<span id='tm-event-TouchEvent-method-constructor'>    tm.event.TouchEvent = tm.createClass({
+</span>        
         superClass: tm.event.Event,
 
-<span id='tm-event-TouchEvent-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(type, app, pointing) {
             this.superInit(type);
             
             this.app = app;
-            this.pointing = pointing;
-        }
+<span id='tm-event-PointingEvent'>            this.pointing = pointing;
+</span>        }
         
     });
     
@@ -143,17 +143,17 @@ tm.event = tm.event || {};
 
 (function() {
     
-<span id='tm-event-PointingEvent'>    /**
-</span>     * @class tm.event.PointingEvent
+    /**
+     * @class tm.event.PointingEvent
      * Pointing Event
      * @extends tm.event.Event
      */
-    tm.event.PointingEvent = tm.createClass({
-        
+<span id='tm-event-PointingEvent-method-constructor'>    tm.event.PointingEvent = tm.createClass({
+</span>        
         superClass: tm.event.Event,
 
-<span id='tm-event-PointingEvent-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(type, app, pointing) {
