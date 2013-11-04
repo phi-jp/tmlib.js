@@ -172,10 +172,6 @@
             file.load({
                 url: path,
                 dataType: 'json',
-                success: function(o) {
-                    self.$extend(o);
-                    self.loaded = true;
-                }
             });
         }
         else {
