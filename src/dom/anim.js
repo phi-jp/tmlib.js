@@ -24,9 +24,10 @@ tm.dom = tm.dom || {};
      */
     tm.dom.Anim = tm.createClass({
         
+        /** @property element */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
@@ -38,9 +39,7 @@ tm.dom = tm.dom || {};
             }, false);
         },
         
-        
         /**
-         * @property
          * アニメーション開始
          */
         start: function() {
@@ -49,7 +48,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * アニメーション終了
          */
         stop: function() {
@@ -58,7 +56,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * プロパティをセット
          */
         setProperty: function(prop) {
@@ -76,7 +73,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * 名前をセット
          */
         setName: function(name) {
@@ -85,7 +81,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * アニメーション時間の長さをセット
          */
         setDuration: function(s) {
@@ -94,7 +89,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * 補間関数をセット
          */
         setTimingFunction: function(func) {
@@ -103,7 +97,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * イテレータカウントをセット
          */
         setIterationCount: function(n) {
@@ -112,7 +105,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * アニメーション開始待ち時間をセット
          */
         setDelay: function(s) {
@@ -121,7 +113,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * 判定再生させるかどうかを指定
          * "normal" or "alternate"
          */
@@ -131,9 +122,6 @@ tm.dom = tm.dom || {};
         },
     });
     
-    /**
-     * @enum
-     */
     var ANIM_SETTER_FUNC_NAME_MAP = {
         // 小文字対応
         "name"          : tm.dom.Anim.prototype.setName,
@@ -152,7 +140,6 @@ tm.dom = tm.dom || {};
     
     /**
      * @property    anim
-     * アニメーション
      */
     tm.dom.Element.prototype.getter("anim", function() {
         return this._anim || (this._anim = tm.dom.Anim(this.element));

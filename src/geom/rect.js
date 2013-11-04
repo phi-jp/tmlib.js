@@ -11,21 +11,23 @@ tm.geom = tm.geom || {};
      * 四角形クラス
      */
     tm.geom.Rect = tm.createClass({
+        /** x */
         x: 0,
+        /** y */
         y: 0,
+        /** 幅 */
         width: 0,
+        /** 高さ */
         height: 0,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(x, y, width, height) {
             this.set(x, y, width, height);
         },
         
         /**
-         * @property
          * セッター
          */
         set: function(x, y, width, height) {
@@ -39,7 +41,6 @@ tm.geom = tm.geom || {};
         
 
         /**
-         * @property
          * 移動
          */
         move: function(x, y) {
@@ -49,7 +50,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * 現在位置を基準に移動
          */
         moveBy: function(x, y) {
@@ -59,7 +59,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * リサイズ
          */
         resize: function(w, h) {
@@ -69,7 +68,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * 現在のサイズを基準にリサイズ
          */
         resizeBy: function(w, h) {
@@ -79,7 +77,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * パディング.
          * 縮めたりなど. 画面ハミ出しチェック時などに便利
          * ## example
@@ -116,7 +113,6 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @property
          * クローン
          */
         clone: function() {
@@ -124,7 +120,6 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         toCircle: function() {
@@ -136,7 +131,6 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         toArray: function() {

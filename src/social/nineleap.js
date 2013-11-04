@@ -17,7 +17,7 @@ tm.social = tm.social || {};
 
     /**
      * @member      tm.social.Nineleap
-     * @property    createURL
+     * @method      createURL
      */
     tm.social.Nineleap.createURL = function(id, score, result) {
         return BASE_URL.format({
@@ -29,7 +29,7 @@ tm.social = tm.social || {};
 
     /**
      * @member      tm.social.Nineleap
-     * @property    postRanking
+     * @method      postRanking
      */
     tm.social.Nineleap.postRanking = function(score, result) {
         if (location.hostname == 'r.jsgames.jp') {

@@ -9,14 +9,15 @@
      * Item クラス
      */
     tm.Item = tm.createClass({
-        
+        /** prev */
         prev: null,
+        /** next */
         next: null,
+        /** data */
         data: null,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
         }
@@ -37,7 +38,6 @@
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this._length = 0;
@@ -49,7 +49,6 @@
         },
         
         /**
-         * @property
          * 追加
          */
         add: function(data) {
@@ -68,7 +67,6 @@
         },
         
         /**
-         * @property
          * 削除
          */
         remove: function(index) {
@@ -83,7 +81,6 @@
         },
         
         /**
-         * @property
          * ゲット
          */
         get: function(index) {
@@ -91,7 +88,6 @@
         },
         
         /**
-         * @property
          * アイテムを取得
          */
         getItem: function(index) {
@@ -106,7 +102,6 @@
         },
         
         /**
-         * @property
          * 繰り返し
          */
         forEach: function(fn) {
@@ -114,7 +109,6 @@
         },
         
         /**
-         * @property
          * クリア
          */
         clear: function() {
@@ -122,7 +116,6 @@
         },
         
         /**
-         * @property
          * クローン
          */
         clone: function() {
@@ -130,7 +123,6 @@
         },
         
         /**
-         * @property
          * 最初の要素を取得
          */
         getFirst: function() {
@@ -138,7 +130,6 @@
         },
         
         /**
-         * @property
          * 最後の要素を取得
          */
         getLast: function() {
@@ -146,7 +137,6 @@
         },
         
         /**
-         * @property
          * 最初に一致した位置のインデックスを取得
          */
         indexOf: function(obj) {
@@ -154,7 +144,6 @@
         },
         
         /**
-         * @property
          * 最後に一致した位置のインデックスを取得
          */
         lastIndexOf: function(obj) {
@@ -162,7 +151,6 @@
         },
         
         /**
-         * @property
          * 配列に変換
          */
         toArray: function() {
@@ -180,7 +168,6 @@
         },
         
         /**
-         * @property
          * 文字列に変換
          */
         toString: function() {

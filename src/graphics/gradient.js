@@ -22,7 +22,6 @@ tm.graphics = tm.graphics || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(x, y, width, height) {
             if (!dummyCanvas) {
@@ -34,8 +33,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
-         * 初期化
          * @private
          */
         _init: function(x, y, width, height) {
@@ -43,7 +40,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         addColorStop: function(offset, color) {
@@ -52,7 +48,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         addColorStopList: function(prop) {
@@ -65,7 +60,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         toStyle: function() {
@@ -83,7 +77,6 @@ tm.graphics = tm.graphics || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */        
         init: function(x0, y0, r0, x1, y1, r1) {
             if (!dummyCanvas) {
@@ -95,8 +88,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
-         * 初期化
          * @private
          */
         _init: function(x0, y0, r0, x1, y1, r1) {
@@ -104,7 +95,6 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         addColorStop: function(offset, color) {
@@ -113,7 +103,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         addColorStopList: function(prop) {
@@ -126,7 +115,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         toStyle: function() {
@@ -135,8 +123,6 @@ tm.graphics = tm.graphics || {};
         
     });
 
-
-    
     var dummyCanvas = null;
     var dummyContext = null;
     

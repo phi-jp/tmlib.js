@@ -17,7 +17,6 @@ tm.ui = tm.ui || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, color, direction) {
             this.superInit(width, height, {
@@ -29,7 +28,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         isFull: function() {
@@ -37,7 +35,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         isEmpty: function() {
@@ -45,7 +42,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -79,7 +75,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setValue: function(value, anim) {
@@ -113,7 +108,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         getValue: function() {
@@ -121,7 +115,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setPercent: function(percent, anim) {
@@ -129,7 +122,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         getPercent: function() {
@@ -137,7 +129,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setRatio: function(ratio) {
@@ -145,7 +136,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         getRatio: function() {
@@ -225,7 +215,6 @@ tm.ui = tm.ui || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this.superInit(120, 120);
@@ -243,7 +232,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -258,7 +246,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         onpointingstart: function() {
@@ -266,7 +253,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         onpointingend: function() {
@@ -275,7 +261,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         onpointingmove: function(e) {

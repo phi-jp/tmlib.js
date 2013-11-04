@@ -5,7 +5,7 @@
 (function() {
     
     /**
-     * @class   Number
+     * @class global.Number
      * Numberの拡張
      */
     

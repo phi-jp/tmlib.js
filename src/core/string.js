@@ -5,7 +5,7 @@
 (function() {
     
     /**
-     * @class String
+     * @class global.String
      * Stringの拡張
      * `String` is a global object that may be used to construct String instances.
      */

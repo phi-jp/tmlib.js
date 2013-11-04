@@ -16,9 +16,16 @@ tm.display = tm.display || {};
     tm.display.AnimationSprite = tm.createClass({
         superClass: tm.display.CanvasElement,
 
+        /** @property ss                 sprite sheet */
+        /** @property width              width */
+        /** @property height             height */
+        /** @property currentFrame       現在のフレーム */
+        /** @property currentFrameIndex  現在のフレームインデックス */
+        /** @property paused             ポーズ */
+        /** @property currentAnimation   現在のアニメーション */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(ss, width, height) {
             this.superInit();
@@ -49,7 +56,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * 描画
          */
         draw: function(canvas) {
@@ -62,7 +68,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         gotoAndPlay: function(name) {
@@ -78,7 +83,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         gotoAndStop: function(name) {
@@ -94,7 +98,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -104,7 +107,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */

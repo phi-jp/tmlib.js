@@ -15,67 +15,34 @@ tm.anim = tm.anim || {};
     tm.anim.Tween = tm.createClass({
         
         superClass: tm.event.EventDispatcher,
-        
-        /**
-         * @property
-         * アニメーションさせる対象
-         */
+
+        /** アニメーションさせる対象  */
         target      : null,
-        /**
-         * @property
-         * アニメーションの時間
-         */
+        /** アニメーションの時間  */
         time        : null,
-        /**
-         * @property
-         * プロパティ 未使用？
-         */
+        /** プロパティ 未使用？  */
         prop        : null,
-        /**
-         * @property
-         * ?
-         */
+        /** 現在のプロパティ  */
+        nowProps    : null,
+        /** 未使用  */
         now         : null,
-        /**
-         * @property
-         * ?
-         */
+        /** 未使用  */
         begin       : null,
-        /**
-         * @property
-         * ?
-         */
+        /** 未使用  */
         finish      : null,
-        /**
-         * @property
-         * アニメーションにかける時間
-         */
+        /** アニメーションにかける時間  */
         duration    : null,
-        /**
-         * @property
-         * ループするかどうか
-         */
+        /** ループするかどうか  */
         isLooping   : null,
-        /**
-         * @property
-         * アニメーション中かどうか
-         */
+        /** アニメーション中かどうか  */
         isPlaying   : null,
-        /**
-         * @property
-         * アニメーション実行関数
-         */
+        /** アニメーション実行関数  */
         func        : Math.linear,
+        /** フレームレート  */
+        fps         : 30,
         
         /**
-         * @property
-         * フレームレート
-         */
-        fps     : 30,
-        
-        /**
-         * @property init
-         * コンストラクタ
+         * @constructor
          * @param {Object} target
          * @param {Object} finishProps
          * @param {Object} duration
@@ -94,7 +61,6 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property to
          * 指定した値までアニメーション
          * @param {Object} target
          * @param {Object} finishProps
@@ -114,7 +80,6 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property by
          * 指定した値を足した値までアニメーション
          * @param {Object} target
          * @param {Object} props
@@ -136,7 +101,6 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property fromTo
          * 開始の値から終了の値までアニメーション
          * @param {Object} target
          * @param {Object} beginProps
@@ -161,7 +125,6 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @property from
          * @TODO ?
          * @param {Object} target
          * @param {Object} beginProps
@@ -181,7 +144,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property setTransition
          * easingの指定か、コールバックの指定か調べる
          * @param {Function} func
          */
@@ -199,7 +161,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property resume
          * アニメーションの再開
          */
         resume: function() {
@@ -210,7 +171,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property start
          * アニメーションの開始
          */
         start: function() {
@@ -221,7 +181,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property stop
          * アニメーションのストップ
          */
         stop: function() {
@@ -230,7 +189,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property rewind
          * 開始位置まで戻る
          */
         rewind: function() {
@@ -239,7 +197,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property fforward
          * 最後位置まで早送り
          */
         fforward: function() {
@@ -248,7 +205,6 @@ tm.anim = tm.anim || {};
         },
 
         /**        
-         * @property yoyo
          * ヨーヨーのアニメーション
          */
         yoyo: function() {
@@ -262,7 +218,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property update
          * 更新
          */
         update: function() {
@@ -274,7 +229,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property _resumeTime
          * 時間を巻き戻す
          * @private
          */
@@ -283,7 +237,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property _startTime
          * スタート時間を設定
          * @private
          */
@@ -292,7 +245,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property _updateTime
          * 時間を進める
          * @private
          */
@@ -304,7 +256,6 @@ tm.anim = tm.anim || {};
         },
         
         /**
-         * @property _setTime
          * 時間を設定する
          * @param {Object} t
          * @private
@@ -358,286 +309,155 @@ tm.anim = tm.anim || {};
      * - <http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html>
      */
     tm.anim.easing = {
-        /**
-         * @property
-         * default
-         */
+        /** default */
         "default": function(t, b, c, d) {
             return c*t/d + b;
-        },
-        
-        /**
-         * @property
-         * linear
-         */
+        },        
+        /** linear */
         linear: function(t, b, c, d) {
             return c*t/d + b;
-        },
-        
-        /**
-         * @property
-         * swing
-         */
+        },        
+        /** swing */
         swing: function(t, b, c, d) {
             return -c *(t/=d)*(t-2) + b;
-        },
-        
-        /**
-         * @property
-         * easeInQuad
-         */
+        },        
+        /** easeInQuad */
         easeInQuad: function(t, b, c, d) {
             return c*(t/=d)*t + b;
-        },
-        
-        /**
-         * @property
-         * easeOutQuad
-         */
+        },        
+        /** easeOutQuad */
         easeOutQuad: function(t, b, c, d) {
             return -c *(t/=d)*(t-2) + b;
-        },
-        
-        /**
-         * @property
-         * easeInOutQuad
-         */
+        },        
+        /** easeInOutQuad */
         easeInOutQuad: function(t, b, c, d) {
             if((t/=d/2) < 1) return c/2*t*t + b;
             return -c/2 *((--t)*(t-2) - 1) + b;
         },
-
-        /**
-         * @property
-         * defeInCubic
-         */   
+        /** defeInCubic */
         easeInCubic: function(t, b, c, d) {
             return c*(t/=d)*t*t + b;
         },
-
-        /**
-         * @property
-         * easeOutCubic
-         */
+        /** easeOutCubic */
         easeOutCubic: function(t, b, c, d) {
             return c*((t=t/d-1)*t*t + 1) + b;
         },
-
-        /**
-         * @property
-         * easeInOutCubic
-         */
+        /** easeInOutCubic */
         easeInOutCubic: function(t, b, c, d) {
             if((t/=d/2) < 1) return c/2*t*t*t + b;
             return c/2*((t-=2)*t*t + 2) + b;
         },
-
-        /**
-         * @property
-         * easeOutInCubic
-         */
+        /** easeOutInCubic */
         easeOutInCubic: function(t, b, c, d) {
             if(t < d/2) return tm.anim.easing.easeOutCubic(t*2, b, c/2, d);
             return tm.anim.easing.easeInCubic((t*2)-d, b+c/2, c/2, d);
         },
-
-        /**
-         * @property
-         * easeInQuart
-         */
+        /** easeInQuart */
         easeInQuart: function(t, b, c, d) {
             return c*(t/=d)*t*t*t + b;
         },
-
-        /**
-         * @property
-         * easeOutQuart
-         */
+        /** easeOutQuart */
         easeOutQuart: function(t, b, c, d) {
             return -c *((t=t/d-1)*t*t*t - 1) + b;
         },
-
-        /**
-         * @property
-         * easeInOutQuart
-         */
+        /** easeInOutQuart */
         easeInOutQuart: function(t, b, c, d) {
             if((t/=d/2) < 1) return c/2*t*t*t*t + b;
             return -c/2 *((t-=2)*t*t*t - 2) + b;
         },
-
-        /**
-         * @property
-         * easeOutInQuart
-         */
+        /** easeOutInQuart */
         easeOutInQuart: function(t, b, c, d) {
             if(t < d/2) return tm.anim.easing.easeOutQuart(t*2, b, c/2, d);
             return tm.anim.easing.easeInQuart((t*2)-d, b+c/2, c/2, d);
         },
-
-        /**
-         * @property
-         * easeInQuint
-         */
+        /** easeInQuint */
         easeInQuint: function(t, b, c, d) {
             return c*(t/=d)*t*t*t*t + b;
         },
-
-        /**
-         * @property
-         * easeOutQuint
-         */
+        /** easeOutQuint */
         easeOutQuint: function(t, b, c, d) {
             return c*((t=t/d-1)*t*t*t*t + 1) + b;
         },
-
-        /**
-         * @property
-         * easeInOutQuint
-         */
+        /** easeInOutQuint */
         easeInOutQuint: function(t, b, c, d) {
             if((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
             return c/2*((t-=2)*t*t*t*t + 2) + b;
         },
-
-        /**
-         * @property
-         * easeOutInQuint
-         */
+        /** easeOutInQuint */
         easeOutInQuint: function(t, b, c, d) {
             if(t < d/2) return tm.anim.easing.easeOutQuint(t*2, b, c/2, d);
             return tm.anim.easing.easeInQuint((t*2)-d, b+c/2, c/2, d);
         },
-
-        /**
-         * @property
-         * easeInSine
-         */
+        /** easeInSine */
         easeInSine: function(t, b, c, d) {
             return -c * Math.cos(t/d *(Math.PI/2)) + c + b;
         },
-
-        /**
-         * @property
-         * easeOutSine
-         */
+        /** easeOutSine */
         easeOutSine: function(t, b, c, d) {
             return c * Math.sin(t/d *(Math.PI/2)) + b;
         },
-
-        /**
-         * @property
-         * easeInOutSine
-         */
+        /** easeInOutSine */
         easeInOutSine: function(t, b, c, d) {
             return -c/2 *(Math.cos(Math.PI*t/d) - 1) + b;
         },
-
-        /**
-         * @property
-         * easeOutInSine
-         */
+        /** easeOutInSine */
         easeOutInSine: function(t, b, c, d) {
             if(t < d/2) return tm.anim.easing.easeOutSine(t*2, b, c/2, d);
             return tm.anim.easing.easeInSine((t*2)-d, b+c/2, c/2, d);
         },
-
-        /**
-         * @property
-         * easeInExpo
-         */
+        /** easeInExpo */
         easeInExpo: function(t, b, c, d) {
             return(t==0) ? b : c * Math.pow(2, 10 *(t/d - 1)) + b - c * 0.001;
         },
-
-        /**
-         * @property
-         * easeOutExpo
-         */
+        /** easeOutExpo */
         easeOutExpo: function(t, b, c, d) {
             return(t==d) ? b+c : c * 1.001 *(-Math.pow(2, -10 * t/d) + 1) + b;
         },
-
-        /**
-         * @property
-         * easeInOutExpo
-         */
+        /** easeInOutExpo */
         easeInOutExpo: function(t, b, c, d) {
             if(t==0) return b;
             if(t==d) return b+c;
             if((t/=d/2) < 1) return c/2 * Math.pow(2, 10 *(t - 1)) + b - c * 0.0005;
             return c/2 * 1.0005 *(-Math.pow(2, -10 * --t) + 2) + b;
         },
-
-        /**
-         * @property
-         * easeOutInExpo
-         */
+        /** easeOutInExpo */
         easeOutInExpo: function(t, b, c, d) {
             if(t < d/2) return tm.anim.easing.easeOutExpo(t*2, b, c/2, d);
             return tm.anim.easing.easeInExpo((t*2)-d, b+c/2, c/2, d);
         },
-
-        /**
-         * @property
-         * easeInCirc
-         */
+        /** easeInCirc */
         easeInCirc: function(t, b, c, d) {
             return -c *(Math.sqrt(1 -(t/=d)*t) - 1) + b;
         },
-
-        /**
-         * @property
-         * easeOutCirc
-         */
+        /** easeOutCirc */
         easeOutCirc: function(t, b, c, d) {
             return c * Math.sqrt(1 -(t=t/d-1)*t) + b;
         },
-
-        /**
-         * @property
-         * easeInOutCirc
-         */
+        /** easeInOutCirc */
         easeInOutCirc: function(t, b, c, d) {
             if((t/=d/2) < 1) return -c/2 *(Math.sqrt(1 - t*t) - 1) + b;
             return c/2 *(Math.sqrt(1 -(t-=2)*t) + 1) + b;
         },
-
-        /**
-         * @property
-         * easeOutInCirc
-         */
+        /** easeOutInCirc */
         easeOutInCirc: function(t, b, c, d) {
             if(t < d/2) return tm.anim.easing.easeOutCirc(t*2, b, c/2, d);
             return tm.anim.easing.easeInCirc((t*2)-d, b+c/2, c/2, d);
         },
-
-        /**
-         * @property
-         * easeInElastic
-         */
+        /** easeInElastic */
         easeInElastic: function(t, b, c, d, a, p) {
             var s;
             if(t==0) return b;  if((t/=d)==1) return b+c;  if(!p) p=d*.3;
             if(!a || a < Math.abs(c)) { a=c; s=p/4; } else s = p/(2*Math.PI) * Math.asin(c/a);
             return -(a*Math.pow(2,10*(t-=1)) * Math.sin((t*d-s)*(2*Math.PI)/p )) + b;
         },
-
-        /**
-         * @property
-         * easeOutElastic
-         */
+        /** easeOutElastic */
         easeOutElastic: function(t, b, c, d, a, p) {
             var s;
             if(t==0) return b;  if((t/=d)==1) return b+c;  if(!p) p=d*.3;
             if(!a || a < Math.abs(c)) { a=c; s=p/4; } else s = p/(2*Math.PI) * Math.asin(c/a);
             return(a*Math.pow(2,-10*t) * Math.sin((t*d-s)*(2*Math.PI)/p ) + c + b);
         },
-
-        /**
-         * @property
-         * easeInOutElastic
-         */
+        /** easeInOutElastic */
         easeInOutElastic: function(t, b, c, d, a, p) {
             var s;
             if(t==0) return b;  if((t/=d/2)==2) return b+c;  if(!p) p=d*(.3*1.5);
@@ -645,65 +465,37 @@ tm.anim = tm.anim || {};
             if(t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin((t*d-s)*(2*Math.PI)/p )) + b;
             return a*Math.pow(2,-10*(t-=1)) * Math.sin((t*d-s)*(2*Math.PI)/p )*.5 + c + b;
         },
-
-        /**
-         * @property
-         * easeOutInElastic
-         */
+        /** easeOutInElastic */
         easeOutInElastic: function(t, b, c, d, a, p) {
             if(t < d/2) return tm.anim.easing.easeOutElastic(t*2, b, c/2, d, a, p);
             return tm.anim.easing.easeInElastic((t*2)-d, b+c/2, c/2, d, a, p);
         },
-
-        /**
-         * @property
-         * easeInBack
-         */
+        /** easeInBack */
         easeInBack: function(t, b, c, d, s) {
             if(s == undefined) s = 1.70158;
             return c*(t/=d)*t*((s+1)*t - s) + b;
         },
-
-        /**
-         * @property
-         * easeOutBack
-         */
+        /** easeOutBack */
         easeOutBack: function(t, b, c, d, s) {
             if(s == undefined) s = 1.70158;
             return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
         },
-
-        /**
-         * @property
-         * easeInOutBack
-         */
+        /** easeInOutBack */
         easeInOutBack: function(t, b, c, d, s) {
             if(s == undefined) s = 1.70158;
             if((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
             return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
         },
-
-        /**
-         * @property
-         * easeOutInBack
-         */
+        /** easeOutInBack */
         easeOutInBack: function(t, b, c, d, s) {
             if(t < d/2) return tm.anim.easing.easeOutBack(t*2, b, c/2, d, s);
             return tm.anim.easing.easeInBack((t*2)-d, b+c/2, c/2, d, s);
         },
-
-        /**
-         * @property
-         * easeInBounce
-         */
+        /** easeInBounce */
         easeInBounce: function(t, b, c, d) {
             return c - tm.anim.easing.easeOutBounce(d-t, 0, c, d) + b;
         },
-
-        /**
-         * @property
-         * easeOutBounce
-         */
+        /** easeOutBounce */
         easeOutBounce: function(t, b, c, d) {
             if((t/=d) <(1/2.75)) {
                 return c*(7.5625*t*t) + b;
@@ -715,20 +507,12 @@ tm.anim = tm.anim || {};
                 return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
             }
         },
-
-        /**
-         * @property
-         * easeInOutBounce
-         */
+        /** easeInOutBounce */
         easeInOutBounce: function(t, b, c, d) {
             if(t < d/2) return tm.anim.easing.easeInBounce(t*2, 0, c, d) * .5 + b;
             else return tm.anim.easing.easeOutBounce(t*2-d, 0, c, d) * .5 + c*.5 + b;
         },
-
-        /**
-         * @property
-         * easeOutInBounce
-         */
+        /** easeOutInBounce */
         easeOutInBounce: function(t, b, c, d) {
             if(t < d/2) return tm.anim.easing.easeOutBounce(t*2, b, c/2, d);
             return tm.anim.easing.easeInBounce((t*2)-d, b+c/2, c/2, d);

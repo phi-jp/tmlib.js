@@ -5,12 +5,12 @@
 (function() {
     
     /**
-     * @class   Function
+     * @class   global.Function
      * Functionの拡張
      */
     if (!Function.prototype.bind) {
         /**
-         * @member  Function
+         * @member  global.Function
          * @method  bind
          * バインド
          */

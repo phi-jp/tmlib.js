@@ -32,16 +32,20 @@
         /** @type {tm.display.RectangleShape} dummy */
         cursor: null,
 
+        /** @private */
         _selected: 0,
+        /** @private */
         _opened: false,
+        /** @private */
         _finished: false,
 
+        /** @private */
         _screenWidth: 0,
+        /** @private */
         _screenHeight: 0,
 
         /**
          * @constructor
-         * コンストラクタ
          * @param {Object} params
          */
         init: function(params) {
@@ -86,7 +90,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -142,7 +145,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -168,7 +170,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         update: function(app) {
@@ -176,7 +177,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         closeDialog: function(result) {
@@ -214,7 +214,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         draw: function(canvas) {

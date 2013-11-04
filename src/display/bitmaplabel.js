@@ -19,18 +19,22 @@ tm.app = tm.app || {};
     //     superClass: tm.display.Shape,
     // });
 
+    
     tm.display.BitmapLabel = tm.createClass({
         superClass: tm.display.Shape,
 
+        /** @property fontSize */
+        /** @property spacing */
+        /** @property texture */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(params) {
         	this.superInit();
 
         	this.fontSize = params.fontSize || 32;
-        	this.spacing = params.spacing || 0.75;
+        	this.spacing  = params.spacing || 0.75;
 
         	var texture = params.texture;
         	if (typeof texture == "string") texture = tm.asset.AssetManager.get(texture);
@@ -40,7 +44,6 @@ tm.app = tm.app || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         render: function(text) {

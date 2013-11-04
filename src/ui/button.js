@@ -17,7 +17,6 @@ tm.ui = tm.ui || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(text) {
             this.superInit(text);
@@ -48,6 +47,7 @@ tm.ui = tm.ui || {};
         }
     });
     
+    /** @static @property */
     tm.ui.LabelButton.DEFAULT_ALPHA = 0.5;
     
 })();
@@ -65,7 +65,6 @@ tm.ui = tm.ui || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(texture) {
             if (texture) {
@@ -90,6 +89,7 @@ tm.ui = tm.ui || {};
         },
     });
     
+    /** @static @property */
     tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
     
 })();
@@ -107,7 +107,6 @@ tm.ui = tm.ui || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
@@ -135,7 +134,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         setBackgroundColor: function(backgroundColor) {
@@ -147,7 +145,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -181,8 +178,8 @@ tm.ui = tm.ui || {};
             this.label.setSize(this.width, this.height);
         },
     });
-    
-    
+
+    /** @static @property */
     tm.ui.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     
@@ -201,7 +198,6 @@ tm.ui = tm.ui || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(param) {
             param.$safe({

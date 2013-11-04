@@ -12,11 +12,11 @@
     tm.define("tm.asset.SpriteSheet", {
         superClass: "tm.event.EventDispatcher",
 
+        /** loaded  */
         loaded: false,
 
         /**
-         * @property
-         * コンストラクタ
+         * @constructor
          */
         init: function(src) {
             this.superInit();
@@ -35,7 +35,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         load: function(path) {
@@ -51,7 +50,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         parse: function(param) {
@@ -84,7 +82,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          */
         getFrame: function(index) {
@@ -92,7 +89,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          */
         getAnimation: function(name) {
@@ -100,7 +96,6 @@
         },
         
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -128,7 +123,6 @@
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */

@@ -6,26 +6,20 @@
     
     /**
      * @class tm.dom.Data
-     * @TODO ?
      */
     tm.define("tm.dom.Data", {
 
-        /**
-         * @property
-         * エレメント
-         */
+        /** エレメント */
         element: null,
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
         },
         
         /**
-         * @property
          * 属性をセット
          */
         set: function(name, value) {
@@ -36,7 +30,6 @@
         },
         
         /**
-         * @property
          * 属性をゲット
          */
         get: function(name, value) {

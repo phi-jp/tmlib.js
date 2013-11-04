@@ -7,24 +7,26 @@ tm.dom = tm.dom || {};
 (function() {
     
     /**
-     * @class Event
+     * @class global.Event
      * 既存のEventオブジェクト拡張
      */
     
     // 仕方なしの IE 対応(これ引っかかったら他のもダメだから必要ないかも)
     if (!Event.prototype.stopPropagation) {
+        /** @method */
         Event.prototype.stopPropagation = function() {
             this.cancelBubble = true;
         };
     }
     if (!Event.prototype.preventDefault) {
+        /** @method */
         Event.prototype.preventDefault = function() {
             this.returnValue = false;
         };
     }
     
     /**
-     * @method
+     * @method stop
      * イベントのデフォルト処理 & 伝達を止める
      */
     Event.prototype.stop = function() {
@@ -40,12 +42,12 @@ tm.dom = tm.dom || {};
 (function() {
     
     /**
-     * @class KeyboardEvent
+     * @class global.KeyboardEvent
      * KeyboardEvent クラス
      */
     
     /**
-     * @property    character
+     * @method    character
      * 押したキーの文字を取得
      */
     KeyboardEvent.prototype.getter("character", function(){
@@ -58,12 +60,12 @@ tm.dom = tm.dom || {};
 (function() {
     
     /**
-     * @class MouseEvent
+     * @class global.MouseEvent
      * MouseEvent クラス
      */
     
     /**
-     * @property    pointX
+     * @method    pointX
      * マウスのX座標.
      */
     MouseEvent.prototype.getter("pointX", function() {
@@ -72,7 +74,7 @@ tm.dom = tm.dom || {};
     });
     
     /**
-     * @property    pointY
+     * @method    pointY
      * マウスのY座標.
      */
     MouseEvent.prototype.getter("pointY", function() {
@@ -91,12 +93,12 @@ tm.dom = tm.dom || {};
     
     
     /**
-     * @class TouchEvent
+     * @class global.TouchEvent
      * TouchEvent クラス
      */
     
     /**
-     * @property    pointX
+     * @method    pointX
      * タッチイベント.
      */
     TouchEvent.prototype.getter("pointX", function() {
@@ -105,7 +107,7 @@ tm.dom = tm.dom || {};
     });
     
     /**
-     * @property    pointY
+     * @method    pointY
      * タッチイベント.
      */
     TouchEvent.prototype.getter("pointY", function() {
@@ -125,28 +127,16 @@ tm.dom = tm.dom || {};
      */
     tm.dom.Event = tm.createClass({
 
-        /**
-         * @property
-         * DOMエレメント
-         */
+        /** DOMエレメント */
         element     : null,
-
-        /**
-         * @property
-         * イベント発火時に実行する関数リスト
-         */
+        /** イベント発火時に実行する関数リスト */
         funcList    : null,
-
-        /**
-         * @property
-         * 関数リストのインデックス　未使用？
-         */
+        /** 関数リストのインデックス　未使用？ */
         funcIndex   : 0,
-        
+        /** @property domElement */
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(element) {
             this.element = element;
@@ -155,7 +145,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * イベントを追加
          */
         add: function(type, fn, id) {
@@ -188,7 +177,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * イベントを解除
          */
         remove: function(type, fn_or_id) {
@@ -200,7 +188,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * クリックイベント
          */
         click: function(fn, id) {
@@ -209,7 +196,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * @TODO ?
          */
         mdlclick: function(fn, id) {
@@ -222,21 +208,18 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * ポインティングスタート
          */
         pointstart: function(fn, id) {
             this.add(tm.dom.Event.POINT_START, fn, id);
         },
         /**
-         * @property
          * ポインティング中
          */
         pointmove: function(fn, id) {
             this.add(tm.dom.Event.POINT_MOVE, fn, id);
         },
         /**
-         * @property
          * ポインティングエンド
          */
         pointend: function(fn, id) {
@@ -244,7 +227,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * ホバーイベント
          */
         hover: function(fn, id) {
@@ -253,7 +235,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * 一度だけ呼ばれるイベントを登録
          */
         one: function(type, fn, id) {
@@ -272,7 +253,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * トグルイベント登録
          */
         toggle: function(type, fn_list) {
@@ -300,7 +280,6 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @property
          * 指定したイベントタイプ & id の関数を取得
          */
         getFunc: function(type, id) {
@@ -309,12 +288,16 @@ tm.dom = tm.dom || {};
         
     });
     
+    /** @static @property */
     tm.dom.Event.POINT_START    = (tm.isMobile) ? "touchstart" : "mousedown";
+    /** @static @property */
     tm.dom.Event.POINT_MOVE     = (tm.isMobile) ? "touchmove" : "mousemove";
+    /** @static @property */
     tm.dom.Event.POINT_END      = (tm.isMobile) ? "touchend" : "mouseup";
     
     
     /**
+     * @member      tm.dom.Element
      * @property    event
      * スタイルクラス
      */

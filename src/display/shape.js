@@ -16,9 +16,12 @@ tm.display = tm.display || {};
     tm.display.Shape = tm.createClass({
         superClass: tm.display.CanvasElement,
         
+        /** @property canvsa */
+        /** @property width */
+        /** @property height */
+
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height) {
             this.superInit();
@@ -34,7 +37,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         renderCircle: function(param) {
@@ -56,7 +58,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         renderTriangle: function(param) {
@@ -78,7 +79,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         renderRectangle: function(param) {
@@ -102,7 +102,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         renderStar: function(param) {
@@ -129,7 +128,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         renderPolygon: function(param) {
@@ -158,7 +156,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         renderHeart: function(param) {
@@ -180,7 +177,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         renderText: function(param) {
@@ -206,24 +202,28 @@ tm.display = tm.display || {};
         
     });
 
+    /** @static @property  */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
         fillStyle: "red",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
+    /** @static @property  */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
         fillStyle: "green",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
+    /** @static @property  */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
         fillStyle: "blue",
         strokeStyle: "white",
         lineWidth: "2",
     };
 
+    /** @static @property  */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR = {
         fillStyle: "yellow",
         strokeStyle: "white",
@@ -234,6 +234,7 @@ tm.display = tm.display || {};
         offsetAngle: undefined,
     };
 
+    /** @static @property  */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
         fillStyle: "cyan",
         strokeStyle: "white",
@@ -243,6 +244,7 @@ tm.display = tm.display || {};
         offsetAngle: undefined,
     };
 
+    /** @static @property  */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART = {
         fillStyle: "pink",
         strokeStyle: "white",
@@ -251,6 +253,7 @@ tm.display = tm.display || {};
         angle: 45,
     };
 
+    /** @static @property  */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
         text: "hello, world",
         fillStyle: "pink",
@@ -269,6 +272,7 @@ tm.display = tm.display || {};
     /**
      * @class tm.display.CircleShape
      * 簡単に円を描画できるクラス
+     * @extends tm.display.Shape
      * 
      *      @example display
      *      var shape = tm.display.CircleShape().addChildTo(this);
@@ -280,7 +284,6 @@ tm.display = tm.display || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -307,7 +310,6 @@ tm.display = tm.display || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -335,7 +337,6 @@ tm.display = tm.display || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -361,7 +362,6 @@ tm.display = tm.display || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -388,7 +388,6 @@ tm.display = tm.display || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -416,7 +415,6 @@ tm.display = tm.display || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);
@@ -444,7 +442,6 @@ tm.display = tm.display || {};
         
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(width, height, param) {
             this.superInit(width, height);

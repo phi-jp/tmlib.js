@@ -18,19 +18,17 @@ tm.sound = tm.sound || {};
     tm.sound.WebAudio = tm.createClass({
         superClass: tm.event.EventDispatcher,
 
+        /** loaded */
         loaded: false,
+        /** context */
         context: null,
-        buffer: null,
+        /** panner */
         panner: null,
-
-        /**
-         * ボリューム
-         */
+        /** volume */
         volume: 0.8,
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(src_or_buffer) {
             this.superInit();
@@ -55,7 +53,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @property
          * 再生
          * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
          */
@@ -72,7 +69,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @property
          * 停止
          */
         stop: function(time) {
@@ -93,7 +89,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         pause: function() {
@@ -103,7 +98,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         resume: function() {
@@ -113,7 +107,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @property
          * 複製
          */
         clone: function() {
@@ -122,7 +115,6 @@ tm.sound = tm.sound || {};
             return webAudio;
         },
         /**
-         * @property
          * dummy
          */
         setPosition: function(x, y, z) {
@@ -131,7 +123,6 @@ tm.sound = tm.sound || {};
             return this;
         },
         /**
-         * @property
          * dummy
          */
         setVelocity: function(x, y, z) {
@@ -140,7 +131,6 @@ tm.sound = tm.sound || {};
             return this;
         },
         /**
-         * @property
          * dummy
          */
         setOrientation: function(x, y, z) {
@@ -150,7 +140,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @property
          * dummy
          * チェーンメソッド用
          */
@@ -161,7 +150,6 @@ tm.sound = tm.sound || {};
 
 
         /**
-         * @property
          * dummy
          * チェーンメソッド用
          */
@@ -172,7 +160,6 @@ tm.sound = tm.sound || {};
 
 
         /**
-         * @property
          * dummy
          * チェーンメソッド用
          */
@@ -183,7 +170,6 @@ tm.sound = tm.sound || {};
 
 
         /**
-         * @property
          * チェーンメソッド用
          */
         setPlaybackRate: function(v) {
@@ -192,7 +178,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -219,7 +204,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @property
          * @TODO ?
          * @private
          */
@@ -235,7 +219,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         tone: function(hertz, seconds) {
@@ -297,6 +280,7 @@ tm.sound = tm.sound || {};
         set: function(v) { this.source.playbackRate.value = v; }
     });
 
+    /** @static @property */
     tm.sound.WebAudio.isAvailable = tm.global.webkitAudioContext ? true : false;
 
 })();

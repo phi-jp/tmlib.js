@@ -14,17 +14,19 @@ tm.net.event = tm.net.event || {};
      */
     tm.net.WebSocket = tm.createClass({
         superClass: tm.event.EventDispatcher,
+
+        /** socket */
         socket: null,
+        /** @property url */
+
         /**
          * @constructor
-         * コンストラクタ.
          */
         init: function(url) {
             this.superInit();
             this.url = url;
         },
         /**
-         * @property
          * 接続する.
          */
         connect: function() {
@@ -50,7 +52,6 @@ tm.net.event = tm.net.event || {};
             };
         },
         /**
-         * @property
          * 切断する.
          */
         disconnect: function() {
@@ -61,7 +62,6 @@ tm.net.event = tm.net.event || {};
         },
 
         /*
-         * @property
          * @TODO 重複している関数 念のためコメントアウト
          */
         // send: function(message) {
@@ -73,7 +73,6 @@ tm.net.event = tm.net.event || {};
         // },
 
         /*
-         * @property
          * @TODO 重複している関数 念のためコメントアウト
          */
         sendData: function(object) {
@@ -81,7 +80,6 @@ tm.net.event = tm.net.event || {};
         },
 
         /**
-         * @property
          * @TODO ?
          */
         close: function() {
@@ -91,7 +89,6 @@ tm.net.event = tm.net.event || {};
             this.socket = null;
         },
         /**
-         * @property
          * テキストメッセージを送信する.  
          */
         send: function(message) {
@@ -100,7 +97,6 @@ tm.net.event = tm.net.event || {};
             }
         },
         /**
-         * @property
          * オブジェクトを送信する.
          *
          * JSONに変換し、テキストメッセージとして送信する.
@@ -109,7 +105,6 @@ tm.net.event = tm.net.event || {};
             this.send(JSON.stringify(object));
         },
         /**
-         * @property
          * 接続中.
          */
         isOpen: function() {
@@ -127,7 +122,6 @@ tm.net.event = tm.net.event || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(type) {
             this.superInit(type);
@@ -144,7 +138,6 @@ tm.net.event = tm.net.event || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this.superInit("open");
@@ -158,22 +151,17 @@ tm.net.event = tm.net.event || {};
      */
     tm.net.event.Message = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,
-        /**
-         * @property
-         * 受信したメッセージを文字列として取り出す.
-         */
+        /** 受信したメッセージを文字列として取り出す. */
         message: null,
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(message) {
             this.superInit("message");
             this.message = message;
         },
         /**
-         * @property
          * 受信したメッセージをオブジェクトとして取り出す.
          * JSONとしてパースする.
          */
@@ -192,7 +180,6 @@ tm.net.event = tm.net.event || {};
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function() {
             this.superInit("close");
@@ -206,14 +193,11 @@ tm.net.event = tm.net.event || {};
      */
     tm.net.event.Error = tm.createClass({
         superClass: tm.net.event.WebSocketEvent,
-        /**
-         * エラー情報.
-         */
+        /** エラー情報. */
         data: null,
 
         /**
          * @constructor
-         * コンストラクタ
          */
         init: function(data) {
             this.superInit("error");
