@@ -47,7 +47,11 @@ tm.ui = tm.ui || {};
         }
     });
     
-    /** @static @property */
+    /**
+     * @static
+     * @property
+     * デフォルトとなるアルファ値
+     */
     tm.ui.LabelButton.DEFAULT_ALPHA = 0.5;
     
 })();
@@ -89,7 +93,11 @@ tm.ui = tm.ui || {};
         },
     });
     
-    /** @static @property */
+    /**
+     * @static
+     * @property
+     * デフォルトとなるアルファ値
+     */
     tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
     
 })();
@@ -179,7 +187,11 @@ tm.ui = tm.ui || {};
         },
     });
 
-    /** @static @property */
+    /**
+     * @static
+     * @property
+     * デフォルトとなるアルファ値
+     */
     tm.ui.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     

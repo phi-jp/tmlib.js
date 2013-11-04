@@ -199,6 +199,8 @@ tm.sound = tm.sound || {};
          * @private
          */
         _load: function(src) {
+            if (!this.context) return ;
+
             var xhr = new XMLHttpRequest();
             var self = this;
             xhr.onreadystatechange = function() {

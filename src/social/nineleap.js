@@ -18,6 +18,7 @@ tm.social = tm.social || {};
     /**
      * @member      tm.social.Nineleap
      * @method      createURL
+     * 9leap 用の URL を生成
      */
     tm.social.Nineleap.createURL = function(id, score, result) {
         return BASE_URL.format({
@@ -30,6 +31,7 @@ tm.social = tm.social || {};
     /**
      * @member      tm.social.Nineleap
      * @method      postRanking
+     * 9leap でランキングを POST
      */
     tm.social.Nineleap.postRanking = function(score, result) {
         if (location.hostname == 'r.jsgames.jp') {

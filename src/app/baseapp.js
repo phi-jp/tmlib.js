@@ -206,7 +206,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * dat gui を有効化
          */
         enableDatGUI: function() {
             if (window.dat) {
