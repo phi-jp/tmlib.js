@@ -7372,10 +7372,6 @@ tm.dom = tm.dom || {};
             file.load({
                 url: path,
                 dataType: 'json',
-                success: function(o) {
-                    self.$extend(o);
-                    self.loaded = true;
-                }
             });
         }
         else {
@@ -8083,11 +8079,11 @@ tm.input = tm.input || {};
         
     });
     
-    /** @static */
+    /** @static @property */
     tm.input.Mouse.BUTTON_LEFT      = 0x1;
-    /** @static */
+    /** @static @property */
     tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
-    /** @static */
+    /** @static @property */
     tm.input.Mouse.BUTTON_RIGHT     = 0x4;
     
     /*
@@ -16899,6 +16895,8 @@ tm.sound = tm.sound || {};
          * @private
          */
         _load: function(src) {
+            if (!this.context) return ;
+
             var xhr = new XMLHttpRequest();
             var self = this;
             xhr.onreadystatechange = function() {
