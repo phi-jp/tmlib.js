@@ -161,11 +161,11 @@ tm.input = tm.input || {};
         
     });
     
-    /** @static */
+    /** @static @property */
     tm.input.Mouse.BUTTON_LEFT      = 0x1;
-    /** @static */
+    /** @static @property */
     tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
-    /** @static */
+    /** @static @property */
     tm.input.Mouse.BUTTON_RIGHT     = 0x4;
     
     /*

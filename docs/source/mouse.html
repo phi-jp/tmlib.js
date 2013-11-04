@@ -178,11 +178,11 @@ tm.input = tm.input || {};
         
     });
     
-<span id='tm-input-Mouse-BUTTON_LEFT'>    /** @static */
+<span id='tm-input-Mouse-static-property-BUTTON_LEFT'>    /** @static @property */
 </span>    tm.input.Mouse.BUTTON_LEFT      = 0x1;
-<span id='tm-input-Mouse-BUTTON_MIDDLE'>    /** @static */
+<span id='tm-input-Mouse-static-property-BUTTON_MIDDLE'>    /** @static @property */
 </span>    tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
-<span id='tm-input-Mouse-BUTTON_RIGHT'>    /** @static */
+<span id='tm-input-Mouse-static-property-BUTTON_RIGHT'>    /** @static @property */
 </span>    tm.input.Mouse.BUTTON_RIGHT     = 0x4;
     
     /*
@@ -195,7 +195,7 @@ tm.input = tm.input || {};
     };
     
     
-<span id='tm-input-Mouse-BUTTON_RIGHT-property-x'>    /**
+<span id='tm-input-Mouse-property-x'>    /**
 </span>     * @property    x
      * x座標値
      */
@@ -204,7 +204,7 @@ tm.input = tm.input || {};
         &quot;set&quot;: function(v)  { this.position.x = v; }
     });
     
-<span id='tm-input-Mouse-BUTTON_RIGHT-property-y'>    /**
+<span id='tm-input-Mouse-property-y'>    /**
 </span>     * @property    y
      * y座標値
      */
@@ -213,7 +213,7 @@ tm.input = tm.input || {};
         &quot;set&quot;: function(v)  { this.position.y = v; }
     });
     
-<span id='tm-input-Mouse-BUTTON_RIGHT-property-dx'>    /**
+<span id='tm-input-Mouse-property-dx'>    /**
 </span>     * @property    dx
      * dx値
      */
@@ -222,7 +222,7 @@ tm.input = tm.input || {};
         &quot;set&quot;: function(v)  { this.deltaPosition.x = v; }
     });
     
-<span id='tm-input-Mouse-BUTTON_RIGHT-property-dy'>    /**
+<span id='tm-input-Mouse-property-dy'>    /**
 </span>     * @property    dy
      * dy値
      */
@@ -232,19 +232,19 @@ tm.input = tm.input || {};
     });
     
     
-<span id='tm-input-Mouse-BUTTON_RIGHT-static-method-getPointing'>    /**
+<span id='tm-input-Mouse-static-method-getPointing'>    /**
 </span>     * @static
      * @method getPointing
      * ポインティング状態取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointing        = function() { return this.getButton(&quot;left&quot;); };
-<span id='tm-input-Mouse-BUTTON_RIGHT-static-method-getPointingStart'>    /**
+<span id='tm-input-Mouse-static-method-getPointingStart'>    /**
 </span>     * @static
      * @method getPointingStart
      * ポインティングを開始したかを取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown(&quot;left&quot;); };
-<span id='tm-input-Mouse-BUTTON_RIGHT-static-method-getPointingEnd'>    /**
+<span id='tm-input-Mouse-static-method-getPointingEnd'>    /**
 </span>     * @static
      * @method getPointingEnd
      * ポインティングを終了したかを取得(touch との差異対策)
