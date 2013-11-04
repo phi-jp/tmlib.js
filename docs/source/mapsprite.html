@@ -28,11 +28,17 @@
      * @extends tm.display.CanvasElement
      */
     tm.define(&quot;tm.display.MapSprite&quot;, {
-<span id='tm-display-MapSprite-method-constructor'>        superClass: &quot;tm.display.CanvasElement&quot;,
+        superClass: &quot;tm.display.CanvasElement&quot;,
+
+<span id='tm-display-MapSprite-property-mapSheet'>        /** @property mapSheet */
+</span><span id='tm-display-MapSprite-property-chipWidth'>        /** @property chipWidth */
+</span><span id='tm-display-MapSprite-property-chipHeight'>        /** @property chipHeight */
+</span><span id='tm-display-MapSprite-property-originX'>        /** @property originX */
+</span><span id='tm-display-MapSprite-property-width'>        /** @property width */
+</span><span id='tm-display-MapSprite-property-height'>        /** @property height */
 </span>
-        /**
-         * @constructor
-         * コンストラクタ
+<span id='tm-display-MapSprite-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(mapSheet, chipWidth, chipHeight) {
             this.superInit();
@@ -52,12 +58,11 @@
             this.width = chipWidth*this.mapSheet.width;
             this.height= chipWidth*this.mapSheet.height;
 
-<span id='tm-display-MapSprite-property-_build'>            this._build();
-</span>        },
+            this._build();
+        },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-display-MapSprite-method-_build'>        /**
+</span>         * @TODO ?
          * @private
          */
         _build: function() {
@@ -70,12 +75,11 @@
                 else {
                     self._buildLayer(layer);
                 }
-<span id='tm-display-MapSprite-property-_buildLayer'>            });
-</span>        },
+            });
+        },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-display-MapSprite-method-_buildLayer'>        /**
+</span>         * @TODO ?
          * @private
          */
         _buildLayer: function(layer) {
@@ -106,13 +110,12 @@
                     mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
                     dx, dy, self.chipWidth, self.chipHeight
                     );
-<span id='tm-display-MapSprite-property-_buildObject'>            }.bind(this));
-</span>
+            }.bind(this));
+
         },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-display-MapSprite-method-_buildObject'>        /**
+</span>         * @TODO ?
          * @private
          */
         _buildObject: function(layer) {

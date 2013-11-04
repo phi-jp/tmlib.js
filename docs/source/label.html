@@ -34,29 +34,25 @@ tm.display = tm.display || {};
      */
     tm.display.Label = tm.createClass({
         
-<span id='tm-display-Label-property-fill'>        superClass: tm.display.CanvasElement,
-</span>        
-        /**
-         * @property
-<span id='tm-display-Label-property-stroke'>         * 塗りつぶしフラグ
-</span>         */
-        fill: true,
-
-        /**
-         * @property
-<span id='tm-display-Label-property-debugBox'>         * ストロークフラグ
-</span>         */
-        stroke: false,
-
-        /**
-         * @property
-<span id='tm-display-Label-method-constructor'>         * @TODO ?
-</span>         */
-        debugBox: false,
+        superClass: tm.display.CanvasElement,
         
-        /**
-         * @constructor
-         * コンストラクタ
+<span id='tm-display-Label-property-fill'>        /** 塗りつぶしフラグ */
+</span>        fill: true,
+<span id='tm-display-Label-property-stroke'>        /** ストロークフラグ */
+</span>        stroke: false,
+<span id='tm-display-Label-property-debugBox'>        /** @TODO ? */
+</span>        debugBox: false,
+
+<span id='tm-display-Label-property-_fontSize'>        /** @property _fontSize @private */
+</span><span id='tm-display-Label-property-_fontFamily'>        /** @property _fontFamily @private */
+</span><span id='tm-display-Label-property-_fontWeight'>        /** @property _fontWeight @private */
+</span><span id='tm-display-Label-property-_lineHeight'>        /** @property _lineHeight @private */
+</span><span id='tm-display-Label-property-align'>        /** @property align */
+</span><span id='tm-display-Label-property-baseline'>        /** @property baseline */
+</span><span id='tm-display-Label-property-maxWidth'>        /** @property maxWidth */
+</span>
+<span id='tm-display-Label-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(text, size) {
             this.superInit();
@@ -70,59 +66,53 @@ tm.display = tm.display || {};
             this._updateFont();
             
             this.align      = &quot;start&quot;;
-<span id='tm-display-Label-property-setAlign'>            this.baseline   = &quot;alphabetic&quot;;
-</span>
+            this.baseline   = &quot;alphabetic&quot;;
+
             this.maxWidth   = null;
         },
         
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-display-Label-method-setAlign'>        /**
+</span>         * @TODO ?
          */
-<span id='tm-display-Label-property-setBaseline'>        setAlign: function(align) {
-</span>            this.align = align;
+        setAlign: function(align) {
+            this.align = align;
             return this;
         },
         
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-display-Label-method-setBaseline'>        /**
+</span>         * @TODO ?
          */
         setBaseline: function(baseline) {
-<span id='tm-display-Label-property-setFontSize'>            this.baseline = baseline;
-</span>            return this;
-        },
-        
-        /**
-         * @property
-         * @TODO ?
-         */
-<span id='tm-display-Label-property-setFontFamily'>        setFontSize: function(size) {
-</span>            this.fontSize = size;
+            this.baseline = baseline;
             return this;
         },
         
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-display-Label-method-setFontSize'>        /**
+</span>         * @TODO ?
          */
-<span id='tm-display-Label-property-setFontWeight'>        setFontFamily: function(family) {
-</span>            this.fontFamily= family;
+        setFontSize: function(size) {
+            this.fontSize = size;
+            return this;
+        },
+        
+<span id='tm-display-Label-method-setFontFamily'>        /**
+</span>         * @TODO ?
+         */
+        setFontFamily: function(family) {
+            this.fontFamily= family;
             return this;
         },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-display-Label-method-setFontWeight'>        /**
+</span>         * @TODO ?
          */
-<span id='tm-display-Label-property-_updateFont'>        setFontWeight: function(weight) {
-</span>            this.fontWeight= weight;
+        setFontWeight: function(weight) {
+            this.fontWeight= weight;
             return this;
         },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-display-Label-method-_updateFont'>        /**
+</span>         * @TODO ?
          * @private
          */
         _updateFont: function() {
@@ -132,23 +122,22 @@ tm.display = tm.display || {};
                 dummyContext = dummyCanvas.getContext('2d');
             }
             dummyContext.font = this.fontStyle;
-<span id='tm-display-Label-property-_updateLines'>            this.textSize = dummyContext.measureText('あ').width * this.lineHeight;
-</span>        },
+            this.textSize = dummyContext.measureText('あ').width * this.lineHeight;
+        },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-display-Label-method-_updateLines'>        /**
+</span>         * @TODO ?
          * @private
          */
-<span id='tm-display-Label-property-text'>        _updateLines: function() {
-</span>            this._lines = (this._text+'').split('\n');
-        }
+        _updateLines: function() {
+            this._lines = (this._text+'').split('\n');
+        },
         
     });
     
-    /**
-     * @property    text
-     * サイズ
+<span id='tm-display-Label-property-text'>    /**
+</span>     * @property    text
+     * 文字
      */
     tm.display.Label.prototype.accessor(&quot;text&quot;, {
         &quot;get&quot;: function() { return this._text; },
@@ -157,44 +146,42 @@ tm.display = tm.display || {};
                 this._text = &quot;&quot;;
             }
             else {
-<span id='tm-display-Label-property-size'>                this._text = v;
-</span>            }
+                this._text = v;
+            }
             this._updateLines();
         }
     });
     
-    /**
-     * @property    size
-     * サイズ
+<span id='tm-display-Label-property-fontSize'>    /**
+</span>     * @property    fontSize
+     * フォントサイズ
      */
     tm.display.Label.prototype.accessor(&quot;fontSize&quot;, {
-<span id='tm-display-Label-property-fontFamily'>        &quot;get&quot;: function() { return this._fontSize; },
-</span>        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
+        &quot;get&quot;: function() { return this._fontSize; },
+        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
     });
     
-    /**
-     * @property    fontFamily
+<span id='tm-display-Label-property-fontFamily'>    /**
+</span>     * @property    fontFamily
      * フォント
      */
     tm.display.Label.prototype.accessor(&quot;fontFamily&quot;, {
-<span id='tm-display-Label-property-fontWeight'>        &quot;get&quot;: function() { return this._fontFamily; },
-</span>        &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
+        &quot;get&quot;: function() { return this._fontFamily; },
+        &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
     });
     
-    /**
-     * @property fontWeight
-     * フォント
+<span id='tm-display-Label-property-fontWeight'>    /**
+</span>     * @property    fontWeight
      */
     tm.display.Label.prototype.accessor(&quot;fontWeight&quot;, {
-<span id='tm-display-Label-property-lineHeight'>        &quot;get&quot;: function() { return this._fontWeight; },
-</span>        &quot;set&quot;: function(v) {
+        &quot;get&quot;: function() { return this._fontWeight; },
+        &quot;set&quot;: function(v) {
             this._fontWeight = v; this._updateFont();
         },
     });
     
-    /**
-     * @property lineHeight
-     * フォント
+<span id='tm-display-Label-property-lineHeight'>    /**
+</span>     * @property lineHeight
      */
     tm.display.Label.prototype.accessor(&quot;lineHeight&quot;, {
         &quot;get&quot;: function() { return this._lineHeight; },

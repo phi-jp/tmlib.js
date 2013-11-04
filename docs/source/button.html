@@ -34,7 +34,6 @@ tm.ui = tm.ui || {};
 
 <span id='tm-ui-LabelButton-method-constructor'>        /**
 </span>         * @constructor
-         * コンストラクタ
          */
         init: function(text) {
             this.superInit(text);
@@ -65,24 +64,24 @@ tm.ui = tm.ui || {};
         }
     });
     
-    tm.ui.LabelButton.DEFAULT_ALPHA = 0.5;
+<span id='tm-ui-LabelButton-static-property-DEFAULT_ALPHA'>    /** @static @property */
+</span>    tm.ui.LabelButton.DEFAULT_ALPHA = 0.5;
     
 })();
 
 
-<span id='tm-ui-IconButton'>(function() {
-</span>    
-    /**
-     * @class tm.ui.IconButton
+(function() {
+    
+<span id='tm-ui-IconButton'>    /**
+</span>     * @class tm.ui.IconButton
      * IconButton
      * @extends tm.display.Sprite
      */
     tm.ui.IconButton = tm.createClass({
         superClass: tm.display.Sprite,
-<span id='tm-ui-IconButton-method-constructor'>        
-</span>        /**
-         * @constructor
-         * コンストラクタ
+        
+<span id='tm-ui-IconButton-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(texture) {
             if (texture) {
@@ -107,24 +106,24 @@ tm.ui = tm.ui || {};
         },
     });
     
-    tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
+<span id='tm-ui-IconButton-static-property-DEFAULT_ALPHA'>    /** @static @property */
+</span>    tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
     
-<span id='tm-ui-GlossyButton'>})();
-</span>
+})();
+
 
 (function() {
     
-    /**
-     * @class tm.ui.GlossyButton
+<span id='tm-ui-GlossyButton'>    /**
+</span>     * @class tm.ui.GlossyButton
      * glossy button
      * @extends tm.display.Shape
      */
     tm.ui.GlossyButton = tm.createClass({
-<span id='tm-ui-GlossyButton-method-constructor'>        superClass: tm.display.Shape,
-</span>
-        /**
-         * @constructor
-         * コンストラクタ
+        superClass: tm.display.Shape,
+
+<span id='tm-ui-GlossyButton-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
@@ -148,24 +147,22 @@ tm.ui = tm.ui || {};
             this.label = tm.display.Label(text || &quot;&quot;).addChildTo(this);
             this.label.setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
             
-<span id='tm-ui-GlossyButton-property-setBackgroundColor'>            this._refresh();
-</span>        },
+            this._refresh();
+        },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-ui-GlossyButton-method-setBackgroundColor'>        /**
+</span>         * @TODO ?
          */
         setBackgroundColor: function(backgroundColor) {
             this.backgroundColor = backgroundColor;
             
             this._refresh();
-<span id='tm-ui-GlossyButton-property-_refresh'>            
-</span>            return this;
+            
+            return this;
         },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-ui-GlossyButton-method-_refresh'>        /**
+</span>         * @TODO ?
          * @private
          */
         _refresh: function() {
@@ -198,9 +195,9 @@ tm.ui = tm.ui || {};
             this.label.setSize(this.width, this.height);
         },
     });
-<span id='tm-ui-FlatButton'>    
-</span>    
-    tm.ui.GlossyButton.DEFAULT_ALPHA = 0.5;
+
+<span id='tm-ui-GlossyButton-static-property-DEFAULT_ALPHA'>    /** @static @property */
+</span>    tm.ui.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     
 })();
@@ -208,17 +205,16 @@ tm.ui = tm.ui || {};
 
 (function() {
 
-    /**
-     * @class tm.ui.FlatButton
+<span id='tm-ui-FlatButton'>    /**
+</span>     * @class tm.ui.FlatButton
      * フラットデザインのボタン
-<span id='tm-ui-FlatButton-method-constructor'>     * @extends tm.display.Shape
-</span>     */
+     * @extends tm.display.Shape
+     */
     tm.define(&quot;tm.ui.FlatButton&quot;, {
         superClass: tm.display.Shape,
 
-        /**
-         * @constructor
-         * コンストラクタ
+<span id='tm-ui-FlatButton-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(param) {
             param.$safe({

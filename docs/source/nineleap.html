@@ -30,23 +30,23 @@ tm.social = tm.social || {};
      */
     tm.social.Nineleap = tm.social.Nineleap || {};
     
-<span id='tm-social-Nineleap-property-createURL'>    var BASE_URL = &quot;http://9leap.net/games/{id}/result?score={score}&amp;result={result}&quot;;
-</span>
-    /**
-     * @member      tm.social.Nineleap
-     * @property    createURL
+    var BASE_URL = &quot;http://9leap.net/games/{id}/result?score={score}&amp;result={result}&quot;;
+
+<span id='tm-social-Nineleap-method-createURL'>    /**
+</span>     * @member      tm.social.Nineleap
+     * @method      createURL
      */
     tm.social.Nineleap.createURL = function(id, score, result) {
         return BASE_URL.format({
             id      : id,
             score   : score,
             result  : result
-<span id='tm-social-Nineleap-property-postRanking'>        });
-</span>    };
+        });
+    };
 
-    /**
-     * @member      tm.social.Nineleap
-     * @property    postRanking
+<span id='tm-social-Nineleap-method-postRanking'>    /**
+</span>     * @member      tm.social.Nineleap
+     * @method      postRanking
      */
     tm.social.Nineleap.postRanking = function(score, result) {
         if (location.hostname == 'r.jsgames.jp') {

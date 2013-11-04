@@ -20,17 +20,17 @@
  */
 
 tm.namespace(&quot;tm.app&quot;, function() {
+
 <span id='tm-app-Timeline'>    /**
 </span>     * @class tm.app.Timeline
      * タイムラインクラス
      * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.app.Timeline&quot;, {
-<span id='tm-app-Timeline-property-init'>        superClass: &quot;tm.event.EventDispatcher&quot;,
-</span>        
-        /**
-         * @property
-         * コンストラクタ
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+        
+<span id='tm-app-Timeline-method-constructor'>        /**
+</span>         * @constructor
          * @param {Object} elm
          */
         init: function(elm) {
@@ -44,12 +44,11 @@ tm.namespace(&quot;tm.app&quot;, function() {
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
-<span id='tm-app-Timeline-property-update'>            this._actions = [];
-</span>        },
+            this._actions = [];
+        },
         
-        /**
-         * @property
-         * 更新
+<span id='tm-app-Timeline-method-update'>        /**
+</span>         * 更新
          * @param {Object} app
          */
         update: function(app) {
@@ -63,12 +62,11 @@ tm.namespace(&quot;tm.app&quot;, function() {
                 this._updateAction();
             }
             
-<span id='tm-app-Timeline-property-_updateTween'>            this.currentFrame++;
-</span>        },
+            this.currentFrame++;
+        },
         
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-app-Timeline-method-_updateTween'>        /**
+</span>         * @TODO ?
          * @private
          */
         _updateTween: function() {
@@ -87,12 +85,11 @@ tm.namespace(&quot;tm.app&quot;, function() {
                 else {
                     tween.update();
                 }
-<span id='tm-app-Timeline-property-_updateAction'>            }
-</span>        },
+            }
+        },
         
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-app-Timeline-method-_updateAction'>        /**
+</span>         * @TODO ?
          * @private
          */
         _updateAction: function() {
@@ -112,12 +109,11 @@ tm.namespace(&quot;tm.app&quot;, function() {
                         }
                     }
                 }
-<span id='tm-app-Timeline-property-to'>            }
-</span>        },
+            }
+        },
         
-        /**
-         * @property
-         * 指定した値までアニメーション
+<span id='tm-app-Timeline-method-to'>        /**
+</span>         * 指定した値までアニメーション
          * @param {Object} props
          * @param {Object} duration
          * @param {Object} delay
@@ -129,14 +125,13 @@ tm.namespace(&quot;tm.app&quot;, function() {
                 duration: duration,
                 fn: fn,
                 delay: delay
-<span id='tm-app-Timeline-property-by'>            });
-</span>            
+            });
+            
             return this;
         },
 
-        /**
-         * @property
-         * 指定した値を足した値までアニメーション
+<span id='tm-app-Timeline-method-by'>        /**
+</span>         * 指定した値を足した値までアニメーション
          * @param {Object} props
          * @param {Object} duration
          * @param {Object} delay
@@ -150,45 +145,42 @@ tm.namespace(&quot;tm.app&quot;, function() {
                 props: props,
                 duration: duration,
                 fn: fn,
-<span id='tm-app-Timeline-property-call'>                delay: delay
-</span>            });
+                delay: delay
+            });
             
             return this;
         },
         
-        /**
-         * @property
-         * 関数を実行
+<span id='tm-app-Timeline-method-call'>        /**
+</span>         * 関数を実行
          * @param {Function} func
          * @param {Object} delay
          */
         call: function(func, delay) {
             this._addAction({
                 &quot;type&quot;: &quot;call&quot;,
-<span id='tm-app-Timeline-property-set'>                func: func,
-</span>                delay: delay,
-            });
-            return this;
-        },
-        
-        /**
-         * @property
-         * プロパティをセット
-         * @param {Object} props
-         * @param {Object} delay
-         */
-        set: function(props, delay) {
-            this._addAction({
-<span id='tm-app-Timeline-property-setTarget'>                &quot;type&quot;: &quot;set&quot;,
-</span>                props: props,
+                func: func,
                 delay: delay,
             });
             return this;
         },
         
-        /**
-         * @property
-         * ターゲットをセット
+<span id='tm-app-Timeline-method-set'>        /**
+</span>         * プロパティをセット
+         * @param {Object} props
+         * @param {Object} delay
+         */
+        set: function(props, delay) {
+            this._addAction({
+                &quot;type&quot;: &quot;set&quot;,
+                props: props,
+                delay: delay,
+            });
+            return this;
+        },
+        
+<span id='tm-app-Timeline-method-setTarget'>        /**
+</span>         * ターゲットをセット
          * @param {Object} target
          */
         setTarget: function(target) {
@@ -197,23 +189,21 @@ tm.namespace(&quot;tm.app&quot;, function() {
             }
             
             this.element = target;
-<span id='tm-app-Timeline-property-getTarget'>            this._fn = function(e) { this.update(e.app); }.bind(this);
-</span>            this.element.addEventListener(&quot;enterframe&quot;, this._fn);
+            this._fn = function(e) { this.update(e.app); }.bind(this);
+            this.element.addEventListener(&quot;enterframe&quot;, this._fn);
         },
         
-<span id='tm-app-Timeline-property-gotoAndPlay'>        /**
-</span>         * @property
-         * ターゲットをゲット
+<span id='tm-app-Timeline-method-getTarget'>        /**
+</span>         * ターゲットをゲット
          */
         getTarget: function() {
             return this.element;
         },
         
-        /**
-         * @property
-         * アニメーション開始
-<span id='tm-app-Timeline-property-gotoAndStop'>         * アニメーションが終了したら再度アニメーションを行う
-</span>         * @param {Number} frame
+<span id='tm-app-Timeline-method-gotoAndPlay'>        /**
+</span>         * アニメーション開始
+         * アニメーションが終了したら再度アニメーションを行う
+         * @param {Number} frame
          */
         gotoAndPlay: function(frame) {
             this.isPlay = true;
@@ -221,10 +211,9 @@ tm.namespace(&quot;tm.app&quot;, function() {
             this._updateTween();
         },
         
-        /**
-         * @property
-<span id='tm-app-Timeline-property-_addTween'>         * アニメーション開始
-</span>         * アニメーションが終了したらストップする
+<span id='tm-app-Timeline-method-gotoAndStop'>        /**
+</span>         * アニメーション開始
+         * アニメーションが終了したらストップする
          * @param {Number} frame
          */
         gotoAndStop: function(frame) {
@@ -233,9 +222,8 @@ tm.namespace(&quot;tm.app&quot;, function() {
             this._updateTween();
         },
 
-        /**
-         * @property
-         * tween を追加
+<span id='tm-app-Timeline-method-_addTween'>        /**
+</span>         * tween を追加
          * @private
          * @param {Object} tween
          */
@@ -243,8 +231,8 @@ tm.namespace(&quot;tm.app&quot;, function() {
             tween.duration = tween.duration || 1000;
             tween.duration = this._dirty(tween.duration);
             tween.delay = tween.delay || 0;
-<span id='tm-app-Timeline-property-_addAction'>            tween.delay = this._dirty(tween.delay);
-</span>
+            tween.delay = this._dirty(tween.delay);
+
             var tweenObj = tm.anim.Tween();
             tweenObj.to(this.element, tween.props, tween.duration, tween.fn);
             tweenObj.delay = tween.delay;
@@ -253,11 +241,10 @@ tm.namespace(&quot;tm.app&quot;, function() {
             this._updateDuration(tweenObj);
         },
 
-        /**
-         * @property
-         * アニメーションを追加
-<span id='tm-app-Timeline-property-_updateDuration'>         * @private
-</span>         * @param {Object} action
+<span id='tm-app-Timeline-method-_addAction'>        /**
+</span>         * アニメーションを追加
+         * @private
+         * @param {Object} action
          */
         _addAction: function(action) {
             action.delay = action.delay || 0;
@@ -267,31 +254,28 @@ tm.namespace(&quot;tm.app&quot;, function() {
             this._updateDuration(action);
         },
         
-        /**
-<span id='tm-app-Timeline-property-_dirty'>         * @property
+<span id='tm-app-Timeline-method-_updateDuration'>        /**
 </span>         * @TODO ?
          * @private
          * @param {Object} task
          */
         _updateDuration: function(task) {
             var duration = task.delay + (task.duration ? task.duration : 0);
-<span id='tm-app-Timeline-property-load'>            if (this.duration &lt; duration) this.duration = duration;
-</span>            return this;
+            if (this.duration &lt; duration) this.duration = duration;
+            return this;
         },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-app-Timeline-method-_dirty'>        /**
+</span>         * @TODO ?
          * @private
          * @param {Object} t
          */
         _dirty: function(t) {
             return (t/this.fps).toInt();
         },
-<span id='tm-app-Timeline-property-clear'>        
-</span>        /**
-         * @property
-         * @TODO ?
+        
+<span id='tm-app-Timeline-method-load'>        /**
+</span>         * @TODO ?
          * @param {Object} data
          */
         load: function(data) {
@@ -301,11 +285,10 @@ tm.namespace(&quot;tm.app&quot;, function() {
             }
             
             return this;
-<span id='tm-app-Timeline-property-animation'>        },
-</span>        
-        /**
-         * @property
-         * アニメーションをクリア
+        },
+        
+<span id='tm-app-Timeline-method-clear'>        /**
+</span>         * アニメーションをクリア
          */
         clear: function() {
             this.currentFrame = 0;
@@ -319,9 +302,10 @@ tm.namespace(&quot;tm.app&quot;, function() {
     
     
     
-    /**
-     * @property    animation
-     * アニメーション
+<span id='tm-app-Element-property-timeline'>    /**
+</span>     * @member      tm.app.Element
+     * @property    timeline
+     * タイムラインアニメーション
      */
     tm.app.Element.prototype.getter(&quot;timeline&quot;, function() {
         if (!this._timeline) {

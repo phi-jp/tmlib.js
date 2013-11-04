@@ -24,13 +24,15 @@
 <span id='tm-asset-MapSheet'>    /**
 </span>     * @class tm.asset.MapSheet
      * マップシート
+     * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.asset.MapSheet&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
-<span id='tm-asset-MapSheet-method-constructor'>        
-</span>        /**
-         * @constructor
-         * コンストラクタ
+
+<span id='tm-asset-MapSheet-property-loaded'>        /** @property loaded  */
+</span>        
+<span id='tm-asset-MapSheet-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(path) {
             this.superInit();
@@ -51,12 +53,11 @@
                 this.$extend(arguments[0]);
                 
                 this._checkImage();
-<span id='tm-asset-MapSheet-property-_parse'>            }
-</span>        },
+            }
+        },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-asset-MapSheet-method-_parse'>        /**
+</span>         * @TODO ?
          * @private
          */
         _parse: function(str) {
@@ -75,11 +76,10 @@
             data.layers = this._parseLayers(xml);
             
             return data;
-<span id='tm-asset-MapSheet-property-_parseTilesets'>        },
-</span>        
-        /**
-         * @property
-         * @TODO ?
+        },
+        
+<span id='tm-asset-MapSheet-method-_parseTilesets'>        /**
+</span>         * @TODO ?
          * @private
          */
         _parseTilesets: function(xml) {
@@ -101,11 +101,10 @@
             });
             
             return data;
-<span id='tm-asset-MapSheet-property-_parseLayers'>        },
-</span>        
-        /**
-         * @property
-         * @TODO ?
+        },
+        
+<span id='tm-asset-MapSheet-method-_parseLayers'>        /**
+</span>         * @TODO ?
          * @private
          */
         _parseLayers: function(xml) {
@@ -157,12 +156,11 @@
                 }
             }.bind(this));
 
-<span id='tm-asset-MapSheet-property-_parseCSV'>            return data;
-</span>        },
+            return data;
+        },
 
-        /**
-         * @property
-         * @TODO ?
+<span id='tm-asset-MapSheet-method-_parseCSV'>        /**
+</span>         * @TODO ?
          * @private
          */
         _parseCSV: function(data) {
@@ -174,12 +172,11 @@
                 layer.push(num);
             });
 
-<span id='tm-asset-MapSheet-property-_parseBase64'>            return layer;
-</span>        },
+            return layer;
+        },
 
-        /**
-         * @property
-         * http://thekannon-server.appspot.com/herpity-derpity.appspot.com/pastebin.com/75Kks0WH
+<span id='tm-asset-MapSheet-method-_parseBase64'>        /**
+</span>         * http://thekannon-server.appspot.com/herpity-derpity.appspot.com/pastebin.com/75Kks0WH
          * @private
          */
         _parseBase64: function(data) {
@@ -196,26 +193,23 @@
             }
             
             return rst;
-<span id='tm-asset-MapSheet-property-_propertiesToJson'>        },
-</span>        
-        /**
-         * @property
-         * @TODO ?
+        },
+        
+<span id='tm-asset-MapSheet-method-_propertiesToJson'>        /**
+</span>         * @TODO ?
          * @private
          */
         _propertiesToJson: function(elm) {
             var obj = {};
-            var properties = elm.getElementsByTagName('property');
             for (var k = 0;k &lt; properties.length;k++) {
                 obj[properties[k].getAttribute('name')] = properties[k].getAttribute('value');
             }
             
             return obj;
-<span id='tm-asset-MapSheet-property-_attrToJSON'>        },
-</span>        
-        /**
-         * @property
-         * @TODO ?
+        },
+        
+<span id='tm-asset-MapSheet-method-_attrToJSON'>        /**
+</span>         * @TODO ?
          * @private
          */
         _attrToJSON: function(source) {
@@ -227,11 +221,10 @@
             }
             
             return obj;
-<span id='tm-asset-MapSheet-property-_checkImage'>        },
-</span>        
-        /**
-         * @property
-         * @TODO ?
+        },
+        
+<span id='tm-asset-MapSheet-method-_checkImage'>        /**
+</span>         * @TODO ?
          * @private
          */
         _checkImage: function() {

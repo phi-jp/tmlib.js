@@ -21,13 +21,13 @@
 
 (function() {
     
-<span id='Object'>    /**
-</span>     * @class Object
+<span id='global-Object'>    /**
+</span>     * @class global.Object
      * Objectの拡張
      */
-<span id='Object-method-defineVariable'>    
-</span>    /**
-     * @method defineVariable
+    
+<span id='global-Object-method-defineVariable'>    /**
+</span>     * @method defineVariable
      * 変数を追加
      * @param   {String} key name
      * @param   {Object} param
@@ -40,10 +40,10 @@
                 writable: true
             });
         }
-<span id='Object-method-defineFunction'>    });
-</span>    
-    /**
-     * @method defineFunction
+    });
+    
+<span id='global-Object-method-defineFunction'>    /**
+</span>     * @method defineFunction
      * 関数を追加
      * @param   {String} key name
      * @param   {Function} function
@@ -55,11 +55,11 @@
                 enumerable: false,
                 writable: true
             });
-<span id='Object-method-defineInstanceVariable'>        }
-</span>    });
+        }
+    });
     
-    /**
-     * @method defineInstanceVariable
+<span id='global-Object-method-defineInstanceVariable'>    /**
+</span>     * @method defineInstanceVariable
      * @TODO ?
      */
     Object.prototype.defineFunction(&quot;defineInstanceVariable&quot;, function(name, val){
@@ -67,11 +67,11 @@
             value: val,
             enumerable: true,
             writable: true
-<span id='Object-method-defineInstanceMethod'>        });
-</span>    });
+        });
+    });
     
-    /**
-     * @method defineInstanceMethod
+<span id='global-Object-method-defineInstanceMethod'>    /**
+</span>     * @method defineInstanceMethod
      * @TODO ?
      */
     Object.prototype.defineFunction(&quot;defineInstanceMethod&quot;, function(name, fn){
@@ -79,11 +79,11 @@
             value: fn,
             enumerable: false,
             writable: true
-<span id='Object-method-setter'>        });
-</span>    });
+        });
+    });
     
-    /**
-     * @method setter
+<span id='global-Object-method-setter'>    /**
+</span>     * @method setter
      * @TODO ?
      */
     Object.defineInstanceMethod(&quot;setter&quot;, function(name, fn){
@@ -92,11 +92,11 @@
             enumerable: false,
             configurable: true
         });
-<span id='Object-method-getter'>        // this.__defineSetter__(name, fn);
-</span>    });
+        // this.__defineSetter__(name, fn);
+    });
     
-    /**
-     * @method getter
+<span id='global-Object-method-getter'>    /**
+</span>     * @method getter
      * @TODO ?
      */
     Object.defineInstanceMethod(&quot;getter&quot;, function(name, fn){
@@ -105,11 +105,11 @@
             enumerable: false,
             configurable: true
         });
-<span id='Object-method-accessor'>        // this.__defineGetter__(name, fn);
-</span>    });
+        // this.__defineGetter__(name, fn);
+    });
     
-    /**
-     * @method accessor
+<span id='global-Object-method-accessor'>    /**
+</span>     * @method accessor
      * @TODO ?
      */
     Object.defineInstanceMethod(&quot;accessor&quot;, function(name, param) {
@@ -120,102 +120,102 @@
             configurable: true
         });
         // (param[&quot;get&quot;]) &amp;&amp; this.getter(name, param[&quot;get&quot;]);
-<span id='Object-method-S-has'>        // (param[&quot;set&quot;]) &amp;&amp; this.setter(name, param[&quot;set&quot;]);
-</span>    });
+        // (param[&quot;set&quot;]) &amp;&amp; this.setter(name, param[&quot;set&quot;]);
+    });
 
-    /**
-     * @method  $has
+<span id='global-Object-method-S-has'>    /**
+</span>     * @method  $has
      * text
      */
     Object.defineInstanceMethod(&quot;$has&quot;, function(key) {
-<span id='Object-method-S-extend'>        return this.hasOwnProperty(key);
-</span>    });
+        return this.hasOwnProperty(key);
+    });
 
-    /**
-     * @method  $extend
+<span id='global-Object-method-S-extend'>    /**
+</span>     * @method  $extend
      * 他のライブラリと競合しちゃうので extend -&gt; $extend としました
      */
     Object.defineInstanceMethod(&quot;$extend&quot;, function() {
         Array.prototype.forEach.call(arguments, function(source) {
             for (var property in source) {
                 this[property] = source[property];
-<span id='Object-method-S-safe'>            }
-</span>        }, this);
+            }
+        }, this);
         return this;
     });
     
-    /**
-     * @method  $safe
+<span id='global-Object-method-S-safe'>    /**
+</span>     * @method  $safe
      * 安全拡張
      * 上書きしない
      */
     Object.defineInstanceMethod(&quot;$safe&quot;, function(source) {
         Array.prototype.forEach.call(arguments, function(source) {
             for (var property in source) {
-<span id='Object-method-S-strict'>                if (!this[property]) this[property] = source[property];
-</span>            }
+                if (!this[property]) this[property] = source[property];
+            }
         }, this);
         return this;
     });
     
     
-    /**
-     * @method  $strict
+<span id='global-Object-method-S-strict'>    /**
+</span>     * @method  $strict
      * 厳格拡張
      * すでにあった場合は警告
      */
     Object.defineInstanceMethod(&quot;$strict&quot;, function(source) {
         Array.prototype.forEach.call(arguments, function(source) {
             for (var property in source) {
-<span id='Object-method-S-pick'>                console.assert(!this[property], &quot;tm error: {0} is Already&quot;.format(property));
-</span>                this[property] = source[property];
+                console.assert(!this[property], &quot;tm error: {0} is Already&quot;.format(property));
+                this[property] = source[property];
             }
         }, this);
         return this;
     });
 
-    /**
-     * @method  $pick
+<span id='global-Object-method-S-pick'>    /**
+</span>     * @method  $pick
      * text
      */
     Object.defineInstanceMethod(&quot;$pick&quot;, function() {
         var temp = {};
 
-<span id='Object-method-S-omit'>        Array.prototype.forEach.call(arguments, function(key) {
-</span>            if (key in this) temp[key] = this[key];
+        Array.prototype.forEach.call(arguments, function(key) {
+            if (key in this) temp[key] = this[key];
         }, this);
 
         return temp;
     });
 
-    /**
-     * @method  $omit
+<span id='global-Object-method-S-omit'>    /**
+</span>     * @method  $omit
      * text
      */
     Object.defineInstanceMethod(&quot;$omit&quot;, function() {
         var temp = {};
 
         for (var key in this) {
-<span id='Object-method-using'>            if (Array.prototype.indexOf.call(arguments, key) == -1) {
-</span>                temp[key] = this[key];
+            if (Array.prototype.indexOf.call(arguments, key) == -1) {
+                temp[key] = this[key];
             }
         }
 
         return temp;
     });
     
-    /**
-     * @method  using
+<span id='global-Object-method-using'>    /**
+</span>     * @method  using
      * 使う
      */
-<span id='Object-method-globalize'>    Object.defineInstanceMethod(&quot;$using&quot;, function(source) {
-</span>        // TODO:
+    Object.defineInstanceMethod(&quot;$using&quot;, function(source) {
+        // TODO:
         
         return this;
     });
     
-    /**
-     * @method  globalize
+<span id='global-Object-method-globalize'>    /**
+</span>     * @method  globalize
      * グローバル化
      */
     Object.defineInstanceMethod(&quot;$globalize&quot;, function(key) {
