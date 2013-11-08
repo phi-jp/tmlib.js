@@ -31,18 +31,18 @@ tm.display = tm.display || {};
      * @extends tm.display.CanvasElement
      */
     tm.display.AnimationSprite = tm.createClass({
-        superClass: tm.display.CanvasElement,
-
-<span id='tm-display-AnimationSprite-property-ss'>        /** @property ss                 sprite sheet */
-</span><span id='tm-display-AnimationSprite-property-width'>        /** @property width              width */
-</span><span id='tm-display-AnimationSprite-property-height'>        /** @property height             height */
-</span><span id='tm-display-AnimationSprite-property-currentFrame'>        /** @property currentFrame       現在のフレーム */
-</span><span id='tm-display-AnimationSprite-property-currentFrameIndex'>        /** @property currentFrameIndex  現在のフレームインデックス */
-</span><span id='tm-display-AnimationSprite-property-paused'>        /** @property paused             ポーズ */
-</span><span id='tm-display-AnimationSprite-property-currentAnimation'>        /** @property currentAnimation   現在のアニメーション */
+<span id='tm-display-AnimationSprite-property-ss'>        superClass: tm.display.CanvasElement,
 </span>
-<span id='tm-display-AnimationSprite-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-display-AnimationSprite-property-width'>        /** @property ss                 sprite sheet */
+</span><span id='tm-display-AnimationSprite-property-height'>        /** @property width              width */
+</span><span id='tm-display-AnimationSprite-property-currentFrame'>        /** @property height             height */
+</span><span id='tm-display-AnimationSprite-property-currentFrameIndex'>        /** @property currentFrame       現在のフレーム */
+</span><span id='tm-display-AnimationSprite-property-currentAnimation'><span id='tm-display-AnimationSprite-property-paused'>        /** @property currentFrameIndex  現在のフレームインデックス */
+</span></span><span id='tm-display-AnimationSprite-method-constructor'>        /** @property paused             ポーズ */
+</span>        /** @property currentAnimation   現在のアニメーション */
+
+        /**
+         * @constructor
          */
         init: function(ss, width, height) {
             this.superInit();
@@ -66,65 +66,65 @@ tm.display = tm.display || {};
             this.currentAnimation = null;
 
             this.addEventListener(&quot;enterframe&quot;, function(e) {
-                if (!this.paused &amp;&amp; e.app.frame%this.currentAnimation.frequency === 0) {
-                    this._updateFrame();
+<span id='tm-display-AnimationSprite-method-draw'>                if (!this.paused &amp;&amp; e.app.frame%this.currentAnimation.frequency === 0) {
+</span>                    this._updateFrame();
                 }
             });
         },
 
-<span id='tm-display-AnimationSprite-method-draw'>        /**
-</span>         * 描画
+        /**
+         * 描画
          */
         draw: function(canvas) {
             var srcRect = this.ss.getFrame(this.currentFrame);
             var element = this.ss.image.element;
 
             canvas.drawImage(element,
-                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
-                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
+<span id='tm-display-AnimationSprite-method-gotoAndPlay'>                srcRect.x, srcRect.y, srcRect.width, srcRect.height,
+</span>                -this.width*this.originX, -this.height*this.originY, this.width, this.height);
         },
 
-<span id='tm-display-AnimationSprite-method-gotoAndPlay'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         gotoAndPlay: function(name) {
             name = (name !== undefined) ? name : &quot;default&quot;;
 
             this.paused = false;
-            this.currentAnimation = this.ss.animations[name];
-            this.currentFrame = 0;
+<span id='tm-display-AnimationSprite-method-gotoAndStop'>            this.currentAnimation = this.ss.animations[name];
+</span>            this.currentFrame = 0;
             this.currentFrameIndex = 0;
             this._normalizeFrame();
 
             return this;
         },
 
-<span id='tm-display-AnimationSprite-method-gotoAndStop'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         gotoAndStop: function(name) {
             name = (name !== undefined) ? name : &quot;default&quot;;
 
             this.paused = true;
-            this.currentAnimation = this.ss.animations[name];
-            this.currentFrame = 0;
+<span id='tm-display-AnimationSprite-method-_updateFrame'>            this.currentAnimation = this.ss.animations[name];
+</span>            this.currentFrame = 0;
             this.currentFrameIndex = 0;
             this._normalizeFrame();
 
             return this;
         },
 
-<span id='tm-display-AnimationSprite-method-_updateFrame'>        /**
-</span>         * @TODO ?
-         * @private
+        /**
+<span id='tm-display-AnimationSprite-method-_normalizeFrame'>         * @TODO ?
+</span>         * @private
          */
         _updateFrame: function() {
             this.currentFrameIndex += 1;
             this._normalizeFrame();
         },
 
-<span id='tm-display-AnimationSprite-method-_normalizeFrame'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _normalizeFrame: function() {

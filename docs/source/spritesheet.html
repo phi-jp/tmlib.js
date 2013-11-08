@@ -27,13 +27,13 @@
      * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.asset.SpriteSheet&quot;, {
-        superClass: &quot;tm.event.EventDispatcher&quot;,
-
-<span id='tm-asset-SpriteSheet-property-loaded'>        /** loaded  */
-</span>        loaded: false,
-
-<span id='tm-asset-SpriteSheet-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-asset-SpriteSheet-property-loaded'>        superClass: &quot;tm.event.EventDispatcher&quot;,
+</span>
+        /** loaded  */
+<span id='tm-asset-SpriteSheet-method-constructor'>        loaded: false,
+</span>
+        /**
+         * @constructor
          */
         init: function(src) {
             this.superInit();
@@ -49,10 +49,10 @@
     			this.dispatchEvent(tm.event.Event(&quot;load&quot;));
             }
 
-        },
-
-<span id='tm-asset-SpriteSheet-method-load'>        /**
-</span>         * @TODO ?
+<span id='tm-asset-SpriteSheet-method-load'>        },
+</span>
+        /**
+         * @TODO ?
          */
         load: function(path) {
         	tm.util.Ajax.load({
@@ -64,10 +64,10 @@
         			this.dispatchEvent(tm.event.Event(&quot;load&quot;));
         		}.bind(this),
         	});
-        },
-
-<span id='tm-asset-SpriteSheet-method-parse'>        /**
-</span>         * @TODO ?
+<span id='tm-asset-SpriteSheet-method-parse'>        },
+</span>
+        /**
+         * @TODO ?
          */
         parse: function(param) {
             this.frame = param.frame;
@@ -96,24 +96,24 @@
             }
 
             this._calcAnim(param.animations);
-        },
-
-<span id='tm-asset-SpriteSheet-method-getFrame'>        /**
-</span>         * @TODO ?
+<span id='tm-asset-SpriteSheet-method-getFrame'>        },
+</span>
+        /**
+         * @TODO ?
          */
         getFrame: function(index) {
             return this.frames[index];
         },
-        
-<span id='tm-asset-SpriteSheet-method-getAnimation'>        /**
-</span>         * @TODO ?
+<span id='tm-asset-SpriteSheet-method-getAnimation'>        
+</span>        /**
+         * @TODO ?
          */
         getAnimation: function(name) {
             return this.animations[name];
         },
-        
-<span id='tm-asset-SpriteSheet-method-_calcFrames'>        /**
-</span>         * @TODO ?
+<span id='tm-asset-SpriteSheet-method-_calcFrames'>        
+</span>        /**
+         * @TODO ?
          * @private
          */
         _calcFrames: function(frame) {
@@ -137,10 +137,10 @@
                 };
                 frames.push(rect);
             }
-        },
-
-<span id='tm-asset-SpriteSheet-method-_calcAnim'>        /**
-</span>         * @TODO ?
+<span id='tm-asset-SpriteSheet-method-_calcAnim'>        },
+</span>
+        /**
+         * @TODO ?
          * @private
          */
         _calcAnim: function(animations) {

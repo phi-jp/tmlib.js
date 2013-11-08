@@ -29,14 +29,14 @@
      * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.asset.AssetManager&quot;, {
-        superClass: &quot;tm.event.EventDispatcher&quot;,
-
-<span id='tm-asset-AssetManager-property-assets'>        /** @property assets  */
-</span><span id='tm-asset-AssetManager-property-_funcs'>        /** @property _funcs  @private */
-</span><span id='tm-asset-AssetManager-property-_loadedCounter'>        /** @property _loadedCounter  @private */
+<span id='tm-asset-AssetManager-property-assets'>        superClass: &quot;tm.event.EventDispatcher&quot;,
 </span>
-<span id='tm-asset-AssetManager-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-asset-AssetManager-property-_funcs'>        /** @property assets  */
+</span><span id='tm-asset-AssetManager-property-_loadedCounter'>        /** @property _funcs  @private */
+</span><span id='tm-asset-AssetManager-method-constructor'>        /** @property _loadedCounter  @private */
+</span>
+        /**
+         * @constructor
          */
         init: function() {
             this.superInit();
@@ -45,10 +45,10 @@
 
             this._funcs = [];
             this._loadedCounter = 0;
-        },
-
-<span id='tm-asset-AssetManager-method-load'>        /**
-</span>         * アセットのロード
+<span id='tm-asset-AssetManager-method-load'>        },
+</span>
+        /**
+         * アセットのロード
          * @param {Object} key
          * @param {Object} path
          */
@@ -76,11 +76,11 @@
                 this.dispatchEvent(e);
             }
 
-            return this;
-        },
+<span id='tm-asset-AssetManager-method-_load'>            return this;
+</span>        },
 
-<span id='tm-asset-AssetManager-method-_load'>        /**
-</span>         * アセットのロード
+        /**
+         * アセットのロード
          * @private
          * @param {Object} key
          * @param {Object} path
@@ -99,56 +99,56 @@
                 asset.addEventListener(&quot;load&quot;, this._checkLoadedFunc.bind(this));
             }
             else {
-                this._checkLoadedFunc();
-            }
+<span id='tm-asset-AssetManager-method-get'>                this._checkLoadedFunc();
+</span>            }
 
             return this;
         },
 
-<span id='tm-asset-AssetManager-method-get'>        /**
-</span>         * アセットのゲット
-         * @param {Object} key
-         */
+        /**
+         * アセットのゲット
+<span id='tm-asset-AssetManager-method-set'>         * @param {Object} key
+</span>         */
         get: function(key) {
             return this.assets[key];
         },
 
-<span id='tm-asset-AssetManager-method-set'>        /**
-</span>         * アセットのセット
+        /**
+         * アセットのセット
          * @param {Object} key
          * @param {Object} asset
-         */
-        set: function(key, asset) {
+<span id='tm-asset-AssetManager-method-contains'>         */
+</span>        set: function(key, asset) {
             this.assets[key] = asset;
             return this;
         },
 
-<span id='tm-asset-AssetManager-method-contains'>        /**
-</span>         * @TODO ?
-         * @param {Object} key
-         */
+        /**
+         * @TODO ?
+<span id='tm-asset-AssetManager-method-register'>         * @param {Object} key
+</span>         */
         contains: function(key) {
             return (this.assets[key]) ? true : false;
         },
 
-<span id='tm-asset-AssetManager-method-register'>        /**
-</span>         * アセットのセット
-         * @param {Object} key
-         * @param {Object} asset
+        /**
+         * アセットのセット
+<span id='tm-asset-AssetManager-method-isLoaded'>         * @param {Object} key
+</span>         * @param {Object} asset
          */
         register: function(type, fn) {
             this._funcs[type] = fn;
         },
 
-<span id='tm-asset-AssetManager-method-isLoaded'>        /**
-</span>         * ロード済みか調べる
-         */
+        /**
+<span id='tm-asset-AssetManager-method-_checkLoadedFunc'>         * ロード済みか調べる
+</span>         */
         isLoaded: function() {
             return (this._loadedCounter == Object.keys(this.assets).length);
         },
 
-<span id='tm-asset-AssetManager-method-_checkLoadedFunc'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _checkLoadedFunc: function() {

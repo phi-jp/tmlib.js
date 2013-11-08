@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * flow.js
+ */
+
+    
+<span id='tm-util-Flow'>/**
+</span> * @class tm.util.Flow
+ * it is inspire in made flow.js of @uupaa
+ * @extends tm.event.EventDispatcher
+ */
+tm.define(&quot;tm.util.Flow&quot;, {
+    superClass: &quot;tm.event.EventDispatcher&quot;,
+    
+<span id='tm-util-Flow-property-waits'>    /** waits */
+</span>    waits: 0,
+<span id='tm-util-Flow-property-counter'>    /** counter */
+</span>    counter: 0,
+<span id='tm-util-Flow-property-args'>    /** args */
+</span>    args: null,
+    
+<span id='tm-util-Flow-method-constructor'>    /**
+</span>     * @constructor
+     */
+    init: function(waits, callback) {
+        this.superInit();
+        
+        waits = waits || 0;
+        callback = callback || null;
+        
+        this.setup(waits, callback);
+    },
+    
+<span id='tm-util-Flow-method-setup'>    /**
+</span>     * セットアップ
+     */
+    setup: function(waits, callback) {
+        this.waits = waits;
+        this.callback = callback;
+        this.counter = 0;
+        this.args = {};
+<span id='tm-util-Flow-method-pass'>    },
+</span>    
+    /**
+     * パス
+     */
+    pass: function(key, value) {
+        ++this.counter;
+        
+        if (arguments.length &gt;= 2) {
+            this.args[key] = value;
+        }
+        
+        this._check();
+<span id='tm-util-Flow-method-isFinish'>    },
+</span>    
+    /**
+     * 終了チェック
+     */
+    isFinish: function() {
+        return (this.counter === this.waits);
+    },
+    
+    _check: function() {
+        if (this.isFinish()) {
+            var args = this.args;
+            
+            if (this.callback) {
+                this.callback(args);
+                
+                this.args = null;
+                this.callback = null;
+            }
+            
+            var e = tm.event.Event(&quot;flowfinish&quot;);
+            e.args = args;
+            this.fire(e);
+        }
+    }
+});
+
+</pre>
+</body>
+</html>

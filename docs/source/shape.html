@@ -31,14 +31,14 @@ tm.display = tm.display || {};
      * @extends tm.display.CanvasElement
      */
     tm.display.Shape = tm.createClass({
-        superClass: tm.display.CanvasElement,
-        
-<span id='tm-display-Shape-property-canvsa'>        /** @property canvsa */
-</span><span id='tm-display-Shape-property-width'>        /** @property width */
-</span><span id='tm-display-Shape-property-height'>        /** @property height */
+<span id='tm-display-Shape-property-canvsa'>        superClass: tm.display.CanvasElement,
+</span>        
+<span id='tm-display-Shape-property-width'>        /** @property canvsa */
+</span><span id='tm-display-Shape-property-height'>        /** @property width */
+</span><span id='tm-display-Shape-method-constructor'>        /** @property height */
 </span>
-<span id='tm-display-Shape-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(width, height) {
             this.superInit();
@@ -51,10 +51,10 @@ tm.display = tm.display || {};
             this.width  = width;
             this.height = height;
             this.canvas.resize(width, height);
-        },
-
-<span id='tm-display-Shape-method-renderCircle'>        /**
-</span>         * @TODO ?
+<span id='tm-display-Shape-method-renderCircle'>        },
+</span>
+        /**
+         * @TODO ?
          */
         renderCircle: function(param) {
             var c = this.canvas;
@@ -71,11 +71,11 @@ tm.display = tm.display || {};
             c.fillCircle(this.width/2, this.height/2, this.radius);
             c.strokeCircle(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2);
             
-            c.restore();
-        },
+<span id='tm-display-Shape-method-renderTriangle'>            c.restore();
+</span>        },
 
-<span id='tm-display-Shape-method-renderTriangle'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         renderTriangle: function(param) {
             var c = this.canvas;
@@ -90,13 +90,13 @@ tm.display = tm.display || {};
             
             // 描画
             c.fillPolygon(this.width/2, this.height/2, this.radius, 3);
-            c.strokePolygon(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, 3);
-            
+<span id='tm-display-Shape-method-renderRectangle'>            c.strokePolygon(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, 3);
+</span>            
             c.restore();
         },
 
-<span id='tm-display-Shape-method-renderRectangle'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         renderRectangle: function(param) {
             var c = this.canvas;
@@ -113,13 +113,13 @@ tm.display = tm.display || {};
             var lw      = Number(c.lineWidth);
             var lw_half = lw/2;
             c.fillRect(0, 0, this.width, this.height);
-            c.strokeRect(lw_half, lw_half, this.width-lw, this.height-lw);
-            
+<span id='tm-display-Shape-method-renderStar'>            c.strokeRect(lw_half, lw_half, this.width-lw, this.height-lw);
+</span>            
             c.restore();
         },
 
-<span id='tm-display-Shape-method-renderStar'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         renderStar: function(param) {
             var c = this.canvas;
@@ -139,13 +139,13 @@ tm.display = tm.display || {};
             var sideIndent  = param.sideIndent;
             var offsetAngle = param.offsetAngle;
             c.fillStar(this.width/2, this.height/2, this.radius, sides, sideIndent, offsetAngle);
-            c.strokeStar(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, sides, sideIndent, offsetAngle);
-            
+<span id='tm-display-Shape-method-renderPolygon'>            c.strokeStar(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, sides, sideIndent, offsetAngle);
+</span>            
             c.restore();
         },
 
-<span id='tm-display-Shape-method-renderPolygon'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         renderPolygon: function(param) {
             var c = this.canvas;
@@ -167,13 +167,13 @@ tm.display = tm.display || {};
             var sideIndent  = param.sideIndent;
             var offsetAngle = param.offsetAngle;
             c.fillPolygon(this.width/2, this.height/2, this.radius, sides, offsetAngle);
-            c.strokePolygon(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, sides, offsetAngle);
-            
+<span id='tm-display-Shape-method-renderHeart'>            c.strokePolygon(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, sides, offsetAngle);
+</span>            
             c.restore();
         },
 
-<span id='tm-display-Shape-method-renderHeart'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         renderHeart: function(param) {
             var c = this.canvas;
@@ -188,13 +188,13 @@ tm.display = tm.display || {};
             
             // 描画
             c.fillHeart(this.width/2, this.height/2, this.radius, param.angle);
-            c.strokeHeart(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, param.angle);
-            
+<span id='tm-display-Shape-method-renderText'>            c.strokeHeart(this.width/2, this.height/2, this.radius-Number(c.lineWidth)/2, param.angle);
+</span>            
             c.restore();
         },
 
-<span id='tm-display-Shape-method-renderText'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         renderText: function(param) {
             var c = this.canvas;
@@ -211,39 +211,39 @@ tm.display = tm.display || {};
             c.textBaseline  = param.textBaseline;
 
             // 描画
-            c.strokeText(param.text, this.width/2, this.height/2);
-            c.fillText(param.text, this.width/2, this.height/2);
+<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_CIRCLE'>            c.strokeText(param.text, this.width/2, this.height/2);
+</span>            c.fillText(param.text, this.width/2, this.height/2);
             
             c.restore();
         },
         
     });
 
-<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_CIRCLE'>    /** @static @property  */
+<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_TRIANGLE'>    /** @static @property  */
 </span>    tm.display.Shape.DEFAULT_SHAPE_PARAM_CIRCLE = {
         fillStyle: &quot;red&quot;,
         strokeStyle: &quot;white&quot;,
         lineWidth: &quot;2&quot;,
     };
 
-<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_TRIANGLE'>    /** @static @property  */
+<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_RECTANGLE'>    /** @static @property  */
 </span>    tm.display.Shape.DEFAULT_SHAPE_PARAM_TRIANGLE = {
         fillStyle: &quot;green&quot;,
         strokeStyle: &quot;white&quot;,
         lineWidth: &quot;2&quot;,
     };
 
-<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_RECTANGLE'>    /** @static @property  */
+<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_STAR'>    /** @static @property  */
 </span>    tm.display.Shape.DEFAULT_SHAPE_PARAM_RECTANGLE = {
         fillStyle: &quot;blue&quot;,
         strokeStyle: &quot;white&quot;,
         lineWidth: &quot;2&quot;,
     };
 
-<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_STAR'>    /** @static @property  */
-</span>    tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR = {
-        fillStyle: &quot;yellow&quot;,
-        strokeStyle: &quot;white&quot;,
+    /** @static @property  */
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR = {
+<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_POLYGON'>        fillStyle: &quot;yellow&quot;,
+</span>        strokeStyle: &quot;white&quot;,
         lineWidth: &quot;2&quot;,
         
         sides: 5,
@@ -251,9 +251,9 @@ tm.display = tm.display || {};
         offsetAngle: undefined,
     };
 
-<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_POLYGON'>    /** @static @property  */
-</span>    tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
-        fillStyle: &quot;cyan&quot;,
+    /** @static @property  */
+<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_HEART'>    tm.display.Shape.DEFAULT_SHAPE_PARAM_POLYGON = {
+</span>        fillStyle: &quot;cyan&quot;,
         strokeStyle: &quot;white&quot;,
         lineWidth: &quot;2&quot;,
         
@@ -261,22 +261,22 @@ tm.display = tm.display || {};
         offsetAngle: undefined,
     };
 
-<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_HEART'>    /** @static @property  */
-</span>    tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART = {
-        fillStyle: &quot;pink&quot;,
+    /** @static @property  */
+<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_TEXT'>    tm.display.Shape.DEFAULT_SHAPE_PARAM_HEART = {
+</span>        fillStyle: &quot;pink&quot;,
         strokeStyle: &quot;white&quot;,
         lineWidth: &quot;2&quot;,
         
         angle: 45,
     };
 
-<span id='tm-display-Shape-static-property-DEFAULT_SHAPE_PARAM_TEXT'>    /** @static @property  */
-</span>    tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
+    /** @static @property  */
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_TEXT = {
         text: &quot;hello, world&quot;,
         fillStyle: &quot;pink&quot;,
         strokeStyle: &quot;white&quot;,
-        lineWidth: &quot;1&quot;,
-        textAlign: &quot;center&quot;,
+<span id='tm-display-CircleShape'>        lineWidth: &quot;1&quot;,
+</span>        textAlign: &quot;center&quot;,
         textBaseline: &quot;middle&quot;,
         font: &quot;24px 'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;,
     };
@@ -286,24 +286,24 @@ tm.display = tm.display || {};
 
 (function() {
     
-<span id='tm-display-CircleShape'>    /**
-</span>     * @class tm.display.CircleShape
+    /**
+     * @class tm.display.CircleShape
      * 簡単に円を描画できるクラス
      * @extends tm.display.Shape
      * 
      *      @example display
-     *      var shape = tm.display.CircleShape().addChildTo(this);
-     *      shape.setPosition(50, 50);
+<span id='tm-display-CircleShape-method-constructor'>     *      var shape = tm.display.CircleShape().addChildTo(this);
+</span>     *      shape.setPosition(50, 50);
      */
     tm.display.CircleShape = tm.createClass({
         
         superClass: tm.display.Shape,
         
-<span id='tm-display-CircleShape-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
-        init: function(width, height, param) {
-            this.superInit(width, height);
+<span id='tm-display-TriangleShape'>        init: function(width, height, param) {
+</span>            this.superInit(width, height);
             // 描画
             this.renderCircle(param);
         },
@@ -316,18 +316,18 @@ tm.display = tm.display || {};
 
 (function() {
     
-<span id='tm-display-TriangleShape'>    /**
-</span>     * @class tm.display.TriangleShape
-     * 簡単に三角形を描画できるクラス
+    /**
+<span id='tm-display-TriangleShape-method-constructor'>     * @class tm.display.TriangleShape
+</span>     * 簡単に三角形を描画できるクラス
      * @extends tm.display.Shape
      */
     tm.display.TriangleShape = tm.createClass({
         
         superClass: tm.display.Shape,
         
-<span id='tm-display-TriangleShape-method-constructor'>        /**
-</span>         * @constructor
-         */
+        /**
+<span id='tm-display-RectangleShape'>         * @constructor
+</span>         */
         init: function(width, height, param) {
             this.superInit(width, height);
             // 描画
@@ -341,26 +341,26 @@ tm.display = tm.display || {};
 
 
 
-(function() {
-    
-<span id='tm-display-RectangleShape'>    /**
-</span>     * @class tm.display.RectangleShape
+<span id='tm-display-RectangleShape-method-constructor'>(function() {
+</span>    
+    /**
+     * @class tm.display.RectangleShape
      * 簡単に矩形を描画できるクラス
      * @extends tm.display.Shape
      */
     tm.display.RectangleShape = tm.createClass({
         
         superClass: tm.display.Shape,
-        
-<span id='tm-display-RectangleShape-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-display-StarShape'>        
+</span>        /**
+         * @constructor
          */
         init: function(width, height, param) {
             this.superInit(width, height);
             // 描画
             this.renderRectangle(param);
-        },
-        
+<span id='tm-display-StarShape-method-constructor'>        },
+</span>        
     });
     
 })();
@@ -368,23 +368,23 @@ tm.display = tm.display || {};
 
 (function() {
     
-<span id='tm-display-StarShape'>    /**
-</span>     * @class tm.display.StarShape
+    /**
+     * @class tm.display.StarShape
      * 簡単に星形を描画できるクラス
      * @extends tm.display.Shape
      */
     tm.display.StarShape = tm.createClass({
         
-        superClass: tm.display.Shape,
-        
-<span id='tm-display-StarShape-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-display-PolygonShape'>        superClass: tm.display.Shape,
+</span>        
+        /**
+         * @constructor
          */
         init: function(width, height, param) {
             this.superInit(width, height);
             // 描画
-            this.renderStar(param);
-        },
+<span id='tm-display-PolygonShape-method-constructor'>            this.renderStar(param);
+</span>        },
         
     });
     
@@ -394,22 +394,22 @@ tm.display = tm.display || {};
 
 (function() {
     
-<span id='tm-display-PolygonShape'>    /**
-</span>     * @class tm.display.PolygonShape
+    /**
+     * @class tm.display.PolygonShape
      * @TODO なにを描画するクラス？
      * @extends tm.display.Shape
      */
-    tm.display.PolygonShape = tm.createClass({
-        
+<span id='tm-display-HeartShape'>    tm.display.PolygonShape = tm.createClass({
+</span>        
         superClass: tm.display.Shape,
         
-<span id='tm-display-PolygonShape-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(width, height, param) {
             this.superInit(width, height);
-            // 描画
-            this.renderPolygon(param);
+<span id='tm-display-HeartShape-method-constructor'>            // 描画
+</span>            this.renderPolygon(param);
         },
         
     });
@@ -421,21 +421,21 @@ tm.display = tm.display || {};
 
 (function() {
     
-<span id='tm-display-HeartShape'>    /**
-</span>     * @class tm.display.HeartShape
+    /**
+     * @class tm.display.HeartShape
      * 簡単にハートを描画できるクラス
      * @extends tm.display.Shape
      */
-    tm.display.HeartShape = tm.createClass({
-        
+<span id='tm-display-TextShape'>    tm.display.HeartShape = tm.createClass({
+</span>        
         superClass: tm.display.Shape,
         
-<span id='tm-display-HeartShape-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(width, height, param) {
-            this.superInit(width, height);
-            // 描画
+<span id='tm-display-TextShape-method-constructor'>            this.superInit(width, height);
+</span>            // 描画
             this.renderHeart(param);
         },
         
@@ -448,8 +448,8 @@ tm.display = tm.display || {};
 
 (function() {
     
-<span id='tm-display-TextShape'>    /**
-</span>     * @class tm.display.TextShape
+    /**
+     * @class tm.display.TextShape
      * @TODO なにするクラス？
      * @extends tm.display.Shape
      */
@@ -457,8 +457,8 @@ tm.display = tm.display || {};
 
         superClass: &quot;tm.display.Shape&quot;,
         
-<span id='tm-display-TextShape-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(width, height, param) {
             this.superInit(width, height);

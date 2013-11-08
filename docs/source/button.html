@@ -71,21 +71,21 @@ tm.ui = tm.ui || {};
      */
     tm.ui.LabelButton.DEFAULT_ALPHA = 0.5;
     
-})();
-
+<span id='tm-ui-IconButton'>})();
+</span>
 
 (function() {
     
-<span id='tm-ui-IconButton'>    /**
-</span>     * @class tm.ui.IconButton
+    /**
+     * @class tm.ui.IconButton
      * IconButton
      * @extends tm.display.Sprite
      */
     tm.ui.IconButton = tm.createClass({
-        superClass: tm.display.Sprite,
-        
-<span id='tm-ui-IconButton-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-ui-IconButton-method-constructor'>        superClass: tm.display.Sprite,
+</span>        
+        /**
+         * @constructor
          */
         init: function(texture) {
             if (texture) {
@@ -107,31 +107,31 @@ tm.ui = tm.ui || {};
                 this.tweener.clear();
                 this.tweener.fade(tm.ui.LabelButton.DEFAULT_ALPHA, 250);
             });
-        },
-    });
+<span id='tm-ui-IconButton-static-property-DEFAULT_ALPHA'>        },
+</span>    });
     
-<span id='tm-ui-IconButton-static-property-DEFAULT_ALPHA'>    /**
-</span>     * @static
+    /**
+     * @static
      * @property
      * デフォルトとなるアルファ値
      */
-    tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
-    
+<span id='tm-ui-GlossyButton'>    tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
+</span>    
 })();
 
 
 (function() {
     
-<span id='tm-ui-GlossyButton'>    /**
-</span>     * @class tm.ui.GlossyButton
+    /**
+     * @class tm.ui.GlossyButton
      * glossy button
      * @extends tm.display.Shape
      */
-    tm.ui.GlossyButton = tm.createClass({
-        superClass: tm.display.Shape,
+<span id='tm-ui-GlossyButton-method-constructor'>    tm.ui.GlossyButton = tm.createClass({
+</span>        superClass: tm.display.Shape,
 
-<span id='tm-ui-GlossyButton-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(width, height, backgroundColor, text) {
             this.superInit(width, height);
@@ -154,23 +154,23 @@ tm.ui = tm.ui || {};
             // ラベル
             this.label = tm.display.Label(text || &quot;&quot;).addChildTo(this);
             this.label.setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
-            
-            this._refresh();
+<span id='tm-ui-GlossyButton-method-setBackgroundColor'>            
+</span>            this._refresh();
         },
 
-<span id='tm-ui-GlossyButton-method-setBackgroundColor'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         setBackgroundColor: function(backgroundColor) {
             this.backgroundColor = backgroundColor;
             
             this._refresh();
-            
-            return this;
+<span id='tm-ui-GlossyButton-method-_refresh'>            
+</span>            return this;
         },
 
-<span id='tm-ui-GlossyButton-method-_refresh'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _refresh: function() {
@@ -199,16 +199,16 @@ tm.ui = tm.ui || {};
             c.setGradient(grad);
             c.fillRect(2, 2, this.width-4, this.height-4, 10);
             
-            // ラベルのサイズをリセット
-            this.label.setSize(this.width, this.height);
+<span id='tm-ui-GlossyButton-static-property-DEFAULT_ALPHA'>            // ラベルのサイズをリセット
+</span>            this.label.setSize(this.width, this.height);
         },
     });
 
-<span id='tm-ui-GlossyButton-static-property-DEFAULT_ALPHA'>    /**
-</span>     * @static
+    /**
+     * @static
      * @property
-     * デフォルトとなるアルファ値
-     */
+<span id='tm-ui-FlatButton'>     * デフォルトとなるアルファ値
+</span>     */
     tm.ui.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     
@@ -217,16 +217,16 @@ tm.ui = tm.ui || {};
 
 (function() {
 
-<span id='tm-ui-FlatButton'>    /**
-</span>     * @class tm.ui.FlatButton
-     * フラットデザインのボタン
-     * @extends tm.display.Shape
+    /**
+     * @class tm.ui.FlatButton
+<span id='tm-ui-FlatButton-method-constructor'>     * フラットデザインのボタン
+</span>     * @extends tm.display.Shape
      */
     tm.define(&quot;tm.ui.FlatButton&quot;, {
         superClass: tm.display.Shape,
 
-<span id='tm-ui-FlatButton-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(param) {
             param.$safe({

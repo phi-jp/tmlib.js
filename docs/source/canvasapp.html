@@ -29,18 +29,18 @@ tm.display = tm.display || {};
      * @extends tm.app.BaseApp
      */
     tm.display.CanvasApp = tm.createClass({
-        superClass: tm.app.BaseApp,
-
-<span id='tm-display-CanvasApp-property-element'>        /** @property element */
-</span><span id='tm-display-CanvasApp-property-canvas'>        /** @property canvas */
-</span><span id='tm-display-CanvasApp-property-renderer'>        /** @property renderer */
-</span><span id='tm-display-CanvasApp-property-background'>        /** @property background */
-</span><span id='tm-display-CanvasApp-property-_scenes'>        /** @property _scenes */
-</span><span id='tm-display-CanvasApp-property-mouse'>        /** @property mouse */
-</span><span id='tm-display-CanvasApp-property-touch'>        /** @property touch */
+<span id='tm-display-CanvasApp-property-element'>        superClass: tm.app.BaseApp,
+</span>
+<span id='tm-display-CanvasApp-property-canvas'>        /** @property element */
+</span><span id='tm-display-CanvasApp-property-renderer'>        /** @property canvas */
+</span><span id='tm-display-CanvasApp-property-background'>        /** @property renderer */
+</span><span id='tm-display-CanvasApp-property-_scenes'>        /** @property background */
+</span><span id='tm-display-CanvasApp-property-mouse'>        /** @property _scenes */
+</span><span id='tm-display-CanvasApp-property-touch'>        /** @property mouse */
+</span><span id='tm-display-CanvasApp-method-constructor'>        /** @property touch */
 </span>        
-<span id='tm-display-CanvasApp-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(canvas) {
             if (canvas instanceof HTMLCanvasElement) {
@@ -64,43 +64,43 @@ tm.display = tm.display || {};
             this.background = &quot;black&quot;;
             
             // シーン周り
-            this._scenes = [ tm.app.Scene() ];
-        },
+<span id='tm-display-CanvasApp-method-resize'>            this._scenes = [ tm.app.Scene() ];
+</span>        },
         
-<span id='tm-display-CanvasApp-method-resize'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         resize: function(width, height) {
             this.width = width;
-            this.height= height;
-            
+<span id='tm-display-CanvasApp-method-resizeWindow'>            this.height= height;
+</span>            
             return this;
         },
 
-<span id='tm-display-CanvasApp-method-resizeWindow'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         resizeWindow: function() {
             this.width = innerWidth;
-            this.height= innerHeight;
-            
+<span id='tm-display-CanvasApp-method-fitWindow'>            this.height= innerHeight;
+</span>            
             return this;
         },
         
-<span id='tm-display-CanvasApp-method-fitWindow'>        /**
-</span>         * 画面にフィットさせる
+        /**
+         * 画面にフィットさせる
          */
         fitWindow: function(everFlag) {
             // 画面にフィット
             this.canvas.fitWindow(everFlag);
             
             // マウスとタッチの座標更新関数をパワーアップ
-            this.mouse._mousemove = this.mouse._mousemoveScale;
-            this.touch._touchmove = this.touch._touchmoveScale;
+<span id='tm-display-CanvasApp-method-_draw'>            this.mouse._mousemove = this.mouse._mousemoveScale;
+</span>            this.touch._touchmove = this.touch._touchmoveScale;
         },
         
-<span id='tm-display-CanvasApp-method-_draw'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _draw: function() {
@@ -113,8 +113,8 @@ tm.display = tm.display || {};
             this.canvas.save();
             for (var i=0, len=this._scenes.length; i&lt;len; ++i) {
                 this.renderer.render(this._scenes[i]);
-//                this._scenes[i]._draw(this.canvas);
-            }
+<span id='tm-display-CanvasApp-property-width'>//                this._scenes[i]._draw(this.canvas);
+</span>            }
             this.canvas.restore();
             
             //this.currentScene._draw(this.canvas);
@@ -123,17 +123,17 @@ tm.display = tm.display || {};
     });
     
     
-<span id='tm-display-CanvasApp-property-width'>    /**
-</span>     * @property    width
+    /**
+     * @property    width
      * 幅
      */
-    tm.display.CanvasApp.prototype.accessor(&quot;width&quot;, {
-        &quot;get&quot;: function()   { return this.canvas.width; },
+<span id='tm-display-CanvasApp-property-height'>    tm.display.CanvasApp.prototype.accessor(&quot;width&quot;, {
+</span>        &quot;get&quot;: function()   { return this.canvas.width; },
         &quot;set&quot;: function(v)  { this.canvas.width = v; }
     });
     
-<span id='tm-display-CanvasApp-property-height'>    /**
-</span>     * @property    height
+    /**
+     * @property    height
      * 高さ
      */
     tm.display.CanvasApp.prototype.accessor(&quot;height&quot;, {

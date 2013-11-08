@@ -27,25 +27,25 @@ tm.graphics = tm.graphics || {};
 </span>     * @class tm.graphics.Color
      * カラークラス
      */
-    tm.graphics.Color = tm.createClass({
-<span id='tm-graphics-Color-property-r'>        /** R値 */
-</span>        r: 255,
-<span id='tm-graphics-Color-property-g'>        /** G値 */
-</span>        g: 255,
-<span id='tm-graphics-Color-property-b'>        /** B値 */
-</span>        b: 255,
-<span id='tm-graphics-Color-property-a'>        /** A値 */
-</span>        a: 1.0,
-        
-<span id='tm-graphics-Color-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-graphics-Color-property-r'>    tm.graphics.Color = tm.createClass({
+</span>        /** R値 */
+<span id='tm-graphics-Color-property-g'>        r: 255,
+</span>        /** G値 */
+<span id='tm-graphics-Color-property-b'>        g: 255,
+</span>        /** B値 */
+<span id='tm-graphics-Color-property-a'>        b: 255,
+</span>        /** A値 */
+<span id='tm-graphics-Color-method-constructor'>        a: 1.0,
+</span>        
+        /**
+         * @constructor
          */
         init: function(r, g, b, a) {
             this.set.apply(this, arguments);
-        },
-
-<span id='tm-graphics-Color-method-set'>        /**
-</span>         * セッター.
+<span id='tm-graphics-Color-method-set'>        },
+</span>
+        /**
+         * セッター.
          */
         set: function(r, g, b, a) {
             this.r = r;
@@ -53,43 +53,43 @@ tm.graphics = tm.graphics || {};
             this.b = b;
             this.a = (a !== undefined) ? a : 1.0;
             return this;
-        },
-        
-<span id='tm-graphics-Color-method-setFromNumber'>        /**
-</span>         * 数値によるセッター.
+<span id='tm-graphics-Color-method-setFromNumber'>        },
+</span>        
+        /**
+         * 数値によるセッター.
          */
         setFromNumber: function(r, g, b, a) {
             this.r = r;
             this.g = g;
             this.b = b;
             this.a = (a !== undefined) ? a : 1.0;
-            return this;
-        },
+<span id='tm-graphics-Color-method-setFromArray'>            return this;
+</span>        },
         
-<span id='tm-graphics-Color-method-setFromArray'>        /**
-</span>         * 配列によるセッター
+        /**
+         * 配列によるセッター
          */
         setFromArray: function(arr) {
-            return this.set.apply(this, arr);
-        },
+<span id='tm-graphics-Color-method-setFromObject'>            return this.set.apply(this, arr);
+</span>        },
         
-<span id='tm-graphics-Color-method-setFromObject'>        /**
-</span>         * オブジェクトによるセッター
+        /**
+         * オブジェクトによるセッター
          */
-        setFromObject: function(obj) {
-            return this.set(obj.r, obj.g, obj.b, obj.a);
+<span id='tm-graphics-Color-method-setFromString'>        setFromObject: function(obj) {
+</span>            return this.set(obj.r, obj.g, obj.b, obj.a);
         },
         
-<span id='tm-graphics-Color-method-setFromString'>        /**
-</span>         * 文字列によるセッター
+        /**
+         * 文字列によるセッター
          */
         setFromString: function(str) {
-            var color = tm.graphics.Color.stringToNumber(str);
-            return this.set(color[0], color[1], color[2], color[3]);
+<span id='tm-graphics-Color-method-setSmart'>            var color = tm.graphics.Color.stringToNumber(str);
+</span>            return this.set(color[0], color[1], color[2], color[3]);
         },
         
-<span id='tm-graphics-Color-method-setSmart'>        /**
-</span>         * 賢いセッター
+        /**
+         * 賢いセッター
          */
         setSmart: function() {
             var arg = arguments[0];
@@ -102,49 +102,49 @@ tm.graphics = tm.graphics || {};
             else if (arg instanceof Object) {
                 this.setFromObject(arg);
             }
-            else if (typeof(arg) == &quot;string&quot;) {
-                this.setFromString(arg);
+<span id='tm-graphics-Color-method-toStyleAsHex'>            else if (typeof(arg) == &quot;string&quot;) {
+</span>                this.setFromString(arg);
             }
             return this;
         },
 
-<span id='tm-graphics-Color-method-toStyleAsHex'>        /**
-</span>         * CSS 用 16進数文字列に変換
+        /**
+         * CSS 用 16進数文字列に変換
          */
         toStyleAsHex: function() {
             return &quot;#{0}{1}{2}&quot;.format(
                 this.r.toString(16).padding(2, '0'),
-                this.g.toString(16).padding(2, '0'),
-                this.b.toString(16).padding(2, '0')
+<span id='tm-graphics-Color-method-toStyleAsRGB'>                this.g.toString(16).padding(2, '0'),
+</span>                this.b.toString(16).padding(2, '0')
             );
         },
         
-<span id='tm-graphics-Color-method-toStyleAsRGB'>        /**
-</span>         * CSS 用 RGB文字列に変換
+        /**
+         * CSS 用 RGB文字列に変換
          */
         toStyleAsRGB: function() {
-            return &quot;rgb({r},{g},{b})&quot;.format({
-                r: ~~this.r,
+<span id='tm-graphics-Color-method-toStyleAsRGBA'>            return &quot;rgb({r},{g},{b})&quot;.format({
+</span>                r: ~~this.r,
                 g: ~~this.g,
                 b: ~~this.b
             });
         },
         
         
-<span id='tm-graphics-Color-method-toStyleAsRGBA'>        /**
-</span>         * CSS 用 RGBA文字列に変換
+        /**
+         * CSS 用 RGBA文字列に変換
          */
         toStyleAsRGBA: function() {
-            return &quot;rgba({r},{g},{b},{a})&quot;.format({
-                r: ~~this.r,
+<span id='tm-graphics-Color-method-toStyle'>            return &quot;rgba({r},{g},{b},{a})&quot;.format({
+</span>                r: ~~this.r,
                 g: ~~this.g,
                 b: ~~this.b,
                 a: this.a
             });
         },
 
-<span id='tm-graphics-Color-method-toStyle'>        /**
-</span>         * CSS 用 RGBA 文字列に変換
+        /**
+         * CSS 用 RGBA 文字列に変換
          */
         toStyle: function() {
             return &quot;rgba({r},{g},{b},{a})&quot;.format({
@@ -206,60 +206,60 @@ tm.graphics = tm.graphics || {};
             }
         },
         &quot;hsla&quot;: {
-            reg: /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d{1}(\.{1}\d+)?)\)$/,
-            exec: function(m) {
-                return Color.HSLAtoRGBA(m[1], m[2], m[3], m[4]);
-            }
-        },
-    };
+<span id='tm-graphics-Color-COLOR_LIST'>            reg: /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d{1}(\.{1}\d+)?)\)$/,
+</span>            exec: function(m) {
+<span id='tm-graphics-Color-COLOR_LIST-property-black'>                return Color.HSLAtoRGBA(m[1], m[2], m[3], m[4]);
+</span>            }
+<span id='tm-graphics-Color-COLOR_LIST-property-silver'>        },
+</span>    };
 
-<span id='tm-graphics-Color-COLOR_LIST'>    /**
-</span>     * @static
+    /**
+     * @static
      * @TODO ?
      */
-    tm.graphics.Color.COLOR_LIST = {
-<span id='tm-graphics-Color-COLOR_LIST-property-black'>        /** @property black */
-</span>        &quot;black&quot;     : [0x00, 0x00, 0x00],
-<span id='tm-graphics-Color-COLOR_LIST-property-silver'>        /** @property silver */
-</span>        &quot;silver&quot;    : [0xc0, 0xc0, 0xc0],
-<span id='tm-graphics-Color-COLOR_LIST-property-gray'>        /** @property gray */
-</span>        &quot;gray&quot;      : [0x80, 0x80, 0x80],
-<span id='tm-graphics-Color-COLOR_LIST-property-white'>        /** @property white */
-</span>        &quot;white&quot;     : [0xff, 0xff, 0xff],
-<span id='tm-graphics-Color-COLOR_LIST-property-maroon'>        /** @property maroon */
-</span>        &quot;maroon&quot;    : [0x80, 0x00, 0x00],
-<span id='tm-graphics-Color-COLOR_LIST-property-red'>        /** @property red */
-</span>        &quot;red&quot;       : [0xff, 0x00, 0x00],
-<span id='tm-graphics-Color-COLOR_LIST-property-purple'>        /** @property purple */
-</span>        &quot;purple&quot;    : [0x80, 0x00, 0x80],
-<span id='tm-graphics-Color-COLOR_LIST-property-fuchsia'>        /** @property fuchsia */
-</span>        &quot;fuchsia&quot;   : [0xff, 0x00, 0xff],
-<span id='tm-graphics-Color-COLOR_LIST-property-green'>        /** @property green */
-</span>        &quot;green&quot;     : [0x00, 0x80, 0x00],
-<span id='tm-graphics-Color-COLOR_LIST-property-lime'>        /** @property lime */
-</span>        &quot;lime&quot;      : [0x00, 0xff, 0x00],
-<span id='tm-graphics-Color-COLOR_LIST-property-olive'>        /** @property olive */
-</span>        &quot;olive&quot;     : [0x80, 0x80, 0x00],
-<span id='tm-graphics-Color-COLOR_LIST-property-yellow'>        /** @property yellow */
-</span>        &quot;yellow&quot;    : [0xff, 0xff, 0x00],
-<span id='tm-graphics-Color-COLOR_LIST-property-navy'>        /** @property navy */
-</span>        &quot;navy&quot;      : [0x00, 0x00, 0x80],
-<span id='tm-graphics-Color-COLOR_LIST-property-blue'>        /** @property blue */
-</span>        &quot;blue&quot;      : [0x00, 0x00, 0xff],
-<span id='tm-graphics-Color-COLOR_LIST-property-teal'>        /** @property teal */
-</span>        &quot;teal&quot;      : [0x00, 0x80, 0x80],
-<span id='tm-graphics-Color-COLOR_LIST-property-aqua'>        /** @property aqua */
+<span id='tm-graphics-Color-COLOR_LIST-property-gray'>    tm.graphics.Color.COLOR_LIST = {
+</span>        /** @property black */
+<span id='tm-graphics-Color-COLOR_LIST-property-white'>        &quot;black&quot;     : [0x00, 0x00, 0x00],
+</span>        /** @property silver */
+<span id='tm-graphics-Color-COLOR_LIST-property-maroon'>        &quot;silver&quot;    : [0xc0, 0xc0, 0xc0],
+</span>        /** @property gray */
+<span id='tm-graphics-Color-COLOR_LIST-property-red'>        &quot;gray&quot;      : [0x80, 0x80, 0x80],
+</span>        /** @property white */
+<span id='tm-graphics-Color-COLOR_LIST-property-purple'>        &quot;white&quot;     : [0xff, 0xff, 0xff],
+</span>        /** @property maroon */
+<span id='tm-graphics-Color-COLOR_LIST-property-fuchsia'>        &quot;maroon&quot;    : [0x80, 0x00, 0x00],
+</span>        /** @property red */
+<span id='tm-graphics-Color-COLOR_LIST-property-green'>        &quot;red&quot;       : [0xff, 0x00, 0x00],
+</span>        /** @property purple */
+<span id='tm-graphics-Color-COLOR_LIST-property-lime'>        &quot;purple&quot;    : [0x80, 0x00, 0x80],
+</span>        /** @property fuchsia */
+<span id='tm-graphics-Color-COLOR_LIST-property-olive'>        &quot;fuchsia&quot;   : [0xff, 0x00, 0xff],
+</span>        /** @property green */
+<span id='tm-graphics-Color-COLOR_LIST-property-yellow'>        &quot;green&quot;     : [0x00, 0x80, 0x00],
+</span>        /** @property lime */
+<span id='tm-graphics-Color-COLOR_LIST-property-navy'>        &quot;lime&quot;      : [0x00, 0xff, 0x00],
+</span>        /** @property olive */
+<span id='tm-graphics-Color-COLOR_LIST-property-blue'>        &quot;olive&quot;     : [0x80, 0x80, 0x00],
+</span>        /** @property yellow */
+<span id='tm-graphics-Color-COLOR_LIST-property-teal'>        &quot;yellow&quot;    : [0xff, 0xff, 0x00],
+</span>        /** @property navy */
+<span id='tm-graphics-Color-COLOR_LIST-property-aqua'>        &quot;navy&quot;      : [0x00, 0x00, 0x80],
+</span>        /** @property blue */
+<span id='tm-graphics-Color-static-method-strToNum'>        &quot;blue&quot;      : [0x00, 0x00, 0xff],
+</span>        /** @property teal */
+        &quot;teal&quot;      : [0x00, 0x80, 0x80],
+<span id='tm-graphics-Color-static-method-stringToNumber'>        /** @property aqua */
 </span>        &quot;aqua&quot;      : [0x00, 0xff, 0xff],
     };
 
-<span id='tm-graphics-Color-static-method-strToNum'>    /**
-</span>     * @static
+    /**
+     * @static
      * @member tm.graphics.Color
      * @method strToNum
      * @TODO ?
      */
-<span id='tm-graphics-Color-static-method-stringToNumber'>    /**
-</span>     * @static
+    /**
+     * @static
      * @member tm.graphics.Color
      * @method stringToNumber
      * @TODO ?
@@ -281,8 +281,8 @@ tm.graphics = tm.graphics || {};
         if (type) {
             var match_set = MATCH_SET_LIST[type];
             var m = str.match( match_set.reg );
-            value = match_set.exec(m);
-        }
+<span id='tm-graphics-Color-COLOR_LIST-static-method-HSLtoRGB'>            value = match_set.exec(m);
+</span>        }
         else if (Color.COLOR_LIST[str]){
             value = Color.COLOR_LIST[str];
         }
@@ -290,8 +290,8 @@ tm.graphics = tm.graphics || {};
         return value;
     };
 
-<span id='tm-graphics-Color-COLOR_LIST-static-method-HSLtoRGB'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * @TODO ?
      */
@@ -328,8 +328,8 @@ tm.graphics = tm.graphics || {};
         temp = ((h-120)+360)%360;
         if      (temp &lt; 60) { b = m1 + (m2-m1) * temp/60; }
         else if (temp &lt; 180){ b = m2; }
-        else if (temp &lt; 240){ b = m1 + (m2-m1) * (240-temp)/60; }
-        else                { b = m1; }
+<span id='tm-graphics-Color-COLOR_LIST-static-method-HSLAtoRGBA'>        else if (temp &lt; 240){ b = m1 + (m2-m1) * (240-temp)/60; }
+</span>        else                { b = m1; }
         
         return [
             parseInt(r*255),
@@ -338,36 +338,36 @@ tm.graphics = tm.graphics || {};
             ];
     };
 
-<span id='tm-graphics-Color-COLOR_LIST-static-method-HSLAtoRGBA'>    /**
-</span>     * @static
-     * @method
-     * @TODO ?
+    /**
+     * @static
+<span id='tm-graphics-Color-COLOR_LIST-static-method-createStyleRGB'>     * @method
+</span>     * @TODO ?
      */
     tm.graphics.Color.HSLAtoRGBA = function(h, s, l, a) {
         var temp = Color.HSLtoRGB(h, s, l); temp[3] = a;
         return rgb;
     };
 
-<span id='tm-graphics-Color-COLOR_LIST-static-method-createStyleRGB'>    /**
-</span>     * @static
-     * @method
+    /**
+<span id='tm-graphics-Color-COLOR_LIST-static-method-createStyleRGBA'>     * @static
+</span>     * @method
      * rgb 値を作成
      */
     tm.graphics.Color.createStyleRGB = function(r, g, b) {
         return &quot;rgba(&quot; + r + &quot;,&quot; + g + &quot;,&quot; + b + &quot;)&quot;;
     };
     
-<span id='tm-graphics-Color-COLOR_LIST-static-method-createStyleRGBA'>    /**
-</span>     * @static
-     * @method
+    /**
+<span id='tm-graphics-Color-COLOR_LIST-static-method-createStyleHSL'>     * @static
+</span>     * @method
      * rgba 値を作成
      */
     tm.graphics.Color.createStyleRGBA = function(r, g, b, a) {
         return &quot;rgba(&quot; + r + &quot;,&quot; + g + &quot;,&quot; + b + &quot;,&quot; + a + &quot;)&quot;;
-    };
-
-<span id='tm-graphics-Color-COLOR_LIST-static-method-createStyleHSL'>    /**
-</span>     * @static
+<span id='tm-graphics-Color-COLOR_LIST-static-method-createStyleHSLA'>    };
+</span>
+    /**
+     * @static
      * @method
      * hsl 値を作成
      */
@@ -375,8 +375,8 @@ tm.graphics = tm.graphics || {};
         return &quot;hsl(&quot; + h + &quot;,&quot; + s + &quot;%,&quot; + l + &quot;%)&quot;;
     };
     
-<span id='tm-graphics-Color-COLOR_LIST-static-method-createStyleHSLA'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * hsla 値を作成
      */

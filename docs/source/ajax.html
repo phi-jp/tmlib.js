@@ -92,12 +92,12 @@ tm.util = tm.util || {};
             };
             
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
-            httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
-            httpRequest.send(null);
+<span id='tm-util-Ajax-method-loadJSONP'>            httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
+</span>            httpRequest.send(null);
         },
         
-<span id='tm-util-Ajax-method-loadJSONP'>        /**
-</span>         * loadJSONP
+        /**
+         * loadJSONP
          */
         loadJSONP: function(url, callback) {
             var g = tm.global;

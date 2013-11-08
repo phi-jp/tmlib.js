@@ -1889,7 +1889,7 @@ tm.event = tm.event || {};
         },
 
         /**
-         * イベントリスナー追加(addEventListenerと同様)
+         * イベントリスナー追加
          */
         on: function(type, listener) {
             if (this._listeners[type] === undefined) {
@@ -1901,21 +1901,21 @@ tm.event = tm.event || {};
         },
         
         /**
-         * イベントリスナー追加
+         * リスナーを削除
          */
-        addEventListener: function(type, listener) {
-            if (this._listeners[type] === undefined) {
-                this._listeners[type] = [];
+        off: function(type, listener) {
+            var listeners = this._listeners[type];
+            var index = listeners.indexOf(listener);
+            if (index != -1) {
+                listeners.splice(index,1);
             }
-            
-            this._listeners[type].push(listener);
             return this;
         },
         
         /**
          * イベント起動
          */
-        dispatchEvent: function(e) {
+        fire: function(e) {
             e.target = this;
             var oldEventName = 'on' + e.type;
             if (this[oldEventName]) this[oldEventName](e);
@@ -1926,6 +1926,8 @@ tm.event = tm.event || {};
                     listeners[i].call(this, e);
                 }
             }
+            
+            return this;
         },
         
         /**
@@ -1937,18 +1939,6 @@ tm.event = tm.event || {};
         },
         
         /**
-         * リスナーを削除
-         */
-        removeEventListener: function(type, listener) {
-            var listeners = this._listeners[type];
-            var index = listeners.indexOf(listener);
-            if (index != -1) {
-                listeners.splice(index,1);
-            }
-            return this;
-        },
-        
-        /**
          * リスナーを全てクリア
          */
         clearEventListener: function(type) {
@@ -1956,6 +1946,29 @@ tm.event = tm.event || {};
             return this;
         },
     });
+
+    var proto = tm.event.EventDispatcher.prototype;
+    
+    /**
+     * @member  tm.event.EventDispatcher
+     * @method  addEventListener
+     * on と同じ
+     */
+    proto.addEventListener      = proto.on;
+    
+    /**
+     * @member  tm.event.EventDispatcher
+     * @method  removeEventListener
+     * off と同じ
+     */
+    proto.removeEventListener   = proto.off;
+    
+    /**
+     * @member  tm.event.EventDispatcher
+     * @method  dispatchEvent
+     * fire と同じ
+     */
+    proto.dispatchEvent         = proto.fire;
     
 })();
 
@@ -2830,6 +2843,87 @@ tm.namespace("tm.util.Type", function() {
     });
 
 });
+
+/*
+ * flow.js
+ */
+
+    
+/**
+ * @class tm.util.Flow
+ * it is inspire in made flow.js of @uupaa
+ * @extends tm.event.EventDispatcher
+ */
+tm.define("tm.util.Flow", {
+    superClass: "tm.event.EventDispatcher",
+    
+    /** waits */
+    waits: 0,
+    /** counter */
+    counter: 0,
+    /** args */
+    args: null,
+    
+    /**
+     * @constructor
+     */
+    init: function(waits, callback) {
+        this.superInit();
+        
+        waits = waits || 0;
+        callback = callback || null;
+        
+        this.setup(waits, callback);
+    },
+    
+    /**
+     * セットアップ
+     */
+    setup: function(waits, callback) {
+        this.waits = waits;
+        this.callback = callback;
+        this.counter = 0;
+        this.args = {};
+    },
+    
+    /**
+     * パス
+     */
+    pass: function(key, value) {
+        ++this.counter;
+        
+        if (arguments.length >= 2) {
+            this.args[key] = value;
+        }
+        
+        this._check();
+    },
+    
+    /**
+     * 終了チェック
+     */
+    isFinish: function() {
+        return (this.counter === this.waits);
+    },
+    
+    _check: function() {
+        if (this.isFinish()) {
+            var args = this.args;
+            
+            if (this.callback) {
+                this.callback(args);
+                
+                this.args = null;
+                this.callback = null;
+            }
+            
+            var e = tm.event.Event("flowfinish");
+            e.args = args;
+            this.fire(e);
+        }
+    }
+});
+
 
 /*
  * vector2.js
@@ -11409,7 +11503,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * dat gui を有効化
          */
         enableDatGUI: function() {
             if (window.dat) {
@@ -15565,7 +15659,11 @@ tm.ui = tm.ui || {};
         }
     });
     
-    /** @static @property */
+    /**
+     * @static
+     * @property
+     * デフォルトとなるアルファ値
+     */
     tm.ui.LabelButton.DEFAULT_ALPHA = 0.5;
     
 })();
@@ -15607,7 +15705,11 @@ tm.ui = tm.ui || {};
         },
     });
     
-    /** @static @property */
+    /**
+     * @static
+     * @property
+     * デフォルトとなるアルファ値
+     */
     tm.ui.IconButton.DEFAULT_ALPHA = 0.5;
     
 })();
@@ -15697,7 +15799,11 @@ tm.ui = tm.ui || {};
         },
     });
 
-    /** @static @property */
+    /**
+     * @static
+     * @property
+     * デフォルトとなるアルファ値
+     */
     tm.ui.GlossyButton.DEFAULT_ALPHA = 0.5;
     
     
@@ -17185,6 +17291,7 @@ tm.social = tm.social || {};
     /**
      * @member      tm.social.Nineleap
      * @method      createURL
+     * 9leap 用の URL を生成
      */
     tm.social.Nineleap.createURL = function(id, score, result) {
         return BASE_URL.format({
@@ -17197,6 +17304,7 @@ tm.social = tm.social || {};
     /**
      * @member      tm.social.Nineleap
      * @method      postRanking
+     * 9leap でランキングを POST
      */
     tm.social.Nineleap.postRanking = function(score, result) {
         if (location.hostname == 'r.jsgames.jp') {

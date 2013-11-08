@@ -30,14 +30,14 @@ tm.app = tm.app || {};
      * @extends tm.app.Object2D
      */
     tm.app.Scene = tm.createClass({
-        superClass: tm.app.Object2D,
-    
-<span id='tm-app-Scene-property-_sceneResultCallback'>        /** @private  @TODO ? */
-</span>        _sceneResultCallback: null,
-<span id='tm-app-Scene-property-boundingType'>        /** @property  boundingType  当たり判定の形 */
+<span id='tm-app-Scene-property-_sceneResultCallback'>        superClass: tm.app.Object2D,
+</span>    
+        /** @private  @TODO ? */
+<span id='tm-app-Scene-property-boundingType'>        _sceneResultCallback: null,
+</span><span id='tm-app-Scene-method-constructor'>        /** @property  boundingType  当たり判定の形 */
 </span>
-<span id='tm-app-Scene-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function() {
             this.superInit();
@@ -54,21 +54,21 @@ tm.app = tm.app || {};
 
 (function() {
     
-    var DEFAULT_PARAM = {
-        width: 465,
+<span id='tm-app-LoadingScene'>    var DEFAULT_PARAM = {
+</span>        width: 465,
         height: 465,
     };
     
-<span id='tm-app-LoadingScene'>    /**
-</span>     * @class tm.app.LoadingScene
+    /**
+     * @class tm.app.LoadingScene
      * ローディングシーン
      * @extends tm.app.Scene
      */
-    tm.app.LoadingScene = tm.createClass({
-        superClass: tm.app.Scene,
+<span id='tm-app-LoadingScene-method-constructor'>    tm.app.LoadingScene = tm.createClass({
+</span>        superClass: tm.app.Scene,
         
-<span id='tm-app-LoadingScene-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          * @param {Object} param
          */
         init: function(param) {
@@ -130,22 +130,22 @@ tm.app = tm.app || {};
 (function() {
     
     var DEFAULT_PARAM = {
-        title: &quot;Time is money&quot;,
-        titleSize: 32,
+<span id='tm-app-TitleScene'>        title: &quot;Time is money&quot;,
+</span>        titleSize: 32,
         width: 465,
         height: 465,
     };
     
-<span id='tm-app-TitleScene'>    /**
-</span>     * @class tm.app.TitleScene
+    /**
+     * @class tm.app.TitleScene
      * タイトルシーン
-     * @extends tm.app.Scene
-     */
+<span id='tm-app-TitleScene-method-constructor'>     * @extends tm.app.Scene
+</span>     */
     tm.app.TitleScene = tm.createClass({
         superClass: tm.app.Scene,
         
-<span id='tm-app-TitleScene-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          * @param {Object} param
          */
         init: function(param) {
@@ -165,13 +165,13 @@ tm.app = tm.app || {};
             label.y = param.height/2;
             label.width = param.width;
             label.align     = &quot;center&quot;;
-            label.baseline  = &quot;middle&quot;;
-            label.fontSize = param.titleSize;
+<span id='tm-app-TitleScene-method-onpointingstart'>            label.baseline  = &quot;middle&quot;;
+</span>            label.fontSize = param.titleSize;
             this.addChild(label);
         },
 
-<span id='tm-app-TitleScene-method-onpointingstart'>        /**
-</span>         * pointingstartイベント登録
+        /**
+         * pointingstartイベント登録
          */
         onpointingstart: function() {
             var e = tm.event.Event(&quot;nextscene&quot;);
@@ -189,22 +189,22 @@ tm.app = tm.app || {};
         score: 256,
         msg: &quot;tmlib.js のサンプルです!&quot;,
         hashtags: &quot;tmlibjs&quot;,
-        url: &quot;https://github.com/phi1618/tmlib.js/&quot;,
-        width: 465,
+<span id='tm-app-ResultScene'>        url: &quot;https://github.com/phi1618/tmlib.js/&quot;,
+</span>        width: 465,
         height: 465,
         related: &quot;tmlib.js tmlife javascript&quot;,
     };
     
-<span id='tm-app-ResultScene'>    /**
-</span>     * @class tm.app.ResultScene
-     * リザルトシーン
-     * @extends tm.app.Scene
+    /**
+     * @class tm.app.ResultScene
+<span id='tm-app-ResultScene-method-constructor'>     * リザルトシーン
+</span>     * @extends tm.app.Scene
      */
     tm.app.ResultScene = tm.createClass({
         superClass: tm.app.Scene,
         
-<span id='tm-app-ResultScene-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          * @param {Object} param
          */
         init: function(param) {

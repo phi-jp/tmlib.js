@@ -30,10 +30,10 @@ tm.ui = tm.ui || {};
      * @extends tm.display.RectangleShape
 	 */
 	tm.ui.Gauge = tm.createClass({
-        superClass: tm.display.RectangleShape,
-
-<span id='tm-ui-Gauge-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-ui-Gauge-method-constructor'>        superClass: tm.display.RectangleShape,
+</span>
+        /**
+         * @constructor
          */
         init: function(width, height, color, direction) {
             this.superInit(width, height, {
@@ -42,24 +42,24 @@ tm.ui = tm.ui || {};
             });
 
             this._reset(direction);
-        },
-
-<span id='tm-ui-Gauge-method-isFull'>        /**
-</span>         * @TODO ?
+<span id='tm-ui-Gauge-method-isFull'>        },
+</span>
+        /**
+         * @TODO ?
          */
         isFull: function() {
             return this.targetProp === this._maxValue;
-        },
-
-<span id='tm-ui-Gauge-method-isEmpty'>        /**
-</span>         * @TODO ?
+<span id='tm-ui-Gauge-method-isEmpty'>        },
+</span>
+        /**
+         * @TODO ?
          */
         isEmpty: function() {
             return this.targetProp == 0;
-        },
-
-<span id='tm-ui-Gauge-method-_reset'>        /**
-</span>         * @TODO ?
+<span id='tm-ui-Gauge-method-_reset'>        },
+</span>
+        /**
+         * @TODO ?
          * @private
          */
         _reset: function(direction) {
@@ -89,10 +89,10 @@ tm.ui = tm.ui || {};
                     this._value = this._maxValue = this.height;
                     break;
             }
-        },
-
-<span id='tm-ui-Gauge-method-setValue'>        /**
-</span>         * @TODO ?
+<span id='tm-ui-Gauge-method-setValue'>        },
+</span>
+        /**
+         * @TODO ?
          */
         setValue: function(value, anim) {
         	value= Math.clamp(value, 0, this._maxValue);
@@ -122,46 +122,46 @@ tm.ui = tm.ui || {};
             }
 
             return this;
-        },
-
-<span id='tm-ui-Gauge-method-getValue'>        /**
-</span>         * @TODO ?
+<span id='tm-ui-Gauge-method-getValue'>        },
+</span>
+        /**
+         * @TODO ?
          */
         getValue: function() {
             return this.value;
-        },
-
-<span id='tm-ui-Gauge-method-setPercent'>        /**
-</span>         * @TODO ?
+<span id='tm-ui-Gauge-method-setPercent'>        },
+</span>
+        /**
+         * @TODO ?
          */
         setPercent: function(percent, anim) {
             this.setValue(this._maxValue*percent*0.01, anim);
-        },
-
-<span id='tm-ui-Gauge-method-getPercent'>        /**
-</span>         * @TODO ?
+<span id='tm-ui-Gauge-method-getPercent'>        },
+</span>
+        /**
+         * @TODO ?
          */
         getPercent: function() {
             return (this._value/this._maxValue)*100;
-        },
-
-<span id='tm-ui-Gauge-method-setRatio'>        /**
-</span>         * @TODO ?
+<span id='tm-ui-Gauge-method-setRatio'>        },
+</span>
+        /**
+         * @TODO ?
          */
         setRatio: function(ratio) {
             this.setValue(this._maxValue*percent, anim);
-        },
-
-<span id='tm-ui-Gauge-method-getRatio'>        /**
-</span>         * @TODO ?
+<span id='tm-ui-Gauge-method-getRatio'>        },
+</span>
+        /**
+         * @TODO ?
          */
         getRatio: function() {
             return this._value/this._maxValue;
-        },
-    });
+<span id='tm-ui-Gauge-property-value'>        },
+</span>    });
     
-<span id='tm-ui-Gauge-property-value'>    /**
-</span>     * @property    value
+    /**
+     * @property    value
      * 値
      */
     tm.ui.Gauge.prototype.accessor(&quot;value&quot;, {
@@ -170,11 +170,11 @@ tm.ui = tm.ui || {};
         },
         set: function(v) {
             this.setValue(v);
-        },
-    });
+<span id='tm-ui-Gauge-property-percent'>        },
+</span>    });
 
-<span id='tm-ui-Gauge-property-percent'>    /**
-</span>     * @property    percent
+    /**
+     * @property    percent
      * パーセント
      */
     tm.ui.Gauge.prototype.accessor(&quot;percent&quot;, {
@@ -183,12 +183,12 @@ tm.ui = tm.ui || {};
         },
         set: function(v) {
             this.setPercent(v);
-        },
-    });
+<span id='tm-ui-Gauge-property-ratio'>        },
+</span>    });
     
     
-<span id='tm-ui-Gauge-property-ratio'>    /**
-</span>     * @property    ratio
+    /**
+     * @property    ratio
      * 比率
      */
     tm.ui.Gauge.prototype.accessor(&quot;ratio&quot;, {
@@ -196,12 +196,12 @@ tm.ui = tm.ui || {};
             return this.getRatio();
         },
         set: function(v) {
-            this.setRatio(v);
-        },
+<span id='tm-ui-Gauge-property-targetProp'>            this.setRatio(v);
+</span>        },
     });
     
-<span id='tm-ui-Gauge-property-targetProp'>    /**
-</span>     * @property    targetProp
+    /**
+     * @property    targetProp
      * ターゲット
      */
     tm.ui.Gauge.prototype.accessor(&quot;targetProp&quot;, {
@@ -210,8 +210,8 @@ tm.ui = tm.ui || {};
         },
         set: function(v) {
             this[this._targetPropName] = v;
-        },
-    });
+<span id='tm-ui-Pad'>        },
+</span>    });
     
 })();
 
@@ -219,19 +219,19 @@ tm.ui = tm.ui || {};
 
 (function() {
     
-<span id='tm-ui-Pad'>    /**
-</span>     * @class tm.ui.Pad
+    /**
+     * @class tm.ui.Pad
      * padクラス
      * @extends tm.display.Shape
      */
     tm.ui.Pad = tm.createClass({
         superClass: tm.display.Shape,
         
-        isTouching: false,
-        circle: null,
+<span id='tm-ui-Pad-method-constructor'>        isTouching: false,
+</span>        circle: null,
 
-<span id='tm-ui-Pad-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function() {
             this.superInit(120, 120);
@@ -244,12 +244,12 @@ tm.ui = tm.ui || {};
             this._createCircle();
             
             this.setInteractive(true);
-            
-            this.alpha = 0.75;
+<span id='tm-ui-Pad-method-_createCircle'>            
+</span>            this.alpha = 0.75;
         },
 
-<span id='tm-ui-Pad-method-_createCircle'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _createCircle: function() {
@@ -259,26 +259,26 @@ tm.ui = tm.ui || {};
             var c = circle.canvas;
             c.fillStyle = &quot;#222&quot;;
             c.setShadow(&quot;black&quot;, 2, 2, 2);
-            c.fillCircle(40, 40, 35);
-        },
+<span id='tm-ui-Pad-method-onpointingstart'>            c.fillCircle(40, 40, 35);
+</span>        },
 
-<span id='tm-ui-Pad-method-onpointingstart'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         onpointingstart: function() {
-            this.isTouching = true;
-        },
+<span id='tm-ui-Pad-method-onpointingend'>            this.isTouching = true;
+</span>        },
 
-<span id='tm-ui-Pad-method-onpointingend'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         onpointingend: function() {
             this.isTouching = false;
-            this.circle.position.set(0, 0);
-        },
+<span id='tm-ui-Pad-method-onpointingmove'>            this.circle.position.set(0, 0);
+</span>        },
 
-<span id='tm-ui-Pad-method-onpointingmove'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         onpointingmove: function(e) {
             if (this.isTouching==false) return ;

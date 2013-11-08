@@ -27,42 +27,42 @@
      * @extends tm.app.Scene
      */
     tm.define(&quot;tm.ui.MenuDialog&quot;, {
-        superClass: tm.app.Scene,
-
-<span id='tm-ui-MenuDialog-property-titleText'>        /** @type {string} タイトル */
-</span>        titleText: null,
-<span id='tm-ui-MenuDialog-property-menu'>        /** @type {Array.&lt;string&gt;} メニュー名リスト */
+<span id='tm-ui-MenuDialog-property-titleText'>        superClass: tm.app.Scene,
+</span>
+        /** @type {string} タイトル */
+<span id='tm-ui-MenuDialog-property-menu'>        titleText: null,
+</span><span id='tm-ui-MenuDialog-property-descriptions'>        /** @type {Array.&lt;string&gt;} メニュー名リスト */
 </span>        menu: null,
-<span id='tm-ui-MenuDialog-property-descriptions'>        /** @type {Array.&lt;string&gt;} メニュー詳細リスト */
+<span id='tm-ui-MenuDialog-property-showExit'>        /** @type {Array.&lt;string&gt;} メニュー詳細リスト */
 </span>        descriptions: null,
-<span id='tm-ui-MenuDialog-property-showExit'>        /** @type {boolean} exit の表示/非表示 */
+<span id='tm-ui-MenuDialog-property-title'>        /** @type {boolean} exit の表示/非表示 */
 </span>        showExit: false,
 
-<span id='tm-ui-MenuDialog-property-title'>        /** @type {tm.display.Label} dummy */
+<span id='tm-ui-MenuDialog-property-selections'>        /** @type {tm.display.Label} dummy */
 </span>        title: null,
-<span id='tm-ui-MenuDialog-property-selections'>        /** @type {Array.&lt;tm.ui.LabelButton&gt;} dummy */
+<span id='tm-ui-MenuDialog-property-description'>        /** @type {Array.&lt;tm.ui.LabelButton&gt;} dummy */
 </span>        selections: [],
-<span id='tm-ui-MenuDialog-property-description'>        /** @type {tm.display.Label} dummy */
+<span id='tm-ui-MenuDialog-property-box'>        /** @type {tm.display.Label} dummy */
 </span>        description: null,
-<span id='tm-ui-MenuDialog-property-box'>        /** @type {tm.display.RectangleShape} dummy */
-</span>        box: null,
 <span id='tm-ui-MenuDialog-property-cursor'>        /** @type {tm.display.RectangleShape} dummy */
-</span>        cursor: null,
+</span>        box: null,
+<span id='tm-ui-MenuDialog-property-_selected'>        /** @type {tm.display.RectangleShape} dummy */
+</span><span id='tm-ui-MenuDialog-property-_opened'>        cursor: null,
+</span>
+        /** @private */
+<span id='tm-ui-MenuDialog-property-_finished'>        _selected: 0,
+</span>        /** @private */
+<span id='tm-ui-MenuDialog-property-_screenWidth'>        _opened: false,
+</span>        /** @private */
+<span id='tm-ui-MenuDialog-property-_screenHeight'>        _finished: false,
+</span>
+        /** @private */
+<span id='tm-ui-MenuDialog-method-constructor'>        _screenWidth: 0,
+</span>        /** @private */
+        _screenHeight: 0,
 
-<span id='tm-ui-MenuDialog-property-_selected'>        /** @private */
-</span>        _selected: 0,
-<span id='tm-ui-MenuDialog-property-_opened'>        /** @private */
-</span>        _opened: false,
-<span id='tm-ui-MenuDialog-property-_finished'>        /** @private */
-</span>        _finished: false,
-
-<span id='tm-ui-MenuDialog-property-_screenWidth'>        /** @private */
-</span>        _screenWidth: 0,
-<span id='tm-ui-MenuDialog-property-_screenHeight'>        /** @private */
-</span>        _screenHeight: 0,
-
-<span id='tm-ui-MenuDialog-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          * @param {Object} params
          */
         init: function(params) {
@@ -102,12 +102,12 @@
             this.description = tm.display.Label(&quot;&quot;, 14)
                 .setAlign(&quot;center&quot;)
                 .setBaseline(&quot;middle&quot;)
-                .setPosition(this._screenWidth*0.5, this._screenHeight-10)
-                .addChildTo(this);
+<span id='tm-ui-MenuDialog-method-_onOpen'>                .setPosition(this._screenWidth*0.5, this._screenHeight-10)
+</span>                .addChildTo(this);
         },
 
-<span id='tm-ui-MenuDialog-method-_onOpen'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _onOpen: function() {
@@ -157,12 +157,12 @@
             });
 
             // dispatch opened event
-            var e = tm.event.Event(&quot;menuopened&quot;);
-            this.dispatchEvent(e);
+<span id='tm-ui-MenuDialog-method-_createCursor'>            var e = tm.event.Event(&quot;menuopened&quot;);
+</span>            this.dispatchEvent(e);
         },
 
-<span id='tm-ui-MenuDialog-method-_createCursor'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _createCursor: function() {
@@ -179,22 +179,22 @@
                     this.tweener.clear();
                     this.tweener.to({
                         y: this.parent.selections[this.parent._selected].y
-                    }, 200, &quot;easeOutExpo&quot;);
-                }
+<span id='tm-ui-MenuDialog-method-update'>                    }, 200, &quot;easeOutExpo&quot;);
+</span>                }
             };
 
             return cursor;
         },
 
-<span id='tm-ui-MenuDialog-method-update'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         update: function(app) {
-            this.description.text = this.descriptions[this._selected];
-        },
+<span id='tm-ui-MenuDialog-method-closeDialog'>            this.description.text = this.descriptions[this._selected];
+</span>        },
 
-<span id='tm-ui-MenuDialog-method-closeDialog'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         closeDialog: function(result) {
             this._finished = true;
@@ -225,13 +225,13 @@
             this.cursor.tweener
                 .clear()
                 .call(function() {
-                    this.visible = !this.visible;
-                }.bind(this.cursor))
+<span id='tm-ui-MenuDialog-method-draw'>                    this.visible = !this.visible;
+</span>                }.bind(this.cursor))
                 .setLoop(true);
         },
 
-<span id='tm-ui-MenuDialog-method-draw'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         draw: function(canvas) {
             canvas.fillStyle = &quot;rgba(0,0,0,0.8)&quot;;

@@ -28,18 +28,18 @@ tm.input = tm.input || {};
 </span>     * @class tm.input.Mouse
      * マウスクラス
      */
-    tm.input.Mouse = tm.createClass({
-<span id='tm-input-Mouse-property-element'>        /** element */
-</span>        element: null,
-        
-<span id='tm-input-Mouse-property-position'>        /** @property  position */
-</span><span id='tm-input-Mouse-property-deltaPosition'>        /** @property  deltaPosition */
-</span><span id='tm-input-Mouse-property-prevPosition'>        /** @property  prevPosition */
-</span><span id='tm-input-Mouse-property-_x'>        /** @private @property  _x */
-</span><span id='tm-input-Mouse-property-_y'>        /** @private @property  _y */
+<span id='tm-input-Mouse-property-element'>    tm.input.Mouse = tm.createClass({
+</span>        /** element */
+        element: null,
+<span id='tm-input-Mouse-property-position'>        
+</span><span id='tm-input-Mouse-property-deltaPosition'>        /** @property  position */
+</span><span id='tm-input-Mouse-property-prevPosition'>        /** @property  deltaPosition */
+</span><span id='tm-input-Mouse-property-_x'>        /** @property  prevPosition */
+</span><span id='tm-input-Mouse-property-_y'>        /** @private @property  _x */
+</span><span id='tm-input-Mouse-method-constructor'>        /** @private @property  _y */
 </span>
-<span id='tm-input-Mouse-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(element) {
             this.element = element || window.document;
@@ -62,11 +62,11 @@ tm.input = tm.input || {};
             this.element.addEventListener(&quot;mousemove&quot;, function(e){
                 // 座標更新
                 self._mousemove(e);
-            });
-        },
+<span id='tm-input-Mouse-method-run'>            });
+</span>        },
         
-<span id='tm-input-Mouse-method-run'>        /**
-</span>         * run
+        /**
+         * run
          * 自動でマウス情報を更新したい際に使用する
          */
         run: function(fps) {
@@ -75,13 +75,13 @@ tm.input = tm.input || {};
             
             tm.setLoop(function() {
                 self.update();
-            }, 1000/fps);
-            
+<span id='tm-input-Mouse-method-update'>            }, 1000/fps);
+</span>            
             return this;
         },
         
-<span id='tm-input-Mouse-method-update'>        /**
-</span>         * 情報更新処理
+        /**
+         * 情報更新処理
          * マイフレーム呼んで下さい.
          */
         update: function() {
@@ -97,67 +97,67 @@ tm.input = tm.input || {};
             this.deltaPosition.y = this._y - this.prevPosition.y;
             
             // 前回の座標を更新
-            this.prevPosition.setObject(this.position);
-            
+<span id='tm-input-Mouse-method-getButton'>            this.prevPosition.setObject(this.position);
+</span>            
             // 現在の位置を更新
             this.position.set(this._x, this._y);
         },
         
-<span id='tm-input-Mouse-method-getButton'>        /**
-</span>         * ボタン取得
+        /**
+         * ボタン取得
          */
         getButton: function(button) {
-            if (typeof(button) == &quot;string&quot;) {
-                button = BUTTON_MAP[button];
+<span id='tm-input-Mouse-method-getButtonDown'>            if (typeof(button) == &quot;string&quot;) {
+</span>                button = BUTTON_MAP[button];
             }
             
             return (this.press &amp; button) != 0;
         },
         
-<span id='tm-input-Mouse-method-getButtonDown'>        /**
-</span>         * ボタンダウン取得
+        /**
+         * ボタンダウン取得
          */
         getButtonDown: function(button) {
-            if (typeof(button) == &quot;string&quot;) {
-                button = BUTTON_MAP[button];
+<span id='tm-input-Mouse-method-getButtonUp'>            if (typeof(button) == &quot;string&quot;) {
+</span>                button = BUTTON_MAP[button];
             }
             
             return (this.down &amp; button) != 0;
         },
         
-<span id='tm-input-Mouse-method-getButtonUp'>        /**
-</span>         * ボタンアップ取得
+        /**
+         * ボタンアップ取得
          */
-        getButtonUp: function(button) {
-            if (typeof(button) == &quot;string&quot;) {
+<span id='tm-input-Mouse-method-_mousemove'>        getButtonUp: function(button) {
+</span>            if (typeof(button) == &quot;string&quot;) {
                 button = BUTTON_MAP[button];
             }
             
             return (this.up &amp; button) != 0;
         },
 
-<span id='tm-input-Mouse-method-_mousemove'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
-        _mousemove: function(e) {
-            var rect = e.target.getBoundingClientRect();
+<span id='tm-input-Mouse-method-_mousemoveNormal'>        _mousemove: function(e) {
+</span>            var rect = e.target.getBoundingClientRect();
             this._x = e.clientX - rect.left;
             this._y = e.clientY - rect.top;
         },
 
-<span id='tm-input-Mouse-method-_mousemoveNormal'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
-        _mousemoveNormal: function(e) {
-            var rect = e.target.getBoundingClientRect();
+<span id='tm-input-Mouse-method-_mousemoveScale'>        _mousemoveNormal: function(e) {
+</span>            var rect = e.target.getBoundingClientRect();
             this._x = e.clientX - rect.left;
             this._y = e.clientY - rect.top;
         },
 
-<span id='tm-input-Mouse-method-_mousemoveScale'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _mousemoveScale: function(e) {
@@ -169,22 +169,22 @@ tm.input = tm.input || {};
                 // スケールを考慮した拡縮
                 if (e.target.style.width) {
                     this._x *= e.target.width / parseInt(e.target.style.width);
-                }
-                if (e.target.style.height) {
-                    this._y *= e.target.height / parseInt(e.target.style.height);
-                }
-            //}
+<span id='tm-input-Mouse-static-property-BUTTON_LEFT'>                }
+</span>                if (e.target.style.height) {
+<span id='tm-input-Mouse-static-property-BUTTON_MIDDLE'>                    this._y *= e.target.height / parseInt(e.target.style.height);
+</span><span id='tm-input-Mouse-static-property-BUTTON_RIGHT'>                }
+</span>            //}
         },
         
     });
     
-<span id='tm-input-Mouse-static-property-BUTTON_LEFT'>    /** @static @property */
-</span>    tm.input.Mouse.BUTTON_LEFT      = 0x1;
-<span id='tm-input-Mouse-static-property-BUTTON_MIDDLE'>    /** @static @property */
-</span>    tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
-<span id='tm-input-Mouse-static-property-BUTTON_RIGHT'>    /** @static @property */
-</span>    tm.input.Mouse.BUTTON_RIGHT     = 0x4;
-    
+    /** @static @property */
+    tm.input.Mouse.BUTTON_LEFT      = 0x1;
+    /** @static @property */
+    tm.input.Mouse.BUTTON_MIDDLE    = 0x2;
+    /** @static @property */
+<span id='tm-input-Mouse-property-x'>    tm.input.Mouse.BUTTON_RIGHT     = 0x4;
+</span>    
     /*
      * 
      */
@@ -195,16 +195,16 @@ tm.input = tm.input || {};
     };
     
     
-<span id='tm-input-Mouse-property-x'>    /**
-</span>     * @property    x
-     * x座標値
+    /**
+<span id='tm-input-Mouse-property-y'>     * @property    x
+</span>     * x座標値
      */
     tm.input.Mouse.prototype.accessor(&quot;x&quot;, {
         &quot;get&quot;: function()   { return this.position.x; },
         &quot;set&quot;: function(v)  { this.position.x = v; }
     });
     
-<span id='tm-input-Mouse-property-y'>    /**
+<span id='tm-input-Mouse-property-dx'>    /**
 </span>     * @property    y
      * y座標値
      */
@@ -213,7 +213,7 @@ tm.input = tm.input || {};
         &quot;set&quot;: function(v)  { this.position.y = v; }
     });
     
-<span id='tm-input-Mouse-property-dx'>    /**
+<span id='tm-input-Mouse-property-dy'>    /**
 </span>     * @property    dx
      * dx値
      */
@@ -222,30 +222,30 @@ tm.input = tm.input || {};
         &quot;set&quot;: function(v)  { this.deltaPosition.x = v; }
     });
     
-<span id='tm-input-Mouse-property-dy'>    /**
-</span>     * @property    dy
-     * dy値
+    /**
+<span id='tm-input-Mouse-static-method-getPointing'>     * @property    dy
+</span>     * dy値
      */
     tm.input.Mouse.prototype.accessor(&quot;dy&quot;, {
         &quot;get&quot;: function()   { return this.deltaPosition.y; },
-        &quot;set&quot;: function(v)  { this.deltaPosition.y = v; }
-    });
+<span id='tm-input-Mouse-static-method-getPointingStart'>        &quot;set&quot;: function(v)  { this.deltaPosition.y = v; }
+</span>    });
     
     
-<span id='tm-input-Mouse-static-method-getPointing'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method getPointing
      * ポインティング状態取得(touch との差異対策)
      */
-    tm.input.Mouse.prototype.getPointing        = function() { return this.getButton(&quot;left&quot;); };
-<span id='tm-input-Mouse-static-method-getPointingStart'>    /**
-</span>     * @static
+<span id='tm-input-Mouse-static-method-getPointingEnd'>    tm.input.Mouse.prototype.getPointing        = function() { return this.getButton(&quot;left&quot;); };
+</span>    /**
+     * @static
      * @method getPointingStart
      * ポインティングを開始したかを取得(touch との差異対策)
      */
     tm.input.Mouse.prototype.getPointingStart   = function() { return this.getButtonDown(&quot;left&quot;); };
-<span id='tm-input-Mouse-static-method-getPointingEnd'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method getPointingEnd
      * ポインティングを終了したかを取得(touch との差異対策)
      */

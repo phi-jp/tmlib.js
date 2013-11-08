@@ -27,12 +27,12 @@ tm.geom = tm.geom || {};
 </span>     * @class
      * 4*4 マトリックスクラス
      */
-    tm.geom.Matrix44 = tm.createClass({
-<span id='tm-geom-Matrix44-property-m'>        /** 要素 */
-</span>        m: null,
-
-<span id='tm-geom-Matrix44-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-geom-Matrix44-property-m'>    tm.geom.Matrix44 = tm.createClass({
+</span>        /** 要素 */
+<span id='tm-geom-Matrix44-method-constructor'>        m: null,
+</span>
+        /**
+         * @constructor
          */
         init: function() {
             this.m = [];
@@ -42,10 +42,10 @@ tm.geom = tm.geom || {};
             else {
                 this.identity();
             }
-        },
-        
-<span id='tm-geom-Matrix44-method-set'>        /**
-</span>         * セット
+<span id='tm-geom-Matrix44-method-set'>        },
+</span>        
+        /**
+         * セット
          */
         set: function(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33) {
             console.assert(arguments.length&gt;=16, &quot;&quot;);
@@ -61,10 +61,10 @@ tm.geom = tm.geom || {};
             this.m30 = m30; this.m31 = m31; this.m32 = m32; this.m33 = m33;
             
             return this;
-        },
-        
-<span id='tm-geom-Matrix44-method-setArray'>        /**
-</span>         * 配列からセット
+<span id='tm-geom-Matrix44-method-setArray'>        },
+</span>        
+        /**
+         * 配列からセット
          */
         setArray: function(arr) {
             this.set(
@@ -74,11 +74,11 @@ tm.geom = tm.geom || {};
                 arr[3], arr[7], arr[11], arr[15]
             );
             
-            return this;
-        },
+<span id='tm-geom-Matrix44-method-setObject'>            return this;
+</span>        },
         
-<span id='tm-geom-Matrix44-method-setObject'>        /**
-</span>         * オブジェクトからセット.
+        /**
+         * オブジェクトからセット.
          * Matrix44 もこいつでいける!!
          */
         setObject: function(obj) {
@@ -87,27 +87,27 @@ tm.geom = tm.geom || {};
                 obj.m10, obj.m11, obj.m12, obj.m13,
                 obj.m20, obj.m21, obj.m22, obj.m23,
                 obj.m30, obj.m31, obj.m32, obj.m33
-            );
-            
+<span id='tm-geom-Matrix44-method-identity'>            );
+</span>            
             return this;
         },
         
         
-<span id='tm-geom-Matrix44-method-identity'>        /**
-</span>         * 単位行列
+        /**
+         * 単位行列
          */
         identity: function() {
             this.set(
                 1, 0, 0, 0,
                 0, 1, 0, 0,
                 0, 0, 1, 0,
-                0, 0, 0, 1
-            );
+<span id='tm-geom-Matrix44-method-transpose'>                0, 0, 0, 1
+</span>            );
             return this;
         },
         
-<span id='tm-geom-Matrix44-method-transpose'>        /**
-</span>         * 転置
+        /**
+         * 転置
          */
         transpose: function() {
             this.m.swap(1, 4);
@@ -115,55 +115,55 @@ tm.geom = tm.geom || {};
             this.m.swap(3, 12);
             this.m.swap(6, 9);
             this.m.swap(7, 13);
-            this.m.swap(11, 14);
-            
+<span id='tm-geom-Matrix44-method-translate'>            this.m.swap(11, 14);
+</span>            
             return this;
         },
         
-<span id='tm-geom-Matrix44-method-translate'>        /**
-</span>         * 移動
+        /**
+         * 移動
          */
         translate: function(x, y, z) {
-            return this.multiply( tm.geom.Matrix44.translate(x, y, z) );
-        },
+<span id='tm-geom-Matrix44-method-rotate'>            return this.multiply( tm.geom.Matrix44.translate(x, y, z) );
+</span>        },
         
-<span id='tm-geom-Matrix44-method-rotate'>        /**
-</span>         * 回転
+        /**
+         * 回転
          */
         rotate: function(angle) {
-            // TODO: いつか実装する
-            console.error(&quot;Unimplemented&quot;);
+<span id='tm-geom-Matrix44-method-rotateX'>            // TODO: いつか実装する
+</span>            console.error(&quot;Unimplemented&quot;);
         },
         
-<span id='tm-geom-Matrix44-method-rotateX'>        /**
-</span>         * X軸を基軸に回転する
-         */
-        rotateX: function(rad) {
+        /**
+         * X軸を基軸に回転する
+<span id='tm-geom-Matrix44-method-rotateY'>         */
+</span>        rotateX: function(rad) {
             return this.multiply( tm.geom.Matrix44.rotateX(rad) );
         },
         
-<span id='tm-geom-Matrix44-method-rotateY'>        /**
-</span>         * Y軸を基軸に回転する
-         */
+        /**
+<span id='tm-geom-Matrix44-method-rotateZ'>         * Y軸を基軸に回転する
+</span>         */
         rotateY: function(rad) {
             return this.multiply( tm.geom.Matrix44.rotateY(rad) );
         },
         
-<span id='tm-geom-Matrix44-method-rotateZ'>        /**
-</span>         * Z軸を基軸に回転する
-         */
+        /**
+<span id='tm-geom-Matrix44-method-scale'>         * Z軸を基軸に回転する
+</span>         */
         rotateZ: function(rad) {
             return this.multiply( tm.geom.Matrix44.rotateZ(rad) );
         },
         
-<span id='tm-geom-Matrix44-method-scale'>        /**
+<span id='tm-geom-Matrix44-method-zero'>        /**
 </span>         * スケーリング
          */
         scale: function(x, y, z) {
             return this.multiply( tm.geom.Matrix44.scale(x, y, z) );
         },
         
-<span id='tm-geom-Matrix44-method-zero'>        /**
+<span id='tm-geom-Matrix44-method-multiply'>        /**
 </span>         * ゼロ
          */
         zero: function() {
@@ -171,8 +171,8 @@ tm.geom = tm.geom || {};
             return this;
         },
         
-<span id='tm-geom-Matrix44-method-multiply'>        /**
-</span>         * 乗算
+        /**
+         * 乗算
          * this * mat
          */
         multiply: function(mat) {
@@ -206,185 +206,185 @@ tm.geom = tm.geom || {};
         
         /*
         getAxisX: function() { return TM.Geom.Vector3(this.m00, this.m10, this.m20); },
-        getAxisY: function() { return TM.Geom.Vector3(this.m01, this.m11, this.m21); },
-        getAxisZ: function() { return TM.Geom.Vector3(this.m02, this.m12, this.m22); },
-        */
+<span id='tm-geom-Matrix44-method-getAxisX'>        getAxisY: function() { return TM.Geom.Vector3(this.m01, this.m11, this.m21); },
+</span><span id='tm-geom-Matrix44-method-getAxisY'>        getAxisZ: function() { return TM.Geom.Vector3(this.m02, this.m12, this.m22); },
+</span>        */
         
-<span id='tm-geom-Matrix44-method-getAxisX'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
-        getAxisX: function() { return TM.Geom.Vector3(this.m00, this.m01, this.m02); },
-<span id='tm-geom-Matrix44-method-getAxisY'>        /**
-</span>         * @TODO ?
+<span id='tm-geom-Matrix44-method-getAxisZ'>        getAxisX: function() { return TM.Geom.Vector3(this.m00, this.m01, this.m02); },
+</span>        /**
+         * @TODO ?
          */
-        getAxisY: function() { return TM.Geom.Vector3(this.m10, this.m11, this.m12); },
-<span id='tm-geom-Matrix44-method-getAxisZ'>        /**
-</span>         * @TODO ?
+<span id='tm-geom-Matrix44-method-setAxisX'>        getAxisY: function() { return TM.Geom.Vector3(this.m10, this.m11, this.m12); },
+</span>        /**
+         * @TODO ?
          */
-        getAxisZ: function() { return TM.Geom.Vector3(this.m20, this.m21, this.m22); },
-
-<span id='tm-geom-Matrix44-method-setAxisX'>        /**
-</span>         * @TODO ?
+<span id='tm-geom-Matrix44-method-setAxisY'>        getAxisZ: function() { return TM.Geom.Vector3(this.m20, this.m21, this.m22); },
+</span>
+        /**
+         * @TODO ?
          */
-        setAxisX: function(v) { this.m00=v.x, this.m01=v.y, this.m02=v.z; },
-<span id='tm-geom-Matrix44-method-setAxisY'>        /**
-</span>         * @TODO ?
+<span id='tm-geom-Matrix44-method-setAxisZ'>        setAxisX: function(v) { this.m00=v.x, this.m01=v.y, this.m02=v.z; },
+</span>        /**
+         * @TODO ?
          */
-        setAxisY: function(v) { this.m10=v.x, this.m11=v.y, this.m12=v.z; },
-<span id='tm-geom-Matrix44-method-setAxisZ'>        /**
-</span>         * @TODO ?
+<span id='tm-geom-Matrix44-method-toMatrix33'>        setAxisY: function(v) { this.m10=v.x, this.m11=v.y, this.m12=v.z; },
+</span>        /**
+         * @TODO ?
          */
-        setAxisZ: function(v) { this.m20=v.x, this.m21=v.y, this.m22=v.z; },
-        
-<span id='tm-geom-Matrix44-method-toMatrix33'>        /**
-</span>         * Matrix33 に変換
+<span id='tm-geom-Matrix44-method-toArray'>        setAxisZ: function(v) { this.m20=v.x, this.m21=v.y, this.m22=v.z; },
+</span>        
+        /**
+         * Matrix33 に変換
          */
-        toMatrix33: function() {
-            // TODO:
+<span id='tm-geom-Matrix44-method-toString'>        toMatrix33: function() {
+</span>            // TODO:
         },
         
-<span id='tm-geom-Matrix44-method-toArray'>        /**
-</span>         * 配列に変換
+        /**
+         * 配列に変換
          */
         toArray: function() {
             return this.m.slice();
         },
         
-<span id='tm-geom-Matrix44-method-toString'>        /**
-</span>         * 文字列化
+        /**
+         * 文字列化
          */
-        toString: function() {
-            return &quot;|{m00}, {m01}, {m02}, {m03}|\n|{m10}, {m11}, {m12}, {m13}|\n|{m20}, {m21}, {m22}, {m23}|\n|{m30}, {m31}, {m32}, {m33}|&quot;.format(this);
+<span id='tm-geom-Matrix44-property-m00'>        toString: function() {
+</span>            return &quot;|{m00}, {m01}, {m02}, {m03}|\n|{m10}, {m11}, {m12}, {m13}|\n|{m20}, {m21}, {m22}, {m23}|\n|{m30}, {m31}, {m32}, {m33}|&quot;.format(this);
         }
         
     });
     
     
-<span id='tm-geom-Matrix44-property-m00'>    /**
+<span id='tm-geom-Matrix44-property-m01'>    /**
 </span>     * @property    m00
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m00&quot;, {
         &quot;get&quot;: function()   { return this.m[0]; },
         &quot;set&quot;: function(v)  { this.m[0] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m01'>    /**
-</span>     * @property    m01
+<span id='tm-geom-Matrix44-property-m02'>    });
+</span>    /**
+     * @property    m01
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m10&quot;, {
         &quot;get&quot;: function()   { return this.m[1]; },
         &quot;set&quot;: function(v)  { this.m[1] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m02'>    /**
-</span>     * @property    m02
+<span id='tm-geom-Matrix44-property-m03'>    });
+</span>    /**
+     * @property    m02
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m20&quot;, {
         &quot;get&quot;: function()   { return this.m[2]; },
         &quot;set&quot;: function(v)  { this.m[2] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m03'>    /**
-</span>     * @property    m03
+<span id='tm-geom-Matrix44-property-m10'>    });
+</span>    /**
+     * @property    m03
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m30&quot;, {
         &quot;get&quot;: function()   { return this.m[3]; },
-        &quot;set&quot;: function(v)  { this.m[3] = v;    }
-    });
+<span id='tm-geom-Matrix44-property-m11'>        &quot;set&quot;: function(v)  { this.m[3] = v;    }
+</span>    });
     
-<span id='tm-geom-Matrix44-property-m10'>    /**
-</span>     * @property    m10
+    /**
+     * @property    m10
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m01&quot;, {
         &quot;get&quot;: function()   { return this.m[4]; },
-        &quot;set&quot;: function(v)  { this.m[4] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m11'>    /**
-</span>     * @property    m11
+<span id='tm-geom-Matrix44-property-m12'>        &quot;set&quot;: function(v)  { this.m[4] = v;    }
+</span>    });
+    /**
+     * @property    m11
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m11&quot;, {
         &quot;get&quot;: function()   { return this.m[5]; },
-        &quot;set&quot;: function(v)  { this.m[5] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m12'>    /**
-</span>     * @property    m12
+<span id='tm-geom-Matrix44-property-m13'>        &quot;set&quot;: function(v)  { this.m[5] = v;    }
+</span>    });
+    /**
+     * @property    m12
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m21&quot;, {
         &quot;get&quot;: function()   { return this.m[6]; },
-        &quot;set&quot;: function(v)  { this.m[6] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m13'>    /**
-</span>     * @property    m13
+<span id='tm-geom-Matrix44-property-m20'>        &quot;set&quot;: function(v)  { this.m[6] = v;    }
+</span>    });
+    /**
+     * @property    m13
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m31&quot;, {
         &quot;get&quot;: function()   { return this.m[7]; },
-        &quot;set&quot;: function(v)  { this.m[7] = v;    }
-    });
+<span id='tm-geom-Matrix44-property-m21'>        &quot;set&quot;: function(v)  { this.m[7] = v;    }
+</span>    });
     
-<span id='tm-geom-Matrix44-property-m20'>    /**
-</span>     * @property    m20
+    /**
+     * @property    m20
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m02&quot;, {
         &quot;get&quot;: function()   { return this.m[8]; },
-        &quot;set&quot;: function(v)  { this.m[8] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m21'>    /**
-</span>     * @property    m21
+<span id='tm-geom-Matrix44-property-m22'>        &quot;set&quot;: function(v)  { this.m[8] = v;    }
+</span>    });
+    /**
+     * @property    m21
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m12&quot;, {
         &quot;get&quot;: function()   { return this.m[9]; },
-        &quot;set&quot;: function(v)  { this.m[9] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m22'>    /**
-</span>     * @property    m22
+<span id='tm-geom-Matrix44-property-m23'>        &quot;set&quot;: function(v)  { this.m[9] = v;    }
+</span>    });
+    /**
+     * @property    m22
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m22&quot;, {
         &quot;get&quot;: function()   { return this.m[10]; },
-        &quot;set&quot;: function(v)  { this.m[10] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m23'>    /**
-</span>     * @property    m23
+<span id='tm-geom-Matrix44-property-m30'>        &quot;set&quot;: function(v)  { this.m[10] = v;    }
+</span>    });
+    /**
+     * @property    m23
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m32&quot;, {
         &quot;get&quot;: function()   { return this.m[11]; },
-        &quot;set&quot;: function(v)  { this.m[11] = v;    }
-    });
+<span id='tm-geom-Matrix44-property-m31'>        &quot;set&quot;: function(v)  { this.m[11] = v;    }
+</span>    });
         
-<span id='tm-geom-Matrix44-property-m30'>    /**
-</span>     * @property    m30
+    /**
+     * @property    m30
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m03&quot;, {
         &quot;get&quot;: function()   { return this.m[12]; },
-        &quot;set&quot;: function(v)  { this.m[12] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m31'>    /**
-</span>     * @property    m31
+<span id='tm-geom-Matrix44-property-m32'>        &quot;set&quot;: function(v)  { this.m[12] = v;    }
+</span>    });
+    /**
+     * @property    m31
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m13&quot;, {
         &quot;get&quot;: function()   { return this.m[13]; },
-        &quot;set&quot;: function(v)  { this.m[13] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m32'>    /**
-</span>     * @property    m32
+<span id='tm-geom-Matrix44-property-m33'>        &quot;set&quot;: function(v)  { this.m[13] = v;    }
+</span>    });
+    /**
+     * @property    m32
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m23&quot;, {
         &quot;get&quot;: function()   { return this.m[14]; },
-        &quot;set&quot;: function(v)  { this.m[14] = v;    }
-    });
-<span id='tm-geom-Matrix44-property-m33'>    /**
-</span>     * @property    m33
+<span id='tm-geom-Matrix44-static-method-translate'>        &quot;set&quot;: function(v)  { this.m[14] = v;    }
+</span>    });
+    /**
+     * @property    m33
      * 要素
      */
     tm.geom.Matrix44.prototype.accessor(&quot;m33&quot;, {
@@ -392,12 +392,12 @@ tm.geom = tm.geom || {};
         &quot;set&quot;: function(v)  { this.m[15] = v;    }
     });
     
-    
-    
+<span id='tm-geom-Matrix44-static-method-rotateX'>    
+</span>    
     
 
-<span id='tm-geom-Matrix44-static-method-translate'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * 移動
      */
@@ -410,11 +410,11 @@ tm.geom = tm.geom || {};
         );
     };
     
-<span id='tm-geom-Matrix44-static-method-rotateX'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
-     * X軸回転
-     */
+<span id='tm-geom-Matrix44-static-method-rotateY'>     * X軸回転
+</span>     */
     tm.geom.Matrix44.rotateX = function(rad) {
         var c = Math.cos(rad);
         var s = Math.sin(rad);
@@ -427,11 +427,11 @@ tm.geom = tm.geom || {};
         );
     };
     
-<span id='tm-geom-Matrix44-static-method-rotateY'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
-     * Y軸回転
-     */
+<span id='tm-geom-Matrix44-static-method-rotateZ'>     * Y軸回転
+</span>     */
     tm.geom.Matrix44.rotateY = function(rad) {
         var c = Math.cos(rad);
         var s = Math.sin(rad);
@@ -444,11 +444,11 @@ tm.geom = tm.geom || {};
         );
     };
     
-<span id='tm-geom-Matrix44-static-method-rotateZ'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
-     * Z軸回転
-     */
+<span id='tm-geom-Matrix44-static-method-scale'>     * Z軸回転
+</span>     */
     tm.geom.Matrix44.rotateZ = function(rad) {
         var c = Math.cos(rad);
         var s = Math.sin(rad);
@@ -461,13 +461,13 @@ tm.geom = tm.geom || {};
         );
     };
     
-<span id='tm-geom-Matrix44-static-method-scale'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * スケーリング
      */
-    tm.geom.Matrix44.scale = function(x, y, z) {
-        var mat = tm.geom.Matrix44();
+<span id='tm-geom-Matrix44-static-method-perspective'>    tm.geom.Matrix44.scale = function(x, y, z) {
+</span>        var mat = tm.geom.Matrix44();
         
         if (y == undefined) y = x;
         if (z == undefined) z = x;
@@ -482,14 +482,14 @@ tm.geom = tm.geom || {};
         return mat;
     };
 
-<span id='tm-geom-Matrix44-static-method-perspective'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * perspective
      */
     tm.geom.Matrix44.perspective = function(fovy, aspect, znear, zfar) {
-        var yscale = 1.0 / Math.tan(0.5*fovy*Math.PI/180);
-        var xscale = yscale / aspect;
+<span id='tm-geom-Matrix44-static-method-ortho'>        var yscale = 1.0 / Math.tan(0.5*fovy*Math.PI/180);
+</span>        var xscale = yscale / aspect;
 
         return tm.geom.Matrix44(
             xscale, 0.0, 0.0, 0.0,
@@ -499,8 +499,8 @@ tm.geom = tm.geom || {};
         );
     };
     
-<span id='tm-geom-Matrix44-static-method-ortho'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * ortho
      */
@@ -519,8 +519,8 @@ tm.geom = tm.geom || {};
         */
         
         var rl = (right - left),
-            tb = (top - bottom),
-            fn = (far - near);
+<span id='tm-geom-Matrix44-static-method-lookAt'>            tb = (top - bottom),
+</span>            fn = (far - near);
         return tm.geom.Matrix44(
             2.0/rl,      0,     0, 0,
                0.0, 2.0/tb,     0, 0,
@@ -530,8 +530,8 @@ tm.geom = tm.geom || {};
     };
 
     
-<span id='tm-geom-Matrix44-static-method-lookAt'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * lookAt
      */

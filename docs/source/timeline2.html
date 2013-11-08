@@ -28,25 +28,25 @@ tm.util = tm.util || {};
 </span>     * @class tm.util.Timeline
      * タイムラインクラス
      */
-    tm.util.Timeline = tm.createClass({
-        
-<span id='tm-util-Timeline-property-target'>        /** target */
-</span>        target  : null,
-<span id='tm-util-Timeline-property-tasks'>        /** tasks */
-</span>        tasks   : null,
-<span id='tm-util-Timeline-property-fps'>        /** fps */
-</span>        fps     : 30,
-        
-<span id='tm-util-Timeline-method-constructor'>        /**
-</span>         * @constructor
+<span id='tm-util-Timeline-property-target'>    tm.util.Timeline = tm.createClass({
+</span>        
+        /** target */
+<span id='tm-util-Timeline-property-tasks'>        target  : null,
+</span>        /** tasks */
+<span id='tm-util-Timeline-property-fps'>        tasks   : null,
+</span>        /** fps */
+<span id='tm-util-Timeline-method-constructor'>        fps     : 30,
+</span>        
+        /**
+         * @constructor
          */
         init: function() {
             this.tasks = [];
             this.time = 0;
-        },
-        
-<span id='tm-util-Timeline-method-at'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-at'>        },
+</span>        
+        /**
+         * @TODO ?
          */
         at: function(time, action) {
             this.tasks.push({
@@ -54,72 +54,72 @@ tm.util = tm.util || {};
                 action: action,
             });
             return this;
-        },
-
-<span id='tm-util-Timeline-method-after'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-after'>        },
+</span>
+        /**
+         * @TODO ?
          */
         after: function(time, action) {
             this.at(this.time + time, action);
             return this;
-        },
-
-<span id='tm-util-Timeline-method-clear'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-clear'>        },
+</span>
+        /**
+         * @TODO ?
          */
         clear: function() {
             this.tasks = [];
             return this;
-        },
-
-<span id='tm-util-Timeline-method-removeTime'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-removeTime'>        },
+</span>
+        /**
+         * @TODO ?
          */
         removeTime: function(time) {
             // TODO: 
-        },
-
-<span id='tm-util-Timeline-method-removeAction'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-removeAction'>        },
+</span>
+        /**
+         * @TODO ?
          */
         removeAction: function(action) {
             // TODO: 
-        },
-        
-<span id='tm-util-Timeline-method-start'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-start'>        },
+</span>        
+        /**
+         * @TODO ?
          */
         start: function() {
             this.isPlaying = true;
             this._startTime();
             this._updateTime();
-        },
-
-<span id='tm-util-Timeline-method-resume'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-resume'>        },
+</span>
+        /**
+         * @TODO ?
          */
         resume: function() {
             this.isPlaying = true;
             this._resumeTime();
             this._updateTime();
-        },
-
-<span id='tm-util-Timeline-method-stop'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-stop'>        },
+</span>
+        /**
+         * @TODO ?
          */
         stop: function() {
             this.isPlaying = false;
-        },
-
-<span id='tm-util-Timeline-method-rewind'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-rewind'>        },
+</span>
+        /**
+         * @TODO ?
          */
         rewind: function() {
             this.time = 0;
-        },
-
-<span id='tm-util-Timeline-method-update'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-update'>        },
+</span>
+        /**
+         * @TODO ?
          */
         update: function() {
             // タスク更新
@@ -133,26 +133,26 @@ tm.util = tm.util || {};
                     }
                 }
             }
-        },
-        
-<span id='tm-util-Timeline-method-_startTime'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-_startTime'>        },
+</span>        
+        /**
+         * @TODO ?
          * @private
          */
         _startTime: function() {
-            this.startTime = (new Date()).getTime();
-        },
+<span id='tm-util-Timeline-method-_resumeTime'>            this.startTime = (new Date()).getTime();
+</span>        },
 
-<span id='tm-util-Timeline-method-_resumeTime'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _resumeTime: function() {
-            this.startTime = (new Date()).getTime() - this.time;
-        },
+<span id='tm-util-Timeline-method-_updateTime'>            this.startTime = (new Date()).getTime() - this.time;
+</span>        },
 
-<span id='tm-util-Timeline-method-_updateTime'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _updateTime: function() {
@@ -160,10 +160,10 @@ tm.util = tm.util || {};
                 this._nextTime();
                 setTimeout(arguments.callee.bind(this), 1000/this.fps);
             }
-        },
-        
-<span id='tm-util-Timeline-method-_nextTime'>        /**
-</span>         * @TODO ?
+<span id='tm-util-Timeline-method-_nextTime'>        },
+</span>        
+        /**
+         * @TODO ?
          * @private
          */
         _nextTime: function() {

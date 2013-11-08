@@ -28,40 +28,40 @@ tm.three = tm.three || {};
 
 <span id='THREE-Texture'>    /**
 </span>     * @class THREE.Texture
-     * Three.js ライブラリ内クラス
-     */
-<span id='THREE-Scene'>    /**
-</span>     * @class THREE.Scene
-     * Three.js ライブラリ内クラス
-     */
-<span id='THREE-Mesh'>    /**
-</span>     * @class THREE.Mesh
-     * Three.js ライブラリ内クラス
-     */
-<span id='THREE-Object3D'>    /**
-</span>     * @class THREE.Object3D
-     * Three.js ライブラリ内クラス
+<span id='THREE-Scene'>     * Three.js ライブラリ内クラス
+</span>     */
+    /**
+     * @class THREE.Scene
+<span id='THREE-Mesh'>     * Three.js ライブラリ内クラス
+</span>     */
+    /**
+     * @class THREE.Mesh
+<span id='THREE-Object3D'>     * Three.js ライブラリ内クラス
+</span>     */
+    /**
+<span id='tm-three-ThreeApp'>     * @class THREE.Object3D
+</span>     * Three.js ライブラリ内クラス
      */
     
-<span id='tm-three-ThreeApp'>    /**
-</span>     * @class tm.three.ThreeApp
+    /**
+     * @class tm.three.ThreeApp
      * 3Dライブラリ - Three.jsをtmlib.jsで対応
      * @extends tm.app.BaseApp
      */
-    tm.three.ThreeApp = tm.createClass({
-        superClass: tm.app.BaseApp,
-        
-<span id='tm-three-ThreeApp-property-canvas'>        /** canvas */
+<span id='tm-three-ThreeApp-property-canvas'>    tm.three.ThreeApp = tm.createClass({
+</span><span id='tm-three-ThreeApp-property-background'>        superClass: tm.app.BaseApp,
+</span>        
+<span id='tm-three-ThreeApp-property-_scenes'>        /** canvas */
 </span>        canvas      : null,
-<span id='tm-three-ThreeApp-property-background'>        /** canvas */
-</span>        background  : null,
-<span id='tm-three-ThreeApp-property-_scenes'>        /** @private canvas */
-</span>        _scenes      : null,
-<span id='tm-three-ThreeApp-property-_sceneIndex'>        /** @private canvas */
-</span>        _sceneIndex  : 0,
+        /** canvas */
+<span id='tm-three-ThreeApp-property-_sceneIndex'>        background  : null,
+</span>        /** @private canvas */
+<span id='tm-three-ThreeApp-method-constructor'>        _scenes      : null,
+</span>        /** @private canvas */
+        _sceneIndex  : 0,
         
-<span id='tm-three-ThreeApp-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(canvas) {
             if (canvas instanceof HTMLCanvasElement) {
@@ -82,36 +82,36 @@ tm.three = tm.three || {};
 //            this.renderer = new THREE.CanvasRenderer({ canvas: this.element });
             this.renderer = new THREE.WebGLRenderer({ canvas: this.element, clearColor: 0x222222, clearAlpha: 1.0 });
 
-            this.renderer.setSize(this.element.width, this.element.height);
-            
+<span id='tm-three-ThreeApp-method-resize'>            this.renderer.setSize(this.element.width, this.element.height);
+</span>            
             // シーン周り
             this._scenes = [ tm.three.Scene() ];
         },
         
-<span id='tm-three-ThreeApp-method-resize'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         resize: function(width, height) {
             this.width = width;
-            this.height= height;
-            this.renderer.setSize(this.width, this.height);
+<span id='tm-three-ThreeApp-method-resizeWindow'>            this.height= height;
+</span>            this.renderer.setSize(this.width, this.height);
             
             return this;
         },
 
-<span id='tm-three-ThreeApp-method-resizeWindow'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         resizeWindow: function() {
             this.width = innerWidth;
             this.height= innerHeight;
-            this.renderer.setSize(this.width, this.height);
-            
+<span id='tm-three-ThreeApp-method-fitWindow'>            this.renderer.setSize(this.width, this.height);
+</span>            
             return this;
         },
         
-<span id='tm-three-ThreeApp-method-fitWindow'>        /**
-</span>         * 画面にフィットさせる
+        /**
+         * 画面にフィットさせる
          */
         fitWindow: function(everFlag) {
             // 画面にフィット
@@ -143,29 +143,29 @@ tm.three = tm.three || {};
             // リサイズ時のリスナとして登録しておく
             if (everFlag) {
                 window.addEventListener(&quot;resize&quot;, _fitFunc, false);
-            }
-            
+<span id='tm-three-ThreeApp-method-_draw'>            }
+</span>            
             // マウスとタッチの座標更新関数をパワーアップ
             this.mouse._mousemove = this.mouse._mousemoveScale;
             this.touch._touchmove = this.touch._touchmoveScale;
         },
 
-<span id='tm-three-ThreeApp-method-_draw'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
-        _draw: function() {
-            // 描画は全てのシーン行う
+<span id='tm-three-ThreeApp-property-width'>        _draw: function() {
+</span>            // 描画は全てのシーン行う
             for (var i=0, len=this._scenes.length; i&lt;len; ++i) {
                 this.renderer.render(this.currentScene, this.currentScene.camera);
-            }
-        },
+<span id='tm-three-ThreeApp-property-height'>            }
+</span>        },
         
     });
     
     
-<span id='tm-three-ThreeApp-property-width'>    /**
-</span>     * @property    width
+    /**
+     * @property    width
      * 幅
      */
     tm.three.ThreeApp.prototype.accessor(&quot;width&quot;, {
@@ -173,14 +173,14 @@ tm.three = tm.three || {};
         &quot;set&quot;: function(v)  { this.element.width = v; }
     });
     
-<span id='tm-three-ThreeApp-property-height'>    /**
-</span>     * @property    height
-     * 高さ
+    /**
+<span id='tm-three-Element'>     * @property    height
+</span>     * 高さ
      */
     tm.three.ThreeApp.prototype.accessor(&quot;height&quot;, {
         &quot;get&quot;: function()   { return this.element.height; },
-        &quot;set&quot;: function(v)  { this.element.height = v; }
-    });
+<span id='tm-three-Element-method-constructor'>        &quot;set&quot;: function(v)  { this.element.height = v; }
+</span>    });
     
 })();
 
@@ -189,17 +189,17 @@ tm.three = tm.three || {};
     
     if (!tm.global.THREE) return ;
 
-<span id='tm-three-Element'>    /**
-</span>     * @class tm.three.Element
+    /**
+     * @class tm.three.Element
      * @TODO ?
      * @extends THREE.Object3D
      */
-    tm.three.Element = tm.createClass({
-        superClass: THREE.Object3D,
+<span id='tm-three-Element-method-update'>    tm.three.Element = tm.createClass({
+</span>        superClass: THREE.Object3D,
 
-<span id='tm-three-Element-method-constructor'>        /**
-</span>         * @constructor
-         */
+        /**
+<span id='tm-three-Element-method-_update'>         * @constructor
+</span>         */
         init: function() {
             // THREE.Object3D の初期化 
             THREE.Object3D.call(this);
@@ -207,13 +207,13 @@ tm.three = tm.three || {};
             tm.event.EventDispatcher.prototype.init.call(this);
         },
         
-<span id='tm-three-Element-method-update'>        /**
-</span>         * 更新処理
+        /**
+         * 更新処理
          */
         update: function() {},
 
-<span id='tm-three-Element-method-_update'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _update: function(app) {
@@ -230,15 +230,15 @@ tm.three = tm.three || {};
                 var tempChildren = this.children.slice();
                 for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
                     var child = tempChildren[i];
-                    child._update &amp;&amp; child._update(app);
-                }
+<span id='tm-three-MeshElement'>                    child._update &amp;&amp; child._update(app);
+</span>                }
                 //this.execChildren(arguments.callee, app);
             }
         },
     });
     
-    // tm.event.EventDispatcher を継承
-    tm.three.Element.prototype.$safe(tm.event.EventDispatcher.prototype);
+<span id='tm-three-MeshElement-method-constructor'>    // tm.event.EventDispatcher を継承
+</span>    tm.three.Element.prototype.$safe(tm.event.EventDispatcher.prototype);
     
 })();
 
@@ -246,110 +246,110 @@ tm.three = tm.three || {};
     
     if (!tm.global.THREE) return ;
 
-<span id='tm-three-MeshElement'>    /**
-</span>     * @class tm.three.MeshElement
+    /**
+     * @class tm.three.MeshElement
      * @TODO ?
      * @extends THREE.Mesh
      */
     tm.three.MeshElement = tm.createClass({
         superClass: THREE.Mesh,
         
-<span id='tm-three-MeshElement-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(geometry, material) {
-            material = material || new THREE.MeshNormalMaterial();
-            // THREE.Mesh の初期化
+<span id='tm-three-CubeElement'>            material = material || new THREE.MeshNormalMaterial();
+</span>            // THREE.Mesh の初期化
             THREE.Mesh.call(this, geometry, material);
 
-            tm.three.Element.prototype.init.call(this);
-        },
+<span id='tm-three-CubeElement-method-constructor'>            tm.three.Element.prototype.init.call(this);
+</span>        },
     });
     
     // tm.three.Element を継承
     tm.three.MeshElement.prototype.$safe(tm.three.Element.prototype);
 
     
-<span id='tm-three-CubeElement'>    /**
-</span>     * @class tm.three.CubeElement
+    /**
+     * @class tm.three.CubeElement
      * @TODO ?
      * @extends tm.three.MeshElement
      */
     tm.three.CubeElement = tm.createClass({
         superClass: tm.three.MeshElement,
 
-<span id='tm-three-CubeElement-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
-        init: function(width, height, depth) {
-            width  = width || 100;
+<span id='tm-three-SphereElement'>        init: function(width, height, depth) {
+</span>            width  = width || 100;
             height = height || 100;
             depth  = depth || 100;
 
-            var geometry = new THREE.CubeGeometry(width, height, depth);
-            var material = new THREE.MeshNormalMaterial();
+<span id='tm-three-SphereElement-method-constructor'>            var geometry = new THREE.CubeGeometry(width, height, depth);
+</span>            var material = new THREE.MeshNormalMaterial();
 
             this.superInit(geometry, material);
         }
     });
 
 
-<span id='tm-three-SphereElement'>    /**
-</span>     * @class tm.three.SphereElement
+    /**
+     * @class tm.three.SphereElement
      * @TODO ?
      * @extends tm.three.MeshElement
      */
     tm.three.SphereElement = tm.createClass({
         superClass: tm.three.MeshElement,
 
-<span id='tm-three-SphereElement-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(radius, widthSegments, heightSegments) {
-            radius          = radius || 45;
-            widthSegments   = widthSegments || 16;
+<span id='tm-three-PlaneElement'>            radius          = radius || 45;
+</span>            widthSegments   = widthSegments || 16;
             heightSegments  = heightSegments || 12;
 
-            var geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
-            var material = new THREE.MeshNormalMaterial();
+<span id='tm-three-PlaneElement-method-constructor'>            var geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
+</span>            var material = new THREE.MeshNormalMaterial();
 
             this.superInit(geometry, material);
         }
     });
 
-<span id='tm-three-PlaneElement'>    /**
-</span>     * @class tm.three.PlaneElement
+    /**
+     * @class tm.three.PlaneElement
      * @TODO ?
      * @extends tm.three.MeshElement
      */
-    tm.three.PlaneElement = tm.createClass({
-        superClass: tm.three.MeshElement,
+<span id='tm-three-FloorElement'>    tm.three.PlaneElement = tm.createClass({
+</span>        superClass: tm.three.MeshElement,
 
-<span id='tm-three-PlaneElement-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(width, height) {
-            var geometry = new THREE.PlaneGeometry(width, height);
-            var material = new THREE.MeshNormalMaterial();
+<span id='tm-three-FloorElement-method-constructor'>            var geometry = new THREE.PlaneGeometry(width, height);
+</span>            var material = new THREE.MeshNormalMaterial();
 
             this.superInit(geometry, material);
         }
     });
 
 
-<span id='tm-three-FloorElement'>    /**
-</span>     * @class tm.three.FloorElement
+    /**
+     * @class tm.three.FloorElement
      * @TODO ?
      * @extends tm.three.MeshElement
      */
     tm.three.FloorElement = tm.createClass({
         superClass: tm.three.MeshElement,
 
-<span id='tm-three-FloorElement-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
-        init: function(width, height) {
-            width  = width || 1000;
+<span id='tm-three-FloorElement-method-_render'>        init: function(width, height) {
+</span>            width  = width || 1000;
             height = height || 1000;
             var geometry = new THREE.PlaneGeometry(width, height);
             var material = new THREE.MeshBasicMaterial();
@@ -360,66 +360,66 @@ tm.three = tm.three || {};
             this._render();
         },
 
-<span id='tm-three-FloorElement-method-_render'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          * @private
          */
         _render: function() {
             var c = tm.graphics.Canvas();
             c.resize(128, 128);
             c.clearColor(&quot;#444&quot;);
-            c.setFillStyle(&quot;white&quot;);
-            c.fillRect(0, 0, 64, 64);
+<span id='tm-three-TextElement'>            c.setFillStyle(&quot;white&quot;);
+</span>            c.fillRect(0, 0, 64, 64);
             c.fillRect(64, 64, 64, 64);
 
             var texture = new THREE.Texture(c.element);
-            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(10, 10);
+<span id='tm-three-TextElement-method-constructor'>            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+</span>            texture.repeat.set(10, 10);
             texture.needsUpdate = true;
             this.material.map = texture;
         }
     });
 
-<span id='tm-three-TextElement'>    /**
-</span>     * @class tm.three.TextElement
+    /**
+     * @class tm.three.TextElement
      * @TODO ?
      * @extends tm.three.MeshElement
      */
-    tm.three.TextElement = tm.createClass({
-        superClass: tm.three.MeshElement,
+<span id='tm-three-CanvasTexture'>    tm.three.TextElement = tm.createClass({
+</span>        superClass: tm.three.MeshElement,
 
-<span id='tm-three-TextElement-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(text, param) {
-            var geometry = new THREE.TextGeometry(text, param);
-            var material = new THREE.MeshNormalMaterial();
-
+<span id='tm-three-CanvasTexture-property-canvas'>            var geometry = new THREE.TextGeometry(text, param);
+</span><span id='tm-three-CanvasTexture-method-constructor'><span id='tm-three-CanvasTexture-property-needsUpdate'>            var material = new THREE.MeshNormalMaterial();
+</span></span>
             this.superInit(geometry, material);
         }
     });
 
-<span id='tm-three-CanvasTexture'>    /**
-</span>     * @class tm.three.CanvasTexture
+    /**
+     * @class tm.three.CanvasTexture
      * @TODO ?
      * @extends THREE.Texture
      */
     tm.three.CanvasTexture = tm.createClass({
         superClass: THREE.Texture,
 
-<span id='tm-three-CanvasTexture-property-canvas'>        /** canvas */
-</span>        canvas: null,
-<span id='tm-three-CanvasTexture-property-needsUpdate'>        /** @property needsUpdate */
-</span>
-<span id='tm-three-CanvasTexture-method-constructor'>        /**
-</span>         * @constructor
+        /** canvas */
+<span id='tm-three-Scene'>        canvas: null,
+</span>        /** @property needsUpdate */
+
+        /**
+         * @constructor
          */
         init: function() {
             this.canvas = tm.graphics.Canvas();
 
-            THREE.Texture.call(this, this.canvas.element);
-            this.needsUpdate = true;
-        }
+<span id='tm-three-Scene-property-projector'><span id='tm-three-Scene-property-camera'>            THREE.Texture.call(this, this.canvas.element);
+</span></span><span id='tm-three-Scene-method-constructor'>            this.needsUpdate = true;
+</span>        }
 
     });
 
@@ -430,26 +430,26 @@ tm.three = tm.three || {};
     
     if (!tm.global.THREE) return ;
 
-<span id='tm-three-Scene'>    /**
-</span>     * @class tm.three.Scene
+    /**
+     * @class tm.three.Scene
      * シーン
      * @extends THREE.Scene
      */
     tm.three.Scene = tm.createClass({
         superClass: THREE.Scene,
         
-<span id='tm-three-Scene-property-camera'>        /** @property camera */
-</span><span id='tm-three-Scene-property-projector'>        /** @property projector */
-</span>
-<span id='tm-three-Scene-method-constructor'>        /**
-</span>         * @constructor
+        /** @property camera */
+        /** @property projector */
+
+        /**
+         * @constructor
          */
         init: function(fov, aspect) {
             fov = fov || 60;
             aspect = aspect || 640/480;
             // THREE.Scene の初期化
-            THREE.Scene.call(this);
-
+<span id='tm-three-Scene-method-intersect'>            THREE.Scene.call(this);
+</span>
             // tm.three.Element を継承
             tm.three.Element.prototype.init.call(this);
 
@@ -460,8 +460,8 @@ tm.three = tm.three || {};
             this.projector = new THREE.Projector();
         },
 
-<span id='tm-three-Scene-method-intersect'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         intersect: function(objects) {
             objects = objects || this.children;

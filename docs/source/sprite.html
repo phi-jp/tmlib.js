@@ -31,14 +31,14 @@ tm.display = tm.display || {};
      * @extends tm.display.CanvasElement
      */
     tm.display.Sprite = tm.createClass({
-        superClass: tm.display.CanvasElement,
-        
-<span id='tm-display-Sprite-property-srcRect'>        /** @property srcRect */
-</span><span id='tm-display-Sprite-property-width'>        /** @property width */
-</span><span id='tm-display-Sprite-property-height'>        /** @property height */
+<span id='tm-display-Sprite-property-srcRect'>        superClass: tm.display.CanvasElement,
+</span>        
+<span id='tm-display-Sprite-property-width'>        /** @property srcRect */
+</span><span id='tm-display-Sprite-property-height'>        /** @property width */
+</span><span id='tm-display-Sprite-method-constructor'>        /** @property height */
 </span>
-<span id='tm-display-Sprite-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          */
         init: function(texture, width, height) {
             this.superInit();
@@ -64,14 +64,14 @@ tm.display = tm.display || {};
                 
                 this.width  = width;
                 this.height = height;
-                if (texture) {
-                    this.image  = texture;
+<span id='tm-display-Sprite-method-setFrameIndex'>                if (texture) {
+</span>                    this.image  = texture;
                 }
             }
         },
         
-<span id='tm-display-Sprite-method-setFrameIndex'>        /**
-</span>         * @TODO ?
+        /**
+         * @TODO ?
          */
         setFrameIndex: function(index, width, height) {
             var w   = width || this.width;
@@ -81,21 +81,21 @@ tm.display = tm.display || {};
             var y   = ~~(index/row);
             this.srcRect.x = x*w;
             this.srcRect.y = y*h;
-            this.srcRect.width  = w;
-            this.srcRect.height = h;
+<span id='tm-display-Sprite-method-_refreshSize'>            this.srcRect.width  = w;
+</span>            this.srcRect.height = h;
 
             return this;
         },
         
-<span id='tm-display-Sprite-method-_refreshSize'>        /**
-</span>         * @TODO ?
-         * @private
+        /**
+<span id='tm-display-Sprite-property-image'>         * @TODO ?
+</span>         * @private
          */
         _refreshSize: function() {},
     });
     
-<span id='tm-display-Sprite-property-image'>    /**
-</span>     * @property    image
+    /**
+     * @property    image
      * 高さ
      */
     tm.display.Sprite.prototype.accessor(&quot;image&quot;, {

@@ -29,11 +29,11 @@ tm.util = tm.util || {};
      * データマネージャ
      */
     tm.util.DataManager = {
-<span id='tm-util-DataManager-property-data'>        data: {}
-</span>    };
+<span id='tm-util-DataManager-static-method-save'><span id='tm-util-DataManager-property-data'>        data: {}
+</span></span>    };
 
-<span id='tm-util-DataManager-static-method-save'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * @TODO ?
      */
@@ -41,34 +41,34 @@ tm.util = tm.util || {};
         // TODO: ローカルストレージ?
         for (var key in this.data) {
             var data = this.data[key];
-            localStorage[key] = JSON.stringify( data );
-        }
+<span id='tm-util-DataManager-static-method-load'>            localStorage[key] = JSON.stringify( data );
+</span>        }
     };
 
-<span id='tm-util-DataManager-static-method-load'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * @TODO ?
      */
     tm.util.DataManager.load = function(key) {
         // TODO: ローカルストレージ?
         for (var key in localStorage) {
-            this.data[key] = JSON.parse(localStorage[key]);
-        }
+<span id='tm-util-DataManager-static-method-set'>            this.data[key] = JSON.parse(localStorage[key]);
+</span>        }
     };
 
-<span id='tm-util-DataManager-static-method-set'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * @TODO ?
      */
     tm.util.DataManager.set = function(key, value) {
-        this.data[key] = value;
-        return this;
+<span id='tm-util-DataManager-static-method-get'>        this.data[key] = value;
+</span>        return this;
     };
 
-<span id='tm-util-DataManager-static-method-get'>    /**
-</span>     * @static
+    /**
+     * @static
      * @method
      * @TODO ?
      */

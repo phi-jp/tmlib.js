@@ -26,33 +26,33 @@
 </span>     * @class tm.display.CanvasRenderer
      * @TODO キャンバス描画クラス？
      */
-    tm.define(&quot;tm.display.CanvasRenderer&quot;, {
-<span id='tm-display-CanvasRenderer-property-canvas'>        /** キャンバス */
+<span id='tm-display-CanvasRenderer-property-canvas'>    tm.define(&quot;tm.display.CanvasRenderer&quot;, {
+</span><span id='tm-display-CanvasRenderer-property-_context'>        /** キャンバス */
 </span>        canvas: null,
 
-<span id='tm-display-CanvasRenderer-property-_context'>        /** @property _context @private */
+<span id='tm-display-CanvasRenderer-method-constructor'>        /** @property _context @private */
 </span>
-<span id='tm-display-CanvasRenderer-method-constructor'>        /**
-</span>         * @constructor
+        /**
+         * @constructor
          * コンストラクタ
          */
         init: function(canvas) {
             this.canvas = canvas;
-            this._context = this.canvas.context;
-        },
+<span id='tm-display-CanvasRenderer-property-render'>            this._context = this.canvas.context;
+</span>        },
 
-<span id='tm-display-CanvasRenderer-property-render'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         render: function(root) {
             this.canvas.save();
             this.renderObject(root);
-            this.canvas.restore();
-        },
+<span id='tm-display-CanvasRenderer-property-renderObject'>            this.canvas.restore();
+</span>        },
 
-<span id='tm-display-CanvasRenderer-property-renderObject'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          */
         renderObject: function(obj) {
@@ -91,13 +91,13 @@
             if (obj.children.length &gt; 0) {
                 var tempChildren = obj.children.slice();
                 for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
-                    this.renderObject(tempChildren[i]);
-                }
+<span id='tm-display-CanvasRenderer-property-_setRenderFunction'>                    this.renderObject(tempChildren[i]);
+</span>                }
             }
         },
 
-<span id='tm-display-CanvasRenderer-property-_setRenderFunction'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
          * @private
          */
@@ -165,8 +165,8 @@
             }
             
             if (this.debugBox) {
-                canvas.strokeRect(0, 0, this.width, -this.size);
-            }
+<span id='tm-display-BoundingRectRenderer'>                canvas.strokeRect(0, 0, this.width, -this.size);
+</span>            }
         }
     };
 
@@ -177,34 +177,34 @@
  
 (function() {
     
-<span id='tm-display-BoundingRectRenderer'>    /**
-</span>     * @class tm.display.BoundingRectRenderer
+    /**
+     * @class tm.display.BoundingRectRenderer
      * @TODO なにをするクラス？
      * @extends tm.display.CanvasRenderer
      */
-    tm.define(&quot;tm.display.BoundingRectRenderer&quot;, {
-        superClass: &quot;tm.display.CanvasRenderer&quot;,
+<span id='tm-display-BoundingRectRenderer-method-constructor'>    tm.define(&quot;tm.display.BoundingRectRenderer&quot;, {
+</span>        superClass: &quot;tm.display.CanvasRenderer&quot;,
 
-<span id='tm-display-BoundingRectRenderer-method-constructor'>        /**
-</span>         * @constructor
-         * コンストラクタ
-         */
+        /**
+         * @constructor
+<span id='tm-display-BoundingRectRenderer-property-_setRenderFunction'>         * コンストラクタ
+</span>         */
         init: function(canvas) {
             this.superInit(canvas);
         },
 
-<span id='tm-display-BoundingRectRenderer-property-_setRenderFunction'>        /**
-</span>         * @property
+        /**
+         * @property
          * @TODO ?
-         * @private
-         */
+<span id='tm-display-BoundingRectRenderer-method-render'>         * @private
+</span>         */
         _setRenderFunction: function(obj) {
             obj.draw = render;
         }
     });
 
-<span id='tm-display-BoundingRectRenderer-method-render'>    /**
-</span>     * @TODO ?
+    /**
+     * @TODO ?
      * コンストラクタ
      */
     var render = function(canvas) {
