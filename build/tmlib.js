@@ -16089,23 +16089,6 @@ tm.three = tm.three || {};
 (function() {
 
     if (!tm.global.THREE) return ;
-
-    /**
-     * @class THREE.Texture
-     * Three.js ライブラリ内クラス
-     */
-    /**
-     * @class THREE.Scene
-     * Three.js ライブラリ内クラス
-     */
-    /**
-     * @class THREE.Mesh
-     * Three.js ライブラリ内クラス
-     */
-    /**
-     * @class THREE.Object3D
-     * Three.js ライブラリ内クラス
-     */
     
     /**
      * @class tm.three.ThreeApp
@@ -16256,7 +16239,6 @@ tm.three = tm.three || {};
     /**
      * @class tm.three.Element
      * @TODO ?
-     * @extends THREE.Object3D
      */
     tm.three.Element = tm.createClass({
         superClass: THREE.Object3D,
@@ -16313,7 +16295,6 @@ tm.three = tm.three || {};
     /**
      * @class tm.three.MeshElement
      * @TODO ?
-     * @extends THREE.Mesh
      */
     tm.three.MeshElement = tm.createClass({
         superClass: THREE.Mesh,
@@ -16466,7 +16447,6 @@ tm.three = tm.three || {};
     /**
      * @class tm.three.CanvasTexture
      * @TODO ?
-     * @extends THREE.Texture
      */
     tm.three.CanvasTexture = tm.createClass({
         superClass: THREE.Texture,
@@ -16497,13 +16477,12 @@ tm.three = tm.three || {};
     /**
      * @class tm.three.Scene
      * シーン
-     * @extends THREE.Scene
      */
     tm.three.Scene = tm.createClass({
         superClass: THREE.Scene,
         
-        /** @property camera */
-        /** @property projector */
+        /** @property camera    カメラ */
+        /** @property Projector プロジェクター */
 
         /**
          * @constructor
