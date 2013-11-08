@@ -24,7 +24,7 @@ tm.event = tm.event || {};
         },
 
         /**
-         * イベントリスナー追加(addEventListenerと同様)
+         * イベントリスナー追加
          */
         on: function(type, listener) {
             if (this._listeners[type] === undefined) {
@@ -36,21 +36,21 @@ tm.event = tm.event || {};
         },
         
         /**
-         * イベントリスナー追加
+         * リスナーを削除
          */
-        addEventListener: function(type, listener) {
-            if (this._listeners[type] === undefined) {
-                this._listeners[type] = [];
+        off: function(type, listener) {
+            var listeners = this._listeners[type];
+            var index = listeners.indexOf(listener);
+            if (index != -1) {
+                listeners.splice(index,1);
             }
-            
-            this._listeners[type].push(listener);
             return this;
         },
         
         /**
          * イベント起動
          */
-        dispatchEvent: function(e) {
+        fire: function(e) {
             e.target = this;
             var oldEventName = 'on' + e.type;
             if (this[oldEventName]) this[oldEventName](e);
@@ -61,6 +61,8 @@ tm.event = tm.event || {};
                     listeners[i].call(this, e);
                 }
             }
+            
+            return this;
         },
         
         /**
@@ -72,18 +74,6 @@ tm.event = tm.event || {};
         },
         
         /**
-         * リスナーを削除
-         */
-        removeEventListener: function(type, listener) {
-            var listeners = this._listeners[type];
-            var index = listeners.indexOf(listener);
-            if (index != -1) {
-                listeners.splice(index,1);
-            }
-            return this;
-        },
-        
-        /**
          * リスナーを全てクリア
          */
         clearEventListener: function(type) {
@@ -91,5 +81,28 @@ tm.event = tm.event || {};
             return this;
         },
     });
+
+    var proto = tm.event.EventDispatcher.prototype;
+    
+    /**
+     * @member  tm.event.EventDispatcher
+     * @method  addEventListener
+     * on と同じ
+     */
+    proto.addEventListener      = proto.on;
+    
+    /**
+     * @member  tm.event.EventDispatcher
+     * @method  removeEventListener
+     * off と同じ
+     */
+    proto.removeEventListener   = proto.off;
+    
+    /**
+     * @member  tm.event.EventDispatcher
+     * @method  dispatchEvent
+     * fire と同じ
+     */
+    proto.dispatchEvent         = proto.fire;
     
 })();
