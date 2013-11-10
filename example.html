@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html ng-app>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <title>Example | tmlib.js</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+
+        <!-- anguler -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+        <script>
+
+function DemoCtrl($scope) {
+    $scope.examples = [
+        {
+            name: 'Circle',
+            description: '円を表示するサンプル. クリック or タッチすると円が出現してポンポンします.',
+            url: 'examples/circle/index.html',
+            icon: 'examples/circle/icon.png',
+        },
+        {
+            name: 'Circle Collision',
+            description: '円同士の衝突判定サンプル. クリックで投げたりパラメータを調整して遊んでください♪',
+            url: 'examples/circle-collision/index.html',
+            icon: 'examples/circle-collision/icon.png',
+        },
+        {
+            name: 'Filter',
+            description: 'フィルターツールです. 画像をモノクロにしたりカラーフィルターを当てたり.',
+            url: 'examples/filter/index.html',
+            icon: 'examples/filter/icon.png',
+        },
+        {
+            name: 'Juggling',
+            description: 'ジャグリングです. タッチしてボールが落ちないようにするやつ.',
+            url: 'examples/juggling/index.html',
+            icon: 'examples/juggling/icon.png',
+        },
+        {
+            name: 'Magic Square',
+            description: '魔方陣サンプル. 結構きれい.',
+            url: 'examples/magic-square/index.html',
+            icon: 'examples/magic-square/icon.png',
+        },
+        {
+            name: 'Paint',
+            description: 'ペイントツール. 絵を描くことができます.',
+            url: 'examples/paint/index.html',
+            icon: 'examples/paint/icon.png',
+        },
+        {
+            name: 'Piano',
+            description: 'ピアノ.',
+            url: 'examples/piano/index.html',
+            icon: 'examples/piano/icon.png',
+        },
+        {
+            name: 'Pursuit',
+            description: '追尾',
+            url: 'examples/pursuit/index.html',
+            icon: 'examples/pursuit/icon.png',
+        },
+        {
+            name: 'Snow',
+            description: '雪',
+            url: 'examples/snow/index.html',
+            icon: 'examples/snow/icon.png',
+        },
+        {
+            name: 'Torne Interface',
+            description: 'トルネっぽいインターフェース',
+            url: 'examples/torne-interface/index.html',
+            icon: 'examples/torne-interface/icon.png',
+        },
+        {
+            name: 'Unit Circle',
+            description: '単位円を学ぼう♪',
+            url: 'examples/unit-circle/index.html',
+            icon: 'examples/unit-circle/icon.png',
+        },
+        {
+            name: 'Particle',
+            description: 'パーティクル',
+            url: 'examples/particle/index.html',
+            icon: 'examples/particle/icon.png',
+        },
+        {
+            name: 'Text Effect',
+            description: 'テキストエフェクト',
+            url: 'examples/text-effect/index.html',
+            icon: 'examples/text-effect/icon.png',
+        },
+    ];
+};
+
+
+
+function GameCtrl($scope) {
+    $scope.examples = [
+        {
+            name: 'Web Reverse Reverse',
+            description: '@Rosetta_Halt が iPhone アプリとして作っていたものを tmlib.js を使って Web に完全移植!! アプリ並のクォリティです.',
+            url: 'http://webrxr.github.com/RxR/',
+            icon: 'https://raw.github.com/webrxr/RxR/master/img/icon/Icon@2x.png',
+        },
+        {
+            name: 'Rogue Plus',
+            description: 'ローグライク風のアクションゲームです.ドット絵が懐かしい. @omatoroさんが作ってくれたゲームです.',
+            url: 'http://rogueplus.testcoding.net/',
+            icon: 'https://rawgithub.com/omatoro/RoguePlus/ddf10560b79049a0ba573c064f25c0d01ac874d9/rsc/Icon@2x.png',
+        },
+        {
+            name: 'GL-Shooter',
+            description: '@daishi_hmr san が tmlib.js × bulletml.js を使って作られた本格弾幕シューティング! Web 上で作られたゲームの中でもトップクラス!!?',
+            url: 'http://9leap.net/games/2877',
+            icon: 'http://9leap.net/screenshots//140x140/2877_140',
+        },
+        {
+            name: 'Enclose Circle',
+            description: '',
+            url: 'examples/enclose-circle/index.html',
+            icon: 'examples/enclose-circle/icon.png',
+        },
+        {
+            name: 'Mogura Tataki',
+            description: '',
+            url: 'examples/mogura-tataki/index.html',
+            icon: 'examples/mogura-tataki/icon.png',
+        },
+        {
+            name: 'Shooting',
+            description: 'サンプルとして作ったシューティングゲーム',
+            url: 'examples/shooting/index.html',
+            icon: 'examples/shooting/icon.png',
+        },
+        {"name":"TongTong Z","url":"http://9leap.net/games/3005","icon":"http://9leap.net/screenshots/300x300/3005_300.png"},
+        {"name":"Diving Girl","url":"http://9leap.net/games/2986","icon":"http://9leap.net/screenshots/300x300/2986_300.png"},
+        {"name":"HeartRunner","url":"http://9leap.net/games/3004","icon":"http://9leap.net/screenshots/300x300/3004_300.png"},
+        {"name":"PompPompPomp!","url":"http://9leap.net/games/2991","icon":"http://9leap.net/screenshots/300x300/2991_300.png"},
+//                        {"name":"Survival Land","url":"http://9leap.net/games/2989","icon":"http://9leap.net/screenshots/300x300/2989_300.png"},
+        {
+            name: 'WEBack',
+            description: '簡単な脳トレゲームです. n個前の数字を答えます. これまた @omatoro san が作ってくれたゲームです.',
+            url: 'http://weback.testcording.com/',
+            icon: 'https://rawgithub.com/omatoro/MemoryUp/0872ff26778d888bee030de315ac9858702bc422/rsc/Icon@2x.png',
+        },
+        {
+            name: '英語タッチLR マッチ売りの少女',
+            description: '『英語タッチLR』は左右どちらかをタッチで答えていくことによって英語を学習するアプリです。 @papuujp san が作られたゲームです.',
+            url: 'http://d-webapp.jp/app_data/536/index.html',
+            icon: 'http://d-webapp.jp/app_img/15_536/icon_536.png',
+        },
+
+    ];
+};
+
+
+
+
+function ThreeCtrl($scope) {
+    $scope.examples = [
+        {"name":"template","url":"http://jsdo.it/phi/4U6h","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/4/U/6/4U6h.jpg?t=1358684880"},
+        {"name":"Cube","url":"http://jsdo.it/phi/52o9h","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/5/2/o/52o9h.jpg?t=1358684944"},
+        {"name":"3D Text","url":"http://jsdo.it/phi/tDjm","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/t/D/j/tDjm.jpg?t=1358684944"},
+        {"name":"ParticleSystem","url":"http://jsdo.it/phi/wEU7","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/w/E/U/wEU7.jpg?t=1358684944"},
+        {"name":"Color Particle","url":"http://jsdo.it/phi/jOEV","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/j/O/E/jOEV.jpg?t=1358684944"},
+        {"name":"Heart Particle","url":"http://jsdo.it/phi/6CEk","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/6/C/E/6CEk.jpg?t=1358684944"},
+        {"name":"DRAGON Ball","url":"http://jsdo.it/phi/4oyL","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/4/o/y/4oyL.jpg?t=1358684944"},
+    ];
+};
+
+
+
+
+function WebAudioCtrl($scope) {
+    $scope.examples = [
+        {"name":"Visualizer","url":"http://jsdo.it/phi/aJRp","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/a/J/R/aJRp.jpg?t=1358684880"},
+        {"name":"Heart Visualizer","url":"http://jsdo.it/phi/b8Pt","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/b/8/P/b8Pt.jpg?t=1358684880"},
+        {"name":"F1 効果","url":"http://jsdo.it/phi/vU84","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/v/U/8/vU84.jpg?t=1358684880"},
+        {"name":"左右それぞれ違う音","url":"http://jsdo.it/phi/rfdr","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/r/f/d/rfdr.jpg?t=1358684880"},
+        {"name":"音源位置設定","url":"http://jsdo.it/phi/ijtS","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/i/j/t/ijtS.jpg?t=1358684880"},
+        {"name":"MML","url":"http://jsdo.it/phi/dOWk","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/d/O/W/dOWk.jpg?t=1358684880"},
+        {"name":"circle visualizer","url":"http://jsdo.it/omatoro/wGJN","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/w/G/J/wGJN.jpg?t=1358684880"},
+    ];
+};
+
+
+
+
+        </script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">tmlib.js</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="https://github.com/phi-jp/tmlib.js" target="_blank">Github</a></li>
+                        <li><a href="http://phi-jp.github.com/tmlib.js/docs/index.html" target="_blank">Docs</a></li>
+                        <li><a href="http://banraku-games.sakura.ne.jp/" target="_blank">Assets</a></li>
+                        <li><a href="http://tmlife.net" target="_blank">Blog</a></li>
+                        <li><a href="https://twitter.com/phi_jp" target="_blank">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div>
+                <h1>
+                    Example
+                </h1>
+                <p>
+                    tmlib.js サンプル集です.
+                </p>
+            </div>
+
+            <div>
+                <h2>Demo</h2>
+                <div ng-controller="DemoCtrl">
+                    <div class="row">
+                        <div ng-repeat="example in examples" class="col-lg-3">
+                            <div class="example-inner">
+                                <h4>{{example.name}}</h4>
+                                <p>
+                                    <img class="img-circle" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;" src="{{example.icon}}">
+                                </p>
+                                <p class="description">{{example.description}}</p>
+                                <p>
+                                    <a class="btn btn-default" href="{{example.url}}" target="_blank" role="button">View Demo »</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2>Game</h2>
+                <div ng-controller="GameCtrl">
+                    <div class="row">
+                        <div ng-repeat="example in examples" class="col-lg-4">
+                            <div class="example-inner">
+                                <h4>{{example.name}}</h4>
+                                <p>
+                                    <img class="img-circle" data-src="holder.js/200x200" alt="200x200" style="width: 200px; height: 200px;" src="{{example.icon}}">
+                                </p>
+                                <p class="description">{{example.description}}</p>
+                                <p>
+                                    <a class="btn btn-default" href="{{example.url}}" target="_blank" role="button">View Demo »</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2>Three.js</h2>
+                <div ng-controller="ThreeCtrl">
+                    <div class="row">
+                        <div ng-repeat="example in examples" class="col-lg-3">
+                            <div class="example-inner">
+                                <h4>{{example.name}}</h4>
+                                <p>
+                                    <img class="img-circle" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;" src="{{example.icon}}">
+                                </p>
+                                <p class="description">{{example.description}}</p>
+                                <p>
+                                    <a class="btn btn-default" href="{{example.url}}" target="_blank" role="button">View Demo »</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2>Web Audio</h2>
+                <div ng-controller="WebAudioCtrl">
+                    <div class="row">
+                        <div ng-repeat="example in examples" class="col-lg-3">
+                            <div class="example-inner">
+                                <h4>{{example.name}}</h4>
+                                <p>
+                                    <img class="img-circle" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;" src="{{example.icon}}">
+                                </p>
+                                <p class="description">{example.description}</p>
+                                <p>
+                                    <a class="btn btn-default" href="{{example.url}}" target="_blank" role="button">View Demo »</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p>
+                    Copyright © TM Life. All Rights Reserved.
+                </p>
+                <ul class="footer-links">
+                    <li><a href="http://tmlife.net">Blog</a></li>
+                    <li class="muted">·</li>
+                    <li><a href="https://github.com/phi1618/tmlib.js/issues?state=open">Issues</a></li>
+                    <li class="muted">·</li>
+                    <li><a href="https://github.com/phi1618/tmlib.js/blob/master/CHANGELOG.md">Changelog</a></li>
+                </ul>
+            </div>
+        </footer>
+
+
+        <script src="build/tmlib.js"></script>
+        <script>
+        (function() {
+            tm.main(function() {
+                var div = document.createElement("div");
+                var hiyoko = tm.dom.Element(div);
+                hiyoko.classList.add("hiyoko");
+                document.body.appendChild(hiyoko.element);
+                
+                hiyoko.anim.start();
+                
+                hiyoko.x = 80;
+                hiyoko.y = -50;
+
+                var r = Math.rand(0, 100);
+                if (r < 10) {
+                    hiyoko.classList.add("hiyoko-girl");
+                }
+                else if (r < 20) {
+                    hiyoko.classList.add("hiyoko-tamago");
+                }
+                else if (r < 30) {
+                    hiyoko.classList.add("hiyoko-waru");
+                }
+                else if (r < 40) {
+                    hiyoko.classList.add("niwatori");
+                }
+                
+                var vx = 0;
+                var vy = 0;
+                var floor = window.innerHeight - 120;
+                var key = tm.input.Keyboard();
+                key.run();
+
+                window.onresize = function() {
+                    floor = window.innerHeight - 120;
+                };
+                
+                tm.setLoop(function() {
+                    vy += 0.5;
+                    hiyoko.y += vy;
+                    if (hiyoko.y > floor) {
+                        hiyoko.y = floor;
+                        vy = 0;
+                    }
+                    else if (hiyoko.y < 0) {
+                        hiyoko.y = 0;
+                    }
+                    if (key.getKey("up")) {
+                        vy -= 1;
+                    }
+                    
+                    vx *= 0.80;
+                    hiyoko.x += vx;
+
+                    var left = -32;
+                    var right = window.innerWidth;
+
+                    if (hiyoko.x < left) {
+                        hiyoko.x = right;
+                    }
+                    else if (hiyoko.x > right) {
+                        hiyoko.x = left;
+                    }
+
+                    var maxSpeed = (key.getKey("B")) ? 12 : 4;
+                    var speed = (key.getKey("B")) ? 4 : 1;
+
+                    if (Math.abs(vx) < maxSpeed) {
+                        if (key.getKey("left")) {
+                            vx += -speed;
+                            hiyoko.style.set("webkitTransform", "scaleX(2) scaleY(2)");
+                            hiyoko.anim.setName("walk");
+                        }
+                        else if (key.getKey("right")) {
+                            vx += speed;
+                            hiyoko.style.set("webkitTransform", "scaleX(-2) scaleY(2)");
+                            hiyoko.anim.setName("walk");
+                        }
+                    }
+                    
+                    if (Math.abs(vx) <= 0.1) {
+                        hiyoko.anim.setName("stand");
+                    }
+                }, 1000/30);
+            });
+        })();
+        </script>
+
+
+        <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+        @media(min-width:1200px) {
+            .container{width: 1000px;
+        }
+
+        .col-lg-3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .col-lg-4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .example-inner {
+            background: hsl(240, 80%, 98%);
+            box-shadow: 0px 0px 2px 0px #aaa;
+            border-radius: 4px;
+            padding: 5px 10px;
+        }
+        p.description {
+            min-height: 60px;
+        }
+
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 70px;
+  border-top: 1px solid #e5e5e5;
+  background-color: #f5f5f5;
+}
+.footer p {
+  margin-bottom: 0;
+  color: #777;
+}
+.footer .footer-links {
+  margin: 10px 0;
+}
+.footer .footer-links li {
+  display: inline;
+  padding: 0 2px;
+}
+.footer .footer-links:first-child {
+  padding-left: 0;
+}
+
+        </style>
+
+
+        <!-- hiyoko -->
+        <style>
+        .hiyoko {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            background: url("resource/img/hiyocos.png") no-repeat left top;
+            background-position: 0px 0px;
+            -webkit-transform: scaleX(-2) scaleY(2);
+               -moz-transform: scaleX(-2) scaleY(2);
+            -webkit-animation: 250ms infinite steps(3);
+               -moz-animation: 250ms infinite steps(3);
+        }
+
+        .hiyoko-girl {
+            background-position-y: -32px;
+        }
+        .hiyoko-tamago {
+            background-position-y: -64px;
+        }
+        .hiyoko-waru {
+            background-position-y: -96px;
+        }
+        .niwatori {
+            background-position-y: -128px;
+        }
+        
+        @-webkit-keyframes stand {
+            0%   { background-position-x: 0px; }
+        }
+        @-moz-keyframes stand {
+            0%   { background-position: 0px 0px; }
+        }
+        
+        @-webkit-keyframes walk {
+            0%   { background-position-x: 0px; }
+            100% { background-position-x: -96px; }
+        }
+        @-moz-keyframes walk {
+            0%   { background-position: 0px 0px; }
+            100% { background-position: -96px 0px; }
+        }
+        </style>
+
+    </body>
+</html>
