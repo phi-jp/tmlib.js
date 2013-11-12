@@ -46,7 +46,7 @@
         }
         
         h2 {
-            padding-top: 80px;
+            padding-top: 64px;
             font-size: 48px;
         }
         
@@ -74,7 +74,10 @@
         }
         
         #cotent3 {
+            padding-top: 120px;
             background-color: hsl(200, 75%, 85%);
+            min-height: 640px;
+            max-height: 640px;
         }
         #cotent3 h2 {
             padding-top: 10px;
@@ -88,6 +91,21 @@
         #hoge2 h2 {
             padding-top: 10px;
             font-size: 38px;
+        }
+        
+        
+        .navbar-inverse {
+            background-color: hsl(140, 100%, 16%);
+            border-color: hsl(140, 100%, 16%);
+        }
+        
+        .navbar-inverse .navbar-nav>li>a {
+            color: rgb(220, 220, 220);
+        }
+        
+        .navbar-nav>li>div {
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
 
 
@@ -103,17 +121,36 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">tmlib.js</a>
+                    <a class="navbar-brand" href="./">tmlib.js</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#" target="_blank">Usage</a></li>
-                        <li><a href="#" target="_blank">Tutorial</a></li>
+                        <li><a href="./usage.html" target="_blank">Usage</a></li>
+                        <li><a href="./tutorial.html" target="_blank">Tutorial</a></li>
                         <li><a href="example.html" target="_blank">Example</a></li>
                         <li><a href="http://phi-jp.github.com/tmlib.js/docs/index.html" target="_blank">Docs</a></li>
                         <li><a href="http://banraku-games.sakura.ne.jp/" target="_blank">Assets</a></li>
                         <li><a href="http://tmlife.net" target="_blank">Blog</a></li>
                         <li><a href="https://twitter.com/phi_jp" target="_blank">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div>
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="ヒヨコ始めました!! 『JavaScript ライブラリ tmlib.js』" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
+                                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+<a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
+<script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="http://b.hatena.ne.jp/entry/http://phi-jp.github.io/tmlib.js/" class="hatena-bookmark-button" data-hatena-bookmark-title="tmlib.js" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -127,25 +164,19 @@
                         <br />
                         <br />
                         <h1>tmlib.js</h1>
-                        <br />
-                        <br />
+                        <p>
+                            さぁ, 一緒にゲームプログラミングを始めよう!!
+                        </p>
                         <br />
                         <div style="text-align:center;">
-                            <button type="button" class="btn btn-primary btn-lg btn-primary">Usage</button>
-                            <button type="button" class="btn btn-primary btn-lg btn-success">Example</button>
-                            <button type="button" class="btn btn-primary btn-lg btn-warning">Docs</button>
+                            <a target="_blank" href="./usage.html" class="btn btn-primary btn-lg btn-primary">Usage</a>
+                            <a target="_blank" href="./example.html" class="btn btn-primary btn-lg btn-success">Example</a>
+                            <a target="_blank" href="./docs/index.html" class="btn btn-primary btn-lg btn-warning">Docs</a>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <img src="resource/img/tomapi.png" />
                     </div>
-                </div>
-
-                <!-- TODO: 上下アニメーションさせる -->
-                <div class="row next" style="text-align:center; font-size:48px">
-                    <p>
-                        <span class="glyphicon glyphicon-circle-arrow-down"></span>
-                    </p>
                 </div>
             </div>
         </div>
@@ -168,13 +199,6 @@
                         </p>
                     </div>
                 </div>
-                <!-- TODO: 上下アニメーションさせる -->
-                <div class="row next" style="text-align:center; font-size:48px">
-                    <p>
-                        <span class="glyphicon glyphicon-circle-arrow-down"></span>
-                    </p>
-                </div>
-
             </div>
         </div>
 
@@ -184,22 +208,17 @@
                     <div class="col-lg-6">
                         <h2>かんたんに使えるよ♪</h2>
                         <p>
-                            Usage を見ればすぐに tmlib.js を<br />
-                            使ってプログラミングを始められるよ.
+                            tmlib.js は初心者から上級者まで<br />
+                            幅広く使えるライブラリだよ.
                         </p>
                         <p>
-                            サンプルもたくさんあるから見てってちょ. (Example)
+                            <a target="_blank" href="./usage.html">Usage</a> を見ればすぐに tmlib.js を<br />
+                            使ってプログラミングを始められるよ.
                         </p>
                     </div>
                     <div class="col-lg-6">
                         <img width="300px" src="resource/img/takenoko.png" />
                     </div>
-                </div>
-                <!-- TODO: 上下アニメーションさせる -->
-                <div class="row next" style="text-align:center; font-size:48px">
-                    <p>
-                        <span class="glyphicon glyphicon-circle-arrow-down"></span>
-                    </p>
                 </div>
             </div>
         </div>
@@ -212,15 +231,12 @@
                         <img height=200 src="resource/img/burokkori.png" />
                         <img height=340 src="resource/img/nasubi.png" />
                         <h2>
-                            初心者から上級者まで幅広く使える!!
+                            豊富なサンプル!!
                         </h2>
+                        <p>
+                            サンプルもたくさんあるから見てってちょ♪ (<a target="_blank" href="./example.html">Example</a>)
+                        </p>
                     </div>
-                </div>
-                <!-- TODO: 上下アニメーションさせる -->
-                <div class="row next" style="text-align:center; font-size:48px">
-                    <p>
-                        <span class="glyphicon glyphicon-circle-arrow-down"></span>
-                    </p>
                 </div>
             </div>
         </div>
@@ -241,7 +257,7 @@
         </div>
 
         <!-- Github ribbon -->
-        <a href="https://github.com/phi-jp/tmlib.js/`" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+        <a href="https://github.com/phi-jp/tmlib.js/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 
         <script src="build/tmlib.js"></script>
         <script>
