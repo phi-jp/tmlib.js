@@ -6,7 +6,7 @@
     position: fixed;
     width: 32px;
     height: 32px;
-    background: url("../resource/img/hiyocos.png") no-repeat left top;
+    background: url("../../resource/img/hiyocos.png") no-repeat left top;
     background-position: 0px 0px;
     -webkit-transform: scaleX(-2) scaleY(2);
        -moz-transform: scaleX(-2) scaleY(2);
