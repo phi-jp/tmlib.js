@@ -10,6 +10,11 @@
     background-color: hsl(140, 100%, 30%);
 }
 
+.navbar-inverse .navbar-nav>li.active>a:hover {
+    color: white;
+    background-color: hsl(140, 80%, 50%);
+}
+
 .navbar-nav>li>div {
     padding-top: 15px;
 }

@@ -7,6 +7,9 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <title>Usage | tmlib.js</title>
+        
+        <link rel="shortcut icon" href="logo.png" />
+        <link rel="apple-touch-icon-precomposed" href="icon.png" />
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
@@ -69,7 +72,7 @@
                             <a href="#usage">tmlib.js の使い方</a>
                         </li>
                         <li>
-                            <a href="#main-func">main 関数の登録</a>
+                            <a href="#display-shape">図形を表示してみよう</a>
                         </li>
                         <li>
                             <a href="#template">tmlib.js のテンプレート</a>
@@ -126,12 +129,61 @@
 &lt;/html&gt;
 </pre>
                     
-                    <h2 id="main-func" style="padding-top:100px">
-                        main 関数の登録
+                    <h2 id="display-shape" style="padding-top:100px">
+                        図形を表示してみよう
                     </h2>
                     <p>
-                        main 関数を登録してみよう
+                        Text Text Text Text Text Text Text Text <br />
+                        Text Text Text Text Text Text Text Text 
                     </p>
+                    <p>
+                        Text Text Text Text Text Text Text Text <br />
+                        Text Text Text Text Text Text Text Text 
+                    </p>
+                    <h4>[ index.html ]</h4>
+                    <p>
+                        <a class="btn btn-primary">Demo</a>
+                        <a class="btn btn-warning" href="https://doc-00-0c-docs.googleusercontent.com/docs/securesc/6menqpnnkj8u2ougmukmvng8r2eqbcea/7glm5ukmqqklvj1s9abvnna0d1844hid/1384243200000/02033338932365852608/02033338932365852608/0B0kv8DNrMM_dNVNLWmM0cXNTWTQ?h=16653014193614665626&e=download">Download</a>
+                    </p>
+                    <pre class="prettyprint linenums">
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot; /&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no&quot; /&gt;
+        &lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot; /&gt;
+
+        &lt;title&gt;start tmlib.js&lt;/title&gt;
+
+        &lt;script src=&quot;http://rawgithub.com/phi-jp/tmlib.js/0.2.0/build/tmlib.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+            // TODO: ここにコードを書いていく
+            tm.main(function() {
+                // アプリケーションクラスを生成
+                var app = tm.display.CanvasApp(&quot;#world&quot;);
+                
+                // スターを生成してシーンに追加
+                var star = tm.display.StarShape().addChildTo(app.currentScene);
+                // 位置をセット
+                star.setPosition(150, 75);
+                // 更新処理を登録
+                star.update = function() {
+                    // 回転
+                    this.rotation += 8;
+                };
+                
+                // 実行
+                app.run();
+            });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;canvas id=&quot;world&quot;&gt;&lt;/canvas&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
                     
                     <h2 id="template" style="padding-top:100px">
                         tmlib.js のテンプレート
