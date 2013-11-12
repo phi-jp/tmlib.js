@@ -1,0 +1,44 @@
+/*
+ * hiyoko.css
+ */
+
+.hiyoko {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    background: url("../resource/img/hiyocos.png") no-repeat left top;
+    background-position: 0px 0px;
+    -webkit-transform: scaleX(-2) scaleY(2);
+       -moz-transform: scaleX(-2) scaleY(2);
+    -webkit-animation: 250ms infinite steps(3);
+       -moz-animation: 250ms infinite steps(3);
+}
+
+.hiyoko-girl {
+    background-position-y: -32px;
+}
+.hiyoko-tamago {
+    background-position-y: -64px;
+}
+.hiyoko-waru {
+    background-position-y: -96px;
+}
+.niwatori {
+    background-position-y: -128px;
+}
+
+@-webkit-keyframes stand {
+    0%   { background-position-x: 0px; }
+}
+@-moz-keyframes stand {
+    0%   { background-position: 0px 0px; }
+}
+
+@-webkit-keyframes walk {
+    0%   { background-position-x: 0px; }
+    100% { background-position-x: -96px; }
+}
+@-moz-keyframes walk {
+    0%   { background-position: 0px 0px; }
+    100% { background-position: -96px 0px; }
+}

@@ -209,32 +209,48 @@ function WebAudioCtrl($scope) {
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">tmlib.js</a>
+                    <a class="navbar-brand" href="./index.html">tmlib.js</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#" target="_blank">Usage</a></li>
-                        <li><a href="#" target="_blank">Tutorial</a></li>
-                        <li><a href="example" target="_blank">Example</a></li>
-                        <li><a href="http://phi-jp.github.com/tmlib.js/docs/index.html" target="_blank">Docs</a></li>
+                        <li><a href="./usage.html">Usage</a></li>
+                        <li><a href="./tutorial.html">Tutorial</a></li>
+                        <li class="active"><a href="./example.html">Example</a></li>
+                        <li><a href="./docs/index.html">Docs</a></li>
                         <li><a href="http://banraku-games.sakura.ne.jp/" target="_blank">Assets</a></li>
                         <li><a href="http://tmlife.net" target="_blank">Blog</a></li>
                         <li><a href="https://twitter.com/phi_jp" target="_blank">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div>
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="ヒヨコ始めました!! 『JavaScript ライブラリ tmlib.js』" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
+                                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+<a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
+<script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="http://b.hatena.ne.jp/entry/http://phi-jp.github.io/tmlib.js/" class="hatena-bookmark-button" data-hatena-bookmark-title="tmlib.js" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <div class="container">
-            <div>
+            <div class="jumbotron">
                 <h1>
-                    Example
+                    tmlib.js Example
                 </h1>
-                <p>
-                    tmlib.js サンプル集です.
-                </p>
+                <p>tmlib.js サンプル集です.</p>
             </div>
-
             <div>
                 <h2>Demo</h2>
                 <div ng-controller="DemoCtrl">
@@ -332,7 +348,7 @@ function WebAudioCtrl($scope) {
         </footer>
 
         <!-- Github ribbon -->
-        <a href="https://github.com/phi-jp/tmlib.js/`" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+        <a href="https://github.com/phi-jp/tmlib.js/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 
 
         <script src="build/tmlib.js"></script>
@@ -453,6 +469,7 @@ function WebAudioCtrl($scope) {
         }
         p.description {
             min-height: 60px;
+            font-size: 13px;
         }
 
 .footer {
@@ -479,49 +496,16 @@ function WebAudioCtrl($scope) {
 }
 
         </style>
-
+        
+        
+        <link rel="stylesheet" href="css/header.css" />
 
         <!-- hiyoko -->
-        <style>
-        .hiyoko {
-            position: fixed;
-            width: 32px;
-            height: 32px;
-            background: url("resource/img/hiyocos.png") no-repeat left top;
-            background-position: 0px 0px;
-            -webkit-transform: scaleX(-2) scaleY(2);
-               -moz-transform: scaleX(-2) scaleY(2);
-            -webkit-animation: 250ms infinite steps(3);
-               -moz-animation: 250ms infinite steps(3);
-        }
+        <link rel="stylesheet" href="css/hiyoko.css">
 
-        .hiyoko-girl {
-            background-position-y: -32px;
-        }
-        .hiyoko-tamago {
-            background-position-y: -64px;
-        }
-        .hiyoko-waru {
-            background-position-y: -96px;
-        }
-        .niwatori {
-            background-position-y: -128px;
-        }
-        
-        @-webkit-keyframes stand {
-            0%   { background-position-x: 0px; }
-        }
-        @-moz-keyframes stand {
-            0%   { background-position: 0px 0px; }
-        }
-        
-        @-webkit-keyframes walk {
-            0%   { background-position-x: 0px; }
-            100% { background-position-x: -96px; }
-        }
-        @-moz-keyframes walk {
-            0%   { background-position: 0px 0px; }
-            100% { background-position: -96px 0px; }
+        <style>
+        body {
+            padding-top: 80px;
         }
         </style>
 

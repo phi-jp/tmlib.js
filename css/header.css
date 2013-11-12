@@ -1,0 +1,16 @@
+.navbar-inverse {
+    background-color: hsl(140, 100%, 22%);
+    border-color: hsl(140, 100%, 20%);
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: rgb(220, 220, 220);
+}
+.navbar-inverse .navbar-nav>li.active>a {
+    background-color: hsl(140, 100%, 30%);
+}
+
+.navbar-nav>li>div {
+    padding-top: 15px;
+}
+
