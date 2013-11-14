@@ -1,570 +1,258 @@
 <!DOCTYPE html>
 
-<html>
-    
+<html ng-app>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <title>tmlib.js</title>
-        
+        <title>Home | tmlib.js</title>
+
         <link rel="shortcut icon" href="logo.png" />
         <link rel="apple-touch-icon-precomposed" href="icon.png" />
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <!--
-        <script src="http://gistgithub.com/phi-jp/5064134/raw/7ae5464dc510e2e2646dfce5679daf8ce01a45ac/watcher.tm.js"></script>
-        <script>
-        if (tm.Watcher.isLocal) {
-            tm.Watcher.watch([
-                "index.html",
-            ]);
-        }
-        </script>
-        -->
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+
+        <!-- anguler -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+        
+        <link href='http://fonts.googleapis.com/css?family=Jolly+Lodger' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Seaweed+Script' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Antic+Slab' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Mystery+Quest' rel='stylesheet' type='text/css'>
     
         <style>
-        /*
-            img {
-                border-radius: 10px;
-                -webkit-transition: 500ms;
-            }
-            img:hover {
-                box-shadow: 0px 0px 10px 0px #222;
-            }
+        body {
+            padding-top: 80px;
+        }
+        h1 {
+            font-family: 'Jolly Lodger', cursive;
+            font-family: 'Seaweed Script', cursive;
+            font-family: 'Antic Slab', serif;
+            font-family: 'Mystery Quest', cursive;
+            /*
+            font-family: 'Consolas', 'Monaco', 'ＭＳ ゴシック';
             */
+
+            font-size: 128px;
+        }
+        
+        h2 {
+            padding-top: 64px;
+            font-size: 48px;
+            color: white;
+            /*
+            text-shadow: 0px 0px 8px #000;
+            */
+        }
+        
+        p {
+            padding-top: 20px;
+            font-size: 16px;
+        }
+        
+        .content-block {
+            padding: 40px 0px;
+            width: 100%;
+            min-height: 400px;
+            max-height: 450px;
+        }
+
+        #teaser {
+            padding: 20px 0px;
+        }
+
+        #about {
+            background-color: hsl(0, 100%, 75%);
+        }
+
+        #usage {
+            background-color: hsl(120, 100%, 80%);
+        }
+        
+        #example {
+            padding-top: 120px;
+
+            background-color: hsl(210, 100%, 75%);
+            min-height: 640px;
+            max-height: 640px;
+        }
+        #example h2 {
+            padding-top: 10px;
+            font-size: 38px;
+        }
+
+        #community {
+            background-color: white;
+        }
+        
+        #community h2 {
+            color: black;
+            padding-top: 10px;
+            font-size: 38px;
+        }
+
         </style>
+        <link rel="stylesheet" href="css/base.css" />
+        <link rel="stylesheet" href="css/header.css" />
+    </head>
+    <body>
 
-        <script type="text/template" id="header">
-            <div class="page-header">
-                <h1>{header} <small></small></h1>
-            </div>
-        </script>
-
-        <script type="text/template" id="cell">
-            <div class="thumbnail tm-thumbnail">
-                <div class="caption">
-                    <h4>{name}</h4>
-                    <div class="thumbnail-img">
-                        <p class="text-center">
-                            <img alt="screenshot" src="{icon}" class="img-rounded" />
-                        </p>
-                        <p class="description">{description}</p>
-                    </div>
-                    <p>
-                        <a href="{url}" class="btn btn-large btn-block btn-inverse" target="_blank">
-                            View Demo »
-                        </a>
-                    </p>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="./index.html">tmlib.js</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="./usage.html">Usage</a></li>
+                        <li><a href="./tutorial.html">Tutorial</a></li>
+                        <li><a href="./example.html">Example</a></li>
+                        <li><a href="./docs/index.html">Docs</a></li>
+                        <li><a href="http://banraku-games.sakura.ne.jp/" target="_blank">Assets</a></li>
+                        <li><a href="http://tmlife.net" target="_blank">Blog</a></li>
+                        <li><a href="https://twitter.com/phi_jp" target="_blank">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div>
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="tmlib.js - JavaScript ゲームライブラリ. ヒヨコ始めました!!" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
+                                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+<a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
+<script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="http://b.hatena.ne.jp/entry/http://phi-jp.github.io/tmlib.js/" class="hatena-bookmark-button" data-hatena-bookmark-title="tmlib.js" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </script>
+        </div>
+
+        <div id="teaser" class="content-block">
+            <div class="container">
+                <div class="row" style="text-align:center;">
+                    <div class="col-lg-6 col-sm-12">
+                        <br />
+                        <br />
+                        <br />
+                        <h1>tmlib.js</h1>
+                        <p>
+                            さぁ, 一緒にゲームプログラミングを始めよう!!
+                        </p>
+                        <br />
+                        <div style="text-align:center;">
+                            <a target="_blank" href="./usage.html" class="btn btn-primary btn-lg btn-primary">Usage</a>
+                            <a target="_blank" href="./example.html" class="btn btn-primary btn-lg btn-success">Example</a>
+                            <a target="_blank" href="./docs/index.html" class="btn btn-primary btn-lg btn-warning">Docs</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <img src="resource/img/tomapi.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="about" class="content-block">
+            <div class="container">
+                <div class="row" style="text-align:center;">
+                    <div class="col-lg-6">
+                        <img width="360px" src="resource/img/hiyoko2.png" />
+                    </div>
+                    <div class="col-lg-6">
+                        <h2>tmlib.js って何？</h2>
+                        <p>
+                            ゲームやツールを簡単に作る事ができる<br /> JavaScript ライブラリだよ♪
+                        </p>
+                        <p>
+                            『プログラミングって気軽にできるもんなんだ』,<br />
+                            『ゲームってこんなに簡単に作れるんだ』<br />
+                            って感じてもらえると嬉しいな.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="usage" class="content-block">
+            <div class="container">
+                <div class="row" style="text-align:center;">
+                    <div class="col-lg-6">
+                        <h2>かんたんに使えるよ♪</h2>
+                        <p>
+                            tmlib.js は初心者から上級者まで<br />
+                            幅広く使えるライブラリだよ.
+                        </p>
+                        <p>
+                            <a target="_blank" href="./usage.html">Usage</a> を見ればすぐに tmlib.js を<br />
+                            使ってプログラミングを始められるよ.
+                        </p>
+                    </div>
+                    <div class="col-lg-6">
+                        <img width="300px" src="resource/img/takenoko.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="example" class="content-block">
+            <div class="container">
+                <div class="row" style="text-align:center;">
+                    <div class="col-lg-12">
+                        <img height=300 src="resource/img/suika.png" />
+                        <img height=200 src="resource/img/burokkori.png" style="margin-top:115px;" />
+                        <img height=340 src="resource/img/nasubi.png" />
+                        <h2>
+                            豊富なサンプル!!
+                        </h2>
+                        <p>
+                            サンプルもたくさんあるから見てってちょ♪ (<a target="_blank" href="./example.html">Example</a>)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="community" class="content-block">
+            <div class="container">
+                <div class="row" style="text-align:center;">
+                    <div class="col-lg-12">
+                        <h2>
+                            たくさんのひとが協力, 応援してくれてるよ.<br />
+                            みんなで大きくしていけると良いなぁ〜
+                        </h2>
+                        <img height=480 src="resource/img/hiyokos.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Github ribbon -->
+        <a href="https://github.com/phi-jp/tmlib.js/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 
         <script src="build/tmlib.js"></script>
         <script>
-            var data = {
-                examples: {
-                    header: "Examples",
-                    data: [
-                        {
-                            name: 'Circle',
-                            description: '円を表示するサンプル. クリック or タッチすると円が出現してポンポンします.',
-                            url: 'examples/circle/index.html',
-                            icon: 'examples/circle/icon.png',
-                        },
-                        {
-                            name: 'Circle Collision',
-                            description: '円同士の衝突判定サンプル. クリックで投げたりパラメータを調整して遊んでください♪',
-                            url: 'examples/circle-collision/index.html',
-                            icon: 'examples/circle-collision/icon.png',
-                        },
-                        {
-                            name: 'Filter',
-                            description: 'フィルターツールです. 画像をモノクロにしたりカラーフィルターを当てたり.',
-                            url: 'examples/filter/index.html',
-                            icon: 'examples/filter/icon.png',
-                        },
-                        {
-                            name: 'Juggling',
-                            description: 'ジャグリングです. タッチしてボールが落ちないようにするやつ.',
-                            url: 'examples/juggling/index.html',
-                            icon: 'examples/juggling/icon.png',
-                        },
-                        {
-                            name: 'Magic Square',
-                            description: '魔方陣サンプル. 結構きれい.',
-                            url: 'examples/magic-square/index.html',
-                            icon: 'examples/magic-square/icon.png',
-                        },
-                        {
-                            name: 'Paint',
-                            description: 'ペイントツール. 絵を描くことができます.',
-                            url: 'examples/paint/index.html',
-                            icon: 'examples/paint/icon.png',
-                        },
-                        {
-                            name: 'Piano',
-                            description: 'ピアノ.',
-                            url: 'examples/piano/index.html',
-                            icon: 'examples/piano/icon.png',
-                        },
-                        {
-                            name: 'Pursuit',
-                            description: '追尾',
-                            url: 'examples/pursuit/index.html',
-                            icon: 'examples/pursuit/icon.png',
-                        },
-                        {
-                            name: 'Snow',
-                            description: '雪',
-                            url: 'examples/snow/index.html',
-                            icon: 'examples/snow/icon.png',
-                        },
-                        {
-                            name: 'Torne Interface',
-                            description: 'トルネっぽいインターフェース',
-                            url: 'examples/torne-interface/index.html',
-                            icon: 'examples/torne-interface/icon.png',
-                        },
-                        {
-                            name: 'Unit Circle',
-                            description: '単位円を学ぼう♪',
-                            url: 'examples/unit-circle/index.html',
-                            icon: 'examples/unit-circle/icon.png',
-                        },
-                        {
-                            name: 'Particle',
-                            description: 'パーティクル',
-                            url: 'examples/particle/index.html',
-                            icon: 'examples/particle/icon.png',
-                        },
-                        {
-                            name: 'Text Effect',
-                            description: 'テキストエフェクト',
-                            url: 'examples/text-effect/index.html',
-                            icon: 'examples/text-effect/icon.png',
-                        },
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
-                    ],
-                    cols: 4
-                },
-                game: {
-                    header: "Game",
-                    data: [
-                        {
-                            name: 'Web Reverse Reverse',
-                            description: '<a href="https://twitter.com/Rosetta_Halt">@Rosetta_Halt</a> が iPhone アプリとして作っていたものを tmlib.js を使って Web に完全移植!! アプリ並のクォリティです.',
-                            url: 'http://webrxr.github.com/RxR/',
-                            icon: 'https://raw.github.com/webrxr/RxR/master/img/icon/Icon@2x.png',
-                        },
-                        {
-                            name: 'rogue plus',
-                            description: 'ローグライク風のアクションゲームです.ドット絵が懐かしい. @<a href="https://twitter.com/omatoro">omatoro</a>さんが作ってくれたゲームです.',
-                            url: 'http://rogueplus.testcoding.net/',
-                            icon: 'https://rawgithub.com/omatoro/RoguePlus/ddf10560b79049a0ba573c064f25c0d01ac874d9/rsc/Icon@2x.png',
-                        },
-                        {
-                            name: 'GL-Shooter',
-                            description: '<a href="https://twitter.com/daishi_hmr">@daishi_hmr</a> san が tmlib.js × <a href="https://github.com/daishihmr/bulletml.js">bulletml.js</a> を使って作られた本格弾幕シューティング! Web 上で作られたゲームの中でもトップクラス!!?',
-                            url: 'http://9leap.net/games/2877',
-                            icon: 'http://9leap.net/screenshots//140x140/2877_140',
-                        },
-                        {
-                            name: 'Enclose Circle',
-                            description: '',
-                            url: 'examples/enclose-circle/index.html',
-                            icon: 'examples/enclose-circle/icon.png',
-                        },
-                        {
-                            name: 'Mogura Tataki',
-                            description: '',
-                            url: 'examples/mogura-tataki/index.html',
-                            icon: 'examples/mogura-tataki/icon.png',
-                        },
-                        {
-                            name: 'Shooting',
-                            description: 'サンプルとして作ったシューティングゲーム',
-                            url: 'examples/shooting/index.html',
-                            icon: 'examples/shooting/icon.png',
-                        },
-                        {"name":"TongTong Z","url":"http://9leap.net/games/3005","icon":"http://9leap.net/screenshots/300x300/3005_300.png"},
-                        {"name":"Diving Girl","url":"http://9leap.net/games/2986","icon":"http://9leap.net/screenshots/300x300/2986_300.png"},
-                        {"name":"HeartRunner","url":"http://9leap.net/games/3004","icon":"http://9leap.net/screenshots/300x300/3004_300.png"},
-                        {"name":"PompPompPomp!","url":"http://9leap.net/games/2991","icon":"http://9leap.net/screenshots/300x300/2991_300.png"},
-//                        {"name":"Survival Land","url":"http://9leap.net/games/2989","icon":"http://9leap.net/screenshots/300x300/2989_300.png"},
-                        {
-                            name: 'WEBack',
-                            description: '簡単な脳トレゲームです. n個前の数字を答えます. これまた @<a href="https://twitter.com/omatoro">omatoro</a>さんが作ってくれたゲームです.',
-                            url: 'http://weback.testcording.com/',
-                            icon: 'https://rawgithub.com/omatoro/MemoryUp/0872ff26778d888bee030de315ac9858702bc422/rsc/Icon@2x.png',
-                        },
-                        {
-                            name: '英語タッチLR マッチ売りの少女',
-                            description: '『英語タッチLR』は左右どちらかをタッチで答えていくことによって英語を学習するアプリです。 @<a href="http://twitter.com/papuujp">papuujp</a>さんが作られたゲームです.',
-                            url: 'http://d-webapp.jp/app_data/536/index.html',
-                            icon: 'http://d-webapp.jp/app_img/15_536/icon_536.png',
-                        },
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
-                    ],
-                    cols: 3
-                },
-                "Three.js": {
-                    header: "Three.js",
-                    data: [
-                        {"name":"template","url":"http://jsdo.it/phi/4U6h","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/4/U/6/4U6h.jpg?t=1358684880"},
-                        {"name":"Cube","url":"http://jsdo.it/phi/52o9h","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/5/2/o/52o9h.jpg?t=1358684944"},
-                        {"name":"3D Text","url":"http://jsdo.it/phi/tDjm","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/t/D/j/tDjm.jpg?t=1358684944"},
-                        {"name":"ParticleSystem","url":"http://jsdo.it/phi/wEU7","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/w/E/U/wEU7.jpg?t=1358684944"},
-                        {"name":"Color Particle","url":"http://jsdo.it/phi/jOEV","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/j/O/E/jOEV.jpg?t=1358684944"},
-                        {"name":"Heart Particle","url":"http://jsdo.it/phi/6CEk","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/6/C/E/6CEk.jpg?t=1358684944"},
-                        {"name":"DRAGON Ball","url":"http://jsdo.it/phi/4oyL","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/4/o/y/4oyL.jpg?t=1358684944"},
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
-                    ]
-                },
-                webaudio: {
-                    header: "WebAudio API",
-                    data: [
-                        {"name":"Visualizer","url":"http://jsdo.it/phi/aJRp","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/a/J/R/aJRp.jpg?t=1358684880"},
-                        {"name":"Heart Visualizer","url":"http://jsdo.it/phi/b8Pt","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/b/8/P/b8Pt.jpg?t=1358684880"},
-                        {"name":"F1 効果","url":"http://jsdo.it/phi/vU84","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/v/U/8/vU84.jpg?t=1358684880"},
-                        {"name":"左右それぞれ違う音","url":"http://jsdo.it/phi/rfdr","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/r/f/d/rfdr.jpg?t=1358684880"},
-                        {"name":"音源位置設定","url":"http://jsdo.it/phi/ijtS","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/i/j/t/ijtS.jpg?t=1358684880"},
-                        {"name":"MML","url":"http://jsdo.it/phi/dOWk","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/d/O/W/dOWk.jpg?t=1358684880"},
-                        {"name":"circle visualizer","url":"http://jsdo.it/omatoro/wGJN","icon":"http://jsdo-it-static-contents.s3.amazonaws.com/images/capture/w/G/J/wGJN.jpg?t=1358684880"},
-                        {
-                            name: '',
-                            description: '',
-                            url: '',
-                            icon: '',
-                        },
-                    ]
-                },
-            };
-
-            window.onload = function() {
-                var container = tm.dom.Element("#main");
-
-                for (var key in data) {
-                    var d = data[key];
-
-                    renderHeader(d, container);
-
-                    var tempData = dataToTable(d.data, d.cols);
-                    renderThumbnails(tempData, container);
-                }
-
-            };
-
-            var renderHeader = function(data, container) {
-                var template = tm.dom.Element("#header").html;
-                var header = tm.dom.Element(document.createElement("div"));
-                header.html = template.format(data);
-                
-                container.append(header);
-            };
-
-            var dataToTable = function(data, row) {
-                row = row || 4;
-                var list = [];
-                var temp = null;
-
-                for (var i=0; i<data.length; ++i) {
-                    if ((i%row) == 0) {
-                        temp = [];
-                        list.push(temp);
-                    }
-                    temp.push(data[i]);
-                }
-                return list;
-            };
-
-            var renderThumbnails = function(data, container) {
-                var template = tm.dom.Element("#cell").html;
-
-                for (var i=0; i<data.length; ++i) {
-                    var cell = data[i];
-                    var rowSize = (12/cell.length)|0;
-
-                    var row = container.create("div");
-                    row.classList.add("row-fluid");
-                    var ul = row.create("ul");
-                    ul.classList.add("thumbnails");
-
-                    for (var j=0; j<cell.length; ++j) {
-                        var d = cell[j];
-                        var li = ul.create("li");
-                        li.classList.add("span" + rowSize);
-//                        if (!d.description) d.description = "dummy dummy dummy dummy dummy dummy dummy dummy";
-                        if (!d.description) d.description = " ";
-                        li.html = template.format(d);
-                        
-                        if (!d.name) {
-                            li.hide();
-                        }
-                    }
-                }
-            };
-        </script>
-    </head>
-    
-    <body>
-
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="#">tmlib.js</a>
-                    <div class="nav-collapse">
-                        <ul class="nav">
-                            <li><a href="https://github.com/phi-jp/tmlib.js">Github</a></li>
-                            <li><a href="http://phi-jp.github.com/tmlib.js/docs/index.html">Docs</a></li>
-                            <li><a href="http://banraku-games.sakura.ne.jp/">Assets</a></li>
-                            <li><a href="http://tmlife.net">Blog</a></li>
-                            <li><a href="https://twitter.com/phi_jp">Contact</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Table of contents<b class="caret"></b>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Example</a></li>
-                                    <li><a href="#">Game</a></li>
-                                    <li><a href="#">WebGL(Three.js)</a></li>
-                                    <li><a href="#">WebAudio API</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container" id="main">
-            <div class="hero-unit">
-                <h1>tmlib.js <small>javascript library for game and tool</small></h1>
-                <br>
-                <div class="row">
-                    <div class="span3">
-                        <img alt="screenshot" src="logo.png" />
-                    </div>
-                    <div class="span8">
-                        <p>
-                            tmlib.js is javascript library.
-                        </p>
-                        <p>
-                            tmlib.js(てぃーえむりぶ ドット じぇいえす)は『JavaScript をより使いやすく, より便利に, そしてより豊かに』をモットーに制作している JavaScript ライブラリです.
-                            プログラミングへのハードルをぶち壊すようなライブラリにしていきたい!
-                        </p>
-                        <p>
-                            詳しくはこちらの<a href="http://www.rvl.io/phi/tmlibjs">スライド</a>を御覧ください.
-                        </p>
-                        <p>
-                            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="ヒヨコ始めました!! 『JavaScript ライブラリ tmlib.js』" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-                            <a href="http://b.hatena.ne.jp/entry/http://phi-jp.github.io/tmlib.js/" class="hatena-bookmark-button" data-hatena-bookmark-title="tmlib.js" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-                        </p>
-                        <p>
-                            <a class="btn btn-primary btn-large" href="https://github.com/phi-jp/tmlib.js" target="_blank">
-                                Go Github »
-                            </a>
-                            <a class="btn btn-success btn-large" href="http://phi-jp.github.io/tmlib.js/docs/index.html" target="_blank">
-                                Documents »
-                            </a>
-                            <a class="btn btn-warning btn-large" href="./starter.zip" target="_blank">
-                                Download »
-                            </a>
-                        </p>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <footer class="footer">
-            <div class="container">
-                <p>
-                    Copyright © TM Life. All Rights Reserved.
-                </p>
-                <ul class="footer-links">
-                    <li><a href="http://tmlife.net">Blog</a></li>
-                    <li class="muted">·</li>
-                    <li><a href="https://github.com/phi-jp/tmlib.js/issues?state=open">Issues</a></li>
-                    <li class="muted">·</li>
-                    <li><a href="https://github.com/phi-jp/tmlib.js/blob/master/CHANGELOG.md">Changelog</a></li>
-                </ul>
-            </div>
-        </footer>
-
-        <!-- Github ribbon -->
-        <a href="https://github.com/phi-jp/tmlib.js/`" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
-        
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
-        
-        <!-- hiyoko -->
-        <style>
-        .hiyoko {
-            position: fixed;
-            width: 32px;
-            height: 32px;
-            background: url("resource/img/hiyocos.png") no-repeat left top;
-            background-position: 0px 0px;
-            -webkit-transform: scaleX(-2) scaleY(2);
-               -moz-transform: scaleX(-2) scaleY(2);
-            -webkit-animation: 250ms infinite steps(3);
-               -moz-animation: 250ms infinite steps(3);
-        }
-
-        .hiyoko-girl {
-            background-position-y: -32px;
-        }
-        .hiyoko-tamago {
-            background-position-y: -64px;
-        }
-        .hiyoko-waru {
-            background-position-y: -96px;
-        }
-        .niwatori {
-            background-position-y: -128px;
-        }
-        
-        @-webkit-keyframes stand {
-            0%   { background-position-x: 0px; }
-        }
-        @-moz-keyframes stand {
-            0%   { background-position: 0px 0px; }
-        }
-        
-        @-webkit-keyframes walk {
-            0%   { background-position-x: 0px; }
-            100% { background-position-x: -96px; }
-        }
-        @-moz-keyframes walk {
-            0%   { background-position: 0px 0px; }
-            100% { background-position: -96px 0px; }
-        }
-        </style>
-        <script>
-        (function() {
-            tm.main(function() {
-                var div = document.createElement("div");
-                var hiyoko = tm.dom.Element(div);
-                hiyoko.classList.add("hiyoko");
-                document.body.appendChild(hiyoko.element);
-                
-                hiyoko.anim.start();
-                
-                hiyoko.x = 80;
-                hiyoko.y = -50;
-
-                var r = Math.rand(0, 100);
-                if (r < 10) {
-                    hiyoko.classList.add("hiyoko-girl");
-                }
-                else if (r < 20) {
-                    hiyoko.classList.add("hiyoko-tamago");
-                }
-                else if (r < 30) {
-                    hiyoko.classList.add("hiyoko-waru");
-                }
-                else if (r < 40) {
-                    hiyoko.classList.add("niwatori");
-                }
-                
-                var vx = 0;
-                var vy = 0;
-                var floor = window.innerHeight - 120;
-                var key = tm.input.Keyboard();
-                key.run();
-
-                window.onresize = function() {
-                    floor = window.innerHeight - 120;
-                };
-                
-                tm.setLoop(function() {
-                    vy += 0.5;
-                    hiyoko.y += vy;
-                    if (hiyoko.y > floor) {
-                        hiyoko.y = floor;
-                        vy = 0;
-                    }
-                    else if (hiyoko.y < 0) {
-                        hiyoko.y = 0;
-                    }
-                    if (key.getKey("up")) {
-                        vy -= 1;
-                    }
-                    
-                    vx *= 0.80;
-                    hiyoko.x += vx;
-
-                    var left = -32;
-                    var right = window.innerWidth;
-
-                    if (hiyoko.x < left) {
-                        hiyoko.x = right;
-                    }
-                    else if (hiyoko.x > right) {
-                        hiyoko.x = left;
-                    }
-
-                    var maxSpeed = (key.getKey("B")) ? 12 : 4;
-                    var speed = (key.getKey("B")) ? 4 : 1;
-
-                    if (Math.abs(vx) < maxSpeed) {
-                        if (key.getKey("left")) {
-                            vx += -speed;
-                            hiyoko.style.set("webkitTransform", "scaleX(2) scaleY(2)");
-                            hiyoko.anim.setName("walk");
-                        }
-                        else if (key.getKey("right")) {
-                            vx += speed;
-                            hiyoko.style.set("webkitTransform", "scaleX(-2) scaleY(2)");
-                            hiyoko.anim.setName("walk");
-                        }
-                    }
-                    
-                    if (Math.abs(vx) <= 0.1) {
-                        hiyoko.anim.setName("stand");
-                    }
-                }, 1000/30);
-            });
-        })();
         </script>
 
     </body>
-    
 </html>
