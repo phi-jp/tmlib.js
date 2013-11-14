@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <title>Usage | tmlib.js</title>
+        <title>Tutorial | tmlib.js</title>
         
         <link rel="shortcut icon" href="logo.png" />
         <link rel="apple-touch-icon-precomposed" href="icon.png" />
@@ -32,8 +32,8 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="./usage.html">Usage</a></li>
-                        <li><a href="./tutorial.html">Tutorial</a></li>
+                        <li><a href="./usage.html">Usage</a></li>
+                        <li class="active"><a href="./tutorial.html">Tutorial</a></li>
                         <li><a href="./example.html">Example</a></li>
                         <li><a href="./docs/index.html">Docs</a></li>
                         <li><a href="http://banraku-games.sakura.ne.jp/" target="_blank">Assets</a></li>
@@ -66,48 +66,56 @@
         <div class="container">
             
             <div class="row">
-                <div class="col-lg-3">
-                    <ul class="nav well affix">
+                <div class="sidebar col-lg-3">
+                    <ol class="well affix">
+                        <h4 style="text-align:center;">Table of contents</h4>
                         <li>
-                            <a href="#usage">tmlib.js の使い方</a>
+                            <a href="#1">ひな形を用意しよう</a>
                         </li>
                         <li>
-                            <a href="#display-shape">図形を表示してみよう</a>
+                            <a href="#">シーンを切り換えてみよう</a>
                         </li>
                         <li>
-                            <a href="#template">tmlib.js のテンプレート</a>
+                            <a href="#">図形を表示しよう</a>
                         </li>
                         <li>
-                            <a href="#template">jsdo.it で始めてみよう</a>
+                            <a href="#">図形を動かしてみよう</a>
                         </li>
-                    </ul>
+                        <li>
+                            <a href="#">画像(Sprite)を表示しよう</a>
+                        </li>
+                        <li>
+                            <a href="#">文字(Label)を表示しよう</a>
+                        </li>
+                        <li>
+                            <a href="#">タッチに反応させてみよう</a>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="#">アニメーションさせてみよう</a>
+                        </li>
+                        -->
+                    </ol>
                 </div>
                 <div class="col-lg-9">
                     <div class="page-header">
                         <h1>
-                            How to use tmlib.js
+                            tmlib.js tutorial
                         </h1>
                     </div>
                     <p>
-                        tmlib.js の使い方.
-                        とぉ〜っても簡単♪
+                        tmlib.js のチュートリアルです.
                     </p>
                     
-                    <h2 id="usage" style="padding-top:100px">
-                        tmlib.js の使い方
-                    </h2>
-                    <p>
-                        tmlib.js を script タグで読み込むだけです.
-                        これだけで tmlib.js の全ての機能が使えるようになります.
-                    </p>
-                    
-                    
-                    <h4>[ index.html ]</h4>
-                    <p>
-                        <a class="btn btn-primary">Demo</a>
-                        <a class="btn btn-warning" href="https://doc-00-0c-docs.googleusercontent.com/docs/securesc/6menqpnnkj8u2ougmukmvng8r2eqbcea/7glm5ukmqqklvj1s9abvnna0d1844hid/1384243200000/02033338932365852608/02033338932365852608/0B0kv8DNrMM_dNVNLWmM0cXNTWTQ?h=16653014193614665626&e=download">Download</a>
-                    </p>
-                    <pre class="prettyprint linenums">
+                    <div>
+                        <h2 id="usage" style="padding-top:100px">
+                            tmlib.js の使い方
+                        </h2>
+                        <p>
+                            tmlib.js を script タグで読み込むだけです.
+                            これだけで tmlib.js の全ての機能が使えるようになります.
+                        </p>
+                        <pre class="prettyprint linenums">
 &lt;!DOCTYPE html&gt;
 
 &lt;html&gt;
@@ -131,72 +139,8 @@
     &lt;/body&gt;
 &lt;/html&gt;
 </pre>
+                    </div>
                     
-                    <h2 id="display-shape" style="padding-top:100px">
-                        図形を表示してみよう
-                    </h2>
-                    <p>
-                        tmlib.js は ActionScript のように図形や画像,テキストラベルなどを
-                        簡単に表示することができます.
-                    </p>
-                    <p>
-                        下記は星を表示してクルクル回すサンプルです.
-                    </p>
-                    <h4>[ index.html ]</h4>
-                    <p>
-                        <a class="btn btn-primary">Demo</a>
-                        <a class="btn btn-warning" href="https://doc-00-0c-docs.googleusercontent.com/docs/securesc/6menqpnnkj8u2ougmukmvng8r2eqbcea/7glm5ukmqqklvj1s9abvnna0d1844hid/1384243200000/02033338932365852608/02033338932365852608/0B0kv8DNrMM_dNVNLWmM0cXNTWTQ?h=16653014193614665626&e=download">Download</a>
-                    </p>
-                    <pre class="prettyprint linenums">
-&lt;!DOCTYPE html&gt;
-
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;meta charset=&quot;UTF-8&quot; /&gt;
-        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no&quot; /&gt;
-        &lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot; /&gt;
-
-        &lt;title&gt;start tmlib.js&lt;/title&gt;
-
-        &lt;script src=&quot;http://rawgithub.com/phi-jp/tmlib.js/0.2.0/build/tmlib.js&quot;&gt;&lt;/script&gt;
-        &lt;script&gt;
-            // TODO: ここにコードを書いていく
-            tm.main(function() {
-                // アプリケーションクラスを生成
-                var app = tm.display.CanvasApp(&quot;#world&quot;);
-                
-                // スターを生成してシーンに追加
-                var star = tm.display.StarShape().addChildTo(app.currentScene);
-                // 位置をセット
-                star.setPosition(150, 75);
-                // 更新処理を登録
-                star.update = function() {
-                    // 回転
-                    this.rotation += 8;
-                };
-                
-                // 実行
-                app.run();
-            });
-        &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;canvas id=&quot;world&quot;&gt;&lt;/canvas&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</pre>
-
-                    
-                    <h2 id="template" style="padding-top:100px">
-                        tmlib.js のテンプレート
-                    </h2>
-                    <p>
-                        このテンプレートを使えばすぐにゲームプログラミングを始めることができます.
-                    </p>
-                    <p>
-                        Text Text Text Text Text Text Text Text 
-                        Text Text Text Text Text Text Text Text 
-                    </p>
 
                 </div>
             </div>
@@ -220,7 +164,6 @@
         <!-- Github ribbon -->
         <a href="https://github.com/phi-jp/tmlib.js/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 
-        <img height="200" src="resource/img/burokkori.png" style="position: fixed; bottom: 40px; right: 0; border: 0; z-index: 9999;" />
 
         <script src="build/tmlib.js"></script>
         
@@ -245,29 +188,26 @@
             padding-bottom: 9px;
         }
 
-        .col-lg-3 {
-            text-align: center;
-            margin-bottom: 20px;
+        .sidebar .well {
+            padding: 19px 15px;
+            min-width: 220px;
         }
 
-        .col-lg-4 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .example-inner {
-            background: hsl(240, 80%, 98%);
-            box-shadow: 0px 0px 2px 0px #aaa;
-            border-radius: 4px;
-            padding: 5px 10px;
-        }
-        p.description {
-            min-height: 60px;
-        }
-        
-        .affix {
+        .sidebar .affix {
             top: 100px;
         }
+
+        .sidebar ol {
+            font-size: 13px;
+            list-style-type: decimal;
+            list-style-position: inside;
+        }
+        .sidebar ol>li>a {
+            display: inline-block;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        
 
 
         </style>
@@ -276,7 +216,6 @@
         <link rel="stylesheet" href="css/base.css" />
         <link rel="stylesheet" href="css/header.css" />
         <link rel="stylesheet" href="css/footer.css" />
-
         
         <style>
         body {

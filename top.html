@@ -28,9 +28,6 @@
         <link href='http://fonts.googleapis.com/css?family=Mystery+Quest' rel='stylesheet' type='text/css'>
     
         <style>
-        .container {
-            width: 1000px;
-        }
         body {
             padding-top: 80px;
         }
@@ -49,10 +46,15 @@
         h2 {
             padding-top: 64px;
             font-size: 48px;
+            color: white;
+            /*
+            text-shadow: 0px 0px 8px #000;
+            */
         }
         
         p {
             padding-top: 20px;
+            font-size: 16px;
         }
         
         .content-block {
@@ -67,16 +69,17 @@
         }
 
         #about {
-            background-color: hsl(0, 75%, 85%);
+            background-color: hsl(0, 100%, 75%);
         }
 
         #hoge1 {
-            background-color: hsl(120, 75%, 85%);
+            background-color: hsl(120, 100%, 80%);
         }
         
         #cotent3 {
             padding-top: 120px;
-            background-color: hsl(200, 75%, 85%);
+
+            background-color: hsl(210, 100%, 75%);
             min-height: 640px;
             max-height: 640px;
         }
@@ -90,11 +93,13 @@
         }
         
         #hoge2 h2 {
+            color: black;
             padding-top: 10px;
             font-size: 38px;
         }
 
         </style>
+        <link rel="stylesheet" href="css/base.css" />
         <link rel="stylesheet" href="css/header.css" />
     </head>
     <body>
@@ -122,7 +127,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <div>
-                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="ヒヨコ始めました!! 『JavaScript ライブラリ tmlib.js』" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="tmlib.js - JavaScript ゲームライブラリ. ヒヨコ始めました!!" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
                                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
                             </div>
                         </li>
@@ -145,7 +150,7 @@
         <div id="teaser" class="content-block">
             <div class="container">
                 <div class="row" style="text-align:center;">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 col-sm-12">
                         <br />
                         <br />
                         <br />
@@ -160,7 +165,7 @@
                             <a target="_blank" href="./docs/index.html" class="btn btn-primary btn-lg btn-warning">Docs</a>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 col-sm-12">
                         <img src="resource/img/tomapi.png" />
                     </div>
                 </div>
