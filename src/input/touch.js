@@ -38,9 +38,12 @@ tm.input = tm.input || {};
             
             var self = this;
             this.element.addEventListener("touchstart", function(e){
-                self._touchmove(e);
-                self.prevPosition.set(self._x, self._y);    // prevPostion をリセット
                 self.touched = true;
+                
+                self._touchmove(e);
+                // 最初だけセット
+                self.position.set(self._x, self._y);
+                self.prevPosition.set(self._x, self._y);    // prevPostion をリセット
             });
             this.element.addEventListener("touchend", function(e){
                 self.touched = false;
