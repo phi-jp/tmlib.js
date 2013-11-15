@@ -19,6 +19,11 @@
          * アニメーションさせるかどうかのフラグ
          */
         animationFlag: true,
+        /**
+         * 0~100 に変化する際にかかる時間
+         * つまり10*1000 だった場合は, 0~10に変化するさいに　1秒かかる
+         */
+        animationTime: 10*1000, // 10 秒
 
         /**
          * @constructor
@@ -73,18 +78,26 @@
 
             this._realValue = value;
             
+            // end when now value equal value of argument
             if (this._value === value) return ;
+            
+            // fire value change event
+            this.fire(tm.event.Event("change"));
             
             if (this.isAnimation()) {
                 this.tweener.clear();
-                this.tweener.to({
-                        "_value":value
-                    },
-                    Math.abs(this._value-value)*10
-                );
+
+                var time = (Math.abs(this._value-value)/100)*this.animationTime;
+                this.tweener.clear()
+                    .to({ "_value":value }, time)
+                    .call(function() {
+                        this.fire(tm.event.Event("changed"));
+                    }.bind(this));
             }
             else {
                 this._value = value;
+                this.fire(tm.event.Event("change"));
+                this.fire(tm.event.Event("changed"));
             }
             
             return this;

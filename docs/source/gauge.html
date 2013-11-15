@@ -33,9 +33,14 @@
 <span id='tm-ui-Gauge-property-animationFlag'>        
 </span>        
         /**
-<span id='tm-ui-Gauge-method-constructor'>         * アニメーションさせるかどうかのフラグ
+<span id='tm-ui-Gauge-property-animationTime'>         * アニメーションさせるかどうかのフラグ
 </span>         */
         animationFlag: true,
+        /**
+         * 0~100 に変化する際にかかる時間
+<span id='tm-ui-Gauge-method-constructor'>         * つまり10*1000 だった場合は, 0~10に変化するさいに　1秒かかる
+</span>         */
+        animationTime: 10*1000, // 10 秒
 
         /**
          * @constructor
@@ -50,37 +55,37 @@
                 color: &quot;hsl(220, 100%, 50%)&quot;,
                 bgColor: &quot;#444&quot;,
                 borderColor: &quot;white&quot;,
-                borderWidth: 4,
-            });
+<span id='tm-ui-Gauge-method-isFull'>                borderWidth: 4,
+</span>            });
             
             this.$extend(param);
-<span id='tm-ui-Gauge-method-isFull'>            
-</span>            this._reset();
+            
+            this._reset();
         },
 
         /**
-         * @TODO ?
-         */
+<span id='tm-ui-Gauge-method-isEmpty'>         * @TODO ?
+</span>         */
         isFull: function() {
-<span id='tm-ui-Gauge-method-isEmpty'>            return this.targetProp === this._maxValue;
-</span>        },
+            return this.targetProp === this._maxValue;
+        },
 
-        /**
-         * @TODO ?
+<span id='tm-ui-Gauge-method-_reset'>        /**
+</span>         * @TODO ?
          */
         isEmpty: function() {
-<span id='tm-ui-Gauge-method-_reset'>            return this.targetProp == 0;
-</span>        },
+            return this.targetProp == 0;
+        },
 
         /**
          * @TODO ?
          * @private
          */
         _reset: function(direction) {
-            this.originX = 0;
-            this._value = 100;
-<span id='tm-ui-Gauge-method-setValue'>            this._value = this._maxValue = 100;
-</span>        },
+<span id='tm-ui-Gauge-method-setValue'>            this.originX = 0;
+</span>            this._value = 100;
+            this._value = this._maxValue = 100;
+        },
 
         /**
          * @TODO ?
@@ -90,50 +95,58 @@
 
             this._realValue = value;
             
+            // end when now value equal value of argument
             if (this._value === value) return ;
+            
+            // fire value change event
+            this.fire(tm.event.Event(&quot;change&quot;));
             
             if (this.isAnimation()) {
                 this.tweener.clear();
-                this.tweener.to({
-                        &quot;_value&quot;:value
-                    },
-                    Math.abs(this._value-value)*10
-                );
+
+                var time = (Math.abs(this._value-value)/100)*this.animationTime;
+                this.tweener.clear()
+                    .to({ &quot;_value&quot;:value }, time)
+                    .call(function() {
+                        this.fire(tm.event.Event(&quot;changed&quot;));
+                    }.bind(this));
             }
             else {
                 this._value = value;
-            }
-<span id='tm-ui-Gauge-method-getValue'>            
-</span>            return this;
+                this.fire(tm.event.Event(&quot;change&quot;));
+<span id='tm-ui-Gauge-method-getValue'>                this.fire(tm.event.Event(&quot;changed&quot;));
+</span>            }
+            
+            return this;
+        },
+<span id='tm-ui-Gauge-method-setPercent'>
+</span>        /**
+         * @TODO ?
+         */
+        getValue: function() {
+            return this.value;
         },
 
         /**
          * @TODO ?
-         */
-<span id='tm-ui-Gauge-method-setPercent'>        getValue: function() {
-</span>            return this.value;
+<span id='tm-ui-Gauge-method-getPercent'>         */
+</span>        setPercent: function(percent) {
+            this.setValue(this._maxValue*percent*0.01);
         },
 
         /**
-         * @TODO ?
-         */
-        setPercent: function(percent) {
-<span id='tm-ui-Gauge-method-getPercent'>            this.setValue(this._maxValue*percent*0.01);
-</span>        },
-
-        /**
-         * @TODO ?
-         */
+<span id='tm-ui-Gauge-method-setRatio'>         * @TODO ?
+</span>         */
         getPercent: function() {
-<span id='tm-ui-Gauge-method-setRatio'>            return (this._value/this._maxValue)*100;
-</span>        },
+            return (this._value/this._maxValue)*100;
+        },
 
         /**
-         * @TODO ?
-         */
+<span id='tm-ui-Gauge-method-getRatio'>         * @TODO ?
+</span>         */
         setRatio: function(ratio) {
-<span id='tm-ui-Gauge-method-getRatio'>            this.setValue(this._maxValue*percent);
-</span>        },
+            this.setValue(this._maxValue*percent);
+        },
 
         /**
          * @TODO ?
@@ -160,10 +173,10 @@
             // border
             canvas.strokeStyle = this.borderColor;
             canvas.lineWidth = this.borderWidth;
-            canvas.strokeRect(0, 0, this.width, this.height);
-            
-<span id='tm-ui-Gauge-property-value'>            canvas.restore();
-</span>        }
+<span id='tm-ui-Gauge-property-value'>            canvas.strokeRect(0, 0, this.width, this.height);
+</span>            
+            canvas.restore();
+        }
     });
     
     /**
@@ -171,11 +184,11 @@
      * 値
      */
     tm.ui.Gauge.prototype.accessor(&quot;value&quot;, {
-        get: function() {
-            return this._value;
+<span id='tm-ui-Gauge-property-percent'>        get: function() {
+</span>            return this._value;
         },
-<span id='tm-ui-Gauge-property-percent'>        set: function(v) {
-</span>            this.setValue(v);
+        set: function(v) {
+            this.setValue(v);
         },
     });
 
@@ -185,10 +198,10 @@
      */
     tm.ui.Gauge.prototype.accessor(&quot;percent&quot;, {
         get: function() {
-            return this.getPercent();
-        },
-<span id='tm-ui-Gauge-property-ratio'>        set: function(v) {
-</span>            this.setPercent(v);
+<span id='tm-ui-Gauge-property-ratio'>            return this.getPercent();
+</span>        },
+        set: function(v) {
+            this.setPercent(v);
         },
     });
     
@@ -199,11 +212,11 @@
      */
     tm.ui.Gauge.prototype.accessor(&quot;ratio&quot;, {
         get: function() {
-            return this.getRatio();
-        },
-        set: function(v) {
-<span id='tm-ui-FlatGauge'>            this.setRatio(v);
+<span id='tm-ui-FlatGauge'>            return this.getRatio();
 </span>        },
+        set: function(v) {
+            this.setRatio(v);
+        },
     });
     
 })();
@@ -212,11 +225,11 @@
 ;(function() {
     
     /**
-     * @class tm.ui.FlatGauge
-     * ゲーム用ゲージクラス
+<span id='tm-ui-FlatGauge-method-constructor'>     * @class tm.ui.FlatGauge
+</span>     * ゲーム用ゲージクラス
      * @extends tm.ui.Gauge
-<span id='tm-ui-FlatGauge-method-constructor'>     */
-</span>    tm.define(&quot;tm.ui.FlatGauge&quot;, {
+     */
+    tm.define(&quot;tm.ui.FlatGauge&quot;, {
         superClass: &quot;tm.ui.Gauge&quot;,
         
         /**
@@ -247,9 +260,9 @@
             // border
             canvas.strokeStyle = this.borderColor;
             canvas.lineWidth = this.borderWidth;
-            canvas.strokeRoundRect(0, 0, this.width, this.height, this.height/2);
-<span id='tm-ui-GlossyGauge'>            
-</span>            canvas.restore();
+<span id='tm-ui-GlossyGauge'>            canvas.strokeRoundRect(0, 0, this.width, this.height, this.height/2);
+</span>            
+            canvas.restore();
         },
     });
     
@@ -267,10 +280,10 @@
     tm.define(&quot;tm.ui.GlossyGauge&quot;, {
         superClass: &quot;tm.ui.Gauge&quot;,
         
-        init: function(param) {
-            param = param || {};
-<span id='tm-ui-GlossyGauge-method-constructor'>            param.borderWidth = param.borderWidth || 2;
-</span>            this.superInit(param);
+<span id='tm-ui-GlossyGauge-method-constructor'>        init: function(param) {
+</span>            param = param || {};
+            param.borderWidth = param.borderWidth || 2;
+            this.superInit(param);
         },
         
         /**
