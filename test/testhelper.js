@@ -99,6 +99,7 @@
             "src/ui/userinterface.js",
             "src/ui/button.js",
             "src/ui/menudialog.js",
+            "src/ui/sketch.js",
         ],
         "three": [
             "src/three/three.js",
