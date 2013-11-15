@@ -9,11 +9,15 @@
     /**
      * @class tm.ui.Gauge
      * ゲーム用ゲージクラス
-     * @extends tm.display.RectangleShape
+     * @extends tm.display.CanvasElement
      */
     tm.ui.Gauge = tm.createClass({
         superClass: tm.display.CanvasElement,
         
+        
+        /**
+         * アニメーションさせるかどうかのフラグ
+         */
         animationFlag: true,
 
         /**
@@ -190,9 +194,17 @@
 
 ;(function() {
     
+    /**
+     * @class tm.ui.FlatGauge
+     * ゲーム用ゲージクラス
+     * @extends tm.ui.Gauge
+     */
     tm.define("tm.ui.FlatGauge", {
         superClass: "tm.ui.Gauge",
         
+        /**
+         * @constructor
+         */
         init: function(param) {
             this.superInit(param);
         },
@@ -230,6 +242,11 @@
 
 ;(function() {
     
+    /**
+     * @class tm.ui.GlossyGauge
+     * ゲーム用ゲージクラス
+     * @extends tm.ui.Gauge
+     */
     tm.define("tm.ui.GlossyGauge", {
         superClass: "tm.ui.Gauge",
         
@@ -239,6 +256,9 @@
             this.superInit(param);
         },
         
+        /**
+         * @constructor
+         */
         draw: function(c) {
             c.save();
             

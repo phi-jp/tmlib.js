@@ -26,13 +26,17 @@
 <span id='tm-ui-Gauge'>    /**
 </span>     * @class tm.ui.Gauge
      * ゲーム用ゲージクラス
-     * @extends tm.display.RectangleShape
+     * @extends tm.display.CanvasElement
      */
     tm.ui.Gauge = tm.createClass({
         superClass: tm.display.CanvasElement,
-        
-<span id='tm-ui-Gauge-method-constructor'>        animationFlag: true,
-</span>
+<span id='tm-ui-Gauge-property-animationFlag'>        
+</span>        
+        /**
+<span id='tm-ui-Gauge-method-constructor'>         * アニメーションさせるかどうかのフラグ
+</span>         */
+        animationFlag: true,
+
         /**
          * @constructor
          */
@@ -50,24 +54,24 @@
             });
             
             this.$extend(param);
-            
-            this._reset();
-<span id='tm-ui-Gauge-method-isFull'>        },
-</span>
+<span id='tm-ui-Gauge-method-isFull'>            
+</span>            this._reset();
+        },
+
         /**
          * @TODO ?
          */
         isFull: function() {
-            return this.targetProp === this._maxValue;
-<span id='tm-ui-Gauge-method-isEmpty'>        },
-</span>
+<span id='tm-ui-Gauge-method-isEmpty'>            return this.targetProp === this._maxValue;
+</span>        },
+
         /**
          * @TODO ?
          */
         isEmpty: function() {
-            return this.targetProp == 0;
-<span id='tm-ui-Gauge-method-_reset'>        },
-</span>
+<span id='tm-ui-Gauge-method-_reset'>            return this.targetProp == 0;
+</span>        },
+
         /**
          * @TODO ?
          * @private
@@ -75,9 +79,9 @@
         _reset: function(direction) {
             this.originX = 0;
             this._value = 100;
-            this._value = this._maxValue = 100;
-<span id='tm-ui-Gauge-method-setValue'>        },
-</span>
+<span id='tm-ui-Gauge-method-setValue'>            this._value = this._maxValue = 100;
+</span>        },
+
         /**
          * @TODO ?
          */
@@ -99,38 +103,38 @@
             else {
                 this._value = value;
             }
-            
-            return this;
-<span id='tm-ui-Gauge-method-getValue'>        },
-</span>
+<span id='tm-ui-Gauge-method-getValue'>            
+</span>            return this;
+        },
+
         /**
          * @TODO ?
          */
-        getValue: function() {
-            return this.value;
-<span id='tm-ui-Gauge-method-setPercent'>        },
-</span>
+<span id='tm-ui-Gauge-method-setPercent'>        getValue: function() {
+</span>            return this.value;
+        },
+
         /**
          * @TODO ?
          */
         setPercent: function(percent) {
-            this.setValue(this._maxValue*percent*0.01);
-<span id='tm-ui-Gauge-method-getPercent'>        },
-</span>
+<span id='tm-ui-Gauge-method-getPercent'>            this.setValue(this._maxValue*percent*0.01);
+</span>        },
+
         /**
          * @TODO ?
          */
         getPercent: function() {
-            return (this._value/this._maxValue)*100;
-<span id='tm-ui-Gauge-method-setRatio'>        },
-</span>
+<span id='tm-ui-Gauge-method-setRatio'>            return (this._value/this._maxValue)*100;
+</span>        },
+
         /**
          * @TODO ?
          */
         setRatio: function(ratio) {
-            this.setValue(this._maxValue*percent);
-<span id='tm-ui-Gauge-method-getRatio'>        },
-</span>
+<span id='tm-ui-Gauge-method-getRatio'>            this.setValue(this._maxValue*percent);
+</span>        },
+
         /**
          * @TODO ?
          */
@@ -158,9 +162,9 @@
             canvas.lineWidth = this.borderWidth;
             canvas.strokeRect(0, 0, this.width, this.height);
             
-            canvas.restore();
-<span id='tm-ui-Gauge-property-value'>        }
-</span>    });
+<span id='tm-ui-Gauge-property-value'>            canvas.restore();
+</span>        }
+    });
     
     /**
      * @property    value
@@ -170,10 +174,10 @@
         get: function() {
             return this._value;
         },
-        set: function(v) {
-            this.setValue(v);
-<span id='tm-ui-Gauge-property-percent'>        },
-</span>    });
+<span id='tm-ui-Gauge-property-percent'>        set: function(v) {
+</span>            this.setValue(v);
+        },
+    });
 
     /**
      * @property    percent
@@ -183,10 +187,10 @@
         get: function() {
             return this.getPercent();
         },
-        set: function(v) {
-            this.setPercent(v);
-<span id='tm-ui-Gauge-property-ratio'>        },
-</span>    });
+<span id='tm-ui-Gauge-property-ratio'>        set: function(v) {
+</span>            this.setPercent(v);
+        },
+    });
     
     
     /**
@@ -198,8 +202,8 @@
             return this.getRatio();
         },
         set: function(v) {
-            this.setRatio(v);
-        },
+<span id='tm-ui-FlatGauge'>            this.setRatio(v);
+</span>        },
     });
     
 })();
@@ -207,9 +211,17 @@
 
 ;(function() {
     
-    tm.define(&quot;tm.ui.FlatGauge&quot;, {
+    /**
+     * @class tm.ui.FlatGauge
+     * ゲーム用ゲージクラス
+     * @extends tm.ui.Gauge
+<span id='tm-ui-FlatGauge-method-constructor'>     */
+</span>    tm.define(&quot;tm.ui.FlatGauge&quot;, {
         superClass: &quot;tm.ui.Gauge&quot;,
         
+        /**
+         * @constructor
+         */
         init: function(param) {
             this.superInit(param);
         },
@@ -236,8 +248,8 @@
             canvas.strokeStyle = this.borderColor;
             canvas.lineWidth = this.borderWidth;
             canvas.strokeRoundRect(0, 0, this.width, this.height, this.height/2);
-            
-            canvas.restore();
+<span id='tm-ui-GlossyGauge'>            
+</span>            canvas.restore();
         },
     });
     
@@ -247,15 +259,23 @@
 
 ;(function() {
     
+    /**
+     * @class tm.ui.GlossyGauge
+     * ゲーム用ゲージクラス
+     * @extends tm.ui.Gauge
+     */
     tm.define(&quot;tm.ui.GlossyGauge&quot;, {
         superClass: &quot;tm.ui.Gauge&quot;,
         
         init: function(param) {
             param = param || {};
-            param.borderWidth = param.borderWidth || 2;
-            this.superInit(param);
+<span id='tm-ui-GlossyGauge-method-constructor'>            param.borderWidth = param.borderWidth || 2;
+</span>            this.superInit(param);
         },
         
+        /**
+         * @constructor
+         */
         draw: function(c) {
             c.save();
             
