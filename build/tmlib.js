@@ -15330,200 +15330,6 @@ tm.display = tm.display || {};
 tm.ui = tm.ui || {};
 
 
-(function() {
-
-	/**
-	 * @class tm.ui.Gauge
-	 * ゲーム用ゲージクラス
-     * @extends tm.display.RectangleShape
-	 */
-	tm.ui.Gauge = tm.createClass({
-        superClass: tm.display.RectangleShape,
-
-        /**
-         * @constructor
-         */
-        init: function(width, height, color, direction) {
-            this.superInit(width, height, {
-                fillStyle: color || "red",
-                strokeStyle: "rgba(255, 255, 255, 0)"
-            });
-
-            this._reset(direction);
-        },
-
-        /**
-         * @TODO ?
-         */
-        isFull: function() {
-            return this.targetProp === this._maxValue;
-        },
-
-        /**
-         * @TODO ?
-         */
-        isEmpty: function() {
-            return this.targetProp == 0;
-        },
-
-        /**
-         * @TODO ?
-         * @private
-         */
-        _reset: function(direction) {
-            this.direction = direction || "left";
-            switch (this.direction) {
-                case "left":
-                    this.originX = 0;
-                    this._targetPropName = "width";
-                    this._value     = this.width;
-                    this._value = this._maxValue = this.width;
-                    break;
-                case "right":
-                    this.originX = 1;
-                    this._targetPropName = "width";
-                    this._value = this._maxValue = this.width;
-                    break;
-                case "up":
-                    this.originY = 1;
-                    this._targetPropName = "height";
-                    this._value     = this.height;
-                    this._value = this._maxValue = this.height;
-                    break;
-                case "down":
-                    this.originY = 0;
-                    this._targetPropName = "height";
-                    this._value     = this.height;
-                    this._value = this._maxValue = this.height;
-                    break;
-            }
-        },
-
-        /**
-         * @TODO ?
-         */
-        setValue: function(value, anim) {
-        	value= Math.clamp(value, 0, this._maxValue);
-            anim = (anim !== undefined) ? anim : true;
-
-            this._value = value;
-            this._targetValue = (value/this._maxValue)*this._maxValue;
-
-            if (this._targetValue == this.targetProp) return ;
-
-            this.tweener.clear();
-            if (anim) {
-                var props = {};
-                props[this._targetPropName] = this._targetValue;
-                this.tweener.to(props, Math.abs(this._targetValue-this.targetProp)*10);
-                /*
-                this.animation.addTween({
-                    prop: this._targetPropName,
-                    begin: this.targetProp,
-                    finish: this._targetValue,
-                    duration: Math.abs(this._targetValue-this.targetProp)*10,
-                });
-*/
-            }
-            else {
-                this.targetProp = this._targetValue;
-            }
-
-            return this;
-        },
-
-        /**
-         * @TODO ?
-         */
-        getValue: function() {
-            return this.value;
-        },
-
-        /**
-         * @TODO ?
-         */
-        setPercent: function(percent, anim) {
-            this.setValue(this._maxValue*percent*0.01, anim);
-        },
-
-        /**
-         * @TODO ?
-         */
-        getPercent: function() {
-            return (this._value/this._maxValue)*100;
-        },
-
-        /**
-         * @TODO ?
-         */
-        setRatio: function(ratio) {
-            this.setValue(this._maxValue*percent, anim);
-        },
-
-        /**
-         * @TODO ?
-         */
-        getRatio: function() {
-            return this._value/this._maxValue;
-        },
-    });
-    
-    /**
-     * @property    value
-     * 値
-     */
-    tm.ui.Gauge.prototype.accessor("value", {
-        get: function() {
-            return this._value;
-        },
-        set: function(v) {
-            this.setValue(v);
-        },
-    });
-
-    /**
-     * @property    percent
-     * パーセント
-     */
-    tm.ui.Gauge.prototype.accessor("percent", {
-        get: function() {
-            return this.getPercent();
-        },
-        set: function(v) {
-            this.setPercent(v);
-        },
-    });
-    
-    
-    /**
-     * @property    ratio
-     * 比率
-     */
-    tm.ui.Gauge.prototype.accessor("ratio", {
-        get: function() {
-            return this.getRatio();
-        },
-        set: function(v) {
-            this.setRatio(v);
-        },
-    });
-    
-    /**
-     * @property    targetProp
-     * ターゲット
-     */
-    tm.ui.Gauge.prototype.accessor("targetProp", {
-        get: function() {
-            return this[this._targetPropName];
-        },
-        set: function(v) {
-            this[this._targetPropName] = v;
-        },
-    });
-    
-})();
-
-
 
 (function() {
     
@@ -16095,7 +15901,7 @@ tm.ui = tm.ui || {};
     };
     
     /**
-     * @class
+     * @class tm.ui.Sketch
      * Sketch
      * @extends tm.display.Shape
      */
@@ -16141,6 +15947,9 @@ tm.ui = tm.ui || {};
             });
         },
         
+        /**
+         * 画面をbgColor色でクリアする
+         */
         clear: function() {
             this.canvas.clear();
             this.canvas.clearColor(this.bgColor);
@@ -16199,6 +16008,282 @@ tm.ui = tm.ui || {};
 
     
 })();
+
+
+/*
+ *  gauge.js
+ */
+
+
+
+(function() {
+
+    /**
+     * @class tm.ui.Gauge
+     * ゲーム用ゲージクラス
+     * @extends tm.display.RectangleShape
+     */
+    tm.ui.Gauge = tm.createClass({
+        superClass: tm.display.CanvasElement,
+        
+        animationFlag: true,
+
+        /**
+         * @constructor
+         */
+        init: function(param) {
+            this.superInit();
+            
+            param = param || {};
+            param.$safe({
+                width: 300,
+                height: 25,
+                color: "hsl(220, 100%, 50%)",
+                bgColor: "#444",
+                borderColor: "white",
+                borderWidth: 4,
+            });
+            
+            this.$extend(param);
+            
+            this._reset();
+        },
+
+        /**
+         * @TODO ?
+         */
+        isFull: function() {
+            return this.targetProp === this._maxValue;
+        },
+
+        /**
+         * @TODO ?
+         */
+        isEmpty: function() {
+            return this.targetProp == 0;
+        },
+
+        /**
+         * @TODO ?
+         * @private
+         */
+        _reset: function(direction) {
+            this.originX = 0;
+            this._value = 100;
+            this._value = this._maxValue = 100;
+        },
+
+        /**
+         * @TODO ?
+         */
+        setValue: function(value) {
+            value= Math.clamp(value, 0, this._maxValue);
+
+            this._realValue = value;
+            
+            if (this._value === value) return ;
+            
+            if (this.isAnimation()) {
+                this.tweener.clear();
+                this.tweener.to({
+                        "_value":value
+                    },
+                    Math.abs(this._value-value)*10
+                );
+            }
+            else {
+                this._value = value;
+            }
+            
+            return this;
+        },
+
+        /**
+         * @TODO ?
+         */
+        getValue: function() {
+            return this.value;
+        },
+
+        /**
+         * @TODO ?
+         */
+        setPercent: function(percent) {
+            this.setValue(this._maxValue*percent*0.01);
+        },
+
+        /**
+         * @TODO ?
+         */
+        getPercent: function() {
+            return (this._value/this._maxValue)*100;
+        },
+
+        /**
+         * @TODO ?
+         */
+        setRatio: function(ratio) {
+            this.setValue(this._maxValue*percent);
+        },
+
+        /**
+         * @TODO ?
+         */
+        getRatio: function() {
+            return this._value/this._maxValue;
+        },
+        
+        isAnimation: function() {
+            return this.animationFlag;
+        },
+        
+        draw: function(canvas) {
+            canvas.save();
+            
+            // bg
+            canvas.fillStyle = this.bgColor;
+            canvas.fillRect(0, 0, this.width, this.height);
+            
+            // bar
+            canvas.fillStyle = this.color;
+            canvas.fillRect(0, 0, this.width*this.getRatio(), this.height);
+            
+            // border
+            canvas.strokeStyle = this.borderColor;
+            canvas.lineWidth = this.borderWidth;
+            canvas.strokeRect(0, 0, this.width, this.height);
+            
+            canvas.restore();
+        }
+    });
+    
+    /**
+     * @property    value
+     * 値
+     */
+    tm.ui.Gauge.prototype.accessor("value", {
+        get: function() {
+            return this._value;
+        },
+        set: function(v) {
+            this.setValue(v);
+        },
+    });
+
+    /**
+     * @property    percent
+     * パーセント
+     */
+    tm.ui.Gauge.prototype.accessor("percent", {
+        get: function() {
+            return this.getPercent();
+        },
+        set: function(v) {
+            this.setPercent(v);
+        },
+    });
+    
+    
+    /**
+     * @property    ratio
+     * 比率
+     */
+    tm.ui.Gauge.prototype.accessor("ratio", {
+        get: function() {
+            return this.getRatio();
+        },
+        set: function(v) {
+            this.setRatio(v);
+        },
+    });
+    
+})();
+
+
+;(function() {
+    
+    tm.define("tm.ui.FlatGauge", {
+        superClass: "tm.ui.Gauge",
+        
+        init: function(param) {
+            this.superInit(param);
+        },
+        
+        draw: function(canvas) {
+            canvas.save();
+            
+            canvas.save();
+            
+            canvas.roundRect(0, 0, this.width, this.height, this.height/2);
+            canvas.clip();
+            
+            // bg
+            canvas.fillStyle = this.bgColor;
+            canvas.fillRect(0, 0, this.width, this.height);
+            
+            // bar
+            canvas.fillStyle = this.color;
+            canvas.fillRect(0, 0, this.width*this.getRatio(), this.height);
+            
+            canvas.restore();
+            
+            // border
+            canvas.strokeStyle = this.borderColor;
+            canvas.lineWidth = this.borderWidth;
+            canvas.strokeRoundRect(0, 0, this.width, this.height, this.height/2);
+            
+            canvas.restore();
+        },
+    });
+    
+})();
+
+
+
+;(function() {
+    
+    tm.define("tm.ui.GlossyGauge", {
+        superClass: "tm.ui.Gauge",
+        
+        init: function(param) {
+            param = param || {};
+            param.borderWidth = param.borderWidth || 2;
+            this.superInit(param);
+        },
+        
+        draw: function(c) {
+            c.save();
+            
+            // clip
+            c.roundRect(0, 0, this.width, this.height, this.height/2);
+            c.clip();
+            
+            // bg
+            c.fillStyle = this.bgColor;
+            c.fillRect(0, 0, this.width, this.height);
+            
+            // bar
+            c.fillStyle = this.color;
+            c.fillRect(0, 0, this.width*this.getRatio(), this.height);
+            var grad = tm.graphics.LinearGradient(0, 0, 0, this.height);
+            grad.addColorStop(0.0,  "rgba(255,255,255,0.9)");
+            grad.addColorStop(0.5,  "rgba(255,255,255,0.5)");
+            grad.addColorStop(0.51, "rgba(255,255,255,0.2)");
+            grad.addColorStop(1.0,  "rgba(255,255,255,0.0)");
+            c.setGradient(grad);
+            c.fillRect(0, 0, this.width*this.getRatio(), this.height);
+            
+            c.restore();
+            
+            // border
+            c.lineWidth = this.borderWidth;
+            c.strokeStyle = this.borderColor;
+            c.strokeRoundRect(0, 0, this.width, this.height, this.height/2);
+        },
+    });
+    
+})();
+
 
 
 /*

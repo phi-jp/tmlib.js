@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ *  gauge.js
+ */
+
+
+
+(function() {
+
+<span id='tm-ui-Gauge'>    /**
+</span>     * @class tm.ui.Gauge
+     * ゲーム用ゲージクラス
+     * @extends tm.display.RectangleShape
+     */
+    tm.ui.Gauge = tm.createClass({
+        superClass: tm.display.CanvasElement,
+        
+<span id='tm-ui-Gauge-method-constructor'>        animationFlag: true,
+</span>
+        /**
+         * @constructor
+         */
+        init: function(param) {
+            this.superInit();
+            
+            param = param || {};
+            param.$safe({
+                width: 300,
+                height: 25,
+                color: &quot;hsl(220, 100%, 50%)&quot;,
+                bgColor: &quot;#444&quot;,
+                borderColor: &quot;white&quot;,
+                borderWidth: 4,
+            });
+            
+            this.$extend(param);
+            
+            this._reset();
+<span id='tm-ui-Gauge-method-isFull'>        },
+</span>
+        /**
+         * @TODO ?
+         */
+        isFull: function() {
+            return this.targetProp === this._maxValue;
+<span id='tm-ui-Gauge-method-isEmpty'>        },
+</span>
+        /**
+         * @TODO ?
+         */
+        isEmpty: function() {
+            return this.targetProp == 0;
+<span id='tm-ui-Gauge-method-_reset'>        },
+</span>
+        /**
+         * @TODO ?
+         * @private
+         */
+        _reset: function(direction) {
+            this.originX = 0;
+            this._value = 100;
+            this._value = this._maxValue = 100;
+<span id='tm-ui-Gauge-method-setValue'>        },
+</span>
+        /**
+         * @TODO ?
+         */
+        setValue: function(value) {
+            value= Math.clamp(value, 0, this._maxValue);
+
+            this._realValue = value;
+            
+            if (this._value === value) return ;
+            
+            if (this.isAnimation()) {
+                this.tweener.clear();
+                this.tweener.to({
+                        &quot;_value&quot;:value
+                    },
+                    Math.abs(this._value-value)*10
+                );
+            }
+            else {
+                this._value = value;
+            }
+            
+            return this;
+<span id='tm-ui-Gauge-method-getValue'>        },
+</span>
+        /**
+         * @TODO ?
+         */
+        getValue: function() {
+            return this.value;
+<span id='tm-ui-Gauge-method-setPercent'>        },
+</span>
+        /**
+         * @TODO ?
+         */
+        setPercent: function(percent) {
+            this.setValue(this._maxValue*percent*0.01);
+<span id='tm-ui-Gauge-method-getPercent'>        },
+</span>
+        /**
+         * @TODO ?
+         */
+        getPercent: function() {
+            return (this._value/this._maxValue)*100;
+<span id='tm-ui-Gauge-method-setRatio'>        },
+</span>
+        /**
+         * @TODO ?
+         */
+        setRatio: function(ratio) {
+            this.setValue(this._maxValue*percent);
+<span id='tm-ui-Gauge-method-getRatio'>        },
+</span>
+        /**
+         * @TODO ?
+         */
+        getRatio: function() {
+            return this._value/this._maxValue;
+        },
+        
+        isAnimation: function() {
+            return this.animationFlag;
+        },
+        
+        draw: function(canvas) {
+            canvas.save();
+            
+            // bg
+            canvas.fillStyle = this.bgColor;
+            canvas.fillRect(0, 0, this.width, this.height);
+            
+            // bar
+            canvas.fillStyle = this.color;
+            canvas.fillRect(0, 0, this.width*this.getRatio(), this.height);
+            
+            // border
+            canvas.strokeStyle = this.borderColor;
+            canvas.lineWidth = this.borderWidth;
+            canvas.strokeRect(0, 0, this.width, this.height);
+            
+            canvas.restore();
+<span id='tm-ui-Gauge-property-value'>        }
+</span>    });
+    
+    /**
+     * @property    value
+     * 値
+     */
+    tm.ui.Gauge.prototype.accessor(&quot;value&quot;, {
+        get: function() {
+            return this._value;
+        },
+        set: function(v) {
+            this.setValue(v);
+<span id='tm-ui-Gauge-property-percent'>        },
+</span>    });
+
+    /**
+     * @property    percent
+     * パーセント
+     */
+    tm.ui.Gauge.prototype.accessor(&quot;percent&quot;, {
+        get: function() {
+            return this.getPercent();
+        },
+        set: function(v) {
+            this.setPercent(v);
+<span id='tm-ui-Gauge-property-ratio'>        },
+</span>    });
+    
+    
+    /**
+     * @property    ratio
+     * 比率
+     */
+    tm.ui.Gauge.prototype.accessor(&quot;ratio&quot;, {
+        get: function() {
+            return this.getRatio();
+        },
+        set: function(v) {
+            this.setRatio(v);
+        },
+    });
+    
+})();
+
+
+;(function() {
+    
+    tm.define(&quot;tm.ui.FlatGauge&quot;, {
+        superClass: &quot;tm.ui.Gauge&quot;,
+        
+        init: function(param) {
+            this.superInit(param);
+        },
+        
+        draw: function(canvas) {
+            canvas.save();
+            
+            canvas.save();
+            
+            canvas.roundRect(0, 0, this.width, this.height, this.height/2);
+            canvas.clip();
+            
+            // bg
+            canvas.fillStyle = this.bgColor;
+            canvas.fillRect(0, 0, this.width, this.height);
+            
+            // bar
+            canvas.fillStyle = this.color;
+            canvas.fillRect(0, 0, this.width*this.getRatio(), this.height);
+            
+            canvas.restore();
+            
+            // border
+            canvas.strokeStyle = this.borderColor;
+            canvas.lineWidth = this.borderWidth;
+            canvas.strokeRoundRect(0, 0, this.width, this.height, this.height/2);
+            
+            canvas.restore();
+        },
+    });
+    
+})();
+
+
+
+;(function() {
+    
+    tm.define(&quot;tm.ui.GlossyGauge&quot;, {
+        superClass: &quot;tm.ui.Gauge&quot;,
+        
+        init: function(param) {
+            param = param || {};
+            param.borderWidth = param.borderWidth || 2;
+            this.superInit(param);
+        },
+        
+        draw: function(c) {
+            c.save();
+            
+            // clip
+            c.roundRect(0, 0, this.width, this.height, this.height/2);
+            c.clip();
+            
+            // bg
+            c.fillStyle = this.bgColor;
+            c.fillRect(0, 0, this.width, this.height);
+            
+            // bar
+            c.fillStyle = this.color;
+            c.fillRect(0, 0, this.width*this.getRatio(), this.height);
+            var grad = tm.graphics.LinearGradient(0, 0, 0, this.height);
+            grad.addColorStop(0.0,  &quot;rgba(255,255,255,0.9)&quot;);
+            grad.addColorStop(0.5,  &quot;rgba(255,255,255,0.5)&quot;);
+            grad.addColorStop(0.51, &quot;rgba(255,255,255,0.2)&quot;);
+            grad.addColorStop(1.0,  &quot;rgba(255,255,255,0.0)&quot;);
+            c.setGradient(grad);
+            c.fillRect(0, 0, this.width*this.getRatio(), this.height);
+            
+            c.restore();
+            
+            // border
+            c.lineWidth = this.borderWidth;
+            c.strokeStyle = this.borderColor;
+            c.strokeRoundRect(0, 0, this.width, this.height, this.height/2);
+        },
+    });
+    
+})();
+
+
+</pre>
+</body>
+</html>

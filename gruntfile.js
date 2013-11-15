@@ -93,6 +93,7 @@ module.exports = function(grunt) {
     "src/ui/button.js",
     "src/ui/menudialog.js",
     "src/ui/sketch.js",
+    "src/ui/gauge.js",
     
     "src/three/three.js",
 

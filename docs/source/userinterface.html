@@ -22,216 +22,22 @@
 tm.ui = tm.ui || {};
 
 
-(function() {
-
-<span id='tm-ui-Gauge'>	/**
-</span>	 * @class tm.ui.Gauge
-	 * ゲーム用ゲージクラス
-     * @extends tm.display.RectangleShape
-	 */
-	tm.ui.Gauge = tm.createClass({
-<span id='tm-ui-Gauge-method-constructor'>        superClass: tm.display.RectangleShape,
-</span>
-        /**
-         * @constructor
-         */
-        init: function(width, height, color, direction) {
-            this.superInit(width, height, {
-                fillStyle: color || &quot;red&quot;,
-                strokeStyle: &quot;rgba(255, 255, 255, 0)&quot;
-            });
-
-            this._reset(direction);
-<span id='tm-ui-Gauge-method-isFull'>        },
-</span>
-        /**
-         * @TODO ?
-         */
-        isFull: function() {
-            return this.targetProp === this._maxValue;
-<span id='tm-ui-Gauge-method-isEmpty'>        },
-</span>
-        /**
-         * @TODO ?
-         */
-        isEmpty: function() {
-            return this.targetProp == 0;
-<span id='tm-ui-Gauge-method-_reset'>        },
-</span>
-        /**
-         * @TODO ?
-         * @private
-         */
-        _reset: function(direction) {
-            this.direction = direction || &quot;left&quot;;
-            switch (this.direction) {
-                case &quot;left&quot;:
-                    this.originX = 0;
-                    this._targetPropName = &quot;width&quot;;
-                    this._value     = this.width;
-                    this._value = this._maxValue = this.width;
-                    break;
-                case &quot;right&quot;:
-                    this.originX = 1;
-                    this._targetPropName = &quot;width&quot;;
-                    this._value = this._maxValue = this.width;
-                    break;
-                case &quot;up&quot;:
-                    this.originY = 1;
-                    this._targetPropName = &quot;height&quot;;
-                    this._value     = this.height;
-                    this._value = this._maxValue = this.height;
-                    break;
-                case &quot;down&quot;:
-                    this.originY = 0;
-                    this._targetPropName = &quot;height&quot;;
-                    this._value     = this.height;
-                    this._value = this._maxValue = this.height;
-                    break;
-            }
-<span id='tm-ui-Gauge-method-setValue'>        },
-</span>
-        /**
-         * @TODO ?
-         */
-        setValue: function(value, anim) {
-        	value= Math.clamp(value, 0, this._maxValue);
-            anim = (anim !== undefined) ? anim : true;
-
-            this._value = value;
-            this._targetValue = (value/this._maxValue)*this._maxValue;
-
-            if (this._targetValue == this.targetProp) return ;
-
-            this.tweener.clear();
-            if (anim) {
-                var props = {};
-                props[this._targetPropName] = this._targetValue;
-                this.tweener.to(props, Math.abs(this._targetValue-this.targetProp)*10);
-                /*
-                this.animation.addTween({
-                    prop: this._targetPropName,
-                    begin: this.targetProp,
-                    finish: this._targetValue,
-                    duration: Math.abs(this._targetValue-this.targetProp)*10,
-                });
-*/
-            }
-            else {
-                this.targetProp = this._targetValue;
-            }
-
-            return this;
-<span id='tm-ui-Gauge-method-getValue'>        },
-</span>
-        /**
-         * @TODO ?
-         */
-        getValue: function() {
-            return this.value;
-<span id='tm-ui-Gauge-method-setPercent'>        },
-</span>
-        /**
-         * @TODO ?
-         */
-        setPercent: function(percent, anim) {
-            this.setValue(this._maxValue*percent*0.01, anim);
-<span id='tm-ui-Gauge-method-getPercent'>        },
-</span>
-        /**
-         * @TODO ?
-         */
-        getPercent: function() {
-            return (this._value/this._maxValue)*100;
-<span id='tm-ui-Gauge-method-setRatio'>        },
-</span>
-        /**
-         * @TODO ?
-         */
-        setRatio: function(ratio) {
-            this.setValue(this._maxValue*percent, anim);
-<span id='tm-ui-Gauge-method-getRatio'>        },
-</span>
-        /**
-         * @TODO ?
-         */
-        getRatio: function() {
-            return this._value/this._maxValue;
-<span id='tm-ui-Gauge-property-value'>        },
-</span>    });
-    
-    /**
-     * @property    value
-     * 値
-     */
-    tm.ui.Gauge.prototype.accessor(&quot;value&quot;, {
-        get: function() {
-            return this._value;
-        },
-        set: function(v) {
-            this.setValue(v);
-<span id='tm-ui-Gauge-property-percent'>        },
-</span>    });
-
-    /**
-     * @property    percent
-     * パーセント
-     */
-    tm.ui.Gauge.prototype.accessor(&quot;percent&quot;, {
-        get: function() {
-            return this.getPercent();
-        },
-        set: function(v) {
-            this.setPercent(v);
-<span id='tm-ui-Gauge-property-ratio'>        },
-</span>    });
-    
-    
-    /**
-     * @property    ratio
-     * 比率
-     */
-    tm.ui.Gauge.prototype.accessor(&quot;ratio&quot;, {
-        get: function() {
-            return this.getRatio();
-        },
-        set: function(v) {
-<span id='tm-ui-Gauge-property-targetProp'>            this.setRatio(v);
-</span>        },
-    });
-    
-    /**
-     * @property    targetProp
-     * ターゲット
-     */
-    tm.ui.Gauge.prototype.accessor(&quot;targetProp&quot;, {
-        get: function() {
-            return this[this._targetPropName];
-        },
-        set: function(v) {
-            this[this._targetPropName] = v;
-<span id='tm-ui-Pad'>        },
-</span>    });
-    
-})();
-
-
 
 (function() {
     
-    /**
-     * @class tm.ui.Pad
+<span id='tm-ui-Pad'>    /**
+</span>     * @class tm.ui.Pad
      * padクラス
      * @extends tm.display.Shape
      */
     tm.ui.Pad = tm.createClass({
         superClass: tm.display.Shape,
         
-<span id='tm-ui-Pad-method-constructor'>        isTouching: false,
-</span>        circle: null,
+        isTouching: false,
+        circle: null,
 
-        /**
-         * @constructor
+<span id='tm-ui-Pad-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function() {
             this.superInit(120, 120);
@@ -244,12 +50,12 @@ tm.ui = tm.ui || {};
             this._createCircle();
             
             this.setInteractive(true);
-<span id='tm-ui-Pad-method-_createCircle'>            
-</span>            this.alpha = 0.75;
+            
+            this.alpha = 0.75;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-ui-Pad-method-_createCircle'>        /**
+</span>         * @TODO ?
          * @private
          */
         _createCircle: function() {
@@ -259,26 +65,26 @@ tm.ui = tm.ui || {};
             var c = circle.canvas;
             c.fillStyle = &quot;#222&quot;;
             c.setShadow(&quot;black&quot;, 2, 2, 2);
-<span id='tm-ui-Pad-method-onpointingstart'>            c.fillCircle(40, 40, 35);
-</span>        },
+            c.fillCircle(40, 40, 35);
+        },
 
-        /**
-         * @TODO ?
+<span id='tm-ui-Pad-method-onpointingstart'>        /**
+</span>         * @TODO ?
          */
         onpointingstart: function() {
-<span id='tm-ui-Pad-method-onpointingend'>            this.isTouching = true;
-</span>        },
+            this.isTouching = true;
+        },
 
-        /**
-         * @TODO ?
+<span id='tm-ui-Pad-method-onpointingend'>        /**
+</span>         * @TODO ?
          */
         onpointingend: function() {
             this.isTouching = false;
-<span id='tm-ui-Pad-method-onpointingmove'>            this.circle.position.set(0, 0);
-</span>        },
+            this.circle.position.set(0, 0);
+        },
 
-        /**
-         * @TODO ?
+<span id='tm-ui-Pad-method-onpointingmove'>        /**
+</span>         * @TODO ?
          */
         onpointingmove: function(e) {
             if (this.isTouching==false) return ;
