@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * sketch.js
+ */
+
+;(function() {
+    
+    var DEFAULT_PARAM = {
+        bgColor: &quot;rgba(255, 255, 255, 1.0)&quot;,
+        penColor: &quot;rgba(0, 0, 0, 1.0)&quot;,
+        lineWidth: 16,
+    };
+    
+<span id='tm-ui-Sketch'>    /**
+</span>     * @class tm.ui.Sketch
+     * Sketch
+     * @extends tm.display.Shape
+     */
+    tm.define(&quot;tm.ui.Sketch&quot;, {
+        superClass: &quot;tm.display.Shape&quot;,
+        
+<span id='tm-ui-Sketch-method-constructor'>        /**
+</span>         * @constructor
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            
+            param = param || {};
+            param.$safe(DEFAULT_PARAM);
+            this._setup(param);
+        },
+        
+        _setup: function(param) {
+            var self = this;
+            
+            // setup this
+            this.boundingType = &quot;rect&quot;;
+            this.setInteractive(true);
+            
+            // setup canvas
+            var c = this.canvas.context;
+            c.lineCap  = &quot;round&quot;;
+            c.lineJoin = &quot;round&quot;;
+            c.miterLimit = 10.0;
+            this.bgColor = param.bgColor;
+            this.penColor = param.penColor;
+            this.lineWidth = param.lineWidth;
+            
+            // setup event
+            this.on(&quot;pointingstart&quot;, function(e) {
+                var p = e.app.pointing;
+                
+                self._drawPoint(p.position);
+            });
+            this.on(&quot;pointingmove&quot;, function(e) {
+                var p = e.app.pointing;
+                self._drawLine(p.prevPosition, p.position);
+            });
+        },
+        
+        clear: function() {
+            this.canvas.clear();
+            this.canvas.clearColor(this.bgColor);
+            
+            return this;
+        },
+        
+        _drawPoint: function(p) {
+            this.canvas.drawPoint(p.x-this.left, p.y-this.top);
+        },
+        
+        _drawLine: function(p, prev) {
+            this.canvas.drawLine(
+                p.x-this.left, p.y-this.top,
+                prev.x-this.left, prev.y-this.top
+            );
+        },
+        
+    });
+
+<span id='tm-ui-Sketch-property-penColor'>    /**
+</span>     * @property    penColor
+     * penColor
+     */
+    tm.ui.Sketch.prototype.accessor(&quot;penColor&quot;, {
+        &quot;get&quot;: function()   { return this._penColor; },
+        &quot;set&quot;: function(v)  {
+            this._penColor = v;
+            this.canvas.strokeStyle = v;
+        }
+    });
+    
+<span id='tm-ui-Sketch-property-bgColor'>    /**
+</span>     * @property    bgColor
+     * bgColor
+     */
+    tm.ui.Sketch.prototype.accessor(&quot;bgColor&quot;, {
+        &quot;get&quot;: function()   { return this._bgColor; },
+        &quot;set&quot;: function(v)  {
+            this._bgColor = v;
+            this.clear();
+        }
+    });
+    
+<span id='tm-ui-Sketch-property-lineWidth'>    /**
+</span>     * @property    lineWidth
+     * lineWidth
+     */
+    tm.ui.Sketch.prototype.accessor(&quot;lineWidth&quot;, {
+        &quot;get&quot;: function()   { return this._lineWidth; },
+        &quot;set&quot;: function(v)  {
+            this._lineWidth = v;
+            this.canvas.lineWidth = v;
+        }
+    });
+
+    
+})();
+
+</pre>
+</body>
+</html>

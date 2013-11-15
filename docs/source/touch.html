@@ -55,9 +55,12 @@ tm.input = tm.input || {};
             
             var self = this;
             this.element.addEventListener(&quot;touchstart&quot;, function(e){
-                self._touchmove(e);
-                self.prevPosition.set(self._x, self._y);    // prevPostion をリセット
                 self.touched = true;
+                
+                self._touchmove(e);
+                // 最初だけセット
+                self.position.set(self._x, self._y);
+                self.prevPosition.set(self._x, self._y);    // prevPostion をリセット
             });
             this.element.addEventListener(&quot;touchend&quot;, function(e){
                 self.touched = false;
@@ -124,9 +127,9 @@ tm.input = tm.input || {};
             this.deltaPosition.x = this._x - this.prevPosition.x;
             this.deltaPosition.y = this._y - this.prevPosition.y;
             
-            // 前回の座標を更新
-<span id='tm-input-Touch-method-getTouch'>            this.prevPosition.setObject(this.position);
-</span>            
+<span id='tm-input-Touch-method-getTouch'>            // 前回の座標を更新
+</span>            this.prevPosition.setObject(this.position);
+            
             // 現在の位置を更新
 <span id='tm-input-Touch-method-getTouchStart'>            this.position.set(this._x, this._y);
 </span>        },
@@ -134,9 +137,9 @@ tm.input = tm.input || {};
         /**
          * タッチしているかを判定
          */
-        getTouch: function() {
-<span id='tm-input-Touch-method-getTouchEnd'>            return this.touched != 0;
-</span>        },
+<span id='tm-input-Touch-method-getTouchEnd'>        getTouch: function() {
+</span>            return this.touched != 0;
+        },
         
         /**
          * タッチ開始時に true
@@ -154,10 +157,10 @@ tm.input = tm.input || {};
 
         /**
          * @TODO ?
-         * @private
-         */
-<span id='tm-input-Touch-method-_touchmoveScale'>        _touchmove: function(e) {
-</span>            var t = e.touches[0];
+<span id='tm-input-Touch-method-_touchmoveScale'>         * @private
+</span>         */
+        _touchmove: function(e) {
+            var t = e.touches[0];
             var r = e.target.getBoundingClientRect();
             this._x = t.clientX - r.left;
             this._y = t.clientY - r.top;
@@ -181,39 +184,39 @@ tm.input = tm.input || {};
             }
         },
         
-    });
+<span id='tm-input-Touch-property-y'>    });
+</span>    
     
-<span id='tm-input-Touch-property-y'>    
-</span>
+
     /**
      * @property    x
      * x座標値
      */
     tm.input.Touch.prototype.accessor(&quot;x&quot;, {
         &quot;get&quot;: function()   { return this.position.x; },
-        &quot;set&quot;: function(v)  { this.position.x = v; }
-<span id='tm-input-Touch-property-dx'>    });
-</span>    
+<span id='tm-input-Touch-property-dx'>        &quot;set&quot;: function(v)  { this.position.x = v; }
+</span>    });
+    
     /**
      * @property    y
      * y座標値
      */
     tm.input.Touch.prototype.accessor(&quot;y&quot;, {
         &quot;get&quot;: function()   { return this.position.y; },
-        &quot;set&quot;: function(v)  { this.position.y = v; }
-    });
-<span id='tm-input-Touch-property-dy'>    
-</span>    /**
+<span id='tm-input-Touch-property-dy'>        &quot;set&quot;: function(v)  { this.position.y = v; }
+</span>    });
+    
+    /**
      * @property    dx
      * dx値
      */
     tm.input.Touch.prototype.accessor(&quot;dx&quot;, {
         &quot;get&quot;: function()   { return this.deltaPosition.x; },
         &quot;set&quot;: function(v)  { this.deltaPosition.x = v; }
-    });
-    
-<span id='tm-input-Touch-method-getPointing'>    /**
-</span>     * @property    dy
+<span id='tm-input-Touch-method-getPointing'>    });
+</span>    
+    /**
+     * @property    dy
      * dy値
      */
     tm.input.Touch.prototype.accessor(&quot;dy&quot;, {
@@ -288,9 +291,9 @@ tm.input = tm.input || {};
                 for (var i=0; i&lt;length; ++i) {
                     if (self[i]._touch == e.changedTouches[0]) {
                         self[i]._touch = null;
-                        self[i].touched = false;
-<span id='tm-input-Touches-method-update'>                    }
-</span>                }
+<span id='tm-input-Touches-method-update'>                        self[i].touched = false;
+</span>                    }
+                }
             });
             this.element.addEventListener(&quot;touchmove&quot;, function(e){
                 for (var i=0; i&lt;length; ++i) {

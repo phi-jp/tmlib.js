@@ -11,7 +11,7 @@
     };
     
     /**
-     * @class
+     * @class tm.ui.Sketch
      * Sketch
      * @extends tm.display.Shape
      */
@@ -57,6 +57,9 @@
             });
         },
         
+        /**
+         * 画面をbgColor色でクリアする
+         */
         clear: function() {
             this.canvas.clear();
             this.canvas.clearColor(this.bgColor);
