@@ -1,12 +1,12 @@
 
 
-tm.define("tests.canvaselement.GaugeTestScene", {
+tm.define("tests.gauge.GaugeTest", {
     superClass: "tm.app.Scene",
  
     init: function() {
         this.superInit();
         
-        var gauge      = tm.ui.Gauge(300, 25, "white", "left").addChildTo(this).setPosition(85, 100);
+        var gauge      = tm.ui.Gauge().addChildTo(this).setPosition(85, 100);
         var upButton   = tm.ui.GlossyButton(100, 50, "red", "up").addChildTo(this).setPosition(SCREEN_CENTER_X-50, 350);
         var downButton = tm.ui.GlossyButton(100, 50, "blue", "down").addChildTo(this).setPosition(SCREEN_CENTER_X+50, 350);
         
@@ -16,6 +16,73 @@ tm.define("tests.canvaselement.GaugeTestScene", {
         downButton.onpointingstart = function() {
             gauge.value -= 10;
         };
+    },
+
+});
+
+
+
+tm.define("tests.gauge.FlatGaugeTest", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+        
+        var gauge = tm.ui.FlatGauge({
+            color: "hsl(220, 100%, 50%)",
+            bgColor: "red",
+            borderColor: "white",
+        }).addChildTo(this).setPosition(85, 100);
+        var upButton   = tm.ui.GlossyButton(100, 50, "red", "up").addChildTo(this).setPosition(SCREEN_CENTER_X-50, 350);
+        var downButton = tm.ui.GlossyButton(100, 50, "blue", "down").addChildTo(this).setPosition(SCREEN_CENTER_X+50, 350);
+        
+        upButton.onpointingstart = function() {
+            gauge.value += 10;
+            updateColor();
+        };
+        downButton.onpointingstart = function() {
+            gauge.value -= 10;
+            updateColor();
+        };
+        
+        var updateColor = function() {
+            var angle = 360*gauge.getRatio();
+            gauge.fillStyle = "hsl({0}, 80%, 50%)".format(angle);
+        };
+        updateColor();
+    },
+
+});
+
+
+tm.define("tests.gauge.GlossyGaugeTest", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+        
+        var gauge      = tm.ui.GlossyGauge({
+            color: "hsl(220, 100%, 50%)",
+            bgColor: "#444",
+            borderColor: "white",
+        }).addChildTo(this).setPosition(85, 100);
+        var upButton   = tm.ui.GlossyButton(100, 50, "red", "up").addChildTo(this).setPosition(SCREEN_CENTER_X-50, 350);
+        var downButton = tm.ui.GlossyButton(100, 50, "blue", "down").addChildTo(this).setPosition(SCREEN_CENTER_X+50, 350);
+        
+        upButton.onpointingstart = function() {
+            gauge.value += 10;
+            // updateColor();
+        };
+        downButton.onpointingstart = function() {
+            gauge.value -= 10;
+            // updateColor();
+        };
+        
+        var updateColor = function() {
+            var angle = 360*gauge.getRatio();
+            gauge.fillStyle = "hsl({0}, 80%, 50%)".format(angle);
+        };
+        // updateColor();
     },
 
 });
