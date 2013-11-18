@@ -50,6 +50,26 @@ tm.util = tm.util || {};
             var ajax_params = "";
             var conv_func = tm.util.Ajax.DATA_CONVERTE_TABLE[params.dataType];
             
+            var url = params.url;
+            if (params.data) {
+                var query = "";
+                if (typeof params.data == 'string') {
+                    query = params.data;
+                    // query = encodeURIComponent(params.data);
+                }
+                else {
+                    query = tm.util.QueryString.stringify(params.data);
+                }
+                
+                if (params.type == 'GET') {
+                    params.url += '?' + query;
+                    params.data = null;
+                }
+                else if (params.type == 'POST') {
+                    params.data = query;
+                }
+            }
+            
             // コールバック
             httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState == 4) {
@@ -74,9 +94,13 @@ tm.util = tm.util || {};
                 }
             };
             
+            
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
-            httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
-            httpRequest.send(null);
+            if (params.type === "POST") {
+                httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
+            }
+            
+            httpRequest.send(params.data);
         },
         
         /**
