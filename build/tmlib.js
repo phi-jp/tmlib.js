@@ -8023,7 +8023,7 @@ tm.input = tm.input || {};
         /* @property */
         "back slash"    : 220,
         /* @property */
-        "close braket"  : 221,
+        "close bracket"  : 221,
         /* @property */
         "single quote"  : 222,
         /* @property */
