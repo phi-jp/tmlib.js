@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html ng-app>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <title>Tutorial | tmlib.js</title>
+        
+        <link rel="shortcut icon" href="logo.png" />
+        <link rel="apple-touch-icon-precomposed" href="icon.png" />
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="./index.html">tmlib.js</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="./usage.html">Usage</a></li>
+                        <li class="active"><a href="./tutorial.html">Tutorial</a></li>
+                        <li><a href="./example.html">Example</a></li>
+                        <li><a href="./docs/index.html">Docs</a></li>
+                        <li><a href="http://banraku-games.sakura.ne.jp/" target="_blank">Assets</a></li>
+                        <li><a href="http://tmlife.net" target="_blank">Blog</a></li>
+                        <li><a href="https://twitter.com/phi_jp" target="_blank">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div>
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="ヒヨコ始めました!! 『JavaScript ライブラリ tmlib.js』" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
+                                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+<a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
+<script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="http://b.hatena.ne.jp/entry/http://phi-jp.github.io/tmlib.js/" class="hatena-bookmark-button" data-hatena-bookmark-title="tmlib.js" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            
+            <div class="row">
+                <div class="sidebar col-lg-3">
+                    <ol class="well affix">
+                        <h4 style="text-align:center;">Table of contents</h4>
+                        <li>
+                            <a href="#1">ひな形を用意しよう</a>
+                        </li>
+                        <li>
+                            <a href="#">シーンを切り換えてみよう</a>
+                        </li>
+                        <li>
+                            <a href="#">図形を表示しよう</a>
+                        </li>
+                        <li>
+                            <a href="#">図形を動かしてみよう</a>
+                        </li>
+                        <li>
+                            <a href="#">画像(Sprite)を表示しよう</a>
+                        </li>
+                        <li>
+                            <a href="#">文字(Label)を表示しよう</a>
+                        </li>
+                        <li>
+                            <a href="#">タッチに反応させてみよう</a>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="#">アニメーションさせてみよう</a>
+                        </li>
+                        -->
+                    </ol>
+                </div>
+                <div class="col-lg-9">
+                    <div class="page-header">
+                        <h1>
+                            tmlib.js tutorial
+                        </h1>
+                    </div>
+                    <p>
+                        tmlib.js のチュートリアルです.
+                    </p>
+                    
+                    <div>
+                        <h2 id="usage" style="padding-top:100px">
+                            tmlib.js の使い方
+                        </h2>
+                        <p>
+                            tmlib.js を script タグで読み込むだけです.
+                            これだけで tmlib.js の全ての機能が使えるようになります.
+                        </p>
+                        <pre class="prettyprint linenums">
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot; /&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no&quot; /&gt;
+        &lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot; /&gt;
+
+        &lt;title&gt;start tmlib.js&lt;/title&gt;
+
+        &lt;script src=&quot;http://rawgithub.com/phi-jp/tmlib.js/0.2.0/build/tmlib.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+            // TODO: ここにコードを書いていく
+            tm.main(function() {
+                alert("tmlib.js バッチリ読み込まれてるよ！！");
+            });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p>
+                    Copyright © TM Life. All Rights Reserved.
+                </p>
+                <ul class="footer-links">
+                    <li><a href="http://tmlife.net">Blog</a></li>
+                    <li class="muted">·</li>
+                    <li><a href="https://github.com/phi1618/tmlib.js/issues?state=open">Issues</a></li>
+                    <li class="muted">·</li>
+                    <li><a href="https://github.com/phi1618/tmlib.js/blob/master/CHANGELOG.md">Changelog</a></li>
+                </ul>
+            </div>
+        </footer>
+
+        <!-- Github ribbon -->
+        <a href="https://github.com/phi-jp/tmlib.js/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+
+
+        <script src="build/tmlib.js"></script>
+        
+        <!-- hiyoko -->
+        <link rel="stylesheet" href="plugins/hiyoko/hiyoko.css">
+        <script src="plugins/hiyoko/hiyoko.js"></script>
+
+        <style>
+        body {
+            padding-top: 50px;
+        }
+
+        @media(min-width:1200px) {
+            .container {
+                width: 1000px;
+            }
+        }
+        
+        .page-header {
+            border-bottom: 1px solid #eee;
+            margin: 40px 0 20px;
+            padding-bottom: 9px;
+        }
+
+        .sidebar .well {
+            padding: 19px 15px;
+            min-width: 220px;
+        }
+
+        .sidebar .affix {
+            top: 100px;
+        }
+
+        .sidebar ol {
+            font-size: 13px;
+            list-style-type: decimal;
+            list-style-position: inside;
+        }
+        .sidebar ol>li>a {
+            display: inline-block;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        
+
+
+        </style>
+
+        <link href='http://fonts.googleapis.com/css?family=Mystery+Quest' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/base.css" />
+        <link rel="stylesheet" href="css/header.css" />
+        <link rel="stylesheet" href="css/footer.css" />
+        
+        <style>
+        body {
+            padding-top: 80px;
+        }
+        </style>
+        
+        <!-- prettify -->
+        <link rel="stylesheet" href="plugins/prettify/prettify.css" />
+        <script src="plugins/prettify/prettify.js"></script>
+        <script>prettyPrint();</script>
+
+
+    </body>
+</html>
