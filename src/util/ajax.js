@@ -70,6 +70,8 @@ tm.util = tm.util || {};
                 }
             }
             
+            httpRequest.withCredentials = true;
+            
             // コールバック
             httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState == 4) {
