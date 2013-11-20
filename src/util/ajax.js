@@ -30,7 +30,9 @@ tm.util = tm.util || {};
         /* @property success */
         success : function(data){ alert("success!!\n"+data); },
         /* @property error */
-        error   : function(data){ alert("error!!"); }
+        error   : function(data){ alert("error!!"); },
+        /* @property beforeSend */
+        beforeSend: null,
     };
     
     /**
@@ -100,6 +102,10 @@ tm.util = tm.util || {};
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
             if (params.type === "POST") {
                 httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
+            }
+            
+            if (params.beforeSend) {
+                params.beforeSend(httpRequest);
             }
             
             httpRequest.send(params.data);
