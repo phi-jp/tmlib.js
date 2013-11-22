@@ -100,6 +100,29 @@ tm.display = tm.display || {};
             
             c.restore();
         },
+        
+        /**
+         * 角丸四角形を描画
+         */
+        renderRoundRectangle: function(param) {
+            var c = this.canvas;
+            param = {}.$extend(tm.display.Shape.DEFAULT_SHAPE_PARAM_ROUND_RECTANGLE, param);
+
+            c.save();
+            
+            // パラメータセット
+            c.fillStyle = param.fillStyle;
+            c.strokeStyle = param.strokeStyle;
+            c.lineWidth = param.lineWidth;
+            
+            // 描画
+            var lw      = Number(c.lineWidth);
+            var lw_half = lw/2;
+            c.fillRoundRect(0, 0, this.width, this.height, param.radius);
+            c.strokeRoundRect(lw_half, lw_half, this.width-lw, this.height-lw, param.radius);
+            
+            c.restore();
+        },
 
         /**
          * @TODO ?
@@ -224,6 +247,14 @@ tm.display = tm.display || {};
     };
 
     /** @static @property  */
+    tm.display.Shape.DEFAULT_SHAPE_PARAM_ROUND_RECTANGLE = {
+        fillStyle: "blue",
+        strokeStyle: "white",
+        lineWidth: "2",
+        radius: 10,
+    };
+
+    /** @static @property  */
     tm.display.Shape.DEFAULT_SHAPE_PARAM_STAR = {
         fillStyle: "yellow",
         strokeStyle: "white",
@@ -342,6 +373,33 @@ tm.display = tm.display || {};
             this.superInit(width, height);
             // 描画
             this.renderRectangle(param);
+        },
+        
+    });
+    
+})();
+
+
+
+
+(function() {
+    
+    /**
+     * @class tm.display.RoundRectangleShape
+     * 簡単に矩形を描画できるクラス
+     * @extends tm.display.Shape
+     */
+    tm.display.RoundRectangleShape = tm.createClass({
+        
+        superClass: tm.display.Shape,
+        
+        /**
+         * @constructor
+         */
+        init: function(width, height, param) {
+            this.superInit(width, height);
+            // 描画
+            this.renderRoundRectangle(param);
         },
         
     });

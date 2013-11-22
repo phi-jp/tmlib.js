@@ -14,6 +14,7 @@ tm.define("tests.shape.ShapeTest", {
                 { type: "StarShape", name: "star", x: 400, y: 100 },
                 { type: "PolygonShape", name: "polygon", x: 500, y: 100 },
                 { type: "HeartShape", init: [50, 50], name: "heart", x: 300, y: 200 },
+                { type: "RoundRectangleShape", name: "heart", x: 200, y: 200 },
                 { type: "TextShape", init: [200, 50, {
 
                 }], name: "text", x: 300, y: 300 },
