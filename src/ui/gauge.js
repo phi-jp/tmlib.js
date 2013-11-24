@@ -114,7 +114,7 @@
          * @TODO ?
          */
         setPercent: function(percent) {
-            this.setValue(this._maxValue*percent*0.01);
+            return this.setValue(this._maxValue*percent*0.01);
         },
 
         /**
@@ -128,7 +128,7 @@
          * @TODO ?
          */
         setRatio: function(ratio) {
-            this.setValue(this._maxValue*percent);
+            return this.setValue(this._maxValue*percent);
         },
 
         /**
