@@ -72,7 +72,7 @@ tm.util = tm.util || {};
                 }
             }
             
-            httpRequest.withCredentials = true;
+            // httpRequest.withCredentials = true;
             
             // コールバック
             httpRequest.onreadystatechange = function() {

@@ -2092,7 +2092,7 @@ tm.util = tm.util || {};
                 }
             }
             
-            httpRequest.withCredentials = true;
+            // httpRequest.withCredentials = true;
             
             // コールバック
             httpRequest.onreadystatechange = function() {
@@ -16216,7 +16216,7 @@ tm.ui = tm.ui || {};
          * @TODO ?
          */
         setPercent: function(percent) {
-            this.setValue(this._maxValue*percent*0.01);
+            return this.setValue(this._maxValue*percent*0.01);
         },
 
         /**
@@ -16230,7 +16230,7 @@ tm.ui = tm.ui || {};
          * @TODO ?
          */
         setRatio: function(ratio) {
-            this.setValue(this._maxValue*percent);
+            return this.setValue(this._maxValue*percent);
         },
 
         /**

@@ -9,7 +9,6 @@
     "test": "test"
   },
   "scripts": {
-    "preinstall": "npm install -g grunt-cli",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
