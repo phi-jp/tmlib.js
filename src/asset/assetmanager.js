@@ -192,6 +192,7 @@
     tm.asset.AssetManager.register("wav", _soundFunc);
     tm.asset.AssetManager.register("mp3", _soundFunc);
     tm.asset.AssetManager.register("ogg", _soundFunc);
+    tm.asset.AssetManager.register("m4a", _soundFunc);
 
     // json
     tm.asset.AssetManager.register("json", _jsonFunc);
