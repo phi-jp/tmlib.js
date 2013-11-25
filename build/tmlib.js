@@ -7518,6 +7518,7 @@ tm.dom = tm.dom || {};
     tm.asset.AssetManager.register("wav", _soundFunc);
     tm.asset.AssetManager.register("mp3", _soundFunc);
     tm.asset.AssetManager.register("ogg", _soundFunc);
+    tm.asset.AssetManager.register("m4a", _soundFunc);
 
     // json
     tm.asset.AssetManager.register("json", _jsonFunc);
@@ -12699,7 +12700,11 @@ tm.app = tm.app || {};
                 if (param.assets) {
                     tm.asset.AssetManager.onload = function() {
                         this.tweener.clear().fadeOut(200).call(function() {
-                            this.app.replaceScene(param.nextScene());
+                            if (param.nextScene) {
+                                this.app.replaceScene(param.nextScene());
+                            }
+                            var e = tm.event.Event("load");
+                            this.fire(e);
                         }.bind(this));
                     }.bind(this);
                     tm.asset.AssetManager.load(param.assets);
