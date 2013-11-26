@@ -311,12 +311,12 @@ tm.graphics = tm.graphics || {};
     /** @property width  幅 */
     tm.graphics.Bitmap.prototype.accessor("width", {
         "get": function()   { return this.imageData.width; },
-        "set": function(v)  { this.iamgeData.width = v;    }
+        "set": function(v)  { this.imageData.width = v;    }
     });
     /** @property height  高さ */
     tm.graphics.Bitmap.prototype.accessor("height", {
         "get": function()   { return this.imageData.height; },
-        "set": function(v)  { this.iamgeData.height = v;    }
+        "set": function(v)  { this.imageData.height = v;    }
     });
     /** @property length */
     tm.graphics.Bitmap.prototype.getter("length", function() {
