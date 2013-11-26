@@ -344,7 +344,7 @@ tm.graphics = tm.graphics || {};
      * @member tm.asset.Texture
      * ビットマップ生成
      */
-    tm.asset.Texture.prototype.createBitmap = function(width, height) {
+    tm.asset.Texture.prototype.getBitmap = function(width, height) {
         var canvas = tm.graphics.Canvas();
         canvas.resize(this.width, this.height);
         canvas.drawTexture(this, 0, 0, this.width, this.height);
