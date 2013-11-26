@@ -340,6 +340,17 @@ tm.graphics = tm.graphics || {};
         return tm.graphics.Bitmap(this.context.createImageData(width||this.width, height||this.height));
     };
 
+    /**
+     * @member tm.asset.Texture
+     * ビットマップ生成
+     */
+    tm.asset.Texture.prototype.createBitmap = function(width, height) {
+        var canvas = tm.graphics.Canvas();
+        canvas.resize(this.width, this.height);
+        canvas.drawTexture(this, 0, 0, this.width, this.height);
+        return canvas.getBitmap(width, height);
+    };
+
     var dummyCanvas = null;
     var dummyContext = null;
 })();
