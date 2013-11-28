@@ -94,6 +94,7 @@ module.exports = function(grunt) {
     "src/ui/menudialog.js",
     "src/ui/sketch.js",
     "src/ui/gauge.js",
+    "src/ui/loadingscene.js",
     
     "src/three/three.js",
 

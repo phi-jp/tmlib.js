@@ -132,11 +132,16 @@
 
                 loadMultiData: function() {
                     var as = tm.asset.AssetManager;
+                    
                     as.load({
                         "kenkyo": "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg",
                         "sample": { url: "../../resource/tmss/crash.tmss", type: "json" },
                         "foo": { url: {hoge:100, foo:200}, type: "json" },
                     });
+                    
+                    as.onprogress = function(e) {
+                        console.log("progress", e.progress);
+                    };
                     as.onload = function() {
                         console.dir(as);
                     };
