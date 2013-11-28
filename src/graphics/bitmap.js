@@ -311,12 +311,12 @@ tm.graphics = tm.graphics || {};
     /** @property width  幅 */
     tm.graphics.Bitmap.prototype.accessor("width", {
         "get": function()   { return this.imageData.width; },
-        "set": function(v)  { this.iamgeData.width = v;    }
+        "set": function(v)  { this.imageData.width = v;    }
     });
     /** @property height  高さ */
     tm.graphics.Bitmap.prototype.accessor("height", {
         "get": function()   { return this.imageData.height; },
-        "set": function(v)  { this.iamgeData.height = v;    }
+        "set": function(v)  { this.imageData.height = v;    }
     });
     /** @property length */
     tm.graphics.Bitmap.prototype.getter("length", function() {
@@ -338,6 +338,17 @@ tm.graphics = tm.graphics || {};
      */
     tm.graphics.Canvas.prototype.createBitmap = function(width, height) {
         return tm.graphics.Bitmap(this.context.createImageData(width||this.width, height||this.height));
+    };
+
+    /**
+     * @member tm.asset.Texture
+     * ビットマップ生成
+     */
+    tm.asset.Texture.prototype.getBitmap = function(width, height) {
+        var canvas = tm.graphics.Canvas();
+        canvas.resize(this.width, this.height);
+        canvas.drawTexture(this, 0, 0, this.width, this.height);
+        return canvas.getBitmap(width, height);
     };
 
     var dummyCanvas = null;
