@@ -77,6 +77,9 @@ tm.event = tm.event || {};
          * リスナーを全てクリア
          */
         clearEventListener: function(type) {
+            var oldEventName = 'on' + type;
+            if (this[oldEventName]) delete this[oldEventName];
+
             this._listeners[type] = [];
             return this;
         },
