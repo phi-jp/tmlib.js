@@ -129,6 +129,10 @@
         isLoaded: function() {
             return (this._loadedCounter == Object.keys(this.assets).length);
         },
+        
+        getProgress: function() {
+            return (this._loadedCounter / Object.keys(this.assets).length);
+        },
 
         /**
          * @TODO ?
@@ -136,7 +140,11 @@
          */
         _checkLoadedFunc: function() {
             this._loadedCounter++;
-
+            
+            var e = tm.event.Event("progress");
+            e.progress = this.getProgress();
+            this.dispatchEvent(e);
+            
             if (this.isLoaded()) {
                 var e = tm.event.Event("load");
                 this.dispatchEvent(e);
