@@ -14234,7 +14234,11 @@ tm.display = tm.display || {};
             return this._image;
         },
         "set": function(image)  {
-            if (typeof image == "string") image = tm.asset.AssetManager.get(image);
+            if (typeof image == "string") {
+                var key = image;
+                image = tm.asset.AssetManager.get(key);
+                console.assert(image != null, "don't find '" + key + "' as image.");
+            }
             
             this._image = image;
             this.srcRect.x = 0;
