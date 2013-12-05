@@ -24,6 +24,10 @@ tm.define("tests.object2d.origin", {
         
         var shape = tm.display.CircleShape().addChildTo(group);
         shape.setAlpha(0.5).setOrigin(1, 1);
+        
+        this.one("pointingstart", function() {
+            console.log("hoge");
+        });
     },
 
 });

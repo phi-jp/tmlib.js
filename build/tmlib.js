@@ -1930,6 +1930,20 @@ tm.event = tm.event || {};
             return this;
         },
         
+        one: function(type, listener) {
+            var self = this;
+            
+            var func = function() {
+                var result = listener.apply(self, arguments);
+                self.off(type, func);
+                return result;
+            };
+            
+            this.on(type, func);
+            
+            return this;
+        },
+        
         /**
          * 登録されたイベントがあるかをチェック
          */
@@ -1942,6 +1956,9 @@ tm.event = tm.event || {};
          * リスナーを全てクリア
          */
         clearEventListener: function(type) {
+            var oldEventName = 'on' + type;
+            if (this[oldEventName]) delete this[oldEventName];
+
             this._listeners[type] = [];
             return this;
         },

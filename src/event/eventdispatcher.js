@@ -65,6 +65,20 @@ tm.event = tm.event || {};
             return this;
         },
         
+        one: function(type, listener) {
+            var self = this;
+            
+            var func = function() {
+                var result = listener.apply(self, arguments);
+                self.off(type, func);
+                return result;
+            };
+            
+            this.on(type, func);
+            
+            return this;
+        },
+        
         /**
          * 登録されたイベントがあるかをチェック
          */
