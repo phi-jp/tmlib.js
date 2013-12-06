@@ -44,7 +44,6 @@
         		success: function(d) {
         			this.parse(d);
         			this.loaded = true;
-        			this.dispatchEvent(tm.event.Event("load"));
         		}.bind(this),
         	});
         },
