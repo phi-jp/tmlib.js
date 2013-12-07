@@ -13,13 +13,13 @@
         superClass: "tm.event.EventDispatcher",
 
         /** @property loaded  */
-        
+
         /**
          * @constructor
          */
         init: function(path) {
             this.superInit();
-            
+
             this.loaded = false;
 
             if (typeof path == "string") {
@@ -34,7 +34,7 @@
             }
             else {
                 this.$extend(arguments[0]);
-                
+
                 this._checkImage();
             }
         },
@@ -57,10 +57,10 @@
 
             // layer
             data.layers = this._parseLayers(xml);
-            
+
             return data;
         },
-        
+
         /**
          * @TODO ?
          * @private
@@ -73,7 +73,7 @@
             each.call(tilesets, function(tileset) {
                 var t = {};
                 var props = self._propertiesToJson(tileset);
-                
+
                 if (props.src) {
                     t.image = props.src;
                 }
@@ -82,10 +82,10 @@
                 }
                 data.push(t);
             });
-            
+
             return data;
         },
-        
+
         /**
          * @TODO ?
          * @private
@@ -128,13 +128,13 @@
                     };
                     each.call(layer.childNodes, function(elm) {
                         if (elm.nodeType == 3) return ;
-                        
+
                         var d = this._attrToJSON(elm);
                         d.properties = this._propertiesToJson(elm);
-                        
+
                         l.objects.push(d);
                     }.bind(this));
-                    
+
                     data.push(l);
                 }
             }.bind(this));
@@ -174,23 +174,23 @@
                 var n = dataList[i*4];
                 rst[i] = parseInt(n, 10) - 1;
             }
-            
+
             return rst;
         },
-        
+
         /**
          * @TODO ?
          * @private
          */
-        _propertiesToJson: function(elm) {
+        _propertiesToJson: function(properties) {
             var obj = {};
             for (var k = 0;k < properties.length;k++) {
                 obj[properties[k].getAttribute('name')] = properties[k].getAttribute('value');
             }
-            
+
             return obj;
         },
-        
+
         /**
          * @TODO ?
          * @private
@@ -202,10 +202,10 @@
                 val = isNaN(parseFloat(val))? val: parseFloat(val);
                 obj[source.attributes[i].name] = val;
             }
-            
+
             return obj;
         },
-        
+
         /**
          * @TODO ?
          * @private
@@ -215,7 +215,7 @@
             if (this.tilesets.length) {
                 var i = 0;
                 var len = this.tilesets.length;
-                
+
                 var _onloadimage = function() {
                     i++;
                     if (i==len) {
@@ -224,10 +224,10 @@
                         this.dispatchEvent(e);
                     }
                 }.bind(this);
-                
+
                 this.tilesets.each(function(elm) {
                     var image = tm.asset.AssetManager.get(elm.image)
-                    
+
                     if (image) {
                         if (image.loaded) {
                             // ロード済み
@@ -248,7 +248,7 @@
                         texture.addEventListener("load", _onloadimage);
                     }
                 });
-                
+
             }
             else {
                 this.loaded = true;
