@@ -689,7 +689,9 @@ if (typeof module !== 'undefined' && module.exports) {
      */
     Array.defineInstanceMethod("erase", function(elm) {
         var index  = this.indexOf(elm);
-        this.splice(index, 1);
+        if (index >= 0) {
+            this.splice(index, 1);
+        }
         return this;
     });
     
