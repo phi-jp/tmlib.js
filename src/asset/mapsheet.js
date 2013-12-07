@@ -118,6 +118,9 @@
                         l.data = this._parseBase64(d.textContent);
                     }
 
+                    var attr = this._attrToJSON(layer);
+                    l.$extend(attr);
+
                     data.push(l);
                 }
                 else if (layer.tagName == "objectgroup") {
@@ -182,10 +185,14 @@
          * @TODO ?
          * @private
          */
-        _propertiesToJson: function(properties) {
+        _propertiesToJson: function(elm) {
+            var properties = elm.getElementsByTagName("properties")[0];
             var obj = {};
-            for (var k = 0;k < properties.length;k++) {
-                obj[properties[k].getAttribute('name')] = properties[k].getAttribute('value');
+            for (var k = 0;k < properties.childNodes.length;k++) {
+                var p = properties.childNodes[k];
+                if (p.tagName === "property") {
+                    obj[p.getAttribute('name')] = p.getAttribute('value');
+                }
             }
 
             return obj;
