@@ -107,13 +107,11 @@
          */
         isHitPointRect: function(x, y) {
             // ここから下のバージョンは四角形
-            var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
-            // var globalPos = this;
             
-            var left   = globalPos.x - this.width*this.originX;
-            var right  = globalPos.x + this.width*(1-this.originX);
-            var top    = globalPos.y - this.height*this.originY;
-            var bottom = globalPos.y + this.height*(1-this.originY);
+            var left   = this.x - this.width*this.originX;
+            var right  = this.x + this.width*(1-this.originX);
+            var top    = this.y - this.height*this.originY;
+            var bottom = this.y + this.height*(1-this.originY);
             
             if ( left < x && x < right && top  < y && y < bottom ) { return true; }
             

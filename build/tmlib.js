@@ -7096,13 +7096,13 @@ tm.dom = tm.dom || {};
         superClass: "tm.event.EventDispatcher",
 
         /** @property loaded  */
-        
+
         /**
          * @constructor
          */
         init: function(path) {
             this.superInit();
-            
+
             this.loaded = false;
 
             if (typeof path == "string") {
@@ -7117,7 +7117,7 @@ tm.dom = tm.dom || {};
             }
             else {
                 this.$extend(arguments[0]);
-                
+
                 this._checkImage();
             }
         },
@@ -7140,10 +7140,10 @@ tm.dom = tm.dom || {};
 
             // layer
             data.layers = this._parseLayers(xml);
-            
+
             return data;
         },
-        
+
         /**
          * @TODO ?
          * @private
@@ -7156,7 +7156,7 @@ tm.dom = tm.dom || {};
             each.call(tilesets, function(tileset) {
                 var t = {};
                 var props = self._propertiesToJson(tileset);
-                
+
                 if (props.src) {
                     t.image = props.src;
                 }
@@ -7165,10 +7165,10 @@ tm.dom = tm.dom || {};
                 }
                 data.push(t);
             });
-            
+
             return data;
         },
-        
+
         /**
          * @TODO ?
          * @private
@@ -7201,6 +7201,9 @@ tm.dom = tm.dom || {};
                         l.data = this._parseBase64(d.textContent);
                     }
 
+                    var attr = this._attrToJSON(layer);
+                    l.$extend(attr);
+
                     data.push(l);
                 }
                 else if (layer.tagName == "objectgroup") {
@@ -7211,13 +7214,13 @@ tm.dom = tm.dom || {};
                     };
                     each.call(layer.childNodes, function(elm) {
                         if (elm.nodeType == 3) return ;
-                        
+
                         var d = this._attrToJSON(elm);
                         d.properties = this._propertiesToJson(elm);
-                        
+
                         l.objects.push(d);
                     }.bind(this));
-                    
+
                     data.push(l);
                 }
             }.bind(this));
@@ -7257,23 +7260,27 @@ tm.dom = tm.dom || {};
                 var n = dataList[i*4];
                 rst[i] = parseInt(n, 10) - 1;
             }
-            
+
             return rst;
         },
-        
+
         /**
          * @TODO ?
          * @private
          */
         _propertiesToJson: function(elm) {
+            var properties = elm.getElementsByTagName("properties")[0];
             var obj = {};
-            for (var k = 0;k < properties.length;k++) {
-                obj[properties[k].getAttribute('name')] = properties[k].getAttribute('value');
+            for (var k = 0;k < properties.childNodes.length;k++) {
+                var p = properties.childNodes[k];
+                if (p.tagName === "property") {
+                    obj[p.getAttribute('name')] = p.getAttribute('value');
+                }
             }
-            
+
             return obj;
         },
-        
+
         /**
          * @TODO ?
          * @private
@@ -7285,10 +7292,10 @@ tm.dom = tm.dom || {};
                 val = isNaN(parseFloat(val))? val: parseFloat(val);
                 obj[source.attributes[i].name] = val;
             }
-            
+
             return obj;
         },
-        
+
         /**
          * @TODO ?
          * @private
@@ -7298,7 +7305,7 @@ tm.dom = tm.dom || {};
             if (this.tilesets.length) {
                 var i = 0;
                 var len = this.tilesets.length;
-                
+
                 var _onloadimage = function() {
                     i++;
                     if (i==len) {
@@ -7307,10 +7314,10 @@ tm.dom = tm.dom || {};
                         this.dispatchEvent(e);
                     }
                 }.bind(this);
-                
+
                 this.tilesets.each(function(elm) {
                     var image = tm.asset.AssetManager.get(elm.image)
-                    
+
                     if (image) {
                         if (image.loaded) {
                             // ロード済み
@@ -7331,7 +7338,7 @@ tm.dom = tm.dom || {};
                         texture.addEventListener("load", _onloadimage);
                     }
                 });
-                
+
             }
             else {
                 this.loaded = true;
@@ -12012,13 +12019,11 @@ tm.app = tm.app || {};
          */
         isHitPointRect: function(x, y) {
             // ここから下のバージョンは四角形
-            var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
-            // var globalPos = this;
             
-            var left   = globalPos.x - this.width*this.originX;
-            var right  = globalPos.x + this.width*(1-this.originX);
-            var top    = globalPos.y - this.height*this.originY;
-            var bottom = globalPos.y + this.height*(1-this.originY);
+            var left   = this.x - this.width*this.originX;
+            var right  = this.x + this.width*(1-this.originX);
+            var top    = this.y - this.height*this.originY;
+            var bottom = this.y + this.height*(1-this.originY);
             
             if ( left < x && x < right && top  < y && y < bottom ) { return true; }
             
@@ -15172,29 +15177,34 @@ tm.display = tm.display || {};
             var texture     = tm.asset.AssetManager.get(mapSheet.tilesets[0].image);
             var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
             var shape       = tm.display.Shape(this.width, this.height).addChildTo(this);
+            var visible = (layer.visible === 1) || (layer.visible === undefined);
+            var opacity = layer.opacity === undefined ? 1 : layer.opacity;
             shape.origin.set(0, 0);
 
-            layer.data.each(function(d, index) {
-                var type = d;
-                if (type == -1) {
-                    return ;
-                }
-                type = Math.abs(type);
+            if (visible) {
+                layer.data.each(function(d, index) {
+                    var type = d;
+                    if (type == -1) {
+                        return ;
+                    }
+                    type = Math.abs(type);
 
-                var xIndex = index%mapSheet.width;
-                var yIndex = (index/mapSheet.width)|0;
+                    var xIndex = index%mapSheet.width;
+                    var yIndex = (index/mapSheet.width)|0;
 
-                var mx = (type%xIndexMax);
-                var my = (type/xIndexMax)|0;
+                    var mx = (type%xIndexMax);
+                    var my = (type/xIndexMax)|0;
 
-                var dx = xIndex*self.chipWidth;
-                var dy = yIndex*self.chipHeight;
+                    var dx = xIndex*self.chipWidth;
+                    var dy = yIndex*self.chipHeight;
 
-                shape.canvas.drawTexture(texture,
-                    mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
-                    dx, dy, self.chipWidth, self.chipHeight
-                    );
-            }.bind(this));
+                    shape.canvas.globalAlpha = opacity;
+                    shape.canvas.drawTexture(texture,
+                        mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
+                        dx, dy, self.chipWidth, self.chipHeight
+                        );
+                }.bind(this));
+            }
 
         },
 
@@ -15204,11 +15214,11 @@ tm.display = tm.display || {};
          */
         _buildObject: function(layer) {
             var self = this;
-            
+
             var group = tm.display.CanvasElement().addChildTo(self);
             group.width = layer.width;
             group.height = layer.height;
-            
+
             layer.objects.forEach(function(obj) {
                 var _class = tm.using(obj.type);
                 if (Object.keys(_class).length === 0) {
@@ -15226,12 +15236,12 @@ tm.display = tm.display || {};
                     var value = props[key];
                     element[key] = value;
                 }
-                
+
                 element.x = obj.x;
                 element.y = obj.y;
                 element.width = obj.width;
                 element.height = obj.height;
-                
+
                 group[obj.name] = element;
             });
 
