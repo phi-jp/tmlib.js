@@ -279,6 +279,8 @@ tm.namespace("tm.app", function() {
             this.isPlay = true;
             this._tweens  = [];
             this._actions = [];
+            
+            return this;
         }
         
     });
