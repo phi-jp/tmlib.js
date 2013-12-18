@@ -39,16 +39,24 @@ tm.dom = tm.dom || {};
             var now = this.get(name);
             value = (now) ? now + ' ' + value : value;
             this.element.setAttribute(name, value);
+            return this;
         },
         
         /**
          * 属性を削除
          */
         remove: function(name, value) {
-            var now = this.get(name);
-            var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
-            this.element.setAttribute(name, next.trim());
-//            this.element.removeAttribute(name);
+            // value があるときはそれのみを削除する
+            if (value) {
+                var now = this.get(name);
+                var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
+                this.element.setAttribute(name, next.trim());
+            }
+            // ないときは属性そのものを削除する
+            else {
+                this.element.removeAttribute(name);
+            }
+            return this;
         },
         
         /**

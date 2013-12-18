@@ -43,46 +43,49 @@
             {
                 // コンソール生成
                 // var c = console;
-                var c = tm.Console("#console");
                 var eTarget = tm.dom.Element( "#test" );
 
                 eTarget.attr.add("class", "hoge");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
                 eTarget.attr.add("class", "foo");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
                 eTarget.attr.add("class", "bar");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
                 eTarget.attr.add("class", "buz");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
                 eTarget.attr.remove("class", "foo");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
-                c.log(eTarget.attr.contains("class", "foo"));
+                console.log(eTarget.attr.contains("class", "foo"));
 
                 console.dir(eTarget.element);
 
                 // toggle
                 eTarget.attr.toggle("class", "hoge");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
                 eTarget.attr.toggle("class", "hoge");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
                 eTarget.attr.toggle("class", "hoge");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
                 eTarget.attr.toggle("class", "hoge");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
                 eTarget.attr.toggle("class", "hoge");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
 
                 eTarget.attr.toggle("class", "hoge");
-                c.log(eTarget.attr.get("class"));
+                console.log(eTarget.attr.get("class"));
+                
+                // all remove
+                eTarget.attr.remove("class");
+                console.log(eTarget.attr.get("class"));
             };
             
         </script>
