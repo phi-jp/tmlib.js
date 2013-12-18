@@ -11530,6 +11530,8 @@ tm.app = tm.app || {};
             this.currentScene = scene;
             this.currentScene.app = this;
             this.currentScene.dispatchEvent(e);
+
+            return this;
         },
         
         /**
@@ -11548,6 +11550,8 @@ tm.app = tm.app || {};
             e.app = this;
             scene.app = this;
             scene.dispatchEvent(e);
+
+            return this;
         },
         
         /**
@@ -11588,6 +11592,8 @@ tm.app = tm.app || {};
             else {
                 console.warn("not defined stats.");
             }
+
+            return this;
         },
         
         /**
@@ -11606,6 +11612,8 @@ tm.app = tm.app || {};
          */
         start: function() {
             this.isPlaying = true;
+
+            return this;
         },
         
         /**
@@ -11613,6 +11621,8 @@ tm.app = tm.app || {};
          */
         stop: function() {
             this.isPlaying = false;
+
+            return this;
         },
         
         /**
@@ -13733,6 +13743,8 @@ tm.namespace("tm.app", function() {
             this.isPlay = true;
             this._tweens  = [];
             this._actions = [];
+            
+            return this;
         }
         
     });
@@ -13753,6 +13765,7 @@ tm.namespace("tm.app", function() {
     });
     
 });
+
 /*
  * canvasapp.js
  */
@@ -13835,6 +13848,8 @@ tm.display = tm.display || {};
             // マウスとタッチの座標更新関数をパワーアップ
             this.mouse._mousemove = this.mouse._mousemoveScale;
             this.touch._touchmove = this.touch._touchmoveScale;
+
+            return this;
         },
         
         /**
