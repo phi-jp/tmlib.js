@@ -145,6 +145,8 @@ tm.app = tm.app || {};
             this.currentScene = scene;
             this.currentScene.app = this;
             this.currentScene.dispatchEvent(e);
+
+            return this;
         },
         
         /**
@@ -163,6 +165,8 @@ tm.app = tm.app || {};
             e.app = this;
             scene.app = this;
             scene.dispatchEvent(e);
+
+            return this;
         },
         
         /**
@@ -203,6 +207,8 @@ tm.app = tm.app || {};
             else {
                 console.warn("not defined stats.");
             }
+
+            return this;
         },
         
         /**
@@ -221,6 +227,8 @@ tm.app = tm.app || {};
          */
         start: function() {
             this.isPlaying = true;
+
+            return this;
         },
         
         /**
@@ -228,6 +236,8 @@ tm.app = tm.app || {};
          */
         stop: function() {
             this.isPlaying = false;
+
+            return this;
         },
         
         /**
