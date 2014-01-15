@@ -35,6 +35,7 @@
             "IconButton",
             "GlossyButton",
             "FlatButton",
+            "LoadingScene",
         ],
     };
     
@@ -43,6 +44,7 @@
         namespace.each(function(className) {
             tm.app[className] = tm[key][className];
         });
+        
     }
 
 })();

@@ -58,7 +58,9 @@
             this.alpha = 0.0;
             this.bg.tweener.clear().fadeIn(100).call(function() {
                 if (param.assets) {
-                    tm.asset.AssetManager.onload = function() {
+                    var loader = tm.asset.Loader();
+                    
+                    loader.onload = function() {
                         this.bg.tweener.clear().wait(200).fadeOut(200).call(function() {
                             if (param.nextScene) {
                                 this.app.replaceScene(param.nextScene());
@@ -67,13 +69,14 @@
                             this.fire(e);
                         }.bind(this));
                     }.bind(this);
-                    tm.asset.AssetManager.load(param.assets);
                     
-                    tm.asset.AssetManager.onprogress = function() {
-                        var e = tm.event.Event("progress");
-                        e.progress = tm.asset.AssetManager.getProgress();
-                        this.fire(e);
+                    loader.onprogress = function(e) {
+                        var event = tm.event.Event("progress");
+                        event.progress = e.progress;
+                        this.fire(event);
                     }.bind(this);
+                    
+                    loader.load(param.assets);
                 }
             }.bind(this));
         },

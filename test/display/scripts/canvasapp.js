@@ -45,7 +45,7 @@ tm.define("tests.canvasapp.scene", {
             "title-bg": "http://dummyimage.com/300?.png",
             "result-bg": "http://dummyimage.com/400?.png"
         };
-        var loadingScene = tm.app.LoadingScene({
+        var loadingScene = tm.ui.LoadingScene({
             assets: ASSETS,
             nextScene: TitleScene,
         });
