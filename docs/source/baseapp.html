@@ -150,9 +150,9 @@ tm.app = tm.app || {};
          * - &lt;http://ameblo.jp/hash-r-1234/entry-10967942550.html&gt;
          */
         replaceScene: function(scene) {
-<span id='tm-app-BaseApp-method-pushScene'>            var e = null;
-</span>            if (this.currentScene) {
-                e = tm.event.Event(&quot;exit&quot;);
+            var e = null;
+<span id='tm-app-BaseApp-method-pushScene'>            if (this.currentScene) {
+</span>                e = tm.event.Event(&quot;exit&quot;);
                 e.app = this;
                 this.currentScene.dispatchEvent(e);
                 this.currentScene.app = null;
@@ -162,6 +162,8 @@ tm.app = tm.app || {};
             this.currentScene = scene;
             this.currentScene.app = this;
             this.currentScene.dispatchEvent(e);
+
+            return this;
         },
         
         /**
@@ -180,6 +182,8 @@ tm.app = tm.app || {};
             e.app = this;
             scene.app = this;
             scene.dispatchEvent(e);
+
+            return this;
         },
         
         /**
@@ -214,13 +218,15 @@ tm.app = tm.app || {};
                 // 右上に設定
 <span id='tm-app-BaseApp-method-start'>                this.stats.domElement.style.position = &quot;fixed&quot;;
 </span>                this.stats.domElement.style.left     = &quot;5px&quot;;
-<span id='tm-app-BaseApp-method-stop'>                this.stats.domElement.style.top      = &quot;20px&quot;;
-</span>                document.body.appendChild(this.stats.domElement);
+                this.stats.domElement.style.top      = &quot;20px&quot;;
+<span id='tm-app-BaseApp-method-stop'>                document.body.appendChild(this.stats.domElement);
+</span>            }
+            else {
+                console.warn(&quot;not defined stats.&quot;);
             }
-<span id='tm-app-BaseApp-method-_update'>            else {
-</span>                console.warn(&quot;not defined stats.&quot;);
-            }
-        },
+
+<span id='tm-app-BaseApp-method-_update'>            return this;
+</span>        },
         
         /**
          * dat gui を有効化
@@ -236,15 +242,19 @@ tm.app = tm.app || {};
         /**
          * シーンのupdateを実行するようにする
          */
-<span id='tm-app-BaseApp-method-_draw'>        start: function() {
-</span>            this.isPlaying = true;
-        },
+        start: function() {
+            this.isPlaying = true;
+
+<span id='tm-app-BaseApp-method-_draw'>            return this;
+</span>        },
         
         /**
-<span id='tm-app-BaseApp-method-getElement'>         * シーンのupdateを実行しないようにする
-</span>         */
-        stop: function() {
+         * シーンのupdateを実行しないようにする
+<span id='tm-app-BaseApp-method-getElement'>         */
+</span>        stop: function() {
             this.isPlaying = false;
+
+            return this;
         },
         
 <span id='tm-app-BaseApp-method-_onclick'>        /**

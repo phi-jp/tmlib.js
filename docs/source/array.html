@@ -103,16 +103,18 @@
         this[b] = temp;
         
         return this;
-<span id='global-Array-method-eraseAll'>    });
-</span>    
+    });
+    
     
     /**
-     * @method  erase
-     * elm と一致する要素を削除
+<span id='global-Array-method-eraseAll'>     * @method  erase
+</span>     * elm と一致する要素を削除
      */
     Array.defineInstanceMethod(&quot;erase&quot;, function(elm) {
         var index  = this.indexOf(elm);
-        this.splice(index, 1);
+        if (index &gt;= 0) {
+            this.splice(index, 1);
+        }
         return this;
     });
     

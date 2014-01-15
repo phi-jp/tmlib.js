@@ -328,12 +328,12 @@ tm.graphics = tm.graphics || {};
     /** @property width  幅 */
 <span id='tm-graphics-Bitmap-property-length'>    tm.graphics.Bitmap.prototype.accessor(&quot;width&quot;, {
 </span>        &quot;get&quot;: function()   { return this.imageData.width; },
-        &quot;set&quot;: function(v)  { this.iamgeData.width = v;    }
+        &quot;set&quot;: function(v)  { this.imageData.width = v;    }
     });
 <span id='tm-graphics-Canvas-method-getBitmap'>    /** @property height  高さ */
 </span>    tm.graphics.Bitmap.prototype.accessor(&quot;height&quot;, {
         &quot;get&quot;: function()   { return this.imageData.height; },
-        &quot;set&quot;: function(v)  { this.iamgeData.height = v;    }
+        &quot;set&quot;: function(v)  { this.imageData.height = v;    }
     });
     /** @property length */
 <span id='tm-graphics-Canvas-method-createBitmap'>    tm.graphics.Bitmap.prototype.getter(&quot;length&quot;, function() {
@@ -345,8 +345,8 @@ tm.graphics = tm.graphics || {};
      * @member tm.graphics.Canvas
      * ビットマップ取得
      */
-    tm.graphics.Canvas.prototype.getBitmap = function(x, y, width, height) {
-        return tm.graphics.Bitmap(this.context.getImageData(x||0, y||0, width||this.width, height||this.height));
+<span id='tm-asset-Texture-method-getBitmap'>    tm.graphics.Canvas.prototype.getBitmap = function(x, y, width, height) {
+</span>        return tm.graphics.Bitmap(this.context.getImageData(x||0, y||0, width||this.width, height||this.height));
     };
     
     /**
@@ -355,6 +355,17 @@ tm.graphics = tm.graphics || {};
      */
     tm.graphics.Canvas.prototype.createBitmap = function(width, height) {
         return tm.graphics.Bitmap(this.context.createImageData(width||this.width, height||this.height));
+    };
+
+    /**
+     * @member tm.asset.Texture
+     * ビットマップ生成
+     */
+    tm.asset.Texture.prototype.getBitmap = function(width, height) {
+        var canvas = tm.graphics.Canvas();
+        canvas.resize(this.width, this.height);
+        canvas.drawTexture(this, 0, 0, this.width, this.height);
+        return canvas.getBitmap(width, height);
     };
 
     var dummyCanvas = null;

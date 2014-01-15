@@ -52,6 +52,7 @@
             &quot;IconButton&quot;,
             &quot;GlossyButton&quot;,
             &quot;FlatButton&quot;,
+            &quot;LoadingScene&quot;,
         ],
     };
     
@@ -61,6 +62,8 @@
             tm.app[className] = tm[key][className];
         });
     }
+    
+    tm.asset.AssetManager = tm.asset.Manager;
 
 })();
 </pre>

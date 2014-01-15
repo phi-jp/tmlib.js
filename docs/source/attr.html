@@ -55,25 +55,33 @@ tm.dom = tm.dom || {};
         add: function(name, value) {
             var now = this.get(name);
             value = (now) ? now + ' ' + value : value;
-<span id='tm-dom-Attr-method-remove'>            this.element.setAttribute(name, value);
+            this.element.setAttribute(name, value);
+<span id='tm-dom-Attr-method-remove'>            return this;
 </span>        },
         
         /**
          * 属性を削除
          */
         remove: function(name, value) {
-            var now = this.get(name);
-            var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
-            this.element.setAttribute(name, next.trim());
-<span id='tm-dom-Attr-method-get'>//            this.element.removeAttribute(name);
-</span>        },
+            // value があるときはそれのみを削除する
+            if (value) {
+                var now = this.get(name);
+                var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
+                this.element.setAttribute(name, next.trim());
+            }
+            // ないときは属性そのものを削除する
+            else {
+<span id='tm-dom-Attr-method-get'>                this.element.removeAttribute(name);
+</span>            }
+            return this;
+        },
         
         /**
          * 属性を取得
-         */
-        get: function(name) {
-<span id='tm-dom-Attr-method-contains'>            return this.element.getAttribute(name);
-</span>        },
+<span id='tm-dom-Attr-method-contains'>         */
+</span>        get: function(name) {
+            return this.element.getAttribute(name);
+        },
 
         /**
          * 属性の存在チェック
@@ -83,9 +91,9 @@ tm.dom = tm.dom || {};
             if (arguments.length == 1) {
                 return now != null;
             }
-            else if (arguments.length == 2) {
-<span id='tm-dom-Attr-method-toggle'>                return (' '+now+' ').indexOf(' '+value+' ') &gt; -1;
-</span>            }
+<span id='tm-dom-Attr-method-toggle'>            else if (arguments.length == 2) {
+</span>                return (' '+now+' ').indexOf(' '+value+' ') &gt; -1;
+            }
 
             return false;
         },
@@ -95,10 +103,10 @@ tm.dom = tm.dom || {};
          */
         toggle: function(name, value) {
             if (this.contains(name, value)) {
-                this.remove(name, value);
-            } else {
-<span id='tm-dom-Attr-property-attr'>                this.add(name, value);
-</span>            }
+<span id='tm-dom-Attr-property-attr'>                this.remove(name, value);
+</span>            } else {
+                this.add(name, value);
+            }
             return this;
         }
     });

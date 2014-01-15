@@ -77,7 +77,21 @@ tm.event = tm.event || {};
                 for (var i=0,len=listeners.length; i&lt;len; ++i) {
                     listeners[i].call(this, e);
                 }
-<span id='tm-event-EventDispatcher-method-hasEventListener'>            }
+            }
+            
+            return this;
+        },
+        
+        one: function(type, listener) {
+            var self = this;
+            
+            var func = function() {
+                var result = listener.apply(self, arguments);
+                self.off(type, func);
+                return result;
+            };
+            
+<span id='tm-event-EventDispatcher-method-hasEventListener'>            this.on(type, func);
 </span>            
             return this;
         },
@@ -94,6 +108,9 @@ tm.event = tm.event || {};
          * リスナーを全てクリア
          */
         clearEventListener: function(type) {
+            var oldEventName = 'on' + type;
+            if (this[oldEventName]) delete this[oldEventName];
+
 <span id='tm-event-EventDispatcher-method-addEventListener'>            this._listeners[type] = [];
 </span>            return this;
         },

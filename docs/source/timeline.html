@@ -285,17 +285,19 @@ tm.namespace(&quot;tm.app&quot;, function() {
             }
             
             return this;
-<span id='tm-app-Element-property-timeline'>        },
-</span>        
+        },
+        
         /**
-         * アニメーションをクリア
-         */
+<span id='tm-app-Element-property-timeline'>         * アニメーションをクリア
+</span>         */
         clear: function() {
             this.currentFrame = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
             this._actions = [];
+            
+            return this;
         }
         
     });
@@ -315,6 +317,7 @@ tm.namespace(&quot;tm.app&quot;, function() {
         return this._timeline;
     });
     
-});</pre>
+});
+</pre>
 </body>
 </html>

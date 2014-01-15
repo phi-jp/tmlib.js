@@ -52,97 +52,23 @@ tm.app = tm.app || {};
     
 })();
 
-(function() {
-    
-<span id='tm-app-LoadingScene'>    var DEFAULT_PARAM = {
-</span>        width: 465,
-        height: 465,
-    };
-    
-    /**
-     * @class tm.app.LoadingScene
-     * ローディングシーン
-     * @extends tm.app.Scene
-     */
-<span id='tm-app-LoadingScene-method-constructor'>    tm.app.LoadingScene = tm.createClass({
-</span>        superClass: tm.app.Scene,
-        
-        /**
-         * @constructor
-         * @param {Object} param
-         */
-        init: function(param) {
-            this.superInit();
-            
-            param = {}.$extend(DEFAULT_PARAM, param);
-            
-            var label = tm.display.Label(&quot;Loading&quot;);
-            label.x = param.width/2;
-            label.y = param.height/2;
-            label.width = param.width;
-            label.align     = &quot;center&quot;;
-            label.baseline  = &quot;middle&quot;;
-            label.fontSize = 32;
-            label.counter = 0;
-            label.update = function(app) {
-                if (app.frame % 30 == 0) {
-                    this.text += &quot;.&quot;;
-                    this.counter += 1;
-                    if (this.counter &gt; 3) {
-                        this.counter = 0;
-                        this.text = &quot;Loading&quot;;
-                    }
-                }
-            };
-            this.addChild(label);
-
-            // ひよこさん
-            var piyo = tm.display.Shape(84, 84);
-            piyo.setPosition(param.width, param.height - 80);
-            piyo.canvas.setColorStyle(&quot;white&quot;, &quot;yellow&quot;).fillCircle(42, 42, 32);
-            piyo.canvas.setColorStyle(&quot;white&quot;, &quot;black&quot;).fillCircle(27, 27, 2);
-            piyo.canvas.setColorStyle(&quot;white&quot;, &quot;brown&quot;).fillRect(40, 70, 4, 15).fillTriangle(0, 40, 11, 35, 11, 45);
-            piyo.update = function(app) {
-                piyo.x -= 4;
-                if (piyo.x &lt; -80) piyo.x = param.width;
-                piyo.rotation -= 7;
-            };
-
-            this.addChild(piyo);
-
-            this.alpha = 0.0;
-            this.tweener.clear().fadeIn(100).call(function() {
-                if (param.assets) {
-                    tm.asset.AssetManager.onload = function() {
-                        this.tweener.clear().fadeOut(200).call(function() {
-                            this.app.replaceScene(param.nextScene());
-                        }.bind(this));
-                    }.bind(this);
-                    tm.asset.AssetManager.load(param.assets);
-                }
-            }.bind(this));
-        },
-    });
-    
-    
-})();
     
 (function() {
     
     var DEFAULT_PARAM = {
-<span id='tm-app-TitleScene'>        title: &quot;Time is money&quot;,
-</span>        titleSize: 32,
-        width: 465,
+        title: &quot;Time is money&quot;,
+<span id='tm-app-TitleScene'>        titleSize: 32,
+</span>        width: 465,
         height: 465,
     };
     
     /**
      * @class tm.app.TitleScene
      * タイトルシーン
-<span id='tm-app-TitleScene-method-constructor'>     * @extends tm.app.Scene
-</span>     */
-    tm.app.TitleScene = tm.createClass({
-        superClass: tm.app.Scene,
+     * @extends tm.app.Scene
+     */
+<span id='tm-app-TitleScene-method-constructor'>    tm.app.TitleScene = tm.createClass({
+</span>        superClass: tm.app.Scene,
         
         /**
          * @constructor
@@ -154,7 +80,7 @@ tm.app = tm.app || {};
             param = {}.$extend(DEFAULT_PARAM, param);
 
             if (param.backgroundImage) {
-                var texture = tm.asset.AssetManager.get(param.backgroundImage);
+                var texture = tm.asset.Manager.get(param.backgroundImage);
                 this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);
@@ -165,9 +91,9 @@ tm.app = tm.app || {};
             label.y = param.height/2;
             label.width = param.width;
             label.align     = &quot;center&quot;;
-<span id='tm-app-TitleScene-method-onpointingstart'>            label.baseline  = &quot;middle&quot;;
-</span>            label.fontSize = param.titleSize;
-            this.addChild(label);
+            label.baseline  = &quot;middle&quot;;
+<span id='tm-app-TitleScene-method-onpointingstart'>            label.fontSize = param.titleSize;
+</span>            this.addChild(label);
         },
 
         /**
@@ -197,9 +123,9 @@ tm.app = tm.app || {};
     
     /**
      * @class tm.app.ResultScene
-<span id='tm-app-ResultScene-method-constructor'>     * リザルトシーン
-</span>     * @extends tm.app.Scene
-     */
+     * リザルトシーン
+<span id='tm-app-ResultScene-method-constructor'>     * @extends tm.app.Scene
+</span>     */
     tm.app.ResultScene = tm.createClass({
         superClass: tm.app.Scene,
         
@@ -221,7 +147,7 @@ tm.app = tm.app || {};
             });
 
             if (param.backgroundImage) {
-                var texture = tm.asset.AssetManager.get(param.backgroundImage);
+                var texture = tm.asset.Manager.get(param.backgroundImage);
                 this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);

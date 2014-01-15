@@ -124,13 +124,11 @@
          */
         isHitPointRect: function(x, y) {
             // ここから下のバージョンは四角形
-            var globalPos = (this.parent) ? this.parent.localToGlobal(this) : this;
-            // var globalPos = this;
             
-            var left   = globalPos.x - this.width*this.originX;
-            var right  = globalPos.x + this.width*(1-this.originX);
-            var top    = globalPos.y - this.height*this.originY;
-<span id='tm-app-Object2D-method-isHitPointCircleHierarchy'>            var bottom = globalPos.y + this.height*(1-this.originY);
+            var left   = this.x - this.width*this.originX;
+            var right  = this.x + this.width*(1-this.originX);
+            var top    = this.y - this.height*this.originY;
+<span id='tm-app-Object2D-method-isHitPointCircleHierarchy'>            var bottom = this.y + this.height*(1-this.originY);
 </span>            
             if ( left &lt; x &amp;&amp; x &lt; right &amp;&amp; top  &lt; y &amp;&amp; y &lt; bottom ) { return true; }
             

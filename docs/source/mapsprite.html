@@ -44,7 +44,7 @@
             this.superInit();
 
             if (typeof mapSheet == &quot;string&quot;) {
-                this.mapSheet = tm.asset.AssetManager.get(mapSheet);
+                this.mapSheet = tm.asset.Manager.get(mapSheet);
             }
             else {
                 this.mapSheet = mapSheet;
@@ -85,32 +85,37 @@
         _buildLayer: function(layer) {
             var self        = this;
             var mapSheet    = this.mapSheet;
-            var texture     = tm.asset.AssetManager.get(mapSheet.tilesets[0].image);
+            var texture     = tm.asset.Manager.get(mapSheet.tilesets[0].image);
             var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
             var shape       = tm.display.Shape(this.width, this.height).addChildTo(this);
+            var visible = (layer.visible === 1) || (layer.visible === undefined);
+            var opacity = layer.opacity === undefined ? 1 : layer.opacity;
             shape.origin.set(0, 0);
 
-            layer.data.each(function(d, index) {
-                var type = d;
-                if (type == -1) {
-                    return ;
-                }
-                type = Math.abs(type);
+            if (visible) {
+                layer.data.each(function(d, index) {
+                    var type = d;
+                    if (type == -1) {
+                        return ;
+                    }
+                    type = Math.abs(type);
 
-                var xIndex = index%mapSheet.width;
-                var yIndex = (index/mapSheet.width)|0;
+                    var xIndex = index%mapSheet.width;
+                    var yIndex = (index/mapSheet.width)|0;
 
-                var mx = (type%xIndexMax);
-                var my = (type/xIndexMax)|0;
+                    var mx = (type%xIndexMax);
+                    var my = (type/xIndexMax)|0;
 
-                var dx = xIndex*self.chipWidth;
-                var dy = yIndex*self.chipHeight;
+                    var dx = xIndex*self.chipWidth;
+                    var dy = yIndex*self.chipHeight;
 
-                shape.canvas.drawTexture(texture,
-                    mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
-                    dx, dy, self.chipWidth, self.chipHeight
-                    );
-            }.bind(this));
+                    shape.canvas.globalAlpha = opacity;
+                    shape.canvas.drawTexture(texture,
+                        mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
+                        dx, dy, self.chipWidth, self.chipHeight
+                        );
+                }.bind(this));
+            }
 
 <span id='tm-display-MapSprite-method-_buildObject'>        },
 </span>
@@ -120,11 +125,11 @@
          */
         _buildObject: function(layer) {
             var self = this;
-            
+
             var group = tm.display.CanvasElement().addChildTo(self);
             group.width = layer.width;
             group.height = layer.height;
-            
+
             layer.objects.forEach(function(obj) {
                 var _class = tm.using(obj.type);
                 if (Object.keys(_class).length === 0) {
@@ -142,12 +147,12 @@
                     var value = props[key];
                     element[key] = value;
                 }
-                
+
                 element.x = obj.x;
                 element.y = obj.y;
                 element.width = obj.width;
                 element.height = obj.height;
-                
+
                 group[obj.name] = element;
             });
 

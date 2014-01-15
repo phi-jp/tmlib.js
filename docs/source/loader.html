@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+(function() {
+    
+    tm.define(&quot;tm.asset.Loader&quot;, {
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+        
+        init: function() {
+            this.superInit();
+            
+            this.assets = {};
+        },
+        
+        contains: function(key) {
+            return (this.assets[key]) ? true : false;
+        },
+        
+        load: function(arg) {
+            if (tm.util.Type.isObject(arg)) {
+                this._loadByObject(arg);
+            }
+            else {
+                this._loadString(arguments[0], arguments[1], arguments[2]);
+            }
+            
+            return this;
+        },
+
+<span id='global-method-get'>        /**
+</span>         * アセットのゲット
+         * @param {Object} key
+         */
+        get: function(key) {
+            return this.assets[key];
+<span id='global-method-set'>        },
+</span>
+        /**
+         * アセットのセット
+         * @param {Object} key
+         * @param {Object} asset
+         */
+        set: function(key, asset) {
+            this.assets[key] = asset;
+            
+            // manager の方にもセットする
+            tm.asset.Manager.set(key, asset);
+            
+            return this;
+        },
+        
+        _load: function(key, path, type) {
+            // if (tm.asset.Manager.contains(key)) {
+            //     return tm.asset.Manager.get(key);
+            // }
+            
+            path = path || key;
+            // type が省略されている場合は拡張子から判定する
+            type = type || path.split('.').last;
+            
+            var asset = tm.asset.Loader._funcs[type](path);
+            this.set(key, asset);
+            
+            return asset;
+        },
+        _loadString: function(key, path, type) {
+            
+            var hash = {};
+            hash[key] = {
+                url: path,
+                type: type,
+            };
+            this._loadByObject(hash);
+        },
+        _loadByObject: function(hash) {
+            var flow = tm.util.Flow(Object.keys(hash).length, function() {
+                var e = tm.event.Event(&quot;load&quot;);
+                this.dispatchEvent(e);
+            }.bind(this));
+            
+            var loadAsset = function(asset) {
+                flow.pass();
+                
+                var e = tm.event.Event(&quot;progress&quot;);
+                e.asset = asset;
+                e.progress = flow.counter/flow.waits; // todo
+                this.dispatchEvent(e);
+            }.bind(this);
+            
+            Object.keys(hash).each(function(key) {
+                var value = hash[key];
+                var asset = null;
+                
+                if (typeof value == 'string') {
+                    asset = this._load(key, value);
+                }
+                else {
+                    asset = this._load(key, value['url'] || value['src'] || value['path'], value['type']);
+                }
+                
+                if (asset.loaded) {
+                    loadAsset(asset);
+                }
+                else {
+                    asset.on(&quot;load&quot;, function() {
+                        loadAsset(asset);
+                    });
+                }
+            }.bind(this));
+        },
+    });
+    
+    
+    tm.asset.Loader._funcs = [];
+    tm.asset.Loader.defineFunction(&quot;register&quot;, function(type, func) {
+        this._funcs[type] = func;
+    });
+    
+    
+    var _textureFunc = function(path) {
+        var texture = tm.asset.Texture(path);
+        return texture;
+    };
+    var _soundFunc = function(path) {
+        var audio = tm.sound.WebAudio(path);
+        return audio;
+    };
+    
+    var _tmxFunc = function(path) {
+        var mapSheet = tm.asset.MapSheet(path);
+        return mapSheet;
+    };
+    
+    var _tmssFunc = function(path) {
+        var ss = tm.asset.SpriteSheet(path);
+        return ss;
+    };
+
+    var _jsonFunc = function(path) {
+        var file = tm.util.File();
+        
+        if (typeof path == 'string') {
+            file.load({
+                url: path,
+                dataType: 'json',
+            });
+        }
+        else {
+            var data = path;
+            file.setData(path);
+            file.loaded = true;
+        }
+
+        return file;
+    };
+
+    // image
+    tm.asset.Loader.register(&quot;png&quot;, _textureFunc);
+    tm.asset.Loader.register(&quot;gif&quot;, _textureFunc);
+    tm.asset.Loader.register(&quot;jpg&quot;, _textureFunc);
+    tm.asset.Loader.register(&quot;jpeg&quot;, _textureFunc);
+
+    // sound
+    tm.asset.Loader.register(&quot;wav&quot;, _soundFunc);
+    tm.asset.Loader.register(&quot;mp3&quot;, _soundFunc);
+    tm.asset.Loader.register(&quot;ogg&quot;, _soundFunc);
+    tm.asset.Loader.register(&quot;m4a&quot;, _soundFunc);
+
+    // json
+    tm.asset.Loader.register(&quot;json&quot;, _jsonFunc);
+
+    // map data
+    tm.asset.Loader.register(&quot;tmx&quot;, _tmxFunc);
+    
+    // spritesheet for tmlib.js
+    tm.asset.Loader.register(&quot;tmss&quot;, _tmssFunc);
+
+
+    
+})();
+
+</pre>
+</body>
+</html>

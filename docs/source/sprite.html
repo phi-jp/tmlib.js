@@ -40,22 +40,23 @@ tm.display = tm.display || {};
         /**
          * @constructor
          */
-        init: function(texture, width, height) {
+        init: function(image, width, height) {
             this.superInit();
             
-            console.assert(typeof texture != 'number', &quot;Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました&quot;);
+            console.assert(typeof image != 'number', &quot;Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました&quot;);
             
             this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             
             // 画像のみ渡された場合
             if (arguments.length == 1) {
-                var texture = arguments[0];
-                if (typeof texture == &quot;string&quot;) texture = tm.asset.AssetManager.get(texture);
+                var image = arguments[0];
+                if (typeof image == &quot;string&quot;) image = tm.asset.Manager.get(image);
+                console.assert(image != null, &quot;don't find '&quot; + image + &quot;' as image.&quot;);
                 
-                this.width = texture.width;
-                this.height= texture.height;
+                this.width = image.width;
+                this.height= image.height;
                 
-                this.image = texture;
+                this.image = image;
             }
             // その他
             else {
@@ -64,8 +65,8 @@ tm.display = tm.display || {};
                 
                 this.width  = width;
                 this.height = height;
-<span id='tm-display-Sprite-method-setFrameIndex'>                if (texture) {
-</span>                    this.image  = texture;
+<span id='tm-display-Sprite-method-setFrameIndex'>                if (image) {
+</span>                    this.image  = image;
                 }
             }
         },
@@ -103,7 +104,11 @@ tm.display = tm.display || {};
             return this._image;
         },
         &quot;set&quot;: function(image)  {
-            if (typeof image == &quot;string&quot;) image = tm.asset.AssetManager.get(image);
+            if (typeof image == &quot;string&quot;) {
+                var key = image;
+                image = tm.asset.Manager.get(key);
+                console.assert(image != null, &quot;don't find '&quot; + key + &quot;' as image.&quot;);
+            }
             
             this._image = image;
             this.srcRect.x = 0;

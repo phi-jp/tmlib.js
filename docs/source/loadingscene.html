@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * loadingscene.js
+ */
+
+
+;(function() {
+    
+    var DEFAULT_PARAM = {
+        width: 465,
+        height: 465,
+    };
+    
+    tm.define(&quot;tm.ui.LoadingScene&quot;, {
+        superClass: &quot;tm.app.Scene&quot;,
+        
+        init: function(param) {
+            this.superInit();
+            
+            param = {}.$extend(DEFAULT_PARAM, param);
+            
+            this.bg = tm.display.Shape(param.width, param.height).addChildTo(this);
+            this.bg.canvas.clearColor(&quot;hsla(200, 80%, 70%, 1.0)&quot;);
+            this.bg.setOrigin(0, 0);
+            
+            var label = tm.display.Label(&quot;Loading&quot;);
+            label.x = param.width/2;
+            label.y = param.height/2;
+            label.width = param.width;
+            label.align     = &quot;center&quot;;
+            label.baseline  = &quot;middle&quot;;
+            label.fontSize = 32;
+            label.counter = 0;
+            label.update = function(app) {
+                if (app.frame % 30 == 0) {
+                    this.text += &quot;.&quot;;
+                    this.counter += 1;
+                    if (this.counter &gt; 3) {
+                        this.counter = 0;
+                        this.text = &quot;Loading&quot;;
+                    }
+                }
+            };
+            label.addChildTo(this.bg);
+
+            // ひよこさん
+            var piyo = tm.display.Shape(84, 84);
+            piyo.setPosition(param.width, param.height - 80);
+            piyo.canvas.setColorStyle(&quot;white&quot;, &quot;yellow&quot;).fillCircle(42, 42, 32);
+            piyo.canvas.setColorStyle(&quot;white&quot;, &quot;black&quot;).fillCircle(27, 27, 2);
+            piyo.canvas.setColorStyle(&quot;white&quot;, &quot;brown&quot;).fillRect(40, 70, 4, 15).fillTriangle(0, 40, 11, 35, 11, 45);
+            piyo.update = function(app) {
+                piyo.x -= 4;
+                if (piyo.x &lt; -80) piyo.x = param.width;
+                piyo.rotation -= 7;
+            };
+            piyo.addChildTo(this.bg);
+
+            this.alpha = 0.0;
+            this.bg.tweener.clear().fadeIn(100).call(function() {
+                if (param.assets) {
+                    var loader = tm.asset.Loader();
+                    
+                    loader.onload = function() {
+                        this.bg.tweener.clear().wait(200).fadeOut(200).call(function() {
+                            if (param.nextScene) {
+                                this.app.replaceScene(param.nextScene());
+                            }
+                            var e = tm.event.Event(&quot;load&quot;);
+                            this.fire(e);
+                        }.bind(this));
+                    }.bind(this);
+                    
+                    loader.onprogress = function(e) {
+                        var event = tm.event.Event(&quot;progress&quot;);
+                        event.progress = e.progress;
+                        this.fire(event);
+                    }.bind(this);
+                    
+                    loader.load(param.assets);
+                }
+            }.bind(this));
+        },
+    });
+    
+})();
+
+
+
+
+
+</pre>
+</body>
+</html>

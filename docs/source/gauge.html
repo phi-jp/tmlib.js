@@ -131,7 +131,7 @@
          * @TODO ?
 <span id='tm-ui-Gauge-method-getPercent'>         */
 </span>        setPercent: function(percent) {
-            this.setValue(this._maxValue*percent*0.01);
+            return this.setValue(this._maxValue*percent*0.01);
         },
 
         /**
@@ -142,10 +142,10 @@
         },
 
         /**
-<span id='tm-ui-Gauge-method-getRatio'>         * @TODO ?
-</span>         */
-        setRatio: function(ratio) {
-            this.setValue(this._maxValue*percent);
+         * @TODO ?
+<span id='tm-ui-Gauge-method-getRatio'>         */
+</span>        setRatio: function(ratio) {
+            return this.setValue(this._maxValue*percent);
         },
 
         /**

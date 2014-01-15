@@ -47,7 +47,9 @@ tm.util = tm.util || {};
         /* @property success */
         success : function(data){ alert(&quot;success!!\n&quot;+data); },
         /* @property error */
-        error   : function(data){ alert(&quot;error!!&quot;); }
+        error   : function(data){ alert(&quot;error!!&quot;); },
+        /* @property beforeSend */
+        beforeSend: null,
     };
     
 <span id='tm-util-Ajax'>    /**
@@ -87,6 +89,8 @@ tm.util = tm.util || {};
                 }
             }
             
+            // httpRequest.withCredentials = true;
+            
             // コールバック
             httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState == 4) {
@@ -114,7 +118,11 @@ tm.util = tm.util || {};
             
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
             if (params.type === &quot;POST&quot;) {
-<span id='tm-util-Ajax-method-loadJSONP'>                httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
+                httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
+            }
+            
+            if (params.beforeSend) {
+<span id='tm-util-Ajax-method-loadJSONP'>                params.beforeSend(httpRequest);
 </span>            }
             
             httpRequest.send(params.data);

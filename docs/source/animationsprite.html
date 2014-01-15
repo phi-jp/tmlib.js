@@ -48,7 +48,7 @@ tm.display = tm.display || {};
             this.superInit();
 
             if (typeof ss == &quot;string&quot;) {
-                var ss = tm.asset.AssetManager.get(ss);
+                var ss = tm.asset.Manager.get(ss);
                 console.assert(ss, &quot;not found &quot; + ss);
             }
 
