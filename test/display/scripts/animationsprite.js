@@ -20,8 +20,8 @@ tm.define("tests.animationsprite.DemoScene", {
     init: function() {
         this.superInit();
 
-        var as = tm.asset.AssetManager;
-        as.load("crash", "../../resource/tmss/crash.tmss");
+        var loader = tm.asset.Loader();
+        loader.load("crash", "../../resource/tmss/crash.tmss");
     },
 
     onpointingstart: function(e) {
@@ -79,9 +79,11 @@ tm.define("tests.animationsprite.hiyocos", {
     init: function() {
         this.superInit();
         
-        var as = tm.asset.AssetManager;
-        as.load("hiyocos", "../../resource/img/hiyocos.png");
-        as.load("hiyocosSS", "../../resource/tmss/hiyocos.tmss");
+        var loader = tm.asset.Loader();
+        loader.load({
+            "hiyocos": "../../resource/img/hiyocos.png",
+            "hiyocosSS": "../../resource/tmss/hiyocos.tmss"
+        });
     },
 
     onpointingstart: function(e) {

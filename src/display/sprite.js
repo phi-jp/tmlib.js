@@ -23,22 +23,23 @@ tm.display = tm.display || {};
         /**
          * @constructor
          */
-        init: function(texture, width, height) {
+        init: function(image, width, height) {
             this.superInit();
             
-            console.assert(typeof texture != 'number', "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
+            console.assert(typeof image != 'number', "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
             
             this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             
             // 画像のみ渡された場合
             if (arguments.length == 1) {
-                var texture = arguments[0];
-                if (typeof texture == "string") texture = tm.asset.AssetManager.get(texture);
+                var image = arguments[0];
+                if (typeof image == "string") image = tm.asset.Manager.get(image);
+                console.assert(image != null, "don't find '" + image + "' as image.");
                 
-                this.width = texture.width;
-                this.height= texture.height;
+                this.width = image.width;
+                this.height= image.height;
                 
-                this.image = texture;
+                this.image = image;
             }
             // その他
             else {
@@ -47,8 +48,8 @@ tm.display = tm.display || {};
                 
                 this.width  = width;
                 this.height = height;
-                if (texture) {
-                    this.image  = texture;
+                if (image) {
+                    this.image  = image;
                 }
             }
         },
@@ -88,7 +89,7 @@ tm.display = tm.display || {};
         "set": function(image)  {
             if (typeof image == "string") {
                 var key = image;
-                image = tm.asset.AssetManager.get(key);
+                image = tm.asset.Manager.get(key);
                 console.assert(image != null, "don't find '" + key + "' as image.");
             }
             

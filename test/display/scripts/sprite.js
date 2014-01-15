@@ -6,7 +6,7 @@ tm.define("tests.sprite.DemoScene", {
         this.superInit();
         
         var texture = tm.asset.Texture("http://dummyimage.com/128x128/0000ff/fff.png&text=dummy");
-        tm.asset.AssetManager.set("dummy", texture);
+        tm.asset.Manager.set("dummy", texture);
         
         texture.onload = function() {
             var sprite = tm.display.Sprite("dummy", 150, 50).addChildTo(this);

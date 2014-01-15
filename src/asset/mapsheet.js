@@ -233,7 +233,7 @@
                 }.bind(this);
 
                 this.tilesets.each(function(elm) {
-                    var image = tm.asset.AssetManager.get(elm.image)
+                    var image = tm.asset.Manager.get(elm.image)
 
                     if (image) {
                         if (image.loaded) {
@@ -250,8 +250,9 @@
                         }
                     }
                     else {
-                        tm.asset.AssetManager.load(elm.image);
-                        var texture = tm.asset.AssetManager.get(elm.image);
+                        var loader = tm.asset.Loader();
+                        loader.load(elm.image);
+                        var texture = tm.asset.Manager.get(elm.image);
                         texture.addEventListener("load", _onloadimage);
                     }
                 });

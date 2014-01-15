@@ -55,10 +55,11 @@
             this.frame = param.frame;
 
             if (typeof param.image == "string") {
-                if (!tm.asset.AssetManager.contains(param.image)) {
-                    tm.asset.AssetManager.load(param.image);
+                if (!tm.asset.Manager.contains(param.image)) {
+                    var loader = tm.asset.Loader();
+                    loader.load(param.image);
                 }
-                this.image = tm.asset.AssetManager.get(param.image);
+                this.image = tm.asset.Manager.get(param.image);
             }
             else {
                 this.image = param.image;

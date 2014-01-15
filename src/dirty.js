@@ -35,6 +35,7 @@
             "IconButton",
             "GlossyButton",
             "FlatButton",
+            "LoadingScene",
         ],
     };
     
@@ -44,5 +45,7 @@
             tm.app[className] = tm[key][className];
         });
     }
+    
+    tm.asset.AssetManager = tm.asset.Manager;
 
 })();

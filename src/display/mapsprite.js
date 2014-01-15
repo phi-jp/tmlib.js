@@ -27,7 +27,7 @@
             this.superInit();
 
             if (typeof mapSheet == "string") {
-                this.mapSheet = tm.asset.AssetManager.get(mapSheet);
+                this.mapSheet = tm.asset.Manager.get(mapSheet);
             }
             else {
                 this.mapSheet = mapSheet;
@@ -68,7 +68,7 @@
         _buildLayer: function(layer) {
             var self        = this;
             var mapSheet    = this.mapSheet;
-            var texture     = tm.asset.AssetManager.get(mapSheet.tilesets[0].image);
+            var texture     = tm.asset.Manager.get(mapSheet.tilesets[0].image);
             var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
             var shape       = tm.display.Shape(this.width, this.height).addChildTo(this);
             var visible = (layer.visible === 1) || (layer.visible === undefined);

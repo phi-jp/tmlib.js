@@ -37,7 +37,7 @@ tm.app = tm.app || {};
         	this.spacing  = params.spacing || 0.75;
 
         	var texture = params.texture;
-        	if (typeof texture == "string") texture = tm.asset.AssetManager.get(texture);
+        	if (typeof texture == "string") texture = tm.asset.Manager.get(texture);
         	this.texture = texture;
 
         	this.render(params.text);

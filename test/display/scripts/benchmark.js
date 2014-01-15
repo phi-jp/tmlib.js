@@ -16,11 +16,12 @@ tm.define("tests.benchmark.PiyoScene", {
 
         this.objList = [];
         this.maxCount = 100;
-
-        tm.asset.AssetManager.load("piyo", "../../resource/img/piyo.png");
-        tm.asset.AssetManager.onload = function() {
+        
+        var loader = tm.asset.Loader();
+        loader.onload = function() {
             this._generateObject();
         }.bind(this);
+        loader.load("piyo", "../../resource/img/piyo.png");
     },
 
     onpointingstart: function() {
@@ -117,9 +118,10 @@ tm.define("tests.benchmark.HogeScene", {
             this._addParticle();
         }.bind(this));
         gui.domElement.parentNode.style.zIndex = 20000;
-
-        tm.asset.AssetManager.load("9iIpS", "http://jsrun.it/assets/9/i/I/p/9iIpS.png");
-        tm.asset.AssetManager.onload = function() {
+        
+        var loader = tm.asset.Loader();
+        loader.load("9iIpS", "http://jsrun.it/assets/9/i/I/p/9iIpS.png");
+        loader.onload = function() {
             this._addParticle();
         }.bind(this);
     },
@@ -195,11 +197,10 @@ tm.define("tests.benchmark.CrashScene", {
         app.fps = 60;
         app.enableStats();
         app.stats.domElement.style.zIndex = 1100;
+        
+        var loader = tm.asset.Loader();
 
-        var as = tm.asset.AssetManager;
-        as.load("sample", "../../resource/tmss/crash.tmss");
-
-        as.onload = function() {
+        loader.onload = function() {
             for (var i=0; i<512; ++i) {
                 var crash = tm.display.AnimationSprite(PLAYER_SPRITE_SHEET, 128, 128).addChildTo(this);
                 var x = tm.util.Random.randint(0, SCREEN_WIDTH);
@@ -212,6 +213,7 @@ tm.define("tests.benchmark.CrashScene", {
             }
         }.bind(this);
 
+        loader.load("sample", "../../resource/tmss/crash.tmss");
     },
 
     onpointingstart: function(e) {

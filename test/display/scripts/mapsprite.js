@@ -2,22 +2,16 @@
  * test
  */
 
-var hoge = function(key, path) {
-    var as = tm.asset.AssetManager;
-    return as.load("hoge", "../../resource/tmx/testmap.tmx");
-};
-
 tm.define("tests.mapsprite.DemoScene00", {
     superClass: "tm.app.Scene",
 
     init: function() {
         this.superInit();
         
-        var as = tm.asset.AssetManager;
-        as.load("sample", "../../resource/tmx/testmap.tmx");
-        var mapSheet = as.get("sample");
-        mapSheet.onload = function()
-        {
+        var loader = tm.asset.Loader();
+        loader.load("sample", "../../resource/tmx/testmap.tmx");
+        var mapSheet = loader.get("sample");
+        mapSheet.onload = function() {
             this.map = tm.display.MapSprite("sample", 32, 32).addChildTo(this);
             this.update = this._move;
         }.bind(this);
@@ -155,11 +149,10 @@ tm.define("tests.mapsprite.DemoScene03", {
     init: function() {
         this.superInit();
         
-        var as = tm.asset.AssetManager;
-        as.load("sample", "../../resource/tmx/testmap.tmx");
-        var mapSheet = as.get("sample");
-        mapSheet.onload = function()
-        {
+        var loader = tm.asset.Loader();
+        loader.load("sample", "../../resource/tmx/testmap.tmx");
+        var mapSheet = loader.get("sample");
+        mapSheet.onload = function() {
             this.map = tm.display.MapSprite("sample", 32, 32).addChildTo(this);
             this.update = this._move;
         }.bind(this);

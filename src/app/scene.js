@@ -35,84 +35,6 @@ tm.app = tm.app || {};
     
 })();
 
-(function() {
-    
-    var DEFAULT_PARAM = {
-        width: 465,
-        height: 465,
-    };
-    
-    /**
-     * @class tm.app.LoadingScene
-     * ローディングシーン
-     * @extends tm.app.Scene
-     */
-    tm.app.LoadingScene = tm.createClass({
-        superClass: tm.app.Scene,
-        
-        /**
-         * @constructor
-         * @param {Object} param
-         */
-        init: function(param) {
-            this.superInit();
-            
-            param = {}.$extend(DEFAULT_PARAM, param);
-            
-            var label = tm.display.Label("Loading");
-            label.x = param.width/2;
-            label.y = param.height/2;
-            label.width = param.width;
-            label.align     = "center";
-            label.baseline  = "middle";
-            label.fontSize = 32;
-            label.counter = 0;
-            label.update = function(app) {
-                if (app.frame % 30 == 0) {
-                    this.text += ".";
-                    this.counter += 1;
-                    if (this.counter > 3) {
-                        this.counter = 0;
-                        this.text = "Loading";
-                    }
-                }
-            };
-            this.addChild(label);
-
-            // ひよこさん
-            var piyo = tm.display.Shape(84, 84);
-            piyo.setPosition(param.width, param.height - 80);
-            piyo.canvas.setColorStyle("white", "yellow").fillCircle(42, 42, 32);
-            piyo.canvas.setColorStyle("white", "black").fillCircle(27, 27, 2);
-            piyo.canvas.setColorStyle("white", "brown").fillRect(40, 70, 4, 15).fillTriangle(0, 40, 11, 35, 11, 45);
-            piyo.update = function(app) {
-                piyo.x -= 4;
-                if (piyo.x < -80) piyo.x = param.width;
-                piyo.rotation -= 7;
-            };
-
-            this.addChild(piyo);
-
-            this.alpha = 0.0;
-            this.tweener.clear().fadeIn(100).call(function() {
-                if (param.assets) {
-                    tm.asset.AssetManager.onload = function() {
-                        this.tweener.clear().fadeOut(200).call(function() {
-                            if (param.nextScene) {
-                                this.app.replaceScene(param.nextScene());
-                            }
-                            var e = tm.event.Event("load");
-                            this.fire(e);
-                        }.bind(this));
-                    }.bind(this);
-                    tm.asset.AssetManager.load(param.assets);
-                }
-            }.bind(this));
-        },
-    });
-    
-    
-})();
     
 (function() {
     
@@ -141,7 +63,7 @@ tm.app = tm.app || {};
             param = {}.$extend(DEFAULT_PARAM, param);
 
             if (param.backgroundImage) {
-                var texture = tm.asset.AssetManager.get(param.backgroundImage);
+                var texture = tm.asset.Manager.get(param.backgroundImage);
                 this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);
@@ -208,7 +130,7 @@ tm.app = tm.app || {};
             });
 
             if (param.backgroundImage) {
-                var texture = tm.asset.AssetManager.get(param.backgroundImage);
+                var texture = tm.asset.Manager.get(param.backgroundImage);
                 this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);

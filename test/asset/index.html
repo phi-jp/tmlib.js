@@ -56,10 +56,13 @@
         <script src="../../src/util/querystring.js"></script>
         <script src="../../src/util/ajax.js"></script>
         <script src="../../src/util/file.js"></script>
+        <script src="../../src/util/type.js"></script>
+        <script src="../../src/util/flow.js"></script>
 
+        <script src="../../src/asset/manager.js"></script>
+        <script src="../../src/asset/loader.js"></script>
         <script src="../../src/asset/texture.js"></script>
         <script src="../../src/asset/spritesheet.js"></script>
-        <script src="../../src/asset/assetmanager.js"></script>
 
         <script src="../../plugins/console.tm.js"></script>
 
@@ -97,54 +100,70 @@
             	},
 
                 loadTest: function() {
-                	tm.asset.AssetManager.load("kenkyo", "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg");
-                	tm.asset.AssetManager.onload = function() {
-                		var texture = tm.asset.AssetManager.get("kenkyo");
-                		document.body.appendChild(texture.element);
-                	};
+                    var loader = tm.asset.Loader();
+                    
+                    loader.onload = function() {
+                        console.log("loaded");
+                    };
+                    loader.onprogress = function(e) {
+                        console.log("progress", e.progress);
+                        document.body.appendChild(e.asset.element);
+                    };
+                    loader.load("kenkyo", "https://pbs.twimg.com/profile_images/484079620/kenkyo_bigger.jpg");
+                    
                 },
-
-                loadFromHash: function() {
-                	tm.asset.AssetManager.load({
-                		"kenkyo": "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg"
-                	});
-                	tm.asset.AssetManager.onload = function() {
-                		var texture = tm.asset.AssetManager.get("kenkyo");
-                		document.body.appendChild(texture.element);
-                	};
+                
+                loadByObject: function() {
+                    var loader = tm.asset.Loader();
+                    
+                    loader.onload = function() {
+                        console.log("loaded");
+                    };
+                    loader.onprogress = function(e) {
+                        console.log("progress", e.progress);
+                        document.body.appendChild(e.asset.element);
+                    };
+                    
+                    loader.load({
+                        "kenkyo1": "https://pbs.twimg.com/profile_images/484079620/kenkyo_bigger.jpg",
+                        "kenkyo2": {
+                            type: "png",
+                            src: "https://pbs.twimg.com/profile_images/484079620/kenkyo_bigger.jpg",
+                        }
+                    });
                 },
 
                 loadTMSS: function() {
-                    var as = tm.asset.AssetManager;
-                    as.load("sample", "../../resource/tmss/crash.tmss");
-                    as.onload = function() {
-                        console.dir(as.get("sample"));
+                    var loader = tm.asset.Loader();
+                    loader.load("sample", "../../resource/tmss/crash.tmss");
+                    loader.onload = function() {
+                        console.dir(tm.asset.Manager.get("sample"));
                     };
                 },
 
                 loadJSON: function() {
-                    var as = tm.asset.AssetManager;
-                    as.load("sample", "../../resource/tmss/crash.tmss", "json");
-                    as.onload = function() {
-                        console.dir(as.get("sample"));
+                    var loader = tm.asset.Loader();
+                    loader.load("sample", "../../resource/tmss/crash.tmss", "json");
+                    loader.onload = function() {
+                        console.dir(tm.asset.Manager.get("sample"));
                     };
                 },
 
                 loadMultiData: function() {
-                    var as = tm.asset.AssetManager;
+                    var loader = tm.asset.Loader();
                     
-                    as.load({
-                        "kenkyo": "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg",
+                    loader.onprogress = function(e) {
+                        console.log("progress", e.progress);
+                    };
+                    loader.onload = function() {
+                        console.dir(loader);
+                    };
+                    
+                    loader.load({
+                        "kenkyo1": "https://pbs.twimg.com/profile_images/484079620/kenkyo_bigger.jpg",
                         "sample": { url: "../../resource/tmss/crash.tmss", type: "json" },
                         "foo": { url: {hoge:100, foo:200}, type: "json" },
                     });
-                    
-                    as.onprogress = function(e) {
-                        console.log("progress", e.progress);
-                    };
-                    as.onload = function() {
-                        console.dir(as);
-                    };
                 }
             };
 

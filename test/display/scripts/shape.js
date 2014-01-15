@@ -82,9 +82,10 @@ tm.define("tests.bitmaplabel.Test", {
         this.superInit();
 
         var self = this;
-
-        tm.asset.AssetManager.load("font", "../../resource/img/font.png");
-        tm.asset.AssetManager.onload = function() {
+        
+        var loader = tm.asset.Loader();
+        
+        loader.onload = function() {
             var bitmapLabel = tm.display.BitmapLabel({
                 texture: "font",
                 text: "Hello, world!~🐤",
@@ -100,6 +101,9 @@ tm.define("tests.bitmaplabel.Test", {
             bitmapLabel.setPosition(400, 250);
 
         };
+        
+        
+        loader.load("font", "../../resource/img/font.png");
     },
 
 });
