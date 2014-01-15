@@ -54,10 +54,11 @@ module.exports = function(grunt) {
     "src/dom/trans.js",
     "src/dom/data.js",
 
+    "src/asset/manager.js",
+    "src/asset/loader.js",
     "src/asset/texture.js",
     "src/asset/spritesheet.js",
     "src/asset/mapsheet.js",
-    "src/asset/assetmanager.js",
 
     "src/input/keyboard.js",
     "src/input/mouse.js",

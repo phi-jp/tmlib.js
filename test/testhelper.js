@@ -28,6 +28,7 @@
             "src/util/script.js",
             "src/util/querystring.js",
             "src/util/type.js",
+            "src/util/flow.js",
         ],
         "geom": [
             "src/geom/vector2.js",
@@ -54,10 +55,11 @@
             "src/event/eventdispatcher.js",
         ],
         "asset": [
+            "src/asset/manager.js",
+            "src/asset/loader.js",
             "src/asset/texture.js",
             "src/asset/spritesheet.js",
             "src/asset/mapsheet.js",
-            "src/asset/assetmanager.js",
         ],
         "input": [
             "src/input/keyboard.js",

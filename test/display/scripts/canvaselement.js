@@ -7,7 +7,7 @@ tm.define("tests.canvaselement.draw", {
         
         this.elm = tm.display.CanvasElement().addChildTo(this);
         this.elm.draw = function(c) {
-            c.fillCircle();
+            c.fillCircle(100, 100, 100);
         };
     }
 })
@@ -19,10 +19,11 @@ tm.define("tests.canvaselement.fromJSON", {
     init: function() {
         this.superInit();
 
-        tm.asset.AssetManager.onload = function() {
+        var loader = tm.asset.Loader();
+        loader.onload = function() {
             this.setup();
         }.bind(this);
-        tm.asset.AssetManager.load("dummy", "http://dummyimage.com/128x128/0000ff/fff.png&text=dummy.png");
+        loader.load("dummy", "http://dummyimage.com/128x128/0000ff/fff.png&text=dummy.png");
     },
 
     setup: function() {

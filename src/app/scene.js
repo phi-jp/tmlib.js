@@ -96,7 +96,9 @@ tm.app = tm.app || {};
             this.alpha = 0.0;
             this.tweener.clear().fadeIn(100).call(function() {
                 if (param.assets) {
-                    tm.asset.AssetManager.onload = function() {
+                    var loader = tm.asset.Loader();
+                    
+                    loader.onload = function() {
                         this.tweener.clear().fadeOut(200).call(function() {
                             if (param.nextScene) {
                                 this.app.replaceScene(param.nextScene());
@@ -105,7 +107,8 @@ tm.app = tm.app || {};
                             this.fire(e);
                         }.bind(this));
                     }.bind(this);
-                    tm.asset.AssetManager.load(param.assets);
+                    
+                    loader.load(param.assets);
                 }
             }.bind(this));
         },
@@ -141,7 +144,7 @@ tm.app = tm.app || {};
             param = {}.$extend(DEFAULT_PARAM, param);
 
             if (param.backgroundImage) {
-                var texture = tm.asset.AssetManager.get(param.backgroundImage);
+                var texture = tm.asset.Manager.get(param.backgroundImage);
                 this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);
@@ -208,7 +211,7 @@ tm.app = tm.app || {};
             });
 
             if (param.backgroundImage) {
-                var texture = tm.asset.AssetManager.get(param.backgroundImage);
+                var texture = tm.asset.Manager.get(param.backgroundImage);
                 this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
                 this._backgroundImage.originX = this._backgroundImage.originY = 0;
                 this.addChild(this._backgroundImage);

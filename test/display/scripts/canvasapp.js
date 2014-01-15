@@ -42,8 +42,8 @@ tm.define("tests.canvasapp.scene", {
 
     onpointingstart: function() {
         var ASSETS = {
-            "title-bg": "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg",
-            "result-bg": "https://twimg0-a.akamaihd.net/profile_images/484079620/kenkyo.jpg"
+            "title-bg": "http://dummyimage.com/300?.png",
+            "result-bg": "http://dummyimage.com/400?.png"
         };
         var loadingScene = tm.app.LoadingScene({
             assets: ASSETS,
