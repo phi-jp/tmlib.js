@@ -17847,7 +17847,8 @@ tm.google = tm.google || {};
         namespace.each(function(className) {
             tm.app[className] = tm[key][className];
         });
-        
     }
+    
+    tm.asset.AssetManager = tm.asset.Manager;
 
 })();
