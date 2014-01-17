@@ -627,7 +627,7 @@ tm.graphics = tm.graphics || {};
                 
                 var funcName = func + "Text";
                 normalLines.each(function(line, i) {
-                    ctx[funcName](line, param.x, param.y + i*lineSpace);
+                    ctx[funcName](line, param.x, param.y + i*lineSpace + 4);
                 });
             }
             // 縦書き
