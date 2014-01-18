@@ -40,7 +40,7 @@ tm.define("tests.spine.TestScene", {
 	    this.state = new spine.AnimationState(this.stateData);
 
 	    this.root = tm.display.CanvasElement().addChildTo(this);
-	    this.root.setPosition(300, 400);
+	    this.root.setPosition(320, 400);
 
 	    this.slotContainers = [];
 
@@ -64,11 +64,11 @@ tm.define("tests.spine.TestScene", {
 		this.stateData.setMixByName("walk", "jump", 0.2);
 		this.stateData.setMixByName("jump", "walk", 0.4);
 
-		this.state.setAnimationByName("walk", true);
+		this.state.setAnimationByName(0, "walk", true);
 
 		this.onpointingstart = function() {
-			this.state.setAnimationByName("jump", true);
-			this.state.addAnimationByName("walk", true);
+			this.state.setAnimationByName(0, "jump", false);
+			this.state.addAnimationByName(0, "walk", true, 0);
 		};
 
 		this.onenterframe = function() {
@@ -141,6 +141,9 @@ tm.define("tests.spine.TestScene", {
 
 	        slotContainer.position.x = bone.worldX + attachment.x * bone.m00 + attachment.y * bone.m01;
 	        slotContainer.position.y = bone.worldY + attachment.x * bone.m10 + attachment.y * bone.m11;
+	        slotContainer.position.x = bone.worldX + attachment.x * bone.m00 + attachment.y * bone.m01;
+	        slotContainer.position.y = bone.worldY + attachment.x * bone.m10 + attachment.y * bone.m11;
+	        slotContainer.position.y*= -1;
 	        slotContainer.scale.x = bone.worldScaleX;
 	        slotContainer.scale.y = bone.worldScaleY;
 
