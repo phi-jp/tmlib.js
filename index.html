@@ -26,7 +26,7 @@
         <link href='http://fonts.googleapis.com/css?family=Seaweed+Script' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Antic+Slab' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Mystery+Quest' rel='stylesheet' type='text/css'>
-    
+        
         <style>
         body {
             padding-top: 80px;
@@ -45,7 +45,7 @@
         
         h2 {
             padding-top: 64px;
-            font-size: 48px;
+            font-size: 38px;
             color: white;
             /*
             text-shadow: 0px 0px 8px #000;
@@ -85,7 +85,6 @@
         }
         #example h2 {
             padding-top: 10px;
-            font-size: 38px;
         }
 
         #community {
@@ -95,7 +94,22 @@
         #community h2 {
             color: black;
             padding-top: 10px;
-            font-size: 38px;
+        }
+        
+        @media only screen and (max-width: 900px) {
+            h2 {
+                font-size: 28px;
+            }
+            img {
+                width: auto;
+                height: 200px;
+            }
+            .content-block {
+                padding: 40px 0px;
+                width: 100%;
+                min-height: 100%;
+                max-height: 100%;
+            }
         }
 
         </style>
@@ -150,7 +164,7 @@
         <div id="teaser" class="content-block">
             <div class="container">
                 <div class="row" style="text-align:center;">
-                    <div class="col-lg-6 col-sm-12">
+                    <div class="col-md-6 col-sm-12">
                         <br />
                         <br />
                         <br />
@@ -165,7 +179,7 @@
                             <a target="_blank" href="./docs/index.html" class="btn btn-primary btn-lg btn-warning">Docs</a>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-sm-12">
+                    <div class="col-md-6 col-sm-12">
                         <img src="resource/img/tomapi.png" />
                     </div>
                 </div>
@@ -175,10 +189,10 @@
         <div id="about" class="content-block">
             <div class="container">
                 <div class="row" style="text-align:center;">
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                         <img width="360px" src="resource/img/hiyoko2.png" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                         <h2>tmlib.js って何？</h2>
                         <p>
                             ゲームやツールを簡単に作る事ができる<br /> JavaScript ライブラリだよ♪
@@ -196,7 +210,7 @@
         <div id="usage" class="content-block">
             <div class="container">
                 <div class="row" style="text-align:center;">
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                         <h2>かんたんに使えるよ♪</h2>
                         <p>
                             tmlib.js は初心者から上級者まで<br />
@@ -207,7 +221,7 @@
                             使ってプログラミングを始められるよ.
                         </p>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6">
                         <img width="300px" src="resource/img/takenoko.png" />
                     </div>
                 </div>
@@ -217,7 +231,7 @@
         <div id="example" class="content-block">
             <div class="container">
                 <div class="row" style="text-align:center;">
-                    <div class="col-lg-12">
+                    <div class="col-md-12">
                         <img height=300 src="resource/img/suika.png" />
                         <img height=200 src="resource/img/burokkori.png" style="margin-top:115px;" />
                         <img height=340 src="resource/img/nasubi.png" />
@@ -236,7 +250,7 @@
         <div id="community" class="content-block">
             <div class="container">
                 <div class="row" style="text-align:center;">
-                    <div class="col-lg-12">
+                    <div class="col-md-12">
                         <h2>
                             たくさんのひとが協力, 応援してくれてるよ.<br />
                             みんなで大きくしていけると良いなぁ〜
