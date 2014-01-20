@@ -1210,40 +1210,36 @@ spine.SkeletonJson.prototype = {
 		}
 
 		// Animations.
-        var animations = root["animations"];
-        for (var animationName in animations) {
-            if (!animations.hasOwnProperty(animationName)) continue;
-            this.readAnimation(animationName, animations[animationName], skeletonData);
-        }
+		var animations = root["animations"];
+		for (var animationName in animations) {
+			if (!animations.hasOwnProperty(animationName)) continue;
+			this.readAnimation(animationName, animations[animationName], skeletonData);
+		}
 
 		return skeletonData;
 	},
 	readAttachment: function (skin, name, map) {
-        name = map["name"] || name;
+		name = map["name"] || name;
 
-        var type = spine.AttachmentType[map["type"] || "region"];
+		var type = spine.AttachmentType[map["type"] || "region"];
+		var attachment = this.attachmentLoader.newAttachment(skin, type, name);
 
-        if (type == spine.AttachmentType.region) {
-            var attachment = new spine.RegionAttachment();
-            attachment.x = (map["x"] || 0) * this.scale;
-            attachment.y = (map["y"] || 0) * this.scale;
-            attachment.scaleX = map["scaleX"] || 1;
-            attachment.scaleY = map["scaleY"] || 1;
-            attachment.rotation = map["rotation"] || 0;
-            attachment.width = (map["width"] || 32) * this.scale;
-            attachment.height = (map["height"] || 32) * this.scale;
-            attachment.updateOffset();
+		if (type == spine.AttachmentType.region) {
+			attachment.x = (map["x"] || 0) * this.scale;
+			attachment.y = (map["y"] || 0) * this.scale;
+			attachment.scaleX = map["scaleX"] || 1;
+			attachment.scaleY = map["scaleY"] || 1;
+			attachment.rotation = map["rotation"] || 0;
+			attachment.width = (map["width"] || 32) * this.scale;
+			attachment.height = (map["height"] || 32) * this.scale;
+			attachment.updateOffset();
+		} else if (type == spine.AttachmentType.boundingBox) {
+			var vertices = map["vertices"];
+			for (var i = 0, n = vertices.length; i < n; i++)
+				attachment.vertices.push(vertices[i] * scale);
+		}
 
-            attachment.rendererObject = {};
-            attachment.rendererObject.name = name;
-            attachment.rendererObject.scale = {};
-            attachment.rendererObject.scale.x = attachment.scaleX;
-            attachment.rendererObject.scale.y = attachment.scaleY;
-            attachment.rendererObject.rotation = -attachment.rotation * Math.PI / 180;
-            return attachment;
-        }
-
-            throw "Unknown attachment type: " + type;
+		return attachment;
 	},
 	readAnimation: function (name, map, skeletonData) {
 		var timelines = [];
