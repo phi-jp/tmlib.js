@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   var banner = '\
 /*\n\
  * tmlib.js <%= version %>\n\
- * http://github.com/phi1618/tmlib.js\n\
+ * http://github.com/phi-jp/tmlib.js\n\
  * MIT Licensed\n\
  * \n\
  * Copyright (C) 2010 phi, http://tmlife.net\n\
