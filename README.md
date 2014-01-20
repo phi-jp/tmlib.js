@@ -1,6 +1,6 @@
-# [tmlib.js](http://phi1618.github.com/tmlib.js)
+# [tmlib.js](http://phi-jp.github.com/tmlib.js)
 
-<img src="https://github.com/phi1618/tmlib.js/raw/master/logo.png" width="320" height="320">
+<img src="https://github.com/phi-jp/tmlib.js/raw/master/logo.png" width="320" height="320">
 
 『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
 コンセプトに制作した JavaScript ライブラリです.
@@ -53,7 +53,7 @@
         <title>Starter Pack | tmlib.js</title>
         <link rel="apple-touch-icon-precomposed" href="icon.png" />
 
-        <script src="http://rawgithub.com/phi1618/tmlib.js/0.1.6/build/tmlib.js"></script>
+        <script src="http://rawgithub.com/phi-jp/tmlib.js/0.1.6/build/tmlib.js"></script>
         <script>
             // メイン処理(ページ読み込み後に実行される)
             tm.main(function() {
