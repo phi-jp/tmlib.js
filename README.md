@@ -6,7 +6,6 @@
 コンセプトに制作した JavaScript ライブラリです.
 
 簡単にゲームを作ったりリッチなwebページを作ることができます.
-
 公式ページは[こちら](http://phi-jp.github.io/tmlib.js/).
 
 
@@ -15,9 +14,8 @@
 
 
 ## Download
-- [tmlib.js version 0.1.8](https://raw.github.com/phi-jp/tmlib.js/0.1.8/build/tmlib.js)
-- [tmlib.min.js version 0.1.8](https://raw.github.com/phi-jp/tmlib.js/0.1.8/build/tmlib.min.js)
-- [tmlib.js version 0.1.6 Starter pack](https://github.com/phi-jp/tmlib.js/raw/0.1.6/starter-0.1.6.zip)
+- [tmlib.js version 0.2.0](https://raw.github.com/phi-jp/tmlib.js/0.2.0/build/tmlib.js)
+- [tmlib.min.js version 0.2.0](https://raw.github.com/phi-jp/tmlib.js/0.2.0/build/tmlib.min.js)
 
 
 ## Documentation
