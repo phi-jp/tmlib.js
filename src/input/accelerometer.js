@@ -9,9 +9,14 @@ tm.input = tm.input || {};
     
     /**
      * @class tm.input.Accelerometer
-     * @TODO ?
+     * スマートフォンのセンサー情報
      */
     tm.input.Accelerometer = tm.createClass({
+
+        /** @property  gravity 重力センサー */
+        /** @property  acceleration 加速度センサー */
+        /** @property  rotation 回転加速度センサー */
+        /** @property  orientation スマートフォンの傾き */
         
         /**
          * @constructor
@@ -28,12 +33,14 @@ tm.input = tm.input || {};
             
             this.gravity        = tm.geom.Vector3(0, 0, 0);
             this.acceleration   = tm.geom.Vector3(0, 0, 0);
+            this.rotation       = tm.geom.Vector3(0, 0, 0);
             this.orientation    = tm.geom.Vector3(0, 0, 0);
             
             var self = this;
             window.addEventListener("devicemotion", function(e) {
                 var acceleration = self.acceleration;
                 var gravity = self.gravity;
+                var rotation = self.rotation;
                 
                 if (e.acceleration) {
                     acceleration.x = e.acceleration.x;
@@ -44,6 +51,11 @@ tm.input = tm.input || {};
                     gravity.x = e.accelerationIncludingGravity.x;
                     gravity.y = e.accelerationIncludingGravity.y;
                     gravity.z = e.accelerationIncludingGravity.z;
+                }
+                if (e.rotationRate) {
+                    rotation.x = rotation.beta  = e.rotationRate.beta;
+                    rotation.y = rotatoin.gamma = e.rotationRate.gamma;
+                    rotation.z = rotation.alpha = e.rotationRate.alpha;
                 }
             });
             
