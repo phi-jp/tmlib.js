@@ -5,19 +5,10 @@
 『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
 コンセプトに制作した JavaScript ライブラリです.
 
-やってることは
+簡単にゲームを作ったりリッチなwebページを作ることができます.
 
-- 生成時に new がいらない class 定義の仕組みを作ってみたり
-- jQuery ライクに DOM を扱えるようにしたり
-- ajax 機能をサポートしてみたり
-- HTML5 Canvas をラップして使いやすくしたり
-- アニメーションできるようにしてみたり
-- ベクトルや行列をサポートしてみたり
-- 音を鳴らせるようにしてみたり
-- 入力系をサポートしてみたり
-- 1つのコードで PC とスマホ同時対応できるようにしてみたり
+公式ページは[こちら](http://phi-jp.github.io/tmlib.js/).
 
-と色々やってます.
 
 [Examples](#examples) - [Documentation](#documentation) - [Download](#download)
 
