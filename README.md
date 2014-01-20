@@ -9,7 +9,7 @@
 公式ページは[こちら](http://phi-jp.github.io/tmlib.js/).
 
 
-[Examples](#examples) - [Documentation](#documentation) - [Download](#download)
+[Usage](#usage) - [Examples](#examples) - [Documentation](#documentation) - [Download](#download)
 
 
 
