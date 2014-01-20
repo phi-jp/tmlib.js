@@ -22,7 +22,10 @@
 ドキュメントは[こちら](http://phi-jp.github.io/tmlib.js/docs/index.html)
 
 ## Usage
-使い方
+
+使い方は tmlib.js を読み込むだけです.
+これだけで全ての機能を使う事ができます.
+
 ```html
 <script src="tmlib.js"></script>
 ```
