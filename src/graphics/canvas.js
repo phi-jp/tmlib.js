@@ -573,34 +573,93 @@ tm.graphics = tm.graphics || {};
             return this.context.strokeText.apply(this.context, arguments);
         },
         
-        /**
-         * 塗りつぶしテキスト
-         */
-        fillTextList: function(text_list, x, y, offsetX, offsetY) {
-            offsetX = offsetX || 0;
-            offsetY = offsetY || 20;
+        fillVerticalText: function(text, x, y) {
+            this._drawVerticalText("fillText", text, x, y);
+        },
+        strokeVerticalText: function(text, x, y) {
+            this._drawVerticalText("strokeText", text, x, y);
+        },
+        
+        _drawVerticalText: function(func, text, x, y) {
+            var ctx = this.context;
+            var lines = text.split('\n');
+            var charSize = this.context.measureText('あ').width;
             
-            for (var i=0,len=text_list.length; i<len; ++i) {
-                this.fillText(text_list[i], x+offsetX*i, y+offsetY*i);
-            }
+            ctx.save();
             
-            return this;
+            ctx.textAlign = "right";
+            ctx.textBaseline = "top";
+
+            Array.prototype.forEach.call(text, function(ch, j) {
+                ctx[func](ch, x, y+charSize*j);
+            });
+            
+            ctx.restore();
         },
         
         /**
-         * ストロークテキストリスト
+         * drawLabelBox, drawLabelArea, drawTextBox, 
          */
-        strokeTextList: function(text_list, x, y, offsetX, offsetY) {
-            offsetX = offsetX || 0;
-            offsetY = offsetY || 20;
+        _drawLabelArea: function(func, param) {
+            var ctx = this.context;
+            var text = param.text;
+            var charSize = this.context.measureText('あ').width;
+            var lines = text.split('\n');
+            var lineSpace = (param.lineSpace || 1)*charSize;
             
-            for (var i=0,len=text_list.length; i<len; ++i) {
-                this.strokeText(x+offsetX*i, y+offsetY*i, text_list[i]);
+            ctx.save();
+            
+            // 横書き
+            if (!param.mode || param.mode == "horizon") {
+                var maxCharNum = Math.max( (param.width/charSize)|0, 1 );
+                var normalLines = [];
+                
+                ctx.textAlign = "left";
+                ctx.textBaseline = "top";
+                
+                
+                lines.each(function(line) {
+                    for (var i=0,len=line.length; i<len; i+=maxCharNum) {
+                        var str = line.substr(i, maxCharNum);
+                        normalLines.push(str);
+                    }
+                });
+                
+                var funcName = func + "Text";
+                normalLines.each(function(line, i) {
+                    ctx[funcName](line, param.x, param.y + i*lineSpace + 4);
+                });
+            }
+            // 縦書き
+            else {
+                var maxCharNum = Math.max( (param.height/charSize)|0, 1 );
+                var startX = param.x + param.width;
+                var normalLines = [];
+                
+                lines.each(function(line) {
+                    for (var i=0,len=line.length; i<len; i+=maxCharNum) {
+                        var str = line.substr(i, maxCharNum);
+                        normalLines.push(str);
+                    }
+                });
+                
+                var funcName = func + "VerticalText";
+                normalLines.each(function(line, i) {
+                    this[funcName](line, startX-i*lineSpace, param.y);
+                }.bind(this));
             }
             
-            return this;
+            ctx.restore();
         },
-                
+        
+        fillLabelArea: function(param) {
+            this._drawLabelArea("fill", param);
+        },
+        
+        strokeLabelArea: function(param) {
+            this._drawLabelArea("stroke", param);
+        },
+        
         /**
          * 画像描画
          */

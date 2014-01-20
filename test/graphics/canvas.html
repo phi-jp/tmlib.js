@@ -8,6 +8,8 @@
             body { font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif; }
         </style>
         
+        <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
+        
         <script src="../../src/tmlib.js"></script>
         
         <script src="../../src/core/object.js"></script>
@@ -38,15 +40,69 @@
             });
             
             tm.main(function() {
-                
                 // キャンバス取得
                 var canvas = tm.graphics.Canvas("#world");
                 canvas.resize(465, 465);
                 canvas.clearColor("black");
                 canvas.fitWindow();
                 
-                testDrawScale9Sprite();
+//                testDrawScale9Sprite();
+               // testDrawVirticalText();
+                testDrawTextBox();
             });
+            
+            var testDrawVirticalText = function() {
+                // キャンバス取得
+                var canvas = tm.graphics.Canvas("#world");
+                var text = "こんにちは\n世界は広いですねぇ\naàaaaaaa";
+                
+                canvas.fillStyle = "white";
+                canvas.strokeStyle = "white";
+                canvas.font = "40px 'メイリオ'";
+                
+                canvas.fillVerticalText(text, 200, 50);
+                canvas.strokeVerticalText(text, 300, 50);
+                
+            };
+            
+            var testDrawTextBox = function() {
+                // キャンバス取得
+                var canvas = tm.graphics.Canvas("#world");
+                
+                canvas.fillStyle = "white";
+                canvas.strokeStyle = "white";
+                canvas.font = "16px 'メイリオ'";
+                
+                var datGUI = new dat.GUI();
+                
+                var param = {
+                    x: 30,
+                    y: 30,
+                    width: 400,
+                    height: 400,
+                    lineSpace: 1.1,
+                    letterSpace: 1.0,
+                    text: "親譲おやゆずりの無鉄砲むてっぽうで小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰こしを抜ぬかした事がある。なぜそんな無闇むやみをしたと聞く人があるかも知れぬ。",
+                    mode: "horizon", // or vertical
+                    mode: "vertical",
+                };
+                var update = function() {
+                    canvas.clearColor("black");
+                    canvas.strokeLabelArea(param);
+                    
+                    canvas.strokeRect(param.x, param.y, param.width, param.height);
+                };
+                update();
+                
+                datGUI.add(param, "x", 0, 465).onChange(update);
+                datGUI.add(param, "y", 0, 465).onChange(update);
+                datGUI.add(param, "width", 0, 465).onChange(update);
+                datGUI.add(param, "height", 0, 465).onChange(update);
+                datGUI.add(param, "mode").onChange(update);
+                datGUI.add(param, "text").onChange(update);
+                datGUI.add(param, "lineSpace", 0, 5).onChange(update);
+                datGUI.add(param, "letterSpace", 0, 5).onChange(update);
+            };
             
             var testDrawScale9Sprite = function() {
                 // キャンバス取得

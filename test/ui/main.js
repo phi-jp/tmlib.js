@@ -7,6 +7,7 @@
         "scripts/button.js",
         "scripts/gauge.js",
         "scripts/sketch.js",
+        "scripts/labelarea.js",
         
         "scripts/loadingscene.js",
     ]);

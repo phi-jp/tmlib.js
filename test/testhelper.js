@@ -103,6 +103,7 @@
             "src/ui/menudialog.js",
             "src/ui/sketch.js",
             "src/ui/gauge.js",
+            "src/ui/labelarea.js",
             "src/ui/loadingscene.js",
         ],
         "three": [
