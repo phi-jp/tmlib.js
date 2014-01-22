@@ -1947,7 +1947,7 @@ tm.event = tm.event || {};
         },
         
         /**
-         * 登録されたイベントがあるかをチェック
+         * type に登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
             if (this._listeners[type] === undefined && !this["on" + type]) return false;
@@ -1955,7 +1955,7 @@ tm.event = tm.event || {};
         },
         
         /**
-         * リスナーを全てクリア
+         * type に登録されているリスナーを全てクリア
          */
         clearEventListener: function(type) {
             var oldEventName = 'on' + type;
