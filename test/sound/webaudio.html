@@ -45,11 +45,20 @@
         <script src="../../src/core/date.js"></script>
         <script src="../../src/core/math.js"></script>
 
+        <script src="../../src/util/querystring.js"></script>
+        <script src="../../src/util/type.js"></script>
+        <script src="../../src/util/flow.js"></script>
+        
+        <script src="../../src/event/event.js"></script>
+        <script src="../../src/event/eventdispatcher.js"></script>
+        
         <script src="../../src/dom/element.js"></script>
         <script src="../../src/dom/style.js"></script>
         <script src="../../src/dom/event.js"></script>
         <script src="../../src/dom/attr.js"></script>
-        <script src="../../src/util/querystring.js"></script>
+        
+        <script src="../../src/asset/manager.js"></script>
+        <script src="../../src/asset/loader.js"></script>
 
         <script src="../../plugins/console.tm.js"></script>
 
@@ -62,7 +71,7 @@
         <script id="test-script">
 
             tm.preload(function() {
-                tm.sound.WebAudioManager.add("sample", "sample.mp3");
+                tm.asset.Loader().load("sample", "sample.mp3");
             });
 
             var query = null;
@@ -98,7 +107,7 @@
                     var webaudio = null;
 
                     play.event.click(function() {
-                        webaudio = tm.sound.WebAudioManager.get("sample");
+                        webaudio = tm.asset.Manager.get("sample");
                         webaudio.volume = parseFloat(volume.value);
                         webaudio.setPosition( parseFloat(position.value), 0, 0 );
                         webaudio.play();
