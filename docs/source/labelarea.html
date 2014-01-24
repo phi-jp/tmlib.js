@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+;(function() {
+    
+    tm.define(&quot;tm.ui.LabelArea&quot;, {
+        superClass: &quot;tm.display.Shape&quot;,
+        
+        init: function(param) {
+            param = param || {};
+            this.superInit(param.width || 150, param.height || 60);
+            
+            this.canvas.clearColor(&quot;red&quot;);
+            
+            this.mode = param.mode || &quot;horizon&quot;;
+            
+            this.fontColor = param.fontColor || &quot;#aaa&quot;;
+            this.bgColor = param.bgColor || &quot;transparent&quot;;
+            
+            this._fontSize   = param.fontSize || 24;
+            this._fontFamily = &quot;'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;;
+            this._fontWeight = &quot;&quot;;
+            this._updateFont();
+            
+            this.setText(param.text || &quot;こんにちは,世界!&quot;);
+        },
+        
+        setText: function(text) {
+            if (this._text === text) { return ; }
+            
+            this._text =  text;
+            
+            this._renderText();
+        },
+        
+        _renderText: function() {
+            this.canvas.width  =this.width;
+            this.canvas.height =this.height;
+            
+            this.canvas.clearColor(this.bgColor);
+            
+            this.canvas.font = this.fontStyle;
+            this.canvas.fillStyle = this.fontColor;
+            this.canvas.fillLabelArea({
+                text: this._text,
+                x: 0,
+                y: 0,
+                width: this.width,
+                height: this.height,
+                mode: this.mode,
+<span id='global-method-_updateFont'>            });
+</span>        },
+
+        /**
+         * @TODO ?
+         * @private
+         */
+        _updateFont: function() {
+            this.fontStyle = &quot;{fontWeight} {fontSize}px {fontFamily}&quot;.format(this);
+            if (this.text) {
+                this._renderText();
+            }
+<span id='global-property-text'>        },
+</span>    });
+    
+    
+    /**
+     * @property    text
+     * 文字
+     */
+    tm.ui.LabelArea.prototype.accessor(&quot;text&quot;, {
+        &quot;get&quot;: function() { return this._text; },
+        &quot;set&quot;: function(v){
+<span id='global-property-fontSize'>            this.setText(v);
+</span>        }
+    });
+    
+    /**
+     * @property    fontSize
+     * フォントサイズ
+     */
+    tm.ui.LabelArea.prototype.accessor(&quot;fontSize&quot;, {
+        &quot;get&quot;: function() { return this._fontSize; },
+<span id='global-property-fontFamily'>        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
+</span>    });
+    
+    /**
+     * @property    fontFamily
+     * フォント
+     */
+    tm.ui.LabelArea.prototype.accessor(&quot;fontFamily&quot;, {
+        &quot;get&quot;: function() { return this._fontFamily; },
+<span id='global-property-fontWeight'>        &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
+</span>    });
+    
+    /**
+     * @property    fontWeight
+     */
+    tm.ui.LabelArea.prototype.accessor(&quot;fontWeight&quot;, {
+        &quot;get&quot;: function() { return this._fontWeight; },
+        &quot;set&quot;: function(v) {
+<span id='global-property-width'>            this._fontWeight = v; this._updateFont();
+</span>        },
+    });
+
+    /**
+     * @property    width
+     * dummy
+     */
+    tm.ui.LabelArea.prototype.accessor(&quot;width&quot;, {
+        &quot;get&quot;: function() { return this._width; },
+        &quot;set&quot;: function(v){
+            this._width = v;
+            if (this.text) {
+<span id='global-property-height'>                this._renderText();
+</span>            }
+        }
+    });
+    
+    
+    /**
+     * @property    height
+     * dummy
+     */
+    tm.ui.LabelArea.prototype.accessor(&quot;height&quot;, {
+        &quot;get&quot;: function() { return this._height; },
+        &quot;set&quot;: function(v){
+            this._height = v;
+            if (this.text) {
+                this._renderText();
+            }
+        }
+    });
+
+    
+})();
+</pre>
+</body>
+</html>

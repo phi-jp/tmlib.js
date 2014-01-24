@@ -97,7 +97,7 @@ tm.event = tm.event || {};
         },
         
         /**
-         * 登録されたイベントがあるかをチェック
+         * type に登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
 <span id='tm-event-EventDispatcher-method-clearEventListener'>            if (this._listeners[type] === undefined &amp;&amp; !this[&quot;on&quot; + type]) return false;
@@ -105,29 +105,29 @@ tm.event = tm.event || {};
         },
         
         /**
-         * リスナーを全てクリア
+         * type に登録されているリスナーを全てクリア
          */
         clearEventListener: function(type) {
             var oldEventName = 'on' + type;
-            if (this[oldEventName]) delete this[oldEventName];
-
-<span id='tm-event-EventDispatcher-method-addEventListener'>            this._listeners[type] = [];
-</span>            return this;
+<span id='tm-event-EventDispatcher-method-addEventListener'>            if (this[oldEventName]) delete this[oldEventName];
+</span>
+            this._listeners[type] = [];
+            return this;
         },
     });
 
     var proto = tm.event.EventDispatcher.prototype;
     
-    /**
-<span id='tm-event-EventDispatcher-method-removeEventListener'>     * @member  tm.event.EventDispatcher
-</span>     * @method  addEventListener
+<span id='tm-event-EventDispatcher-method-removeEventListener'>    /**
+</span>     * @member  tm.event.EventDispatcher
+     * @method  addEventListener
      * on と同じ
      */
     proto.addEventListener      = proto.on;
     
-    /**
-<span id='tm-event-EventDispatcher-method-dispatchEvent'>     * @member  tm.event.EventDispatcher
-</span>     * @method  removeEventListener
+<span id='tm-event-EventDispatcher-method-dispatchEvent'>    /**
+</span>     * @member  tm.event.EventDispatcher
+     * @method  removeEventListener
      * off と同じ
      */
     proto.removeEventListener   = proto.off;
