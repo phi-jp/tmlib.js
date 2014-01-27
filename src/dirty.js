@@ -17,6 +17,7 @@
             "CircleShape",
             "TriangleShape",
             "RectangleShape",
+            "RoundRectangleShape",
             "StarShape",
             "PolygonShape",
             "HeartShape",
