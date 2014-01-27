@@ -14862,8 +14862,8 @@ tm.display = tm.display || {};
             this._lineHeight = 1.2;
             this._updateFont();
             
-            this.align      = "start";
-            this.baseline   = "alphabetic";
+            this.align = tm.display.Label.default.align;
+            this.baseline = tm.display.Label.default.baseline;
 
             this.maxWidth   = null;
         },
@@ -14986,6 +14986,13 @@ tm.display = tm.display || {};
             this._lineHeight = v; this._updateFont();
         },
     });
+    
+    tm.display.Label.default = {
+        align: "center",
+        baseline: "middle",
+        // align: "start",
+        // baseline: "alphabetic",
+    };
 
     
 })();
