@@ -12,7 +12,7 @@
             
             this.mode = param.mode || "horizon";
             
-            this.fontColor = param.fontColor || "#aaa";
+            this.fillStyle = param.fillStyle || "#aaa";
             this.bgColor = param.bgColor || "transparent";
             
             this._fontSize   = param.fontSize || 24;
@@ -38,7 +38,7 @@
             this.canvas.clearColor(this.bgColor);
             
             this.canvas.font = this.fontStyle;
-            this.canvas.fillStyle = this.fontColor;
+            this.canvas.fillStyle = this.fillStyle;
             this.canvas.fillLabelArea({
                 text: this._text,
                 x: 0,
@@ -100,6 +100,16 @@
             this._fontWeight = v; this._updateFont();
         },
     });
+    
+    /**
+     * @property    fontWeight
+     */
+    tm.ui.LabelArea.prototype.accessor("fillStyle", {
+        "get": function() { return this._fontWeight; },
+        "set": function(v) {
+            this._fillStyle = v; this._updateFont();
+        },
+    });
 
     /**
      * @property    width
@@ -114,7 +124,6 @@
             }
         }
     });
-    
     
     /**
      * @property    height
