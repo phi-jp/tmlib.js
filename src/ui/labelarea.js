@@ -12,8 +12,8 @@
             
             this.mode = param.mode || "horizon";
             
-            this.fillStyle = param.fillStyle || "#aaa";
-            this.bgColor = param.bgColor || "transparent";
+            this._fillStyle = param.fillStyle || "#aaa";
+            this._bgColor = param.bgColor || "transparent";
             
             this._fontSize   = param.fontSize || 24;
             this._fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
@@ -102,12 +102,22 @@
     });
     
     /**
-     * @property    fontWeight
+     * @property    fillStyle
      */
     tm.ui.LabelArea.prototype.accessor("fillStyle", {
-        "get": function() { return this._fontWeight; },
+        "get": function() { return this._fillStyle; },
         "set": function(v) {
             this._fillStyle = v; this._updateFont();
+        },
+    });
+    
+    /**
+     * @property    bgColor
+     */
+    tm.ui.LabelArea.prototype.accessor("bgColor", {
+        "get": function() { return this._bgColor; },
+        "set": function(v) {
+            this._bgColor = v; this._updateFont();
         },
     });
 

@@ -12,7 +12,7 @@ tm.define("tests.labelarea.test", {
             text: "あいうえおか\nきくけこ",
             width: 200,
             height: 60,
-            fontColor: "red",
+            fillStyle: "red",
 //            bgColor: "white",
             fontSize: 22,
 //            mode: "vertical",
@@ -26,6 +26,8 @@ tm.define("tests.labelarea.test", {
         datGUI.add(labelArea, "height", 0, 500);
         datGUI.add(labelArea, "fontSize", 0, 100);
         datGUI.add(labelArea, "text");
+        
+//        labelArea.fillStyle = "blue";
     }
 
 });
