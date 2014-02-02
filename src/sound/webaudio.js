@@ -58,7 +58,11 @@ tm.sound = tm.sound || {};
          */
         play: function(time) {
             if (time === undefined) time = 0;
-            this.source.noteOn(this.context.currentTime + time);
+
+            if (this.source.playbackState == 0) {
+                this.source.noteOn(this.context.currentTime + time);
+            }
+
             /*
             this.source.noteGrainOn(this.context.currentTime + time, 0, this.buffer.duration);
             console.dir(this.buffer.duration);
@@ -73,6 +77,9 @@ tm.sound = tm.sound || {};
          */
         stop: function(time) {
             if (time === undefined) time = 0;
+            if (this.source.playbackState == 0) {
+                return ;
+            }
             this.source.noteOff(this.context.currentTime + time);
             
             var buffer = this.buffer;
