@@ -43,7 +43,7 @@ tm.main(function() {
     app.fps = 30;
     app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
     app.fitWindow();
-    app.background = "white";
+    app.background = "rgba(255, 255, 255, 0.25)";
     
     // 単位円クラス追加
     var unitCircle = UnitCircle("hsla({0}, 75%, 50%, 1)".format(Math.rand(0, 360)));
@@ -108,7 +108,6 @@ tm.main(function() {
         c.save();
         c.font = "14px Consolas,'Lucida Console','DejaVu Sans Mono',monospace";
         c.fillStyle = "black";
-        c.fillTextList(text_list, 460, 40, 0, 0);
         c.restore();
     };
     

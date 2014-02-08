@@ -111,6 +111,9 @@
                         webaudio.volume = parseFloat(volume.value);
                         webaudio.setPosition( parseFloat(position.value), 0, 0 );
                         webaudio.play();
+                        webaudio.onended = function() {
+                            alert();
+                        };
                     });
 
                     stop.event.click(function() {
@@ -129,7 +132,7 @@
 
                     play.event.click(function() {
                         var position = 10;
-                        webaudio = tm.sound.WebAudioManager.get("sample");
+                        webaudio = tm.sound.Manager.get("sample");
                         webaudio.volume = parseFloat(volume.value);
                         webaudio.setPosition(position, 0, 0 );
                         webaudio.play();
