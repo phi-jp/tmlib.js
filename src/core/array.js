@@ -170,7 +170,7 @@
         var arr = [];
         for (var i=0,len=this.length; i<len; ++i) {
             var value = this[i];
-            if (arr.indexOf(value) != -1) {
+            if (this.indexOf(value) != -1) {
                 arr.push(value);
             }
         }
