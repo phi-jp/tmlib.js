@@ -764,7 +764,7 @@ if (typeof module !== 'undefined' && module.exports) {
         var arr = [];
         for (var i=0,len=this.length; i<len; ++i) {
             var value = this[i];
-            if (value in arr == false) {
+            if (arr.indexOf(value) != -1) {
                 arr.push(value);
             }
         }
