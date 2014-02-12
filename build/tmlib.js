@@ -998,7 +998,7 @@ if (typeof module !== 'undefined' && module.exports) {
      * @method  format
      * 日付フォーマットに合わせた文字列を返す
      */
-    Date.prototype.format = function(pattern) {
+    Date.defineInstanceMethod("format", function(pattern) {
         /*
         var str = "{y}/{m}/{d}".format({
             y: this.getYear()+1900,
@@ -1016,6 +1016,7 @@ if (typeof module !== 'undefined' && module.exports) {
         var hours   = this.getHours();
         var minutes = this.getMinutes();
         var seconds = this.getSeconds();
+        var millseconds = this.getMilliseconds();
         var str = "";
         
         for (var i=0,len=pattern.length; i<len; ++i) {
@@ -1056,13 +1057,14 @@ if (typeof module !== 'undefined' && module.exports) {
                 case "H": temp = hours.padding(2, '0'); break;
                 case "i": temp = minutes.padding(2, '0'); break;
                 case "s": temp = seconds.padding(2, '0'); break;
+                case "S": temp = millseconds.padding(3, '0'); break;
                 
                 default : temp = ch; break;
             }
             str += temp;
         }
         return str;
-    };
+    });
     
 })();
 
@@ -11619,7 +11621,7 @@ tm.app = tm.app || {};
          * @param {Object} scene
          */
         pushScene: function(scene) {
-            e = tm.event.Event("exit");
+            e = tm.event.Event("pause");
             e.app = this;
             this.currentScene.dispatchEvent(e);
             
@@ -11647,7 +11649,7 @@ tm.app = tm.app || {};
             scene.app = null;
             
             // 
-            e = tm.event.Event("enter");
+            e = tm.event.Event("resume");
             e.app = this;
             this.currentScene.dispatchEvent(e);
             

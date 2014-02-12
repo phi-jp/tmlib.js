@@ -154,7 +154,7 @@ tm.app = tm.app || {};
          * @param {Object} scene
          */
         pushScene: function(scene) {
-            e = tm.event.Event("exit");
+            e = tm.event.Event("pause");
             e.app = this;
             this.currentScene.dispatchEvent(e);
             
@@ -182,7 +182,7 @@ tm.app = tm.app || {};
             scene.app = null;
             
             // 
-            e = tm.event.Event("enter");
+            e = tm.event.Event("resume");
             e.app = this;
             this.currentScene.dispatchEvent(e);
             

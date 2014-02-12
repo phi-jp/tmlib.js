@@ -21,7 +21,7 @@
      * @method  format
      * 日付フォーマットに合わせた文字列を返す
      */
-    Date.prototype.format = function(pattern) {
+    Date.defineInstanceMethod("format", function(pattern) {
         /*
         var str = "{y}/{m}/{d}".format({
             y: this.getYear()+1900,
@@ -39,6 +39,7 @@
         var hours   = this.getHours();
         var minutes = this.getMinutes();
         var seconds = this.getSeconds();
+        var millseconds = this.getMilliseconds();
         var str = "";
         
         for (var i=0,len=pattern.length; i<len; ++i) {
@@ -79,13 +80,14 @@
                 case "H": temp = hours.padding(2, '0'); break;
                 case "i": temp = minutes.padding(2, '0'); break;
                 case "s": temp = seconds.padding(2, '0'); break;
+                case "S": temp = millseconds.padding(3, '0'); break;
                 
                 default : temp = ch; break;
             }
             str += temp;
         }
         return str;
-    };
+    });
     
 })();
 
