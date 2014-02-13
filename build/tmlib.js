@@ -8697,7 +8697,7 @@ tm.input = tm.input || {};
                 }
                 if (e.rotationRate) {
                     rotation.x = rotation.beta  = e.rotationRate.beta;
-                    rotation.y = rotatoin.gamma = e.rotationRate.gamma;
+                    rotation.y = rotation.gamma = e.rotationRate.gamma;
                     rotation.z = rotation.alpha = e.rotationRate.alpha;
                 }
             });
