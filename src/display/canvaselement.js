@@ -132,6 +132,11 @@ tm.display = tm.display || {};
             return this;
         },
 
+        setVisible: function(flag) {
+            this.visible = flag;
+            return this;
+        },
+
         /**
          * @TODO ?
          */
