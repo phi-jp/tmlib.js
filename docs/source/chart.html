@@ -31,10 +31,10 @@ tm.google = tm.google || {};
     tm.google.Chart = tm.google.Chart || {};
     
     var DYNAMIC_ICONS_BASE_URL  = &quot;https://chart.googleapis.com/chart?chst={type}&amp;chld={data}&quot;;
-<span id='tm-google-Chart-static-method-createDynamicIcons'>    var QR_CODE_BASE_URL        = &quot;https://chart.googleapis.com/chart?chs={size}&amp;cht={type}&amp;chl={text}&amp;chco={color}&quot;;
-</span>    
-    /**
-     * @static
+    var QR_CODE_BASE_URL        = &quot;https://chart.googleapis.com/chart?chs={size}&amp;cht={type}&amp;chl={text}&amp;chco={color}&quot;;
+    
+<span id='tm-google-Chart-static-method-createDynamicIcons'>    /**
+</span>     * @static
      * ダイナミックアイコン
      * @param {string}  type    d_bubble_text_small OR d_fnote_title OR chst=d_fnote etc...
      * @param {string}  data    
@@ -49,12 +49,12 @@ tm.google = tm.google || {};
         // data = encodeURIComponent(data);
         return DYNAMIC_ICONS_BASE_URL.format({
             type:type,
-<span id='tm-google-Chart-static-method-createQRCode'>            data:data
-</span>        });
+            data:data
+        });
     };
     
-    /**
-     * @static
+<span id='tm-google-Chart-static-method-createQRCode'>    /**
+</span>     * @static
      * QRCode 生成
      * @param {Object} prop
      * ### Reference
@@ -71,12 +71,12 @@ tm.google = tm.google || {};
         return QR_CODE_BASE_URL.format({
             type:&quot;qr&quot;,
             size:size,
-<span id='tm-google-Chart-static-method-createTeX'>            text:text,
-</span>        });
+            text:text,
+        });
     };
     
-    /**
-     * @static
+<span id='tm-google-Chart-static-method-createTeX'>    /**
+</span>     * @static
      * Tex 生成
      */
     tm.google.Chart.createTeX = function() {

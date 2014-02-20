@@ -35,10 +35,10 @@ tm.graphics = tm.graphics || {};
 </span>     * @class tm.graphics.LinearGradient
      * 線形グラデーション
      */
-<span id='tm-graphics-LinearGradient-method-constructor'>    tm.graphics.LinearGradient = tm.createClass({
-</span>
-        /**
-         * @constructor
+    tm.graphics.LinearGradient = tm.createClass({
+
+<span id='tm-graphics-LinearGradient-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(x, y, width, height) {
             if (!dummyCanvas) {
@@ -47,25 +47,25 @@ tm.graphics = tm.graphics || {};
             }
             this._init(x, y, width, height);
             this.init = this._init;
-<span id='tm-graphics-LinearGradient-method-_init'>        },
-</span>
-        /**
-         * @private
+        },
+
+<span id='tm-graphics-LinearGradient-method-_init'>        /**
+</span>         * @private
          */
         _init: function(x, y, width, height) {
             this.gradient = dummyContext.createLinearGradient(x, y, width, height);
-<span id='tm-graphics-LinearGradient-method-addColorStop'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-graphics-LinearGradient-method-addColorStop'>        /**
+</span>         * @TODO ?
          */
         addColorStop: function(offset, color) {
             this.gradient.addColorStop(offset, color);
             return this;
-<span id='tm-graphics-LinearGradient-method-addColorStopList'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-graphics-LinearGradient-method-addColorStopList'>        /**
+</span>         * @TODO ?
          */
         addColorStopList: function(prop) {
             for (var i=0,len=prop.length; i&lt;len; ++i) {
@@ -74,26 +74,26 @@ tm.graphics = tm.graphics || {};
                 this.addColorStop(offset, color);
             }
             return this;
-<span id='tm-graphics-LinearGradient-method-toStyle'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-graphics-LinearGradient-method-toStyle'>        /**
+</span>         * @TODO ?
          */
         toStyle: function() {
             return this.gradient;
         },
         
-<span id='tm-graphics-RadialGradient'>    });
-</span>
+    });
+
     
-    /**
-     * @class tm.graphics.RadialGradient
+<span id='tm-graphics-RadialGradient'>    /**
+</span>     * @class tm.graphics.RadialGradient
      * 円形グラデーション
      */
-<span id='tm-graphics-RadialGradient-method-constructor'>    tm.graphics.RadialGradient = tm.createClass({
-</span>
-        /**
-         * @constructor
+    tm.graphics.RadialGradient = tm.createClass({
+
+<span id='tm-graphics-RadialGradient-method-constructor'>        /**
+</span>         * @constructor
          */        
         init: function(x0, y0, r0, x1, y1, r1) {
             if (!dummyCanvas) {
@@ -101,26 +101,26 @@ tm.graphics = tm.graphics || {};
                 dummyContext= dummyCanvas.getContext(&quot;2d&quot;);
             }
             this._init(x0, y0, r0, x1, y1, r1);
-<span id='tm-graphics-RadialGradient-method-_init'>            this.init = this._init;
-</span>        },
+            this.init = this._init;
+        },
 
-        /**
-         * @private
+<span id='tm-graphics-RadialGradient-method-_init'>        /**
+</span>         * @private
          */
         _init: function(x0, y0, r0, x1, y1, r1) {
-<span id='tm-graphics-RadialGradient-method-addColorStop'>            this.gradient = dummyContext.createRadialGradient(x0, y0, r0, x1, y1, r1);
-</span>        },
+            this.gradient = dummyContext.createRadialGradient(x0, y0, r0, x1, y1, r1);
+        },
         
-        /**
-         * @TODO ?
+<span id='tm-graphics-RadialGradient-method-addColorStop'>        /**
+</span>         * @TODO ?
          */
         addColorStop: function(offset, color) {
             this.gradient.addColorStop(offset, color);
-<span id='tm-graphics-RadialGradient-method-addColorStopList'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @TODO ?
+<span id='tm-graphics-RadialGradient-method-addColorStopList'>        /**
+</span>         * @TODO ?
          */
         addColorStopList: function(prop) {
             for (var i=0,len=prop.length; i&lt;len; ++i) {
@@ -128,11 +128,11 @@ tm.graphics = tm.graphics || {};
                 var color   = prop[i].color;
                 this.addColorStop(offset, color);
             }
-<span id='tm-graphics-RadialGradient-method-toStyle'>            return this;
-</span>        },
+            return this;
+        },
 
-        /**
-         * @TODO ?
+<span id='tm-graphics-RadialGradient-method-toStyle'>        /**
+</span>         * @TODO ?
          */
         toStyle: function() {
             return this.gradient;

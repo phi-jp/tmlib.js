@@ -30,167 +30,172 @@ tm.display = tm.display || {};
      * @extends tm.app.Object2D
      */
     tm.display.CanvasElement = tm.createClass({
-<span id='tm-display-CanvasElement-property-isUpdate'>        superClass: tm.app.Object2D,
-</span>
-        /** 更新フラグ */
-<span id='tm-display-CanvasElement-property-visible'>        isUpdate: true,
-</span><span id='tm-display-CanvasElement-property-fillStyle'>        /** 表示フラグ */
-</span>        visible: true,
-<span id='tm-display-CanvasElement-property-strokeStyle'>        /** fillStyle */
-</span>        fillStyle: &quot;white&quot;,
-<span id='tm-display-CanvasElement-property-alpha'>        /** strokeStyle */
-</span>        strokeStyle: &quot;white&quot;,
-<span id='tm-display-CanvasElement-property-blendMode'>        /** アルファ */
-</span>        alpha: 1.0,
-<span id='tm-display-CanvasElement-property-shadowColor'>        /** ブレンドモード */
-</span><span id='tm-display-CanvasElement-property-shadowOffsetX'>        blendMode: &quot;source-over&quot;,
-</span>        /** シャドウカラー */
-<span id='tm-display-CanvasElement-property-shadowOffsetY'>        shadowColor: &quot;black&quot;,
-</span>        /** @TODO ? */
-<span id='tm-display-CanvasElement-property-shadowBlur'>        shadowOffsetX: 0,
-</span>        /** @TODO ? */
-<span id='tm-display-CanvasElement-method-constructor'>        shadowOffsetY: 0,
-</span>        /** @TODO ? */
-        shadowBlur: 0,
+        superClass: tm.app.Object2D,
 
-        /**
-         * @constructor
+<span id='tm-display-CanvasElement-property-isUpdate'>        /** 更新フラグ */
+</span>        isUpdate: true,
+<span id='tm-display-CanvasElement-property-visible'>        /** 表示フラグ */
+</span>        visible: true,
+<span id='tm-display-CanvasElement-property-fillStyle'>        /** fillStyle */
+</span>        fillStyle: &quot;white&quot;,
+<span id='tm-display-CanvasElement-property-strokeStyle'>        /** strokeStyle */
+</span>        strokeStyle: &quot;white&quot;,
+<span id='tm-display-CanvasElement-property-alpha'>        /** アルファ */
+</span>        alpha: 1.0,
+<span id='tm-display-CanvasElement-property-blendMode'>        /** ブレンドモード */
+</span>        blendMode: &quot;source-over&quot;,
+<span id='tm-display-CanvasElement-property-shadowColor'>        /** シャドウカラー */
+</span>        shadowColor: &quot;black&quot;,
+<span id='tm-display-CanvasElement-property-shadowOffsetX'>        /** @TODO ? */
+</span>        shadowOffsetX: 0,
+<span id='tm-display-CanvasElement-property-shadowOffsetY'>        /** @TODO ? */
+</span>        shadowOffsetY: 0,
+<span id='tm-display-CanvasElement-property-shadowBlur'>        /** @TODO ? */
+</span>        shadowBlur: 0,
+
+<span id='tm-display-CanvasElement-method-constructor'>        /**
+</span>         * @constructor
          */
-<span id='tm-display-CanvasElement-method-setAlpha'>        init: function() {
-</span>            this.superInit();
+        init: function() {
+            this.superInit();
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-setAlpha'>        /**
+</span>         * @TODO ?
          */
         setAlpha: function(alpha) {
-<span id='tm-display-CanvasElement-method-setShadowColor'>            this.alpha = alpha;
-</span>            return this;
+            this.alpha = alpha;
+            return this;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-setShadowColor'>        /**
+</span>         * @TODO ?
          */
         setShadowColor: function(color) {
-<span id='tm-display-CanvasElement-method-setShadowBlur'>            this.shadowColor = color;
-</span>            return this;
+            this.shadowColor = color;
+            return this;
         },
         
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-setShadowBlur'>        /**
+</span>         * @TODO ?
          */
         setShadowBlur: function(blur) {
-<span id='tm-display-CanvasElement-method-setShadowOffset'>            this.shadowBlur = blur;
-</span>            return this;
+            this.shadowBlur = blur;
+            return this;
         },
         
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-setShadowOffset'>        /**
+</span>         * @TODO ?
          */
         setShadowOffset: function(x, y) {
             this.shadowOffsetX = x;
-<span id='tm-display-CanvasElement-method-drawBoundingCircle'>            this.shadowOffsetY = y;
-</span>            return this;
+            this.shadowOffsetY = y;
+            return this;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-drawBoundingCircle'>        /**
+</span>         * @TODO ?
          */
         drawBoundingCircle: function(canvas) {
             canvas.save();
             canvas.lineWidth = 2;
-<span id='tm-display-CanvasElement-method-drawBoundingRect'>            canvas.strokeCircle(0, 0, this.radius);
-</span>            canvas.restore();
+            canvas.strokeCircle(0, 0, this.radius);
+            canvas.restore();
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-drawBoundingRect'>        /**
+</span>         * @TODO ?
          */
         drawBoundingRect: function(canvas) {
             canvas.save();
             canvas.lineWidth = 2;
-<span id='tm-display-CanvasElement-method-drawFillRect'>            canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
-</span>            canvas.restore();
+            canvas.strokeRect(-this.width*this.originX, -this.height*this.originY, this.width, this.height);
+            canvas.restore();
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-drawFillRect'>        /**
+</span>         * @TODO ?
          */
         drawFillRect: function(ctx) {
-<span id='tm-display-CanvasElement-method-drawStrokeRect'>            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
-</span>            return this;
+            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+            return this;
         },
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-drawStrokeRect'>        /**
+</span>         * @TODO ?
          */
         drawStrokeRect: function(ctx) {
-<span id='tm-display-CanvasElement-method-drawFillArc'>            ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
-</span>            return this;
+            ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
+            return this;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-drawFillArc'>        /**
+</span>         * @TODO ?
          */
         drawFillArc: function(ctx) {
             ctx.beginPath();
             ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
-<span id='tm-display-CanvasElement-method-drawStrokeArc'>            ctx.fill();
-</span>            ctx.closePath();
+            ctx.fill();
+            ctx.closePath();
             return this;
         },
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-drawStrokeArc'>        /**
+</span>         * @TODO ?
          */
         drawStrokeArc: function(ctx) {
             ctx.beginPath();
             ctx.arc(0, 0, this.radius, 0, Math.PI*2, false);
-<span id='tm-display-CanvasElement-method-show'>            ctx.stroke();
-</span>            ctx.closePath();
+            ctx.stroke();
+            ctx.closePath();
             return this;
         },
 
-        /**
-         * @TODO ?
+        setVisible: function(flag) {
+            this.visible = flag;
+            return this;
+        },
+
+<span id='tm-display-CanvasElement-method-show'>        /**
+</span>         * @TODO ?
          */
         show: function() {
-<span id='tm-display-CanvasElement-method-hide'>            this.visible = true;
-</span>            return this;
+            this.visible = true;
+            return this;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-hide'>        /**
+</span>         * @TODO ?
          */
         hide: function() {
-<span id='tm-display-CanvasElement-method-setFillStyle'>            this.visible = false;
-</span>            return this;
+            this.visible = false;
+            return this;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-setFillStyle'>        /**
+</span>         * @TODO ?
          */
         setFillStyle: function(style) {
-<span id='tm-display-CanvasElement-method-setStrokeStyle'>            this.fillStyle = style;
-</span>            return this;
+            this.fillStyle = style;
+            return this;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-setStrokeStyle'>        /**
+</span>         * @TODO ?
          */
         setStrokeStyle: function(style) {
-<span id='tm-display-CanvasElement-method-setBlendMode'>            this.strokeStyle = style;
-</span>            return this;
+            this.strokeStyle = style;
+            return this;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-setBlendMode'>        /**
+</span>         * @TODO ?
          */
         setBlendMode: function(blendMode) {
-<span id='tm-display-CanvasElement-method-load'>            this.blendMode = blendMode;
-</span>            return this;
+            this.blendMode = blendMode;
+            return this;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-load'>        /**
+</span>         * @TODO ?
          */
         load: function(data) {
             var self = this;
@@ -225,46 +230,12 @@ tm.display = tm.display || {};
                     element.height = obj.height;
                 });
 
-<span id='tm-display-CanvasElement-method-fromJSON'>                self[layer.name] = group;
-</span>            });
+                self[layer.name] = group;
+            });
         },
 
-        /**
-         * @TODO ?
-         */
-        fromJSON: function(data) {
-            for (var key in data) {
-                var value = data[key];
-                if (key == &quot;children&quot;) {
-                    for (var i=0,len=value.length; i&lt;len; ++i) {
-                        var data = value[i];
-                        var init = data[&quot;init&quot;] || [];
-                        var _class = tm.using(data.type);
-                        if (Object.keys(_class).length === 0) {
-                            _class = tm.display[data.type];
-                        }
-                        var elm = _class.apply(null, init).addChildTo(this);
-                        elm.fromJSON(data);
-                        this[data.name] = elm;
-                    }
-                }
-                else {
-                    this[key] = value;
-<span id='tm-display-CanvasElement-method-toJSON'>                }
-</span>            }
-
-            return this;
-        },
-
-        /**
-         * @TODO ?
-<span id='tm-display-CanvasElement-method-_calcAlpha'>         */
-</span>        toJSON: function() {
-            // TODO:
-        },
-
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-_calcAlpha'>        /**
+</span>         * @TODO ?
          * @private
          */
         _calcAlpha: function() {
@@ -274,12 +245,12 @@ tm.display = tm.display || {};
             }
             else {
                 // alpha
-<span id='tm-display-CanvasElement-method-_dirtyCalc'>                this._worldAlpha = this.parent._worldAlpha * this.alpha;
-</span>            }
+                this._worldAlpha = this.parent._worldAlpha * this.alpha;
+            }
         },
 
-        /**
-         * @TODO ?
+<span id='tm-display-CanvasElement-method-_dirtyCalc'>        /**
+</span>         * @TODO ?
          * @private
          */
         _dirtyCalc: function() {

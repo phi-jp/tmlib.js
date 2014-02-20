@@ -29,8 +29,8 @@
             
             this.mode = param.mode || &quot;horizon&quot;;
             
-            this.fontColor = param.fontColor || &quot;#aaa&quot;;
-            this.bgColor = param.bgColor || &quot;transparent&quot;;
+            this._fillStyle = param.fillStyle || &quot;#aaa&quot;;
+            this._bgColor = param.bgColor || &quot;transparent&quot;;
             
             this._fontSize   = param.fontSize || 24;
             this._fontFamily = &quot;'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;;
@@ -55,7 +55,7 @@
             this.canvas.clearColor(this.bgColor);
             
             this.canvas.font = this.fontStyle;
-            this.canvas.fillStyle = this.fontColor;
+            this.canvas.fillStyle = this.fillStyle;
             this.canvas.fillLabelArea({
                 text: this._text,
                 x: 0,
@@ -63,11 +63,11 @@
                 width: this.width,
                 height: this.height,
                 mode: this.mode,
-<span id='global-method-_updateFont'>            });
-</span>        },
+            });
+        },
 
-        /**
-         * @TODO ?
+<span id='global-method-_updateFont'>        /**
+</span>         * @TODO ?
          * @private
          */
         _updateFont: function() {
@@ -75,51 +75,71 @@
             if (this.text) {
                 this._renderText();
             }
-<span id='global-property-text'>        },
-</span>    });
+        },
+    });
     
     
-    /**
-     * @property    text
+<span id='global-property-text'>    /**
+</span>     * @property    text
      * 文字
      */
     tm.ui.LabelArea.prototype.accessor(&quot;text&quot;, {
         &quot;get&quot;: function() { return this._text; },
         &quot;set&quot;: function(v){
-<span id='global-property-fontSize'>            this.setText(v);
-</span>        }
+            this.setText(v);
+        }
     });
     
-    /**
-     * @property    fontSize
+<span id='global-property-fontSize'>    /**
+</span>     * @property    fontSize
      * フォントサイズ
      */
     tm.ui.LabelArea.prototype.accessor(&quot;fontSize&quot;, {
         &quot;get&quot;: function() { return this._fontSize; },
-<span id='global-property-fontFamily'>        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
-</span>    });
+        &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
+    });
     
-    /**
-     * @property    fontFamily
+<span id='global-property-fontFamily'>    /**
+</span>     * @property    fontFamily
      * フォント
      */
     tm.ui.LabelArea.prototype.accessor(&quot;fontFamily&quot;, {
         &quot;get&quot;: function() { return this._fontFamily; },
-<span id='global-property-fontWeight'>        &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
-</span>    });
+        &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
+    });
     
-    /**
-     * @property    fontWeight
+<span id='global-property-fontWeight'>    /**
+</span>     * @property    fontWeight
      */
     tm.ui.LabelArea.prototype.accessor(&quot;fontWeight&quot;, {
         &quot;get&quot;: function() { return this._fontWeight; },
         &quot;set&quot;: function(v) {
-<span id='global-property-width'>            this._fontWeight = v; this._updateFont();
-</span>        },
+            this._fontWeight = v; this._updateFont();
+        },
+    });
+    
+<span id='global-property-fillStyle'>    /**
+</span>     * @property    fillStyle
+     */
+    tm.ui.LabelArea.prototype.accessor(&quot;fillStyle&quot;, {
+        &quot;get&quot;: function() { return this._fillStyle; },
+        &quot;set&quot;: function(v) {
+            this._fillStyle = v; this._updateFont();
+        },
+    });
+    
+<span id='global-property-bgColor'>    /**
+</span>     * @property    bgColor
+     */
+    tm.ui.LabelArea.prototype.accessor(&quot;bgColor&quot;, {
+        &quot;get&quot;: function() { return this._bgColor; },
+        &quot;set&quot;: function(v) {
+            this._bgColor = v; this._updateFont();
+        },
     });
 
-    /**
-     * @property    width
+<span id='global-property-width'>    /**
+</span>     * @property    width
      * dummy
      */
     tm.ui.LabelArea.prototype.accessor(&quot;width&quot;, {
@@ -127,14 +147,13 @@
         &quot;set&quot;: function(v){
             this._width = v;
             if (this.text) {
-<span id='global-property-height'>                this._renderText();
-</span>            }
+                this._renderText();
+            }
         }
     });
     
-    
-    /**
-     * @property    height
+<span id='global-property-height'>    /**
+</span>     * @property    height
      * dummy
      */
     tm.ui.LabelArea.prototype.accessor(&quot;height&quot;, {

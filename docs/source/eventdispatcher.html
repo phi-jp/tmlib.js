@@ -29,19 +29,19 @@ tm.event = tm.event || {};
      * ### Reference
      * -(EventDispatcher - ActionScript 3.0 コンポーネントリファレンスガイド)[http://livedocs.adobe.com/flash/9.0_jp/ActionScriptLangRefV3/flash/events/EventDispatcher.html]
      */
-<span id='tm-event-EventDispatcher-property-_listeners'>    tm.define(&quot;tm.event.EventDispatcher&quot;, {
+    tm.define(&quot;tm.event.EventDispatcher&quot;, {
+
+<span id='tm-event-EventDispatcher-property-_listeners'>        /** @private @property _listeners */
 </span>
-<span id='tm-event-EventDispatcher-method-constructor'>        /** @private @property _listeners */
-</span>
-        /**
-         * @constructor
+<span id='tm-event-EventDispatcher-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function() {
-<span id='tm-event-EventDispatcher-method-on'>            this._listeners = {};
-</span>        },
+            this._listeners = {};
+        },
 
-        /**
-         * イベントリスナー追加
+<span id='tm-event-EventDispatcher-method-on'>        /**
+</span>         * イベントリスナー追加
          */
         on: function(type, listener) {
             if (this._listeners[type] === undefined) {
@@ -49,23 +49,23 @@ tm.event = tm.event || {};
             }
             
             this._listeners[type].push(listener);
-<span id='tm-event-EventDispatcher-method-off'>            return this;
-</span>        },
+            return this;
+        },
         
-        /**
-         * リスナーを削除
+<span id='tm-event-EventDispatcher-method-off'>        /**
+</span>         * リスナーを削除
          */
         off: function(type, listener) {
             var listeners = this._listeners[type];
             var index = listeners.indexOf(listener);
             if (index != -1) {
                 listeners.splice(index,1);
-<span id='tm-event-EventDispatcher-method-fire'>            }
-</span>            return this;
+            }
+            return this;
         },
         
-        /**
-         * イベント起動
+<span id='tm-event-EventDispatcher-method-fire'>        /**
+</span>         * イベント起動
          */
         fire: function(e) {
             e.target = this;
@@ -91,26 +91,26 @@ tm.event = tm.event || {};
                 return result;
             };
             
-<span id='tm-event-EventDispatcher-method-hasEventListener'>            this.on(type, func);
-</span>            
+            this.on(type, func);
+            
             return this;
         },
         
-        /**
-         * type に登録されたイベントがあるかをチェック
+<span id='tm-event-EventDispatcher-method-hasEventListener'>        /**
+</span>         * type に登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
-<span id='tm-event-EventDispatcher-method-clearEventListener'>            if (this._listeners[type] === undefined &amp;&amp; !this[&quot;on&quot; + type]) return false;
-</span>            return true;
+            if (this._listeners[type] === undefined &amp;&amp; !this[&quot;on&quot; + type]) return false;
+            return true;
         },
         
-        /**
-         * type に登録されているリスナーを全てクリア
+<span id='tm-event-EventDispatcher-method-clearEventListener'>        /**
+</span>         * type に登録されているリスナーを全てクリア
          */
         clearEventListener: function(type) {
             var oldEventName = 'on' + type;
-<span id='tm-event-EventDispatcher-method-addEventListener'>            if (this[oldEventName]) delete this[oldEventName];
-</span>
+            if (this[oldEventName]) delete this[oldEventName];
+
             this._listeners[type] = [];
             return this;
         },
@@ -118,22 +118,22 @@ tm.event = tm.event || {};
 
     var proto = tm.event.EventDispatcher.prototype;
     
-<span id='tm-event-EventDispatcher-method-removeEventListener'>    /**
+<span id='tm-event-EventDispatcher-method-addEventListener'>    /**
 </span>     * @member  tm.event.EventDispatcher
      * @method  addEventListener
      * on と同じ
      */
     proto.addEventListener      = proto.on;
     
-<span id='tm-event-EventDispatcher-method-dispatchEvent'>    /**
+<span id='tm-event-EventDispatcher-method-removeEventListener'>    /**
 </span>     * @member  tm.event.EventDispatcher
      * @method  removeEventListener
      * off と同じ
      */
     proto.removeEventListener   = proto.off;
     
-    /**
-     * @member  tm.event.EventDispatcher
+<span id='tm-event-EventDispatcher-method-dispatchEvent'>    /**
+</span>     * @member  tm.event.EventDispatcher
      * @method  dispatchEvent
      * fire と同じ
      */

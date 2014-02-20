@@ -25,89 +25,89 @@
 </span>     * @class global.Math
      * Mathの拡張
      */
-<span id='global-Math-method-clamp'>    
-</span>    /**
-     * @method
+    
+<span id='global-Math-method-clamp'>    /**
+</span>     * @method
      * クランプ
      */
     Math.clamp = function(x, a, b) {
 //        return ( Math.max( Math.min(x, ), min ) )
         return (x &lt; a) ? a : ( (x &gt; b) ? b : x );
-<span id='global-Math-property-DEG_TO_RAD'>    };
-</span>    
-    /**
-     * @property    DEG_TO_RAD
+    };
+    
+<span id='global-Math-property-DEG_TO_RAD'>    /**
+</span>     * @property    DEG_TO_RAD
      * Degree to Radian.
      */
     Math.DEG_TO_RAD = Math.PI/180;
-<span id='global-Math-property-RAD_TO_DEG'>    
-</span>    
-    /**
-     * @property    RAD_TO_DEG
+    
+    
+<span id='global-Math-property-RAD_TO_DEG'>    /**
+</span>     * @property    RAD_TO_DEG
      * Radian to Degree.
      */
-<span id='global-Math-method-degToRad'>    Math.RAD_TO_DEG = 180/Math.PI;
-</span>    
-    /**
-     * @method
+    Math.RAD_TO_DEG = 180/Math.PI;
+    
+<span id='global-Math-method-degToRad'>    /**
+</span>     * @method
      * Degree を Radian に変換
      */
     Math.degToRad = function(deg) {
-<span id='global-Math-method-radToDeg'>        return deg * Math.DEG_TO_RAD;
-</span>    };
+        return deg * Math.DEG_TO_RAD;
+    };
     
-    /**
-     * @method
+<span id='global-Math-method-radToDeg'>    /**
+</span>     * @method
      * Radian を Degree に変換
      */
     Math.radToDeg = function(rad) {
-<span id='global-Math-method-rand'>        return rad * Math.RAD_TO_DEG;
-</span>    };
+        return rad * Math.RAD_TO_DEG;
+    };
     
     
     
-    /**
-     * @method
+<span id='global-Math-method-rand'>    /**
+</span>     * @method
      * ランダムな値を指定された範囲内で生成
      */
     Math.rand = function(min, max) {
-<span id='global-Math-method-randf'>        return window.Math.floor( Math.random()*(max-min+1) ) + min;
-</span>    };
+        return window.Math.floor( Math.random()*(max-min+1) ) + min;
+    };
     
-    /**
-     * @method
+<span id='global-Math-method-randf'>    /**
+</span>     * @method
      * ランダムな値を指定された範囲内で生成
-<span id='global-Math-method-magnitude'>     */
-</span>    Math.randf= function(min, max) {
+     */
+    Math.randf= function(min, max) {
         return window.Math.random()*(max-min)+min;
     };
 
-    /**
-     * @method
+<span id='global-Math-method-magnitude'>    /**
+</span>     * @method
      * 長さを取得
      */
-<span id='global-Math-method-magnitudeSq'>    Math.magnitude = function() {
-</span>        return Math.sqrt(Math.magnitudeSq.apply(null, arguments));
+    Math.magnitude = function() {
+        return Math.sqrt(Math.magnitudeSq.apply(null, arguments));
     };
     
     
-    /**
-     * @method
+<span id='global-Math-method-magnitudeSq'>    /**
+</span>     * @method
      * 長さの２乗を取得
      */
     Math.magnitudeSq = function() {
         var n = 0;
         
-<span id='global-Math-method-inside'>        for (var i=0,len=arguments.length; i&lt;len; ++i) {
-</span>            n += arguments[i]*arguments[i];
+        for (var i=0,len=arguments.length; i&lt;len; ++i) {
+            n += arguments[i]*arguments[i];
         }
         
         return n;
     };
 
 
-    /**
-     * @method
+<span id='global-Math-method-inside'>    /**
+</span>     * @method
      * a &lt;= x &lt;= b のとき true を返す
      */
     Math.inside = function(x, a, b) {

@@ -31,11 +31,11 @@ tm.social = tm.social || {};
     tm.social.Twitter = tm.social.Twitter || {};
     
     tm.social.Twitter.API_URL = &quot;http://api.twitter.com/1&quot;;    // version 1 は廃止予定らしい
-<span id='tm-social-Twitter-method-createURL'>    var BASE_URL = &quot;http://twitter.com/intent&quot;;
-</span>
+    var BASE_URL = &quot;http://twitter.com/intent&quot;;
 
-    /**
-     * @member      tm.social.Twitter
+
+<span id='tm-social-Twitter-method-createURL'>    /**
+</span>     * @member      tm.social.Twitter
      * Tweet する
      * @param {Object} prop
      * ### Reference
@@ -68,8 +68,8 @@ tm.social = tm.social || {};
             param   : param_string_list.join('&amp;'),
         });
         
-<span id='tm-social-Twitter-method-api'>        return url;
-</span>    };
+        return url;
+    };
     
     
 })();
@@ -78,15 +78,15 @@ tm.social = tm.social || {};
     
     var BASE_URL = &quot;http://api.twitter.com/1/{type}/{kind}.json&quot;;
 
-    /**
-     * @member      tm.social.Twitter
+<span id='tm-social-Twitter-method-api'>    /**
+</span>     * @member      tm.social.Twitter
      */
     tm.social.Twitter.api = function(type, kind, param, callback) {
         var url = BASE_URL.format({ type:type, kind:kind });
         var qs  = tm.util.QueryString.stringify(param);
         
-<span id='tm-social-Twitter-method-search'>        tm.util.Ajax.loadJSONP(url + &quot;?&quot; + qs, callback);
-</span>    };
+        tm.util.Ajax.loadJSONP(url + &quot;?&quot; + qs, callback);
+    };
     
 })();
 
@@ -96,8 +96,8 @@ tm.social = tm.social || {};
     
     var BASE_URL = &quot;http://search.twitter.com/search.json&quot;;
 
-    /**
-     * @member      tm.social.Twitter
+<span id='tm-social-Twitter-method-search'>    /**
+</span>     * @member      tm.social.Twitter
      */
     tm.social.Twitter.search = function(param, callback) {
         var url = BASE_URL;
@@ -114,11 +114,11 @@ tm.social = tm.social || {};
     /*
      * format = xml or json
      */
-<span id='tm-social-Twitter-method-getFollowers'>    var BASE_URL = &quot;http://api.twitter.com/1/statuses/followers.json&quot;;
-</span>    //http://api.twitter.com/1/statuses/followers.json?id=tmlife_jp
+    var BASE_URL = &quot;http://api.twitter.com/1/statuses/followers.json&quot;;
+    //http://api.twitter.com/1/statuses/followers.json?id=tmlife_jp
     
-    /**
-     * @member      tm.social.Twitter
+<span id='tm-social-Twitter-method-getFollowers'>    /**
+</span>     * @member      tm.social.Twitter
      * 
      * user_id      ユーザーID
      * screen_name  screen_name

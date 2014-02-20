@@ -29,23 +29,23 @@ tm.app = tm.app || {};
      * 衝突管理クラス
      */
     tm.app.Collision = tm.createClass({
-<span id='tm-app-Collision-property-element'>        
-</span>        /** @property */
-<span id='tm-app-Collision-property-collideList'>        element: null,
-</span>        /** @property */
-<span id='tm-app-Collision-method-constructor'>        collideList: null,
-</span>
-        /**
-         * @constructor
+        
+<span id='tm-app-Collision-property-element'>        /** @property */
+</span>        element: null,
+<span id='tm-app-Collision-property-collideList'>        /** @property */
+</span>        collideList: null,
+
+<span id='tm-app-Collision-method-constructor'>        /**
+</span>         * @constructor
          * @param {Object} elm
          */
         init: function(elm) {
             this.element = elm;
             this.collideList = [];
         },
-<span id='tm-app-Collision-method-update'>        
-</span>        /**
-         * 更新
+        
+<span id='tm-app-Collision-method-update'>        /**
+</span>         * 更新
          * @param {Object} app
          */
         update: function(app) {
@@ -74,37 +74,37 @@ tm.app = tm.app || {};
                         e.other = c.element;
                         elm.dispatchEvent(e);
                     }
-<span id='tm-app-Collision-method-add'>                    c.collide = false;
-</span>                }
+                    c.collide = false;
+                }
             }
         },
         
-        /**
-         * 追加
+<span id='tm-app-Collision-method-add'>        /**
+</span>         * 追加
          * @param {Object} elm
          */
         add: function(elm) {
             this.collideList.push({
                 element: elm,
-<span id='tm-app-Collision-method-remove'>                collide: false,
-</span>            });
+                collide: false,
+            });
         },
         
-        /**
-         * 削除
+<span id='tm-app-Collision-method-remove'>        /**
+</span>         * 削除
          * @param {Object} elm
          */
         remove: function(elm) {
             this.collideList.eraseIf(function(v) {
-<span id='tm-app-Element-property-collision'>                return v.element == elm;
-</span>            });
+                return v.element == elm;
+            });
         },
         
     });
     
     
-    /**
-     * @member      tm.app.Element
+<span id='tm-app-Element-property-collision'>    /**
+</span>     * @member      tm.app.Element
      * @property    collision
      * コリジョン
      */

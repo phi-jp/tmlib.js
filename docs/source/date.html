@@ -32,13 +32,13 @@
     
     var WEEK = [
         &quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;
-<span id='global-Date-method-format'>    ];
-</span>    
-    /**
-     * @method  format
+    ];
+    
+<span id='global-Date-method-format'>    /**
+</span>     * @method  format
      * 日付フォーマットに合わせた文字列を返す
      */
-    Date.prototype.format = function(pattern) {
+    Date.defineInstanceMethod(&quot;format&quot;, function(pattern) {
         /*
         var str = &quot;{y}/{m}/{d}&quot;.format({
             y: this.getYear()+1900,
@@ -56,6 +56,7 @@
         var hours   = this.getHours();
         var minutes = this.getMinutes();
         var seconds = this.getSeconds();
+        var millseconds = this.getMilliseconds();
         var str = &quot;&quot;;
         
         for (var i=0,len=pattern.length; i&lt;len; ++i) {
@@ -96,13 +97,14 @@
                 case &quot;H&quot;: temp = hours.padding(2, '0'); break;
                 case &quot;i&quot;: temp = minutes.padding(2, '0'); break;
                 case &quot;s&quot;: temp = seconds.padding(2, '0'); break;
+                case &quot;S&quot;: temp = millseconds.padding(3, '0'); break;
                 
                 default : temp = ch; break;
             }
             str += temp;
         }
         return str;
-    };
+    });
     
 })();
 

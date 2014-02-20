@@ -27,12 +27,12 @@
      * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.asset.MapSheet&quot;, {
-<span id='tm-asset-MapSheet-property-loaded'>        superClass: &quot;tm.event.EventDispatcher&quot;,
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+
+<span id='tm-asset-MapSheet-property-loaded'>        /** @property loaded  */
 </span>
-<span id='tm-asset-MapSheet-method-constructor'>        /** @property loaded  */
-</span>
-        /**
-         * @constructor
+<span id='tm-asset-MapSheet-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(path) {
             this.superInit();
@@ -54,10 +54,10 @@
 
                 this._checkImage();
             }
-<span id='tm-asset-MapSheet-method-_parse'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-asset-MapSheet-method-_parse'>        /**
+</span>         * @TODO ?
          * @private
          */
         _parse: function(str) {
@@ -76,10 +76,10 @@
             data.layers = this._parseLayers(xml);
 
             return data;
-<span id='tm-asset-MapSheet-method-_parseTilesets'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-asset-MapSheet-method-_parseTilesets'>        /**
+</span>         * @TODO ?
          * @private
          */
         _parseTilesets: function(xml) {
@@ -101,10 +101,10 @@
             });
 
             return data;
-<span id='tm-asset-MapSheet-method-_parseLayers'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-asset-MapSheet-method-_parseLayers'>        /**
+</span>         * @TODO ?
          * @private
          */
         _parseLayers: function(xml) {
@@ -160,10 +160,10 @@
             }.bind(this));
 
             return data;
-<span id='tm-asset-MapSheet-method-_parseCSV'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-asset-MapSheet-method-_parseCSV'>        /**
+</span>         * @TODO ?
          * @private
          */
         _parseCSV: function(data) {
@@ -176,10 +176,10 @@
             });
 
             return layer;
-<span id='tm-asset-MapSheet-method-_parseBase64'>        },
-</span>
-        /**
-         * http://thekannon-server.appspot.com/herpity-derpity.appspot.com/pastebin.com/75Kks0WH
+        },
+
+<span id='tm-asset-MapSheet-method-_parseBase64'>        /**
+</span>         * http://thekannon-server.appspot.com/herpity-derpity.appspot.com/pastebin.com/75Kks0WH
          * @private
          */
         _parseBase64: function(data) {
@@ -196,10 +196,10 @@
             }
 
             return rst;
-<span id='tm-asset-MapSheet-method-_propertiesToJson'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-asset-MapSheet-method-_propertiesToJson'>        /**
+</span>         * @TODO ?
          * @private
          */
         _propertiesToJson: function(elm) {
@@ -213,10 +213,10 @@
             }
 
             return obj;
-<span id='tm-asset-MapSheet-method-_attrToJSON'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-asset-MapSheet-method-_attrToJSON'>        /**
+</span>         * @TODO ?
          * @private
          */
         _attrToJSON: function(source) {
@@ -228,10 +228,10 @@
             }
 
             return obj;
-<span id='tm-asset-MapSheet-method-_checkImage'>        },
-</span>
-        /**
-         * @TODO ?
+        },
+
+<span id='tm-asset-MapSheet-method-_checkImage'>        /**
+</span>         * @TODO ?
          * @private
          */
         _checkImage: function() {

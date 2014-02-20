@@ -28,14 +28,14 @@ tm.graphics = tm.graphics || {};
      * モノクロフィルタ
      */
     tm.graphics.MonochromeFilter = tm.createClass({
-<span id='tm-graphics-MonochromeFilter-method-constructor'>        
-</span>        /**
-         * @constructor
+        
+<span id='tm-graphics-MonochromeFilter-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function() {},
-<span id='tm-graphics-MonochromeFilter-method-apply'>        
-</span>        /**
-         * apply
+        
+<span id='tm-graphics-MonochromeFilter-method-apply'>        /**
+</span>         * apply
          */
         apply: function(src, dst) {
             var len = src.length;
@@ -55,21 +55,21 @@ tm.graphics = tm.graphics || {};
 
 
 
-<span id='tm-graphics-ReverseFilter'>(function() {
-</span>    
-    /**
-     * @class tm.graphics.ReverseFilter
+(function() {
+    
+<span id='tm-graphics-ReverseFilter'>    /**
+</span>     * @class tm.graphics.ReverseFilter
      * リバースフィルタ
      */
-<span id='tm-graphics-ReverseFilter-method-constructor'>    tm.graphics.ReverseFilter = tm.createClass({
-</span>        
-        /**
-         * @constructor
+    tm.graphics.ReverseFilter = tm.createClass({
+        
+<span id='tm-graphics-ReverseFilter-method-constructor'>        /**
+</span>         * @constructor
          */
-<span id='tm-graphics-ReverseFilter-method-apply'>        init: function() {},
-</span>        
-        /**
-         * apply
+        init: function() {},
+        
+<span id='tm-graphics-ReverseFilter-method-apply'>        /**
+</span>         * apply
          */
         apply: function(src, dst) {
             for (var i=0,len=src.width*src.height; i&lt;len; ++i) {
@@ -85,36 +85,36 @@ tm.graphics = tm.graphics || {};
     });
     
     
-<span id='tm-graphics-BlurFilter'>})();
-</span>
+})();
+
 
 (function() {
     
-    /**
-     * @class tm.graphics.BlurFilter
+<span id='tm-graphics-BlurFilter'>    /**
+</span>     * @class tm.graphics.BlurFilter
      * ブラーフィルタ
      * 
      * ### Reference
      * - &lt;http://www40.atwiki.jp/spellbound/pages/153.html&gt;
      * - &lt;http://www.flother.com/blog/2010/image-blur-html5-canvas/&gt;
      */
-<span id='tm-graphics-BlurFilter-property-blurY'><span id='tm-graphics-BlurFilter-property-blurX'>    tm.graphics.BlurFilter = tm.createClass({
-</span></span>
-<span id='tm-graphics-BlurFilter-property-quality'>        /** @property blurX */
-</span>        /** @property blurY */
-<span id='tm-graphics-BlurFilter-method-constructor'>        /** @property quality */
+    tm.graphics.BlurFilter = tm.createClass({
+
+<span id='tm-graphics-BlurFilter-property-blurX'>        /** @property blurX */
+</span><span id='tm-graphics-BlurFilter-property-blurY'>        /** @property blurY */
+</span><span id='tm-graphics-BlurFilter-property-quality'>        /** @property quality */
 </span>        
-        /**
-         * @constructor
+<span id='tm-graphics-BlurFilter-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(blurX, blurY, quality) {
             this.blurX      = blurX || 4;
             this.blurY      = blurY || 4;
-<span id='tm-graphics-BlurFilter-method-apply'>            this.quality    = quality || 1;
-</span>        },
+            this.quality    = quality || 1;
+        },
         
-        /**
-         * apply
+<span id='tm-graphics-BlurFilter-method-apply'>        /**
+</span>         * apply
          */
         apply: function(src, dst) {
             var halfX       = Math.floor(this.blurX/2);
@@ -164,30 +164,30 @@ tm.graphics = tm.graphics || {};
         
         if      (i&lt;100) { n =  60; }
         else if (i&lt;150) { n = 150; }
-<span id='tm-graphics-ToonFilter'>        else if (i&lt;180) { n = 180; }
-</span>        else            { n = 220; }
+        else if (i&lt;180) { n = 180; }
+        else            { n = 220; }
         
         defaultToonTable[i] = n;
     }
     
-<span id='tm-graphics-ToonFilter-property-toonTable'>    /**
+<span id='tm-graphics-ToonFilter'>    /**
 </span>     * @class tm.graphics.ToonFilter
-<span id='tm-graphics-ToonFilter-method-constructor'>     * トゥーンフィルタ
-</span>     */
+     * トゥーンフィルタ
+     */
     tm.graphics.ToonFilter = tm.createClass({
         
-        /** トゥーンテーブル */
-        toonTable: null,
+<span id='tm-graphics-ToonFilter-property-toonTable'>        /** トゥーンテーブル */
+</span>        toonTable: null,
         
-<span id='tm-graphics-ToonFilter-method-apply'>        /**
+<span id='tm-graphics-ToonFilter-method-constructor'>        /**
 </span>         * @constructor
          */
         init: function(toonTable) {
             this.toonTable = toonTable || defaultToonTable;
         },
         
-        /**
-         * apply
+<span id='tm-graphics-ToonFilter-method-apply'>        /**
+</span>         * apply
          */
         apply: function(src, dst) {
             for (var i=0,len=src.width*src.height; i&lt;len; ++i) {
@@ -195,8 +195,8 @@ tm.graphics = tm.graphics || {};
                 var r = this.toonTable[ pixel[0] ];
                 var g = this.toonTable[ pixel[1] ];
                 var b = this.toonTable[ pixel[2] ];
-<span id='tm-graphics-ColorMatrixFilter'>                dst.setPixel32Index(i, r, g, b, 255);
-</span>            }
+                dst.setPixel32Index(i, r, g, b, 255);
+            }
             
             return dst;
         },
@@ -209,30 +209,30 @@ tm.graphics = tm.graphics || {};
 
 (function() {
     
-    /**
-     * @class tm.graphics.ColorMatrixFilter
+<span id='tm-graphics-ColorMatrixFilter'>    /**
+</span>     * @class tm.graphics.ColorMatrixFilter
      * カラーマトリックスフィルタ
      * 
      * ### Reference
      * - &lt;http://blog.boreal-kiss.com/2008/04/08113113.html/&gt;
      * - &lt;http://voglia.jp/2010/01/26/260&gt;
      * - &lt;http://hakuhin.jp/as/color.html#COLOR_02&gt;
-<span id='tm-graphics-ColorMatrixFilter-method-constructor'><span id='tm-graphics-ColorMatrixFilter-property-colorMatrix'>     * - &lt;http://d.hatena.ne.jp/umezo/20090122/1232627694&gt;
-</span></span>     * - &lt;http://www40.atwiki.jp/spellbound/pages/188.html&gt;
+     * - &lt;http://d.hatena.ne.jp/umezo/20090122/1232627694&gt;
+     * - &lt;http://www40.atwiki.jp/spellbound/pages/188.html&gt;
      */
     tm.graphics.ColorMatrixFilter = tm.createClass({
         
-<span id='tm-graphics-ColorMatrixFilter-property-apply'>        /** @property colorMatrix */
+<span id='tm-graphics-ColorMatrixFilter-property-colorMatrix'>        /** @property colorMatrix */
 </span>
-        /**
-         * @constructor
+<span id='tm-graphics-ColorMatrixFilter-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(colorMatrix) {
             this.colorMatrix = colorMatrix;
         },
         
-        /**
-         * @property
+<span id='tm-graphics-ColorMatrixFilter-property-apply'>        /**
+</span>         * @property
          * apply
          */
         apply: function(src, dst) {

@@ -30,20 +30,20 @@
      */
     tm.ui.Gauge = tm.createClass({
         superClass: tm.display.CanvasElement,
-<span id='tm-ui-Gauge-property-animationFlag'>        
-</span>        
-        /**
-<span id='tm-ui-Gauge-property-animationTime'>         * アニメーションさせるかどうかのフラグ
-</span>         */
+        
+        
+<span id='tm-ui-Gauge-property-animationFlag'>        /**
+</span>         * アニメーションさせるかどうかのフラグ
+         */
         animationFlag: true,
-        /**
-         * 0~100 に変化する際にかかる時間
-<span id='tm-ui-Gauge-method-constructor'>         * つまり10*1000 だった場合は, 0~10に変化するさいに　1秒かかる
-</span>         */
+<span id='tm-ui-Gauge-property-animationTime'>        /**
+</span>         * 0~100 に変化する際にかかる時間
+         * つまり10*1000 だった場合は, 0~10に変化するさいに　1秒かかる
+         */
         animationTime: 10*1000, // 10 秒
 
-        /**
-         * @constructor
+<span id='tm-ui-Gauge-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(param) {
             this.superInit();
@@ -55,40 +55,40 @@
                 color: &quot;hsl(220, 100%, 50%)&quot;,
                 bgColor: &quot;#444&quot;,
                 borderColor: &quot;white&quot;,
-<span id='tm-ui-Gauge-method-isFull'>                borderWidth: 4,
-</span>            });
+                borderWidth: 4,
+            });
             
             this.$extend(param);
             
             this._reset();
         },
 
-        /**
-<span id='tm-ui-Gauge-method-isEmpty'>         * @TODO ?
-</span>         */
+<span id='tm-ui-Gauge-method-isFull'>        /**
+</span>         * @TODO ?
+         */
         isFull: function() {
             return this.targetProp === this._maxValue;
         },
 
-<span id='tm-ui-Gauge-method-_reset'>        /**
+<span id='tm-ui-Gauge-method-isEmpty'>        /**
 </span>         * @TODO ?
          */
         isEmpty: function() {
             return this.targetProp == 0;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-ui-Gauge-method-_reset'>        /**
+</span>         * @TODO ?
          * @private
          */
         _reset: function(direction) {
-<span id='tm-ui-Gauge-method-setValue'>            this.originX = 0;
-</span>            this._value = 100;
+            this.originX = 0;
+            this._value = 100;
             this._value = this._maxValue = 100;
         },
 
-        /**
-         * @TODO ?
+<span id='tm-ui-Gauge-method-setValue'>        /**
+</span>         * @TODO ?
          */
         setValue: function(value) {
             value= Math.clamp(value, 0, this._maxValue);
@@ -114,42 +114,42 @@
             else {
                 this._value = value;
                 this.fire(tm.event.Event(&quot;change&quot;));
-<span id='tm-ui-Gauge-method-getValue'>                this.fire(tm.event.Event(&quot;changed&quot;));
-</span>            }
+                this.fire(tm.event.Event(&quot;changed&quot;));
+            }
             
             return this;
         },
-<span id='tm-ui-Gauge-method-setPercent'>
-</span>        /**
-         * @TODO ?
+
+<span id='tm-ui-Gauge-method-getValue'>        /**
+</span>         * @TODO ?
          */
         getValue: function() {
             return this.value;
         },
 
-        /**
-         * @TODO ?
-<span id='tm-ui-Gauge-method-getPercent'>         */
-</span>        setPercent: function(percent) {
+<span id='tm-ui-Gauge-method-setPercent'>        /**
+</span>         * @TODO ?
+         */
+        setPercent: function(percent) {
             return this.setValue(this._maxValue*percent*0.01);
         },
 
-        /**
-<span id='tm-ui-Gauge-method-setRatio'>         * @TODO ?
-</span>         */
+<span id='tm-ui-Gauge-method-getPercent'>        /**
+</span>         * @TODO ?
+         */
         getPercent: function() {
             return (this._value/this._maxValue)*100;
         },
 
-        /**
-         * @TODO ?
-<span id='tm-ui-Gauge-method-getRatio'>         */
-</span>        setRatio: function(ratio) {
+<span id='tm-ui-Gauge-method-setRatio'>        /**
+</span>         * @TODO ?
+         */
+        setRatio: function(ratio) {
             return this.setValue(this._maxValue*percent);
         },
 
-        /**
-         * @TODO ?
+<span id='tm-ui-Gauge-method-getRatio'>        /**
+</span>         * @TODO ?
          */
         getRatio: function() {
             return this._value/this._maxValue;
@@ -173,47 +173,47 @@
             // border
             canvas.strokeStyle = this.borderColor;
             canvas.lineWidth = this.borderWidth;
-<span id='tm-ui-Gauge-property-value'>            canvas.strokeRect(0, 0, this.width, this.height);
-</span>            
+            canvas.strokeRect(0, 0, this.width, this.height);
+            
             canvas.restore();
         }
     });
     
-    /**
-     * @property    value
+<span id='tm-ui-Gauge-property-value'>    /**
+</span>     * @property    value
      * 値
      */
     tm.ui.Gauge.prototype.accessor(&quot;value&quot;, {
-<span id='tm-ui-Gauge-property-percent'>        get: function() {
-</span>            return this._value;
+        get: function() {
+            return this._value;
         },
         set: function(v) {
             this.setValue(v);
         },
     });
 
-    /**
-     * @property    percent
+<span id='tm-ui-Gauge-property-percent'>    /**
+</span>     * @property    percent
      * パーセント
      */
     tm.ui.Gauge.prototype.accessor(&quot;percent&quot;, {
         get: function() {
-<span id='tm-ui-Gauge-property-ratio'>            return this.getPercent();
-</span>        },
+            return this.getPercent();
+        },
         set: function(v) {
             this.setPercent(v);
         },
     });
     
     
-    /**
-     * @property    ratio
+<span id='tm-ui-Gauge-property-ratio'>    /**
+</span>     * @property    ratio
      * 比率
      */
     tm.ui.Gauge.prototype.accessor(&quot;ratio&quot;, {
         get: function() {
-<span id='tm-ui-FlatGauge'>            return this.getRatio();
-</span>        },
+            return this.getRatio();
+        },
         set: function(v) {
             this.setRatio(v);
         },
@@ -224,16 +224,16 @@
 
 ;(function() {
     
-    /**
-<span id='tm-ui-FlatGauge-method-constructor'>     * @class tm.ui.FlatGauge
-</span>     * ゲーム用ゲージクラス
+<span id='tm-ui-FlatGauge'>    /**
+</span>     * @class tm.ui.FlatGauge
+     * ゲーム用ゲージクラス
      * @extends tm.ui.Gauge
      */
     tm.define(&quot;tm.ui.FlatGauge&quot;, {
         superClass: &quot;tm.ui.Gauge&quot;,
         
-        /**
-         * @constructor
+<span id='tm-ui-FlatGauge-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(param) {
             this.superInit(param);
@@ -260,8 +260,8 @@
             // border
             canvas.strokeStyle = this.borderColor;
             canvas.lineWidth = this.borderWidth;
-<span id='tm-ui-GlossyGauge'>            canvas.strokeRoundRect(0, 0, this.width, this.height, this.height/2);
-</span>            
+            canvas.strokeRoundRect(0, 0, this.width, this.height, this.height/2);
+            
             canvas.restore();
         },
     });
@@ -272,22 +272,22 @@
 
 ;(function() {
     
-    /**
-     * @class tm.ui.GlossyGauge
+<span id='tm-ui-GlossyGauge'>    /**
+</span>     * @class tm.ui.GlossyGauge
      * ゲーム用ゲージクラス
      * @extends tm.ui.Gauge
      */
     tm.define(&quot;tm.ui.GlossyGauge&quot;, {
         superClass: &quot;tm.ui.Gauge&quot;,
         
-<span id='tm-ui-GlossyGauge-method-constructor'>        init: function(param) {
-</span>            param = param || {};
+        init: function(param) {
+            param = param || {};
             param.borderWidth = param.borderWidth || 2;
             this.superInit(param);
         },
         
-        /**
-         * @constructor
+<span id='tm-ui-GlossyGauge-method-constructor'>        /**
+</span>         * @constructor
          */
         draw: function(c) {
             c.save();

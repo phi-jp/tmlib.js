@@ -96,31 +96,31 @@ tm.util = tm.util || {};
      * ファイルマネージャ
      */
     tm.util.FileManager = {
-<span id='tm-util-FileManager-static-method-load'><span id='tm-util-FileManager-property-files'>        files: {}
-</span></span>    };
+<span id='tm-util-FileManager-property-files'>        files: {}
+</span>    };
 
-    /**
-     * @static
+<span id='tm-util-FileManager-static-method-load'>    /**
+</span>     * @static
      * @method
      * @TODO ?
      */
     tm.util.FileManager.load = function(key, params) {
         var file = tm.util.File(params);
         this.files[key] = file;
-<span id='tm-util-FileManager-static-method-get'>        return file;
-</span>    };
+        return file;
+    };
 
-    /**
-     * @static
+<span id='tm-util-FileManager-static-method-get'>    /**
+</span>     * @static
      * @method
      * @TODO ?
      */
     tm.util.FileManager.get = function(key) {
-<span id='tm-util-FileManager-static-method-isLoaded'>        return this.files[key];
-</span>    };
+        return this.files[key];
+    };
     
-    /**
-     * @static
+<span id='tm-util-FileManager-static-method-isLoaded'>    /**
+</span>     * @static
      * @method  isLoaded
      * ロードチェック
      */

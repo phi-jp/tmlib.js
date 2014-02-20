@@ -39,9 +39,9 @@
         init: function() {
         }
     });
-<span id='tm-List'>    
-</span>    /**
-     * @class tm.List
+    
+<span id='tm-List'>    /**
+</span>     * @class tm.List
      * List クラス
      * ### Reference
      * - &lt;http://java.sun.com/javase/ja/6/docs/ja/api/java/util/LinkedList.html&gt;
@@ -52,9 +52,9 @@
      * - &lt;http://www.nczonline.net/blog/2009/04/13/computer-science-in-javascript-linked-list/&gt;
      */
     tm.List = tm.createClass({
-<span id='tm-List-method-constructor'>        
-</span>        /**
-         * @constructor
+        
+<span id='tm-List-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function() {
             this._length = 0;
@@ -64,9 +64,9 @@
             this._head.next = this._tail;
             this._tail.prev = this._head;
         },
-<span id='tm-List-method-add'>        
-</span>        /**
-         * 追加
+        
+<span id='tm-List-method-add'>        /**
+</span>         * 追加
          */
         add: function(data) {
             var item = tm.Item();
@@ -82,9 +82,9 @@
             
             return this;
         },
-<span id='tm-List-method-remove'>        
-</span>        /**
-         * 削除
+        
+<span id='tm-List-method-remove'>        /**
+</span>         * 削除
          */
         remove: function(index) {
             var current = this.getItem(index);
@@ -95,17 +95,17 @@
             --this._length;
             
             return current;
-<span id='tm-List-method-get'>        },
-</span>        
-        /**
-         * ゲット
+        },
+        
+<span id='tm-List-method-get'>        /**
+</span>         * ゲット
          */
         get: function(index) {
             return this.getItem(index).data;
-<span id='tm-List-method-getItem'>        },
-</span>        
-        /**
-         * アイテムを取得
+        },
+        
+<span id='tm-List-method-getItem'>        /**
+</span>         * アイテムを取得
          */
         getItem: function(index) {
             var current = this._head.next;
@@ -115,60 +115,60 @@
                 current = current.next;
             }
             
-<span id='tm-List-method-forEach'>            return current;
-</span>        },
+            return current;
+        },
         
-        /**
-         * 繰り返し
+<span id='tm-List-method-forEach'>        /**
+</span>         * 繰り返し
          */
         forEach: function(fn) {
-<span id='tm-List-method-clear'>            // TODO:
-</span>        },
-        
-        /**
-         * クリア
-         */
-<span id='tm-List-method-clone'>        clear: function() {
-</span>            // TODO:
+            // TODO:
         },
         
-        /**
-         * クローン
+<span id='tm-List-method-clear'>        /**
+</span>         * クリア
          */
-<span id='tm-List-method-getFirst'>        clone: function() {
-</span>            // TODO:
+        clear: function() {
+            // TODO:
         },
         
-        /**
-         * 最初の要素を取得
+<span id='tm-List-method-clone'>        /**
+</span>         * クローン
          */
-<span id='tm-List-method-getLast'>        getFirst: function() {
-</span>            // TODO:
+        clone: function() {
+            // TODO:
         },
         
-        /**
-<span id='tm-List-method-indexOf'>         * 最後の要素を取得
-</span>         */
+<span id='tm-List-method-getFirst'>        /**
+</span>         * 最初の要素を取得
+         */
+        getFirst: function() {
+            // TODO:
+        },
+        
+<span id='tm-List-method-getLast'>        /**
+</span>         * 最後の要素を取得
+         */
         getLast: function() {
             // TODO:
         },
         
-        /**
-<span id='tm-List-method-lastIndexOf'>         * 最初に一致した位置のインデックスを取得
-</span>         */
+<span id='tm-List-method-indexOf'>        /**
+</span>         * 最初に一致した位置のインデックスを取得
+         */
         indexOf: function(obj) {
             // TODO:
         },
         
-<span id='tm-List-method-toArray'>        /**
+<span id='tm-List-method-lastIndexOf'>        /**
 </span>         * 最後に一致した位置のインデックスを取得
          */
         lastIndexOf: function(obj) {
             // TODO:
         },
         
-        /**
-         * 配列に変換
+<span id='tm-List-method-toArray'>        /**
+</span>         * 配列に変換
          */
         toArray: function() {
             if (this._length &lt;= 0) return [];
@@ -176,16 +176,16 @@
             var current = this._head.next;
             var arr = [];
             
-<span id='tm-List-method-toString'>            while (current.data != null) {
-</span>                arr.push(current.data);
+            while (current.data != null) {
+                arr.push(current.data);
                 current = current.next;
             }
             
             return arr;
         },
         
-        /**
-         * 文字列に変換
+<span id='tm-List-method-toString'>        /**
+</span>         * 文字列に変換
          */
         toString: function() {
             var arr = this.toArray();

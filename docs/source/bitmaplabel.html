@@ -38,14 +38,14 @@ tm.app = tm.app || {};
 
     
     tm.display.BitmapLabel = tm.createClass({
-<span id='tm-display-BitmapLabel-property-fontSize'>        superClass: tm.display.Shape,
+        superClass: tm.display.Shape,
+
+<span id='tm-display-BitmapLabel-property-fontSize'>        /** @property fontSize */
+</span><span id='tm-display-BitmapLabel-property-spacing'>        /** @property spacing */
+</span><span id='tm-display-BitmapLabel-property-texture'>        /** @property texture */
 </span>
-<span id='tm-display-BitmapLabel-property-spacing'>        /** @property fontSize */
-</span><span id='tm-display-BitmapLabel-property-texture'>        /** @property spacing */
-</span><span id='tm-display-BitmapLabel-method-constructor'>        /** @property texture */
-</span>
-        /**
-         * @constructor
+<span id='tm-display-BitmapLabel-method-constructor'>        /**
+</span>         * @constructor
          */
         init: function(params) {
         	this.superInit();
@@ -57,11 +57,11 @@ tm.app = tm.app || {};
         	if (typeof texture == &quot;string&quot;) texture = tm.asset.Manager.get(texture);
         	this.texture = texture;
 
-<span id='tm-display-BitmapLabel-method-render'>        	this.render(params.text);
-</span>        },
+        	this.render(params.text);
+        },
 
-        /**
-         * @TODO ?
+<span id='tm-display-BitmapLabel-method-render'>        /**
+</span>         * @TODO ?
          */
         render: function(text) {
         	var c = this.canvas;

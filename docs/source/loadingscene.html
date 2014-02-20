@@ -25,6 +25,7 @@
     var DEFAULT_PARAM = {
         width: 465,
         height: 465,
+        bgColor: &quot;transparent&quot;,
     };
     
     tm.define(&quot;tm.ui.LoadingScene&quot;, {
@@ -34,51 +35,94 @@
             this.superInit();
             
             param = {}.$extend(DEFAULT_PARAM, param);
+
+
+            this.fromJSON({
+                children: {
+                    stage: {
+                        type: &quot;tm.display.CanvasElement&quot;,
+                    },
+                }
+            });
+
+
+            this.stage.fromJSON({
+                children: {
+                    bg: {
+                        type: &quot;tm.display.Shape&quot;,
+                        init: [param.width, param.height],
+                        originX: 0,
+                        originY: 0,
+                    },
+                    label: {
+                        type: &quot;tm.display.Label&quot;,
+                        text: &quot;Loading.&quot;,
+                        x: param.width/2,
+                        y: param.height/2-20,
+                        align: &quot;center&quot;,
+                        baseline: &quot;middle&quot;,
+                        fontSize: 32,
+                    },
+                    progressLabel: {
+                        type: &quot;tm.display.Label&quot;,
+                        text: &quot;(0%)&quot;,
+                        x: param.width/2,
+                        y: param.height/2+20,
+                        align: &quot;center&quot;,
+                        baseline: &quot;middle&quot;,
+                        fontSize: 22,
+                    },
+                    piyo: {
+                        type: &quot;tm.display.Shape&quot;,
+                        init: [84, 84],
+                        x: param.width,
+                        y: param.height - 80,
+                    },
+                }
+            });
             
-            this.bg = tm.display.Shape(param.width, param.height).addChildTo(this);
-            this.bg.canvas.clearColor(&quot;hsla(200, 80%, 70%, 1.0)&quot;);
-            this.bg.setOrigin(0, 0);
-            
-            var label = tm.display.Label(&quot;Loading&quot;);
-            label.x = param.width/2;
-            label.y = param.height/2;
-            label.width = param.width;
-            label.align     = &quot;center&quot;;
-            label.baseline  = &quot;middle&quot;;
-            label.fontSize = 32;
+            // bg
+            var bg = this.stage.bg;
+            bg.canvas.clearColor(param.bgColor);
+
+            // label
+            var label = this.stage.label;
             label.counter = 0;
             label.update = function(app) {
                 if (app.frame % 30 == 0) {
                     this.text += &quot;.&quot;;
                     this.counter += 1;
-                    if (this.counter &gt; 3) {
+                    if (this.counter &gt;= 3) {
                         this.counter = 0;
-                        this.text = &quot;Loading&quot;;
+                        this.text = &quot;Loading.&quot;;
                     }
                 }
             };
-            label.addChildTo(this.bg);
 
+            // progress
+            var progressLabel = this.stage.progressLabel;
+
+            
             // ひよこさん
-            var piyo = tm.display.Shape(84, 84);
-            piyo.setPosition(param.width, param.height - 80);
+            var piyo = this.stage.piyo;
             piyo.canvas.setColorStyle(&quot;white&quot;, &quot;yellow&quot;).fillCircle(42, 42, 32);
             piyo.canvas.setColorStyle(&quot;white&quot;, &quot;black&quot;).fillCircle(27, 27, 2);
             piyo.canvas.setColorStyle(&quot;white&quot;, &quot;brown&quot;).fillRect(40, 70, 4, 15).fillTriangle(0, 40, 11, 35, 11, 45);
             piyo.update = function(app) {
-                piyo.x -= 4;
-                if (piyo.x &lt; -80) piyo.x = param.width;
-                piyo.rotation -= 7;
+                this.x -= 4;
+                if (this.x &lt; -80) this.x = param.width;
+                this.rotation -= 7;
             };
-            piyo.addChildTo(this.bg);
 
-            this.alpha = 0.0;
-            this.bg.tweener.clear().fadeIn(100).call(function() {
+            // load
+            var stage = this.stage;
+            stage.alpha = 0.0;
+            stage.tweener.clear().fadeIn(100).call(function() {
                 if (param.assets) {
                     var loader = tm.asset.Loader();
                     
                     loader.onload = function() {
-                        this.bg.tweener.clear().wait(200).fadeOut(200).call(function() {
+                        stage.tweener.clear().wait(200).fadeOut(200).call(function() {
                             if (param.nextScene) {
                                 this.app.replaceScene(param.nextScene());
                             }
@@ -88,6 +132,7 @@
                     }.bind(this);
                     
                     loader.onprogress = function(e) {
+                        progressLabel.text = '({0}%)'.format((e.progress*100)|0);
                         var event = tm.event.Event(&quot;progress&quot;);
                         event.progress = e.progress;
                         this.fire(event);

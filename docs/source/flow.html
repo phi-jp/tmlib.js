@@ -55,10 +55,10 @@ tm.define(&quot;tm.util.Flow&quot;, {
         this.callback = callback;
         this.counter = 0;
         this.args = {};
-<span id='tm-util-Flow-method-pass'>    },
-</span>    
-    /**
-     * パス
+    },
+    
+<span id='tm-util-Flow-method-pass'>    /**
+</span>     * パス
      */
     pass: function(key, value) {
         ++this.counter;
@@ -68,10 +68,10 @@ tm.define(&quot;tm.util.Flow&quot;, {
         }
         
         this._check();
-<span id='tm-util-Flow-method-isFinish'>    },
-</span>    
-    /**
-     * 終了チェック
+    },
+    
+<span id='tm-util-Flow-method-isFinish'>    /**
+</span>     * 終了チェック
      */
     isFinish: function() {
         return (this.counter === this.waits);

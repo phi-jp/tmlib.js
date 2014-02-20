@@ -36,23 +36,23 @@ tm.util = tm.util || {};
      * - &lt;http://libcinder.org/docs/v0.8.3/_rand_8h_source.html&gt;
      */
     tm.util.Random = {
-<span id='tm-util-Random-method-randint'>        
-</span>        /**
-         * Dummy
+        
+<span id='tm-util-Random-method-randint'>        /**
+</span>         * Dummy
          */
         randint: function(min, max) {
             return window.Math.floor( Math.random()*(max-min+1) ) + min;
         },
-<span id='tm-util-Random-method-randfloat'>        
-</span>        /**
-         * Dummy
+        
+<span id='tm-util-Random-method-randfloat'>        /**
+</span>         * Dummy
          */
         randfloat: function(min, max) {
             return window.Math.random()*(max-min)+min;
         },
-<span id='tm-util-Random-method-randbool'>        
-</span>        /**
-         * Dummy
+        
+<span id='tm-util-Random-method-randbool'>        /**
+</span>         * Dummy
          */
         randbool: function() {
             return this.randint(0, 1) === 1;
