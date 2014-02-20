@@ -14057,6 +14057,11 @@ tm.display = tm.display || {};
             return this;
         },
 
+        setVisible: function(flag) {
+            this.visible = flag;
+            return this;
+        },
+
         /**
          * @TODO ?
          */
@@ -14196,45 +14201,69 @@ tm.display = tm.display || {};
             
             console.assert(typeof image != 'number', "Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました");
             
+            this._frameIndex = 0;
             this.srcRect = tm.geom.Rect(0, 0, 64, 64);
             
-            // 画像のみ渡された場合
-            if (arguments.length == 1) {
-                var image = arguments[0];
-                if (typeof image == "string") image = tm.asset.Manager.get(image);
-                console.assert(image != null, "don't find '" + image + "' as image.");
-                
-                this.width = image.width;
-                this.height= image.height;
-                
-                this.image = image;
+            // 引数あり
+            if (arguments.length >= 1) {
+                this.setImage(image).fitImage();
+
+                if (width !== undefined) this.width = width;
+                if (height !== undefined) this.height = height;
             }
-            // その他
-            else {
-                width = width   || 64;
-                height= height  || 64;
-                
-                this.width  = width;
-                this.height = height;
-                if (image) {
-                    this.image  = image;
-                }
+        },
+
+        setImage: function(image, width, height) {
+            if (typeof image == "string") {
+                var key = image;
+                image = tm.asset.Manager.get(key);
+                console.assert(image != null, "don't find '" + key + "' as image.");
             }
+            
+            this._image = image;
+            this.srcRect.x = 0;
+            this.srcRect.y = 0;
+            this.srcRect.width  = image.element.width;
+            this.srcRect.height = image.element.height;
+
+            if (width  !== undefined) this.width  = width;
+            if (height !== undefined) this.height = height;
+            // this.width  = (width !== undefined)  ? width  : image.element.width;
+            // this.height = (height !== undefined) ? height : image.element.height;
+
+            return this;
+        },
+
+        getImage: function() {
+            return this._image;
+        },
+
+        fitImage: function() {
+            this.width  = this.image.width;
+            this.height = this.image.height;
+
+            return this;
         },
         
         /**
          * @TODO ?
          */
         setFrameIndex: function(index, width, height) {
-            var w   = width || this.width;
-            var h   = width || this.height;
-            var row = ~~(this.image.width / w)
+            var tw  = width || this.width;      // tw
+            var th  = height || this.height;    // th
+            var row = ~~(this.image.width / tw);
+            var col = ~~(this.image.height / th);
+            var maxIndex = row*col;
+            index = index%maxIndex;
+            
             var x   = index%row;
             var y   = ~~(index/row);
-            this.srcRect.x = x*w;
-            this.srcRect.y = y*h;
-            this.srcRect.width  = w;
-            this.srcRect.height = h;
+            this.srcRect.x = x*tw;
+            this.srcRect.y = y*th;
+            this.srcRect.width  = tw;
+            this.srcRect.height = th;
+
+            this._frameIndex = index;
 
             return this;
         },
@@ -14248,24 +14277,27 @@ tm.display = tm.display || {};
     
     /**
      * @property    image
-     * 高さ
+     * 画像
      */
     tm.display.Sprite.prototype.accessor("image", {
         "get": function()   {
             return this._image;
         },
         "set": function(image)  {
-            if (typeof image == "string") {
-                var key = image;
-                image = tm.asset.Manager.get(key);
-                console.assert(image != null, "don't find '" + key + "' as image.");
-            }
-            
-            this._image = image;
-            this.srcRect.x = 0;
-            this.srcRect.y = 0;
-            this.srcRect.width  = image.element.width;
-            this.srcRect.height = image.element.height;
+            this.setImage(image);
+        }
+    });
+
+    /**
+     * @property    frameIndex
+     * フレームインデックス
+     */
+    tm.display.Sprite.prototype.accessor("frameIndex", {
+        "get": function()   {
+            return this._frameIndex;
+        },
+        "set": function(value)  {
+            this.setFrameIndex(value);
         }
     });
     
