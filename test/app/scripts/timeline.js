@@ -22,11 +22,12 @@ tm.define("tests.timeline.DemoScene", {
                 this.alpha = 0.5;
                 this.scaleX = this.scaleY = 1.0;
                 this.timeline
-                    .to({x: 200, "y": 400}, 1000, 200)
-                    .to({"alpha": 1.0}, 1000, 0)
-                    .call(function() {
-                        console.log("finish");
-                    }, 1500);
+                    .to(200, {x: 200, "y": 400}, 1000)
+                    .to(0, {"alpha": 1.0}, 1000)
+                    .call(1500,
+                        function() {
+                            console.log("finish");
+                        });
             };
             circle.startAnim();
  
@@ -48,9 +49,9 @@ tm.define("tests.timeline.ToTestScene", {
         shape.setPosition(100, 100);
         
         shape.timeline
-            .to({x:500}, 1000, 0)
-            .to({y:400}, 1000, 1000)
-            .to({alpha:0}, 1000, 2000);
+            .to(0, {x:500}, 1000)
+            .to(1000, {y:400}, 1000)
+            .to(2000, {alpha:0}, 1000);
     },
 });
  
@@ -64,12 +65,13 @@ tm.define("tests.timeline.CallTestScene", {
         shape.setPosition(100, 100);
         
         shape.timeline
-            .to({x:500}, 1000, 0)
-            .to({y:400}, 1000, 1000)
-            .to({alpha:0}, 1000, 2000)
-            .call(function() {
-                alert("finish")
-            }, 500);
+            .to(0, {x:500}, 1000)
+            .to(1000, {y:400}, 1000)
+            .to(2000, {alpha:0}, 1000)
+            .call(500, 
+                function() {
+                    alert("finish")
+                });
     },
 });
 
@@ -84,14 +86,15 @@ tm.define("tests.timeline.SetTestScene", {
         shape.setPosition(100, 100);
         
         shape.timeline
-            .to({x:500}, 1000, 0)
-            .to({y:400}, 1000, 1000)
-            .to({alpha:0}, 1000, 2000)
-            .set({
-            	x: 100,
-            	y: 100,
-            	alpha: 1.0,
-            }, 3000);
+            .to(0, {x:500}, 1000)
+            .to(1000, {y:400}, 1000)
+            .to(2000, {alpha:0}, 1000)
+            .set(3000, 
+                {
+                    x: 100,
+                    y: 100,
+                    alpha: 1.0,
+                });
     },
 });
  
@@ -122,13 +125,14 @@ tm.define("tests.timeline.ConcentrationScene", {
                 this.scaleX = 0.2;
                 this.scaleY = 0.2;
                 this.timeline
-                    .set({alpha:0, scaleX:0.2, scaleY:0.2}, 0)
-                    .to({"alpha": 1.0}, 1000, 0)
-                    .to({x: app.width/2, "y": app.height/2}, 500, 1000)
-                    .to({scaleX: 1, scaleY: 1}, 500, 1000)
-                    .call(function() {
-                        console.log("finish");
-                    }, 2000);
+                    .set(0, {alpha:0, scaleX:0.2, scaleY:0.2})
+                    .to(0, {"alpha": 1.0}, 1000)
+                    .to(1000, {x: app.width/2, "y": app.height/2}, 500)
+                    .to(1000, {scaleX: 1, scaleY: 1}, 500)
+                    .call(2000, 
+                        function() {
+                            console.log("finish");
+                        });
                 
             };
             circle.startAnim();
@@ -166,10 +170,10 @@ tm.define("tests.timeline.Demo22Scene", {
                 this.scaleX = this.scaleY = 1.0;
 
                 this.timeline
-                    .by({x:300}, 1000)
-                    .by({y:300}, 1000, 500)
-                    .to({alpha:0.0}, 1000, 500)
-                    .to({scaleX:2, scaleY:2}, 1000, 500)
+                    .by(0, {x:300}, 1000)
+                    .by(500, {y:300}, 1000)
+                    .to(500, {alpha:0.0}, 1000)
+                    .to(500, {scaleX:2, scaleY:2}, 1000);
             };
             circle.startAnim();
 

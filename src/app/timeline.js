@@ -97,12 +97,13 @@ tm.namespace("tm.app", function() {
         
         /**
          * 指定した値までアニメーション
+         * @param {Object} delay
          * @param {Object} props
          * @param {Object} duration
-         * @param {Object} delay
          * @param {Function} func
          */
-        to: function(props, duration, delay, fn) {
+        to: function(delay, props, duration, fn) {
+            console.assert(typeof delay == "number", "to の第一引数はdelayに変わりました");
             this._addTween({
                 props: props,
                 duration: duration,
@@ -115,12 +116,13 @@ tm.namespace("tm.app", function() {
 
         /**
          * 指定した値を足した値までアニメーション
+         * @param {Object} delay
          * @param {Object} props
          * @param {Object} duration
-         * @param {Object} delay
          * @param {Function} func
          */
-        by: function(props, duration, delay, fn) {
+        by: function(delay, props, duration, fn) {
+            console.assert(typeof delay == "number", "by の第一引数はdelayに変わりました");
             for (var key in props) {
                 props[key] += this.element[key] || 0;
             }
@@ -136,10 +138,11 @@ tm.namespace("tm.app", function() {
         
         /**
          * 関数を実行
-         * @param {Function} func
          * @param {Object} delay
+         * @param {Function} func
          */
-        call: function(func, delay) {
+        call: function(delay, func) {
+            console.assert(typeof delay == "number", "call の第一引数はdelayに変わりました");
             this._addAction({
                 "type": "call",
                 func: func,
@@ -150,10 +153,11 @@ tm.namespace("tm.app", function() {
         
         /**
          * プロパティをセット
-         * @param {Object} props
          * @param {Object} delay
+         * @param {Object} props
          */
-        set: function(props, delay) {
+        set: function(delay, props) {
+            console.assert(typeof delay == "number", "set の第一引数はdelayに変わりました");
             this._addAction({
                 "type": "set",
                 props: props,
