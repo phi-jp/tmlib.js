@@ -13586,12 +13586,13 @@ tm.namespace("tm.app", function() {
         
         /**
          * 指定した値までアニメーション
+         * @param {Object} delay
          * @param {Object} props
          * @param {Object} duration
-         * @param {Object} delay
          * @param {Function} func
          */
-        to: function(props, duration, delay, fn) {
+        to: function(delay, props, duration, fn) {
+            console.assert(typeof delay == "number", "to の第一引数はdelayに変わりました");
             this._addTween({
                 props: props,
                 duration: duration,
@@ -13604,12 +13605,13 @@ tm.namespace("tm.app", function() {
 
         /**
          * 指定した値を足した値までアニメーション
+         * @param {Object} delay
          * @param {Object} props
          * @param {Object} duration
-         * @param {Object} delay
          * @param {Function} func
          */
-        by: function(props, duration, delay, fn) {
+        by: function(delay, props, duration, fn) {
+            console.assert(typeof delay == "number", "by の第一引数はdelayに変わりました");
             for (var key in props) {
                 props[key] += this.element[key] || 0;
             }
@@ -13625,10 +13627,11 @@ tm.namespace("tm.app", function() {
         
         /**
          * 関数を実行
-         * @param {Function} func
          * @param {Object} delay
+         * @param {Function} func
          */
-        call: function(func, delay) {
+        call: function(delay, func) {
+            console.assert(typeof delay == "number", "call の第一引数はdelayに変わりました");
             this._addAction({
                 "type": "call",
                 func: func,
@@ -13639,10 +13642,11 @@ tm.namespace("tm.app", function() {
         
         /**
          * プロパティをセット
-         * @param {Object} props
          * @param {Object} delay
+         * @param {Object} props
          */
-        set: function(props, delay) {
+        set: function(delay, props) {
+            console.assert(typeof delay == "number", "set の第一引数はdelayに変わりました");
             this._addAction({
                 "type": "set",
                 props: props,
@@ -16144,7 +16148,19 @@ tm.ui = tm.ui || {};
             this.on("pointingmove", function(e) {
                 var p = e.app.pointing;
                 self._drawLine(p.prevPosition, p.position);
+                self.points.push({
+                    x: p.x,
+                    y: p.y,
+                });
             });
+            this.on("pointingend", function(e) {
+                self.pointsList.push(self.points);
+                self.points = [];
+            });
+
+            // ポイントスタック
+            this.pointsList = [];
+            this.points = [];
         },
         
         /**
@@ -16153,6 +16169,9 @@ tm.ui = tm.ui || {};
         clear: function() {
             this.canvas.clear();
             this.canvas.clearColor(this.bgColor);
+
+            this.pointsList = [];
+            this.points = [];
             
             return this;
         },
