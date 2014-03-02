@@ -30,6 +30,7 @@ tm.event = tm.event || {};
             if (this._listeners[type] === undefined) {
                 this._listeners[type] = [];
             }
+            listener._removeFlag = false;
             
             this._listeners[type].push(listener);
             return this;
@@ -42,11 +43,11 @@ tm.event = tm.event || {};
             var listeners = this._listeners[type];
             var index = listeners.indexOf(listener);
             if (index != -1) {
-                listeners.splice(index,1);
+                listeners[index]._removeFlag = true;
             }
             return this;
         },
-        
+
         /**
          * イベント起動
          */
@@ -57,12 +58,26 @@ tm.event = tm.event || {};
             
             var listeners = this._listeners[e.type];
             if (listeners) {
+                this._sweep(e.type);
                 for (var i=0,len=listeners.length; i<len; ++i) {
                     listeners[i].call(this, e);
                 }
             }
             
             return this;
+        },
+        
+        _sweep: function(type) {
+            var listeners = this._listeners[type];
+            if (listeners) {
+                for (var i=0,len=listeners.length; i<len; ++i) {
+                    if (listeners[i]._removeFlag) {
+                        listeners.splice(i, 1);
+                        --i;
+                        --len;
+                    }
+                }
+            }
         },
         
         one: function(type, listener) {
@@ -83,8 +98,17 @@ tm.event = tm.event || {};
          * type に登録されたイベントがあるかをチェック
          */
         hasEventListener: function(type) {
-            if (this._listeners[type] === undefined && !this["on" + type]) return false;
-            return true;
+            if (this._listeners[type] === undefined && !this["on" + type]) {
+                return false;
+            }
+
+            var listeners = this._listeners[type];
+            for (var i=0,len=listeners.length; i<len; ++i) {
+                if (!listeners[i]._removeFlag) {
+                    return true;
+                }
+            }
+            return false;
         },
         
         /**
