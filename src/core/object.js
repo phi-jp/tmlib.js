@@ -43,7 +43,7 @@
     
     /**
      * @method defineInstanceVariable
-     * @TODO ?
+     * インスタンス変数を定義する
      */
     Object.prototype.defineFunction("defineInstanceVariable", function(name, val){
         Object.defineProperty(this.prototype, name, {
@@ -55,7 +55,7 @@
     
     /**
      * @method defineInstanceMethod
-     * @TODO ?
+     * インスタンスメソッドを定義する
      */
     Object.prototype.defineFunction("defineInstanceMethod", function(name, fn){
         Object.defineProperty(this.prototype, name, {
@@ -67,7 +67,7 @@
     
     /**
      * @method setter
-     * @TODO ?
+     * セッターを定義する
      */
     Object.defineInstanceMethod("setter", function(name, fn){
         Object.defineProperty(this, name, {
@@ -80,7 +80,7 @@
     
     /**
      * @method getter
-     * @TODO ?
+     * ゲッターを定義する
      */
     Object.defineInstanceMethod("getter", function(name, fn){
         Object.defineProperty(this, name, {
@@ -93,7 +93,7 @@
     
     /**
      * @method accessor
-     * @TODO ?
+     * アクセッサ(セッター/ゲッター)を定義する
      */
     Object.defineInstanceMethod("accessor", function(name, param) {
         Object.defineProperty(this, name, {
@@ -108,7 +108,7 @@
 
     /**
      * @method  $has
-     * text
+     * そのプロパティを持っているかを判定する
      */
     Object.defineInstanceMethod("$has", function(key) {
         return this.hasOwnProperty(key);
@@ -159,7 +159,7 @@
 
     /**
      * @method  $pick
-     * text
+     * ピック
      */
     Object.defineInstanceMethod("$pick", function() {
         var temp = {};
@@ -173,7 +173,7 @@
 
     /**
      * @method  $omit
-     * text
+     * オミット
      */
     Object.defineInstanceMethod("$omit", function() {
         var temp = {};

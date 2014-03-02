@@ -38,8 +38,10 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-        /** @property time */
-        /** @property now */
+        /** time */
+        time: null,
+        /** now */
+        now: null,
 
         /**
          * @constructor
@@ -53,17 +55,35 @@ tm.event = tm.event || {};
         
     });
     
-    /** @static @property */
+    /**
+     * @static
+     * チェンジ
+     */
     tm.event.TweenEvent.CHANGE    = "change";
-    /** @static @property */
+    /**
+     * @static
+     * フィニッシュ
+     */
     tm.event.TweenEvent.FINISH    = "finish";
-    /** @static @property */
+    /**
+     * @static
+     * ループ
+     */
     tm.event.TweenEvent.LOOP      = "loop";
-    /** @static @property */
+    /**
+     * @static
+     * レジューム
+     */
     tm.event.TweenEvent.RESUME    = "resume";
-    /** @static @property */
+    /**
+     * @static
+     * スタート
+     */
     tm.event.TweenEvent.START     = "start";
-    /** @static @property */
+    /**
+     * @static
+     * ストップ
+     */
     tm.event.TweenEvent.STOP      = "stop";
     
 })();
@@ -82,8 +102,15 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-        /** @property app */
-        /** @property pointing */
+        /**
+         * app
+         */
+        app: null,
+
+        /**
+         * pointing
+         */
+        pointing: null,
 
         /**
          * @constructor
@@ -113,8 +140,15 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-        /** @property app */
-        /** @property pointing */
+        /**
+         * app
+         */
+        app: null,
+
+        /**
+         * pointing
+         */
+        pointing: null,
 
         /**
          * @constructor
@@ -143,8 +177,15 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-        /** @property app */
-        /** @property pointing */
+        /**
+         * app
+         */
+        app: null,
+        
+        /**
+         * pointing
+         */
+        pointing: null,
         
         /**
          * @constructor

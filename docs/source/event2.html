@@ -55,9 +55,11 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-<span id='tm-event-TweenEvent-property-time'>        /** @property time */
-</span><span id='tm-event-TweenEvent-property-now'>        /** @property now */
-</span>
+<span id='tm-event-TweenEvent-property-time'>        /** time */
+</span>        time: null,
+<span id='tm-event-TweenEvent-property-now'>        /** now */
+</span>        now: null,
+
 <span id='tm-event-TweenEvent-method-constructor'>        /**
 </span>         * @constructor
          */
@@ -70,18 +72,36 @@ tm.event = tm.event || {};
         
     });
     
-<span id='tm-event-TweenEvent-static-property-CHANGE'>    /** @static @property */
-</span>    tm.event.TweenEvent.CHANGE    = &quot;change&quot;;
-<span id='tm-event-TweenEvent-static-property-FINISH'>    /** @static @property */
-</span>    tm.event.TweenEvent.FINISH    = &quot;finish&quot;;
-<span id='tm-event-TweenEvent-static-property-LOOP'>    /** @static @property */
-</span>    tm.event.TweenEvent.LOOP      = &quot;loop&quot;;
-<span id='tm-event-TweenEvent-static-property-RESUME'>    /** @static @property */
-</span>    tm.event.TweenEvent.RESUME    = &quot;resume&quot;;
-<span id='tm-event-TweenEvent-static-property-START'>    /** @static @property */
-</span>    tm.event.TweenEvent.START     = &quot;start&quot;;
-<span id='tm-event-TweenEvent-static-property-STOP'>    /** @static @property */
-</span>    tm.event.TweenEvent.STOP      = &quot;stop&quot;;
+<span id='tm-event-TweenEvent-CHANGE'>    /**
+</span>     * @static
+     * チェンジ
+     */
+    tm.event.TweenEvent.CHANGE    = &quot;change&quot;;
+<span id='tm-event-TweenEvent-FINISH'>    /**
+</span>     * @static
+     * フィニッシュ
+     */
+    tm.event.TweenEvent.FINISH    = &quot;finish&quot;;
+<span id='tm-event-TweenEvent-LOOP'>    /**
+</span>     * @static
+     * ループ
+     */
+    tm.event.TweenEvent.LOOP      = &quot;loop&quot;;
+<span id='tm-event-TweenEvent-RESUME'>    /**
+</span>     * @static
+     * レジューム
+     */
+    tm.event.TweenEvent.RESUME    = &quot;resume&quot;;
+<span id='tm-event-TweenEvent-START'>    /**
+</span>     * @static
+     * スタート
+     */
+    tm.event.TweenEvent.START     = &quot;start&quot;;
+<span id='tm-event-TweenEvent-STOP'>    /**
+</span>     * @static
+     * ストップ
+     */
+    tm.event.TweenEvent.STOP      = &quot;stop&quot;;
     
 })();
 
@@ -99,9 +119,16 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-<span id='tm-event-MouseEvent-property-app'>        /** @property app */
-</span><span id='tm-event-MouseEvent-property-pointing'>        /** @property pointing */
-</span>
+<span id='tm-event-MouseEvent-property-app'>        /**
+</span>         * app
+         */
+        app: null,
+
+<span id='tm-event-MouseEvent-property-pointing'>        /**
+</span>         * pointing
+         */
+        pointing: null,
+
 <span id='tm-event-MouseEvent-method-constructor'>        /**
 </span>         * @constructor
          */
@@ -130,9 +157,16 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-<span id='tm-event-TouchEvent-property-app'>        /** @property app */
-</span><span id='tm-event-TouchEvent-property-pointing'>        /** @property pointing */
-</span>
+<span id='tm-event-TouchEvent-property-app'>        /**
+</span>         * app
+         */
+        app: null,
+
+<span id='tm-event-TouchEvent-property-pointing'>        /**
+</span>         * pointing
+         */
+        pointing: null,
+
 <span id='tm-event-TouchEvent-method-constructor'>        /**
 </span>         * @constructor
          */
@@ -160,9 +194,16 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-<span id='tm-event-PointingEvent-property-app'>        /** @property app */
-</span><span id='tm-event-PointingEvent-property-pointing'>        /** @property pointing */
-</span>        
+<span id='tm-event-PointingEvent-property-app'>        /**
+</span>         * app
+         */
+        app: null,
+        
+<span id='tm-event-PointingEvent-property-pointing'>        /**
+</span>         * pointing
+         */
+        pointing: null,
+        
 <span id='tm-event-PointingEvent-method-constructor'>        /**
 </span>         * @constructor
          */

@@ -60,7 +60,7 @@
     
 <span id='global-Object-method-defineInstanceVariable'>    /**
 </span>     * @method defineInstanceVariable
-     * @TODO ?
+     * インスタンス変数を定義する
      */
     Object.prototype.defineFunction(&quot;defineInstanceVariable&quot;, function(name, val){
         Object.defineProperty(this.prototype, name, {
@@ -72,7 +72,7 @@
     
 <span id='global-Object-method-defineInstanceMethod'>    /**
 </span>     * @method defineInstanceMethod
-     * @TODO ?
+     * インスタンスメソッドを定義する
      */
     Object.prototype.defineFunction(&quot;defineInstanceMethod&quot;, function(name, fn){
         Object.defineProperty(this.prototype, name, {
@@ -84,7 +84,7 @@
     
 <span id='global-Object-method-setter'>    /**
 </span>     * @method setter
-     * @TODO ?
+     * セッターを定義する
      */
     Object.defineInstanceMethod(&quot;setter&quot;, function(name, fn){
         Object.defineProperty(this, name, {
@@ -97,7 +97,7 @@
     
 <span id='global-Object-method-getter'>    /**
 </span>     * @method getter
-     * @TODO ?
+     * ゲッターを定義する
      */
     Object.defineInstanceMethod(&quot;getter&quot;, function(name, fn){
         Object.defineProperty(this, name, {
@@ -110,7 +110,7 @@
     
 <span id='global-Object-method-accessor'>    /**
 </span>     * @method accessor
-     * @TODO ?
+     * アクセッサ(セッター/ゲッター)を定義する
      */
     Object.defineInstanceMethod(&quot;accessor&quot;, function(name, param) {
         Object.defineProperty(this, name, {
@@ -125,7 +125,7 @@
 
 <span id='global-Object-method-S-has'>    /**
 </span>     * @method  $has
-     * text
+     * そのプロパティを持っているかを判定する
      */
     Object.defineInstanceMethod(&quot;$has&quot;, function(key) {
         return this.hasOwnProperty(key);
@@ -176,7 +176,7 @@
 
 <span id='global-Object-method-S-pick'>    /**
 </span>     * @method  $pick
-     * text
+     * ピック
      */
     Object.defineInstanceMethod(&quot;$pick&quot;, function() {
         var temp = {};
@@ -190,7 +190,7 @@
 
 <span id='global-Object-method-S-omit'>    /**
 </span>     * @method  $omit
-     * text
+     * オミット
      */
     Object.defineInstanceMethod(&quot;$omit&quot;, function() {
         var temp = {};
