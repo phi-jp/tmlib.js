@@ -17,7 +17,7 @@ Text Text Text Text\n";
 
     it('load', function(done) {
     	tm.util.Ajax.load({
-    		url: "./util/sample.txt",
+    		url: "./util/data/sample.txt",
     		success: function(data) {
     			assert(data == TEXT_FILE_DATA);
     			done();
@@ -27,7 +27,7 @@ Text Text Text Text\n";
 
     it('load({dataType:"json"})', function(done) {
     	tm.util.Ajax.load({
-    		url: "./util/sample.json",
+    		url: "./util/data/sample.json",
     		dataType: "json",
     		success: function(data) {
     			for (var key in JSON_FILE_DATA) {
@@ -40,7 +40,7 @@ Text Text Text Text\n";
 
     it('load({dataType:"xml"})', function(done) {
     	tm.util.Ajax.load({
-    		url: "./util/sample.xml",
+    		url: "./util/data/sample.xml",
     		dataType: "xml",
     		success: function(data) {
     			var items = data.querySelectorAll("item");
@@ -55,11 +55,11 @@ Text Text Text Text\n";
 
     it('load({dataType:"script"})', function(done) {
     	tm.util.Ajax.load({
-    		url: "./util/sample.js",
+    		url: "./util/data/sample.js",
     		dataType: "script",
     		success: function(data) {
     			assert(js_sample === 100);
-    			
+
     			done();
     		}
     	});
