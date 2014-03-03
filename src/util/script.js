@@ -11,7 +11,11 @@ tm.util = tm.util || {};
      * @class tm.util.Script
      * スクリプトクラス
      */
-    tm.util.Script = tm.createClass({
+
+    tm.define("tm.util.Script", {
+
+        superClass: "tm.event.EventDispatcher",
+
         /** element */
         element: null,
         /** loaded */
@@ -20,7 +24,9 @@ tm.util = tm.util || {};
         /**
          * @constructor
          */
-        init: function(src, callback) {
+        init: function(src) {
+            this.superInit();
+
             this.loaded = false;
             this.element = document.createElement("script");
             this.element.type = "text/javascript";
@@ -31,8 +37,8 @@ tm.util = tm.util || {};
             
             var self = this;
             this.element.onload = function() {
-                if (callback) callback.call(this);
                 self.loaded = true;
+                self.fire(tm.event.Event("load"));
             };
         },
         
@@ -44,35 +50,19 @@ tm.util = tm.util || {};
         },
         
     });
-    
-})();
 
-(function(){
-    
-    /**
-     * @class tm.util.ScriptManager
-     * スクリプトマネージャクラス
-     */
-    tm.util.ScriptManager = {
-        scriptList: {},
-        loaded: true,
-    };
-    
-    /**
-     * @static
-     * @method
-     * 追加
-     */
-    tm.util.ScriptManager.load = function(src, callback) {
-        this.scriptList[src] = tm.util.Script(src, callback);
+    tm.util.Script.load = function(src) {
+        var script = tm.util.Script(src);
+
+        return script;
     };
 
     /**
      * @static
      * @method
-     * stats.js を動的ロード
+     * Stats を動的ロード
      */
-    tm.util.ScriptManager.loadStats = function(version) {
+    tm.util.Script.loadStats = function(version) {
         version = version || "r11";
         var path = null;
         if (["r6", "r7", "r8", "r9", "10"].indexOf(version) != -1) {
@@ -81,15 +71,16 @@ tm.util = tm.util || {};
         else {
             path = "http://rawgithub.com/mrdoob/stats.js/" + version + "/build/stats.min.js";
         }
-        this.load(path);
+
+        return this.load(path);
     };
 
     /**
      * @static
      * @method
-     * Dat GUI を動的ロード
+     * datGUI を動的ロード
      */
-    tm.util.ScriptManager.loadDatGUI = function(version) {
+    tm.util.Script.loadDatGUI = function(version) {
         // http://dat-gui.googlecode.com/git/build/dat.gui.min.js
         // https://dat-gui.googlecode.com/git-history/0.5/build/dat.gui.min.js
 
@@ -97,7 +88,7 @@ tm.util = tm.util || {};
 //        var path = "https://dat-gui.googlecode.com/git-history/" + version + "/build/dat.gui.min.js";
 //        var path = "http://dat-gui.googlecode.com/git/build/dat.gui.min.js";
         var path = "http://dat-gui.googlecode.com/git/build/dat.gui.js";
-        this.load(path);
+        return this.load(path);
     };
 
     /**
@@ -105,46 +96,27 @@ tm.util = tm.util || {};
      * @method
      * Three.js を動的ロード
      */
-    tm.util.ScriptManager.loadThree = function(version) {
+    tm.util.Script.loadThree = function(version) {
         var THREE_JS_URL = "http://rawgithub.com/mrdoob/three.js/{version}/build/three.js";
 //        var THREE_JS_URL = "https://raw.github.com/mrdoob/three.js/{version}/build/three.min.js";
         version = version || "r55";
 
         var path = THREE_JS_URL.format({version: version});
 
-        this.load(path);
+        return this.load(path);
     };
 
     /**
      * @static
      * @method
-     * BulletML を動的ロード
+     * BulletML.js を動的ロード
      */
-    tm.util.ScriptManager.loadBulletML = function(version) {
+    tm.util.Script.loadBulletML = function(version) {
         var BULLETML_FOR_TMLIB_JS_URL   = "http://rawgithub.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js";
-        version = version || "v0.4.1";
+        version = version || "v0.4.2";
         var path = BULLETML_FOR_TMLIB_JS_URL.format({version: version});        
-        this.load(path);
+        return this.load(path);
     };
-    
-    /**
-     * @static
-     * @method
-     * ロードチェック
-     */
-    tm.util.ScriptManager.isLoaded = function() {
-        if (this.scriptList.length <= 0) return true;
 
-        for (var key in this.scriptList) {
-            if (this.scriptList[key].loaded == false) {
-                return false;
-            }
-        }
-        return true;
-    };
-    
-    tm.addLoadCheckList(tm.util.ScriptManager);
-    
+
 })();
-
-
