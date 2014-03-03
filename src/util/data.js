@@ -18,7 +18,7 @@ tm.util = tm.util || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * セーブ
      */
     tm.util.DataManager.save = function() {
         // TODO: ローカルストレージ?
@@ -31,7 +31,7 @@ tm.util = tm.util || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * ロード
      */
     tm.util.DataManager.load = function(key) {
         // TODO: ローカルストレージ?
@@ -43,7 +43,7 @@ tm.util = tm.util || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * セット
      */
     tm.util.DataManager.set = function(key, value) {
         this.data[key] = value;
@@ -53,7 +53,7 @@ tm.util = tm.util || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * ゲット
      */
     tm.util.DataManager.get = function(key) {
         return this.data[key];

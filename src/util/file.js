@@ -9,7 +9,7 @@ tm.util = tm.util || {};
     
     /**
      * @class tm.util.File
-     * @TODO ?
+     * ファイルクラス
      */
     tm.define("tm.util.File", {
         superClass: "tm.event.EventDispatcher",
@@ -32,7 +32,7 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
+         * ロード
          */
         load: function(params) {
             if (typeof params == "string") {
@@ -58,7 +58,7 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
+         * ローカルストレージからロード
          */
         loadLocalStorage: function() {
             

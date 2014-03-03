@@ -62,25 +62,14 @@ tm.net.event = tm.net.event || {};
         },
 
         /*
-         * @TODO 重複している関数 念のためコメントアウト
-         */
-        // send: function(message) {
-        //     if (this.isOpen()) {
-        //         this.socket.send(message);
-        //     } else {
-
-        //     }
-        // },
-
-        /*
-         * @TODO 重複している関数 念のためコメントアウト
+         * データを送信
          */
         sendData: function(object) {
             this.send(JSON.stringify(object));
         },
 
         /**
-         * @TODO ?
+         * クローズ
          */
         close: function() {
             if (this.socket !== null) {
@@ -114,8 +103,8 @@ tm.net.event = tm.net.event || {};
 
     /**
      * @class tm.net.event.WebSocketEvent
-     * @TODO ?
      * @extends tm.event.Event
+     * ウェブソケットクラス
      */
     tm.net.event.WebSocketEvent = tm.createClass({        
         superClass: tm.event.Event,

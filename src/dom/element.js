@@ -168,28 +168,28 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 表示
          */
         show: function() {
             this.visible = true;
         },
 
         /**
-         * @TODO ?
+         * 非表示
          */
         hide: function() {
             this.visible = false;
         },
         
         /**
-         * @TODO ?
+         * 文字列に変換
          */
         toString: function() {
             return "tm.dom.element";
         },
         
         /**
-         * @TODO ?
+         * 要素を取得
          */
         getElement: function() {
             return this.element;
@@ -310,7 +310,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @TODO ?
+         * 文字列に変換
          */
         toString: function() {
             return "";

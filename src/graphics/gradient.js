@@ -40,7 +40,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * カラー点を追加
          */
         addColorStop: function(offset, color) {
             this.gradient.addColorStop(offset, color);
@@ -48,7 +48,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * カラー点をリストで追加
          */
         addColorStopList: function(prop) {
             for (var i=0,len=prop.length; i<len; ++i) {
@@ -60,7 +60,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * スタイル化
          */
         toStyle: function() {
             return this.gradient;
@@ -95,7 +95,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @TODO ?
+         * カラー点を追加
          */
         addColorStop: function(offset, color) {
             this.gradient.addColorStop(offset, color);
@@ -103,7 +103,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * カラー点をリストで追加
          */
         addColorStopList: function(prop) {
             for (var i=0,len=prop.length; i<len; ++i) {
@@ -115,7 +115,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * スタイル化
          */
         toStyle: function() {
             return this.gradient;

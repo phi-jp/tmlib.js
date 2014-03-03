@@ -14,10 +14,6 @@ tm.app = tm.app || {};
      */
     tm.app.Scene = tm.createClass({
         superClass: tm.app.Object2D,
-    
-        /** @private  @TODO ? */
-        _sceneResultCallback: null,
-        /** @property  boundingType  当たり判定の形 */
 
         /**
          * @constructor

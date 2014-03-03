@@ -29,7 +29,7 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
+         * アット
          */
         at: function(time, action) {
             this.tasks.push({
@@ -40,7 +40,7 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * アフター
          */
         after: function(time, action) {
             this.at(this.time + time, action);
@@ -48,7 +48,7 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * クリア
          */
         clear: function() {
             this.tasks = [];
@@ -56,21 +56,21 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * リムーブタイム
          */
         removeTime: function(time) {
             // TODO: 
         },
 
         /**
-         * @TODO ?
+         * リムーブアクション
          */
         removeAction: function(action) {
             // TODO: 
         },
         
         /**
-         * @TODO ?
+         * スタート
          */
         start: function() {
             this.isPlaying = true;
@@ -79,7 +79,7 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * レジューム
          */
         resume: function() {
             this.isPlaying = true;
@@ -88,21 +88,21 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * ストップ
          */
         stop: function() {
             this.isPlaying = false;
         },
 
         /**
-         * @TODO ?
+         * レウィンド
          */
         rewind: function() {
             this.time = 0;
         },
 
         /**
-         * @TODO ?
+         * 更新
          */
         update: function() {
             // タスク更新
@@ -119,7 +119,6 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
          * @private
          */
         _startTime: function() {
@@ -127,7 +126,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _resumeTime: function() {
@@ -135,7 +133,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _updateTime: function() {
@@ -146,7 +143,6 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
          * @private
          */
         _nextTime: function() {

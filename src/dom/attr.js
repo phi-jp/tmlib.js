@@ -8,7 +8,7 @@ tm.dom = tm.dom || {};
     
     /**
      * @class tm.dom.Attr
-     * @TODO ?
+     * 属性クラス
      */
     tm.dom.Attr = tm.createClass({
         
@@ -82,7 +82,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * トグル
          */
         toggle: function(name, value) {
             if (this.contains(name, value)) {

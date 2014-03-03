@@ -1,5 +1,5 @@
 
-describe('Object Test', function() {
+describe('Object', function() {
     
     it('$has', function() {
         var obj = { name: 'phi', age: 24 };

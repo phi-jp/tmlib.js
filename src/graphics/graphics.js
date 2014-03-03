@@ -86,7 +86,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * リサイズ
          */
         resize: function(width, height) {
             this.canvas.width  = width;
@@ -579,7 +579,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ルックアット
          */
         lookAt: function() {
             this.cameraMatrix = tm.geom.Matrix44.lookAt(
@@ -590,7 +590,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * カメラ行列を取得
          */
         getCameraMatrix: function() {
             return this.cameraMatrix;

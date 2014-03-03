@@ -2,7 +2,7 @@
     
     /**
      * @class tm.dom.Trans
-     * @TODO ?
+     * トランス
      */
     tm.dom.Trans = tm.createClass({
         
@@ -17,7 +17,7 @@
         },
         
         /**
-         * @TODO ?
+         * 変換開始
          */
         to: function(props, t) {
             this.set(props).duration(t||1000);
@@ -25,7 +25,7 @@
         },
 
         /**
-         * @TODO ?
+         * セット
          */
         set: function(props) {
             var style = this.element.style;
@@ -43,7 +43,7 @@
         },
 
         /**
-         * @TODO ?
+         * 間関
          */
         duration: function(t) {
             var style = this.element.style;
@@ -53,7 +53,7 @@
         },
 
         /**
-         * @TODO ?
+         * イージング
          */
         easing: function(ease) {
             var style = this.element.style;
@@ -62,7 +62,7 @@
         },
 
         /**
-         * @TODO ?
+         * 終了
          */
         end: function(fn) {
             var elm  = tm.dom.Element(this.element);
@@ -71,7 +71,7 @@
         },
 
         /**
-         * @TODO ?
+         * リセット
          */
         reset: function() {
             var style = this.element.style;
@@ -80,7 +80,7 @@
         },
 
         /**
-         * @TODO ?
+         * 移動
          */
         translate: function(x, y, t) {
             this.to({"transform": "translate({0}px,{1}px)".format(x, y)}, t);
@@ -88,7 +88,7 @@
         },
 
         /**
-         * @TODO ?
+         * 移動3D
          */
         translate3d: function(x, y, z, t) {
             this.to({"transform": "translate3d({0}px,{1}px,{2}px)".format(x, y, z)}, t);
@@ -96,7 +96,7 @@
         },
 
         /**
-         * @TODO ?
+         * 回転
          */
         rotate: function(deg, t) {
             this.to({"transform": "rotate({0}deg)".format(deg)}, t);
@@ -104,7 +104,7 @@
         },
 
         /**
-         * @TODO ?
+         * 回転3D
          */
         rotate3d: function(x, y, z, deg, t) {
             this.to({"transform": "rotate3d({0},{1},{2},{3}deg)".format(x, y, z, deg)}, t);
@@ -112,7 +112,7 @@
         },
 
         /**
-         * @TODO ?
+         * スケール
          */
         scale: function(x, y, t) {
             this.to({"transform": "scale({0},{1})".format(x, y)}, t);
@@ -120,7 +120,7 @@
         },
 
         /**
-         * @TODO ?
+         * 行列変換
          */
         transform: function() {
             // TODO: 実装する
@@ -129,7 +129,7 @@
         // -------------------------------------
         
         /**
-         * @TODO ?
+         * プロパティをセット
          */
         setProp: function(prop) {
             var style = this.element.style;
@@ -147,7 +147,7 @@
         },
 
         /**
-         * @TODO ?
+         * 間関をセット
          */
         setDuration: function(t) {
             var style = this.element.style;
@@ -156,7 +156,7 @@
         },
 
         /**
-         * @TODO ?
+         * タイミングファンクをセット
          */
         setTimingFunction: function(func) {
             var style = this.element.style;
@@ -165,7 +165,7 @@
         },
 
         /**
-         * @TODO ?
+         * リセット
          */
         resetProp: function() {
             var style = this.element.style;
@@ -174,7 +174,7 @@
         },
 
         /**
-         * @TODO ?
+         * 終了時関数を登録
          */
         setEndFunction: function(fn) {
             var elm  = tm.dom.Element(this.element);

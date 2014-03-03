@@ -28,7 +28,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _init: function(imageData) {
@@ -76,7 +75,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ピクセルを数値としてゲット
          */
         getPixelAsNumber: function(index) {
             var i = index*4;
@@ -84,7 +83,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ピクセルをオブジェクトとしてゲット
          */
         getPixelAsObject: function(index) {
             var i = index*4;
@@ -97,7 +96,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ピクセルを配列としてゲット
          */
         getPixelAsArray: function(index) {
             var i = index*4;
@@ -183,7 +182,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * 32bit セット
          */
         setPixel32Index: function(index, r, g, b, a) {
             var i = index*4;
@@ -195,28 +194,28 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * 32bit セット
          */
         setPixel32: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
 
         /**
-         * @TODO ?
+         * 32bit セット
          */
         setPixel32XY: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
 
         /**
-         * @TODO ?
+         * 配列からピクセルをセット
          */
         setPixelFromArray: function(index, pixel) {
             return this.setPixel(index, pixel[0], pixel[1], pixel[2]);
         },
 
         /**
-         * @TODO ?
+         * 配列からピクセルをセット
          */
         setPixel32FromArray: function(index, pixel) {
             return this.setPixel32(index, pixel[0], pixel[1], pixel[2], pixel[3]);
@@ -243,7 +242,7 @@ tm.graphics = tm.graphics || {};
             return this.setPixel(pixel.r, pixel.g, pixel.b);
         },
         /**
-         * @TODO ?
+         * オブジェクトからピクセルをセット
          */
         setPixel32FromObject: function(index, pixel) {
             return this.setPixel32(pixel.r, pixel.g, pixel.b, pixel.a);
@@ -264,9 +263,8 @@ tm.graphics = tm.graphics || {};
             return y*this.imageData.width + x;
         },
         
-        // filter: function(rect, filter)
         /**
-         * @TODO ?
+         * フィルター
          */
         filter: function(filter) {
             for (var i=0; i<this.height; ++i) {
@@ -300,7 +298,8 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * フィルタを適応する
+         * TODO: 未実装
          */
         applyFilter: function(filter) {
             

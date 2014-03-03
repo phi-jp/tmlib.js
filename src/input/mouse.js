@@ -120,7 +120,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _mousemove: function(e) {
@@ -130,7 +129,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _mousemoveNormal: function(e) {
@@ -140,7 +138,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _mousemoveScale: function(e) {

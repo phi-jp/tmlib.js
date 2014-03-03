@@ -198,7 +198,7 @@ tm.graphics = tm.graphics || {};
 
     /**
      * @static
-     * @TODO ?
+     * カラーリスト
      */
     tm.graphics.Color.COLOR_LIST = {
         /** @property black */
@@ -239,13 +239,6 @@ tm.graphics = tm.graphics || {};
      * @static
      * @member tm.graphics.Color
      * @method strToNum
-     * @TODO ?
-     */
-    /**
-     * @static
-     * @member tm.graphics.Color
-     * @method stringToNumber
-     * @TODO ?
      */
     tm.graphics.Color.strToNum = tm.graphics.Color.stringToNumber = function(str){
         var vlaue = null;
@@ -276,7 +269,7 @@ tm.graphics = tm.graphics || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * hsl を rgb に変換
      */
     tm.graphics.Color.HSLtoRGB = function(h, s, l) {
         var r, g, b;
@@ -324,7 +317,7 @@ tm.graphics = tm.graphics || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * hsla を rgba に変換
      */
     tm.graphics.Color.HSLAtoRGBA = function(h, s, l, a) {
         var temp = Color.HSLtoRGB(h, s, l); temp[3] = a;

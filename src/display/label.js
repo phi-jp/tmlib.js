@@ -23,7 +23,7 @@ tm.display = tm.display || {};
         fill: true,
         /** ストロークフラグ */
         stroke: false,
-        /** @TODO ? */
+        /** デバッグボックス */
         debugBox: false,
 
         /** @property _fontSize @private */
@@ -55,7 +55,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * アラインをセット
          */
         setAlign: function(align) {
             this.align = align;
@@ -63,7 +63,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * ベースラインをセット
          */
         setBaseline: function(baseline) {
             this.baseline = baseline;
@@ -71,7 +71,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * フォントサイズをセット
          */
         setFontSize: function(size) {
             this.fontSize = size;
@@ -79,7 +79,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * フォントファミリーをセット
          */
         setFontFamily: function(family) {
             this.fontFamily= family;
@@ -87,7 +87,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * フォントウェイトをセット
          */
         setFontWeight: function(weight) {
             this.fontWeight= weight;
@@ -95,7 +95,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _updateFont: function() {
@@ -109,7 +108,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _updateLines: function() {

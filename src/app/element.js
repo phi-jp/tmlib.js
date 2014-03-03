@@ -215,7 +215,8 @@ tm.app = tm.app || {};
             return this;
         },
         /**
-         * @TODO ?
+         * 要素を JSON 化する
+         * TODO: 実装する予定
          */
         toJSON: function() {
             // TODO:

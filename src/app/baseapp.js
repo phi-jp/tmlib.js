@@ -258,7 +258,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ? オーバーライド予定？
+         * 描画用仮想関数
          * @private
          */
         _draw: function() {},
@@ -304,7 +304,6 @@ tm.app = tm.app || {};
     /**
      * @property currentScene
      * カレントシーン
-     * @TODO どうしよう？
      */
     tm.app.BaseApp.prototype.accessor("currentScene", {
         "get": function() { return this._scenes[this._sceneIndex]; },

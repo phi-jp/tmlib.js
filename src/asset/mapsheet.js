@@ -40,7 +40,7 @@
         },
 
         /**
-         * @TODO ?
+         * パース
          * @private
          */
         _parse: function(str) {
@@ -62,7 +62,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _parseTilesets: function(xml) {
@@ -87,7 +86,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _parseLayers: function(xml) {
@@ -146,7 +144,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _parseCSV: function(data) {
@@ -182,7 +179,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _propertiesToJson: function(elm) {
@@ -199,7 +195,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _attrToJSON: function(source) {
@@ -214,7 +209,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _checkImage: function() {

@@ -1,5 +1,5 @@
 
-describe('Array Test', function() {
+describe('Array', function() {
     
     it('first', function() {
         var arr = [1, 2, 3, 4, 5, 6];

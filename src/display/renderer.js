@@ -7,13 +7,11 @@
     
     /**
      * @class tm.display.CanvasRenderer
-     * @TODO キャンバス描画クラス？
+     * キャンバス描画クラス
      */
     tm.define("tm.display.CanvasRenderer", {
         /** キャンバス */
         canvas: null,
-
-        /** @property _context @private */
 
         /**
          * @constructor
@@ -26,7 +24,7 @@
 
         /**
          * @property
-         * @TODO ?
+         * 描画
          */
         render: function(root) {
             this.canvas.save();
@@ -36,7 +34,7 @@
 
         /**
          * @property
-         * @TODO ?
+         * オブジェクトを描画
          */
         renderObject: function(obj) {
             obj._dirtyCalc();
@@ -80,8 +78,6 @@
         },
 
         /**
-         * @property
-         * @TODO ?
          * @private
          */
         _setRenderFunction: function(obj) {
@@ -162,7 +158,7 @@
     
     /**
      * @class tm.display.BoundingRectRenderer
-     * @TODO なにをするクラス？
+     * バウンディング表示レンダー
      * @extends tm.display.CanvasRenderer
      */
     tm.define("tm.display.BoundingRectRenderer", {
@@ -178,7 +174,6 @@
 
         /**
          * @property
-         * @TODO ?
          * @private
          */
         _setRenderFunction: function(obj) {
@@ -186,10 +181,6 @@
         }
     });
 
-    /**
-     * @TODO ?
-     * コンストラクタ
-     */
     var render = function(canvas) {
         canvas.save();
         canvas.lineWidth = 2;

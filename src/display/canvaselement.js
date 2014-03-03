@@ -29,11 +29,11 @@ tm.display = tm.display || {};
         blendMode: "source-over",
         /** シャドウカラー */
         shadowColor: "black",
-        /** @TODO ? */
+        /** シャドウオフセットX */
         shadowOffsetX: 0,
-        /** @TODO ? */
+        /** シャドウオフセットY */
         shadowOffsetY: 0,
-        /** @TODO ? */
+        /** シャドウオフブラー */
         shadowBlur: 0,
 
         /**
@@ -44,7 +44,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * アルファをセット
          */
         setAlpha: function(alpha) {
             this.alpha = alpha;
@@ -52,7 +52,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * シャドウカラーをセット
          */
         setShadowColor: function(color) {
             this.shadowColor = color;
@@ -60,7 +60,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * シャドウブラーをセット
          */
         setShadowBlur: function(blur) {
             this.shadowBlur = blur;
@@ -68,7 +68,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * シャドウオフセットをセット
          */
         setShadowOffset: function(x, y) {
             this.shadowOffsetX = x;
@@ -77,7 +77,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * バウンディングサークルを描画
          */
         drawBoundingCircle: function(canvas) {
             canvas.save();
@@ -87,7 +87,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * バウンディングレクトを描画
          */
         drawBoundingRect: function(canvas) {
             canvas.save();
@@ -97,14 +97,14 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ????
          */
         drawFillRect: function(ctx) {
             ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
         },
         /**
-         * @TODO ?
+         * ????
          */
         drawStrokeRect: function(ctx) {
             ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
@@ -112,7 +112,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ????
          */
         drawFillArc: function(ctx) {
             ctx.beginPath();
@@ -122,7 +122,7 @@ tm.display = tm.display || {};
             return this;
         },
         /**
-         * @TODO ?
+         * ????
          */
         drawStrokeArc: function(ctx) {
             ctx.beginPath();
@@ -132,13 +132,16 @@ tm.display = tm.display || {};
             return this;
         },
 
+        /**
+         * 表示/非表示をセット
+         */
         setVisible: function(flag) {
             this.visible = flag;
             return this;
         },
 
         /**
-         * @TODO ?
+         * 表示
          */
         show: function() {
             this.visible = true;
@@ -146,7 +149,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 非表示
          */
         hide: function() {
             this.visible = false;
@@ -154,7 +157,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 塗りつぶしスタイルをセット
          */
         setFillStyle: function(style) {
             this.fillStyle = style;
@@ -162,7 +165,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ストロークスタイルをセット
          */
         setStrokeStyle: function(style) {
             this.strokeStyle = style;
@@ -170,7 +173,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ブレンドモードをセット
          */
         setBlendMode: function(blendMode) {
             this.blendMode = blendMode;
@@ -178,7 +181,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ロード
          */
         load: function(data) {
             var self = this;
@@ -218,7 +221,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _calcAlpha: function() {
@@ -233,7 +235,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _dirtyCalc: function() {

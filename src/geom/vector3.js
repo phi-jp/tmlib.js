@@ -253,7 +253,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @TODO ?
+         * ２次元ベクトルに変換
          */
         toVector2: function() {
             // TODO:
@@ -307,14 +307,14 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @TODO ?
+         * スタイル文字列に変換
          */
         toStyleString: function() {
             return "{x:{x}, y:{y}, z:{z}}".format(this);
         },
 
         /**
-         * @TODO ?
+         * 文字列に変換
          */
         toString: function() {
             return "{x:{x}, y:{y}, z:{z}}".format(this);

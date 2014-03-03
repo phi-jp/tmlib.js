@@ -38,7 +38,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _createCircle: function() {
@@ -51,24 +50,15 @@ tm.ui = tm.ui || {};
             c.fillCircle(40, 40, 35);
         },
 
-        /**
-         * @TODO ?
-         */
         onpointingstart: function() {
             this.isTouching = true;
         },
 
-        /**
-         * @TODO ?
-         */
         onpointingend: function() {
             this.isTouching = false;
             this.circle.position.set(0, 0);
         },
 
-        /**
-         * @TODO ?
-         */
         onpointingmove: function(e) {
             if (this.isTouching==false) return ;
             var p = e.pointing;

@@ -1,7 +1,12 @@
 
 
 (function() {
-    
+
+    /**
+     * @class tm.asset.Loader
+     * @extends tm.event.EventDispatcher
+     * アセットローダー
+     */
     tm.define("tm.asset.Loader", {
         superClass: "tm.event.EventDispatcher",
         

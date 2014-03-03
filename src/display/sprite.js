@@ -73,7 +73,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * フレームインデックスをセット
          */
         setFrameIndex: function(index, width, height) {
             var tw  = width || this.width;      // tw
@@ -96,7 +96,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
          * @private
          */
         _refreshSize: function() {},
