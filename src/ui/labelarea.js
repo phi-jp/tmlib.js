@@ -50,7 +50,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _updateFont: function() {

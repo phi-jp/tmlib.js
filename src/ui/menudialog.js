@@ -90,7 +90,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _onOpen: function() {
@@ -145,7 +144,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _createCursor: function() {
@@ -170,14 +168,14 @@
         },
 
         /**
-         * @TODO ?
+         * 更新
          */
         update: function(app) {
             this.description.text = this.descriptions[this._selected];
         },
 
         /**
-         * @TODO ?
+         * 閉じる
          */
         closeDialog: function(result) {
             this._finished = true;
@@ -214,7 +212,7 @@
         },
 
         /**
-         * @TODO ?
+         * 描画
          */
         draw: function(canvas) {
             canvas.fillStyle = "rgba(0,0,0,0.8)";

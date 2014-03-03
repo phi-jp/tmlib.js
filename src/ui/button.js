@@ -142,7 +142,7 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
+         * 背景色をセット
          */
         setBackgroundColor: function(backgroundColor) {
             this.backgroundColor = backgroundColor;
@@ -153,7 +153,7 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
+         * リフレッシュ
          * @private
          */
         _refresh: function() {

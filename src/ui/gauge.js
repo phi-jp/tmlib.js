@@ -47,21 +47,20 @@
         },
 
         /**
-         * @TODO ?
+         * 満タンかをチェック
          */
         isFull: function() {
             return this.targetProp === this._maxValue;
         },
 
         /**
-         * @TODO ?
+         * 空っぽかをチェック
          */
         isEmpty: function() {
             return this.targetProp == 0;
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _reset: function(direction) {
@@ -71,7 +70,7 @@
         },
 
         /**
-         * @TODO ?
+         * 値をセット
          */
         setValue: function(value) {
             value= Math.clamp(value, 0, this._maxValue);
@@ -104,35 +103,35 @@
         },
 
         /**
-         * @TODO ?
+         * 値をゲット
          */
         getValue: function() {
             return this.value;
         },
 
         /**
-         * @TODO ?
+         * 値を％でセット
          */
         setPercent: function(percent) {
             return this.setValue(this._maxValue*percent*0.01);
         },
 
         /**
-         * @TODO ?
+         * 値を％でゲット
          */
         getPercent: function() {
             return (this._value/this._maxValue)*100;
         },
 
         /**
-         * @TODO ?
+         * 値を比率でセット
          */
         setRatio: function(ratio) {
             return this.setValue(this._maxValue*percent);
         },
 
         /**
-         * @TODO ?
+         * 値を比率でゲット
          */
         getRatio: function() {
             return this._value/this._maxValue;
