@@ -303,7 +303,7 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Canvas-method-strokeLines'>        /**
-</span>         * @TODO ?
+</span>         * ラインストローク描画
          */
         strokeLines: function() {
             this.beginPath();
@@ -313,7 +313,7 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Canvas-method-fillLines'>        /**
-</span>         * @TODO ?
+</span>         * ライン塗りつぶし描画
          */
         fillLines: function() {
             this.beginPath();
@@ -445,14 +445,14 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Canvas-method-fillStar'>        /**
-</span>         * @TODO ?
+</span>         * 星を塗りつぶし描画
          */
         fillStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).fill();
         },
 
 <span id='tm-graphics-Canvas-method-strokeStar'>        /**
-</span>         * @TODO ?
+</span>         * 星をストローク描画
          */
         strokeStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).stroke();
@@ -828,14 +828,15 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Canvas-method-setCompositing'>        /**
-</span>         * @TODO ?
+</span>         * アルファとブレンドモードを同時セット
+         * TODO: 未実装
          */
         setCompositing: function(alpha, compositeOperation) {
             // TODO
         },
 
 <span id='tm-graphics-Canvas-method-setFillStyle'>        /**
-</span>         * @TODO ?
+</span>         * 塗りつぶしスタイルをセット
          */
         setFillStyle: function(style) {
             this.context.fillStyle = style;
@@ -843,7 +844,7 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Canvas-method-setStrokeStyle'>        /**
-</span>         * @TODO ?
+</span>         * ストロークスタイルをセット
          */
         setStrokeStyle: function(style) {
             this.context.strokeStyle = style;

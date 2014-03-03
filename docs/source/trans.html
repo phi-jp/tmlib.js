@@ -19,7 +19,7 @@
     
 <span id='tm-dom-Trans'>    /**
 </span>     * @class tm.dom.Trans
-     * @TODO ?
+     * トランス
      */
     tm.dom.Trans = tm.createClass({
         
@@ -34,7 +34,7 @@
         },
         
 <span id='tm-dom-Trans-method-to'>        /**
-</span>         * @TODO ?
+</span>         * 変換開始
          */
         to: function(props, t) {
             this.set(props).duration(t||1000);
@@ -42,7 +42,7 @@
         },
 
 <span id='tm-dom-Trans-method-set'>        /**
-</span>         * @TODO ?
+</span>         * セット
          */
         set: function(props) {
             var style = this.element.style;
@@ -60,7 +60,7 @@
         },
 
 <span id='tm-dom-Trans-method-duration'>        /**
-</span>         * @TODO ?
+</span>         * 間関
          */
         duration: function(t) {
             var style = this.element.style;
@@ -70,7 +70,7 @@
         },
 
 <span id='tm-dom-Trans-method-easing'>        /**
-</span>         * @TODO ?
+</span>         * イージング
          */
         easing: function(ease) {
             var style = this.element.style;
@@ -79,7 +79,7 @@
         },
 
 <span id='tm-dom-Trans-method-end'>        /**
-</span>         * @TODO ?
+</span>         * 終了
          */
         end: function(fn) {
             var elm  = tm.dom.Element(this.element);
@@ -88,7 +88,7 @@
         },
 
 <span id='tm-dom-Trans-method-reset'>        /**
-</span>         * @TODO ?
+</span>         * リセット
          */
         reset: function() {
             var style = this.element.style;
@@ -97,7 +97,7 @@
         },
 
 <span id='tm-dom-Trans-method-translate'>        /**
-</span>         * @TODO ?
+</span>         * 移動
          */
         translate: function(x, y, t) {
             this.to({&quot;transform&quot;: &quot;translate({0}px,{1}px)&quot;.format(x, y)}, t);
@@ -105,7 +105,7 @@
         },
 
 <span id='tm-dom-Trans-method-translate3d'>        /**
-</span>         * @TODO ?
+</span>         * 移動3D
          */
         translate3d: function(x, y, z, t) {
             this.to({&quot;transform&quot;: &quot;translate3d({0}px,{1}px,{2}px)&quot;.format(x, y, z)}, t);
@@ -113,7 +113,7 @@
         },
 
 <span id='tm-dom-Trans-method-rotate'>        /**
-</span>         * @TODO ?
+</span>         * 回転
          */
         rotate: function(deg, t) {
             this.to({&quot;transform&quot;: &quot;rotate({0}deg)&quot;.format(deg)}, t);
@@ -121,7 +121,7 @@
         },
 
 <span id='tm-dom-Trans-method-rotate3d'>        /**
-</span>         * @TODO ?
+</span>         * 回転3D
          */
         rotate3d: function(x, y, z, deg, t) {
             this.to({&quot;transform&quot;: &quot;rotate3d({0},{1},{2},{3}deg)&quot;.format(x, y, z, deg)}, t);
@@ -129,7 +129,7 @@
         },
 
 <span id='tm-dom-Trans-method-scale'>        /**
-</span>         * @TODO ?
+</span>         * スケール
          */
         scale: function(x, y, t) {
             this.to({&quot;transform&quot;: &quot;scale({0},{1})&quot;.format(x, y)}, t);
@@ -137,7 +137,7 @@
         },
 
 <span id='tm-dom-Trans-method-transform'>        /**
-</span>         * @TODO ?
+</span>         * 行列変換
          */
         transform: function() {
             // TODO: 実装する
@@ -146,7 +146,7 @@
         // -------------------------------------
         
 <span id='tm-dom-Trans-method-setProp'>        /**
-</span>         * @TODO ?
+</span>         * プロパティをセット
          */
         setProp: function(prop) {
             var style = this.element.style;
@@ -164,7 +164,7 @@
         },
 
 <span id='tm-dom-Trans-method-setDuration'>        /**
-</span>         * @TODO ?
+</span>         * 間関をセット
          */
         setDuration: function(t) {
             var style = this.element.style;
@@ -173,7 +173,7 @@
         },
 
 <span id='tm-dom-Trans-method-setTimingFunction'>        /**
-</span>         * @TODO ?
+</span>         * タイミングファンクをセット
          */
         setTimingFunction: function(func) {
             var style = this.element.style;
@@ -182,7 +182,7 @@
         },
 
 <span id='tm-dom-Trans-method-resetProp'>        /**
-</span>         * @TODO ?
+</span>         * リセット
          */
         resetProp: function() {
             var style = this.element.style;
@@ -191,7 +191,7 @@
         },
 
 <span id='tm-dom-Trans-method-setEndFunction'>        /**
-</span>         * @TODO ?
+</span>         * 終了時関数を登録
          */
         setEndFunction: function(fn) {
             var elm  = tm.dom.Element(this.element);

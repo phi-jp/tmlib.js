@@ -52,7 +52,7 @@
         },
 
 <span id='tm-asset-SpriteSheet-method-load'>        /**
-</span>         * @TODO ?
+</span>         * ロード
          */
         load: function(path) {
         	tm.util.Ajax.load({
@@ -66,7 +66,7 @@
         },
 
 <span id='tm-asset-SpriteSheet-method-parse'>        /**
-</span>         * @TODO ?
+</span>         * パース
          */
         parse: function(param) {
             this.frame = param.frame;
@@ -99,22 +99,21 @@
         },
 
 <span id='tm-asset-SpriteSheet-method-getFrame'>        /**
-</span>         * @TODO ?
+</span>         * フレームを取得
          */
         getFrame: function(index) {
             return this.frames[index];
         },
         
 <span id='tm-asset-SpriteSheet-method-getAnimation'>        /**
-</span>         * @TODO ?
+</span>         * アニメーションを取得
          */
         getAnimation: function(name) {
             return this.animations[name];
         },
         
 <span id='tm-asset-SpriteSheet-method-_calcFrames'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _calcFrames: function(frame) {
             var frames = this.frames = [];
@@ -140,8 +139,7 @@
         },
 
 <span id='tm-asset-SpriteSheet-method-_calcAnim'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _calcAnim: function(animations) {
             this.animations = {};

@@ -55,8 +55,7 @@ tm.ui = tm.ui || {};
         },
 
 <span id='tm-ui-Pad-method-_createCircle'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _createCircle: function() {
             var circle = this.circle = tm.display.Shape(80, 80);
@@ -68,24 +67,15 @@ tm.ui = tm.ui || {};
             c.fillCircle(40, 40, 35);
         },
 
-<span id='tm-ui-Pad-method-onpointingstart'>        /**
-</span>         * @TODO ?
-         */
         onpointingstart: function() {
             this.isTouching = true;
         },
 
-<span id='tm-ui-Pad-method-onpointingend'>        /**
-</span>         * @TODO ?
-         */
         onpointingend: function() {
             this.isTouching = false;
             this.circle.position.set(0, 0);
         },
 
-<span id='tm-ui-Pad-method-onpointingmove'>        /**
-</span>         * @TODO ?
-         */
         onpointingmove: function(e) {
             if (this.isTouching==false) return ;
             var p = e.pointing;

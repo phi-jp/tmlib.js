@@ -275,7 +275,7 @@ tm.app = tm.app || {};
         },
         
 <span id='tm-app-BaseApp-method-_draw'>        /**
-</span>         * @TODO ? オーバーライド予定？
+</span>         * 描画用仮想関数
          * @private
          */
         _draw: function() {},
@@ -321,7 +321,6 @@ tm.app = tm.app || {};
 <span id='tm-app-BaseApp-property-currentScene'>    /**
 </span>     * @property currentScene
      * カレントシーン
-     * @TODO どうしよう？
      */
     tm.app.BaseApp.prototype.accessor(&quot;currentScene&quot;, {
         &quot;get&quot;: function() { return this._scenes[this._sceneIndex]; },

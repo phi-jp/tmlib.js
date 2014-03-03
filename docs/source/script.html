@@ -28,7 +28,11 @@ tm.util = tm.util || {};
 </span>     * @class tm.util.Script
      * スクリプトクラス
      */
-    tm.util.Script = tm.createClass({
+
+    tm.define(&quot;tm.util.Script&quot;, {
+
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+
 <span id='tm-util-Script-property-element'>        /** element */
 </span>        element: null,
 <span id='tm-util-Script-property-loaded'>        /** loaded */
@@ -37,7 +41,9 @@ tm.util = tm.util || {};
 <span id='tm-util-Script-method-constructor'>        /**
 </span>         * @constructor
          */
-        init: function(src, callback) {
+        init: function(src) {
+            this.superInit();
+
             this.loaded = false;
             this.element = document.createElement(&quot;script&quot;);
             this.element.type = &quot;text/javascript&quot;;
@@ -48,8 +54,8 @@ tm.util = tm.util || {};
             
             var self = this;
             this.element.onload = function() {
-                if (callback) callback.call(this);
                 self.loaded = true;
+                self.fire(tm.event.Event(&quot;load&quot;));
             };
         },
         
@@ -61,35 +67,19 @@ tm.util = tm.util || {};
         },
         
     });
-    
-})();
 
-(function(){
-    
-<span id='tm-util-ScriptManager'>    /**
-</span>     * @class tm.util.ScriptManager
-     * スクリプトマネージャクラス
-     */
-    tm.util.ScriptManager = {
-<span id='tm-util-ScriptManager-property-scriptList'>        scriptList: {},
-</span><span id='tm-util-ScriptManager-property-loaded'>        loaded: true,
-</span>    };
-    
-<span id='tm-util-ScriptManager-static-method-load'>    /**
-</span>     * @static
-     * @method
-     * 追加
-     */
-    tm.util.ScriptManager.load = function(src, callback) {
-        this.scriptList[src] = tm.util.Script(src, callback);
+    tm.util.Script.load = function(src) {
+        var script = tm.util.Script(src);
+
+        return script;
     };
 
-<span id='tm-util-ScriptManager-static-method-loadStats'>    /**
+<span id='tm-util-Script-static-method-loadStats'>    /**
 </span>     * @static
      * @method
-     * stats.js を動的ロード
+     * Stats を動的ロード
      */
-    tm.util.ScriptManager.loadStats = function(version) {
+    tm.util.Script.loadStats = function(version) {
         version = version || &quot;r11&quot;;
         var path = null;
         if ([&quot;r6&quot;, &quot;r7&quot;, &quot;r8&quot;, &quot;r9&quot;, &quot;10&quot;].indexOf(version) != -1) {
@@ -98,15 +88,16 @@ tm.util = tm.util || {};
         else {
             path = &quot;http://rawgithub.com/mrdoob/stats.js/&quot; + version + &quot;/build/stats.min.js&quot;;
         }
-        this.load(path);
+
+        return this.load(path);
     };
 
-<span id='tm-util-ScriptManager-static-method-loadDatGUI'>    /**
+<span id='tm-util-Script-static-method-loadDatGUI'>    /**
 </span>     * @static
      * @method
-     * Dat GUI を動的ロード
+     * datGUI を動的ロード
      */
-    tm.util.ScriptManager.loadDatGUI = function(version) {
+    tm.util.Script.loadDatGUI = function(version) {
         // http://dat-gui.googlecode.com/git/build/dat.gui.min.js
         // https://dat-gui.googlecode.com/git-history/0.5/build/dat.gui.min.js
 
@@ -114,57 +105,38 @@ tm.util = tm.util || {};
 //        var path = &quot;https://dat-gui.googlecode.com/git-history/&quot; + version + &quot;/build/dat.gui.min.js&quot;;
 //        var path = &quot;http://dat-gui.googlecode.com/git/build/dat.gui.min.js&quot;;
         var path = &quot;http://dat-gui.googlecode.com/git/build/dat.gui.js&quot;;
-        this.load(path);
+        return this.load(path);
     };
 
-<span id='tm-util-ScriptManager-static-method-loadThree'>    /**
+<span id='tm-util-Script-static-method-loadThree'>    /**
 </span>     * @static
      * @method
      * Three.js を動的ロード
      */
-    tm.util.ScriptManager.loadThree = function(version) {
+    tm.util.Script.loadThree = function(version) {
         var THREE_JS_URL = &quot;http://rawgithub.com/mrdoob/three.js/{version}/build/three.js&quot;;
 //        var THREE_JS_URL = &quot;https://raw.github.com/mrdoob/three.js/{version}/build/three.min.js&quot;;
         version = version || &quot;r55&quot;;
 
         var path = THREE_JS_URL.format({version: version});
 
-        this.load(path);
+        return this.load(path);
     };
 
-<span id='tm-util-ScriptManager-static-method-loadBulletML'>    /**
+<span id='tm-util-Script-static-method-loadBulletML'>    /**
 </span>     * @static
      * @method
-     * BulletML を動的ロード
+     * BulletML.js を動的ロード
      */
-    tm.util.ScriptManager.loadBulletML = function(version) {
+    tm.util.Script.loadBulletML = function(version) {
         var BULLETML_FOR_TMLIB_JS_URL   = &quot;http://rawgithub.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js&quot;;
-        version = version || &quot;v0.4.1&quot;;
+        version = version || &quot;v0.4.2&quot;;
         var path = BULLETML_FOR_TMLIB_JS_URL.format({version: version});        
-        this.load(path);
+        return this.load(path);
     };
-    
-<span id='tm-util-ScriptManager-static-method-isLoaded'>    /**
-</span>     * @static
-     * @method
-     * ロードチェック
-     */
-    tm.util.ScriptManager.isLoaded = function() {
-        if (this.scriptList.length &lt;= 0) return true;
 
-        for (var key in this.scriptList) {
-            if (this.scriptList[key].loaded == false) {
-                return false;
-            }
-        }
-        return true;
-    };
-    
-    tm.addLoadCheckList(tm.util.ScriptManager);
-    
+
 })();
-
-
 </pre>
 </body>
 </html>

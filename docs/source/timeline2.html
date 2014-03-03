@@ -46,7 +46,7 @@ tm.util = tm.util || {};
         },
         
 <span id='tm-util-Timeline-method-at'>        /**
-</span>         * @TODO ?
+</span>         * アット
          */
         at: function(time, action) {
             this.tasks.push({
@@ -57,7 +57,7 @@ tm.util = tm.util || {};
         },
 
 <span id='tm-util-Timeline-method-after'>        /**
-</span>         * @TODO ?
+</span>         * アフター
          */
         after: function(time, action) {
             this.at(this.time + time, action);
@@ -65,7 +65,7 @@ tm.util = tm.util || {};
         },
 
 <span id='tm-util-Timeline-method-clear'>        /**
-</span>         * @TODO ?
+</span>         * クリア
          */
         clear: function() {
             this.tasks = [];
@@ -73,21 +73,21 @@ tm.util = tm.util || {};
         },
 
 <span id='tm-util-Timeline-method-removeTime'>        /**
-</span>         * @TODO ?
+</span>         * リムーブタイム
          */
         removeTime: function(time) {
             // TODO: 
         },
 
 <span id='tm-util-Timeline-method-removeAction'>        /**
-</span>         * @TODO ?
+</span>         * リムーブアクション
          */
         removeAction: function(action) {
             // TODO: 
         },
         
 <span id='tm-util-Timeline-method-start'>        /**
-</span>         * @TODO ?
+</span>         * スタート
          */
         start: function() {
             this.isPlaying = true;
@@ -96,7 +96,7 @@ tm.util = tm.util || {};
         },
 
 <span id='tm-util-Timeline-method-resume'>        /**
-</span>         * @TODO ?
+</span>         * レジューム
          */
         resume: function() {
             this.isPlaying = true;
@@ -105,21 +105,21 @@ tm.util = tm.util || {};
         },
 
 <span id='tm-util-Timeline-method-stop'>        /**
-</span>         * @TODO ?
+</span>         * ストップ
          */
         stop: function() {
             this.isPlaying = false;
         },
 
 <span id='tm-util-Timeline-method-rewind'>        /**
-</span>         * @TODO ?
+</span>         * レウィンド
          */
         rewind: function() {
             this.time = 0;
         },
 
 <span id='tm-util-Timeline-method-update'>        /**
-</span>         * @TODO ?
+</span>         * 更新
          */
         update: function() {
             // タスク更新
@@ -136,24 +136,21 @@ tm.util = tm.util || {};
         },
         
 <span id='tm-util-Timeline-method-_startTime'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _startTime: function() {
             this.startTime = (new Date()).getTime();
         },
 
 <span id='tm-util-Timeline-method-_resumeTime'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _resumeTime: function() {
             this.startTime = (new Date()).getTime() - this.time;
         },
 
 <span id='tm-util-Timeline-method-_updateTime'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _updateTime: function() {
             if (this.isPlaying) {
@@ -163,8 +160,7 @@ tm.util = tm.util || {};
         },
         
 <span id='tm-util-Timeline-method-_nextTime'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _nextTime: function() {
             // 前回の時間

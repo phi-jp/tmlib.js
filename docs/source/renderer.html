@@ -24,14 +24,12 @@
     
 <span id='tm-display-CanvasRenderer'>    /**
 </span>     * @class tm.display.CanvasRenderer
-     * @TODO キャンバス描画クラス？
+     * キャンバス描画クラス
      */
     tm.define(&quot;tm.display.CanvasRenderer&quot;, {
 <span id='tm-display-CanvasRenderer-property-canvas'>        /** キャンバス */
 </span>        canvas: null,
 
-<span id='tm-display-CanvasRenderer-property-_context'>        /** @property _context @private */
-</span>
 <span id='tm-display-CanvasRenderer-method-constructor'>        /**
 </span>         * @constructor
          * コンストラクタ
@@ -43,7 +41,7 @@
 
 <span id='tm-display-CanvasRenderer-property-render'>        /**
 </span>         * @property
-         * @TODO ?
+         * 描画
          */
         render: function(root) {
             this.canvas.save();
@@ -53,7 +51,7 @@
 
 <span id='tm-display-CanvasRenderer-property-renderObject'>        /**
 </span>         * @property
-         * @TODO ?
+         * オブジェクトを描画
          */
         renderObject: function(obj) {
             obj._dirtyCalc();
@@ -96,10 +94,8 @@
             }
         },
 
-<span id='tm-display-CanvasRenderer-property-_setRenderFunction'>        /**
-</span>         * @property
-         * @TODO ?
-         * @private
+<span id='tm-display-CanvasRenderer-method-_setRenderFunction'>        /**
+</span>         * @private
          */
         _setRenderFunction: function(obj) {
             if (obj instanceof tm.display.Sprite) {
@@ -179,7 +175,7 @@
     
 <span id='tm-display-BoundingRectRenderer'>    /**
 </span>     * @class tm.display.BoundingRectRenderer
-     * @TODO なにをするクラス？
+     * バウンディング表示レンダー
      * @extends tm.display.CanvasRenderer
      */
     tm.define(&quot;tm.display.BoundingRectRenderer&quot;, {
@@ -195,7 +191,6 @@
 
 <span id='tm-display-BoundingRectRenderer-property-_setRenderFunction'>        /**
 </span>         * @property
-         * @TODO ?
          * @private
          */
         _setRenderFunction: function(obj) {
@@ -203,10 +198,6 @@
         }
     });
 
-<span id='tm-display-BoundingRectRenderer-method-render'>    /**
-</span>     * @TODO ?
-     * コンストラクタ
-     */
     var render = function(canvas) {
         canvas.save();
         canvas.lineWidth = 2;

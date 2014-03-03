@@ -18,6 +18,11 @@
   <pre class="prettyprint lang-js">
 ;(function() {
     
+<span id='tm-ui-LabelArea'>    /**
+</span>     * @class tm.ui.LabelArea
+     * @extends tm.display.Shape
+     * ラベルエリアクラス
+     */
     tm.define(&quot;tm.ui.LabelArea&quot;, {
         superClass: &quot;tm.display.Shape&quot;,
         
@@ -66,9 +71,8 @@
             });
         },
 
-<span id='global-method-_updateFont'>        /**
-</span>         * @TODO ?
-         * @private
+<span id='tm-ui-LabelArea-method-_updateFont'>        /**
+</span>         * @private
          */
         _updateFont: function() {
             this.fontStyle = &quot;{fontWeight} {fontSize}px {fontFamily}&quot;.format(this);
@@ -79,7 +83,7 @@
     });
     
     
-<span id='global-property-text'>    /**
+<span id='tm-ui-LabelArea-property-text'>    /**
 </span>     * @property    text
      * 文字
      */
@@ -90,7 +94,7 @@
         }
     });
     
-<span id='global-property-fontSize'>    /**
+<span id='tm-ui-LabelArea-property-fontSize'>    /**
 </span>     * @property    fontSize
      * フォントサイズ
      */
@@ -99,7 +103,7 @@
         &quot;set&quot;: function(v){ this._fontSize = v; this._updateFont(); }
     });
     
-<span id='global-property-fontFamily'>    /**
+<span id='tm-ui-LabelArea-property-fontFamily'>    /**
 </span>     * @property    fontFamily
      * フォント
      */
@@ -108,7 +112,7 @@
         &quot;set&quot;: function(v){ this._fontFamily = v; this._updateFont(); }
     });
     
-<span id='global-property-fontWeight'>    /**
+<span id='tm-ui-LabelArea-property-fontWeight'>    /**
 </span>     * @property    fontWeight
      */
     tm.ui.LabelArea.prototype.accessor(&quot;fontWeight&quot;, {
@@ -118,7 +122,7 @@
         },
     });
     
-<span id='global-property-fillStyle'>    /**
+<span id='tm-ui-LabelArea-property-fillStyle'>    /**
 </span>     * @property    fillStyle
      */
     tm.ui.LabelArea.prototype.accessor(&quot;fillStyle&quot;, {
@@ -128,7 +132,7 @@
         },
     });
     
-<span id='global-property-bgColor'>    /**
+<span id='tm-ui-LabelArea-property-bgColor'>    /**
 </span>     * @property    bgColor
      */
     tm.ui.LabelArea.prototype.accessor(&quot;bgColor&quot;, {
@@ -138,7 +142,7 @@
         },
     });
 
-<span id='global-property-width'>    /**
+<span id='tm-ui-LabelArea-property-width'>    /**
 </span>     * @property    width
      * dummy
      */
@@ -152,7 +156,7 @@
         }
     });
     
-<span id='global-property-height'>    /**
+<span id='tm-ui-LabelArea-property-height'>    /**
 </span>     * @property    height
      * dummy
      */

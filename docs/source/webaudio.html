@@ -114,7 +114,7 @@ tm.sound = tm.sound || {};
         },
 
 <span id='tm-sound-WebAudio-method-pause'>        /**
-</span>         * @TODO ?
+</span>         * ポーズ
          */
         pause: function() {
             this.source.disconnect();
@@ -123,7 +123,7 @@ tm.sound = tm.sound || {};
         },
 
 <span id='tm-sound-WebAudio-method-resume'>        /**
-</span>         * @TODO ?
+</span>         * レジューム
          */
         resume: function() {
             this.source.connect(this.panner);
@@ -203,8 +203,7 @@ tm.sound = tm.sound || {};
         },
 
 <span id='tm-sound-WebAudio-method-_load'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _load: function(src) {
             if (!this.context) return ;
@@ -231,8 +230,7 @@ tm.sound = tm.sound || {};
         },
 
 <span id='tm-sound-WebAudio-method-_setup'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _setup: function() {
             this.source     = this.context.createBufferSource();
@@ -246,7 +244,7 @@ tm.sound = tm.sound || {};
         },
 
 <span id='tm-sound-WebAudio-method-tone'>        /**
-</span>         * @TODO ?
+</span>         * トーン
          */
         tone: function(hertz, seconds) {
             // handle parameter
@@ -273,7 +271,7 @@ tm.sound = tm.sound || {};
 
 <span id='tm-sound-WebAudio-property-buffer'>    /**
 </span>     * @property    buffer
-     * @TODO ?
+     * バッファー
      */
     tm.sound.WebAudio.prototype.accessor(&quot;buffer&quot;, {
         get: function()  { return this.source.buffer; },
@@ -282,7 +280,7 @@ tm.sound = tm.sound || {};
 
 <span id='tm-sound-WebAudio-property-loop'>    /**
 </span>     * @property    loop
-     * @TODO ?
+     * ループフラグ
      */
     tm.sound.WebAudio.prototype.accessor(&quot;loop&quot;, {
         get: function()  { return this.source.loop; },
@@ -291,7 +289,7 @@ tm.sound = tm.sound || {};
 
 <span id='tm-sound-WebAudio-property-valume'>    /**
 </span>     * @property    valume
-     * @TODO ?
+     * ボリューム
      */
     tm.sound.WebAudio.prototype.accessor(&quot;volume&quot;, {
         get: function()  { return this.source.gain.value; },
@@ -300,7 +298,7 @@ tm.sound = tm.sound || {};
 
 <span id='tm-sound-WebAudio-property-playbackRate'>    /**
 </span>     * @property    playbackRate
-     * @TODO ?
+     * プレイバックレート
      */
     tm.sound.WebAudio.prototype.accessor(&quot;playbackRate&quot;, {
         get: function()  { return this.source.playbackRate.value; },

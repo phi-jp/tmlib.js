@@ -18,7 +18,12 @@
   <pre class="prettyprint lang-js">
 
 (function() {
-    
+
+<span id='tm-asset-Loader'>    /**
+</span>     * @class tm.asset.Loader
+     * @extends tm.event.EventDispatcher
+     * アセットローダー
+     */
     tm.define(&quot;tm.asset.Loader&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
         
@@ -43,7 +48,7 @@
             return this;
         },
 
-<span id='global-method-get'>        /**
+<span id='tm-asset-Loader-method-get'>        /**
 </span>         * アセットのゲット
          * @param {Object} key
          */
@@ -51,7 +56,7 @@
             return this.assets[key];
         },
 
-<span id='global-method-set'>        /**
+<span id='tm-asset-Loader-method-set'>        /**
 </span>         * アセットのセット
          * @param {Object} key
          * @param {Object} asset

@@ -45,8 +45,7 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Bitmap-method-_init'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _init: function(imageData) {
             if (arguments.length == 1) {
@@ -93,7 +92,7 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Bitmap-method-getPixelAsNumber'>        /**
-</span>         * @TODO ?
+</span>         * ピクセルを数値としてゲット
          */
         getPixelAsNumber: function(index) {
             var i = index*4;
@@ -101,7 +100,7 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Bitmap-method-getPixelAsObject'>        /**
-</span>         * @TODO ?
+</span>         * ピクセルをオブジェクトとしてゲット
          */
         getPixelAsObject: function(index) {
             var i = index*4;
@@ -114,7 +113,7 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Bitmap-method-getPixelAsArray'>        /**
-</span>         * @TODO ?
+</span>         * ピクセルを配列としてゲット
          */
         getPixelAsArray: function(index) {
             var i = index*4;
@@ -200,7 +199,7 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Bitmap-method-setPixel32Index'>        /**
-</span>         * @TODO ?
+</span>         * 32bit セット
          */
         setPixel32Index: function(index, r, g, b, a) {
             var i = index*4;
@@ -212,28 +211,28 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Bitmap-method-setPixel32'>        /**
-</span>         * @TODO ?
+</span>         * 32bit セット
          */
         setPixel32: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
 
 <span id='tm-graphics-Bitmap-method-setPixel32XY'>        /**
-</span>         * @TODO ?
+</span>         * 32bit セット
          */
         setPixel32XY: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
 
 <span id='tm-graphics-Bitmap-method-setPixelFromArray'>        /**
-</span>         * @TODO ?
+</span>         * 配列からピクセルをセット
          */
         setPixelFromArray: function(index, pixel) {
             return this.setPixel(index, pixel[0], pixel[1], pixel[2]);
         },
 
 <span id='tm-graphics-Bitmap-method-setPixel32FromArray'>        /**
-</span>         * @TODO ?
+</span>         * 配列からピクセルをセット
          */
         setPixel32FromArray: function(index, pixel) {
             return this.setPixel32(index, pixel[0], pixel[1], pixel[2], pixel[3]);
@@ -260,7 +259,7 @@ tm.graphics = tm.graphics || {};
             return this.setPixel(pixel.r, pixel.g, pixel.b);
         },
 <span id='tm-graphics-Bitmap-method-setPixel32FromObject'>        /**
-</span>         * @TODO ?
+</span>         * オブジェクトからピクセルをセット
          */
         setPixel32FromObject: function(index, pixel) {
             return this.setPixel32(pixel.r, pixel.g, pixel.b, pixel.a);
@@ -281,9 +280,8 @@ tm.graphics = tm.graphics || {};
             return y*this.imageData.width + x;
         },
         
-        // filter: function(rect, filter)
 <span id='tm-graphics-Bitmap-method-filter'>        /**
-</span>         * @TODO ?
+</span>         * フィルター
          */
         filter: function(filter) {
             for (var i=0; i&lt;this.height; ++i) {
@@ -317,7 +315,8 @@ tm.graphics = tm.graphics || {};
         },
 
 <span id='tm-graphics-Bitmap-method-applyFilter'>        /**
-</span>         * @TODO ?
+</span>         * フィルタを適応する
+         * TODO: 未実装
          */
         applyFilter: function(filter) {
             

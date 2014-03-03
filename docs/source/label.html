@@ -40,7 +40,7 @@ tm.display = tm.display || {};
 </span>        fill: true,
 <span id='tm-display-Label-property-stroke'>        /** ストロークフラグ */
 </span>        stroke: false,
-<span id='tm-display-Label-property-debugBox'>        /** @TODO ? */
+<span id='tm-display-Label-property-debugBox'>        /** デバッグボックス */
 </span>        debugBox: false,
 
 <span id='tm-display-Label-property-_fontSize'>        /** @property _fontSize @private */
@@ -72,7 +72,7 @@ tm.display = tm.display || {};
         },
         
 <span id='tm-display-Label-method-setAlign'>        /**
-</span>         * @TODO ?
+</span>         * アラインをセット
          */
         setAlign: function(align) {
             this.align = align;
@@ -80,7 +80,7 @@ tm.display = tm.display || {};
         },
         
 <span id='tm-display-Label-method-setBaseline'>        /**
-</span>         * @TODO ?
+</span>         * ベースラインをセット
          */
         setBaseline: function(baseline) {
             this.baseline = baseline;
@@ -88,7 +88,7 @@ tm.display = tm.display || {};
         },
         
 <span id='tm-display-Label-method-setFontSize'>        /**
-</span>         * @TODO ?
+</span>         * フォントサイズをセット
          */
         setFontSize: function(size) {
             this.fontSize = size;
@@ -96,7 +96,7 @@ tm.display = tm.display || {};
         },
         
 <span id='tm-display-Label-method-setFontFamily'>        /**
-</span>         * @TODO ?
+</span>         * フォントファミリーをセット
          */
         setFontFamily: function(family) {
             this.fontFamily= family;
@@ -104,7 +104,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-Label-method-setFontWeight'>        /**
-</span>         * @TODO ?
+</span>         * フォントウェイトをセット
          */
         setFontWeight: function(weight) {
             this.fontWeight= weight;
@@ -112,8 +112,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-Label-method-_updateFont'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _updateFont: function() {
             this.fontStyle = &quot;{fontWeight} {fontSize}px {fontFamily}&quot;.format(this);
@@ -126,8 +125,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-Label-method-_updateLines'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _updateLines: function() {
             this._lines = (this._text+'').split('\n');

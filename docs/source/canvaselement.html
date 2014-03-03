@@ -46,11 +46,11 @@ tm.display = tm.display || {};
 </span>        blendMode: &quot;source-over&quot;,
 <span id='tm-display-CanvasElement-property-shadowColor'>        /** シャドウカラー */
 </span>        shadowColor: &quot;black&quot;,
-<span id='tm-display-CanvasElement-property-shadowOffsetX'>        /** @TODO ? */
+<span id='tm-display-CanvasElement-property-shadowOffsetX'>        /** シャドウオフセットX */
 </span>        shadowOffsetX: 0,
-<span id='tm-display-CanvasElement-property-shadowOffsetY'>        /** @TODO ? */
+<span id='tm-display-CanvasElement-property-shadowOffsetY'>        /** シャドウオフセットY */
 </span>        shadowOffsetY: 0,
-<span id='tm-display-CanvasElement-property-shadowBlur'>        /** @TODO ? */
+<span id='tm-display-CanvasElement-property-shadowBlur'>        /** シャドウオフブラー */
 </span>        shadowBlur: 0,
 
 <span id='tm-display-CanvasElement-method-constructor'>        /**
@@ -61,7 +61,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-setAlpha'>        /**
-</span>         * @TODO ?
+</span>         * アルファをセット
          */
         setAlpha: function(alpha) {
             this.alpha = alpha;
@@ -69,7 +69,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-setShadowColor'>        /**
-</span>         * @TODO ?
+</span>         * シャドウカラーをセット
          */
         setShadowColor: function(color) {
             this.shadowColor = color;
@@ -77,7 +77,7 @@ tm.display = tm.display || {};
         },
         
 <span id='tm-display-CanvasElement-method-setShadowBlur'>        /**
-</span>         * @TODO ?
+</span>         * シャドウブラーをセット
          */
         setShadowBlur: function(blur) {
             this.shadowBlur = blur;
@@ -85,7 +85,7 @@ tm.display = tm.display || {};
         },
         
 <span id='tm-display-CanvasElement-method-setShadowOffset'>        /**
-</span>         * @TODO ?
+</span>         * シャドウオフセットをセット
          */
         setShadowOffset: function(x, y) {
             this.shadowOffsetX = x;
@@ -94,7 +94,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-drawBoundingCircle'>        /**
-</span>         * @TODO ?
+</span>         * バウンディングサークルを描画
          */
         drawBoundingCircle: function(canvas) {
             canvas.save();
@@ -104,7 +104,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-drawBoundingRect'>        /**
-</span>         * @TODO ?
+</span>         * バウンディングレクトを描画
          */
         drawBoundingRect: function(canvas) {
             canvas.save();
@@ -114,14 +114,14 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-drawFillRect'>        /**
-</span>         * @TODO ?
+</span>         * ????
          */
         drawFillRect: function(ctx) {
             ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
         },
 <span id='tm-display-CanvasElement-method-drawStrokeRect'>        /**
-</span>         * @TODO ?
+</span>         * ????
          */
         drawStrokeRect: function(ctx) {
             ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
@@ -129,7 +129,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-drawFillArc'>        /**
-</span>         * @TODO ?
+</span>         * ????
          */
         drawFillArc: function(ctx) {
             ctx.beginPath();
@@ -139,7 +139,7 @@ tm.display = tm.display || {};
             return this;
         },
 <span id='tm-display-CanvasElement-method-drawStrokeArc'>        /**
-</span>         * @TODO ?
+</span>         * ????
          */
         drawStrokeArc: function(ctx) {
             ctx.beginPath();
@@ -149,13 +149,16 @@ tm.display = tm.display || {};
             return this;
         },
 
+<span id='tm-display-CanvasElement-method-setVisible'>        /**
+</span>         * 表示/非表示をセット
+         */
         setVisible: function(flag) {
             this.visible = flag;
             return this;
         },
 
 <span id='tm-display-CanvasElement-method-show'>        /**
-</span>         * @TODO ?
+</span>         * 表示
          */
         show: function() {
             this.visible = true;
@@ -163,7 +166,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-hide'>        /**
-</span>         * @TODO ?
+</span>         * 非表示
          */
         hide: function() {
             this.visible = false;
@@ -171,7 +174,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-setFillStyle'>        /**
-</span>         * @TODO ?
+</span>         * 塗りつぶしスタイルをセット
          */
         setFillStyle: function(style) {
             this.fillStyle = style;
@@ -179,7 +182,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-setStrokeStyle'>        /**
-</span>         * @TODO ?
+</span>         * ストロークスタイルをセット
          */
         setStrokeStyle: function(style) {
             this.strokeStyle = style;
@@ -187,7 +190,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-setBlendMode'>        /**
-</span>         * @TODO ?
+</span>         * ブレンドモードをセット
          */
         setBlendMode: function(blendMode) {
             this.blendMode = blendMode;
@@ -195,7 +198,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-load'>        /**
-</span>         * @TODO ?
+</span>         * ロード
          */
         load: function(data) {
             var self = this;
@@ -235,8 +238,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-_calcAlpha'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _calcAlpha: function() {
             if (!this.parent) {
@@ -250,8 +252,7 @@ tm.display = tm.display || {};
         },
 
 <span id='tm-display-CanvasElement-method-_dirtyCalc'>        /**
-</span>         * @TODO ?
-         * @private
+</span>         * @private
          */
         _dirtyCalc: function() {
             this._calcAlpha();
