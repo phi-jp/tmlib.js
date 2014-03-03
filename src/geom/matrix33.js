@@ -148,7 +148,7 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @TODO ?
+         * 行列式
          */
         determinant: function() {
             var m = this.m;

@@ -194,28 +194,28 @@ tm.geom = tm.geom || {};
         */
         
         /**
-         * @TODO ?
+         * X軸ベクトルをゲット
          */
         getAxisX: function() { return TM.Geom.Vector3(this.m00, this.m01, this.m02); },
         /**
-         * @TODO ?
+         * Y軸ベクトルをゲット
          */
         getAxisY: function() { return TM.Geom.Vector3(this.m10, this.m11, this.m12); },
         /**
-         * @TODO ?
+         * Z軸ベクトルをゲット
          */
         getAxisZ: function() { return TM.Geom.Vector3(this.m20, this.m21, this.m22); },
 
         /**
-         * @TODO ?
+         * X軸ベクトルをセット
          */
         setAxisX: function(v) { this.m00=v.x, this.m01=v.y, this.m02=v.z; },
         /**
-         * @TODO ?
+         * Y軸ベクトルをセット
          */
         setAxisY: function(v) { this.m10=v.x, this.m11=v.y, this.m12=v.z; },
         /**
-         * @TODO ?
+         * Z軸ベクトルをセット
          */
         setAxisZ: function(v) { this.m20=v.x, this.m21=v.y, this.m22=v.z; },
         

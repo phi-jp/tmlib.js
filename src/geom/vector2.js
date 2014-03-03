@@ -309,14 +309,14 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @TODO ?
+         * スタイル文字列に変換
          */
         toStyleString: function() {
             return "{x:{x}, y:{y}}".format(this);
         },
 
         /**
-         * @TODO ?
+         * 文字列に変換
          */
         toString: function() {
             return "{x:{x}, y:{y}}".format(this);

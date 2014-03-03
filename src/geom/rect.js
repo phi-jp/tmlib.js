@@ -120,7 +120,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @TODO ?
+         * 円に変換
          */
         toCircle: function() {
             return tm.geom.Circle(
@@ -131,7 +131,7 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @TODO ?
+         * 配列に変換
          */
         toArray: function() {
             return [this.x, this.y, this.width, this.height];
