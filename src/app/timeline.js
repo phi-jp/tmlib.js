@@ -49,7 +49,7 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @TODO ?
+         * トゥイーンを更新
          * @private
          */
         _updateTween: function() {
@@ -72,7 +72,7 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @TODO ?
+         * アクションを更新
          * @private
          */
         _updateAction: function() {
@@ -242,7 +242,7 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @TODO ?
+         * 時間を更新
          * @private
          * @param {Object} task
          */
@@ -253,7 +253,7 @@ tm.namespace("tm.app", function() {
         },
 
         /**
-         * @TODO ?
+         * dirty method
          * @private
          * @param {Object} t
          */
@@ -262,7 +262,7 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @TODO ?
+         * ロード
          * @param {Object} data
          */
         load: function(data) {

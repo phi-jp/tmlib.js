@@ -54,7 +54,7 @@
         },
         
         /**
-         * @TODO ?
+         * 最終的な行列をゲット
          */
         getFinalMatrix: function() {
             var matrix = tm.geom.Matrix33();
@@ -87,7 +87,7 @@
         },
  
         /**
-         * @TODO ?
+         * 円として点と衝突判定
          * @param {Number} x
          * @param {Number} y
          */
@@ -101,7 +101,7 @@
         },
  
         /**
-         * @TODO ?
+         * 矩形として点と衝突判定
          * @param {Number} x
          * @param {Number} y
          */
@@ -250,7 +250,7 @@
         },
 
         /**
-         * @TODO ?
+         * 回転をセット
          * @param {Number} rotation
          */
         setRotation: function(rotation) {
@@ -259,7 +259,7 @@
         },
 
         /**
-         * @TODO ?
+         * スケールをセット
          * @param {Number} x
          * @param {Number} y
          */
@@ -274,7 +274,7 @@
         },
         
         /**
-         * @TODO ?
+         * 基準点をセット
          * @param {Number} x
          * @param {Number} y
          */
@@ -348,7 +348,7 @@
         },
         
         /**
-         * @TODO ?
+         * 更新メソッド
          * @private
          * @param {Object} app
          */
@@ -378,7 +378,7 @@
         },
         
         /**
-         * @TODO ?
+         * ポインティングをチェック
          * @private
          * @param {Object} app
          */
@@ -387,7 +387,7 @@
         },
         
         /**
-         * @TODO ?
+         * マウスチェック
          * @private
          * @param {Object} app
          */
@@ -396,7 +396,7 @@
         },
 
         /**
-         * @TODO ?
+         * タッチチェック
          * @private
          * @param {Object} app
          */
@@ -409,7 +409,7 @@
         },
         
         /**
-         * @TODO ?
+         * チェックポインンティング
          * @private
          * @param {Object} app
          * @param {Object} p
@@ -448,7 +448,7 @@
         },
         
         /**
-         * @TODO ?
+         * ポイントイベントを発火する
          * @private
          * @param {Object} mouse
          * @param {Object} touch
@@ -463,7 +463,7 @@
         },
         
         /**
-         * @TODO ?
+         * ワールドマトリックスを計算
          * @private
          */
         _calcWorldMatrix: function() {
@@ -509,7 +509,7 @@
         },
         
         /**
-         * @TODO ?
+         * dirty method
          * @private
          */
         _dirtyCalc: function() {
@@ -720,7 +720,7 @@
     /**
      * @member      tm.app.Object2D
      * @property    _checkPointing
-     * @TODO ?
+     * ポイントをチェック
      * @param {Object} isMobile
      * @private
      */
