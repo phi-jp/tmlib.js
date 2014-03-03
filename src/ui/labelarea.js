@@ -1,6 +1,11 @@
 
 ;(function() {
     
+    /**
+     * @class tm.ui.LabelArea
+     * @extends tm.display.Shape
+     * ラベルエリアクラス
+     */
     tm.define("tm.ui.LabelArea", {
         superClass: "tm.display.Shape",
         
