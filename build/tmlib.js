@@ -420,7 +420,7 @@ if (typeof module !== 'undefined' && module.exports) {
     
     /**
      * @method defineInstanceVariable
-     * @TODO ?
+     * インスタンス変数を定義する
      */
     Object.prototype.defineFunction("defineInstanceVariable", function(name, val){
         Object.defineProperty(this.prototype, name, {
@@ -432,7 +432,7 @@ if (typeof module !== 'undefined' && module.exports) {
     
     /**
      * @method defineInstanceMethod
-     * @TODO ?
+     * インスタンスメソッドを定義する
      */
     Object.prototype.defineFunction("defineInstanceMethod", function(name, fn){
         Object.defineProperty(this.prototype, name, {
@@ -444,7 +444,7 @@ if (typeof module !== 'undefined' && module.exports) {
     
     /**
      * @method setter
-     * @TODO ?
+     * セッターを定義する
      */
     Object.defineInstanceMethod("setter", function(name, fn){
         Object.defineProperty(this, name, {
@@ -457,7 +457,7 @@ if (typeof module !== 'undefined' && module.exports) {
     
     /**
      * @method getter
-     * @TODO ?
+     * ゲッターを定義する
      */
     Object.defineInstanceMethod("getter", function(name, fn){
         Object.defineProperty(this, name, {
@@ -470,7 +470,7 @@ if (typeof module !== 'undefined' && module.exports) {
     
     /**
      * @method accessor
-     * @TODO ?
+     * アクセッサ(セッター/ゲッター)を定義する
      */
     Object.defineInstanceMethod("accessor", function(name, param) {
         Object.defineProperty(this, name, {
@@ -485,7 +485,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
     /**
      * @method  $has
-     * text
+     * そのプロパティを持っているかを判定する
      */
     Object.defineInstanceMethod("$has", function(key) {
         return this.hasOwnProperty(key);
@@ -536,7 +536,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
     /**
      * @method  $pick
-     * text
+     * ピック
      */
     Object.defineInstanceMethod("$pick", function() {
         var temp = {};
@@ -550,7 +550,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
     /**
      * @method  $omit
-     * text
+     * オミット
      */
     Object.defineInstanceMethod("$omit", function() {
         var temp = {};
@@ -1736,8 +1736,10 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-        /** @property time */
-        /** @property now */
+        /** time */
+        time: null,
+        /** now */
+        now: null,
 
         /**
          * @constructor
@@ -1751,17 +1753,35 @@ tm.event = tm.event || {};
         
     });
     
-    /** @static @property */
+    /**
+     * @static
+     * チェンジ
+     */
     tm.event.TweenEvent.CHANGE    = "change";
-    /** @static @property */
+    /**
+     * @static
+     * フィニッシュ
+     */
     tm.event.TweenEvent.FINISH    = "finish";
-    /** @static @property */
+    /**
+     * @static
+     * ループ
+     */
     tm.event.TweenEvent.LOOP      = "loop";
-    /** @static @property */
+    /**
+     * @static
+     * レジューム
+     */
     tm.event.TweenEvent.RESUME    = "resume";
-    /** @static @property */
+    /**
+     * @static
+     * スタート
+     */
     tm.event.TweenEvent.START     = "start";
-    /** @static @property */
+    /**
+     * @static
+     * ストップ
+     */
     tm.event.TweenEvent.STOP      = "stop";
     
 })();
@@ -1780,8 +1800,15 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-        /** @property app */
-        /** @property pointing */
+        /**
+         * app
+         */
+        app: null,
+
+        /**
+         * pointing
+         */
+        pointing: null,
 
         /**
          * @constructor
@@ -1811,8 +1838,15 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-        /** @property app */
-        /** @property pointing */
+        /**
+         * app
+         */
+        app: null,
+
+        /**
+         * pointing
+         */
+        pointing: null,
 
         /**
          * @constructor
@@ -1841,8 +1875,15 @@ tm.event = tm.event || {};
         
         superClass: tm.event.Event,
 
-        /** @property app */
-        /** @property pointing */
+        /**
+         * app
+         */
+        app: null,
+        
+        /**
+         * pointing
+         */
+        pointing: null,
         
         /**
          * @constructor
@@ -1926,8 +1967,9 @@ tm.event = tm.event || {};
             
             var listeners = this._listeners[e.type];
             if (listeners) {
-                for (var i=0,len=listeners.length; i<len; ++i) {
-                    listeners[i].call(this, e);
+                var temp = listeners.clone();
+                for (var i=0,len=temp.length; i<len; ++i) {
+                    temp[i].call(this, e);
                 }
             }
             
@@ -2050,7 +2092,6 @@ tm.util = tm.util || {};
     
     /*
      * @enum
-     * @TODO ?
      * @private
      */
     var AJAX_DEFAULT_SETTINGS = {
@@ -2078,7 +2119,7 @@ tm.util = tm.util || {};
     
     /**
      * @class tm.util.Ajax
-     * @TODO ?
+     * Ajax クラス
      */
     tm.util.Ajax = {
         /**
@@ -2187,9 +2228,10 @@ tm.util = tm.util || {};
         
         /* @method */
         xml: function(data) {
-            var div = document.createElement("div");
-            div.innerHTML = data;
-            return div;
+            var parser = new DOMParser();
+            var xml = parser.parseFromString(data, 'text/xml');
+
+            return xml;
         },
         
         /* @method */
@@ -2245,7 +2287,7 @@ tm.util = tm.util || {};
     
     /**
      * @class tm.util.File
-     * @TODO ?
+     * ファイルクラス
      */
     tm.define("tm.util.File", {
         superClass: "tm.event.EventDispatcher",
@@ -2268,7 +2310,7 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
+         * ロード
          */
         load: function(params) {
             if (typeof params == "string") {
@@ -2294,7 +2336,7 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
+         * ローカルストレージからロード
          */
         loadLocalStorage: function() {
             
@@ -2308,55 +2350,6 @@ tm.util = tm.util || {};
 
 
 
-(function() {
-    
-    /**
-     * @class tm.util.FileManager
-     * ファイルマネージャ
-     */
-    tm.util.FileManager = {
-        files: {}
-    };
-
-    /**
-     * @static
-     * @method
-     * @TODO ?
-     */
-    tm.util.FileManager.load = function(key, params) {
-        var file = tm.util.File(params);
-        this.files[key] = file;
-        return file;
-    };
-
-    /**
-     * @static
-     * @method
-     * @TODO ?
-     */
-    tm.util.FileManager.get = function(key) {
-        return this.files[key];
-    };
-    
-    /**
-     * @static
-     * @method  isLoaded
-     * ロードチェック
-     */
-    tm.util.FileManager.isLoaded = function() {
-        for (var key in this.files) {
-            var file = this.files[key];
-            
-            if (file.loaded == false) {
-                return false;
-            }
-        }
-        return true;
-    };
-    
-    tm.addLoadCheckList(tm.util.FileManager);
-    
-})();
 /*
  * tmline.js
  */
@@ -2388,7 +2381,7 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
+         * アット
          */
         at: function(time, action) {
             this.tasks.push({
@@ -2399,7 +2392,7 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * アフター
          */
         after: function(time, action) {
             this.at(this.time + time, action);
@@ -2407,7 +2400,7 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * クリア
          */
         clear: function() {
             this.tasks = [];
@@ -2415,21 +2408,21 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * リムーブタイム
          */
         removeTime: function(time) {
             // TODO: 
         },
 
         /**
-         * @TODO ?
+         * リムーブアクション
          */
         removeAction: function(action) {
             // TODO: 
         },
         
         /**
-         * @TODO ?
+         * スタート
          */
         start: function() {
             this.isPlaying = true;
@@ -2438,7 +2431,7 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * レジューム
          */
         resume: function() {
             this.isPlaying = true;
@@ -2447,21 +2440,21 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
+         * ストップ
          */
         stop: function() {
             this.isPlaying = false;
         },
 
         /**
-         * @TODO ?
+         * レウィンド
          */
         rewind: function() {
             this.time = 0;
         },
 
         /**
-         * @TODO ?
+         * 更新
          */
         update: function() {
             // タスク更新
@@ -2478,7 +2471,6 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
          * @private
          */
         _startTime: function() {
@@ -2486,7 +2478,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _resumeTime: function() {
@@ -2494,7 +2485,6 @@ tm.util = tm.util || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _updateTime: function() {
@@ -2505,7 +2495,6 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
          * @private
          */
         _nextTime: function() {
@@ -2542,7 +2531,7 @@ tm.util = tm.util || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * セーブ
      */
     tm.util.DataManager.save = function() {
         // TODO: ローカルストレージ?
@@ -2555,7 +2544,7 @@ tm.util = tm.util || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * ロード
      */
     tm.util.DataManager.load = function(key) {
         // TODO: ローカルストレージ?
@@ -2567,7 +2556,7 @@ tm.util = tm.util || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * セット
      */
     tm.util.DataManager.set = function(key, value) {
         this.data[key] = value;
@@ -2577,7 +2566,7 @@ tm.util = tm.util || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * ゲット
      */
     tm.util.DataManager.get = function(key) {
         return this.data[key];
@@ -2600,7 +2589,11 @@ tm.util = tm.util || {};
      * @class tm.util.Script
      * スクリプトクラス
      */
-    tm.util.Script = tm.createClass({
+
+    tm.define("tm.util.Script", {
+
+        superClass: "tm.event.EventDispatcher",
+
         /** element */
         element: null,
         /** loaded */
@@ -2609,7 +2602,9 @@ tm.util = tm.util || {};
         /**
          * @constructor
          */
-        init: function(src, callback) {
+        init: function(src) {
+            this.superInit();
+
             this.loaded = false;
             this.element = document.createElement("script");
             this.element.type = "text/javascript";
@@ -2620,8 +2615,8 @@ tm.util = tm.util || {};
             
             var self = this;
             this.element.onload = function() {
-                if (callback) callback.call(this);
                 self.loaded = true;
+                self.fire(tm.event.Event("load"));
             };
         },
         
@@ -2633,35 +2628,19 @@ tm.util = tm.util || {};
         },
         
     });
-    
-})();
 
-(function(){
-    
-    /**
-     * @class tm.util.ScriptManager
-     * スクリプトマネージャクラス
-     */
-    tm.util.ScriptManager = {
-        scriptList: {},
-        loaded: true,
-    };
-    
-    /**
-     * @static
-     * @method
-     * 追加
-     */
-    tm.util.ScriptManager.load = function(src, callback) {
-        this.scriptList[src] = tm.util.Script(src, callback);
+    tm.util.Script.load = function(src) {
+        var script = tm.util.Script(src);
+
+        return script;
     };
 
     /**
      * @static
      * @method
-     * stats.js を動的ロード
+     * Stats を動的ロード
      */
-    tm.util.ScriptManager.loadStats = function(version) {
+    tm.util.Script.loadStats = function(version) {
         version = version || "r11";
         var path = null;
         if (["r6", "r7", "r8", "r9", "10"].indexOf(version) != -1) {
@@ -2670,15 +2649,16 @@ tm.util = tm.util || {};
         else {
             path = "http://rawgithub.com/mrdoob/stats.js/" + version + "/build/stats.min.js";
         }
-        this.load(path);
+
+        return this.load(path);
     };
 
     /**
      * @static
      * @method
-     * Dat GUI を動的ロード
+     * datGUI を動的ロード
      */
-    tm.util.ScriptManager.loadDatGUI = function(version) {
+    tm.util.Script.loadDatGUI = function(version) {
         // http://dat-gui.googlecode.com/git/build/dat.gui.min.js
         // https://dat-gui.googlecode.com/git-history/0.5/build/dat.gui.min.js
 
@@ -2686,7 +2666,7 @@ tm.util = tm.util || {};
 //        var path = "https://dat-gui.googlecode.com/git-history/" + version + "/build/dat.gui.min.js";
 //        var path = "http://dat-gui.googlecode.com/git/build/dat.gui.min.js";
         var path = "http://dat-gui.googlecode.com/git/build/dat.gui.js";
-        this.load(path);
+        return this.load(path);
     };
 
     /**
@@ -2694,49 +2674,30 @@ tm.util = tm.util || {};
      * @method
      * Three.js を動的ロード
      */
-    tm.util.ScriptManager.loadThree = function(version) {
+    tm.util.Script.loadThree = function(version) {
         var THREE_JS_URL = "http://rawgithub.com/mrdoob/three.js/{version}/build/three.js";
 //        var THREE_JS_URL = "https://raw.github.com/mrdoob/three.js/{version}/build/three.min.js";
         version = version || "r55";
 
         var path = THREE_JS_URL.format({version: version});
 
-        this.load(path);
+        return this.load(path);
     };
 
     /**
      * @static
      * @method
-     * BulletML を動的ロード
+     * BulletML.js を動的ロード
      */
-    tm.util.ScriptManager.loadBulletML = function(version) {
+    tm.util.Script.loadBulletML = function(version) {
         var BULLETML_FOR_TMLIB_JS_URL   = "http://rawgithub.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js";
-        version = version || "v0.4.1";
+        version = version || "v0.4.2";
         var path = BULLETML_FOR_TMLIB_JS_URL.format({version: version});        
-        this.load(path);
+        return this.load(path);
     };
-    
-    /**
-     * @static
-     * @method
-     * ロードチェック
-     */
-    tm.util.ScriptManager.isLoaded = function() {
-        if (this.scriptList.length <= 0) return true;
 
-        for (var key in this.scriptList) {
-            if (this.scriptList[key].loaded == false) {
-                return false;
-            }
-        }
-        return true;
-    };
-    
-    tm.addLoadCheckList(tm.util.ScriptManager);
-    
+
 })();
-
-
 
 /*
  * querystring.js
@@ -2749,11 +2710,11 @@ tm.util = tm.util || {};
     
     /**
      * @class tm.util.QueryString
-     * @TODO ?
+     * クエリ文字列クラス
      */
     tm.util.QueryString = {
         /**
-         * @TODO ?
+         * パース
          */
         parse: function(str, sep, eq) {
             sep = sep || '&';
@@ -2775,7 +2736,7 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
+         * ストリングファイ
          */
         stringify: function(obj, sep, eq) {
             sep = sep || '&';
@@ -2904,8 +2865,8 @@ tm.namespace("tm.util.Type", function() {
     
 /**
  * @class tm.util.Flow
- * it is inspire in made flow.js of @uupaa
  * @extends tm.event.EventDispatcher
+ * it is inspire in made flow.js of `@uupaa`
  */
 tm.define("tm.util.Flow", {
     superClass: "tm.event.EventDispatcher",
@@ -3289,14 +3250,14 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @TODO ?
+         * スタイル文字列に変換
          */
         toStyleString: function() {
             return "{x:{x}, y:{y}}".format(this);
         },
 
         /**
-         * @TODO ?
+         * 文字列に変換
          */
         toString: function() {
             return "{x:{x}, y:{y}}".format(this);
@@ -3784,7 +3745,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @TODO ?
+         * ２次元ベクトルに変換
          */
         toVector2: function() {
             // TODO:
@@ -3838,14 +3799,14 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @TODO ?
+         * スタイル文字列に変換
          */
         toStyleString: function() {
             return "{x:{x}, y:{y}, z:{z}}".format(this);
         },
 
         /**
-         * @TODO ?
+         * 文字列に変換
          */
         toString: function() {
             return "{x:{x}, y:{y}, z:{z}}".format(this);
@@ -4267,7 +4228,7 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @TODO ?
+         * 行列式
          */
         determinant: function() {
             var m = this.m;
@@ -4835,28 +4796,28 @@ tm.geom = tm.geom || {};
         */
         
         /**
-         * @TODO ?
+         * X軸ベクトルをゲット
          */
         getAxisX: function() { return TM.Geom.Vector3(this.m00, this.m01, this.m02); },
         /**
-         * @TODO ?
+         * Y軸ベクトルをゲット
          */
         getAxisY: function() { return TM.Geom.Vector3(this.m10, this.m11, this.m12); },
         /**
-         * @TODO ?
+         * Z軸ベクトルをゲット
          */
         getAxisZ: function() { return TM.Geom.Vector3(this.m20, this.m21, this.m22); },
 
         /**
-         * @TODO ?
+         * X軸ベクトルをセット
          */
         setAxisX: function(v) { this.m00=v.x, this.m01=v.y, this.m02=v.z; },
         /**
-         * @TODO ?
+         * Y軸ベクトルをセット
          */
         setAxisY: function(v) { this.m10=v.x, this.m11=v.y, this.m12=v.z; },
         /**
-         * @TODO ?
+         * Z軸ベクトルをセット
          */
         setAxisZ: function(v) { this.m20=v.x, this.m21=v.y, this.m22=v.z; },
         
@@ -5347,7 +5308,7 @@ tm.geom = tm.geom || {};
         },
         
         /**
-         * @TODO ?
+         * 円に変換
          */
         toCircle: function() {
             return tm.geom.Circle(
@@ -5358,7 +5319,7 @@ tm.geom = tm.geom || {};
         },
 
         /**
-         * @TODO ?
+         * 配列に変換
          */
         toArray: function() {
             return [this.x, this.y, this.width, this.height];
@@ -5764,28 +5725,28 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 表示
          */
         show: function() {
             this.visible = true;
         },
 
         /**
-         * @TODO ?
+         * 非表示
          */
         hide: function() {
             this.visible = false;
         },
         
         /**
-         * @TODO ?
+         * 文字列に変換
          */
         toString: function() {
             return "tm.dom.element";
         },
         
         /**
-         * @TODO ?
+         * 要素を取得
          */
         getElement: function() {
             return this.element;
@@ -5906,7 +5867,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @TODO ?
+         * 文字列に変換
          */
         toString: function() {
             return "";
@@ -6114,7 +6075,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @TODO ?
+         * ミドルクリックイベント
          */
         mdlclick: function(fn, id) {
             var temp_fn = function(e) {
@@ -6238,7 +6199,7 @@ tm.dom = tm.dom || {};
     
     /**
      * @class tm.dom.Attr
-     * @TODO ?
+     * 属性クラス
      */
     tm.dom.Attr = tm.createClass({
         
@@ -6312,7 +6273,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * トグル
          */
         toggle: function(name, value) {
             if (this.contains(name, value)) {
@@ -6565,7 +6526,7 @@ tm.dom = tm.dom || {};
     
     /**
      * @class tm.dom.Trans
-     * @TODO ?
+     * トランス
      */
     tm.dom.Trans = tm.createClass({
         
@@ -6580,7 +6541,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @TODO ?
+         * 変換開始
          */
         to: function(props, t) {
             this.set(props).duration(t||1000);
@@ -6588,7 +6549,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * セット
          */
         set: function(props) {
             var style = this.element.style;
@@ -6606,7 +6567,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 間関
          */
         duration: function(t) {
             var style = this.element.style;
@@ -6616,7 +6577,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * イージング
          */
         easing: function(ease) {
             var style = this.element.style;
@@ -6625,7 +6586,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 終了
          */
         end: function(fn) {
             var elm  = tm.dom.Element(this.element);
@@ -6634,7 +6595,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * リセット
          */
         reset: function() {
             var style = this.element.style;
@@ -6643,7 +6604,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 移動
          */
         translate: function(x, y, t) {
             this.to({"transform": "translate({0}px,{1}px)".format(x, y)}, t);
@@ -6651,7 +6612,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 移動3D
          */
         translate3d: function(x, y, z, t) {
             this.to({"transform": "translate3d({0}px,{1}px,{2}px)".format(x, y, z)}, t);
@@ -6659,7 +6620,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 回転
          */
         rotate: function(deg, t) {
             this.to({"transform": "rotate({0}deg)".format(deg)}, t);
@@ -6667,7 +6628,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 回転3D
          */
         rotate3d: function(x, y, z, deg, t) {
             this.to({"transform": "rotate3d({0},{1},{2},{3}deg)".format(x, y, z, deg)}, t);
@@ -6675,7 +6636,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * スケール
          */
         scale: function(x, y, t) {
             this.to({"transform": "scale({0},{1})".format(x, y)}, t);
@@ -6683,7 +6644,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 行列変換
          */
         transform: function() {
             // TODO: 実装する
@@ -6692,7 +6653,7 @@ tm.dom = tm.dom || {};
         // -------------------------------------
         
         /**
-         * @TODO ?
+         * プロパティをセット
          */
         setProp: function(prop) {
             var style = this.element.style;
@@ -6710,7 +6671,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 間関をセット
          */
         setDuration: function(t) {
             var style = this.element.style;
@@ -6719,7 +6680,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * タイミングファンクをセット
          */
         setTimingFunction: function(func) {
             var style = this.element.style;
@@ -6728,7 +6689,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * リセット
          */
         resetProp: function() {
             var style = this.element.style;
@@ -6737,7 +6698,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * 終了時関数を登録
          */
         setEndFunction: function(fn) {
             var elm  = tm.dom.Element(this.element);
@@ -6837,6 +6798,9 @@ tm.dom = tm.dom || {};
 
     tm.asset = tm.asset || {};
     
+    /**
+     * アセットマネージャー
+     */
     tm.asset.Manager = {
         assets: {},
         
@@ -6859,7 +6823,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * キーと一致するアセットを含んでいるか
          * @param {Object} key
          */
         contains: function(key) {
@@ -6883,7 +6847,12 @@ tm.dom = tm.dom || {};
 
 
 (function() {
-    
+
+    /**
+     * @class tm.asset.Loader
+     * @extends tm.event.EventDispatcher
+     * アセットローダー
+     */
     tm.define("tm.asset.Loader", {
         superClass: "tm.event.EventDispatcher",
         
@@ -7193,7 +7162,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * ロード
          */
         load: function(path) {
         	tm.util.Ajax.load({
@@ -7207,7 +7176,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * パース
          */
         parse: function(param) {
             this.frame = param.frame;
@@ -7240,21 +7209,20 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * フレームを取得
          */
         getFrame: function(index) {
             return this.frames[index];
         },
         
         /**
-         * @TODO ?
+         * アニメーションを取得
          */
         getAnimation: function(name) {
             return this.animations[name];
         },
         
         /**
-         * @TODO ?
          * @private
          */
         _calcFrames: function(frame) {
@@ -7281,7 +7249,6 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _calcAnim: function(animations) {
@@ -7366,7 +7333,7 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
+         * パース
          * @private
          */
         _parse: function(str) {
@@ -7388,7 +7355,6 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _parseTilesets: function(xml) {
@@ -7413,7 +7379,6 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _parseLayers: function(xml) {
@@ -7472,7 +7437,6 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _parseCSV: function(data) {
@@ -7508,7 +7472,6 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _propertiesToJson: function(elm) {
@@ -7525,7 +7488,6 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _attrToJSON: function(source) {
@@ -7540,7 +7502,6 @@ tm.dom = tm.dom || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _checkImage: function() {
@@ -8217,7 +8178,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _mousemove: function(e) {
@@ -8227,7 +8187,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _mousemoveNormal: function(e) {
@@ -8237,7 +8196,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _mousemoveScale: function(e) {
@@ -8476,7 +8434,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _touchmove: function(e) {
@@ -8487,7 +8444,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _touchmoveScale: function(e) {
@@ -8626,9 +8582,6 @@ tm.input = tm.input || {};
             });
         },
 
-        /**
-         * @TODO ?
-         */
         update: function() {
             this.each(function(touch) {
                 touch.update();
@@ -8917,7 +8870,7 @@ tm.graphics = tm.graphics || {};
 
     /**
      * @static
-     * @TODO ?
+     * カラーリスト
      */
     tm.graphics.Color.COLOR_LIST = {
         /** @property black */
@@ -8958,13 +8911,6 @@ tm.graphics = tm.graphics || {};
      * @static
      * @member tm.graphics.Color
      * @method strToNum
-     * @TODO ?
-     */
-    /**
-     * @static
-     * @member tm.graphics.Color
-     * @method stringToNumber
-     * @TODO ?
      */
     tm.graphics.Color.strToNum = tm.graphics.Color.stringToNumber = function(str){
         var vlaue = null;
@@ -8995,7 +8941,7 @@ tm.graphics = tm.graphics || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * hsl を rgb に変換
      */
     tm.graphics.Color.HSLtoRGB = function(h, s, l) {
         var r, g, b;
@@ -9043,7 +8989,7 @@ tm.graphics = tm.graphics || {};
     /**
      * @static
      * @method
-     * @TODO ?
+     * hsla を rgba に変換
      */
     tm.graphics.Color.HSLAtoRGBA = function(h, s, l, a) {
         var temp = Color.HSLtoRGB(h, s, l); temp[3] = a;
@@ -9375,7 +9321,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ラインストローク描画
          */
         strokeLines: function() {
             this.beginPath();
@@ -9385,7 +9331,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ライン塗りつぶし描画
          */
         fillLines: function() {
             this.beginPath();
@@ -9517,14 +9463,14 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * 星を塗りつぶし描画
          */
         fillStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).fill();
         },
 
         /**
-         * @TODO ?
+         * 星をストローク描画
          */
         strokeStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).stroke();
@@ -9900,14 +9846,15 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * アルファとブレンドモードを同時セット
+         * TODO: 未実装
          */
         setCompositing: function(alpha, compositeOperation) {
             // TODO
         },
 
         /**
-         * @TODO ?
+         * 塗りつぶしスタイルをセット
          */
         setFillStyle: function(style) {
             this.context.fillStyle = style;
@@ -9915,7 +9862,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ストロークスタイルをセット
          */
         setStrokeStyle: function(style) {
             this.context.strokeStyle = style;
@@ -10213,7 +10160,6 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _init: function(imageData) {
@@ -10261,7 +10207,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ピクセルを数値としてゲット
          */
         getPixelAsNumber: function(index) {
             var i = index*4;
@@ -10269,7 +10215,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ピクセルをオブジェクトとしてゲット
          */
         getPixelAsObject: function(index) {
             var i = index*4;
@@ -10282,7 +10228,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ピクセルを配列としてゲット
          */
         getPixelAsArray: function(index) {
             var i = index*4;
@@ -10368,7 +10314,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * 32bit セット
          */
         setPixel32Index: function(index, r, g, b, a) {
             var i = index*4;
@@ -10380,28 +10326,28 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * 32bit セット
          */
         setPixel32: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
 
         /**
-         * @TODO ?
+         * 32bit セット
          */
         setPixel32XY: function(x, y, r, g, b, a) {
             return this.setPixel32Index(y*this.width+x, r, g, b, a);
         },
 
         /**
-         * @TODO ?
+         * 配列からピクセルをセット
          */
         setPixelFromArray: function(index, pixel) {
             return this.setPixel(index, pixel[0], pixel[1], pixel[2]);
         },
 
         /**
-         * @TODO ?
+         * 配列からピクセルをセット
          */
         setPixel32FromArray: function(index, pixel) {
             return this.setPixel32(index, pixel[0], pixel[1], pixel[2], pixel[3]);
@@ -10428,7 +10374,7 @@ tm.graphics = tm.graphics || {};
             return this.setPixel(pixel.r, pixel.g, pixel.b);
         },
         /**
-         * @TODO ?
+         * オブジェクトからピクセルをセット
          */
         setPixel32FromObject: function(index, pixel) {
             return this.setPixel32(pixel.r, pixel.g, pixel.b, pixel.a);
@@ -10449,9 +10395,8 @@ tm.graphics = tm.graphics || {};
             return y*this.imageData.width + x;
         },
         
-        // filter: function(rect, filter)
         /**
-         * @TODO ?
+         * フィルター
          */
         filter: function(filter) {
             for (var i=0; i<this.height; ++i) {
@@ -10485,7 +10430,8 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * フィルタを適応する
+         * TODO: 未実装
          */
         applyFilter: function(filter) {
             
@@ -10832,7 +10778,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * カラー点を追加
          */
         addColorStop: function(offset, color) {
             this.gradient.addColorStop(offset, color);
@@ -10840,7 +10786,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * カラー点をリストで追加
          */
         addColorStopList: function(prop) {
             for (var i=0,len=prop.length; i<len; ++i) {
@@ -10852,7 +10798,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * スタイル化
          */
         toStyle: function() {
             return this.gradient;
@@ -10887,7 +10833,7 @@ tm.graphics = tm.graphics || {};
         },
         
         /**
-         * @TODO ?
+         * カラー点を追加
          */
         addColorStop: function(offset, color) {
             this.gradient.addColorStop(offset, color);
@@ -10895,7 +10841,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * カラー点をリストで追加
          */
         addColorStopList: function(prop) {
             for (var i=0,len=prop.length; i<len; ++i) {
@@ -10907,7 +10853,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * スタイル化
          */
         toStyle: function() {
             return this.gradient;
@@ -11062,7 +11008,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @TODO ?
+         * from
          * @param {Object} target
          * @param {Object} beginProps
          * @param {Object} duration
@@ -11725,7 +11671,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ? オーバーライド予定？
+         * 描画用仮想関数
          * @private
          */
         _draw: function() {},
@@ -11771,7 +11717,6 @@ tm.app = tm.app || {};
     /**
      * @property currentScene
      * カレントシーン
-     * @TODO どうしよう？
      */
     tm.app.BaseApp.prototype.accessor("currentScene", {
         "get": function() { return this._scenes[this._sceneIndex]; },
@@ -11997,7 +11942,8 @@ tm.app = tm.app || {};
             return this;
         },
         /**
-         * @TODO ?
+         * 要素を JSON 化する
+         * TODO: 実装する予定
          */
         toJSON: function() {
             // TODO:
@@ -12087,7 +12033,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * 最終的な行列をゲット
          */
         getFinalMatrix: function() {
             var matrix = tm.geom.Matrix33();
@@ -12120,7 +12066,7 @@ tm.app = tm.app || {};
         },
  
         /**
-         * @TODO ?
+         * 円として点と衝突判定
          * @param {Number} x
          * @param {Number} y
          */
@@ -12134,7 +12080,7 @@ tm.app = tm.app || {};
         },
  
         /**
-         * @TODO ?
+         * 矩形として点と衝突判定
          * @param {Number} x
          * @param {Number} y
          */
@@ -12283,7 +12229,7 @@ tm.app = tm.app || {};
         },
 
         /**
-         * @TODO ?
+         * 回転をセット
          * @param {Number} rotation
          */
         setRotation: function(rotation) {
@@ -12292,7 +12238,7 @@ tm.app = tm.app || {};
         },
 
         /**
-         * @TODO ?
+         * スケールをセット
          * @param {Number} x
          * @param {Number} y
          */
@@ -12307,7 +12253,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * 基準点をセット
          * @param {Number} x
          * @param {Number} y
          */
@@ -12381,7 +12327,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * 更新メソッド
          * @private
          * @param {Object} app
          */
@@ -12411,7 +12357,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * ポインティングをチェック
          * @private
          * @param {Object} app
          */
@@ -12420,7 +12366,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * マウスチェック
          * @private
          * @param {Object} app
          */
@@ -12429,7 +12375,7 @@ tm.app = tm.app || {};
         },
 
         /**
-         * @TODO ?
+         * タッチチェック
          * @private
          * @param {Object} app
          */
@@ -12442,7 +12388,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * チェックポインンティング
          * @private
          * @param {Object} app
          * @param {Object} p
@@ -12481,7 +12427,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * ポイントイベントを発火する
          * @private
          * @param {Object} mouse
          * @param {Object} touch
@@ -12496,7 +12442,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * ワールドマトリックスを計算
          * @private
          */
         _calcWorldMatrix: function() {
@@ -12542,7 +12488,7 @@ tm.app = tm.app || {};
         },
         
         /**
-         * @TODO ?
+         * dirty method
          * @private
          */
         _dirtyCalc: function() {
@@ -12753,7 +12699,7 @@ tm.app = tm.app || {};
     /**
      * @member      tm.app.Object2D
      * @property    _checkPointing
-     * @TODO ?
+     * ポイントをチェック
      * @param {Object} isMobile
      * @private
      */
@@ -12779,10 +12725,6 @@ tm.app = tm.app || {};
      */
     tm.app.Scene = tm.createClass({
         superClass: tm.app.Object2D,
-    
-        /** @private  @TODO ? */
-        _sceneResultCallback: null,
-        /** @property  boundingType  当たり判定の形 */
 
         /**
          * @constructor
@@ -13226,7 +13168,7 @@ tm.app = tm.app || {};
         },
 
         /**
-         * @TODO ?
+         * 追加
          * @param {Object} param
          */
         add: function(param) {
@@ -13538,7 +13480,7 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @TODO ?
+         * トゥイーンを更新
          * @private
          */
         _updateTween: function() {
@@ -13561,7 +13503,7 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @TODO ?
+         * アクションを更新
          * @private
          */
         _updateAction: function() {
@@ -13731,7 +13673,7 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @TODO ?
+         * 時間を更新
          * @private
          * @param {Object} task
          */
@@ -13742,7 +13684,7 @@ tm.namespace("tm.app", function() {
         },
 
         /**
-         * @TODO ?
+         * dirty method
          * @private
          * @param {Object} t
          */
@@ -13751,7 +13693,7 @@ tm.namespace("tm.app", function() {
         },
         
         /**
-         * @TODO ?
+         * ロード
          * @param {Object} data
          */
         load: function(data) {
@@ -13848,7 +13790,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * リサイズ
          */
         resize: function(width, height) {
             this.width = width;
@@ -13858,7 +13800,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ウィンドウのサイズにリサイズ
          */
         resizeWindow: function() {
             this.width = innerWidth;
@@ -13882,7 +13824,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
          * @private
          */
         _draw: function() {
@@ -13958,11 +13899,11 @@ tm.display = tm.display || {};
         blendMode: "source-over",
         /** シャドウカラー */
         shadowColor: "black",
-        /** @TODO ? */
+        /** シャドウオフセットX */
         shadowOffsetX: 0,
-        /** @TODO ? */
+        /** シャドウオフセットY */
         shadowOffsetY: 0,
-        /** @TODO ? */
+        /** シャドウオフブラー */
         shadowBlur: 0,
 
         /**
@@ -13973,7 +13914,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * アルファをセット
          */
         setAlpha: function(alpha) {
             this.alpha = alpha;
@@ -13981,7 +13922,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * シャドウカラーをセット
          */
         setShadowColor: function(color) {
             this.shadowColor = color;
@@ -13989,7 +13930,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * シャドウブラーをセット
          */
         setShadowBlur: function(blur) {
             this.shadowBlur = blur;
@@ -13997,7 +13938,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * シャドウオフセットをセット
          */
         setShadowOffset: function(x, y) {
             this.shadowOffsetX = x;
@@ -14006,7 +13947,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * バウンディングサークルを描画
          */
         drawBoundingCircle: function(canvas) {
             canvas.save();
@@ -14016,7 +13957,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * バウンディングレクトを描画
          */
         drawBoundingRect: function(canvas) {
             canvas.save();
@@ -14026,14 +13967,14 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ????
          */
         drawFillRect: function(ctx) {
             ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
             return this;
         },
         /**
-         * @TODO ?
+         * ????
          */
         drawStrokeRect: function(ctx) {
             ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
@@ -14041,7 +13982,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ????
          */
         drawFillArc: function(ctx) {
             ctx.beginPath();
@@ -14051,7 +13992,7 @@ tm.display = tm.display || {};
             return this;
         },
         /**
-         * @TODO ?
+         * ????
          */
         drawStrokeArc: function(ctx) {
             ctx.beginPath();
@@ -14061,13 +14002,16 @@ tm.display = tm.display || {};
             return this;
         },
 
+        /**
+         * 表示/非表示をセット
+         */
         setVisible: function(flag) {
             this.visible = flag;
             return this;
         },
 
         /**
-         * @TODO ?
+         * 表示
          */
         show: function() {
             this.visible = true;
@@ -14075,7 +14019,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 非表示
          */
         hide: function() {
             this.visible = false;
@@ -14083,7 +14027,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 塗りつぶしスタイルをセット
          */
         setFillStyle: function(style) {
             this.fillStyle = style;
@@ -14091,7 +14035,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ストロークスタイルをセット
          */
         setStrokeStyle: function(style) {
             this.strokeStyle = style;
@@ -14099,7 +14043,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ブレンドモードをセット
          */
         setBlendMode: function(blendMode) {
             this.blendMode = blendMode;
@@ -14107,7 +14051,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ロード
          */
         load: function(data) {
             var self = this;
@@ -14147,7 +14091,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _calcAlpha: function() {
@@ -14162,7 +14105,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _dirtyCalc: function() {
@@ -14250,7 +14192,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * フレームインデックスをセット
          */
         setFrameIndex: function(index, width, height) {
             var tw  = width || this.width;      // tw
@@ -14273,7 +14215,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
          * @private
          */
         _refreshSize: function() {},
@@ -14319,8 +14260,8 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.Shape
-     * 図形を描画するクラス
      * @extends tm.display.CanvasElement
+     * 図形を描画するクラス
      */
     tm.display.Shape = tm.createClass({
         superClass: tm.display.CanvasElement,
@@ -14346,7 +14287,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 円を描画
          */
         renderCircle: function(param) {
             var c = this.canvas;
@@ -14367,7 +14308,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 三角形描画
          */
         renderTriangle: function(param) {
             var c = this.canvas;
@@ -14388,7 +14329,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 四角形描画
          */
         renderRectangle: function(param) {
             var c = this.canvas;
@@ -14434,7 +14375,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * スター描画
          */
         renderStar: function(param) {
             var c = this.canvas;
@@ -14460,7 +14401,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ポリゴン描画
          */
         renderPolygon: function(param) {
             var c = this.canvas;
@@ -14488,7 +14429,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ハート描画
          */
         renderHeart: function(param) {
             var c = this.canvas;
@@ -14509,7 +14450,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * テキスト描画
          */
         renderText: function(param) {
             var c = this.canvas;
@@ -14611,8 +14552,8 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.CircleShape
-     * 簡単に円を描画できるクラス
      * @extends tm.display.Shape
+     * 簡単に円を描画できるクラス
      * 
      *      @example display
      *      var shape = tm.display.CircleShape().addChildTo(this);
@@ -14746,8 +14687,8 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.PolygonShape
-     * @TODO なにを描画するクラス？
      * @extends tm.display.Shape
+     * ポリゴン描画クラス
      */
     tm.display.PolygonShape = tm.createClass({
         
@@ -14800,8 +14741,8 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.TextShape
-     * @TODO なにするクラス？
      * @extends tm.display.Shape
+     * テキスト描画クラス
      */
     tm.define("tm.display.TextShape", {
 
@@ -14862,7 +14803,7 @@ tm.display = tm.display || {};
         fill: true,
         /** ストロークフラグ */
         stroke: false,
-        /** @TODO ? */
+        /** デバッグボックス */
         debugBox: false,
 
         /** @property _fontSize @private */
@@ -14894,7 +14835,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * アラインをセット
          */
         setAlign: function(align) {
             this.align = align;
@@ -14902,7 +14843,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * ベースラインをセット
          */
         setBaseline: function(baseline) {
             this.baseline = baseline;
@@ -14910,7 +14851,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * フォントサイズをセット
          */
         setFontSize: function(size) {
             this.fontSize = size;
@@ -14918,7 +14859,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * フォントファミリーをセット
          */
         setFontFamily: function(family) {
             this.fontFamily= family;
@@ -14926,7 +14867,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * フォントウェイトをセット
          */
         setFontWeight: function(weight) {
             this.fontWeight= weight;
@@ -14934,7 +14875,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _updateFont: function() {
@@ -14948,7 +14888,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _updateLines: function() {
@@ -15093,7 +15032,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 再生
          */
         gotoAndPlay: function(name) {
             name = (name !== undefined) ? name : "default";
@@ -15108,7 +15047,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ストップ
          */
         gotoAndStop: function(name) {
             name = (name !== undefined) ? name : "default";
@@ -15123,7 +15062,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _updateFrame: function() {
@@ -15132,7 +15070,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _normalizeFrame: function() {
@@ -15209,7 +15146,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _build: function() {
@@ -15226,7 +15162,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _buildLayer: function(layer) {
@@ -15267,7 +15202,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _buildObject: function(layer) {
@@ -15323,13 +15257,11 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.CanvasRenderer
-     * @TODO キャンバス描画クラス？
+     * キャンバス描画クラス
      */
     tm.define("tm.display.CanvasRenderer", {
         /** キャンバス */
         canvas: null,
-
-        /** @property _context @private */
 
         /**
          * @constructor
@@ -15342,7 +15274,7 @@ tm.display = tm.display || {};
 
         /**
          * @property
-         * @TODO ?
+         * 描画
          */
         render: function(root) {
             this.canvas.save();
@@ -15352,7 +15284,7 @@ tm.display = tm.display || {};
 
         /**
          * @property
-         * @TODO ?
+         * オブジェクトを描画
          */
         renderObject: function(obj) {
             obj._dirtyCalc();
@@ -15396,8 +15328,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
-         * @TODO ?
          * @private
          */
         _setRenderFunction: function(obj) {
@@ -15478,7 +15408,7 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.BoundingRectRenderer
-     * @TODO なにをするクラス？
+     * バウンディング表示レンダー
      * @extends tm.display.CanvasRenderer
      */
     tm.define("tm.display.BoundingRectRenderer", {
@@ -15494,7 +15424,6 @@ tm.display = tm.display || {};
 
         /**
          * @property
-         * @TODO ?
          * @private
          */
         _setRenderFunction: function(obj) {
@@ -15502,10 +15431,6 @@ tm.display = tm.display || {};
         }
     });
 
-    /**
-     * @TODO ?
-     * コンストラクタ
-     */
     var render = function(canvas) {
         canvas.save();
         canvas.lineWidth = 2;
@@ -15567,7 +15492,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _createCircle: function() {
@@ -15580,24 +15504,15 @@ tm.ui = tm.ui || {};
             c.fillCircle(40, 40, 35);
         },
 
-        /**
-         * @TODO ?
-         */
         onpointingstart: function() {
             this.isTouching = true;
         },
 
-        /**
-         * @TODO ?
-         */
         onpointingend: function() {
             this.isTouching = false;
             this.circle.position.set(0, 0);
         },
 
-        /**
-         * @TODO ?
-         */
         onpointingmove: function(e) {
             if (this.isTouching==false) return ;
             var p = e.pointing;
@@ -15767,7 +15682,7 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
+         * 背景色をセット
          */
         setBackgroundColor: function(backgroundColor) {
             this.backgroundColor = backgroundColor;
@@ -15778,7 +15693,7 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
+         * リフレッシュ
          * @private
          */
         _refresh: function() {
@@ -15957,7 +15872,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _onOpen: function() {
@@ -16012,7 +15926,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _createCursor: function() {
@@ -16037,14 +15950,14 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
+         * 更新
          */
         update: function(app) {
             this.description.text = this.descriptions[this._selected];
         },
 
         /**
-         * @TODO ?
+         * 閉じる
          */
         closeDialog: function(result) {
             this._finished = true;
@@ -16081,7 +15994,7 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
+         * 描画
          */
         draw: function(canvas) {
             canvas.fillStyle = "rgba(0,0,0,0.8)";
@@ -16278,21 +16191,20 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
+         * 満タンかをチェック
          */
         isFull: function() {
             return this.targetProp === this._maxValue;
         },
 
         /**
-         * @TODO ?
+         * 空っぽかをチェック
          */
         isEmpty: function() {
             return this.targetProp == 0;
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _reset: function(direction) {
@@ -16302,7 +16214,7 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
+         * 値をセット
          */
         setValue: function(value) {
             value= Math.clamp(value, 0, this._maxValue);
@@ -16335,35 +16247,35 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
+         * 値をゲット
          */
         getValue: function() {
             return this.value;
         },
 
         /**
-         * @TODO ?
+         * 値を％でセット
          */
         setPercent: function(percent) {
             return this.setValue(this._maxValue*percent*0.01);
         },
 
         /**
-         * @TODO ?
+         * 値を％でゲット
          */
         getPercent: function() {
             return (this._value/this._maxValue)*100;
         },
 
         /**
-         * @TODO ?
+         * 値を比率でセット
          */
         setRatio: function(ratio) {
             return this.setValue(this._maxValue*percent);
         },
 
         /**
-         * @TODO ?
+         * 値を比率でゲット
          */
         getRatio: function() {
             return this._value/this._maxValue;
@@ -16541,6 +16453,11 @@ tm.ui = tm.ui || {};
 
 ;(function() {
     
+    /**
+     * @class tm.ui.LabelArea
+     * @extends tm.display.Shape
+     * ラベルエリアクラス
+     */
     tm.define("tm.ui.LabelArea", {
         superClass: "tm.display.Shape",
         
@@ -16590,7 +16507,6 @@ tm.ui = tm.ui || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _updateFont: function() {
@@ -17644,7 +17560,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
+         * ポーズ
          */
         pause: function() {
             this.source.disconnect();
@@ -17653,7 +17569,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
+         * レジューム
          */
         resume: function() {
             this.source.connect(this.panner);
@@ -17733,7 +17649,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _load: function(src) {
@@ -17761,7 +17676,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _setup: function() {
@@ -17776,7 +17690,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
+         * トーン
          */
         tone: function(hertz, seconds) {
             // handle parameter
@@ -17803,7 +17717,7 @@ tm.sound = tm.sound || {};
 
     /**
      * @property    buffer
-     * @TODO ?
+     * バッファー
      */
     tm.sound.WebAudio.prototype.accessor("buffer", {
         get: function()  { return this.source.buffer; },
@@ -17812,7 +17726,7 @@ tm.sound = tm.sound || {};
 
     /**
      * @property    loop
-     * @TODO ?
+     * ループフラグ
      */
     tm.sound.WebAudio.prototype.accessor("loop", {
         get: function()  { return this.source.loop; },
@@ -17821,7 +17735,7 @@ tm.sound = tm.sound || {};
 
     /**
      * @property    valume
-     * @TODO ?
+     * ボリューム
      */
     tm.sound.WebAudio.prototype.accessor("volume", {
         get: function()  { return this.source.gain.value; },
@@ -17830,7 +17744,7 @@ tm.sound = tm.sound || {};
 
     /**
      * @property    playbackRate
-     * @TODO ?
+     * プレイバックレート
      */
     tm.sound.WebAudio.prototype.accessor("playbackRate", {
         get: function()  { return this.source.playbackRate.value; },
