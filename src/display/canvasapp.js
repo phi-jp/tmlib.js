@@ -51,7 +51,7 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
+         * リサイズ
          */
         resize: function(width, height) {
             this.width = width;
@@ -61,7 +61,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ウィンドウのサイズにリサイズ
          */
         resizeWindow: function() {
             this.width = innerWidth;
@@ -85,7 +85,6 @@ tm.display = tm.display || {};
         },
         
         /**
-         * @TODO ?
          * @private
          */
         _draw: function() {

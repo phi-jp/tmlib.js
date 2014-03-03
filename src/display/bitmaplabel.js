@@ -44,7 +44,7 @@ tm.app = tm.app || {};
         },
 
         /**
-         * @TODO ?
+         * 描画
          */
         render: function(text) {
         	var c = this.canvas;

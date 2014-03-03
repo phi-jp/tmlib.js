@@ -10,8 +10,8 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.Shape
-     * 図形を描画するクラス
      * @extends tm.display.CanvasElement
+     * 図形を描画するクラス
      */
     tm.display.Shape = tm.createClass({
         superClass: tm.display.CanvasElement,
@@ -37,7 +37,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 円を描画
          */
         renderCircle: function(param) {
             var c = this.canvas;
@@ -58,7 +58,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 三角形描画
          */
         renderTriangle: function(param) {
             var c = this.canvas;
@@ -79,7 +79,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * 四角形描画
          */
         renderRectangle: function(param) {
             var c = this.canvas;
@@ -125,7 +125,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * スター描画
          */
         renderStar: function(param) {
             var c = this.canvas;
@@ -151,7 +151,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ポリゴン描画
          */
         renderPolygon: function(param) {
             var c = this.canvas;
@@ -179,7 +179,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * ハート描画
          */
         renderHeart: function(param) {
             var c = this.canvas;
@@ -200,7 +200,7 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @TODO ?
+         * テキスト描画
          */
         renderText: function(param) {
             var c = this.canvas;
@@ -302,8 +302,8 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.CircleShape
-     * 簡単に円を描画できるクラス
      * @extends tm.display.Shape
+     * 簡単に円を描画できるクラス
      * 
      *      @example display
      *      var shape = tm.display.CircleShape().addChildTo(this);
@@ -437,8 +437,8 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.PolygonShape
-     * @TODO なにを描画するクラス？
      * @extends tm.display.Shape
+     * ポリゴン描画クラス
      */
     tm.display.PolygonShape = tm.createClass({
         
@@ -491,8 +491,8 @@ tm.display = tm.display || {};
     
     /**
      * @class tm.display.TextShape
-     * @TODO なにするクラス？
      * @extends tm.display.Shape
+     * テキスト描画クラス
      */
     tm.define("tm.display.TextShape", {
 

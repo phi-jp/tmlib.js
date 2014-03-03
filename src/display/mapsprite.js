@@ -45,7 +45,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _build: function() {
@@ -62,7 +61,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _buildLayer: function(layer) {
@@ -103,7 +101,6 @@
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _buildObject: function(layer) {
