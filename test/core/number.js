@@ -1,5 +1,5 @@
 
-describe('Number Test', function() {
+describe('Number', function() {
     
     it('round', function() {
         assert.equal((42.1947).round(), 42);
