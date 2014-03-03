@@ -139,7 +139,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _touchmove: function(e) {
@@ -150,7 +149,6 @@ tm.input = tm.input || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _touchmoveScale: function(e) {
@@ -289,9 +287,6 @@ tm.input = tm.input || {};
             });
         },
 
-        /**
-         * @TODO ?
-         */
         update: function() {
             this.each(function(touch) {
                 touch.update();
