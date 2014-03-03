@@ -196,7 +196,7 @@ tm.dom = tm.dom || {};
         },
         
         /**
-         * @TODO ?
+         * ミドルクリックイベント
          */
         mdlclick: function(fn, id) {
             var temp_fn = function(e) {
