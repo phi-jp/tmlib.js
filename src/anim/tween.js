@@ -125,7 +125,7 @@ tm.anim = tm.anim || {};
         },
 
         /**
-         * @TODO ?
+         * from
          * @param {Object} target
          * @param {Object} beginProps
          * @param {Object} duration

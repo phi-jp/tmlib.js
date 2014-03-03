@@ -74,8 +74,9 @@ tm.event = tm.event || {};
             
             var listeners = this._listeners[e.type];
             if (listeners) {
-                for (var i=0,len=listeners.length; i&lt;len; ++i) {
-                    listeners[i].call(this, e);
+                var temp = listeners.clone();
+                for (var i=0,len=temp.length; i&lt;len; ++i) {
+                    temp[i].call(this, e);
                 }
             }
             

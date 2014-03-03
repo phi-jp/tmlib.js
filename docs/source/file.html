@@ -88,55 +88,6 @@ tm.util = tm.util || {};
 })();
 
 
-
-(function() {
-    
-<span id='tm-util-FileManager'>    /**
-</span>     * @class tm.util.FileManager
-     * ファイルマネージャ
-     */
-    tm.util.FileManager = {
-<span id='tm-util-FileManager-property-files'>        files: {}
-</span>    };
-
-<span id='tm-util-FileManager-static-method-load'>    /**
-</span>     * @static
-     * @method
-     * @TODO ?
-     */
-    tm.util.FileManager.load = function(key, params) {
-        var file = tm.util.File(params);
-        this.files[key] = file;
-        return file;
-    };
-
-<span id='tm-util-FileManager-static-method-get'>    /**
-</span>     * @static
-     * @method
-     * @TODO ?
-     */
-    tm.util.FileManager.get = function(key) {
-        return this.files[key];
-    };
-    
-<span id='tm-util-FileManager-static-method-isLoaded'>    /**
-</span>     * @static
-     * @method  isLoaded
-     * ロードチェック
-     */
-    tm.util.FileManager.isLoaded = function() {
-        for (var key in this.files) {
-            var file = this.files[key];
-            
-            if (file.loaded == false) {
-                return false;
-            }
-        }
-        return true;
-    };
-    
-    tm.addLoadCheckList(tm.util.FileManager);
-    
-})();</pre>
+</pre>
 </body>
 </html>

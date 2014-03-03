@@ -146,9 +146,10 @@ tm.util = tm.util || {};
         
         /* @method */
         xml: function(data) {
-            var div = document.createElement("div");
-            div.innerHTML = data;
-            return div;
+            var parser = new DOMParser();
+            var xml = parser.parseFromString(data, 'text/xml');
+
+            return xml;
         },
         
         /* @method */
