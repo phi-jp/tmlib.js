@@ -286,7 +286,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ラインストローク描画
          */
         strokeLines: function() {
             this.beginPath();
@@ -296,7 +296,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ライン塗りつぶし描画
          */
         fillLines: function() {
             this.beginPath();
@@ -428,14 +428,14 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * 星を塗りつぶし描画
          */
         fillStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).fill();
         },
 
         /**
-         * @TODO ?
+         * 星をストローク描画
          */
         strokeStar: function(x, y, radius, sides, sideIndent, offsetAngle) {
             return this.beginPath().star(x, y, radius, sides, sideIndent, offsetAngle).stroke();
@@ -811,14 +811,15 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * アルファとブレンドモードを同時セット
+         * TODO: 未実装
          */
         setCompositing: function(alpha, compositeOperation) {
             // TODO
         },
 
         /**
-         * @TODO ?
+         * 塗りつぶしスタイルをセット
          */
         setFillStyle: function(style) {
             this.context.fillStyle = style;
@@ -826,7 +827,7 @@ tm.graphics = tm.graphics || {};
         },
 
         /**
-         * @TODO ?
+         * ストロークスタイルをセット
          */
         setStrokeStyle: function(style) {
             this.context.strokeStyle = style;
