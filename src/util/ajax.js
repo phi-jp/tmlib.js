@@ -9,7 +9,6 @@ tm.util = tm.util || {};
     
     /*
      * @enum
-     * @TODO ?
      * @private
      */
     var AJAX_DEFAULT_SETTINGS = {
@@ -37,7 +36,7 @@ tm.util = tm.util || {};
     
     /**
      * @class tm.util.Ajax
-     * @TODO ?
+     * Ajax クラス
      */
     tm.util.Ajax = {
         /**

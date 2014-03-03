@@ -9,11 +9,11 @@ tm.util = tm.util || {};
     
     /**
      * @class tm.util.QueryString
-     * @TODO ?
+     * クエリ文字列クラス
      */
     tm.util.QueryString = {
         /**
-         * @TODO ?
+         * パース
          */
         parse: function(str, sep, eq) {
             sep = sep || '&';
@@ -35,7 +35,7 @@ tm.util = tm.util || {};
         },
         
         /**
-         * @TODO ?
+         * ストリングファイ
          */
         stringify: function(obj, sep, eq) {
             sep = sep || '&';
