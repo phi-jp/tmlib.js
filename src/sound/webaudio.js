@@ -97,7 +97,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
+         * ポーズ
          */
         pause: function() {
             this.source.disconnect();
@@ -106,7 +106,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
+         * レジューム
          */
         resume: function() {
             this.source.connect(this.panner);
@@ -186,7 +186,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _load: function(src) {
@@ -214,7 +213,6 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
          * @private
          */
         _setup: function() {
@@ -229,7 +227,7 @@ tm.sound = tm.sound || {};
         },
 
         /**
-         * @TODO ?
+         * トーン
          */
         tone: function(hertz, seconds) {
             // handle parameter
@@ -256,7 +254,7 @@ tm.sound = tm.sound || {};
 
     /**
      * @property    buffer
-     * @TODO ?
+     * バッファー
      */
     tm.sound.WebAudio.prototype.accessor("buffer", {
         get: function()  { return this.source.buffer; },
@@ -265,7 +263,7 @@ tm.sound = tm.sound || {};
 
     /**
      * @property    loop
-     * @TODO ?
+     * ループフラグ
      */
     tm.sound.WebAudio.prototype.accessor("loop", {
         get: function()  { return this.source.loop; },
@@ -274,7 +272,7 @@ tm.sound = tm.sound || {};
 
     /**
      * @property    valume
-     * @TODO ?
+     * ボリューム
      */
     tm.sound.WebAudio.prototype.accessor("volume", {
         get: function()  { return this.source.gain.value; },
@@ -283,7 +281,7 @@ tm.sound = tm.sound || {};
 
     /**
      * @property    playbackRate
-     * @TODO ?
+     * プレイバックレート
      */
     tm.sound.WebAudio.prototype.accessor("playbackRate", {
         get: function()  { return this.source.playbackRate.value; },
