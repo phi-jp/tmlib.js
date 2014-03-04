@@ -13808,6 +13808,7 @@ tm.display = tm.display || {};
 
             this.on("pop", function() {
                 this._bitmapCache.pop();
+                this._draw();
             });
         },
         
