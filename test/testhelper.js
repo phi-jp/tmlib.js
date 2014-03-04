@@ -19,6 +19,10 @@
             "src/core/string.js",
             "src/core/list.js",
         ],
+        "event": [
+            "src/event/event.js",
+            "src/event/eventdispatcher.js",
+        ],
         "util": [
             "src/util/random.js",
             "src/util/ajax.js",
@@ -49,10 +53,6 @@
             "src/dom/anim.js",
             "src/dom/trans.js",
             "src/dom/data.js",
-        ],
-        "event": [
-            "src/event/event.js",
-            "src/event/eventdispatcher.js",
         ],
         "asset": [
             "src/asset/manager.js",

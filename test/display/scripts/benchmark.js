@@ -1,7 +1,3 @@
-tm.preload(function() {
-    tm.util.ScriptManager.loadStats();
-    tm.util.ScriptManager.loadDatGUI();
-});
 
 tm.define("tests.benchmark.PiyoScene", {
     superClass: "tm.app.Scene",

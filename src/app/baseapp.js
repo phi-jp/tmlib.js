@@ -12,6 +12,8 @@ tm.app = tm.app || {};
      * ベースアプリケーション
      */
     tm.app.BaseApp = tm.createClass({
+
+        superClass: tm.event.EventDispatcher,
         
         /** エレメント */
         element       : null,
@@ -43,6 +45,8 @@ tm.app = tm.app || {};
          * @param {Object} elm
          */
         init: function(elm) {
+            this.superInit();
+
             this.element = elm;
 
             // マウスを生成
@@ -166,6 +170,9 @@ tm.app = tm.app || {};
             scene.app = this;
             scene.dispatchEvent(e);
 
+
+            this.fire(tm.event.Event("push"));
+
             return this;
         },
         
@@ -185,6 +192,8 @@ tm.app = tm.app || {};
             e = tm.event.Event("resume");
             e.app = this;
             this.currentScene.dispatchEvent(e);
+
+            this.fire(tm.event.Event("pop"));
             
             return scene;
         },
