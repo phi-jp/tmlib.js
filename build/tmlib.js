@@ -13855,9 +13855,13 @@ tm.display = tm.display || {};
             this.canvas.strokeStyle = "white";
 
             // スタックしたキャンバスを描画
-            this._bitmapCache.each(function(bitmap, index) {
-                this.canvas.drawBitmap(bitmap, 0, 0);
-            }, this);
+            if (this._bitmapCache.last)
+                this.canvas.drawBitmap(this._bitmapCache.last, 0, 0);
+            
+            // this._bitmapCache.each(function(bitmap, index) {
+            //     this.canvas.drawBitmap(bitmap, 0, 0);
+            // }, this);
+
             
             // 描画は全てのシーン行う
             this.canvas.save();
