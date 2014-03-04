@@ -48,6 +48,19 @@ tm.display = tm.display || {};
             
             // シーン周り
             this._scenes = [ tm.app.Scene() ];
+
+
+            this._bitmapCache = [];
+            this.on("push", function() {
+                var bitmap = this.canvas.getBitmap();
+                this._bitmapCache.push(bitmap);
+
+                bitmap.setPixelIndex(50, 255, 0, 0);
+            });
+
+            this.on("pop", function() {
+                this._bitmapCache.pop();
+            });
         },
         
         /**
@@ -83,25 +96,27 @@ tm.display = tm.display || {};
 
             return this;
         },
-        
+
         /**
          * @private
          */
         _draw: function() {
-            this.canvas.clearColor(this.background, 0, 0);
+            this.canvas.clear();
             
             this.canvas.fillStyle   = "white";
             this.canvas.strokeStyle = "white";
+
+            // スタックしたキャンバスを描画
+            this._bitmapCache.each(function(bitmap, index) {
+                this.canvas.drawBitmap(bitmap, 0, 0);
+            }, this);
             
             // 描画は全てのシーン行う
             this.canvas.save();
-            for (var i=0, len=this._scenes.length; i<len; ++i) {
-                this.renderer.render(this._scenes[i]);
-//                this._scenes[i]._draw(this.canvas);
-            }
+
+            this.renderer.render(this.currentScene);
+
             this.canvas.restore();
-            
-            //this.currentScene._draw(this.canvas);
         },
         
     });
@@ -123,6 +138,18 @@ tm.display = tm.display || {};
     tm.display.CanvasApp.prototype.accessor("height", {
         "get": function()   { return this.canvas.height; },
         "set": function(v)  { this.canvas.height = v; }
+    });
+    
+    /**
+     * @property    height
+     * 高さ
+     */
+    tm.display.CanvasApp.prototype.accessor("background", {
+        "get": function()   { return this.canvas._background; },
+        "set": function(v)  {
+            this._background = v;
+            this.element.style.background = v;
+        }
     });
 
 })();
