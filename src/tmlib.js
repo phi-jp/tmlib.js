@@ -74,8 +74,12 @@ if (typeof module !== 'undefined' && module.exports) {
         var ua = navigator.userAgent;
         return (ua.indexOf("iPhone") > 0 || ua.indexOf("iPad") > 0 || ua.indexOf("Android") > 0);
     })();
-
-
+    
+    tm.isLocal = (function() {
+        var flag = (location.protocol == "file:");
+        return function() { return flag; };
+    })();
+    
     /**
      * クラス定義
      */
