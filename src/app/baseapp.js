@@ -158,6 +158,8 @@ tm.app = tm.app || {};
          * @param {Object} scene
          */
         pushScene: function(scene) {
+            this.fire(tm.event.Event("push"));
+
             e = tm.event.Event("pause");
             e.app = this;
             this.currentScene.dispatchEvent(e);
@@ -171,7 +173,7 @@ tm.app = tm.app || {};
             scene.dispatchEvent(e);
 
 
-            this.fire(tm.event.Event("push"));
+            this.fire(tm.event.Event("pushed"));
 
             return this;
         },
@@ -180,6 +182,8 @@ tm.app = tm.app || {};
          * シーンをポップする(ポーズやオブション画面などで使用)
          */
         popScene: function() {
+            this.fire(tm.event.Event("pop"));
+            
             var scene = this._scenes.pop();
             --this._sceneIndex;
             
@@ -193,7 +197,7 @@ tm.app = tm.app || {};
             e.app = this;
             this.currentScene.dispatchEvent(e);
 
-            this.fire(tm.event.Event("pop"));
+            this.fire(tm.event.Event("poped"));
             
             return scene;
         },
