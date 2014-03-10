@@ -2,6 +2,7 @@
 describe('Array', function() {
     
     it('first', function() {
+        // 最初の要素を取得
         var arr = [1, 2, 3, 4, 5, 6];
         assert.equal(arr.first, 1);
     });
