@@ -7748,15 +7748,19 @@ tm.input = tm.input || {};
             if (typeof(key) == "string") {
                 key = KEY_CODE[key];
             }
-            return this.press[key] = flag;
+            this.key[key] = flag;
+            
+            return this;
         },
 
         /**
          * キーを全て離したことにする
          */
         clearKey: function() {
-            this.press = {};
-        }
+            this.key = {};
+            
+            return this;
+        },
         
     });
 
@@ -11578,14 +11582,14 @@ tm.app = tm.app || {};
         pushScene: function(scene) {
             this.fire(tm.event.Event("push"));
 
-            e = tm.event.Event("pause");
+            var e = tm.event.Event("pause");
             e.app = this;
             this.currentScene.dispatchEvent(e);
             
             this._scenes.push(scene);
             ++this._sceneIndex;
             
-            e = tm.event.Event("enter");
+            var e = tm.event.Event("enter");
             e.app = this;
             scene.app = this;
             scene.dispatchEvent(e);
@@ -11605,13 +11609,13 @@ tm.app = tm.app || {};
             var scene = this._scenes.pop();
             --this._sceneIndex;
             
-            e = tm.event.Event("exit");
+            var e = tm.event.Event("exit");
             e.app = this;
             scene.dispatchEvent(e);
             scene.app = null;
             
             // 
-            e = tm.event.Event("resume");
+            var e = tm.event.Event("resume");
             e.app = this;
             this.currentScene.dispatchEvent(e);
 
