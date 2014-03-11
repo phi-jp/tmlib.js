@@ -55,8 +55,8 @@
                 var p = e.app.pointing;
                 self._drawLine(p.prevPosition, p.position);
                 self.points.push({
-                    x: p.x,
-                    y: p.y,
+                    x: p.x-this.left,
+                    y: p.y-this.top,
                 });
             });
             this.on("pointingend", function(e) {
