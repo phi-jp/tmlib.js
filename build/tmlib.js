@@ -7780,15 +7780,19 @@ tm.input = tm.input || {};
             if (typeof(key) == "string") {
                 key = KEY_CODE[key];
             }
-            return this.press[key] = flag;
+            this.key[key] = flag;
+            
+            return this;
         },
 
         /**
          * キーを全て離したことにする
          */
         clearKey: function() {
-            this.press = {};
-        }
+            this.key = {};
+            
+            return this;
+        },
         
     });
 
@@ -8697,7 +8701,7 @@ tm.input = tm.input || {};
                 }
                 if (e.rotationRate) {
                     rotation.x = rotation.beta  = e.rotationRate.beta;
-                    rotation.y = rotatoin.gamma = e.rotationRate.gamma;
+                    rotation.y = rotation.gamma = e.rotationRate.gamma;
                     rotation.z = rotation.alpha = e.rotationRate.alpha;
                 }
             });
