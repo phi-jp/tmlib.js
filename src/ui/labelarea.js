@@ -12,19 +12,17 @@
         init: function(param) {
             param = param || {};
             this.superInit(param.width || 150, param.height || 60);
-            
             this.canvas.clearColor("red");
-            
-            this.mode = param.mode || "horizon";
-            
-            this._fillStyle = param.fillStyle || "#aaa";
-            this._bgColor = param.bgColor || "transparent";
-            
-            this._fontSize   = param.fontSize || 24;
-            this._fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
-            this._fontWeight = "";
+            this.fromJSON({
+                mode:         param.mode       || "horizon",
+                _fillStyle:   param.fillStyle  || "#aaa",
+                _bgColor:     param.bgColor    || "transparent",
+                _fontSize:    param.fontSize   || 24,
+                _fontFamily:  param.fontFamily || "'Consolas', 'Monaco', 'ＭＳ ゴシック'",
+                _fontWeight:  param.fontWeight || "",
+                lineSpace:    param.lineSpace  || 1, // 行間, 文字サイズ(px)に対する倍率
+            });
             this._updateFont();
-            
             this.setText(param.text || "こんにちは,世界!");
         },
         
@@ -51,6 +49,7 @@
                 width: this.width,
                 height: this.height,
                 mode: this.mode,
+                lineSpace: this.lineSpace,
             });
         },
 
