@@ -645,7 +645,8 @@ tm.graphics = tm.graphics || {};
                 
                 var funcName = func + "VerticalText";
                 normalLines.each(function(line, i) {
-                    this[funcName](line, startX-i*lineSpace, param.y);
+                    // boldになるとフォントサイズが変わるため、マージンとして15pxずらす
+                    this[funcName](line, startX-i*lineSpace, param.y+15);
                 }.bind(this));
             }
             
