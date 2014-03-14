@@ -13,7 +13,7 @@
             param = param || {};
             this.superInit(param.width || 150, param.height || 60);
             this.canvas.clearColor("red");
-            this.fromJSON({
+            this.$extend({
                 mode:         param.mode       || "horizon",
                 _fillStyle:   param.fillStyle  || "#aaa",
                 _bgColor:     param.bgColor    || "transparent",
