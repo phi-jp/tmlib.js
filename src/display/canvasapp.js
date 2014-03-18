@@ -51,16 +51,24 @@ tm.display = tm.display || {};
 
 
             this._canvasCache = [];
+            this._canvasCacheCache = [];
             this.on("push", function() {
                 this._draw();
-                var element = this.canvas.element.cloneNode();
-                var canvas = tm.graphics.Canvas(element);
+
+                var canvas = this._canvasCacheCache.pop();
+                if (!canvas) {
+                    var element = this.canvas.element.cloneNode();
+                    canvas = tm.graphics.Canvas(element);
+                    canvas.clear();
+                }
                 canvas.drawTexture(this.canvas, 0, 0);
                 this._canvasCache.push(canvas);
             });
             this.on("poped", function() {
-                this._canvasCache.pop();
+                var canvas = this._canvasCache.pop();
                 this._draw();
+
+                this._canvasCacheCache.push(canvas);
             });
         },
         
