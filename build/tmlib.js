@@ -6910,6 +6910,7 @@ tm.dom = tm.dom || {};
             
             path = path || key;
             // type が省略されている場合は拡張子から判定する
+            path = path.split('?')[0].split('#')[0];
             type = type || path.split('.').last;
             
             var asset = tm.asset.Loader._funcs[type](path);
