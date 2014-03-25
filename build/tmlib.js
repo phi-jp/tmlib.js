@@ -16302,12 +16302,25 @@ tm.ui = tm.ui || {};
                     .to({ "_value":value }, time)
                     .call(function() {
                         this.fire(tm.event.Event("changed"));
+
+                        if (this.isEmpty()) {
+                            this.fire(tm.event.Event("empty"));
+                        }
+                        else if (this.isFull()) {
+                            this.fire(tm.event.Event("full"));
+                        }
                     }.bind(this));
             }
             else {
                 this._value = value;
-                this.fire(tm.event.Event("change"));
                 this.fire(tm.event.Event("changed"));
+                
+                if (this.isEmpty()) {
+                    this.fire(tm.event.Event("empty"));
+                }
+                else if (this.isFull()) {
+                    this.fire(tm.event.Event("full"));
+                }
             }
             
             return this;
