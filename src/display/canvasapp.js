@@ -59,8 +59,8 @@ tm.display = tm.display || {};
                 if (!canvas) {
                     var element = this.canvas.element.cloneNode();
                     canvas = tm.graphics.Canvas(element);
-                    canvas.clear();
                 }
+                canvas.clear();
                 canvas.drawTexture(this.canvas, 0, 0);
                 this._canvasCache.push(canvas);
             });
