@@ -16261,14 +16261,14 @@ tm.ui = tm.ui || {};
          * 満タンかをチェック
          */
         isFull: function() {
-            return this.targetProp === this._maxValue;
+            return this._value === this._maxValue;
         },
 
         /**
          * 空っぽかをチェック
          */
         isEmpty: function() {
-            return this.targetProp == 0;
+            return this._value == 0;
         },
 
         /**
