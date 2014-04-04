@@ -108,6 +108,15 @@ tm.main(function() {
         c.save();
         c.font = "14px Consolas,'Lucida Console','DejaVu Sans Mono',monospace";
         c.fillStyle = "black";
+        c.fillLabelArea({
+            x: 440,
+            y: 40,
+            width: 400,
+            height: 400,
+            lineSpace: 1.1,
+            letterSpace: 1.0,
+            text: text_list.join("\n"),
+        });
         c.restore();
     };
     
