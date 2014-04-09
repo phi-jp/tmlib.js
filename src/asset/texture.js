@@ -25,7 +25,9 @@
             this.superInit();
             
             this.element = new Image();
-            this.element.crossOrigin="anonymous";
+            if (!tm.isLocal()) {
+                this.element.crossOrigin="anonymous";
+            }
             this.element.src = src;
             
             var self = this;
