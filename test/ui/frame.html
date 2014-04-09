@@ -17,20 +17,22 @@
             .container {
                 width: 640px;
             }
-            canvas {
+/*            canvas {
                 position: absolute;
                 width: 640px;
                 height: 480px;
             }
-        </style>
+*/        </style>
         
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
         <script src="../testhelper.js"></script>
         <script src="main.js"></script>
         <script id="test-script">
             
+            // var SCREEN_WIDTH    = 640;
+            // var SCREEN_HEIGHT   = 480;
             var SCREEN_WIDTH    = 640;
-            var SCREEN_HEIGHT   = 480;
+            var SCREEN_HEIGHT   = 960;
             var SCREEN_CENTER_X = SCREEN_WIDTH/2;
             var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;
 
@@ -40,13 +42,14 @@
             tm.main(function() {
                 var app = tm.display.CanvasApp("#world");
                 app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+                app.fitWindow();
 
                 tm.global.app = app;
 
                 var query = window.location.search.substr(1);
 
                 var testScene = tm.using(query);
-                app.replaceScene(testScene());
+               app.replaceScene(testScene());
                 
                 app.run();
             });
@@ -56,7 +59,7 @@
     
     <body>
         <div class="container">
-            <canvas id="world" width="640" height="480"></canvas>
+            <canvas id="world" width="640" height="960"></canvas>
         </div>
     </body>
 </html>

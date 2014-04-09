@@ -11,19 +11,17 @@ tm.define("tests.loadingscene.test", {
         
         var loading = tm.ui.LoadingScene({
             assets: {
-                "image0": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
-                "image1": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
-                "image2": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
-                "image3": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
-                "image4": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
-                "image5": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
-                "image6": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
-                "image7": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
-                "image8": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
-                "image9": "https://pbs.twimg.com/profile_images/484079620/kenkyo.jpg",
+                "image1": "http://dummyimage.com/128x128/aaa/fff.png?&text=1",
+                "image2": "http://dummyimage.com/128x128/aaa/fff.png?&text=2",
+                "image3": "http://dummyimage.com/128x128/aaa/fff.png?&text=3",
+                "image4": "http://dummyimage.com/128x128/aaa/fff.png?&text=4",
+                "image5": "http://dummyimage.com/128x128/aaa/fff.png?&text=5",
+                "image6": "http://dummyimage.com/128x128/aaa/fff.png?&text=6",
+                "image7": "http://dummyimage.com/128x128/aaa/fff.png?&text=7",
+                "image8": "http://dummyimage.com/128x128/aaa/fff.png?&text=8",
             },
-            width: 640,
-            height: 480,
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
         });
         this.app.replaceScene(loading);
         
@@ -36,7 +34,7 @@ tm.define("tests.loadingscene.test", {
         loading.onload = function() {
             this.app.replaceScene(self);
             
-            tm.display.Sprite("image0").addChildTo(self);
+            tm.display.Sprite("image1").addChildTo(self);
         };
         
     }
