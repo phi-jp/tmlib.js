@@ -22,8 +22,16 @@
             };
         });
     }
+
+
+    // 関数名（無名関数は空文字列）を取得 (IE用パッチ)
+    if (!Function.prototype.$has("name")) {
+        Function.prototype.getter("name", function() {
+            return (''+this).replace(/^\s*function\s*([^\(]*)[\S\s]+$/im, '$1');
+        });
+    }
     
-    
+
     /**
      * @method  toArrayFunction
      * 関数を配列対応関数に変換.
