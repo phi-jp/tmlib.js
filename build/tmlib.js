@@ -516,7 +516,7 @@ if (typeof module !== 'undefined' && module.exports) {
     Object.defineInstanceMethod("$safe", function(source) {
         Array.prototype.forEach.call(arguments, function(source) {
             for (var property in source) {
-                if (!this[property]) this[property] = source[property];
+                if (this[property] === undefined || this[property] === null) this[property] = source[property];
             }
         }, this);
         return this;
@@ -1097,8 +1097,16 @@ if (typeof module !== 'undefined' && module.exports) {
             };
         });
     }
+
+
+    // 関数名（無名関数は空文字列）を取得 (IE用パッチ)
+    if (!Function.prototype.$has("name")) {
+        Function.prototype.getter("name", function() {
+            return (''+this).replace(/^\s*function\s*([^\(]*)[\S\s]+$/im, '$1');
+        });
+    }
     
-    
+
     /**
      * @method  toArrayFunction
      * 関数を配列対応関数に変換.
@@ -7064,7 +7072,9 @@ tm.dom = tm.dom || {};
             this.superInit();
             
             this.element = new Image();
-            this.element.crossOrigin="anonymous";
+            if (!tm.isLocal()) {
+                this.element.crossOrigin="anonymous";
+            }
             this.element.src = src;
             
             var self = this;
@@ -16706,8 +16716,7 @@ tm.ui = tm.ui || {};
         init: function(param) {
             this.superInit();
             
-            param = {}.$extend(DEFAULT_PARAM, param);
-
+            this.param = param = {}.$extend(DEFAULT_PARAM, param);
 
             this.fromJSON({
                 children: {
@@ -16717,7 +16726,6 @@ tm.ui = tm.ui || {};
                 }
             });
 
-
             this.stage.fromJSON({
                 children: {
                     bg: {
@@ -16726,29 +16734,36 @@ tm.ui = tm.ui || {};
                         originX: 0,
                         originY: 0,
                     },
+                    piyoLayer: {
+                        type: "tm.display.CanvasElement",
+                    },
                     label: {
                         type: "tm.display.Label",
-                        text: "Loading.",
+                        text: "LOADING",
                         x: param.width/2,
                         y: param.height/2-20,
                         align: "center",
                         baseline: "middle",
-                        fontSize: 32,
+                        fontSize: 46,
+                        shadowBlur: 4,
+                        shadowColor: "hsl(190, 100%, 50%)",
                     },
-                    progressLabel: {
-                        type: "tm.display.Label",
-                        text: "(0%)",
-                        x: param.width/2,
-                        y: param.height/2+20,
-                        align: "center",
-                        baseline: "middle",
-                        fontSize: 22,
-                    },
-                    piyo: {
-                        type: "tm.display.Shape",
-                        init: [84, 84],
-                        x: param.width,
-                        y: param.height - 80,
+                    // piyo: {
+                    //     type: "tm.display.Shape",
+                    //     init: [84, 84],
+                    // },
+                    bar: {
+                        type: "tm.ui.Gauge",
+                        init: [{
+                            width: param.width,
+                            height: 10,
+                            color: "hsl(200, 100%, 80%)",
+                            bgColor: "transparent",
+                            borderColor: "transparent",
+                            borderWidth: 0,
+                        }],
+                        x: 0,
+                        y: 0,
                     },
                 }
             });
@@ -16759,32 +16774,20 @@ tm.ui = tm.ui || {};
 
             // label
             var label = this.stage.label;
-            label.counter = 0;
-            label.update = function(app) {
-                if (app.frame % 30 == 0) {
-                    this.text += ".";
-                    this.counter += 1;
-                    if (this.counter >= 3) {
-                        this.counter = 0;
-                        this.text = "Loading.";
-                    }
-                }
-            };
+            label.tweener
+                .to({alpha:1}, 1000)
+                .to({alpha:0.5}, 1000)
+                .setLoop(true)
 
-            // progress
-            var progressLabel = this.stage.progressLabel;
-
+            // bar
+            var bar = this.stage.bar;
+            bar.animationFlag = false;
+            bar.value = 0;
+            bar.animationFlag = true;
+            bar.animationTime = 100;
             
             // ひよこさん
-            var piyo = this.stage.piyo;
-            piyo.canvas.setColorStyle("white", "yellow").fillCircle(42, 42, 32);
-            piyo.canvas.setColorStyle("white", "black").fillCircle(27, 27, 2);
-            piyo.canvas.setColorStyle("white", "brown").fillRect(40, 70, 4, 15).fillTriangle(0, 40, 11, 35, 11, 45);
-            piyo.update = function(app) {
-                this.x -= 4;
-                if (this.x < -80) this.x = param.width;
-                this.rotation -= 7;
-            };
+            this._createHiyoko(param).addChildTo(this.stage.piyoLayer);
 
             // load
             var stage = this.stage;
@@ -16792,7 +16795,6 @@ tm.ui = tm.ui || {};
             stage.tweener.clear().fadeIn(100).call(function() {
                 if (param.assets) {
                     var loader = tm.asset.Loader();
-                    
                     loader.onload = function() {
                         stage.tweener.clear().wait(200).fadeOut(200).call(function() {
                             if (param.nextScene) {
@@ -16804,7 +16806,10 @@ tm.ui = tm.ui || {};
                     }.bind(this);
                     
                     loader.onprogress = function(e) {
-                        progressLabel.text = '({0}%)'.format((e.progress*100)|0);
+                        // update bar
+                        bar.value = e.progress*100;
+
+                        // dispatch event
                         var event = tm.event.Event("progress");
                         event.progress = e.progress;
                         this.fire(event);
@@ -16813,6 +16818,66 @@ tm.ui = tm.ui || {};
                     loader.load(param.assets);
                 }
             }.bind(this));
+        },
+
+        onpointingstart: function(app) {
+            // ひよこさん生成
+            var p = app.pointing;
+            var piyo = this._createHiyoko(this.param).addChildTo(this.stage.piyoLayer);
+            piyo.x = p.x;
+            piyo.y = p.y;
+        },
+
+        _createHiyoko: function(param) {
+            // ひよこさん
+            var piyo = tm.display.Shape(84, 84);
+            piyo.x = tm.util.Random.randint(0, param.width);
+            piyo.y = tm.util.Random.randint(0, param.height);
+            piyo.canvas.setColorStyle("white", "yellow").fillCircle(42, 42, 32);
+            piyo.canvas.setColorStyle("white", "black").fillCircle(27, 27, 2);
+            piyo.canvas.setColorStyle("white", "brown").fillRect(40, 70, 4, 15).fillTriangle(0, 40, 11, 35, 11, 45);
+            piyo.dir = tm.geom.Vector2.random(0, 360, 4);
+            var rect = tm.geom.Rect(0, 0, param.width, param.height);
+            rect.padding(42);
+            piyo.update = function(app) {
+                this.position.add(this.dir);
+
+                if (this.x < rect.left) {
+                    this.x = rect.left;
+                    this.dir.x*=-1;
+                }
+                else if (this.x > rect.right) {
+                    this.x = rect.right;
+                    this.dir.x*=-1;
+                }
+                if (this.y < rect.top) {
+                    this.y = rect.top;
+                    this.dir.y*=-1;
+                }
+                else if (this.y > rect.bottom) {
+                    this.y = rect.bottom;
+                    this.dir.y*=-1;
+                }
+
+                if (this.dir.x<0) {
+                    this.rotation -= 7;
+                    this.scaleX = 1;
+                }
+                else {
+                    this.rotation += 7;
+                    this.scaleX = -1;
+                }
+
+                // // 向き更新
+                // if (app.pointing.getPointingStart()) {
+                //     var p = app.pointing.position;
+                //     var v = tm.geom.Vector2.sub(p, this.position);
+                //     this.dir = v.normalize().mul(4);
+                // }
+
+            };
+
+            return piyo;
         },
     });
     

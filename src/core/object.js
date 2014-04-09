@@ -135,7 +135,7 @@
     Object.defineInstanceMethod("$safe", function(source) {
         Array.prototype.forEach.call(arguments, function(source) {
             for (var property in source) {
-                if (!this[property]) this[property] = source[property];
+                if (this[property] === undefined || this[property] === null) this[property] = source[property];
             }
         }, this);
         return this;
