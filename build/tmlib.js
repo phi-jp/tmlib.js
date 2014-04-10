@@ -1,5 +1,5 @@
 /*
- * tmlib.js 0.2.0
+ * tmlib.js 0.3.0
  * http://github.com/phi-jp/tmlib.js
  * MIT Licensed
  * 
@@ -25,7 +25,7 @@ if (typeof module !== 'undefined' && module.exports) {
     /**
      * バージョン
      */
-    tm.VERSION = "0.2.0";
+    tm.VERSION = '0.3.0';
 
     /**
      * tmlib.js のルートパス

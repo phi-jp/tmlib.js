@@ -18,7 +18,7 @@ if (typeof module !== 'undefined' && module.exports) {
     /**
      * バージョン
      */
-    tm.VERSION = "0.2.0";
+    tm.VERSION = '<%= pkg.version %>';
 
     /**
      * tmlib.js のルートパス

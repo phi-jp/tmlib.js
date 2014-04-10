@@ -4,7 +4,7 @@ module.exports = function(grunt) {
   
   var banner = '\
 /*\n\
- * tmlib.js <%= version %>\n\
+ * tmlib.js <%= pkg.version %>\n\
  * http://github.com/phi-jp/tmlib.js\n\
  * MIT Licensed\n\
  * \n\
@@ -112,7 +112,7 @@ module.exports = function(grunt) {
   ];
 
   grunt.initConfig({
-    version: pkg.version,
+    pkg: pkg,
     buildDir: "build",
 
     concat: {
@@ -120,7 +120,8 @@ module.exports = function(grunt) {
         src: target,
         dest: '<%= buildDir %>/tmlib.js',
         options: {
-          banner: banner
+          banner: banner,
+          process: true,
         }
       },
     },
