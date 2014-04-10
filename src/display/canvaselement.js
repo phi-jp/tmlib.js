@@ -19,6 +19,8 @@ tm.display = tm.display || {};
         isUpdate: true,
         /** 表示フラグ */
         visible: true,
+        /** クリッピングフラグ */
+        clipping: false,
         /** fillStyle */
         fillStyle: "white",
         /** strokeStyle */

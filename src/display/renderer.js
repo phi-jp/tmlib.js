@@ -66,13 +66,40 @@
             var m = obj._worldMatrix.m;
             context.setTransform( m[0], m[3], m[1], m[4], m[2], m[5] );
             
-            obj.draw(this.canvas);
-            
-            // 子供達も実行
-            if (obj.children.length > 0) {
-                var tempChildren = obj.children.slice();
-                for (var i=0,len=tempChildren.length; i<len; ++i) {
-                    this.renderObject(tempChildren[i]);
+
+            if (obj.clipping) {
+                context.save();
+
+                // クリップ処理を実行
+                if (obj.clip) {
+                    obj.clip();
+                }
+                else {
+                    onclip.call(obj, this.canvas);
+                }
+                context.clip();
+
+                obj.draw(this.canvas);
+                
+                // 子供達も実行
+                if (obj.children.length > 0) {
+                    var tempChildren = obj.children.slice();
+                    for (var i=0,len=tempChildren.length; i<len; ++i) {
+                        this.renderObject(tempChildren[i]);
+                    }
+                }
+
+                context.restore();
+            }
+            else {
+                obj.draw(this.canvas);
+                
+                // 子供達も実行
+                if (obj.children.length > 0) {
+                    var tempChildren = obj.children.slice();
+                    for (var i=0,len=tempChildren.length; i<len; ++i) {
+                        this.renderObject(tempChildren[i]);
+                    }
                 }
             }
         },
@@ -147,6 +174,16 @@
                 canvas.strokeRect(0, 0, this.width, -this.size);
             }
         }
+    };
+
+    var onclip = function(c) {
+        c.beginPath();
+        c.rect(
+            -this.width*this.origin.x,
+            -this.height*this.origin.y,
+            this.width,
+            this.height
+            );
     };
 
 })();
