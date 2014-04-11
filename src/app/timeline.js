@@ -20,10 +20,9 @@ tm.namespace("tm.app", function() {
             this.superInit();
             
             this.setTarget(elm);
-
-            this.fps = 30;
             
             this.currentFrame = 0;
+            this.currentTime = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
@@ -36,8 +35,10 @@ tm.namespace("tm.app", function() {
          */
         update: function(app) {
             if (!this.isPlay) return ;
+
+            this.currentTime = ((this.currentFrame/app.fps)*1000)|0;
             
-            if (this.currentFrame > this.duration) {
+            if (this.currentTime > this.duration) {
 //                this.gotoAndPlay(0);
             }
             else {
@@ -57,11 +58,11 @@ tm.namespace("tm.app", function() {
             for (var i=0,len=tweens.length; i<len; ++i) {
                 var tween = tweens[i];
                 
-                if (tween.delay > this.currentFrame) {
+                if (tween.delay > this.currentTime) {
                     continue ;
                 }
                 
-                var time = this.currentFrame - tween.delay;
+                var time = this.currentTime - tween.delay;
                 tween._setTime(time);
                 if (tween.time >= tween.duration) {
                 }
@@ -81,7 +82,7 @@ tm.namespace("tm.app", function() {
             for (var i=0,len=actions.length; i<len; ++i) {
                 var action = actions[i];
                 
-                if (action.delay == this.currentFrame) {
+                if (action.delay == this.currentTime) {
                     if (action.type == "call") {
                         action.func();
                     }
@@ -258,7 +259,8 @@ tm.namespace("tm.app", function() {
          * @param {Object} t
          */
         _dirty: function(t) {
-            return (t/this.fps).toInt();
+            return t;
+//            return (t/this.fps).toInt();
         },
         
         /**
