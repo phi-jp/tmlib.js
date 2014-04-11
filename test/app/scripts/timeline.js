@@ -55,7 +55,7 @@ tm.define("tests.timeline.ToTestScene", {
     },
 });
  
-tm.define("tests.timeline.CallTestScene", {
+tm.define("tests.timeline.call", {
     superClass: "tm.app.Scene",
  
     init: function() {
@@ -68,10 +68,13 @@ tm.define("tests.timeline.CallTestScene", {
             .to(0, {x:500}, 1000)
             .to(1000, {y:400}, 1000)
             .to(2000, {alpha:0}, 1000)
-            .call(500, 
-                function() {
-                    alert("finish")
-                });
+            .call(500,  function() {
+                alert("500")
+            })
+            .call(2500,  function() {
+                alert("2500")
+            })
+            ;
     },
 });
 

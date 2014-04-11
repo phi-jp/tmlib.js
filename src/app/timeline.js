@@ -23,6 +23,7 @@ tm.namespace("tm.app", function() {
             
             this.currentFrame = 0;
             this.currentTime = 0;
+            this.prevTime = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
@@ -36,6 +37,7 @@ tm.namespace("tm.app", function() {
         update: function(app) {
             if (!this.isPlay) return ;
 
+            this.prevTime = this.currentTime;
             this.currentTime = ((this.currentFrame/app.fps)*1000)|0;
             
             if (this.currentTime > this.duration) {
@@ -82,7 +84,7 @@ tm.namespace("tm.app", function() {
             for (var i=0,len=actions.length; i<len; ++i) {
                 var action = actions[i];
                 
-                if (action.delay == this.currentTime) {
+                if (this.prevTime < action.delay && action.delay <= this.currentTime) {
                     if (action.type == "call") {
                         action.func();
                     }
