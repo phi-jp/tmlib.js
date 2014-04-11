@@ -167,14 +167,9 @@
      * 重複削除
      */
     Array.defineInstanceMethod("uniq", function(deep) {
-        var arr = [];
-        for (var i=0,len=this.length; i<len; ++i) {
-            var value = this[i];
-            if (arr.indexOf(value) == -1) {
-                arr.push(value);
-            }
-        }
-        return arr;
+        return this.filter(function(value, index, self) {
+            return self.indexOf(value) === index;
+        });
     });
     
 
@@ -183,11 +178,51 @@
      * フラット.
      * Ruby のやつ.
      */
-    Array.defineInstanceMethod("flatten", function(deep) {
+    Array.defineInstanceMethod("flatten", function(level) {
+        var arr = null;
+
+        if (level) {
+            arr = this;
+            for (var i=0; i<level; ++i) {
+                arr = Array.prototype.concat.apply([], arr);
+            }
+            console.log(arr);
+        }
+        else {
+            // 完全フラット
+            arr = this.reduce(function (previousValue, curentValue) {
+                return Array.isArray(curentValue) ?
+                    previousValue.concat(curentValue.flatten()) : previousValue.concat(curentValue);
+            }, []);
+        }
+
+        console.log(arr);
+
+        return arr;
+
+
+        /*
         var temp = Array.flatten(this);
         
         this.clear().concat(temp);
         for (var i=0,len=temp.length; i<len; ++i) this[i] = temp[i];
+            */
+
+
+            /*
+        var arr = [];
+        
+        for (var i=0,len=array.length; i<len; ++i) {
+            var value = array[i];
+            if (value instanceof Array) {
+                arr = arr.concat(Array.flatten(value));
+            }
+            else {
+                arr.push(value);
+            }
+        }
+        */
+
         
         return this;
     });
@@ -327,46 +362,6 @@
     Array.defineInstanceMethod("toOLElement", function(){
         // TODO:
     });
-
-
-    
-    /**
-     * @static
-     * @method  uniq
-     * 重複削除
-     */
-    Array.defineFunction("uniq", function(arr) {
-        var temp = [];
-        for (var i=0,len=arr.length; i<len; ++i) {
-            var value = arr[i];
-            if (temp.indexOf(value) == -1) {
-                temp.push(value);
-            }
-        }
-        return temp;
-    });
-
-    
-    /**
-     * @static
-     * @method  flatten
-     * フラット.
-     * Ruby のやつ.
-     */
-    Array.flatten = function(array, deep) {
-        var arr = [];
-        
-        for (var i=0,len=array.length; i<len; ++i) {
-            var value = array[i];
-            if (value instanceof Array) {
-                arr = arr.concat(Array.flatten(value));
-            }
-            else {
-                arr.push(value);
-            }
-        }
-        return arr;
-    };
 
     
     /**

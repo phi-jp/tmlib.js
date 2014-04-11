@@ -107,13 +107,19 @@ describe('Array', function() {
     });
 
     it('flatten', function() {
-        var arr = [1, 2, 3, [4, 5, 6]];
-        assert(arr.flatten().equals([1, 2, 3, 4, 5, 6]));
+        var arr = [1, 2, 3, [4, 5], [6, [7, 8]]];
+
+        // default
+        assert(arr.flatten().deepEquals([1, 2, 3, 4, 5, 6, 7, 8]));
+        // level 1
+        assert(arr.flatten(1).deepEquals([1, 2, 3, 4, 5, 6, [7, 8]]));
+        // level 2
+        assert(arr.flatten(2).deepEquals([1, 2, 3, 4, 5, 6, 7, 8]));
     });
     
     it('uniq', function() {
         var arr = [0, 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 100];
-        assert(Array.uniq(arr).equals([0, 1, 2, 3, 4, 5, 6, 100]));
+        assert(arr.uniq().equals([0, 1, 2, 3, 4, 5, 6, 100]));
     });
     
 });
