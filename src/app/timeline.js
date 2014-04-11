@@ -37,18 +37,14 @@ tm.namespace("tm.app", function() {
         update: function(app) {
             if (!this.isPlay) return ;
 
-            this.prevTime = this.currentTime;
-            this.currentTime = ((this.currentFrame/app.fps)*1000)|0;
-            
-            if (this.currentTime > this.duration) {
-//                this.gotoAndPlay(0);
-            }
-            else {
+            if (this.prevTime < this.duration) {
                 this._updateTween();
                 this._updateAction();
             }
-            
+
             this.currentFrame++;
+            this.prevTime = this.currentTime;
+            this.currentTime = ((this.currentFrame/app.fps)*1000)|0;
         },
         
         /**
