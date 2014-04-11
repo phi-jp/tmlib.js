@@ -13543,7 +13543,7 @@ tm.namespace("tm.app", function() {
             for (var i=0,len=actions.length; i<len; ++i) {
                 var action = actions[i];
                 
-                if (this.prevTime < action.delay && action.delay <= this.currentTime) {
+                if (this.prevTime <= action.delay && action.delay < this.currentTime) {
                     if (action.type == "call") {
                         action.func();
                     }
