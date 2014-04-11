@@ -49,5 +49,10 @@ describe('String', function() {
     it('repeat', function() {
         assert.equal("1234".repeat(4), '1234123412341234');
     });
+
+    it('toArray', function() {
+        assert("12345".toArray().equals(['1', '2', '3', '4', '5']));
+        assert("あいうえお".toArray().equals(['あ', 'い', 'う', 'え', 'お']));
+    });
     
 });
