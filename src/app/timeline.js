@@ -37,7 +37,7 @@ tm.namespace("tm.app", function() {
         update: function(app) {
             if (!this.isPlay) return ;
 
-            if (this.prevTime < this.duration) {
+            if (this.prevTime <= this.duration) {
                 this._updateTween();
                 this._updateAction();
             }
@@ -279,6 +279,8 @@ tm.namespace("tm.app", function() {
          */
         clear: function() {
             this.currentFrame = 0;
+            this.prevTime = 0;
+            this.currentTime = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
