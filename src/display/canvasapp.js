@@ -53,6 +53,7 @@ tm.display = tm.display || {};
             this._canvasCache = [];
             this._canvasCacheCache = [];
             this.on("push", function() {
+                this._update();
                 this._draw();
 
                 var canvas = this._canvasCacheCache.pop();
@@ -66,6 +67,7 @@ tm.display = tm.display || {};
             });
             this.on("poped", function() {
                 var canvas = this._canvasCache.pop();
+                this._update();
                 this._draw();
 
                 this._canvasCacheCache.push(canvas);
