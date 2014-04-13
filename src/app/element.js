@@ -20,8 +20,6 @@ tm.app = tm.app || {};
         parent: null,
         /** 子 */
         children: null,
-        /** @private */
-        _listeners: null,
         
         /**
          * @constructor
@@ -29,7 +27,6 @@ tm.app = tm.app || {};
         init: function() {
             this.superInit();
             this.children = [];
-            this._listeners = {};
         },
         
         /**

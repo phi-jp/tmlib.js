@@ -37,12 +37,22 @@
          * オブジェクトを描画
          */
         renderObject: function(obj) {
-            obj._dirtyCalc();
-
             if (obj.visible === false) return ;
             var context = this._context;
 
-            if (!obj.draw) this._setRenderFunction(obj);
+            if (!obj.draw) {
+                if (this._setRenderFunction(obj) == false) {
+                    // 子供達も実行
+                    if (obj.children.length > 0) {
+                        var tempChildren = obj.children.slice();
+                        for (var i=0,len=tempChildren.length; i<len; ++i) {
+                            this.renderObject(tempChildren[i]);
+                        }
+                    }
+
+                    return ;
+                }
+            }
 
             // 情報をセット
             if (obj.fillStyle)   context.fillStyle   = obj.fillStyle;
@@ -108,6 +118,8 @@
          * @private
          */
         _setRenderFunction: function(obj) {
+            var flag = true;
+
             if (obj instanceof tm.display.Sprite) {
                 obj.draw = renderFuncList["sprite"];
             }
@@ -121,8 +133,11 @@
                 obj.draw = renderFuncList["shape"];
             }
             else {
-                obj.draw = function() {};
+                // obj.draw = function() {};
+                flag = false;
             }
+
+            return flag;
         }
 
     });

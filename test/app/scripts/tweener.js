@@ -1,5 +1,27 @@
 
 
+
+// エレメントとして動作
+tm.define("tests.tweener.element", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit({});
+
+        var star = tm.display.StarShape().addChildTo(this);
+        star.setPosition(100, 100);
+
+        tm.app.Tweener(star).to({
+            x: 200,
+            y: 200,
+            rotation: 360
+        }).on("finish", function(){
+            this.remove();
+            alert();
+        }).addChildTo(this);
+    },
+});
+
 tm.define("tests.tweener.DemoScene", {
     superClass: "tm.app.Scene",
 

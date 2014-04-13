@@ -10,7 +10,7 @@
      * @extends tm.event.EventDispatcher
      */
     tm.define("tm.app.Tweener", {
-        superClass: "tm.event.EventDispatcher",
+        superClass: "tm.app.Element",
 
         /**
          * @constructor

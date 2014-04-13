@@ -368,13 +368,7 @@
                 this._checkPointing(app);
             }
             
-            // 子供達も実行
-            if (this.children.length > 0) {
-                var tempChildren = this.children.slice();
-                for (var i=0,len=tempChildren.length; i<len; ++i) {
-                    tempChildren[i]._update(app);
-                }
-            }
+            this._dirtyCalc();
         },
         
         /**

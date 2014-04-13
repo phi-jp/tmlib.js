@@ -266,8 +266,20 @@ tm.app = tm.app || {};
             // this.touches.update();
             
             if (this.isPlaying) {
-                this.currentScene._update(this);
+                this._updateElement(this.currentScene);
                 ++this.frame;
+            }
+        },
+
+        _updateElement: function(elm) {
+            elm._update && elm._update(this);
+
+            var len = elm.children.length;
+            if (len > 0) {
+                var tempChildren = elm.children.slice();
+                for (var i=0; i<len; ++i) {
+                    this._updateElement(tempChildren[i]);
+                }
             }
         },
         

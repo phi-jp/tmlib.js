@@ -11708,8 +11708,20 @@ tm.app = tm.app || {};
             // this.touches.update();
             
             if (this.isPlaying) {
-                this.currentScene._update(this);
+                this._updateElement(this.currentScene);
                 ++this.frame;
+            }
+        },
+
+        _updateElement: function(elm) {
+            elm._update && elm._update(this);
+
+            var len = elm.children.length;
+            if (len > 0) {
+                var tempChildren = elm.children.slice();
+                for (var i=0; i<len; ++i) {
+                    this._updateElement(tempChildren[i]);
+                }
             }
         },
         
@@ -11790,8 +11802,6 @@ tm.app = tm.app || {};
         parent: null,
         /** 子 */
         children: null,
-        /** @private */
-        _listeners: null,
         
         /**
          * @constructor
@@ -11799,7 +11809,6 @@ tm.app = tm.app || {};
         init: function() {
             this.superInit();
             this.children = [];
-            this._listeners = {};
         },
         
         /**
@@ -12390,13 +12399,7 @@ tm.app = tm.app || {};
                 this._checkPointing(app);
             }
             
-            // 子供達も実行
-            if (this.children.length > 0) {
-                var tempChildren = this.children.slice();
-                for (var i=0,len=tempChildren.length; i<len; ++i) {
-                    tempChildren[i]._update(app);
-                }
-            }
+            this._dirtyCalc();
         },
         
         /**
@@ -13043,7 +13046,7 @@ tm.app = tm.app || {};
      * @extends tm.event.EventDispatcher
      */
     tm.define("tm.app.Tweener", {
-        superClass: "tm.event.EventDispatcher",
+        superClass: "tm.app.Element",
 
         /**
          * @constructor
@@ -15374,12 +15377,22 @@ tm.display = tm.display || {};
          * オブジェクトを描画
          */
         renderObject: function(obj) {
-            obj._dirtyCalc();
-
             if (obj.visible === false) return ;
             var context = this._context;
 
-            if (!obj.draw) this._setRenderFunction(obj);
+            if (!obj.draw) {
+                if (this._setRenderFunction(obj) == false) {
+                    // 子供達も実行
+                    if (obj.children.length > 0) {
+                        var tempChildren = obj.children.slice();
+                        for (var i=0,len=tempChildren.length; i<len; ++i) {
+                            this.renderObject(tempChildren[i]);
+                        }
+                    }
+
+                    return ;
+                }
+            }
 
             // 情報をセット
             if (obj.fillStyle)   context.fillStyle   = obj.fillStyle;
@@ -15445,6 +15458,8 @@ tm.display = tm.display || {};
          * @private
          */
         _setRenderFunction: function(obj) {
+            var flag = true;
+
             if (obj instanceof tm.display.Sprite) {
                 obj.draw = renderFuncList["sprite"];
             }
@@ -15458,8 +15473,11 @@ tm.display = tm.display || {};
                 obj.draw = renderFuncList["shape"];
             }
             else {
-                obj.draw = function() {};
+                // obj.draw = function() {};
+                flag = false;
             }
+
+            return flag;
         }
 
     });

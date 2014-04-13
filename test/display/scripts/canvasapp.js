@@ -114,9 +114,6 @@ tm.define("tests.canvasapp.push", {
 });
 
 
-
-
-
 tm.define("tests.canvasapp.result", {
     superClass: "tm.app.ResultScene",
  
@@ -131,21 +128,3 @@ tm.define("tests.canvasapp.result", {
     }
 
 });
-
-
-
-tm.define("tests.canvasapp.result", {
-    superClass: "tm.app.ResultScene",
- 
-    init: function() {
-        this.superInit({
-
-        });
-    },
-
-    onnextscene: function() {
-        this.app.replaceScene(tm.app.Scene());
-    }
-
-});
-
