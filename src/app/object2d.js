@@ -367,8 +367,6 @@
             if (this.interactive) {
                 this._checkPointing(app);
             }
-            
-            this._dirtyCalc();
         },
         
         /**

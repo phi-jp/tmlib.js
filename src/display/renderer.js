@@ -40,6 +40,9 @@
             if (obj.visible === false) return ;
             var context = this._context;
 
+            // TODO: 別の場所で呼ぶよう調整する
+            obj._dirtyCalc && obj._dirtyCalc();
+
             if (!obj.draw) {
                 if (this._setRenderFunction(obj) == false) {
                     // 子供達も実行

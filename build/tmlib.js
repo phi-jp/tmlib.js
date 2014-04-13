@@ -12398,8 +12398,6 @@ tm.app = tm.app || {};
             if (this.interactive) {
                 this._checkPointing(app);
             }
-            
-            this._dirtyCalc();
         },
         
         /**
@@ -13840,7 +13838,6 @@ tm.display = tm.display || {};
             this._canvasCache = [];
             this._canvasCacheCache = [];
             this.on("push", function() {
-                this._update();
                 this._draw();
 
                 var canvas = this._canvasCacheCache.pop();
@@ -13854,7 +13851,6 @@ tm.display = tm.display || {};
             });
             this.on("poped", function() {
                 var canvas = this._canvasCache.pop();
-                this._update();
                 this._draw();
 
                 this._canvasCacheCache.push(canvas);
@@ -15381,6 +15377,9 @@ tm.display = tm.display || {};
         renderObject: function(obj) {
             if (obj.visible === false) return ;
             var context = this._context;
+
+            // TODO: 別の場所で呼ぶよう調整する
+            obj._dirtyCalc && obj._dirtyCalc();
 
             if (!obj.draw) {
                 if (this._setRenderFunction(obj) == false) {
