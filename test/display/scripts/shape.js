@@ -19,12 +19,6 @@ tm.define("tests.shape.ShapeTest", {
 
                 }], name: "text", x: 300, y: 300 },
             ],
-            
-            children: {
-                "circle": {
-                    type: "CircleShape", x: 100, y: 100
-                },
-            }
         });
 
         // tm.app.TextShape(150, 50, {

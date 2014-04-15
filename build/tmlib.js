@@ -15381,18 +15381,22 @@ tm.display = tm.display || {};
             // TODO: 別の場所で呼ぶよう調整する
             obj._dirtyCalc && obj._dirtyCalc();
 
-            if (!obj.draw) {
-                if (this._setRenderFunction(obj) == false) {
-                    // 子供達も実行
-                    if (obj.children.length > 0) {
-                        var tempChildren = obj.children.slice();
-                        for (var i=0,len=tempChildren.length; i<len; ++i) {
-                            this.renderObject(tempChildren[i]);
-                        }
+            // 描画可能かをチェック
+            if (!this._checkRenderable(obj)) {
+                // 子供達のみ描画実行
+                if (obj.children.length > 0) {
+                    var tempChildren = obj.children.slice();
+                    for (var i=0,len=tempChildren.length; i<len; ++i) {
+                        this.renderObject(tempChildren[i]);
                     }
-
-                    return ;
                 }
+
+                return ;
+            }
+
+            // 
+            if (!obj.draw) {
+                this._setRenderFunction(obj);
             }
 
             // 情報をセット
@@ -15455,12 +15459,17 @@ tm.display = tm.display || {};
             }
         },
 
+        _checkRenderable: function(obj) {
+            if (obj._renderable === undefined) {
+                obj._renderable = (obj instanceof tm.display.CanvasElement);
+            }
+            return obj._renderable;
+        },
+
         /**
          * @private
          */
         _setRenderFunction: function(obj) {
-            var flag = true;
-
             if (obj instanceof tm.display.Sprite) {
                 obj.draw = renderFuncList["sprite"];
             }
@@ -15474,11 +15483,8 @@ tm.display = tm.display || {};
                 obj.draw = renderFuncList["shape"];
             }
             else {
-                // obj.draw = function() {};
-                flag = false;
+                obj.draw = function() {};
             }
-
-            return flag;
         }
 
     });
