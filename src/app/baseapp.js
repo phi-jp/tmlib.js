@@ -168,13 +168,13 @@ tm.app = tm.app || {};
             this._scenes.push(scene);
             ++this._sceneIndex;
             
+            this.fire(tm.event.Event("pushed"));
+
             var e = tm.event.Event("enter");
             e.app = this;
             scene.app = this;
             scene.dispatchEvent(e);
 
-
-            this.fire(tm.event.Event("pushed"));
 
             return this;
         },
@@ -192,13 +192,13 @@ tm.app = tm.app || {};
             e.app = this;
             scene.dispatchEvent(e);
             scene.app = null;
+
+            this.fire(tm.event.Event("poped"));
             
             // 
             var e = tm.event.Event("resume");
             e.app = this;
             this.currentScene.dispatchEvent(e);
-
-            this.fire(tm.event.Event("poped"));
             
             return scene;
         },
