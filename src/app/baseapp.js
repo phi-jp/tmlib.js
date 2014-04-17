@@ -272,6 +272,8 @@ tm.app = tm.app || {};
         },
 
         _updateElement: function(elm) {
+            if (elm.isUpdate == false) return ;
+
             elm._update && elm._update(this);
 
             var len = elm.children.length;
