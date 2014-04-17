@@ -191,26 +191,20 @@ tm.sound = tm.sound || {};
         _load: function(src) {
             if (!this.context) return ;
 
-            var xhr = new XMLHttpRequest();
             var self = this;
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200 || xhr.status === 0) {
-                        self.context.decodeAudioData(xhr.response, function(buffer) {
-                            self._setup();
-                            self.buffer = buffer;
-                            self.loaded = true;
-                            self.dispatchEvent( tm.event.Event("load") );
-                        });
-                    } else {
-                        console.error(xhr);
-                    }
+            tm.util.Ajax.load({
+                type: "GET",
+                url: src,
+                responseType: "arraybuffer",
+                success: function(data) {
+                    self.context.decodeAudioData(data, function(buffer) {
+                        self._setup();
+                        self.buffer = buffer;
+                        self.loaded = true;
+                        self.dispatchEvent( tm.event.Event("load") );
+                    });
                 }
-            };
-            xhr.open("GET", src, true);
-            xhr.responseType = "arraybuffer";
-            xhr.withCredentials = true;
-            xhr.send();
+            });
         },
 
         /**

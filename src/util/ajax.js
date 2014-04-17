@@ -22,6 +22,8 @@ tm.util = tm.util || {};
         contentType: 'application/x-www-form-urlencoded',
         /* @property dataType */
         dataType: 'text',
+        /* @property dataType */
+        responseType: '', // or 'arraybuffer'
         /* @property username */
         username: null,
         /* @property password */
@@ -84,9 +86,15 @@ tm.util = tm.util || {};
                     }
                     // status === 0 はローカルファイル用
                     else if (httpRequest.status === 0) {
-                        // タイプ別に変換をかける
-                        var data = conv_func(httpRequest.responseText);
-                        params.success(data);
+                        if (params.responseType !== "arraybuffer") {
+                            // タイプ別に変換をかける
+                            var data = conv_func(httpRequest.responseText);
+                            params.success(data);
+                        }
+                        else {
+                            // バイナリデータ
+                            params.success(this.response);
+                        }
                     }
                     else {
                         params.error(httpRequest.responseText);
@@ -102,12 +110,19 @@ tm.util = tm.util || {};
             if (params.type === "POST") {
                 httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
             }
+
+            if (params.responseType) {
+                httpRequest.responseType = params.responseType;
+            }
             
             if (params.beforeSend) {
                 params.beforeSend(httpRequest);
             }
             
-            httpRequest.withCredentials = true;
+            if (params.password) {
+                httpRequest.withCredentials = true;
+            }
+
             httpRequest.send(params.data);
         },
         
@@ -191,5 +206,8 @@ tm.util = tm.util || {};
         },
         
     };
-    
+
+
+    tm.util.Ajax.DEFAULT_SETTINGS = AJAX_DEFAULT_SETTINGS;
+
 })();

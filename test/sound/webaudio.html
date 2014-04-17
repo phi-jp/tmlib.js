@@ -48,6 +48,7 @@
         <script src="../../src/util/querystring.js"></script>
         <script src="../../src/util/type.js"></script>
         <script src="../../src/util/flow.js"></script>
+        <script src="../../src/util/ajax.js"></script>
         
         <script src="../../src/event/event.js"></script>
         <script src="../../src/event/eventdispatcher.js"></script>
@@ -107,12 +108,12 @@
                     var webaudio = null;
 
                     play.event.click(function() {
-                        webaudio = tm.asset.Manager.get("sample");
+                        webaudio = tm.asset.Manager.get("sample").clone().play();
                         webaudio.volume = parseFloat(volume.value);
                         webaudio.setPosition( parseFloat(position.value), 0, 0 );
                         webaudio.play();
                         webaudio.onended = function() {
-                            alert();
+                            // alert();
                         };
                     });
 
