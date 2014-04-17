@@ -2208,6 +2208,7 @@ tm.util = tm.util || {};
                 params.beforeSend(httpRequest);
             }
             
+            httpRequest.withCredentials = true;
             httpRequest.send(params.data);
         },
         
@@ -17888,6 +17889,7 @@ tm.sound = tm.sound || {};
             };
             xhr.open("GET", src, true);
             xhr.responseType = "arraybuffer";
+            xhr.withCredentials = true;
             xhr.send();
         },
 

@@ -107,6 +107,7 @@ tm.util = tm.util || {};
                 params.beforeSend(httpRequest);
             }
             
+            httpRequest.withCredentials = true;
             httpRequest.send(params.data);
         },
         

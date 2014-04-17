@@ -209,6 +209,7 @@ tm.sound = tm.sound || {};
             };
             xhr.open("GET", src, true);
             xhr.responseType = "arraybuffer";
+            xhr.withCredentials = true;
             xhr.send();
         },
 
