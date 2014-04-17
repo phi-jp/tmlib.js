@@ -2123,6 +2123,8 @@ tm.util = tm.util || {};
         contentType: 'application/x-www-form-urlencoded',
         /* @property dataType */
         dataType: 'text',
+        /* @property dataType */
+        responseType: '', // or 'arraybuffer'
         /* @property username */
         username: null,
         /* @property password */
@@ -2185,9 +2187,15 @@ tm.util = tm.util || {};
                     }
                     // status === 0 はローカルファイル用
                     else if (httpRequest.status === 0) {
-                        // タイプ別に変換をかける
-                        var data = conv_func(httpRequest.responseText);
-                        params.success(data);
+                        if (params.responseType !== "arraybuffer") {
+                            // タイプ別に変換をかける
+                            var data = conv_func(httpRequest.responseText);
+                            params.success(data);
+                        }
+                        else {
+                            // バイナリデータ
+                            params.success(this.response);
+                        }
                     }
                     else {
                         params.error(httpRequest.responseText);
@@ -2203,12 +2211,19 @@ tm.util = tm.util || {};
             if (params.type === "POST") {
                 httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
             }
+
+            if (params.responseType) {
+                httpRequest.responseType = params.responseType;
+            }
             
             if (params.beforeSend) {
                 params.beforeSend(httpRequest);
             }
             
-            httpRequest.withCredentials = true;
+            if (params.password) {
+                httpRequest.withCredentials = true;
+            }
+
             httpRequest.send(params.data);
         },
         
@@ -2292,7 +2307,10 @@ tm.util = tm.util || {};
         },
         
     };
-    
+
+
+    tm.util.Ajax.DEFAULT_SETTINGS = AJAX_DEFAULT_SETTINGS;
+
 })();
 
 /*
@@ -17871,26 +17889,20 @@ tm.sound = tm.sound || {};
         _load: function(src) {
             if (!this.context) return ;
 
-            var xhr = new XMLHttpRequest();
             var self = this;
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200 || xhr.status === 0) {
-                        self.context.decodeAudioData(xhr.response, function(buffer) {
-                            self._setup();
-                            self.buffer = buffer;
-                            self.loaded = true;
-                            self.dispatchEvent( tm.event.Event("load") );
-                        });
-                    } else {
-                        console.error(xhr);
-                    }
+            tm.util.Ajax.load({
+                type: "GET",
+                url: src,
+                responseType: "arraybuffer",
+                success: function(data) {
+                    self.context.decodeAudioData(data, function(buffer) {
+                        self._setup();
+                        self.buffer = buffer;
+                        self.loaded = true;
+                        self.dispatchEvent( tm.event.Event("load") );
+                    });
                 }
-            };
-            xhr.open("GET", src, true);
-            xhr.responseType = "arraybuffer";
-            xhr.withCredentials = true;
-            xhr.send();
+            });
         },
 
         /**
