@@ -78,14 +78,8 @@ tm.util = tm.util || {};
             // コールバック
             httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState == 4) {
-                    // 成功
-                    if (httpRequest.status === 200) {
-                        // タイプ別に変換をかける
-                        var data = conv_func(httpRequest.responseText);
-                        params.success(data);
-                    }
-                    // status === 0 はローカルファイル用
-                    else if (httpRequest.status === 0) {
+                    // 成功(status === 0 はローカルファイル用)
+                    if (httpRequest.status === 200 || httpRequest.status === 0) {
                         if (params.responseType !== "arraybuffer") {
                             // タイプ別に変換をかける
                             var data = conv_func(httpRequest.responseText);
