@@ -19,7 +19,7 @@
         init: function(elm) {
             this.superInit();
 
-            this.setTarget(elm);
+            this.setTarget(elm || {});
             this.loop = false;
 
             this._init();
@@ -128,7 +128,7 @@
                 this._func(app);
             }
             else if (task.type == "call") {
-                task.data.func.apply(null, task.data.args);
+                task.data.func.apply(task.data.self, task.data.args);
                 // 1フレーム消費しないよう再帰
                 this._updateTask(app);
             }
@@ -345,11 +345,12 @@
          * @param {Function} fn
          * @param {Object} args
          */
-        call: function(fn, args) {
+        call: function(fn, self, args) {
             this._tasks.push({
                 type: "call",
                 data: {
                     func: fn,
+                    self: self || this,
                     args: args,
                 },
             });

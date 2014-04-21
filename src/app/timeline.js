@@ -19,7 +19,7 @@ tm.namespace("tm.app", function() {
         init: function(elm) {
             this.superInit();
             
-            this.setTarget(elm);
+            this.setTarget(elm || {});
             
             this.currentFrame = 0;
             this.currentTime = 0;
@@ -82,7 +82,8 @@ tm.namespace("tm.app", function() {
                 
                 if (this.prevTime <= action.delay && action.delay < this.currentTime) {
                     if (action.type == "call") {
-                        action.func();
+                        action.func.call(action.self);
+                        // action.func();
                     }
                     else if (action.type == "set") {
                         var props = action.props;
@@ -140,11 +141,12 @@ tm.namespace("tm.app", function() {
          * @param {Object} delay
          * @param {Function} func
          */
-        call: function(delay, func) {
+        call: function(delay, func, self) {
             console.assert(typeof delay == "number", "call の第一引数はdelayに変わりました");
             this._addAction({
                 "type": "call",
                 func: func,
+                self: self || this,
                 delay: delay,
             });
             return this;

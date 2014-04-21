@@ -142,9 +142,12 @@ tm.define("tests.tweener.CallTestScene", {
 
         star.tweener
             .by({x:100, y:100, alpha:1.0}, 500)
-            .by({x:-150, y:-300, scaleX:-2, scaleY:-2}, 1000)
-            .by({x:200, y:100, scaleX:2, scaleY:2, rotation:Math.rand(0, 360)}, 1500)
-            .call(function(a) { console.log(a); }, ["finish"])
+            // .by({x:-150, y:-300, scaleX:-2, scaleY:-2}, 1000)
+            // .by({x:200, y:100, scaleX:2, scaleY:2, rotation:Math.rand(0, 360)}, 1500)
+            .call(function(a) {
+                console.log(this);
+            }, this)
+            ;
     },
 });
 
