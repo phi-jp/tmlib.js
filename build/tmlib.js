@@ -13068,7 +13068,7 @@ tm.app = tm.app || {};
         init: function(elm) {
             this.superInit();
 
-            this.setTarget(elm);
+            this.setTarget(elm || {});
             this.loop = false;
 
             this._init();
@@ -13177,7 +13177,7 @@ tm.app = tm.app || {};
                 this._func(app);
             }
             else if (task.type == "call") {
-                task.data.func.apply(null, task.data.args);
+                task.data.func.apply(task.data.self, task.data.args);
                 // 1フレーム消費しないよう再帰
                 this._updateTask(app);
             }
@@ -13394,11 +13394,12 @@ tm.app = tm.app || {};
          * @param {Function} fn
          * @param {Object} args
          */
-        call: function(fn, args) {
+        call: function(fn, self, args) {
             this._tasks.push({
                 type: "call",
                 data: {
                     func: fn,
+                    self: self || this,
                     args: args,
                 },
             });
@@ -13509,7 +13510,7 @@ tm.namespace("tm.app", function() {
         init: function(elm) {
             this.superInit();
             
-            this.setTarget(elm);
+            this.setTarget(elm || {});
             
             this.currentFrame = 0;
             this.currentTime = 0;
@@ -13572,7 +13573,8 @@ tm.namespace("tm.app", function() {
                 
                 if (this.prevTime <= action.delay && action.delay < this.currentTime) {
                     if (action.type == "call") {
-                        action.func();
+                        action.func.call(action.self);
+                        // action.func();
                     }
                     else if (action.type == "set") {
                         var props = action.props;
@@ -13630,11 +13632,12 @@ tm.namespace("tm.app", function() {
          * @param {Object} delay
          * @param {Function} func
          */
-        call: function(delay, func) {
+        call: function(delay, func, self) {
             console.assert(typeof delay == "number", "call の第一引数はdelayに変わりました");
             this._addAction({
                 "type": "call",
                 func: func,
+                self: self || this,
                 delay: delay,
             });
             return this;
