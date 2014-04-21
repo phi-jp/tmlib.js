@@ -76,8 +76,8 @@
                     // 全てのアニメーション終了チェック
                     if (this.tweens.length <= 0) {
                         this.isAnimation = false;
-                        var e = tm.event.Event("animationend");
-                        this.element.dispatchEvent(e);
+                        var e = tm.event.Event("finish");
+                        this.element.fire(e);
                         this.dispatchEvent(e);
                     }
                 }
