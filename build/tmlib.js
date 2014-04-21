@@ -12635,7 +12635,9 @@ tm.app = tm.app || {};
      * 半径
      */
     tm.app.Object2D.prototype.accessor("radius", {
-        "get": function()   { return this._radius || (this.width+this.height)/4; },
+        "get": function()   {
+            return (this._radius !== undefined) ? this._radius : (this.width+this.height)/4;
+        },
         "set": function(v)  { this._radius = v; }
     });
     
@@ -13125,8 +13127,8 @@ tm.app = tm.app || {};
                     // 全てのアニメーション終了チェック
                     if (this.tweens.length <= 0) {
                         this.isAnimation = false;
-                        var e = tm.event.Event("animationend");
-                        this.element.dispatchEvent(e);
+                        var e = tm.event.Event("finish");
+                        this.element.fire(e);
                         this.dispatchEvent(e);
                     }
                 }

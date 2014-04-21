@@ -589,7 +589,9 @@
      * 半径
      */
     tm.app.Object2D.prototype.accessor("radius", {
-        "get": function()   { return this._radius || (this.width+this.height)/4; },
+        "get": function()   {
+            return (this._radius !== undefined) ? this._radius : (this.width+this.height)/4;
+        },
         "set": function(v)  { this._radius = v; }
     });
     
