@@ -9,7 +9,7 @@ tm.display = tm.display || {};
     
     var dummyCanvas  = null;
     var dummyContext = null;
-    
+
     /**
      * @class tm.display.Label
      * システムフォントを描画するクラス
@@ -43,7 +43,7 @@ tm.display = tm.display || {};
             this.text       = text || "";
             
             this._fontSize   = size || 24;
-            this._fontFamily = "'Consolas', 'Monaco', 'ＭＳ ゴシック'";
+            this._fontFamily = tm.display.Label.default.fontFamily;
             this._fontWeight = "";
             this._lineHeight = 1.2;
             this._updateFont();
@@ -174,6 +174,7 @@ tm.display = tm.display || {};
     tm.display.Label.default = {
         align: "center",
         baseline: "middle",
+        fontFamily: "'Consolas', 'Monaco', 'ＭＳ ゴシック'",
         // align: "start",
         // baseline: "alphabetic",
     };
