@@ -384,14 +384,6 @@
             if (this.interactive) {
                 this._checkPointing(app);
             }
-            
-            // 子供達も実行
-            if (this.children.length &gt; 0) {
-                var tempChildren = this.children.slice();
-                for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
-                    tempChildren[i]._update(app);
-                }
-            }
         },
         
 <span id='tm-app-Object2D-method-_checkPointing'>        /**
@@ -614,7 +606,9 @@
      * 半径
      */
     tm.app.Object2D.prototype.accessor(&quot;radius&quot;, {
-        &quot;get&quot;: function()   { return this._radius || (this.width+this.height)/4; },
+        &quot;get&quot;: function()   {
+            return (this._radius !== undefined) ? this._radius : (this.width+this.height)/4;
+        },
         &quot;set&quot;: function(v)  { this._radius = v; }
     });
     

@@ -27,7 +27,7 @@ tm.namespace(&quot;tm.app&quot;, function() {
      * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.app.Timeline&quot;, {
-        superClass: &quot;tm.event.EventDispatcher&quot;,
+        superClass: &quot;tm.app.Element&quot;,
         
 <span id='tm-app-Timeline-method-constructor'>        /**
 </span>         * @constructor
@@ -36,11 +36,11 @@ tm.namespace(&quot;tm.app&quot;, function() {
         init: function(elm) {
             this.superInit();
             
-            this.setTarget(elm);
-
-            this.fps = 30;
+            this.setTarget(elm || {});
             
             this.currentFrame = 0;
+            this.currentTime = 0;
+            this.prevTime = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
@@ -53,16 +53,15 @@ tm.namespace(&quot;tm.app&quot;, function() {
          */
         update: function(app) {
             if (!this.isPlay) return ;
-            
-            if (this.currentFrame &gt; this.duration) {
-//                this.gotoAndPlay(0);
-            }
-            else {
+
+            if (this.prevTime &lt;= this.duration) {
                 this._updateTween();
                 this._updateAction();
             }
-            
+
             this.currentFrame++;
+            this.prevTime = this.currentTime;
+            this.currentTime = ((this.currentFrame/app.fps)*1000)|0;
         },
         
 <span id='tm-app-Timeline-method-_updateTween'>        /**
@@ -74,11 +73,11 @@ tm.namespace(&quot;tm.app&quot;, function() {
             for (var i=0,len=tweens.length; i&lt;len; ++i) {
                 var tween = tweens[i];
                 
-                if (tween.delay &gt; this.currentFrame) {
+                if (tween.delay &gt; this.currentTime) {
                     continue ;
                 }
                 
-                var time = this.currentFrame - tween.delay;
+                var time = this.currentTime - tween.delay;
                 tween._setTime(time);
                 if (tween.time &gt;= tween.duration) {
                 }
@@ -98,9 +97,10 @@ tm.namespace(&quot;tm.app&quot;, function() {
             for (var i=0,len=actions.length; i&lt;len; ++i) {
                 var action = actions[i];
                 
-                if (action.delay == this.currentFrame) {
+                if (this.prevTime &lt;= action.delay &amp;&amp; action.delay &lt; this.currentTime) {
                     if (action.type == &quot;call&quot;) {
-                        action.func();
+                        action.func.call(action.self);
+                        // action.func();
                     }
                     else if (action.type == &quot;set&quot;) {
                         var props = action.props;
@@ -158,11 +158,12 @@ tm.namespace(&quot;tm.app&quot;, function() {
          * @param {Object} delay
          * @param {Function} func
          */
-        call: function(delay, func) {
+        call: function(delay, func, self) {
             console.assert(typeof delay == &quot;number&quot;, &quot;call の第一引数はdelayに変わりました&quot;);
             this._addAction({
                 &quot;type&quot;: &quot;call&quot;,
                 func: func,
+                self: self || this,
                 delay: delay,
             });
             return this;
@@ -275,7 +276,8 @@ tm.namespace(&quot;tm.app&quot;, function() {
          * @param {Object} t
          */
         _dirty: function(t) {
-            return (t/this.fps).toInt();
+            return t;
+//            return (t/this.fps).toInt();
         },
         
 <span id='tm-app-Timeline-method-load'>        /**
@@ -296,6 +298,8 @@ tm.namespace(&quot;tm.app&quot;, function() {
          */
         clear: function() {
             this.currentFrame = 0;
+            this.prevTime = 0;
+            this.currentTime = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];

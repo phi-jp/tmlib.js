@@ -39,6 +39,8 @@ tm.util = tm.util || {};
         contentType: 'application/x-www-form-urlencoded',
         /* @property dataType */
         dataType: 'text',
+        /* @property dataType */
+        responseType: '', // or 'arraybuffer'
         /* @property username */
         username: null,
         /* @property password */
@@ -93,17 +95,17 @@ tm.util = tm.util || {};
             // コールバック
             httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState == 4) {
-                    // 成功
-                    if (httpRequest.status === 200) {
-                        // タイプ別に変換をかける
-                        var data = conv_func(httpRequest.responseText);
-                        params.success(data);
-                    }
-                    // status === 0 はローカルファイル用
-                    else if (httpRequest.status === 0) {
-                        // タイプ別に変換をかける
-                        var data = conv_func(httpRequest.responseText);
-                        params.success(data);
+                    // 成功(status === 0 はローカルファイル用)
+                    if (httpRequest.status === 200 || httpRequest.status === 0) {
+                        if (params.responseType !== &quot;arraybuffer&quot;) {
+                            // タイプ別に変換をかける
+                            var data = conv_func(httpRequest.responseText);
+                            params.success(data);
+                        }
+                        else {
+                            // バイナリデータ
+                            params.success(this.response);
+                        }
                     }
                     else {
                         params.error(httpRequest.responseText);
@@ -119,11 +121,19 @@ tm.util = tm.util || {};
             if (params.type === &quot;POST&quot;) {
                 httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
             }
+
+            if (params.responseType) {
+                httpRequest.responseType = params.responseType;
+            }
             
             if (params.beforeSend) {
                 params.beforeSend(httpRequest);
             }
             
+            if (params.password) {
+                httpRequest.withCredentials = true;
+            }
+
             httpRequest.send(params.data);
         },
         
@@ -207,7 +217,10 @@ tm.util = tm.util || {};
         },
         
     };
-    
+
+
+    tm.util.Ajax.DEFAULT_SETTINGS = AJAX_DEFAULT_SETTINGS;
+
 })();
 </pre>
 </body>

@@ -29,6 +29,8 @@ tm.app = tm.app || {};
      * ベースアプリケーション
      */
     tm.app.BaseApp = tm.createClass({
+
+        superClass: tm.event.EventDispatcher,
         
 <span id='tm-app-BaseApp-property-element'>        /** エレメント */
 </span>        element       : null,
@@ -60,6 +62,8 @@ tm.app = tm.app || {};
          * @param {Object} elm
          */
         init: function(elm) {
+            this.superInit();
+
             this.element = elm;
 
             // マウスを生成
@@ -84,6 +88,7 @@ tm.app = tm.app || {};
             
             // 決定時の処理をオフにする(iPhone 時のちらつき対策)
             this.element.addEventListener(&quot;touchstart&quot;, function(e) { e.stop(); });
+            this.element.addEventListener(&quot;touchmove&quot;, function(e) { e.stop(); });
             
             // ウィンドウフォーカス時イベントリスナを登録
             window.addEventListener(&quot;focus&quot;, function() {
@@ -171,17 +176,22 @@ tm.app = tm.app || {};
          * @param {Object} scene
          */
         pushScene: function(scene) {
-            e = tm.event.Event(&quot;pause&quot;);
+            this.fire(tm.event.Event(&quot;push&quot;));
+
+            var e = tm.event.Event(&quot;pause&quot;);
             e.app = this;
             this.currentScene.dispatchEvent(e);
             
             this._scenes.push(scene);
             ++this._sceneIndex;
             
-            e = tm.event.Event(&quot;enter&quot;);
+            this.fire(tm.event.Event(&quot;pushed&quot;));
+
+            var e = tm.event.Event(&quot;enter&quot;);
             e.app = this;
             scene.app = this;
             scene.dispatchEvent(e);
+
 
             return this;
         },
@@ -190,16 +200,20 @@ tm.app = tm.app || {};
 </span>         * シーンをポップする(ポーズやオブション画面などで使用)
          */
         popScene: function() {
+            this.fire(tm.event.Event(&quot;pop&quot;));
+            
             var scene = this._scenes.pop();
             --this._sceneIndex;
             
-            e = tm.event.Event(&quot;exit&quot;);
+            var e = tm.event.Event(&quot;exit&quot;);
             e.app = this;
             scene.dispatchEvent(e);
             scene.app = null;
+
+            this.fire(tm.event.Event(&quot;poped&quot;));
             
             // 
-            e = tm.event.Event(&quot;resume&quot;);
+            var e = tm.event.Event(&quot;resume&quot;);
             e.app = this;
             this.currentScene.dispatchEvent(e);
             
@@ -269,8 +283,22 @@ tm.app = tm.app || {};
             // this.touches.update();
             
             if (this.isPlaying) {
-                this.currentScene._update(this);
+                this._updateElement(this.currentScene);
                 ++this.frame;
+            }
+        },
+
+        _updateElement: function(elm) {
+            if (elm.isUpdate == false) return ;
+
+            elm._update &amp;&amp; elm._update(this);
+
+            var len = elm.children.length;
+            if (len &gt; 0) {
+                var tempChildren = elm.children.slice();
+                for (var i=0; i&lt;len; ++i) {
+                    this._updateElement(tempChildren[i]);
+                }
             }
         },
         

@@ -54,12 +54,29 @@
          * オブジェクトを描画
          */
         renderObject: function(obj) {
-            obj._dirtyCalc();
-
             if (obj.visible === false) return ;
             var context = this._context;
 
-            if (!obj.draw) this._setRenderFunction(obj);
+            // TODO: 別の場所で呼ぶよう調整する
+            obj._dirtyCalc &amp;&amp; obj._dirtyCalc();
+
+            // 描画可能かをチェック
+            if (!this._checkRenderable(obj)) {
+                // 子供達のみ描画実行
+                if (obj.children.length &gt; 0) {
+                    var tempChildren = obj.children.slice();
+                    for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
+                        this.renderObject(tempChildren[i]);
+                    }
+                }
+
+                return ;
+            }
+
+            // 
+            if (!obj.draw) {
+                this._setRenderFunction(obj);
+            }
 
             // 情報をセット
             if (obj.fillStyle)   context.fillStyle   = obj.fillStyle;
@@ -83,15 +100,49 @@
             var m = obj._worldMatrix.m;
             context.setTransform( m[0], m[3], m[1], m[4], m[2], m[5] );
             
-            obj.draw(this.canvas);
-            
-            // 子供達も実行
-            if (obj.children.length &gt; 0) {
-                var tempChildren = obj.children.slice();
-                for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
-                    this.renderObject(tempChildren[i]);
+
+            if (obj.clipping) {
+                context.save();
+
+                // クリップ処理を実行
+                if (obj.clip) {
+                    obj.clip();
+                }
+                else {
+                    onclip.call(obj, this.canvas);
+                }
+                context.clip();
+
+                obj.draw(this.canvas);
+                
+                // 子供達も実行
+                if (obj.children.length &gt; 0) {
+                    var tempChildren = obj.children.slice();
+                    for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
+                        this.renderObject(tempChildren[i]);
+                    }
+                }
+
+                context.restore();
+            }
+            else {
+                obj.draw(this.canvas);
+                
+                // 子供達も実行
+                if (obj.children.length &gt; 0) {
+                    var tempChildren = obj.children.slice();
+                    for (var i=0,len=tempChildren.length; i&lt;len; ++i) {
+                        this.renderObject(tempChildren[i]);
+                    }
                 }
             }
+        },
+
+        _checkRenderable: function(obj) {
+            if (obj._renderable === undefined) {
+                obj._renderable = (obj instanceof tm.display.CanvasElement);
+            }
+            return obj._renderable;
         },
 
 <span id='tm-display-CanvasRenderer-method-_setRenderFunction'>        /**
@@ -164,6 +215,16 @@
                 canvas.strokeRect(0, 0, this.width, -this.size);
             }
         }
+    };
+
+    var onclip = function(c) {
+        c.beginPath();
+        c.rect(
+            -this.width*this.origin.x,
+            -this.height*this.origin.y,
+            this.width,
+            this.height
+            );
     };
 
 })();

@@ -35,7 +35,7 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
 <span id='tm-VERSION'>    /**
 </span>     * バージョン
      */
-    tm.VERSION = &quot;0.2.0&quot;;
+    tm.VERSION = '&lt;%= pkg.version %&gt;';
 
 <span id='tm-LIB_ROOT'>    /**
 </span>     * tmlib.js のルートパス
@@ -91,8 +91,12 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
         var ua = navigator.userAgent;
         return (ua.indexOf(&quot;iPhone&quot;) &gt; 0 || ua.indexOf(&quot;iPad&quot;) &gt; 0 || ua.indexOf(&quot;Android&quot;) &gt; 0);
     })();
-
-
+    
+    tm.isLocal = (function() {
+        var flag = (location.protocol == &quot;file:&quot;);
+        return function() { return flag; };
+    })();
+    
 <span id='tm-VENDER_PREFIX-method-createClass'>    /**
 </span>     * クラス定義
      */

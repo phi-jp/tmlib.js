@@ -37,8 +37,6 @@ tm.app = tm.app || {};
 </span>        parent: null,
 <span id='tm-app-Element-property-children'>        /** 子 */
 </span>        children: null,
-<span id='tm-app-Element-property-_listeners'>        /** @private */
-</span>        _listeners: null,
         
 <span id='tm-app-Element-method-constructor'>        /**
 </span>         * @constructor
@@ -46,7 +44,6 @@ tm.app = tm.app || {};
         init: function() {
             this.superInit();
             this.children = [];
-            this._listeners = {};
         },
         
 <span id='tm-app-Element-method-remove'>        /**

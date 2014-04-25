@@ -204,15 +204,19 @@ tm.input = tm.input || {};
             if (typeof(key) == &quot;string&quot;) {
                 key = KEY_CODE[key];
             }
-            return this.press[key] = flag;
+            this.key[key] = flag;
+            
+            return this;
         },
 
 <span id='tm-input-Keyboard-method-clearKey'>        /**
 </span>         * キーを全て離したことにする
          */
         clearKey: function() {
-            this.press = {};
-        }
+            this.key = {};
+            
+            return this;
+        },
         
     });
 

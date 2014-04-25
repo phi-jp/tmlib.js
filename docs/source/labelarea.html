@@ -29,19 +29,17 @@
         init: function(param) {
             param = param || {};
             this.superInit(param.width || 150, param.height || 60);
-            
             this.canvas.clearColor(&quot;red&quot;);
-            
-            this.mode = param.mode || &quot;horizon&quot;;
-            
-            this._fillStyle = param.fillStyle || &quot;#aaa&quot;;
-            this._bgColor = param.bgColor || &quot;transparent&quot;;
-            
-            this._fontSize   = param.fontSize || 24;
-            this._fontFamily = &quot;'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;;
-            this._fontWeight = &quot;&quot;;
+            this.$extend({
+                mode:         param.mode       || &quot;horizon&quot;,
+                _fillStyle:   param.fillStyle  || &quot;#aaa&quot;,
+                _bgColor:     param.bgColor    || &quot;transparent&quot;,
+                _fontSize:    param.fontSize   || 24,
+                _fontFamily:  param.fontFamily || &quot;'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;,
+                _fontWeight:  param.fontWeight || &quot;&quot;,
+                lineSpace:    param.lineSpace  || 1, // 行間, 文字サイズ(px)に対する倍率
+            });
             this._updateFont();
-            
             this.setText(param.text || &quot;こんにちは,世界!&quot;);
         },
         
@@ -68,6 +66,7 @@
                 width: this.width,
                 height: this.height,
                 mode: this.mode,
+                lineSpace: this.lineSpace,
             });
         },
 

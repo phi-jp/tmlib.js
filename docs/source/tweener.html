@@ -27,7 +27,7 @@
      * @extends tm.event.EventDispatcher
      */
     tm.define(&quot;tm.app.Tweener&quot;, {
-        superClass: &quot;tm.event.EventDispatcher&quot;,
+        superClass: &quot;tm.app.Element&quot;,
 
 <span id='tm-app-Tweener-method-constructor'>        /**
 </span>         * @constructor
@@ -36,7 +36,7 @@
         init: function(elm) {
             this.superInit();
 
-            this.setTarget(elm);
+            this.setTarget(elm || {});
             this.loop = false;
 
             this._init();
@@ -93,8 +93,8 @@
                     // 全てのアニメーション終了チェック
                     if (this.tweens.length &lt;= 0) {
                         this.isAnimation = false;
-                        var e = tm.event.Event(&quot;animationend&quot;);
-                        this.element.dispatchEvent(e);
+                        var e = tm.event.Event(&quot;finish&quot;);
+                        this.element.fire(e);
                         this.dispatchEvent(e);
                     }
                 }
@@ -145,7 +145,7 @@
                 this._func(app);
             }
             else if (task.type == &quot;call&quot;) {
-                task.data.func.apply(null, task.data.args);
+                task.data.func.apply(task.data.self, task.data.args);
                 // 1フレーム消費しないよう再帰
                 this._updateTask(app);
             }
@@ -362,11 +362,12 @@
          * @param {Function} fn
          * @param {Object} args
          */
-        call: function(fn, args) {
+        call: function(fn, self, args) {
             this._tasks.push({
                 type: &quot;call&quot;,
                 data: {
                     func: fn,
+                    self: self || this,
                     args: args,
                 },
             });

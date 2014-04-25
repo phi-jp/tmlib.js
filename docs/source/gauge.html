@@ -67,14 +67,14 @@
 </span>         * 満タンかをチェック
          */
         isFull: function() {
-            return this.targetProp === this._maxValue;
+            return this._value === this._maxValue;
         },
 
 <span id='tm-ui-Gauge-method-isEmpty'>        /**
 </span>         * 空っぽかをチェック
          */
         isEmpty: function() {
-            return this.targetProp == 0;
+            return this._value == 0;
         },
 
 <span id='tm-ui-Gauge-method-_reset'>        /**
@@ -108,12 +108,25 @@
                     .to({ &quot;_value&quot;:value }, time)
                     .call(function() {
                         this.fire(tm.event.Event(&quot;changed&quot;));
+
+                        if (this.isEmpty()) {
+                            this.fire(tm.event.Event(&quot;empty&quot;));
+                        }
+                        else if (this.isFull()) {
+                            this.fire(tm.event.Event(&quot;full&quot;));
+                        }
                     }.bind(this));
             }
             else {
                 this._value = value;
-                this.fire(tm.event.Event(&quot;change&quot;));
                 this.fire(tm.event.Event(&quot;changed&quot;));
+                
+                if (this.isEmpty()) {
+                    this.fire(tm.event.Event(&quot;empty&quot;));
+                }
+                else if (this.isFull()) {
+                    this.fire(tm.event.Event(&quot;full&quot;));
+                }
             }
             
             return this;
