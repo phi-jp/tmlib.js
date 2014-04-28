@@ -46,8 +46,15 @@
             return false;
         },
 
+        // start ~ end の間かを判定する
         checkBetween: function(start, end) {
-            // start ~ end の間かを判定する
+            if (arguments.length == 1) {
+                end = start;
+                start = end-this.frameTime;
+            }
+            var time = this.getMilliseconds();
+
+            return Math.inside(time, start, end);
         },
     });
 
