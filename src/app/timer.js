@@ -31,7 +31,7 @@
         },
 
         getSeconds: function() {
-            return (this.frame/this.fps);
+            return (this.frame/this.fps)|0;
         },
 
         getMilliseconds: function() {
@@ -44,6 +44,10 @@
                 return true;
             }
             return false;
+        },
+
+        checkBetween: function(start, end) {
+            // start ~ end の間かを判定する
         },
     });
 
