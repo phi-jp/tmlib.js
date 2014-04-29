@@ -287,6 +287,9 @@ tm.input = tm.input || {};
             });
         },
 
+        /**
+         * 更新
+         */
         update: function() {
             this.each(function(touch) {
                 touch.update();
