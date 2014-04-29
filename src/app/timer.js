@@ -13,7 +13,7 @@
 
         init: function() {
             this.frame = 0;
-            this.fps = 30;
+            this.fps = tm.app.Timer.default.fps;
         },
 
         reset: function() {
@@ -31,11 +31,11 @@
         },
 
         getSeconds: function() {
-            return (this.frame/this.fps)|0;
+            return this._seconds;
         },
 
         getMilliseconds: function() {
-            return ((this.frame/this.fps)*1000)|0;
+            return this._milliseconds;
         },
 
         checkIntervalEnd: function(time) {
@@ -49,15 +49,31 @@
         // start ~ end の間かを判定する
         checkBetween: function(start, end) {
             if (arguments.length == 1) {
-                end = start;
+                end = Math.max(start, 0);
                 start = end-this.frameTime;
             }
-            var time = this.getMilliseconds();
+            var time = (this.frame/this.fps)*1000;
 
+            return start <= time < end;
             return Math.inside(time, start, end);
         },
+
+        _update: function() {
+            var time = (this.frame/this.fps);
+            this._seconds = time|0;
+            this._milliseconds = (time*1000)|0;
+        }
     });
 
+    tm.app.Timer.prototype.accessor("frame", {
+        "get": function() {
+            return this._frame;
+        },
+        "set": function(frame){
+            this._frame = frame;
+            this._update();
+        },
+    });
     
     /**
      * @property fps
@@ -67,9 +83,12 @@
         "get": function() {
             return this._fps;
         },
-        "set": function(v){
-            this._fps = v;
-            this.frameTime = 1000/this._fps;
+        "set": function(fps){
+            if (fps !== this._fps) {
+                this.frameTime = (1000/fps);
+            }
+            this._fps = fps;
+            this._update();
         },
     });    
 
