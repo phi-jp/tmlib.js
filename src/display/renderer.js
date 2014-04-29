@@ -13,6 +13,8 @@
         /** キャンバス */
         canvas: null,
 
+        /** @property @private _context     コンテキスト */
+
         /**
          * @constructor
          * コンストラクタ
