@@ -22,7 +22,7 @@
         },
         
         /**
-         * アセットの存在をチェック
+         * キーと一致するアセットを含んでいるか
          * @param {Object} key
          */
         contains: function(key) {
