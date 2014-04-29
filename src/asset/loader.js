@@ -9,6 +9,8 @@
      */
     tm.define("tm.asset.Loader", {
         superClass: "tm.event.EventDispatcher",
+
+        /** @property assets  アセット */
         
         /**
          * @constructor
