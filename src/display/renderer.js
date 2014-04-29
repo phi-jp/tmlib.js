@@ -23,7 +23,6 @@
         },
 
         /**
-         * @property
          * 描画
          */
         render: function(root) {
@@ -33,7 +32,6 @@
         },
 
         /**
-         * @property
          * オブジェクトを描画
          */
         renderObject: function(obj) {
@@ -121,6 +119,9 @@
             }
         },
 
+        /**
+         * @private
+         */
         _checkRenderable: function(obj) {
             if (obj._renderable === undefined) {
                 obj._renderable = (obj instanceof tm.display.CanvasElement);
@@ -234,7 +235,6 @@
         },
 
         /**
-         * @property
          * @private
          */
         _setRenderFunction: function(obj) {
