@@ -17,6 +17,7 @@
         /** @property chipWidth */
         /** @property chipHeight */
         /** @property originX */
+        /** @property originY */
         /** @property width */
         /** @property height */
 

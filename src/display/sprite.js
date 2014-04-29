@@ -16,9 +16,10 @@ tm.display = tm.display || {};
     tm.display.Sprite = tm.createClass({
         superClass: tm.display.CanvasElement,
         
-        /** @property srcRect */
-        /** @property width */
-        /** @property height */
+        /** @property srcRect          */
+        /** @property width            width */
+        /** @property height           height */
+        /** @property @private _image  表示しているアセット(画像) */
 
         /**
          * @constructor
@@ -40,6 +41,9 @@ tm.display = tm.display || {};
             }
         },
 
+        /**
+         * 表示するアセット(画像)をセット
+         */
         setImage: function(image, width, height) {
             if (typeof image == "string") {
                 var key = image;
@@ -61,10 +65,16 @@ tm.display = tm.display || {};
             return this;
         },
 
+        /**
+         * 表示しているアセット(画像)を取得
+         */
         getImage: function() {
             return this._image;
         },
 
+        /**
+         * 自分自信を画像サイズと同じサイズにする
+         */
         fitImage: function() {
             this.width  = this.image.width;
             this.height = this.image.height;

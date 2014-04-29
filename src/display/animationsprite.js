@@ -98,6 +98,7 @@ tm.display = tm.display || {};
         },
 
         /**
+         * フレーム数のカウントアップ
          * @private
          */
         _updateFrame: function() {

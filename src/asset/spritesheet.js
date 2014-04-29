@@ -12,7 +12,7 @@
     tm.define("tm.asset.SpriteSheet", {
         superClass: "tm.event.EventDispatcher",
 
-        /** loaded  */
+        /** ロード済みかどうか */
         loaded: false,
 
         /**

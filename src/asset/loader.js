@@ -9,17 +9,30 @@
      */
     tm.define("tm.asset.Loader", {
         superClass: "tm.event.EventDispatcher",
+
+        /** @property assets  アセット */
         
+        /**
+         * @constructor
+         */
         init: function() {
             this.superInit();
             
             this.assets = {};
         },
         
+        /**
+         * キーと一致するアセットを含んでいるか
+         * @param {Object} key
+         */
         contains: function(key) {
             return (this.assets[key]) ? true : false;
         },
         
+        /**
+         * アセットのロード実行
+         * @param {Object} arg
+         */
         load: function(arg) {
             if (tm.util.Type.isObject(arg)) {
                 this._loadByObject(arg);
@@ -53,6 +66,13 @@
             return this;
         },
         
+        /**
+         * アセットのロード
+         * @private
+         * @param {Object} key
+         * @param {Object} path
+         * @param {Object} type
+         */
         _load: function(key, path, type) {
             // if (tm.asset.Manager.contains(key)) {
             //     return tm.asset.Manager.get(key);
@@ -70,6 +90,13 @@
             
             return asset;
         },
+        /**
+         * 文字列指定のアセットのロード
+         * @private
+         * @param {Object} key
+         * @param {Object} path
+         * @param {Object} type
+         */
         _loadString: function(key, path, type) {
             
             var hash = {};
@@ -79,6 +106,11 @@
             };
             this._loadByObject(hash);
         },
+        /**
+         * オブジェクト指定のアセットのロード
+         * @private
+         * @param {Object} hash
+         */
         _loadByObject: function(hash) {
             var flow = tm.util.Flow(Object.keys(hash).length, function() {
                 var e = tm.event.Event("load");
