@@ -66,7 +66,7 @@ tm.define("tests.timeline.call", {
         
         var shape = tm.display.StarShape().addChildTo(this);
         shape.setPosition(100, 100);
-        
+
         shape.timeline
             .call(0,  function() { console.log("0"); })
             .call(30,  function() { console.log("30"); })

@@ -20,11 +20,10 @@ tm.namespace("tm.app", function() {
             this.superInit();
             
             this.setTarget(elm || {});
-
-            this.timer = tm.app.Timer();
-            this.prevTime = 0;
             
+            this.currentFrame = 0;
             this.currentTime = 0;
+            this.prevTime = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
@@ -38,38 +37,31 @@ tm.namespace("tm.app", function() {
         update: function(app) {
             if (!this.isPlay) return ;
 
-            // fps を app から引き継ぐ
-            if (this.timer.fps != app.timer.fps) {
-                this.timer.fps = app.timer.fps;
-            }
-
-            // 更新
-            var time = this.timer.getMilliseconds();
-
             if (this.prevTime <= this.duration) {
-                this._updateTween(time);
-                this._updateAction(time);
-
+                this._updateTween();
+                this._updateAction();
             }
-            this.prevTime = time;
-            this.timer.update();
+
+            this.currentFrame++;
+            this.prevTime = this.currentTime;
+            this.currentTime = ((this.currentFrame/app.fps)*1000)|0;
         },
         
         /**
          * トゥイーンを更新
          * @private
          */
-        _updateTween: function(time) {
+        _updateTween: function() {
             var tweens = this._tweens;
             for (var i=0,len=tweens.length; i<len; ++i) {
                 var tween = tweens[i];
                 
-                if (tween.delay > time) {
+                if (tween.delay > this.currentTime) {
                     continue ;
                 }
                 
-                var t = time - tween.delay;
-                tween._setTime(t);
+                var time = this.currentTime - tween.delay;
+                tween._setTime(time);
                 if (tween.time >= tween.duration) {
                 }
                 else {
@@ -82,17 +74,16 @@ tm.namespace("tm.app", function() {
          * アクションを更新
          * @private
          */
-        _updateAction: function(time) {
+        _updateAction: function() {
             var actions = this._actions;
-            // console.log(time);
-
+            
             for (var i=0,len=actions.length; i<len; ++i) {
                 var action = actions[i];
                 
-                var frame = (action.delay/this.timer.fps)|0;
-                if (this.timer.frame == frame) {
+                if (this.prevTime <= action.delay && action.delay < this.currentTime) {
                     if (action.type == "call") {
                         action.func.call(action.self);
+                        // action.func();
                     }
                     else if (action.type == "set") {
                         var props = action.props;
@@ -204,7 +195,7 @@ tm.namespace("tm.app", function() {
          */
         gotoAndPlay: function(frame) {
             this.isPlay = true;
-            this.timer.frame = frame;
+            this.currentFrame = frame;
             this._updateTween();
         },
         
@@ -214,7 +205,7 @@ tm.namespace("tm.app", function() {
          * @param {Number} frame
          */
         gotoAndStop: function(frame) {
-            this.timer.frame = frame;
+            this.currentFrame = frame;
             this.isPlay = false;
             this._updateTween();
         },
@@ -289,8 +280,9 @@ tm.namespace("tm.app", function() {
          * アニメーションをクリア
          */
         clear: function() {
-            this.timer.reset();
+            this.currentFrame = 0;
             this.prevTime = 0;
+            this.currentTime = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
