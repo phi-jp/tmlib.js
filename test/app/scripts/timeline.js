@@ -1,7 +1,7 @@
 
 
 
-tm.define("tests.timeline.DemoScene", {
+tm.define("tests.timeline.demo", {
     superClass: "tm.app.Scene",
  
     init: function() {
@@ -42,7 +42,7 @@ tm.define("tests.timeline.DemoScene", {
     }
 });
  
-tm.define("tests.timeline.ToTestScene", {
+tm.define("tests.timeline.to", {
     superClass: "tm.app.Scene",
  
     init: function() {
@@ -68,21 +68,39 @@ tm.define("tests.timeline.call", {
         shape.setPosition(100, 100);
         
         shape.timeline
+            .call(0,  function() { console.log("0"); })
+            .call(30,  function() { console.log("30"); })
+            .call(60,  function() { console.log("60"); })
             .to(0, {x:500}, 1000)
             .to(1000, {y:400}, 1000)
             .to(2000, {alpha:0}, 1000)
             .call(500,  function() {
-                alert("500")
+                console.log("500")
             })
             .call(2500,  function() {
-                alert("2500")
+                console.log("2500")
             })
             ;
+
+        // 全て呼ばれているかをチェック
+        var n = 100;
+        var arr = [];
+        for (var i=0; i<n; ++i) {
+            shape.timeline.call(i, function() {
+                arr.push(this+0);
+                console.log('*', this+0);
+            }.bind(i));
+        }
+        shape.timeline.call(i, function() {
+            var rst = arr.equals(Array.range(n));
+            console.log(rst);
+        }.bind(i));
+
     },
 });
 
 
-tm.define("tests.timeline.SetTestScene", {
+tm.define("tests.timeline.set", {
     superClass: "tm.app.Scene",
  
     init: function() {
