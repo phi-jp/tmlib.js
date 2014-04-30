@@ -166,32 +166,4 @@ tm.define("tests.timer.checkIntervalEnd", {
 });
 
 
-tm.define("tests.timer.checkBetween", {
-    superClass: "tm.app.Scene",
- 
-    init: function() {
-        this.superInit();
-
-        this.label = tm.display.Label().addChildTo(this);
-        this.label.setPosition(SCREEN_CENTER_X, SCREEN_CENTER_Y);
-        this.label.fillStyle = "#aaa";
-
-        this.counter = 0;
-    },
- 
-    update: function(app) {
-        if (app.timer.checkBetween(2000)) {
-            console.log(2000);
-        }
-
-        if (app.timer.checkBetween(5500)) {
-            console.log(5500);
-        }
-    },
-
-    onpointingstart: function(e) {
-        e.app.timer.reset();
-    }
-});
-
 
