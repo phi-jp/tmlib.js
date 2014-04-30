@@ -6833,6 +6833,7 @@ tm.dom = tm.dom || {};
      * アセットマネージャー
      */
     tm.asset.Manager = {
+        /** アセット */
         assets: {},
         
         /**
@@ -6886,17 +6887,30 @@ tm.dom = tm.dom || {};
      */
     tm.define("tm.asset.Loader", {
         superClass: "tm.event.EventDispatcher",
+
+        /** @property assets  アセット */
         
+        /**
+         * @constructor
+         */
         init: function() {
             this.superInit();
             
             this.assets = {};
         },
         
+        /**
+         * キーと一致するアセットを含んでいるか
+         * @param {Object} key
+         */
         contains: function(key) {
             return (this.assets[key]) ? true : false;
         },
         
+        /**
+         * アセットのロード実行
+         * @param {Object} arg
+         */
         load: function(arg) {
             if (tm.util.Type.isObject(arg)) {
                 this._loadByObject(arg);
@@ -6930,6 +6944,13 @@ tm.dom = tm.dom || {};
             return this;
         },
         
+        /**
+         * アセットのロード
+         * @private
+         * @param {Object} key
+         * @param {Object} path
+         * @param {Object} type
+         */
         _load: function(key, path, type) {
             // if (tm.asset.Manager.contains(key)) {
             //     return tm.asset.Manager.get(key);
@@ -6947,6 +6968,13 @@ tm.dom = tm.dom || {};
             
             return asset;
         },
+        /**
+         * 文字列指定のアセットのロード
+         * @private
+         * @param {Object} key
+         * @param {Object} path
+         * @param {Object} type
+         */
         _loadString: function(key, path, type) {
             
             var hash = {};
@@ -6956,6 +6984,11 @@ tm.dom = tm.dom || {};
             };
             this._loadByObject(hash);
         },
+        /**
+         * オブジェクト指定のアセットのロード
+         * @private
+         * @param {Object} hash
+         */
         _loadByObject: function(hash) {
             var flow = tm.util.Flow(Object.keys(hash).length, function() {
                 var e = tm.event.Event("load");
@@ -7176,7 +7209,7 @@ tm.dom = tm.dom || {};
     tm.define("tm.asset.SpriteSheet", {
         superClass: "tm.event.EventDispatcher",
 
-        /** loaded  */
+        /** ロード済みかどうか */
         loaded: false,
 
         /**
@@ -8623,6 +8656,9 @@ tm.input = tm.input || {};
             });
         },
 
+        /**
+         * 更新
+         */
         update: function() {
             this.each(function(touch) {
                 touch.update();
@@ -11454,6 +11490,109 @@ tm.anim = tm.anim || {};
 
 
 /*
+ * Timer
+ */
+
+
+(function() {
+
+    tm.define("tm.app.Timer", {
+        /** フレーム */
+        frame: 0,
+        fps: 30,
+        frameTime: 1000/30,
+
+        init: function() {
+            this.frame = 0;
+            this.fps = tm.app.Timer.default.fps;
+        },
+
+        reset: function() {
+            this.frame = 0;
+            return this;
+        },
+
+        update: function() {
+            ++this.frame;
+            return this;
+        },
+
+        getFrame: function() {
+            return this.frame;
+        },
+
+        getSeconds: function() {
+            return this._seconds;
+        },
+
+        getMilliseconds: function() {
+            return this._milliseconds;
+        },
+
+        checkIntervalEnd: function(time) {
+            var t = (time/this.fps)|0;
+            if (this.frame % t == 0) {
+                return true;
+            }
+            return false;
+        },
+
+        // start ~ end の間かを判定する
+        checkBetween: function(start, end) {
+            if (arguments.length == 1) {
+                end = Math.max(start, 0);
+                start = end-this.frameTime;
+            }
+            var time = (this.frame/this.fps)*1000;
+
+            return start <= time < end;
+            return Math.inside(time, start, end);
+        },
+
+        _update: function() {
+            var time = (this.frame/this.fps);
+            this._seconds = time|0;
+            this._milliseconds = (time*1000)|0;
+        }
+    });
+
+    tm.app.Timer.prototype.accessor("frame", {
+        "get": function() {
+            return this._frame;
+        },
+        "set": function(frame){
+            this._frame = frame;
+            this._update();
+        },
+    });
+    
+    /**
+     * @property fps
+     * fps
+     */
+    tm.app.Timer.prototype.accessor("fps", {
+        "get": function() {
+            return this._fps;
+        },
+        "set": function(fps){
+            if (fps !== this._fps) {
+                this.frameTime = (1000/fps);
+            }
+            this._fps = fps;
+            this._update();
+        },
+    });    
+
+    tm.app.Timer.default = {
+        fps: 30,
+    };
+
+})();
+
+
+
+
+/*
  * baseapp.js
  */
 
@@ -11484,8 +11623,8 @@ tm.app = tm.app || {};
         accelerometer : null,
         /** statsライブラリ */
         stats         : null,
-        /** フレーム */
-        frame         : 0,
+        /** タイマー */
+        timer         : null,
         /** フレームレート */
         fps           : 30,
         /** 現在更新中か */
@@ -11503,6 +11642,9 @@ tm.app = tm.app || {};
             this.superInit();
 
             this.element = elm;
+
+            // タイマー
+            this.timer = tm.app.Timer();
 
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
@@ -11553,7 +11695,7 @@ tm.app = tm.app || {};
             // }
             // fn();
             
-            tm.setLoop(function(){ self._loop(); }, 1000/this.fps);
+            tm.setLoop(function(){ self._loop(); }, this.timer.frameTime);
             
             return ;
             
@@ -11722,7 +11864,7 @@ tm.app = tm.app || {};
             
             if (this.isPlaying) {
                 this._updateElement(this.currentScene);
-                ++this.frame;
+                this.timer.update();
             }
         },
 
@@ -11793,7 +11935,46 @@ tm.app = tm.app || {};
         "set": function(v){ this._scenes[this._sceneIndex] = v; }
     });
     
+    /**
+     * @property frame
+     * フレーム
+     */
+    tm.app.BaseApp.prototype.accessor("frame", {
+        "get": function() {
+            return this.timer.frame;
+        },
+        "set": function(v){
+            this.timer.frame = v;
+        }
+    });
+    
+    /**
+     * @property fps
+     * fps
+     */
+    tm.app.BaseApp.prototype.accessor("fps", {
+        "get": function() {
+            return this.timer.fps;
+        },
+        "set": function(v){
+            this.timer.fps = v;
+        }
+    });
+    
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
  * element.js
@@ -13513,10 +13694,11 @@ tm.namespace("tm.app", function() {
             this.superInit();
             
             this.setTarget(elm || {});
-            
-            this.currentFrame = 0;
-            this.currentTime = 0;
+
+            this.timer = tm.app.Timer();
             this.prevTime = 0;
+            
+            this.currentTime = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
@@ -13530,31 +13712,38 @@ tm.namespace("tm.app", function() {
         update: function(app) {
             if (!this.isPlay) return ;
 
-            if (this.prevTime <= this.duration) {
-                this._updateTween();
-                this._updateAction();
+            // fps を app から引き継ぐ
+            if (this.timer.fps != app.timer.fps) {
+                this.timer.fps = app.timer.fps;
             }
 
-            this.currentFrame++;
-            this.prevTime = this.currentTime;
-            this.currentTime = ((this.currentFrame/app.fps)*1000)|0;
+            // 更新
+            var time = this.timer.getMilliseconds();
+
+            if (this.prevTime <= this.duration) {
+                this._updateTween(time);
+                this._updateAction(time);
+
+            }
+            this.prevTime = time;
+            this.timer.update();
         },
         
         /**
          * トゥイーンを更新
          * @private
          */
-        _updateTween: function() {
+        _updateTween: function(time) {
             var tweens = this._tweens;
             for (var i=0,len=tweens.length; i<len; ++i) {
                 var tween = tweens[i];
                 
-                if (tween.delay > this.currentTime) {
+                if (tween.delay > time) {
                     continue ;
                 }
                 
-                var time = this.currentTime - tween.delay;
-                tween._setTime(time);
+                var t = time - tween.delay;
+                tween._setTime(t);
                 if (tween.time >= tween.duration) {
                 }
                 else {
@@ -13567,16 +13756,17 @@ tm.namespace("tm.app", function() {
          * アクションを更新
          * @private
          */
-        _updateAction: function() {
+        _updateAction: function(time) {
             var actions = this._actions;
-            
+            // console.log(time);
+
             for (var i=0,len=actions.length; i<len; ++i) {
                 var action = actions[i];
                 
-                if (this.prevTime <= action.delay && action.delay < this.currentTime) {
+                var frame = (action.delay/this.timer.fps)|0;
+                if (this.timer.frame == frame) {
                     if (action.type == "call") {
                         action.func.call(action.self);
-                        // action.func();
                     }
                     else if (action.type == "set") {
                         var props = action.props;
@@ -13688,7 +13878,7 @@ tm.namespace("tm.app", function() {
          */
         gotoAndPlay: function(frame) {
             this.isPlay = true;
-            this.currentFrame = frame;
+            this.timer.frame = frame;
             this._updateTween();
         },
         
@@ -13698,7 +13888,7 @@ tm.namespace("tm.app", function() {
          * @param {Number} frame
          */
         gotoAndStop: function(frame) {
-            this.currentFrame = frame;
+            this.timer.frame = frame;
             this.isPlay = false;
             this._updateTween();
         },
@@ -13773,9 +13963,8 @@ tm.namespace("tm.app", function() {
          * アニメーションをクリア
          */
         clear: function() {
-            this.currentFrame = 0;
+            this.timer.reset();
             this.prevTime = 0;
-            this.currentTime = 0;
             this.duration = 0;
             this.isPlay = true;
             this._tweens  = [];
@@ -14243,9 +14432,10 @@ tm.display = tm.display || {};
     tm.display.Sprite = tm.createClass({
         superClass: tm.display.CanvasElement,
         
-        /** @property srcRect */
-        /** @property width */
-        /** @property height */
+        /** @property srcRect          */
+        /** @property width            width */
+        /** @property height           height */
+        /** @property @private _image  表示しているアセット(画像) */
 
         /**
          * @constructor
@@ -14267,6 +14457,9 @@ tm.display = tm.display || {};
             }
         },
 
+        /**
+         * 表示するアセット(画像)をセット
+         */
         setImage: function(image, width, height) {
             if (typeof image == "string") {
                 var key = image;
@@ -14288,10 +14481,16 @@ tm.display = tm.display || {};
             return this;
         },
 
+        /**
+         * 表示しているアセット(画像)を取得
+         */
         getImage: function() {
             return this._image;
         },
 
+        /**
+         * 自分自信を画像サイズと同じサイズにする
+         */
         fitImage: function() {
             this.width  = this.image.width;
             this.height = this.image.height;
@@ -15171,6 +15370,7 @@ tm.display = tm.display || {};
         },
 
         /**
+         * フレーム数のカウントアップ
          * @private
          */
         _updateFrame: function() {
@@ -15227,6 +15427,7 @@ tm.display = tm.display || {};
         /** @property chipWidth */
         /** @property chipHeight */
         /** @property originX */
+        /** @property originY */
         /** @property width */
         /** @property height */
 
@@ -15372,6 +15573,8 @@ tm.display = tm.display || {};
         /** キャンバス */
         canvas: null,
 
+        /** @property @private _context     コンテキスト */
+
         /**
          * @constructor
          * コンストラクタ
@@ -15382,7 +15585,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * 描画
          */
         render: function(root) {
@@ -15392,7 +15594,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * オブジェクトを描画
          */
         renderObject: function(obj) {
@@ -15480,6 +15681,9 @@ tm.display = tm.display || {};
             }
         },
 
+        /**
+         * @private
+         */
         _checkRenderable: function(obj) {
             if (obj._renderable === undefined) {
                 obj._renderable = (obj instanceof tm.display.CanvasElement);
@@ -15593,7 +15797,6 @@ tm.display = tm.display || {};
         },
 
         /**
-         * @property
          * @private
          */
         _setRenderFunction: function(obj) {
