@@ -78,8 +78,9 @@
             "src/anim/tween.js",
         ],
         "app": [
-            "src/app/baseapp.js",
+            "src/app/timer.js",
             "src/app/element.js",
+            "src/app/baseapp.js",
             "src/app/object2d.js",
             "src/app/scene.js",
             "src/app/collision.js",

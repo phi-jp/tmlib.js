@@ -29,8 +29,8 @@ tm.app = tm.app || {};
         accelerometer : null,
         /** statsライブラリ */
         stats         : null,
-        /** フレーム */
-        frame         : 0,
+        /** タイマー */
+        timer         : null,
         /** フレームレート */
         fps           : 30,
         /** 現在更新中か */
@@ -48,6 +48,9 @@ tm.app = tm.app || {};
             this.superInit();
 
             this.element = elm;
+
+            // タイマー
+            this.timer = tm.app.Timer();
 
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
@@ -98,7 +101,7 @@ tm.app = tm.app || {};
             // }
             // fn();
             
-            tm.setLoop(function(){ self._loop(); }, 1000/this.fps);
+            tm.setLoop(function(){ self._loop(); }, this.timer.frameTime);
             
             return ;
             
@@ -267,7 +270,7 @@ tm.app = tm.app || {};
             
             if (this.isPlaying) {
                 this._updateElement(this.currentScene);
-                ++this.frame;
+                this.timer.update();
             }
         },
 
@@ -338,4 +341,43 @@ tm.app = tm.app || {};
         "set": function(v){ this._scenes[this._sceneIndex] = v; }
     });
     
+    /**
+     * @property frame
+     * フレーム
+     */
+    tm.app.BaseApp.prototype.accessor("frame", {
+        "get": function() {
+            return this.timer.frame;
+        },
+        "set": function(v){
+            this.timer.frame = v;
+        }
+    });
+    
+    /**
+     * @property fps
+     * fps
+     */
+    tm.app.BaseApp.prototype.accessor("fps", {
+        "get": function() {
+            return this.timer.fps;
+        },
+        "set": function(v){
+            this.timer.fps = v;
+        }
+    });
+    
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
