@@ -11905,7 +11905,7 @@ tm.app = tm.app || {};
          */
         _onMouseClick: function(e) {
             this.pointing = this.mouse;
-            _onclick(e);
+            this._onclick(e);
         },
 
         /**
@@ -11915,7 +11915,7 @@ tm.app = tm.app || {};
          */
         _onTouchClick: function(e) {
             this.pointing = this.touch;
-            _onclick(e);
+            this._onclick(e);
         },
 
         /**
