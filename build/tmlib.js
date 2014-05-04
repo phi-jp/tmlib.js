@@ -11679,7 +11679,10 @@ tm.app = tm.app || {};
                 this.currentScene.dispatchEvent(tm.event.Event("blur"));
             }.bind(this));
             // クリック
-            this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
+//          this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
+            this.element.addEventListener(                "touchstart"              , this._onTouchClick.bind(this));
+            this.element.addEventListener(                               "mousedown", this._onMouseClick.bind(this));
+
         },
         
         /**
@@ -11893,6 +11896,26 @@ tm.app = tm.app || {};
          */
         getElement: function() {
             return this.element;
+        },
+
+        /**
+         * クリックイベント登録（マウス用）
+         * @private
+         * @param {Object} e
+         */
+        _onMouseClick: function(e) {
+            this.pointing = this.mouse;
+            _onclick(e);
+        },
+
+        /**
+         * クリックイベント登録（タッチ用）
+         * @private
+         * @param {Object} e
+         */
+        _onTouchClick: function(e) {
+            this.pointing = this.touch;
+            _onclick(e);
         },
 
         /**
@@ -12602,7 +12625,9 @@ tm.app = tm.app || {};
          * @param {Object} app
          */
         _checkPointing: function(app) {
-            console.assert(false);
+//          console.assert(false);
+            this._checkMouse(app);
+            this._checkTouch(app);
         },
         
         /**
@@ -12611,7 +12636,7 @@ tm.app = tm.app || {};
          * @param {Object} app
          */
         _checkMouse: function(app) {
-            this.__checkPointing(app, app.pointing, 0);
+            this.__checkPointing(app, app.mouse, 0);
         },
 
         /**
@@ -12621,7 +12646,7 @@ tm.app = tm.app || {};
          */
         _checkTouch: function(app) {
             var self = this;
-            this.__checkPointing(app, app.pointing, 0);
+            this.__checkPointing(app, app.touch, 0);
             // app.touches.each(function(touch, i) {
             //     self.__checkPointing(app, touch, i);
             // });
@@ -12945,8 +12970,9 @@ tm.app = tm.app || {};
      * @param {Object} isMobile
      * @private
      */
-    tm.app.Object2D.prototype._checkPointing = (tm.isMobile) ?
-        tm.app.Object2D.prototype._checkTouch : tm.app.Object2D.prototype._checkMouse;
+//  Windows8のようにマウスでもタッチでも操作可能なケースに対応するため、以下は削除。
+//  tm.app.Object2D.prototype._checkPointing = (tm.isMobile) ?
+//      tm.app.Object2D.prototype._checkTouch : tm.app.Object2D.prototype._checkMouse;
 
     
 })();
