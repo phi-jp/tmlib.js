@@ -11682,7 +11682,6 @@ tm.app = tm.app || {};
 //          this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
             this.element.addEventListener(                "touchstart"              , this._onTouchClick.bind(this));
             this.element.addEventListener(                               "mousedown", this._onMouseClick.bind(this));
-
         },
         
         /**

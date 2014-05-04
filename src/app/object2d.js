@@ -375,7 +375,9 @@
          * @param {Object} app
          */
         _checkPointing: function(app) {
-            console.assert(false);
+//          console.assert(false);
+            this._checkMouse(app);
+            this._checkTouch(app);
         },
         
         /**
@@ -384,7 +386,7 @@
          * @param {Object} app
          */
         _checkMouse: function(app) {
-            this.__checkPointing(app, app.pointing, 0);
+            this.__checkPointing(app, app.mouse, 0);
         },
 
         /**
@@ -394,7 +396,7 @@
          */
         _checkTouch: function(app) {
             var self = this;
-            this.__checkPointing(app, app.pointing, 0);
+            this.__checkPointing(app, app.touch, 0);
             // app.touches.each(function(touch, i) {
             //     self.__checkPointing(app, touch, i);
             // });
@@ -718,8 +720,9 @@
      * @param {Object} isMobile
      * @private
      */
-    tm.app.Object2D.prototype._checkPointing = (tm.isMobile) ?
-        tm.app.Object2D.prototype._checkTouch : tm.app.Object2D.prototype._checkMouse;
+//  Windows8のようにマウスでもタッチでも操作可能なケースに対応するため、以下は削除。
+//  tm.app.Object2D.prototype._checkPointing = (tm.isMobile) ?
+//      tm.app.Object2D.prototype._checkTouch : tm.app.Object2D.prototype._checkMouse;
 
     
 })();

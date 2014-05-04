@@ -85,7 +85,9 @@ tm.app = tm.app || {};
                 this.currentScene.dispatchEvent(tm.event.Event("blur"));
             }.bind(this));
             // クリック
-            this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
+//          this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
+            this.element.addEventListener(                "touchstart"              , this._onTouchClick.bind(this));
+            this.element.addEventListener(                               "mousedown", this._onMouseClick.bind(this));
         },
         
         /**
@@ -299,6 +301,26 @@ tm.app = tm.app || {};
          */
         getElement: function() {
             return this.element;
+        },
+
+        /**
+         * クリックイベント登録（マウス用）
+         * @private
+         * @param {Object} e
+         */
+        _onMouseClick: function(e) {
+            this.pointing = this.mouse;
+            this._onclick(e);
+        },
+
+        /**
+         * クリックイベント登録（タッチ用）
+         * @private
+         * @param {Object} e
+         */
+        _onTouchClick: function(e) {
+            this.pointing = this.touch;
+            this._onclick(e);
         },
 
         /**
