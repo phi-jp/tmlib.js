@@ -22,7 +22,7 @@
         },
 
         update: function() {
-            ++this.frame;
+            this.frame = this.frame + 1;
             return this;
         },
 
