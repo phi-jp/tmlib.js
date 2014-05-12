@@ -380,6 +380,27 @@ tm.define("tests.tweener.FadeScene", {
 
 
 
+tm.define("tests.tweener.from", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+
+        var star = tm.display.StarShape().addChildTo(this);
+        star.x = 200;
+        star.y = 200;
+
+        star.tweener.from({
+            x: -100,
+            rotation: 45,
+        });
+    },
+});
+
+
+
+
+
 
 
 

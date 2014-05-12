@@ -12183,6 +12183,7 @@ tm.app = tm.app || {};
                     }
                 }
                 else {
+                    if (key == "type") key = "__key";
                     this[key] = value;
                 }
             }
@@ -13458,6 +13459,16 @@ tm.app = tm.app || {};
                 duration: duration,
                 fn: fn,
                 type: "to"
+            });
+            return this;
+        },
+
+        from: function(props, duration, fn) {
+            this._addTweenTask({
+                props: props,
+                duration: duration,
+                fn: fn,
+                type: "from"
             });
             return this;
         },

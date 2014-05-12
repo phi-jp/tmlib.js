@@ -205,6 +205,7 @@ tm.app = tm.app || {};
                     }
                 }
                 else {
+                    if (key == "type") key = "__key";
                     this[key] = value;
                 }
             }

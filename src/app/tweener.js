@@ -230,6 +230,16 @@
             return this;
         },
 
+        from: function(props, duration, fn) {
+            this._addTweenTask({
+                props: props,
+                duration: duration,
+                fn: fn,
+                type: "from"
+            });
+            return this;
+        },
+
         /**
          * 移動アニメーション
          * @param {Number} x
