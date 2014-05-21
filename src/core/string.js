@@ -158,6 +158,16 @@
     });
     
     /**
+     * @method  count
+     * リピート
+     */
+    String.defineInstanceMethod("count", function(str) {
+        var re = new RegExp(str, 'gm');
+        console.log(this.match(re));
+        return this.match(re).length;
+    });
+    
+    /**
      * @method  toString
      * 配列に変換
      */
