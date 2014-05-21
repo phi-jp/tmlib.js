@@ -627,7 +627,7 @@ if (typeof module !== 'undefined' && module.exports) {
         "get": function()   { return this[this.length-1]; },
         "set": function(v)  { this[this.length-1] = v; }
     });
-    
+
     /**
      * @method  equals
      * 渡された配列と等しいかどうかをチェック
@@ -660,6 +660,14 @@ if (typeof module !== 'undefined' && module.exports) {
             }
         }
         return true;
+    });
+
+    /**
+     * @property    contains
+     * 要素が含まれいるかをチェック
+     */
+    Array.defineInstanceMethod("contains", function(item, fromIndex) {
+        return this.indexOf(item, fromIndex) != -1;
     });
     
     /**
@@ -1332,6 +1340,55 @@ if (typeof module !== 'undefined' && module.exports) {
         return str;
     });
     
+    /**
+     * @method  times
+     * 数値分繰り返す
+     */
+    Number.defineInstanceMethod("times",  function(fn, self) {
+        self = self || this;
+        for (var i=0; i<this; ++i) {
+            fn.call(self, i);
+        }
+        return this;
+    });
+    
+    /**
+     * @method  upto
+     * インクリメント繰り返し
+     */
+    Number.defineInstanceMethod("upto",  function(t, fn, self) {
+        self = self || this;
+        for (var i=+this; i<=t; ++i) {
+            fn.call(self, i);
+        }
+        return this;
+    });
+    
+    /**
+     * @method  upto
+     * デクリメント繰り返し
+     */
+    Number.defineInstanceMethod("downto",  function(t, fn, self) {
+        self = self || this;
+        for (var i=+this; i>=t; --i) {
+            fn.call(self, i);
+        }
+        return this;
+    });
+
+    /**
+     * @method step
+     * ステップ繰り返し(float対応)
+     */
+    Number.defineInstanceMethod("step",  function(limit, step, fn, self) {
+        self = self || this;
+        for (var i=+this; i<=limit; i+=step) {
+            fn.call(self, i);
+        }
+        return this;
+    });
+
+    
 })();
 
 
@@ -1492,6 +1549,16 @@ if (typeof module !== 'undefined' && module.exports) {
         var arr = Array(n);
         for (var i=0; i<n; ++i) arr[i] = this;
         return arr.join('');
+    });
+    
+    /**
+     * @method  count
+     * リピート
+     */
+    String.defineInstanceMethod("count", function(str) {
+        var re = new RegExp(str, 'gm');
+        console.log(this.match(re));
+        return this.match(re).length;
     });
     
     /**
@@ -1976,7 +2043,7 @@ tm.event = tm.event || {};
         },
         
         /**
-         * イベント起動
+         * イベント発火
          */
         fire: function(e) {
             e.target = this;
@@ -1991,6 +2058,16 @@ tm.event = tm.event || {};
                 }
             }
             
+            return this;
+        },
+
+        /*
+         * イベント名でイベント発火
+         */
+        flare: function(eventName) {
+            var e = tm.event.Event(eventName);
+            this.fire(e);
+
             return this;
         },
         
