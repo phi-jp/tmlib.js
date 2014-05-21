@@ -76,8 +76,8 @@ tm.input = tm.input || {};
             this.up   = (this.press ^ this.last) & this.last;
             
             // 変化値を更新
-            this.deltaPosition.x = this._x - this.prevPosition.x;
-            this.deltaPosition.y = this._y - this.prevPosition.y;
+            this.deltaPosition.x = this._x - this.position.x;
+            this.deltaPosition.y = this._y - this.position.y;
             
             // 前回の座標を更新
             this.prevPosition.setObject(this.position);
