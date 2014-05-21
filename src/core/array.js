@@ -29,7 +29,7 @@
         "get": function()   { return this[this.length-1]; },
         "set": function(v)  { this[this.length-1] = v; }
     });
-    
+
     /**
      * @method  equals
      * 渡された配列と等しいかどうかをチェック
@@ -62,6 +62,14 @@
             }
         }
         return true;
+    });
+
+    /**
+     * @property    contains
+     * 要素が含まれいるかをチェック
+     */
+    Array.defineInstanceMethod("contains", function(item, fromIndex) {
+        return this.indexOf(item, fromIndex) != -1;
     });
     
     /**

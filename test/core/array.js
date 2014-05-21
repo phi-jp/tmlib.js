@@ -34,6 +34,13 @@ describe('Array', function() {
             66,
         ]));
     });
+
+    it('contains', function() {
+        var arr = [6, 5, 2, 3, 1, 4];
+        assert.equal(arr.contains(2), true);
+        assert.equal(arr.contains(2, 3), false);
+        assert.equal(arr.contains(7), false);
+    });
     
     it('at', function()
     {
