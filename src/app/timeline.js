@@ -166,21 +166,18 @@ tm.namespace("tm.app", function() {
             });
             return this;
         },
-        
+
+
         /**
-         * ターゲットをセット
+         * ターゲットのセット
          * @param {Object} target
          */
         setTarget: function(target) {
-            if (this._fn) {
-                this.element.removeEventListener("enterframe", this._fn);
-            }
-            
             this.element = target;
-            this._fn = function(e) { this.update(e.app); }.bind(this);
-            this.element.addEventListener("enterframe", this._fn);
+
+            return this;
         },
-        
+
         /**
          * ターゲットをゲット
          */
@@ -303,8 +300,11 @@ tm.namespace("tm.app", function() {
     tm.app.Element.prototype.getter("timeline", function() {
         if (!this._timeline) {
             this._timeline = tm.app.Timeline(this);
+            this.on("enterframe", function(e) {
+                this._timeline.update(e.app);
+            });
         }
-        
+
         return this._timeline;
     });
     

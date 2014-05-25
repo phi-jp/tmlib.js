@@ -40,13 +40,9 @@
          * @param {Object} target
          */
         setTarget: function(target) {
-            if (this._fn) {
-                this.element.removeEventListener("enterframe", this._fn);
-            }
-
             this.element = target;
-            this._fn = function(e) { this.update(e.app); }.bind(this);
-            this.element.addEventListener("enterframe", this._fn);
+
+            return this;
         },
 
         /**
@@ -444,6 +440,9 @@
     tm.app.Element.prototype.getter("tweener", function() {
         if (!this._tweener) {
             this._tweener = tm.app.Tweener(this);
+            this.on("enterframe", function(e) {
+                this._tweener.update(e.app);
+            });
         }
         
         return this._tweener;
