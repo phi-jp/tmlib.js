@@ -107,6 +107,9 @@
             "src/ui/labelarea.js",
             "src/ui/loadingscene.js",
         ],
+        "scene": [
+            "src/scene/managerscene.js",
+        ],
         "three": [
             "src/three/three.js",
         ],
