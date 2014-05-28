@@ -2,86 +2,96 @@
  * ResultScene
  */
 
+    
 (function() {
-    
-    
-    var DEFAULT_PARAM = {
-        score: 256,
-        msg: "tmlib.js のサンプルです!",
-        hashtags: "tmlibjs",
-        url: "https://github.com/phi1618/tmlib.js/",
-        width: 465,
-        height: 465,
-        related: "tmlib.js tmlife javascript",
-    };
-    
-    /**
-     * @class tm.app.ResultScene
-     * リザルトシーン
-     * @extends tm.app.Scene
-     */
-    tm.app.ResultScene = tm.createClass({
-        superClass: tm.app.Scene,
-        
-        /**
-         * @constructor
-         * @param {Object} param
-         */
+
+    tm.define("tm.scene.ResultScene", {
+        superClass: "tm.app.Scene",
+
         init: function(param) {
             this.superInit();
-            
-            param = {}.$extend(DEFAULT_PARAM, param);
-            
-            var text = "SCORE: {score}, {msg}".format(param);
-            var twitterURL = this.tweetURL = tm.social.Twitter.createURL({
-                type    : "tweet",
-                text    : text,
-                hashtags: param.hashtags,
-                url     : param.url, // or window.document.location.href
+
+            param = {}.$extend(tm.scene.ResultScene.default, param);
+
+            this.fromJSON({
+                children: {
+                    bg: {
+                        type: "tm.display.RectangleShape",
+                        init: [param.width, param.height, {
+                            fillStyle: param.bgColor,
+                            strokeStyle: "transparent",
+                        }],
+                        originX: 0,
+                        originY: 0,
+                    }
+                }
             });
 
-            if (param.backgroundImage) {
-                var texture = tm.asset.Manager.get(param.backgroundImage);
-                this._backgroundImage = tm.display.Sprite(texture, param.width, param.height);
-                this._backgroundImage.originX = this._backgroundImage.originY = 0;
-                this.addChild(this._backgroundImage);
+            if (param.bgImage) {
+                this.fromJSON({
+                    children: {
+                        bgImage: {
+                            type: "tm.display.Sprite",
+                            init: [param.bgImage],
+                            originX: 0,
+                            originY: 0,
+                        }
+                    }
+                });
             }
-            
-            var scoreLabel = tm.display.Label("SCORE: {score}".format(param));
-            scoreLabel.x = param.width/2;
-            scoreLabel.y = param.height/2-70;
-            scoreLabel.width = param.width;
-            scoreLabel.align     = "center";
-            scoreLabel.baseline  = "middle";
-            scoreLabel.fontSize = 32;
-            this.addChild(scoreLabel);
-            
-            var msgLabel = tm.display.Label(param.msg);
-            msgLabel.x = param.width/2;
-            msgLabel.y = param.height/2-20;
-            msgLabel.width = param.width;
-            msgLabel.align     = "center";
-            msgLabel.baseline  = "middle";
-            msgLabel.fontSize = 16;
-            this.addChild(msgLabel);
-            
-            // ツイートボタン
-            var tweetButton = this.tweetButton = tm.ui.GlossyButton(120, 50, "blue", "Tweet").addChildTo(this);
-            tweetButton.setPosition(param.width/2 - 65, param.height/2 + 50);
-            tweetButton.onclick = function() {
-                window.open(twitterURL);
-            };
-            
-            // 戻るボタン
-            var backButton = tm.ui.GlossyButton(120, 50, "black", "Back").addChildTo(this);
-            backButton.setPosition(param.width/2 + 65, param.height/2 + 50);
-            backButton.onpointingstart = function() {
-                var e = tm.event.Event("nextscene");
-                this.dispatchEvent(e);
-            }.bind(this);
 
+            this.fromJSON({
+                children: {
+                    scoreLabel: {
+                        type: "Label",
+                        text: param.title,
+                        x: param.width/2,
+                        y: param.height/10*2,
+                        fillStyle: param.titleColor,
+                        fontSize: param.titleSize,
+                        fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
+                        align: "center",
+                        baseline: "middle",
+                    },
+                    touchLabel: {
+                        type: "Label",
+                        text: "TOUCH START",
+                        x: param.width/2,
+                        y: param.height/10*8,
+                        fillStyle: param.titleColor,
+                        fontSize: 26,
+                        fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
+                        align: "center",
+                        baseline: "middle",
+                    }
+                }
+            });
 
+            this.autopop = param.autopop;
+        },
+
+        onpointingstart: function() {
+            this.flare("finish");
+
+            if (this.autopop) {
+                this.app.popScene();
+            }
         },
     });
-    
+
+    tm.scene.ResultScene.default = {
+        score: 256,
+        message: "this is tmlib.js",
+        hashtags: "tmlibjs,game",
+        related: "tmlib.js tmlife javascript",
+        url: "http://phi-jp.github.io/tmlib.js/",
+
+        width: 640,
+        height: 960,
+        bgColor: "white",
+        bgImage: null,
+        autopop: true,
+    };
+
 })();
+

@@ -3,8 +3,7 @@
     testhelper.loadtmlibAll("../../");
     
     testhelper.loadScripts([
-        "scripts/managerscene.js",
-        "scripts/titlescene.js",
+        "test.js",
     ]);
 })(this);
 

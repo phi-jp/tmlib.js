@@ -1,5 +1,59 @@
 
 
+
+/*
+ * titlescene
+ */
+
+tm.define("tests.titlescene.test", {
+    superClass: "tm.scene.TitleScene",
+ 
+    init: function() {
+        this.superInit({
+            title: "hoge",
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
+            bgColor: "red",
+            titleColor: "#222",
+        });
+    },
+
+    onfinish: function() {
+        console.log("finish!");
+    }
+});
+
+
+
+
+/*
+ * titlescene
+ */
+
+tm.define("tests.resultscene.test", {
+    superClass: "tm.scene.ResultScene",
+ 
+    init: function() {
+        this.superInit({
+            title: "hoge",
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
+            bgColor: "red",
+            titleColor: "#222",
+        });
+    },
+
+    onfinish: function() {
+        console.log("finish!");
+    }
+});
+
+
+
+
+/*
+ * managerscene.js
+ */
 tm.define("TestScene", {
     superClass: "tm.app.Scene",
 
@@ -49,6 +103,10 @@ tm.define("tests.managerscene.test", {
                 },
             ],
         });
+    },
+
+    ongoto: function(e) {
+        console.log(this.currentScene.name);
     },
 
     // onstart: function() {

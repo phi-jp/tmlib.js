@@ -59,6 +59,12 @@
             this.app.pushScene(scene);
 
             this.sceneIndex = index;
+            this.currentScene = scene;
+
+            // イベント発火
+            var e = tm.event.Event("goto");
+            e.scene = scene;
+            this.fire(e);
 
             return this;
         },
