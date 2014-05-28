@@ -42,35 +42,74 @@
 
             this.fromJSON({
                 children: {
-                    scoreLabel: {
+                    scoreText: {
                         type: "Label",
-                        text: param.title,
+                        text: "score",
                         x: param.width/2,
                         y: param.height/10*2,
-                        fillStyle: param.titleColor,
-                        fontSize: param.titleSize,
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.5,
                         fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
                         align: "center",
                         baseline: "middle",
                     },
-                    touchLabel: {
+                    scoreLabel: {
                         type: "Label",
-                        text: "TOUCH START",
+                        text: param.score,
                         x: param.width/2,
-                        y: param.height/10*8,
-                        fillStyle: param.titleColor,
-                        fontSize: 26,
+                        y: param.height/10*3,
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize,
                         fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
                         align: "center",
                         baseline: "middle",
+                    },
+                    shareButton: {
+                        type: "FlatButton",
+                        init: [
+                            {
+                                text: "Share",
+                                width: 200,
+                                bgColor: "hsl(240, 80%, 70%)",
+                            }
+                        ],
+                        x: param.width/10*3,
+                        y: param.height/10*7,
+                    },
+                    backButton: {
+                        type: "FlatButton",
+                        init: [
+                            {
+                                text: "Back",
+                                width: 200,
+                                bgColor: "hsl(240, 80%, 0%)",
+                            }
+                        ],
+                        x: param.width/10*7,
+                        y: param.height/10*7,
                     }
                 }
             });
 
+            // setup tweet
+            var text = "SCORE: {score}, {message}".format(param);
+            var twitterURL = tm.social.Twitter.createURL({
+                type    : "tweet",
+                text    : text,
+                hashtags: param.hashtags,
+                url     : param.url, // or window.document.location.href
+            });
+            this.shareButton.onclick = function() {
+                window.open(twitterURL, 'share window', 'width=400, height=300');
+            };
+
+            // back
+            this.backButton.onpointingstart = this._back.bind(this);
+
             this.autopop = param.autopop;
         },
 
-        onpointingstart: function() {
+        _back: function() {
             this.flare("finish");
 
             if (this.autopop) {
@@ -88,6 +127,8 @@
 
         width: 640,
         height: 960,
+        fontColor: "#444",
+        fontSize: 90,
         bgColor: "white",
         bgImage: null,
         autopop: true,

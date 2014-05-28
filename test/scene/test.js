@@ -35,11 +35,11 @@ tm.define("tests.resultscene.test", {
  
     init: function() {
         this.superInit({
-            title: "hoge",
-            width: SCREEN_WIDTH,
-            height: SCREEN_HEIGHT,
-            bgColor: "red",
-            titleColor: "#222",
+            // title: "hoge",
+            // width: SCREEN_WIDTH,
+            // height: SCREEN_HEIGHT,
+            // bgColor: "red",
+            // titleColor: "#222",
         });
     },
 
@@ -94,7 +94,7 @@ tm.define("tests.managerscene.test", {
                     label: "game",
                 },
                 {
-                    className: "TestScene",
+                    className: "tm.scene.ResultScene",
                     arguments: {
                         name: "Result",
                     },
