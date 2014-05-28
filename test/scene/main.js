@@ -4,6 +4,7 @@
     
     testhelper.loadScripts([
         "scripts/managerscene.js",
+        "scripts/titlescene.js",
     ]);
 })(this);
 
