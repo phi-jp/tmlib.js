@@ -4,13 +4,98 @@
 
 
 var app = null;
+var bgm = null;
 
 // 定数
-var SCREEN_WIDTH    = 480;
-var SCREEN_HEIGHT   = 720;
+var SCREEN_WIDTH    = 640;
+var SCREEN_HEIGHT   = 960;
 var CIRCLE_RADIUS   = 30;
 var TIME            = 10;
 
+
+tm.main(function() {
+    app = tm.app.CanvasApp("#world");
+    app.fitWindow();
+    // app.enableStats();
+    
+    bgm = tm.sound.Sound("http://storage.tmlife.net/resource/bgm/maoudamashii/bgm_maoudamashii_healing02.wav");
+    bgm.onload = function() {
+        bgm.play();
+    };
+    
+    var scene = MainScene();
+    app.replaceScene(scene);
+    
+    app.run();
+
+    app.onblur = function() {
+        this.pushScene(PauseScene());
+    };
+});
+
+
+
+tm.define("MainScene", {
+    superClass: "tm.scene.ManagerScene",
+ 
+    init: function() {
+        this.superInit({
+            scenes: [
+                {
+                    className: "tm.app.LoadingScene",
+                    arguments: {
+                        assets: {
+                            touch: "touch.wav",
+                            decide: "decide.wav",
+                        }
+                    },
+                    label: "loading",
+                },
+                {
+                    className: "tm.scene.TitleScene",
+                    arguments: {
+                        title: "Circle Touch",
+                        titleColor: "#ccc",
+                        bgColor: "black",
+                    },
+                    label: "title",
+                },
+                {
+                    className: "GameScene",
+                    arguments: {
+                    },
+                    label: "game",
+                },
+                {
+                    className: "tm.scene.ResultScene",
+                    arguments: {
+                        name: "Result",
+                    },
+                    label: "result",
+                    nextLabel: "title",
+                },
+            ],
+        });
+    },
+
+    onprepare: function() {
+        if (this.getCurrentLabel() == "game") {
+            this.setSceneArgument("result", "score", app.score);
+        }
+    },
+
+    ongoto: function() {
+        if (this.getCurrentLabel() == "loading") {
+            this.currentScene.onload = function() {
+                this.app.popScene();
+            }.bind(this);
+        }
+    },
+
+    // onstart: function() {
+    //     this.gotoScene("result");
+    // },
+});
 
 
 var Circle = tm.createClass({
@@ -35,9 +120,21 @@ var Circle = tm.createClass({
     },
     
     onpointingstart: function() {
-        var se = tm.sound.SoundManager.get("touch");
-        se.volume = 0.5;
-        se.play();
+        tm.asset.Manager.get("touch").clone().play();
+    },
+
+    disappear: function() {
+        this.setInteractive(false);
+        tm.app.Tweener(this).addChildTo(this)
+            .to({
+                alpha: 0,
+                scaleX: 2,
+                scaleY: 2,
+            }, 200)
+            .call(function() {
+                this.element.remove();
+                this.remove();
+            });
     },
     
     onmouseover: function() {
@@ -47,30 +144,19 @@ var Circle = tm.createClass({
     onmouseout: function() {
         this.alpha = 0.75;
     },
-    
-    isHitPoint: function(x, y) {
-        var o = {x:x, y:y};
-        var d = tm.geom.Vector2.distanceSquared(this, o);
-        return d <= Math.pow(this.radius, 2);
-    }
 });
 
-var MainScene = tm.createClass({
+
+tm.define("GameScene", {
     superClass: tm.app.Scene,
     
     init: function(color) {
         this.superInit();
-        
+
         this.radius     = CIRCLE_RADIUS;
         this.color      = color;
         this.blendMode  = "lighter";
         
-        this.circle = Circle( "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360)) );
-        this.circle.setPosition(tm.util.Random.randint(40, SCREEN_WIDTH-40), tm.util.Random.randint(40, SCREEN_HEIGHT-40));
-        this.circle.addChildTo(this);
-        this.circle.addEventListener("pointingstart", function() {
-            this.dispatchEvent(tm.event.Event("circleclick"));
-        }.bind(this));
         
         this.timer = tm.app.Label("abc");
         this.timer.position.set(320, 70);
@@ -80,13 +166,25 @@ var MainScene = tm.createClass({
         
         app.frame = 0;
         app.score = 0;
+
+        this.createCircle();
     },
-    
+
+    createCircle: function() {
+        var circle = circle = Circle( "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360)) );
+        circle.setPosition(tm.util.Random.randint(40, SCREEN_WIDTH-40), tm.util.Random.randint(40, SCREEN_HEIGHT-40));
+        circle.addChildTo(this);
+        circle.on("pointingstart", function() {
+            this.fire(tm.event.Event("circleclick"));
+            circle.disappear();
+        }.bind(this));
+    },
+
     update: function() {
         var time = TIME - (app.frame / app.fps);
         if (time <= 0) {
             time = 0;
-            app.replaceScene(EndScene());
+            app.popScene();
         }
         
         this.timer.text = "Time : " + time.round(1);
@@ -94,127 +192,28 @@ var MainScene = tm.createClass({
     
     oncircleclick: function() {
         app.score += 100;
-        this.circle.fillStyle = "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360));
-        this.circle.setPosition(tm.util.Random.randint(40, SCREEN_WIDTH-40), tm.util.Random.randint(40, SCREEN_HEIGHT-40));
+        this.createCircle();
     },
-    
-    
-    onblur: function() {
-        app.pushScene(PauseScene());
-    }
-    
-});
 
-var StartScene = tm.createClass({
-    superClass: tm.app.Scene,
-    
-    init: function(color) {
-        this.superInit();
-        
-
-        for (var i=0; i<20; ++i) {
-            this.circle = Circle( "hsla({0}, 75%, 50%, 0.5)".format(Math.rand(0, 360)) );
-            this.circle.setPosition(tm.util.Random.randint(40, SCREEN_WIDTH-40), tm.util.Random.randint(40, SCREEN_HEIGHT-40));
-            this.circle.addChildTo(this);
-        }
-        
-        this.score = tm.app.Label("Start");
-        this.score.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-        this.score.fontSize = 60;
-        this.score.width = 320;
-        this.score.color = "white";
-        this.score.align = "center";
-        this.score.baseline = "middle";
-        this.score.addChildTo(this);
-        
-        //this.addChild( tm.fade.FadeIn(SCREEN_WIDTH, SCREEN_HEIGHT, "#000", 1000) );
-        
-        this.alpha = 0.0;
-        this.tweener.fadeIn(2000);
-    },
-    
-    onpointingstart: function() {
-        tm.sound.SoundManager.get("decide").play();
-
-        var fadeScene = FadeScene({
-            width: SCREEN_WIDTH,
-            height: SCREEN_HEIGHT,
-            fadeTime: 2000,
-            bgColor: "white",
-            nextScene: MainScene()
-        });
-        this.app.pushScene(fadeScene);
-    },
-    
-    onblur: function() {
-        app.pushScene(PauseScene());
-    }
-    
 });
 
 
-var EndScene = tm.createClass({
+
+// tm.define("ResultScene", {
+//     superClass: tm.scene.ResultScene,
+    
+//     init: function() {
+//         this.superInit({
+//             score: app.score,
+//         });
+//     },
+// });
+
+
+tm.define("PauseScene", {
     superClass: tm.app.Scene,
     
-    init: function(color) {
-        this.superInit();
-        
-        
-        for (var i=0; i<20; ++i) {
-            this.circle = Circle( "hsla({0}, 75%, 50%, 0.5)".format(Math.rand(0, 360)) );
-            this.circle.setPosition(tm.util.Random.randint(40, SCREEN_WIDTH-40), tm.util.Random.randint(40, SCREEN_HEIGHT-40));
-            this.circle.addChildTo(this);
-        }
-        
-        var label = null;
-        label = tm.app.Label("Score");
-        label.position.set(SCREEN_WIDTH/2, 300);
-        label.fontSize = 60;
-        label.width = 320;
-        label.color = "white";
-        label.align = "center";
-        label.addChildTo(this);
-        
-        label = tm.app.Label(app.score+"");
-        label.position.set(SCREEN_WIDTH/2, 390);
-        label.fontSize = 60;
-        label.width = 320;
-        label.color = "white";
-        label.align = "center";
-        label.addChildTo(this);
-        
-        /*
-        var tweetButton = tm.twitter.TweetButton("test");
-        tweetButton.setPosition(SCREEN_WIDTH/2, 470);
-        tweetButton.addChildTo(this);
-        */
-        
-        this.alpha = 0.0;
-        this.tweener.fadeIn(500).call(function() {
-            this.onpointingstart = this._onpointingstart;
-        }.bind(this));
-
-    },
-    
-    _onpointingstart: function() {
-        tm.sound.SoundManager.get("decide").play();
-        
-        this.tweener.clear();
-        this.tweener.fadeOut(1000).call(function() {
-            app.replaceScene(StartScene());
-        });
-    },
-    
-    onblur: function() {
-        app.pushScene(PauseScene());
-    }
-    
-});
-
-var PauseScene = tm.createClass({
-    superClass: tm.app.Scene,
-    
-    init: function(color) {
+    init: function() {
         this.superInit();
         
         var filter = tm.app.Shape(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -223,43 +222,18 @@ var PauseScene = tm.createClass({
         this.addChild(filter);
         
         app.stop();
-        tm.sound.SoundManager.get("main_bgm").pause();
+        bgm.pause();
     },
-    
+
     onfocus: function() {
         app.start();
     },
     
-    onblur: function() {
-        app.stop();
-    },
-    
     onpointingstart: function() {
-        tm.sound.SoundManager.get("main_bgm").play();
+        bgm.play();
         app.popScene();
     },
-});
-
-tm.preload(function() {
-    tm.sound.SoundManager.add("main_bgm", "http://storage.tmlife.net/resource/bgm/maoudamashii/bgm_maoudamashii_healing02.wav", 1);
-    tm.sound.SoundManager.add("touch", "touch");
-    tm.sound.SoundManager.add("decide", "decide");
-});
-
-tm.main(function() {
-    app = tm.app.CanvasApp("#world");
-    app.fitWindow();
-    // app.enableStats();
     
-    tm.sound.SoundManager.get("main_bgm").play();
-    
-    var startScene = StartScene();
-    app.replaceScene(startScene);
-    
-    app.run();
 });
-
-
-
 
 

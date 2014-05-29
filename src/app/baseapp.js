@@ -78,10 +78,12 @@ tm.app = tm.app || {};
             
             // ウィンドウフォーカス時イベントリスナを登録
             window.addEventListener("focus", function() {
+                this.fire(tm.event.Event("focus"));
                 this.currentScene.dispatchEvent(tm.event.Event("focus"));
             }.bind(this));
             // ウィンドウブラー時イベントリスナを登録
             window.addEventListener("blur", function() {
+                this.fire(tm.event.Event("blur"));
                 this.currentScene.dispatchEvent(tm.event.Event("blur"));
             }.bind(this));
             // クリック

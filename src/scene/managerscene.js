@@ -20,17 +20,18 @@
 
             this.setScenes(param.scenes);
 
-
             this.on("enter", function() {
                 var e = tm.event.Event("start");
                 this.fire(e);
             }.bind(this));
 
-
             this.on("resume", function() {
                 var e = tm.event.Event("next");
                 this.fire(e);
             }.bind(this));
+
+
+            this.commonArguments = {};
         },
 
         /**
@@ -43,11 +44,26 @@
             return this;
         },
 
+        getScene: function(index) {
+            index = (typeof index == 'string') ? this.labelToIndex(index) : index||0;
+            return this.scenes[index];
+        },
+
+        setSceneArgument: function(label, key, value) {
+            this.getScene(label).arguments[key] = value;
+            return this;
+        },
+
         /**
          * index(or label) のシーンへ飛ぶ
          */
         gotoScene: function(index) {
             index = (typeof index == 'string') ? this.labelToIndex(index) : index||0;
+
+            // イベント発火
+            var e = tm.event.Event("prepare");
+            this.fire(e);
+
 
             var data = this.scenes[index];
             var klass = tm.using(data.className);
