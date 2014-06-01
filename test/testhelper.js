@@ -80,6 +80,7 @@
         "app": [
             "src/app/timer.js",
             "src/app/element.js",
+            "src/app/updater.js",
             "src/app/baseapp.js",
             "src/app/object2d.js",
             "src/app/scene.js",
