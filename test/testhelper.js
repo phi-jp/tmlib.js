@@ -136,6 +136,15 @@
         //     "src/dirty.js",
         // ],
     };
+
+    global.testhelper.testScripts = [
+        "app/scene.js",
+        "app/timer.js",
+        "app/object2d.js",
+        "app/timeline.js",
+        "app/tweener.js",
+        "app/collision.js",
+    ];
     
     global.testhelper.scripts.all = (function() {
         var scripts = [];

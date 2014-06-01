@@ -60,13 +60,13 @@
 ;(function(global) {
     testhelper.loadtmlibAll("../");
 })();
+
+testhelper.loadScripts(testhelper.testScripts);
 </script>
 
-<script src="app/scripts/timeline.js"></script>
-<script src="app/scripts/tweener.js"></script>
-<script src="display/scripts/sprite.js"></script>
 
 <script>
+
 var TestCtrl = function($scope) {
 //    $scope.contents = Object.keys(tests.timeline);
 
@@ -115,11 +115,7 @@ var TestCtrl = function($scope) {
 
     // スクリプトファイルを読み込む
     var testCode = "";
-    [
-        "app/scripts/timeline.js",
-        "app/scripts/tweener.js",
-        "display/scripts/sprite.js",
-    ].each(function(filename) {
+    testhelper.testScripts.each(function(filename) {
         var file = tm.util.File(filename);
         file.onload = function(e) {
             testCode += this.data;
