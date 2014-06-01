@@ -1,0 +1,64 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Test | tmlib.js</title>
+        
+        <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" />
+        <style>
+        	* {
+        		margin: 0px;
+        		padding: 0px;
+        	}
+            body {
+                font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif;
+            }
+            .container {
+            	width: 640px;
+            }
+            canvas {
+            	position: absolute;
+            	width: 640px;
+            	height: 480px;
+            }
+        </style>
+        
+        <script src="../testhelper.js"></script>
+        <script src="main.js"></script>
+
+        <script id="test-script">
+            
+            var SCREEN_WIDTH    = 640;
+            var SCREEN_HEIGHT   = 960;
+            var SCREEN_CENTER_X = SCREEN_WIDTH/2;
+            var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;
+
+            /*
+             * Test
+             */
+            tm.main(function() {
+                var app = tm.display.CanvasApp("#world");
+                app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+                app.fitWindow();
+
+                tm.global.app = app;
+
+                var query = window.location.search.substr(1);
+                if (!query) query = "tests.tweener.DemoScene";
+
+                var testScene = tm.using(query);
+                app.replaceScene(testScene());
+                
+                app.run();
+            });
+
+        </script>
+    </head>
+    
+    <body>
+        <div class="container">
+            <canvas id="world" width="640" height="960"></canvas>
+        </div>
+    </body>
+</html>

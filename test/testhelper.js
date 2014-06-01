@@ -108,6 +108,14 @@
             "src/ui/labelarea.js",
             "src/ui/loadingscene.js",
         ],
+        "scene": [
+            "src/scene/titlescene.js",
+            "src/scene/resultscene.js",
+            "src/scene/loadingscene.js",
+            "src/scene/countdownscene.js",
+            "src/scene/splashscene.js",
+            "src/scene/managerscene.js",
+        ],
         "three": [
             "src/three/three.js",
         ],

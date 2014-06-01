@@ -1,0 +1,106 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Test | tmlib.js</title>
+        
+        <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" />
+        <style>
+            body {
+                font-family: "Meiryo", "メイリオ", "ヒラギノ角ゴ Pro W3", sans-serif;
+                margin-top: 50px;
+            }
+            #preview {
+                border: 0px;
+                box-shadow: 0px 0px 4px 0px #444;
+            }
+        </style>
+
+        <script src="../testhelper.js"></script>
+        <script src="main.js"></script>
+
+        <script id="test-script">
+            
+            /*
+             * Test
+             */
+            tm.main(function() {
+                setTableOfContents();
+
+                // テストを実行
+                var query = window.location.hash.substr(1);
+                if (query) refreshIframe(query);
+            });
+
+            var setTableOfContents = function() {
+                var testsElement = tm.dom.Element("#tests");
+
+                for (var key in tests) {
+                    var li = testsElement.create("li");
+                    li.html = key;
+                    var ul = li.create("ul");
+
+                    for (var key2 in tests[key]) {
+                        var a = ul.create("li").create("a");
+                        a.html = key2;
+                        a.attr.set("href", ["tests", key, key2].join('.'));
+                        a.event.click(function(e) {
+                            refreshIframe(this.attr.get("href"));
+                            e.stop();
+                        });
+                    }
+                }
+            };
+
+            var refreshIframe = function(test) {
+                var preview = tm.dom.Element("#preview");
+                preview.attr.set("src", "frame.html?" + test);
+
+                location.hash = test;
+            };
+
+            
+        </script>
+    </head>
+    
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">tmlib.js</a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li><a href="https://github.com/phi1618/tmlib.js">Github</a></li>
+                            <li><a href="http://phi1618.github.com/tmlib.js/docs/index.html">Docs</a></li>
+                            <li><a href="http://tmlife.net">Blog</a></li>
+                            <li><a href="https://twitter.com/phi_jp">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="span3">
+                    <h2>Test List</h2>
+                    <ul id="tests">
+                </div>
+                <div id="content" class="span9" style="position:fixed; margin-left: 260px">
+                    <h2>Canvas</h2>
+                    <iframe id="preview" width="320" height="480"></iframe>
+                </div>
+            </div>
+        </div>
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+    </body>
+</html>
