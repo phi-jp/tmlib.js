@@ -1,148 +1,199 @@
 <!DOCTYPE html>
-
-<html>
-    
+<html ng-app>
     <head>
         <meta charset="UTF-8" />
-        <title>tmlib.js test</title>
-        <script src="../src/tmlib.js"></script>
-        
-        <script src="../src/core/object.js"></script>
-        <script src="../src/core/string.js"></script>
-        <script src="../src/core/number.js"></script>
-        <script src="../src/core/array.js"></script>
-        <script src="../src/core/function.js"></script>
-        <script src="../src/core/date.js"></script>
-        <script src="../src/core/math.js"></script>
-        
-        <script src="../src/geom/vector2.js"></script>
-        <script src="../src/geom/vector3.js"></script>
-        <script src="../src/geom/matrix33.js"></script>
-        <script src="../src/geom/matrix44.js"></script>
-        <script src="../src/geom/Rect.js"></script>
-        
-        <script src="../src/dom/element.js"></script>
-        <script src="../src/dom/event.js"></script>
-        
-        <script src="../src/event/eventdispatcher.js"></script>
-        
-        <script src="../src/input/mouse.js"></script>
-        <script src="../src/input/keyboard.js"></script>
-        <script src="../src/input/touch.js"></script>
-        <script src="../src/input/accelerometer.js"></script>
-        
-        <script src="../src/event/event.js"></script>
-        
-        <script src="../src/anim/tween.js"></script>
-        
-        <script src="../src/graphics/canvas.js"></script>
-        <script src="../src/graphics/gradient.js"></script>
-        <script src="../src/asset/texture.js"></script>
-        
-        <script src="../src/sound/sound.js"></script>
-        
-        <script src="../src/app/element.js"></script>
-        <script src="../src/display/canvaselement.js"></script>
-        <script src="../src/display/sprite.js"></script>
-        <script src="../src/display/label.js"></script>
-        <script src="../src/display/shape.js"></script>
-        <script src="../src/ui/button.js"></script>
-        <script src="../src/app/scene.js"></script>
-        <script src="../src/dom/anim.js"></script>
-        <script src="../src/display/canvasapp.js"></script>
-        <script src="../src/app/interaction.js"></script>
-        
-        <script src="../src/google/chart.js"></script>
-        
-        <script src="../src/social/twitter.js"></script>
-        
-        <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
-        <script src="https://rawgithub.com/mrdoob/stats.js/master/src/Stats.js"></script>
-        
-        <script>
-            
-            tm.preload(function() {
-                tm.graphics.TextureManager.add("human", "../resource/img/stick-figure/00.png");
-                tm.graphics.TextureManager.add("crash", "../resource/img/crash/01.png");
-            });
-            
-            tm.main(function() {
-                var app = tm.display.CanvasApp("#world");
-                app.resize(465, 465);
-                app.enableStats();
-                app.background = "black";
-                
-                
-                
-                var startScene = tm.app.TitleScene({
-                    width: 465,
-                    height: 465,
-                });
-                app.replaceScene(startScene);
-                startScene.onnextscene = function() {
-                    app.replaceScene(mainScene);
-                };
-                
-                
-                
-                var mainScene = tm.app.Scene();
-                mainScene.onenter = function() {
-                    app.frame = 0;
-                };
-                mainScene.update = function() {
-                    if (app.frame > 300) {
-                        app.replaceScene(endScene);
-                    }
-                    // console.log("main exec");
-                };
-                
-                
-                var endScene = tm.app.ResultScene();
-                endScene.onnextscene = function() {
-                    app.replaceScene(startScene);
-                };
-                
-                
-                
-                app.run();
-                
-                // 
-                var sprite = tm.display.Sprite("dummy", 64, 64);
-                sprite.position.set(150, 75);
-                /*
-                sprite.scaleX = 3;
-                sprite.scaleY = 2;
-                sprite.rotation = 80;
-                */
-                mainScene.addChild(sprite);
-                sprite.image = tm.graphics.TextureManager.get("human");
-                
-                sprite.update = function(app) {
-                    this.x = app.pointing.x;
-                    this.y = app.pointing.y;
-                };
-                
-                // タッチ
-                mainScene.onpointingstart = function() {
-                    var p = app.pointing;
-                    var crash = tm.display.Sprite("dummy", 128, 128);
-                    crash.position.set(p.x, p.y);
-                    crash.image = tm.graphics.TextureManager.get("crash");
-                    crash.frameIndex = 0;
-                    crash.blendMode = "lighter";
-                    crash.update = function(app) {
-                        if (app.frame % 1 == 0) this.setFrameIndex(this.frameIndex++ % 64, 64, 64);
-                    };
-                    mainScene.addChild(crash);
-                };
-            });
-            
-        </script>
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <title>アプリゼミ</title>
+
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+        <script src="http://code.angularjs.org/1.2.0-rc.2/angular.min.js"></script>
     </head>
-    
     <body>
-        <h1>tmlib.js test</h1>
-        <canvas id="world"></canvas>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">tmlib.js</a>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row" ng-controller="TestCtrl">
+                <div class="sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li ng-repeat="content in contents">
+                            <a href="#" ng-click="content.open = !content.open" ng-class="{open:content.open}">{{content.name}}</a>
+                            <ul class="nav" ng-show="content.open">
+                                <li ng-repeat="test in content">
+                                    <a href="#" ng-click="preview(test.path);">{{test.name}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main">
+                    <div class="main-content" class="row">
+                        <div class="col-xs-6 col-md-6">
+                            <h2>Preview</h2>
+                            <iframe id="preview" width=320 height=480></iframe>
+                        </div>
+                        <div class="col-xs-6 col-md-6">
+                            <h2>...</h2>
+                            <button class="btn btn-info" ng-click="reload($event)">Reload</button>
+                            <br />
+                            <br />
+                            <textarea rows=22 cols=60>{{code}}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
-    
 </html>
+
+
+<script src="testhelper.js"></script>
+<script>
+;(function(global) {
+    testhelper.loadtmlibAll("../");
+})();
+</script>
+
+<script src="app/scripts/timeline.js"></script>
+<script src="app/scripts/tweener.js"></script>
+<script src="display/scripts/sprite.js"></script>
+
+<script>
+var TestCtrl = function($scope) {
+//    $scope.contents = Object.keys(tests.timeline);
+
+    $scope.contents = (function() {
+        var contents = [];
+
+        Object.keys(tests).each(function(key) {
+            var test = tests[key];
+            var content = [];
+
+            content.name = key;
+            content.open = true;
+
+            Object.keys(test).each(function(key) {
+                var klass = test[key];
+                content.push({
+                    path: klass.prototype._path, 
+                    name: klass.prototype._path.split('.').last
+                });
+            });
+
+            contents.push(content);
+        });
+
+        return contents;
+    })();
+
+
+    $scope.preview = function(path) {
+        // var previewElement = tm.dom.Element("#preview");
+        // var doc = previewElement.element.contentDocument;
+        // var html = tm.dom.Element("#preview-template").html;
+        // doc.open();
+        // doc.write(html);
+        // doc.close();
+
+        var previewElement = tm.dom.Element("#preview");
+        previewElement.attr.set("src", "frame.html?" + path);
+
+        var re = new RegExp('^tm\\.define\\(\\"{0}[\\s\\S]+?\\n\\}\\);$'.format(path), "m");
+        var code = testCode.match(re);
+
+        $scope.code = code[0];
+    };
+
+
+    // スクリプトファイルを読み込む
+    var testCode = "";
+    [
+        "app/scripts/timeline.js",
+        "app/scripts/tweener.js",
+        "display/scripts/sprite.js",
+    ].each(function(filename) {
+        var file = tm.util.File(filename);
+        file.onload = function(e) {
+            testCode += this.data;
+        };
+    });
+
+};
+
+</script>
+
+<style>
+body {
+    padding-top: 50px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    display: block;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+
+    width: 200px;
+    margin-right: -200px;
+}
+
+.nav-sidebar {
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: 20px;
+    margin-left: -20px;
+}
+
+.nav-sidebar>li {
+    background-color: hsl(210, 20%, 85%);
+    border-bottom: 1px solid rgba(50, 50, 50, 0.2);
+}
+
+.nav-sidebar .nav li a {
+    background-color: hsl(210, 20%, 95%);
+    padding-left: 20px;
+}
+
+.nav>li>a:hover, .nav>li>a:focus {
+    background-color: hsl(210, 20%, 80%);
+}
+
+.main {
+    width: 100%;
+}
+
+.main h2 {
+    border-bottom: 1px solid #888;
+}
+
+.main-content {
+    margin-left: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#preview {
+    width: 100%;
+    border: 0px;
+    box-shadow: 0px 0px 4px #aaa;
+}
+
+textarea {
+    width: 100%;
+}
+</style>
+
+
+
+
