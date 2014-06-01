@@ -27,6 +27,8 @@ tm.app = tm.app || {};
         keyboard      : null,
         /** 加速度センサー */
         accelerometer : null,
+        /** 更新クラス */
+        updater       : null,
         /** statsライブラリ */
         stats         : null,
         /** タイマー */
@@ -64,6 +66,8 @@ tm.app = tm.app || {};
             
             // 加速度センサーを生成
             this.accelerometer = tm.input.Accelerometer();
+
+            this.updater = tm.app.Updater(this);
             
             // 再生フラグ
             this.isPlaying = true;
@@ -269,22 +273,8 @@ tm.app = tm.app || {};
             // this.touches.update();
             
             if (this.isPlaying) {
-                this._updateElement(this.currentScene);
+                this.updater.update(this.currentScene);
                 this.timer.update();
-            }
-        },
-
-        _updateElement: function(elm) {
-            if (elm.isUpdate == false) return ;
-
-            elm._update && elm._update(this);
-
-            var len = elm.children.length;
-            if (len > 0) {
-                var tempChildren = elm.children.slice();
-                for (var i=0; i<len; ++i) {
-                    this._updateElement(tempChildren[i]);
-                }
             }
         },
         
