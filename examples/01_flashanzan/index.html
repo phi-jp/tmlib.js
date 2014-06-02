@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <title>tmlib.js</title>
+        <link rel="apple-touch-icon-precomposed" href="icon.png" />
+        <script src="../../build/tmlib.js"></script>
+    </head>
+    <body>
+        <canvas id="world" width="640" height="960"></canvas>
+    </body>
+</html>
+
+
+<script>
+
+// 定数
+var SCREEN_WIDTH    = 640;
+var SCREEN_HEIGHT   = 960;
+var SCREEN_CENTER_X = SCREEN_WIDTH/2;
+var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;
+
+
+tm.main(function() {
+	var app = tm.app.CanvasApp("#world");
+
+	app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	app.fitWindow();
+	app.replaceScene(MainScene());
+	app.run();
+});
+
+
+tm.define("MainScene", {
+    superClass: "tm.scene.ManagerScene",
+ 
+    init: function() {
+        this.superInit({
+            scenes: [
+                // {
+                //     className: "tm.app.LoadingScene",
+                //     arguments: {
+                //         assets: {
+                //             touch: "touch.wav",
+                //             decide: "decide.wav",
+                //         }
+                //     },
+                //     label: "loading",
+                // },
+                {
+                    className: "tm.scene.TitleScene",
+                    arguments: {
+                        title: "Flash",
+                    },
+                    label: "title",
+                },
+                {
+                    className: "GameScene",
+                    arguments: {
+                    },
+                    label: "game",
+                },
+                {
+                    className: "tm.scene.ResultScene",
+                    arguments: {
+                        name: "Result",
+                    },
+                    label: "result",
+                    nextLabel: "title",
+                },
+            ],
+        });
+    },
+
+    onprepare: function() {
+        if (this.getCurrentLabel() == "game") {
+            this.setSceneArgument("result", "score", this.currentScene.score);
+        }
+    },
+
+    // ongoto: function() {
+    //     if (this.getCurrentLabel() == "loading") {
+    //         this.currentScene.onload = function() {
+    //             this.app.popScene();
+    //         }.bind(this);
+    //     }
+    // },
+
+    // onstart: function() {
+    //     this.gotoScene("result");
+    // },
+});
+
+
+tm.define("GameScene", {
+    superClass: tm.app.Scene,
+    
+    init: function() {
+    	this.superInit();
+
+    	this.count = 0;
+    	this.maxCount = 5;
+    	this.numbers = Array.range(5).map(function() {
+    		return tm.util.Random.randint(1, 9);
+    	});
+    	this.sum = (function(numbers) {
+    		var sum = 0;
+    		numbers.each(function(number) {
+    			sum += number;
+    		});
+    		return sum;
+    	})(this.numbers);
+
+    	this.startNumber();
+    },
+
+    reset: function() {
+
+    },
+
+    startNumber: function() {
+    	var self = this;
+    	var number = this.numbers[this.count];
+    	var label = tm.display.Label("9").addChildTo(this);
+
+    	label.text = number;
+    	label.x = SCREEN_CENTER_X;
+    	label.y = SCREEN_CENTER_Y;
+    	label.fontSize = 256;
+
+    	label.alpha = 0;
+    	label.tweener
+    		.fadeIn(100)
+    		.wait(200)
+    		.fadeOut(100)
+    		.wait(200)
+    		.call(function() {
+    			label.remove();
+    			self.flare("numberfinish");
+    		}, label);
+    },
+
+    startAnswer: function() {
+    	var label = tm.display.Label("9").addChildTo(this);
+
+    	label.text = this.sum;
+    	label
+    		.setPosition(SCREEN_CENTER_X, SCREEN_CENTER_Y)
+    		.setFontSize(256)
+    		.setAlpha(0)
+    		;
+
+    	label.alpha = 0;
+    	label.tweener
+    		.fadeIn(100)
+    		.call(function() {
+    			// label.remove();
+    		}, label);
+
+    	this.onpointingstart = function() {
+    		this.app.popScene();
+    	};
+    },
+
+    onnumberfinish: function() {
+    	this.count ++;
+
+    	if (this.count >= this.maxCount) {
+    		this.onpointingstart = this.startAnswer.bind(this);
+    	}
+    	else {
+	    	this.startNumber();
+    	}
+    },
+});
+
+
+</script>

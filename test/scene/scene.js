@@ -13,8 +13,8 @@ tm.define("tests.titlescene.test", {
             title: "hoge",
             width: SCREEN_WIDTH,
             height: SCREEN_HEIGHT,
-            bgColor: "red",
-            titleColor: "#222",
+            // bgColor: "red",
+            // fontColor: "#222",
         });
     },
 

@@ -145,6 +145,8 @@
         "app/timeline.js",
         "app/tweener.js",
         "app/collision.js",
+
+        "scene/scene.js",
     ];
     
     global.testhelper.scripts.all = (function() {

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <title>tmlib.js</title>
+        <link rel="apple-touch-icon-precomposed" href="icon.png" />
+        <script src="../../build/tmlib.js"></script>
+    </head>
+    <body>
+        <canvas id="world" width="640" height="960"></canvas>
+    </body>
+</html>
+
+
+<script>
+
+// 定数
+var SCREEN_WIDTH    = 640;
+var SCREEN_HEIGHT   = 960;
+var SCREEN_CENTER_X = SCREEN_WIDTH/2;
+var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;
+
+var PIECE_NUM_X     = 5;                // ピースの列数
+var PIECE_NUM_Y     = 5;                // ピースの行数
+var PIECE_NUM       = PIECE_NUM_X*PIECE_NUM_Y;  // ピース数
+var PIECE_OFFSET_X  = 70;               // ピースオフセットX　
+var PIECE_OFFSET_Y  = 240;              // ピースオフセットY
+var PIECE_WIDTH     = 120;              // ピースの幅
+var PIECE_HEIGHT    = 120;              // ピースの高さ
+
+var FONT_FAMILY_FLAT= "'Helvetica-Light' 'Meiryo' sans-serif";  // フラットデザイン用フォント
+
+tm.main(function() {
+    var app = tm.app.CanvasApp("#world");
+    app.background = "rgb(240,240,240)";
+
+    app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    app.fitWindow();
+    app.replaceScene(MainScene());
+    app.run();
+});
+
+
+tm.define("MainScene", {
+    superClass: "tm.scene.ManagerScene",
+ 
+    init: function() {
+        this.superInit({
+            scenes: [
+                // {
+                //     className: "tm.app.LoadingScene",
+                //     arguments: {
+                //         assets: {
+                //             touch: "touch.wav",
+                //             decide: "decide.wav",
+                //         }
+                //     },
+                //     label: "loading",
+                // },
+                {
+                    className: "tm.scene.TitleScene",
+                    arguments: {
+                        title: "Number",
+                    },
+                    label: "title",
+                },
+                {
+                    className: "GameScene",
+                    arguments: {
+                    },
+                    label: "game",
+                    nextLabel: "title",
+                },
+            ],
+        });
+    },
+});
+
+
+tm.define("GameScene", {
+    superClass: tm.app.Scene,
+    
+    init: function() {
+        this.superInit();
+
+        this.fromJSON({
+            children: {
+                pieceGroup: {
+                    type: "tm.display.CanvasElement",
+                },
+                timerLabel: {
+                    type: "tm.display.Label",
+                    x: 630,
+                    y: 160,
+                    fillStyle: "#444",
+                    align: "right",
+                    baseline: "bottom",
+                    fontFamily: FONT_FAMILY_FLAT,
+                    fontSize: 128,
+                },
+            },
+        });
+
+        // カレント数
+        var self = this;
+        self.currentNumber = 1;
+
+        var nums = [].range(1, PIECE_NUM+1);
+        nums.shuffle();
+        nums.each(function(num, index) {
+            var col = (index/PIECE_NUM_X)|0;
+            var row = (index%PIECE_NUM_Y);
+            var piece = Piece(num).addChildTo(this.pieceGroup);
+
+            piece.x = row*125 + PIECE_OFFSET_X;
+            piece.y = col*125 + PIECE_OFFSET_Y;
+
+            piece.onpointingstart = function() {
+                if (this.number === self.currentNumber) {
+                    if (self.currentNumber === PIECE_NUM) {
+                        self.pushResult(function() {
+                            self.app.popScene();
+                        });
+                    }
+                    self.currentNumber += 1;
+                    this.disable();
+                }
+                else {
+
+                }
+            }
+        }, this);
+    },
+
+    update: function(app) {
+        var time = app.timer.getMilliseconds();
+        var timeStr = ((time/10)|0).toString().paddingLeft(5, ' ');
+        this.timerLabel.text = timeStr.replace(/([\s\d]*)(\d\d)$/, function(str, p1, p2) {
+            if (p1.trim() == "") {
+                p1 = "0";
+            }
+            return p1 + '.' + p2;
+        });
+    },
+
+    pushResult: function(fn) {
+        var result = tm.scene.ResultScene({
+            score: 99999 - this.app.timer.getMilliseconds()
+        });
+
+        this.app.pushScene(result);
+        result.onexit = function() {
+            fn && fn();
+        };
+
+        return this;
+    },
+});
+
+
+/*
+ * ピースクラス
+ */
+tm.define("Piece", {
+    superClass: "tm.app.Shape",
+ 
+    init: function(number) {
+        this.superInit(PIECE_WIDTH, PIECE_HEIGHT);
+        // 数値をセット
+        this.number = number;
+ 
+        this.setInteractive(true);
+        this.setBoundingType("rect");
+ 
+        var angle = tm.util.Random.randint(0, 360);
+        this.canvas.clearColor("hsl({0}, 80%, 70%)".format(angle));
+ 
+        this.label = tm.app.Label(number).addChildTo(this);
+        this.label
+            .setFontSize(70)
+            .setFontFamily(FONT_FAMILY_FLAT)
+            .setAlign("center")
+            .setBaseline("middle");
+    },
+ 
+    disable: function() {
+        this.setInteractive(false);
+ 
+        var self = this;
+        this.tweener
+            .clear()
+            .to({scaleX:0}, 100)
+            .call(function() {
+                self.canvas.clearColor("rgb(100, 100, 100)");
+            }.bind(this))
+            .to({scaleX:1, alpha:0.5}, 100)
+            ;
+    }
+});
+
+
+</script>

@@ -132,6 +132,8 @@ body {
 }
 
 .sidebar {
+    width: 200px;
+    margin-right: -200px;
     position: fixed;
     top: 51px;
     bottom: 0;
@@ -141,8 +143,8 @@ body {
     background-color: #f5f5f5;
     border-right: 1px solid #eee;
 
-    width: 200px;
-    margin-right: -200px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
 .nav-sidebar {
