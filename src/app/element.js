@@ -176,13 +176,14 @@ tm.app = tm.app || {};
          */
         fromJSON: function(data) {
             var _fromJSON = function(name, data) {
-                var init = data["init"] || [];
+                var init = data["init"];
+                var args = (init instanceof Array) ? init : [init];
                 var type = (DIRTY_CLASS_MAP[data.type]) ? DIRTY_CLASS_MAP[data.type] : data.type;
                 var _class = tm.using(type);
                 
                 console.assert(Object.keys(_class).length !== 0, _class + " is not defined.");
                 
-                var elm = _class.apply(null, init).addChildTo(this);
+                var elm = _class.apply(null, args).addChildTo(this);
                 elm.fromJSON(data);
                 
                 this[name] = elm;

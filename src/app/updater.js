@@ -21,6 +21,8 @@
         },
 
         _updateElement: function(elm) {
+            var app = this.app;
+            
             // 更新するかを判定
             if (elm.isUpdate == false) return ;
 

@@ -129,7 +129,7 @@
         height: 960,
         fontColor: "#444",
         fontSize: 90,
-        bgColor: "white",
+        bgColor: "rgb(240,240,240)",
         bgImage: null,
         autopop: true,
     };

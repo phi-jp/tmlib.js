@@ -74,6 +74,7 @@ module.exports = function(grunt) {
     "src/anim/tween.js",
 
     "src/app/timer.js",
+    "src/app/updater.js",
     "src/app/baseapp.js",
     "src/app/element.js",
     "src/app/object2d.js",
