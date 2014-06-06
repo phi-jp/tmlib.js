@@ -120,13 +120,15 @@ tm.define("GameScene", {
 
             piece.onpointingstart = function() {
                 if (this.number === self.currentNumber) {
-                    if (self.currentNumber === PIECE_NUM) {
-                        self.pushResult(function() {
-                            self.app.popScene();
-                        });
-                    }
                     self.currentNumber += 1;
                     this.disable();
+                    this.ondisappear = function() {
+                        if (self.currentNumber > PIECE_NUM) {
+                            self.pushResult(function() {
+                                self.app.popScene();
+                            });
+                        }
+                    };
                 }
                 else {
 
@@ -197,6 +199,10 @@ tm.define("Piece", {
                 self.canvas.clearColor("rgb(100, 100, 100)");
             }.bind(this))
             .to({scaleX:1, alpha:0.5}, 100)
+            .wait(100)
+            .call(function() {
+                self.flare("disappear");
+            })
             ;
     }
 });
