@@ -174,7 +174,7 @@ tm.display = tm.display || {};
     tm.display.Label.default = {
         align: "center",
         baseline: "middle",
-        fontFamily: "'Consolas', 'Monaco', 'ＭＳ ゴシック'",
+        fontFamily: "'Hiragino'",
         // align: "start",
         // baseline: "alphabetic",
     };
