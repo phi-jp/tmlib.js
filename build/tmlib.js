@@ -15231,7 +15231,7 @@ tm.display = tm.display || {};
     tm.display.Label.default = {
         align: "center",
         baseline: "middle",
-        fontFamily: "'Hiragino Maru Gothic Pro'", // or Helvetica
+        fontFamily: "'HiraKakuProN-W3'", // Hiragino or Helvetica
         // align: "start",
         // baseline: "alphabetic",
     };
