@@ -105,6 +105,22 @@
         // (param["get"]) && this.getter(name, param["get"]);
         // (param["set"]) && this.setter(name, param["set"]);
     });
+    
+    /**
+     * @method $forIn
+     * オブジェクト用ループ処理
+     */
+    Object.defineInstanceMethod("$forIn", function(fn, self) {
+        self = self || this;
+
+        Object.keys(this).forEach(function(key, index) {
+            var value = this[key];
+
+            fn.call(self, key, value, index);
+        }, this);
+
+        return this;
+    });
 
     /**
      * @method  $has
