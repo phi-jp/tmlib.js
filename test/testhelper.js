@@ -115,6 +115,7 @@
             "src/scene/countdownscene.js",
             "src/scene/splashscene.js",
             "src/scene/managerscene.js",
+            "src/scene/numericalinputscene.js",
         ],
         "three": [
             "src/three/three.js",

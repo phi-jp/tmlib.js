@@ -27,7 +27,7 @@ tm.define("tests.titlescene.test", {
 
 
 /*
- * titlescene
+ * resultscene
  */
 
 tm.define("tests.resultscene.test", {
@@ -47,6 +47,31 @@ tm.define("tests.resultscene.test", {
         console.log("finish!");
     }
 });
+
+
+
+
+
+/*
+ * numericalinputscene
+ */
+
+tm.define("tests.numericalinputscene.test", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+
+    },
+
+    onenter: function() {
+        var scene = tm.scene.NumericalInputScene();
+        this.app.pushScene(scene);
+    },
+
+});
+
+
 
 
 
