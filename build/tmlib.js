@@ -3022,6 +3022,10 @@ tm.define("tm.util.Flow", {
         this.callback = callback;
         this.counter = 0;
         this.args = {};
+
+        this._check();
+
+        return this;
     },
     
     /**
