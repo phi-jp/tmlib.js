@@ -14172,8 +14172,6 @@ tm.display = tm.display || {};
     tm.display.CanvasElement = tm.createClass({
         superClass: tm.app.Object2D,
 
-        /** 更新フラグ */
-        isUpdate: true,
         /** 表示フラグ */
         visible: true,
         /** クリッピングフラグ */
