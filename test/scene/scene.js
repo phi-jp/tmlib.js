@@ -66,6 +66,9 @@ tm.define("tests.numericalinputscene.test", {
 
     onenter: function() {
         var scene = tm.scene.NumericalInputScene();
+        scene.ondecided = function(e) {
+            alert(e.value);
+        };
         this.app.pushScene(scene);
     },
 

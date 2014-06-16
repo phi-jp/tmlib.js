@@ -18,6 +18,8 @@
         scale: null,
         /** 回転 */
         rotation: 0,
+        /** 起きているフラグ */
+        awake: true,
         /** @private  幅 */
         _width:  64,
         /** @private  高さ */
@@ -317,7 +319,7 @@
          * 起動
          */
         wakeUp: function() {
-            this.isUpdate = true;
+            this.awake = true;
             return this;
         },
         
@@ -325,7 +327,7 @@
          * 停止
          */
         sleep: function() {
-            this.isUpdate = false;
+            this.awake = false;
             return this;
         },
         

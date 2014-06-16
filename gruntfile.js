@@ -106,6 +106,7 @@ module.exports = function(grunt) {
     "src/scene/countdownscene.js",
     "src/scene/splashscene.js",
     "src/scene/managerscene.js",
+    "src/scene/numericalinputscene.js",
     
     "src/three/three.js",
 

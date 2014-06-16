@@ -60,7 +60,9 @@
 				button.radius = 145/2;
 				button.onpointingstart = function() {
 					if (this.label.text == 'OK') {
-						self.app.popScene();
+						var e = tm.event.Event("decided");
+						e.value = Number(self.inputLabel.text);
+						self.fire(e);
 					}
 					else if (this.label.text == 'C') {
 						self.inputLabel.text = "";
@@ -69,7 +71,7 @@
 						self.inputLabel.text += this.label.text;
 					}
 				}
-			})
+			});
 		},
 
 		_createButton: function(n) {

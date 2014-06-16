@@ -183,7 +183,7 @@ tm.three = tm.three || {};
          */
         _update: function(app) {
             // 更新有効チェック
-            if (this.isUpdate == false) return ;
+            if (this.awake == false) return ;
             
             this.update(app);
             

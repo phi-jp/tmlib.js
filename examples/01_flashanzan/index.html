@@ -169,11 +169,31 @@ tm.define("GameScene", {
     	this.count ++;
 
     	if (this.count >= this.maxCount) {
+            var self = this;
+            // 答え入力
+            var scene = tm.scene.NumericalInputScene();
+
+            scene.ondecided = function(e) {
+                self.judge(e.value);
+            };
+            this.app.pushScene(scene);
     		this.onpointingstart = this.startAnswer.bind(this);
     	}
     	else {
 	    	this.startNumber();
     	}
+    },
+
+    judge: function(v) {
+        if (v == this.sum) {
+            alert("right!");
+        }
+        else {
+            alert("wrong!");
+        }
+
+        this.app.popScene();
+        this.app.popScene();
     },
 });
 

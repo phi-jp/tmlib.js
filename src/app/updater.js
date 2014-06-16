@@ -24,7 +24,7 @@
             var app = this.app;
             
             // 更新するかを判定
-            if (elm.isUpdate == false) return ;
+            if (elm.awake == false) return ;
 
             // 更新
             if (elm.update) elm.update(app);
