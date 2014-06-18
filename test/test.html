@@ -23,8 +23,11 @@
         <div class="container-fluid">
             <div class="row" ng-controller="TestCtrl">
                 <div class="sidebar">
+                    <form class="form-inline" role="form">
+                        <input type="search" class="form-control" ng-model="q" ng-change="saveQuery()" placeholder="filter...">
+                    </form>
                     <ul class="nav nav-sidebar">
-                        <li ng-repeat="content in contents">
+                        <li ng-repeat="content in contents | filter:q">
                             <a href="#" ng-click="content.open = !content.open" ng-class="{open:content.open}">{{content.name}}</a>
                             <ul class="nav" ng-show="content.open">
                                 <li ng-repeat="test in content">
@@ -122,6 +125,13 @@ var TestCtrl = function($scope) {
         };
     });
 
+
+    // 
+    $scope.saveQuery = function() {
+        localStorage.setItem("q", $scope.q);
+    };
+    $scope.q = localStorage.getItem("q");
+
 };
 
 </script>
@@ -132,8 +142,8 @@ body {
 }
 
 .sidebar {
-    width: 200px;
-    margin-right: -200px;
+    width: 240px;
+    margin-right: -240px;
     position: fixed;
     top: 51px;
     bottom: 0;
@@ -167,6 +177,23 @@ body {
     background-color: hsl(210, 20%, 80%);
 }
 
+li .nav>li>a:before {
+    content: '- ';
+}
+
+/*
+ *
+ */
+.form-inline {
+    margin: 10px 0px;
+}
+.form-inline .form-control {
+    width: 100%;
+}
+
+/*
+ *
+ */
 .main {
     width: 100%;
 }
@@ -176,7 +203,7 @@ body {
 }
 
 .main-content {
-    margin-left: 200px;
+    margin-left: 240px;
     padding-left: 10px;
     padding-right: 10px;
 }
