@@ -18868,6 +18868,9 @@ tm.social = tm.social || {};
 
     var BASE_URL = "http://9leap.net/games/{id}/result?score={score}&result={result}";
 
+    /**
+     * @member      tm.social.Nineleap
+     */
     tm.social.Nineleap.DEBUG_GAME_ID = "0";
 
     /**
@@ -18930,14 +18933,18 @@ tm.social = tm.social || {};
     };
 
     /**
-     *
+     * @member      tm.social.Nineleap
+     * @method      getMyData
+     * プレイヤーのゲームデータを取得する
      */
     tm.social.Nineleap.getMyData = function(callback) {
         tm.util.Ajax.loadJSONP(tm.social.Nineleap.createMyDataURL(), callback);
     };
 
     /**
-     *
+     * @member      tm.social.Nineleap
+     * @method      postMyData
+     * プレイヤーのゲームデータを保存する
      */
     tm.social.Nineleap.postMyData = function(data, callback) {
         tm.util.Ajax.load({
@@ -18958,7 +18965,8 @@ tm.social = tm.social || {};
     };
 
     /**
-     *
+     * @member      tm.social.Nineleap
+     * @method      createURL
      */
     tm.social.Nineleap.createURL = function() {
         var url = [
@@ -18972,33 +18980,38 @@ tm.social = tm.social || {};
         return url.join("");
     };
     /**
-     *
+     * @member      tm.social.Nineleap
+     * @method      createMyDataURL
      */
     tm.social.Nineleap.createMyDataURL = function() {
         return tm.social.Nineleap.createURL("user_memory.json");
     };
     /**
-     *
+     * @member      tm.social.Nineleap
+     * @method      createUserDataURL
      */
     tm.social.Nineleap.createUserDataURL = function(screenName) {
         return tm.social.Nineleap.createURL("u/", screenName + ".json");
     };
     /**
-     *
+     * @member      tm.social.Nineleap
+     * @method      createRecentDataURL
      */
     tm.social.Nineleap.createRecentDataURL = function(max) {
         max = max || 30;
         return tm.social.Nineleap.createURL("recent_memories.json", "?max=" + max);
     };
     /**
-     *
+     * @member      tm.social.Nineleap
+     * @method      createFriendDataURL
      */
     tm.social.Nineleap.createFriendDataURL = function(max) {
         max = max || 30;
         return tm.social.Nineleap.createURL("friends_memories.json", "?max=" + max);
     };
     /**
-     *
+     * @member      tm.social.Nineleap
+     * @method      createRankingDataURL
      */
     tm.social.Nineleap.createRankingDataURL = function(max) {
         max = max || 30;
