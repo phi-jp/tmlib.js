@@ -96,7 +96,7 @@ tm.social = tm.social || {};
     tm.social.Nineleap.postMyData = function(data, callback) {
         tm.util.Ajax.load({
             type: "POST",
-            url: tm.social.Nineleap.createURL("user_memory.json"),
+            url: tm.social.Nineleap.createMemoryURL("user_memory.json"),
             dataType: "json",
             data: "json=" + JSON.stringify(data),
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -113,9 +113,10 @@ tm.social = tm.social || {};
 
     /**
      * @member      tm.social.Nineleap
-     * @method      createURL
+     * @method      createMemoryURL
+     * 9leap Memory API へアクセスするURLを生成
      */
-    tm.social.Nineleap.createURL = function() {
+    tm.social.Nineleap.createMemoryURL = function() {
         var url = [
             "http://9leap.net/api/memory/",
             tm.social.Nineleap.getGameId() + "/",
@@ -129,40 +130,45 @@ tm.social = tm.social || {};
     /**
      * @member      tm.social.Nineleap
      * @method      createMyDataURL
+     * ユーザデータURLを生成
      */
     tm.social.Nineleap.createMyDataURL = function() {
-        return tm.social.Nineleap.createURL("user_memory.json");
+        return tm.social.Nineleap.createMemoryURL("user_memory.json");
     };
     /**
      * @member      tm.social.Nineleap
      * @method      createUserDataURL
+     * 他のユーザのプレイデータURLを生成
      */
     tm.social.Nineleap.createUserDataURL = function(screenName) {
-        return tm.social.Nineleap.createURL("u/", screenName + ".json");
+        return tm.social.Nineleap.createMemoryURL("u/", screenName + ".json");
     };
     /**
      * @member      tm.social.Nineleap
      * @method      createRecentDataURL
+     * 最近プレイしたユーザのプレイデータURLを生成
      */
     tm.social.Nineleap.createRecentDataURL = function(max) {
         max = max || 30;
-        return tm.social.Nineleap.createURL("recent_memories.json", "?max=" + max);
+        return tm.social.Nineleap.createMemoryURL("recent_memories.json", "?max=" + max);
     };
     /**
      * @member      tm.social.Nineleap
      * @method      createFriendDataURL
+     * TwitterでフォローしているユーザのプレイデータURLを生成
      */
     tm.social.Nineleap.createFriendDataURL = function(max) {
         max = max || 30;
-        return tm.social.Nineleap.createURL("friends_memories.json", "?max=" + max);
+        return tm.social.Nineleap.createMemoryURL("friends_memories.json", "?max=" + max);
     };
     /**
      * @member      tm.social.Nineleap
      * @method      createRankingDataURL
+     * スコアランキング上位のユーザのプレイデータURLを生成
      */
     tm.social.Nineleap.createRankingDataURL = function(max) {
         max = max || 30;
-        return tm.social.Nineleap.createURL("ranking_memories.json", "?max=" + max);
+        return tm.social.Nineleap.createMemoryURL("ranking_memories.json", "?max=" + max);
     };
 })();
 
