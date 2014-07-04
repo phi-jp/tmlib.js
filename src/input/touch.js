@@ -35,7 +35,8 @@ tm.input = tm.input || {};
             this.prevPosition   = tm.geom.Vector2(0, 0);
             this._x = 0;
             this._y = 0;
-            
+            this.touches = [];
+
             var self = this;
             this.element.addEventListener("touchstart", function(e){
                 self.touched = true;
@@ -44,14 +45,20 @@ tm.input = tm.input || {};
                 // 最初だけセット
                 self.position.set(self._x, self._y);
                 self.prevPosition.set(self._x, self._y);    // prevPostion をリセット
+
+                self._setTouches(e);
             });
             this.element.addEventListener("touchend", function(e){
                 self.touched = false;
+
+                self._setTouches(e);
             });
             this.element.addEventListener("touchmove", function(e){
                 self._touchmove(e);
                 // 画面移動を止める
                 e.stop();
+
+                self._setTouches(e);
             });
             
             // var self = this;
@@ -164,6 +171,37 @@ tm.input = tm.input || {};
                 this._y *= e.target.height / parseInt(e.target.style.height);
             }
         },
+
+        _getAdjustPoint: function(p) {
+            var elm = this.element;
+            var style = elm.style;
+            var r = elm.getBoundingClientRect();
+            var p = {
+                x: p.clientX - r.left,
+                y: p.clientY - r.top,
+            };
+            
+            if (style.width) {
+                p.x *= elm.width / parseInt(style.width);
+            }
+            if (style.height) {
+                p.y *= elm.height / parseInt(style.height);
+            }
+
+            return p;
+         },
+
+        _setTouches: function(e) {
+            var touches = e.touches;
+
+            this.touches.clear();
+            for (var i=0,len=touches.length; i<len; ++i) {
+                var p = this._getAdjustPoint(touches[i]);
+                this.touches.push(p);
+            }
+
+            return this;
+        }
         
     });
     

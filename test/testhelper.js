@@ -148,6 +148,8 @@
         "app/collision.js",
 
         "scene/scene.js",
+
+        "input/pointing.js",
     ];
     
     global.testhelper.scripts.all = (function() {

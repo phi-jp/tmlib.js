@@ -32,6 +32,7 @@ tm.input = tm.input || {};
             this.prevPosition   = tm.geom.Vector2(0, 0);
             this._x = 0;
             this._y = 0;
+            this.touches = [];
             
             var self = this;
             this.element.addEventListener("mousedown", function(e){
