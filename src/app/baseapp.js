@@ -99,6 +99,10 @@ tm.app = tm.app || {};
          */
         run: function() {
             var self = this;
+
+            this.startedTime = new Date();
+            this.prevTime = new Date();
+            this.deltaTime = 0;
             
             // // requestAnimationFrame version
             // var fn = function() {
@@ -138,6 +142,10 @@ tm.app = tm.app || {};
             
             // stats update
             if (this.stats) this.stats.update();
+
+            var now = new Date();
+            this.deltaTime = now - this.prevTime;
+            this.prevTime = now;
         },
         
         /**

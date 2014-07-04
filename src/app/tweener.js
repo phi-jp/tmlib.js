@@ -142,8 +142,16 @@
          */
         _updateTween: function(app) {
             var tween = this._tween;
-            var time = tween.time + 1000/app.fps;
-            tween._setTime(time);
+
+            if (true) {
+                var time = tween.time + app.deltaTime;
+                tween._setTime(time);
+            }
+            else {
+                var time = tween.time + 1000/app.fps;
+                tween._setTime(time);
+            }
+
             
             if (tween.time >= tween.duration) {
                 // 削除
