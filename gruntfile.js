@@ -138,7 +138,7 @@ module.exports = function(grunt) {
     uglify: {
       tmlib: {
         options: {
-
+          banner: banner,
         },
         files: {
           '<%= buildDir %>/tmlib.min.js': [ '<%= buildDir %>/tmlib.js' ]
