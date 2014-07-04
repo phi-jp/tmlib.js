@@ -6,7 +6,8 @@ tm.define("tests.pointing.touches", {
     init: function() {
         this.superInit();
 
-        (5).times(function() {
+        // 10 個要素を生成 
+        (10).times(function() {
             tm.display.CircleShape(200, 200).addChildTo(this).hide();
         }, this);
         
@@ -16,9 +17,12 @@ tm.define("tests.pointing.touches", {
         var childs = this.children;
         var p = app.pointing;
 
+        // マルチタッチ判定
         if (p.touches.length) {
+            // 全ての要素を一旦非表示
             childs.each(function(elm) {elm.hide();});
 
+            // タッチしている個数だけ表示 & 位置調整
             p.touches.each(function(p, i) {
                 var child = childs[i];
                 child.show();
@@ -26,10 +30,6 @@ tm.define("tests.pointing.touches", {
                 child.y = p.y;
             });
         }
-    },
-
-    draw: function(c) {
-        console.log("hoge");
     },
 
 });
