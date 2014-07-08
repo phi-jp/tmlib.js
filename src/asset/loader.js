@@ -80,10 +80,7 @@
             
             path = path || key;
             // type が省略されている場合は拡張子から判定する
-            type = (function() {
-                var temp_path = path.split('?')[0].split('#')[0];
-                return type || temp_path.split('.').last;
-            })();
+            type = type || path.split('?')[0].split('#')[0].split('.').last;
             
             var asset = tm.asset.Loader._funcs[type](path);
             this.set(key, asset);
@@ -117,19 +114,20 @@
                 this.dispatchEvent(e);
             }.bind(this));
             
-            var loadAsset = function(asset) {
-                flow.pass();
-                
+            var loadAsset = function(asset, key) {
                 var e = tm.event.Event("progress");
+                e.key = key;
                 e.asset = asset;
                 e.progress = flow.counter/flow.waits; // todo
                 this.dispatchEvent(e);
+
+                flow.pass();
             }.bind(this);
             
             Object.keys(hash).each(function(key) {
                 var value = hash[key];
                 var asset = null;
-                
+
                 if (typeof value == 'string') {
                     asset = this._load(key, value);
                 }
@@ -138,11 +136,11 @@
                 }
                 
                 if (asset.loaded) {
-                    loadAsset(asset);
+                    loadAsset(asset, key);
                 }
                 else {
                     asset.on("load", function() {
-                        loadAsset(asset);
+                        loadAsset(asset, key);
                     });
                 }
             }.bind(this));
