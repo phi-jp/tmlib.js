@@ -2200,7 +2200,7 @@ tm.util = tm.util || {};
 
 
 (function() {
-    
+
     /*
      * @enum
      * @private
@@ -2229,7 +2229,7 @@ tm.util = tm.util || {};
         /* @property beforeSend */
         beforeSend: null,
     };
-    
+
     /**
      * @class tm.util.Ajax
      * Ajax クラス
@@ -2242,11 +2242,11 @@ tm.util = tm.util || {};
             for (var key in AJAX_DEFAULT_SETTINGS) {
                 params[key] = params[key] || AJAX_DEFAULT_SETTINGS[key];
             }
-            
+
             var httpRequest = new XMLHttpRequest();
             var ajax_params = "";
             var conv_func = tm.util.Ajax.DATA_CONVERTE_TABLE[params.dataType];
-            
+
             var url = params.url;
             if (params.data) {
                 var query = "";
@@ -2257,7 +2257,7 @@ tm.util = tm.util || {};
                 else {
                     query = tm.util.QueryString.stringify(params.data);
                 }
-                
+
                 if (params.type == 'GET') {
                     params.url += '?' + query;
                     params.data = null;
@@ -2266,14 +2266,14 @@ tm.util = tm.util || {};
                     params.data = query;
                 }
             }
-            
+
             // httpRequest.withCredentials = true;
-            
+
             // コールバック
             httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState == 4) {
                     // 成功(status === 0 はローカルファイル用)
-                    if (httpRequest.status === 200 || httpRequest.status === 0) {
+                    if (httpRequest.status === 200 || httpRequest.status === 201 || httpRequest.status === 0) {
                         if (params.responseType !== "arraybuffer") {
                             // タイプ別に変換をかける
                             var data = conv_func(httpRequest.responseText);
@@ -2292,8 +2292,8 @@ tm.util = tm.util || {};
                     //console.log("通信中");
                 }
             };
-            
-            
+
+
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
             if (params.type === "POST") {
                 httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
@@ -2302,18 +2302,18 @@ tm.util = tm.util || {};
             if (params.responseType) {
                 httpRequest.responseType = params.responseType;
             }
-            
+
             if (params.beforeSend) {
                 params.beforeSend(httpRequest);
             }
-            
+
             if (params.password) {
                 httpRequest.withCredentials = true;
             }
 
             httpRequest.send(params.data);
         },
-        
+
         /**
          * loadJSONP
          */
@@ -2322,16 +2322,16 @@ tm.util = tm.util || {};
             g.tmlib_js_dummy_func_count = tm.global.tmlib_js_dummy_func || 0;
             var dummy_func_name = "tmlib_js_dummy_func" + (g.tmlib_js_dummy_func_count++);
             g[dummy_func_name]  = callback;
-            
+
             var elm = document.createElement("script");
             elm.type = "text/javascript";
             elm.charset = "UTF-8";
-            elm.src = url + "&callback=" + dummy_func_name;
+            elm.src = url + (url.indexOf("?") < 0 ? "?" : "&") + "callback=" + dummy_func_name;
             elm.setAttribute("defer", true);
             document.getElementsByTagName("head")[0].appendChild(elm);
         }
     };
-    
+
     /*
      * @enum tm.util.Ajax.DATA_CONVERTE_TABLE
      * データコンバータテーブル
@@ -2341,12 +2341,12 @@ tm.util = tm.util || {};
         undefined: function(data) {
             return data;
         },
-        
+
         /* @method */
         text: function(data) {
             return data;
         },
-        
+
         /* @method */
         xml: function(data) {
             var parser = new DOMParser();
@@ -2354,14 +2354,14 @@ tm.util = tm.util || {};
 
             return xml;
         },
-        
+
         /* @method */
         dom: function(data) {
             var div = document.createElement("div");
             div.innerHTML = data;
             return tm.dom.Element(div);
         },
-        
+
         /* @method */
         json: function(data) {
             try {
@@ -2372,13 +2372,13 @@ tm.util = tm.util || {};
                 console.dir(data);
             }
         },
-        
+
         /* @method */
         script: function(data) {
             eval(data);
             return data;
         },
-        
+
         /*
          * @method
          * ### Reference
@@ -2392,7 +2392,7 @@ tm.util = tm.util || {};
             }
             return bytearray;
         },
-        
+
     };
 
 
@@ -18898,14 +18898,19 @@ tm.social = tm.social || {};
 
 
 (function() {
-    
+
     /**
      * @class tm.social.NineLeap
      * 9leap ネームスペース
      */
     tm.social.Nineleap = tm.social.Nineleap || {};
-    
+
     var BASE_URL = "http://9leap.net/games/{id}/result?score={score}&result={result}";
+
+    /**
+     * @member      tm.social.Nineleap
+     */
+    tm.social.Nineleap.DEBUG_GAME_ID = "0";
 
     /**
      * @member      tm.social.Nineleap
@@ -18927,14 +18932,136 @@ tm.social = tm.social || {};
      */
     tm.social.Nineleap.postRanking = function(score, result) {
         if (location.hostname == 'r.jsgames.jp') {
-            var id = location.pathname.match(/^\/games\/(\d+)/)[1]; 
+            var id = location.pathname.match(/^\/games\/(\d+)/)[1];
             location.replace( this.createURL(id, score, result) );
         }
         else {
             console.warn("9leap に投稿されていません!");
         }
     };
-    
+
+    /**
+     * @member      tm.social.Nineleap
+     * @method      gotoLogin
+     * 9leapログインページヘ遷移する.
+     */
+    tm.social.Nineleap.gotoLogin = function() {
+        window.location.replace("http://9leap.net/api/login");
+    };
+
+    /**
+     * @member      tm.social.Nineleap
+     * @method      isOn9leap
+     * アプリケーションが9leap上にデプロイされているか
+     */
+    tm.social.Nineleap.isOn9leap = function() {
+        return window.location.hostname === "r.jsgames.jp";
+    };
+
+    /**
+     * @member      tm.social.Nineleap
+     * @method      getGameId
+     * 9leapのゲームIDを取得する
+     */
+    tm.social.Nineleap.getGameId = function() {
+        if (tm.social.Nineleap.isOn9leap()) {
+            return window.location.pathname.match(/^\/games\/(\d+)/)[1];
+        } else {
+            return tm.social.Nineleap.DEBUG_GAME_ID;
+        }
+    };
+
+    /**
+     * @member      tm.social.Nineleap
+     * @method      getMyData
+     * プレイヤーのゲームデータを取得する
+     */
+    tm.social.Nineleap.getMyData = function(callback) {
+        tm.util.Ajax.loadJSONP(tm.social.Nineleap.createMyDataURL(), callback);
+    };
+
+    /**
+     * @member      tm.social.Nineleap
+     * @method      postMyData
+     * プレイヤーのゲームデータを保存する
+     */
+    tm.social.Nineleap.postMyData = function(data, callback) {
+        tm.util.Ajax.load({
+            type: "POST",
+            url: tm.social.Nineleap.createMemoryURL("user_memory.json"),
+            dataType: "json",
+            data: "json=" + JSON.stringify(data),
+            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+            async: false,
+            beforeSend: function(xhr) {
+                xhr.withCredentials = true;
+            },
+            success: callback,
+            error: function(responseText) {
+                console.error(responseText);
+            }
+        });
+    };
+
+    /**
+     * @member      tm.social.Nineleap
+     * @method      createMemoryURL
+     * 9leap Memory API へアクセスするURLを生成
+     */
+    tm.social.Nineleap.createMemoryURL = function() {
+        var url = [
+            "http://9leap.net/api/memory/",
+            tm.social.Nineleap.getGameId() + "/",
+        ];
+        for (var i = 0, len = arguments.length; i < len; i++) {
+            url.push(arguments[i]);
+        }
+
+        return url.join("");
+    };
+    /**
+     * @member      tm.social.Nineleap
+     * @method      createMyDataURL
+     * ユーザデータURLを生成
+     */
+    tm.social.Nineleap.createMyDataURL = function() {
+        return tm.social.Nineleap.createMemoryURL("user_memory.json");
+    };
+    /**
+     * @member      tm.social.Nineleap
+     * @method      createUserDataURL
+     * 他のユーザのプレイデータURLを生成
+     */
+    tm.social.Nineleap.createUserDataURL = function(screenName) {
+        return tm.social.Nineleap.createMemoryURL("u/", screenName + ".json");
+    };
+    /**
+     * @member      tm.social.Nineleap
+     * @method      createRecentDataURL
+     * 最近プレイしたユーザのプレイデータURLを生成
+     */
+    tm.social.Nineleap.createRecentDataURL = function(max) {
+        max = max || 30;
+        return tm.social.Nineleap.createMemoryURL("recent_memories.json", "?max=" + max);
+    };
+    /**
+     * @member      tm.social.Nineleap
+     * @method      createFriendDataURL
+     * TwitterでフォローしているユーザのプレイデータURLを生成
+     */
+    tm.social.Nineleap.createFriendDataURL = function(max) {
+        max = max || 30;
+        return tm.social.Nineleap.createMemoryURL("friends_memories.json", "?max=" + max);
+    };
+    /**
+     * @member      tm.social.Nineleap
+     * @method      createRankingDataURL
+     * スコアランキング上位のユーザのプレイデータURLを生成
+     */
+    tm.social.Nineleap.createRankingDataURL = function(max) {
+        max = max || 30;
+        return tm.social.Nineleap.createMemoryURL("ranking_memories.json", "?max=" + max);
+    };
 })();
 
 
