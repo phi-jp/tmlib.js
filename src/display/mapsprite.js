@@ -20,6 +20,7 @@
         /** @property originY */
         /** @property width */
         /** @property height */
+        /** @property tileset */
 
         /**
          * @constructor
@@ -42,6 +43,7 @@
             this.width = chipWidth*this.mapSheet.width;
             this.height= chipWidth*this.mapSheet.height;
 
+            this.tileset = [];
             this._build();
         },
 
@@ -50,6 +52,10 @@
          */
         _build: function() {
             var self = this;
+
+            this.mapSheet.tilesets.each(function(tileset) {
+                self._buildTileset(tileset);
+            });
 
             this.mapSheet.layers.each(function(layer, hoge) {
                 if (layer.type == "objectgroup") {
@@ -64,14 +70,38 @@
         /**
          * @private
          */
+        _buildTileset: function(tileset) {
+            var self      = this;
+            var mapSheet  = this.mapSheet;
+            var texture   = tm.asset.Manager.get(tileset.image);
+            var xIndexMax = (texture.width / mapSheet.tilewidth)|0;
+            var yIndexMax = (texture.height / mapSheet.tileheight)|0;
+
+            yIndexMax.times(function(my) {
+                xIndexMax.times(function(mx) {
+                    var rect = tm.geom.Rect(
+                        mx * mapSheet.tilewidth,
+                        my * mapSheet.tileheight,
+                        mapSheet.tilewidth,
+                        mapSheet.tileheight
+                        );
+                    self.tileset.push({
+                        image: tileset.image,
+                        rect: rect
+                    });
+                });
+            });
+        },
+
+        /**
+         * @private
+         */
         _buildLayer: function(layer) {
-            var self        = this;
-            var mapSheet    = this.mapSheet;
-            var texture     = tm.asset.Manager.get(mapSheet.tilesets[0].image);
-            var xIndexMax   = (texture.width/mapSheet.tilewidth)|0;
-            var shape       = tm.display.Shape(this.width, this.height).addChildTo(this);
-            var visible = (layer.visible === 1) || (layer.visible === undefined);
-            var opacity = layer.opacity === undefined ? 1 : layer.opacity;
+            var self     = this;
+            var mapSheet = this.mapSheet;
+            var shape    = tm.display.Shape(this.width, this.height).addChildTo(this);
+            var visible  = (layer.visible === 1) || (layer.visible === undefined);
+            var opacity  = layer.opacity === undefined ? 1 : layer.opacity;
             shape.origin.set(0, 0);
 
             if (visible) {
@@ -84,16 +114,17 @@
 
                     var xIndex = index%mapSheet.width;
                     var yIndex = (index/mapSheet.width)|0;
-
-                    var mx = (type%xIndexMax);
-                    var my = (type/xIndexMax)|0;
-
                     var dx = xIndex*self.chipWidth;
                     var dy = yIndex*self.chipHeight;
 
+                    var tile = self.tileset[type];
+
+                    var texture = tm.asset.Manager.get(tile.image);
+                    var rect = tile.rect;
+
                     shape.canvas.globalAlpha = opacity;
                     shape.canvas.drawTexture(texture,
-                        mx*mapSheet.tilewidth, my*mapSheet.tileheight, mapSheet.tilewidth, mapSheet.tileheight,
+                        rect.x, rect.y, rect.width, rect.height,
                         dx, dy, self.chipWidth, self.chipHeight
                         );
                 }.bind(this));
