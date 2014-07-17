@@ -147,6 +147,8 @@
         "app/tweener.js",
         "app/collision.js",
 
+        "display/sprite.js",
+
         "scene/scene.js",
 
         "input/pointing.js",

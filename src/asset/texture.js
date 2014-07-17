@@ -36,6 +36,13 @@
                 var e = tm.event.Event("load");
                 self.dispatchEvent( e );
             };
+
+            this.element.onerror = function(e) {
+                console.error("[tmlib] {0}の読み込みに失敗!".format(src));
+                
+                var key = src.split('/').last.replace('.png', '');
+                e.target.src = "http://dummyimage.com/128x128/444444/eeeeee&text=" + key;
+            };
         },
         
         /**
