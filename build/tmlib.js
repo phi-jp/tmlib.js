@@ -17662,25 +17662,25 @@ tm.ui = tm.ui || {};
 		init: function(param) {
 			this.superInit();
 
-			var loader = tm.asset.Loader();
-			loader.load({
-				"ss": "scene/ss.png",
-			});
+			// var loader = tm.asset.Loader();
+			// loader.load({
+			// 	"ss": "scene/ss.png",
+			// });
 
-			loader.onload = function() {
-				this.fromJSON({
-					children: {
-						ss: {
-							type: "tm.display.Sprite",
-							init: "ss",
-							originX: 0,
-							originY: 0,
-							y: -88,
-							alpha: 0.1,
-						}
-					}
-				})
-			}.bind(this);
+			// loader.onload = function() {
+			// 	this.fromJSON({
+			// 		children: {
+			// 			ss: {
+			// 				type: "tm.display.Sprite",
+			// 				init: "ss",
+			// 				originX: 0,
+			// 				originY: 0,
+			// 				y: -88,
+			// 				alpha: 0.1,
+			// 			}
+			// 		}
+			// 	})
+			// }.bind(this);
 
 			this.fromJSON({
 				children: {
