@@ -122,6 +122,22 @@
         // (param[&quot;get&quot;]) &amp;&amp; this.getter(name, param[&quot;get&quot;]);
         // (param[&quot;set&quot;]) &amp;&amp; this.setter(name, param[&quot;set&quot;]);
     });
+    
+<span id='global-Object-method-S-forIn'>    /**
+</span>     * @method $forIn
+     * オブジェクト用ループ処理
+     */
+    Object.defineInstanceMethod(&quot;$forIn&quot;, function(fn, self) {
+        self = self || this;
+
+        Object.keys(this).forEach(function(key, index) {
+            var value = this[key];
+
+            fn.call(self, key, value, index);
+        }, this);
+
+        return this;
+    });
 
 <span id='global-Object-method-S-has'>    /**
 </span>     * @method  $has

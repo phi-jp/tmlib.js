@@ -35,6 +35,8 @@
 </span>        scale: null,
 <span id='tm-app-Object2D-property-rotation'>        /** 回転 */
 </span>        rotation: 0,
+<span id='tm-app-Object2D-property-awake'>        /** 起きているフラグ */
+</span>        awake: true,
 <span id='tm-app-Object2D-property-_width'>        /** @private  幅 */
 </span>        _width:  64,
 <span id='tm-app-Object2D-property-_height'>        /** @private  高さ */
@@ -334,7 +336,7 @@
 </span>         * 起動
          */
         wakeUp: function() {
-            this.isUpdate = true;
+            this.awake = true;
             return this;
         },
         
@@ -342,7 +344,7 @@
 </span>         * 停止
          */
         sleep: function() {
-            this.isUpdate = false;
+            this.awake = false;
             return this;
         },
         
@@ -362,28 +364,6 @@
         setBoundingType: function(type) {
             this.boundingType = type;
             return this;
-        },
-        
-<span id='tm-app-Object2D-method-_update'>        /**
-</span>         * 更新メソッド
-         * @private
-         * @param {Object} app
-         */
-        _update: function(app) {
-            // 更新有効チェック
-            if (this.isUpdate == false) return ;
-            
-            if (this.update) this.update(app);
-            
-            if (this.hasEventListener(&quot;enterframe&quot;)) {
-                var e = tm.event.Event(&quot;enterframe&quot;);
-                e.app = app;
-                this.dispatchEvent(e);
-            }
-            
-            if (this.interactive) {
-                this._checkPointing(app);
-            }
         },
         
 <span id='tm-app-Object2D-method-_checkPointing'>        /**

@@ -33,9 +33,10 @@ tm.display = tm.display || {};
     tm.display.Sprite = tm.createClass({
         superClass: tm.display.CanvasElement,
         
-<span id='tm-display-Sprite-property-srcRect'>        /** @property srcRect */
-</span><span id='tm-display-Sprite-property-width'>        /** @property width */
-</span><span id='tm-display-Sprite-property-height'>        /** @property height */
+<span id='tm-display-Sprite-property-srcRect'>        /** @property srcRect          */
+</span><span id='tm-display-Sprite-property-width'>        /** @property width            width */
+</span><span id='tm-display-Sprite-property-height'>        /** @property height           height */
+</span><span id='tm-display-Sprite-property-'>        /** @property @private _image  表示しているアセット(画像) */
 </span>
 <span id='tm-display-Sprite-method-constructor'>        /**
 </span>         * @constructor
@@ -57,6 +58,9 @@ tm.display = tm.display || {};
             }
         },
 
+<span id='tm-display-Sprite-method-setImage'>        /**
+</span>         * 表示するアセット(画像)をセット
+         */
         setImage: function(image, width, height) {
             if (typeof image == &quot;string&quot;) {
                 var key = image;
@@ -78,10 +82,16 @@ tm.display = tm.display || {};
             return this;
         },
 
+<span id='tm-display-Sprite-method-getImage'>        /**
+</span>         * 表示しているアセット(画像)を取得
+         */
         getImage: function() {
             return this._image;
         },
 
+<span id='tm-display-Sprite-method-fitImage'>        /**
+</span>         * 自分自信を画像サイズと同じサイズにする
+         */
         fitImage: function() {
             this.width  = this.image.width;
             this.height = this.image.height;

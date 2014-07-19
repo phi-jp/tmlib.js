@@ -26,17 +26,30 @@
      */
     tm.define(&quot;tm.asset.Loader&quot;, {
         superClass: &quot;tm.event.EventDispatcher&quot;,
-        
+
+<span id='tm-asset-Loader-property-assets'>        /** @property assets  アセット */
+</span>        
+<span id='tm-asset-Loader-method-constructor'>        /**
+</span>         * @constructor
+         */
         init: function() {
             this.superInit();
             
             this.assets = {};
         },
         
+<span id='tm-asset-Loader-method-contains'>        /**
+</span>         * キーと一致するアセットを含んでいるか
+         * @param {Object} key
+         */
         contains: function(key) {
             return (this.assets[key]) ? true : false;
         },
         
+<span id='tm-asset-Loader-method-load'>        /**
+</span>         * アセットのロード実行
+         * @param {Object} arg
+         */
         load: function(arg) {
             if (tm.util.Type.isObject(arg)) {
                 this._loadByObject(arg);
@@ -70,6 +83,13 @@
             return this;
         },
         
+<span id='tm-asset-Loader-method-_load'>        /**
+</span>         * アセットのロード
+         * @private
+         * @param {Object} key
+         * @param {Object} path
+         * @param {Object} type
+         */
         _load: function(key, path, type) {
             // if (tm.asset.Manager.contains(key)) {
             //     return tm.asset.Manager.get(key);
@@ -77,16 +97,20 @@
             
             path = path || key;
             // type が省略されている場合は拡張子から判定する
-            type = (function() {
-                var temp_path = path.split('?')[0].split('#')[0];
-                return type || temp_path.split('.').last;
-            })();
+            type = type || path.split('?')[0].split('#')[0].split('.').last;
             
             var asset = tm.asset.Loader._funcs[type](path);
             this.set(key, asset);
             
             return asset;
         },
+<span id='tm-asset-Loader-method-_loadString'>        /**
+</span>         * 文字列指定のアセットのロード
+         * @private
+         * @param {Object} key
+         * @param {Object} path
+         * @param {Object} type
+         */
         _loadString: function(key, path, type) {
             
             var hash = {};
@@ -96,25 +120,31 @@
             };
             this._loadByObject(hash);
         },
+<span id='tm-asset-Loader-method-_loadByObject'>        /**
+</span>         * オブジェクト指定のアセットのロード
+         * @private
+         * @param {Object} hash
+         */
         _loadByObject: function(hash) {
             var flow = tm.util.Flow(Object.keys(hash).length, function() {
                 var e = tm.event.Event(&quot;load&quot;);
                 this.dispatchEvent(e);
             }.bind(this));
             
-            var loadAsset = function(asset) {
-                flow.pass();
-                
+            var loadAsset = function(asset, key) {
                 var e = tm.event.Event(&quot;progress&quot;);
+                e.key = key;
                 e.asset = asset;
                 e.progress = flow.counter/flow.waits; // todo
                 this.dispatchEvent(e);
+
+                flow.pass();
             }.bind(this);
             
             Object.keys(hash).each(function(key) {
                 var value = hash[key];
                 var asset = null;
-                
+
                 if (typeof value == 'string') {
                     asset = this._load(key, value);
                 }
@@ -123,11 +153,11 @@
                 }
                 
                 if (asset.loaded) {
-                    loadAsset(asset);
+                    loadAsset(asset, key);
                 }
                 else {
                     asset.on(&quot;load&quot;, function() {
-                        loadAsset(asset);
+                        loadAsset(asset, key);
                     });
                 }
             }.bind(this));

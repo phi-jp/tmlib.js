@@ -193,13 +193,14 @@ tm.app = tm.app || {};
          */
         fromJSON: function(data) {
             var _fromJSON = function(name, data) {
-                var init = data[&quot;init&quot;] || [];
+                var init = data[&quot;init&quot;];
+                var args = (init instanceof Array) ? init : [init];
                 var type = (DIRTY_CLASS_MAP[data.type]) ? DIRTY_CLASS_MAP[data.type] : data.type;
                 var _class = tm.using(type);
                 
                 console.assert(Object.keys(_class).length !== 0, _class + &quot; is not defined.&quot;);
                 
-                var elm = _class.apply(null, init).addChildTo(this);
+                var elm = _class.apply(null, args).addChildTo(this);
                 elm.fromJSON(data);
                 
                 this[name] = elm;
@@ -222,6 +223,7 @@ tm.app = tm.app || {};
                     }
                 }
                 else {
+                    if (key == &quot;type&quot;) key = &quot;__key&quot;;
                     this[key] = value;
                 }
             }

@@ -30,6 +30,8 @@
 <span id='tm-display-CanvasRenderer-property-canvas'>        /** キャンバス */
 </span>        canvas: null,
 
+<span id='tm-display-CanvasRenderer-property-'>        /** @property @private _context     コンテキスト */
+</span>
 <span id='tm-display-CanvasRenderer-method-constructor'>        /**
 </span>         * @constructor
          * コンストラクタ
@@ -39,9 +41,8 @@
             this._context = this.canvas.context;
         },
 
-<span id='tm-display-CanvasRenderer-property-render'>        /**
-</span>         * @property
-         * 描画
+<span id='tm-display-CanvasRenderer-method-render'>        /**
+</span>         * 描画
          */
         render: function(root) {
             this.canvas.save();
@@ -49,9 +50,8 @@
             this.canvas.restore();
         },
 
-<span id='tm-display-CanvasRenderer-property-renderObject'>        /**
-</span>         * @property
-         * オブジェクトを描画
+<span id='tm-display-CanvasRenderer-method-renderObject'>        /**
+</span>         * オブジェクトを描画
          */
         renderObject: function(obj) {
             if (obj.visible === false) return ;
@@ -138,6 +138,9 @@
             }
         },
 
+<span id='tm-display-CanvasRenderer-method-_checkRenderable'>        /**
+</span>         * @private
+         */
         _checkRenderable: function(obj) {
             if (obj._renderable === undefined) {
                 obj._renderable = (obj instanceof tm.display.CanvasElement);
@@ -250,9 +253,8 @@
             this.superInit(canvas);
         },
 
-<span id='tm-display-BoundingRectRenderer-property-_setRenderFunction'>        /**
-</span>         * @property
-         * @private
+<span id='tm-display-BoundingRectRenderer-method-_setRenderFunction'>        /**
+</span>         * @private
          */
         _setRenderFunction: function(obj) {
             obj.draw = render;

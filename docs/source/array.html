@@ -46,7 +46,7 @@
         &quot;get&quot;: function()   { return this[this.length-1]; },
         &quot;set&quot;: function(v)  { this[this.length-1] = v; }
     });
-    
+
 <span id='global-Array-method-equals'>    /**
 </span>     * @method  equals
      * 渡された配列と等しいかどうかをチェック
@@ -79,6 +79,14 @@
             }
         }
         return true;
+    });
+
+<span id='global-Array-property-contains'>    /**
+</span>     * @property    contains
+     * 要素が含まれいるかをチェック
+     */
+    Array.defineInstanceMethod(&quot;contains&quot;, function(item, fromIndex) {
+        return this.indexOf(item, fromIndex) != -1;
     });
     
 <span id='global-Array-method-at'>    /**

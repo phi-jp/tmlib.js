@@ -26,7 +26,7 @@ tm.display = tm.display || {};
     
     var dummyCanvas  = null;
     var dummyContext = null;
-    
+
 <span id='tm-display-Label'>    /**
 </span>     * @class tm.display.Label
      * システムフォントを描画するクラス
@@ -60,7 +60,7 @@ tm.display = tm.display || {};
             this.text       = text || &quot;&quot;;
             
             this._fontSize   = size || 24;
-            this._fontFamily = &quot;'Consolas', 'Monaco', 'ＭＳ ゴシック'&quot;;
+            this._fontFamily = tm.display.Label.default.fontFamily;
             this._fontWeight = &quot;&quot;;
             this._lineHeight = 1.2;
             this._updateFont();
@@ -191,6 +191,7 @@ tm.display = tm.display || {};
     tm.display.Label.default = {
         align: &quot;center&quot;,
         baseline: &quot;middle&quot;,
+        fontFamily: &quot;'HiraKakuProN-W3'&quot;, // Hiragino or Helvetica
         // align: &quot;start&quot;,
         // baseline: &quot;alphabetic&quot;,
     };
