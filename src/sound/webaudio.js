@@ -33,6 +33,8 @@ tm.sound = tm.sound || {};
         /** volume */
         volume: 0.8,
 
+        _pannerEnabled: true,
+
         /**
          * @constructor
          */
@@ -201,7 +203,9 @@ tm.sound = tm.sound || {};
                 url: src,
                 responseType: "arraybuffer",
                 success: function(data) {
+                    // console.debug("WebAudio ajax load success");
                     self.context.decodeAudioData(data, function(buffer) {
+                        console.debug("WebAudio decodeAudioData success");
                         self._setup();
                         self.buffer = buffer;
                         self.loaded = true;
@@ -224,6 +228,11 @@ tm.sound = tm.sound || {};
             this.gainNode.connect(this.panner);
             this.panner.connect(this.analyser);
             this.analyser.connect(this.context.destination);
+
+            // TODO 暫定的対応
+            if (tm.BROWSER === "Firefox") {
+                this.pannerEnabled = false;
+            }
         },
 
         /**
@@ -286,6 +295,27 @@ tm.sound = tm.sound || {};
     tm.sound.WebAudio.prototype.accessor("playbackRate", {
         get: function()  { return this.source.playbackRate.value; },
         set: function(v) { this.source.playbackRate.value = v; }
+    });
+
+    /**
+     * @property    pannerEnabled
+     * panner有効
+     */
+    tm.sound.WebAudio.prototype.accessor("pannerEnabled", {
+        get: function()  { return this._pannerEnabled; },
+        set: function(v) {
+            this.gainNode.disconnect();
+            this.panner.disconnect();
+            if (v) {
+                this.gainNode.connect(this.panner);
+                this.panner.connect(this.analyser);
+            } else {
+                this.gainNode.connect(this.analyser);
+            }
+            this._pannerEnabled = v;
+
+            // console.debug("WebAudio pannerEnabled: " + v);
+        }
     });
 
     /** @static @property */
