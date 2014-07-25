@@ -26,7 +26,7 @@
             
             this.element = new Image();
             if ( !tm.isLocal() && !(/^data:/.test(src)) ) {
-                this.element.crossOrigin = "anonymous";
+                // this.element.crossOrigin = "anonymous";
             }
             this.element.src = src;
             
