@@ -15803,18 +15803,8 @@ tm.display = tm.display || {};
         },
         "label": function(canvas) {
             canvas.setText(this.fontStyle, this.align, this.baseline);
-            if (this.fill) {
-                if (this.maxWidth) {
-                    this._lines.each(function(elm, i) {
-                        canvas.fillText(elm, 0, this.textSize*i, this.maxWidth);
-                    }.bind(this));
-                }
-                else {
-                    this._lines.each(function(elm, i) {
-                        canvas.fillText(elm, 0, this.textSize*i);
-                    }.bind(this));
-                }
-            }
+            if (this.lineWidth) canvas.lineWidth = this.lineWidth;
+            
             if (this.stroke) {
                 if (this.maxWidth) {
                     this._lines.each(function(elm, i) {
@@ -15824,6 +15814,18 @@ tm.display = tm.display || {};
                 else {
                     this._lines.each(function(elm, i) {
                         canvas.strokeText(elm, 0, this.textSize*i);
+                    }.bind(this));
+                }
+            }
+            if (this.fill) {
+                if (this.maxWidth) {
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i, this.maxWidth);
+                    }.bind(this));
+                }
+                else {
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i);
                     }.bind(this));
                 }
             }
