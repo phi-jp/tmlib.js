@@ -140,6 +140,7 @@
     };
 
     global.testhelper.testScripts = [
+        "app/baseapp.js",
         "app/scene.js",
         "app/timer.js",
         "app/object2d.js",
