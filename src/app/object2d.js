@@ -49,6 +49,7 @@
             this.interactive = false;
             this.hitFlags = [];
             this.downFlags= [];
+            this._clickFlag = false;
 
             this._worldMatrix = tm.geom.Matrix33();
             this._worldMatrix.identity();
@@ -391,9 +392,8 @@
             var elm = this.element;
             
             var prevHitFlag = this.hitFlags[index];
-            
             this.hitFlags[index]    = this.isHitPoint(p.x, p.y);
-            
+
             if (!prevHitFlag && this.hitFlags[index]) {
                 this._dispatchPointingEvent("mouseover", "touchover", "pointingover", app, p);
             }
@@ -406,6 +406,7 @@
                 if (p.getPointingStart()) {
                     this._dispatchPointingEvent("mousedown", "touchstart", "pointingstart", app, p);
                     this.downFlags[index] = true;
+                    this._clickFlag = true;
                 }
             }
             
