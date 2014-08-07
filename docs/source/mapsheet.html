@@ -201,6 +201,9 @@
         _propertiesToJson: function(elm) {
             var properties = elm.getElementsByTagName(&quot;properties&quot;)[0];
             var obj = {};
+            if (properties === undefined) {
+                return obj;
+            }
             for (var k = 0;k &lt; properties.childNodes.length;k++) {
                 var p = properties.childNodes[k];
                 if (p.tagName === &quot;property&quot;) {

@@ -44,10 +44,12 @@ tm.app = tm.app || {};
 </span>        keyboard      : null,
 <span id='tm-app-BaseApp-property-accelerometer'>        /** 加速度センサー */
 </span>        accelerometer : null,
+<span id='tm-app-BaseApp-property-updater'>        /** 更新クラス */
+</span>        updater       : null,
 <span id='tm-app-BaseApp-property-stats'>        /** statsライブラリ */
 </span>        stats         : null,
-<span id='tm-app-BaseApp-property-frame'>        /** フレーム */
-</span>        frame         : 0,
+<span id='tm-app-BaseApp-property-timer'>        /** タイマー */
+</span>        timer         : null,
 <span id='tm-app-BaseApp-property-fps'>        /** フレームレート */
 </span>        fps           : 30,
 <span id='tm-app-BaseApp-property-isPlaying'>        /** 現在更新中か */
@@ -66,6 +68,9 @@ tm.app = tm.app || {};
 
             this.element = elm;
 
+            // タイマー
+            this.timer = tm.app.Timer();
+
             // マウスを生成
             this.mouse      = tm.input.Mouse(this.element);
             // タッチを生成
@@ -78,6 +83,8 @@ tm.app = tm.app || {};
             
             // 加速度センサーを生成
             this.accelerometer = tm.input.Accelerometer();
+
+            this.updater = tm.app.Updater(this);
             
             // 再生フラグ
             this.isPlaying = true;
@@ -92,10 +99,12 @@ tm.app = tm.app || {};
             
             // ウィンドウフォーカス時イベントリスナを登録
             window.addEventListener(&quot;focus&quot;, function() {
+                this.fire(tm.event.Event(&quot;focus&quot;));
                 this.currentScene.dispatchEvent(tm.event.Event(&quot;focus&quot;));
             }.bind(this));
             // ウィンドウブラー時イベントリスナを登録
             window.addEventListener(&quot;blur&quot;, function() {
+                this.fire(tm.event.Event(&quot;blur&quot;));
                 this.currentScene.dispatchEvent(tm.event.Event(&quot;blur&quot;));
             }.bind(this));
             // クリック
@@ -115,7 +124,7 @@ tm.app = tm.app || {};
             // }
             // fn();
             
-            tm.setLoop(function(){ self._loop(); }, 1000/this.fps);
+            tm.setLoop(function(){ self._loop(); }, this.timer.frameTime);
             
             return ;
             
@@ -283,22 +292,8 @@ tm.app = tm.app || {};
             // this.touches.update();
             
             if (this.isPlaying) {
-                this._updateElement(this.currentScene);
-                ++this.frame;
-            }
-        },
-
-        _updateElement: function(elm) {
-            if (elm.isUpdate == false) return ;
-
-            elm._update &amp;&amp; elm._update(this);
-
-            var len = elm.children.length;
-            if (len &gt; 0) {
-                var tempChildren = elm.children.slice();
-                for (var i=0; i&lt;len; ++i) {
-                    this._updateElement(tempChildren[i]);
-                }
+                this.updater.update(this.currentScene);
+                this.timer.update();
             }
         },
         
@@ -355,7 +350,46 @@ tm.app = tm.app || {};
         &quot;set&quot;: function(v){ this._scenes[this._sceneIndex] = v; }
     });
     
+<span id='tm-app-BaseApp-property-frame'>    /**
+</span>     * @property frame
+     * フレーム
+     */
+    tm.app.BaseApp.prototype.accessor(&quot;frame&quot;, {
+        &quot;get&quot;: function() {
+            return this.timer.frame;
+        },
+        &quot;set&quot;: function(v){
+            this.timer.frame = v;
+        }
+    });
+    
+<span id='tm-app-BaseApp-property-fps'>    /**
+</span>     * @property fps
+     * fps
+     */
+    tm.app.BaseApp.prototype.accessor(&quot;fps&quot;, {
+        &quot;get&quot;: function() {
+            return this.timer.fps;
+        },
+        &quot;set&quot;: function(v){
+            this.timer.fps = v;
+        }
+    });
+    
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
 </pre>
 </body>
 </html>

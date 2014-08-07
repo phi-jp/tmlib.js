@@ -174,6 +174,16 @@
         return arr.join('');
     });
     
+<span id='global-String-method-count'>    /**
+</span>     * @method  count
+     * リピート
+     */
+    String.defineInstanceMethod(&quot;count&quot;, function(str) {
+        var re = new RegExp(str, 'gm');
+        console.log(this.match(re));
+        return this.match(re).length;
+    });
+    
 <span id='global-String-method-toString'>    /**
 </span>     * @method  toString
      * 配列に変換

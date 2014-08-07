@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ *
+ */
+
+;(function() {
+
+<span id='tm-scene-ManagerScene'>    /**
+</span>     * @class tm.scene.ManagerScene
+     * マネージャーシーン
+     * @extends tm.app.Scene
+     */
+    tm.define(&quot;tm.scene.ManagerScene&quot;, {
+        superClass: &quot;tm.app.Scene&quot;,
+
+<span id='tm-scene-ManagerScene-method-constructor'>        /**
+</span>         * @constructor
+         */
+        init: function(param) {
+            this.superInit();
+
+            this.setScenes(param.scenes);
+
+            this.on(&quot;enter&quot;, function() {
+                var e = tm.event.Event(&quot;start&quot;);
+                this.fire(e);
+            }.bind(this));
+
+            this.on(&quot;resume&quot;, function() {
+                var e = tm.event.Event(&quot;next&quot;);
+                this.fire(e);
+            }.bind(this));
+
+
+            this.commonArguments = {};
+        },
+
+<span id='tm-scene-ManagerScene-method-setScenes'>        /**
+</span>         * scenes をセット
+         */
+        setScenes: function(scenes) {
+            this.scenes = scenes;
+            this.sceneIndex = 0;
+
+            return this;
+        },
+
+        getScene: function(index) {
+            index = (typeof index == 'string') ? this.labelToIndex(index) : index||0;
+            return this.scenes[index];
+        },
+
+        setSceneArgument: function(label, key, value) {
+            this.getScene(label).arguments[key] = value;
+            return this;
+        },
+
+<span id='tm-scene-ManagerScene-method-gotoScene'>        /**
+</span>         * index(or label) のシーンへ飛ぶ
+         */
+        gotoScene: function(index) {
+            index = (typeof index == 'string') ? this.labelToIndex(index) : index||0;
+
+            // イベント発火
+            var e = tm.event.Event(&quot;prepare&quot;);
+            this.fire(e);
+
+
+            var data = this.scenes[index];
+            var klass = tm.using(data.className);
+            var arguments = data.arguments;
+
+            if (!tm.util.Type.isArray(arguments)) arguments = [arguments];
+
+            var scene = klass.apply(null, arguments);
+            this.app.pushScene(scene);
+
+            this.sceneIndex = index;
+            this.currentScene = scene;
+
+            // イベント発火
+            var e = tm.event.Event(&quot;goto&quot;);
+            e.scene = scene;
+            this.fire(e);
+
+            return this;
+        },
+
+<span id='tm-scene-ManagerScene-method-gotoNext'>        /**
+</span>         * 次のシーンへ飛ぶ
+         */
+        gotoNext: function() {
+            var data = this.scenes[this.sceneIndex];
+            var nextIndex = null;
+
+            // 次のラベルが設定されていた場合
+            if (data.nextLabel) {
+                nextIndex = this.labelToIndex(data.nextLabel);
+            }
+            // 次のシーンに遷移
+            else if (this.sceneIndex+1 &lt; this.scenes.length) {
+                nextIndex = this.sceneIndex+1;
+            }
+
+            if (nextIndex !== null) {
+                this.gotoScene(nextIndex);
+            }
+            else {
+                this.fire(tm.event.Event(&quot;finish&quot;));
+            }
+
+            return this;
+        },
+
+<span id='tm-scene-ManagerScene-method-getCurrentIndex'>        /**
+</span>         * シーンインデックスを取得
+         */
+        getCurrentIndex: function() {
+            return this.sceneIndex;
+        },
+
+<span id='tm-scene-ManagerScene-method-getCurrentLabel'>        /**
+</span>         * シーンラベルを取得
+         */
+        getCurrentLabel: function() {
+            return this.scenes[this.sceneIndex].label;
+        },
+
+<span id='tm-scene-ManagerScene-method-labelToIndex'>        /**
+</span>         * ラベルからインデックスに変換
+         */
+        labelToIndex: function(label) {
+            var data = this.scenes.filter(function(data) {
+                return data.label == label;
+            })[0];
+
+            return this.scenes.indexOf(data);
+        },
+
+<span id='tm-scene-ManagerScene-method-indexToLabel'>        /**
+</span>         * インデックスからラベルに変換
+         */
+        indexToLabel: function(index) {
+            return this.scenes[index].label;
+        },
+
+        onstart: function() {
+            this.gotoScene(0);
+        },
+
+        onnext: function() {
+            this.gotoNext();
+        },
+    });
+
+})();</pre>
+</body>
+</html>

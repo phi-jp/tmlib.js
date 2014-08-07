@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <title>アプリゼミ</title>
+        <title>test | tmlib.js</title>
 
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
@@ -113,6 +113,11 @@ var TestCtrl = function($scope) {
         var code = testCode.match(re);
 
         $scope.code = code[0];
+    };
+
+    $scope.reload = function() {
+        var previewElement = tm.dom.Element("#preview");
+        previewElement.element.contentWindow.location.reload();
     };
 
 

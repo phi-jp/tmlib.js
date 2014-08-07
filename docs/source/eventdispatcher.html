@@ -65,7 +65,7 @@ tm.event = tm.event || {};
         },
         
 <span id='tm-event-EventDispatcher-method-fire'>        /**
-</span>         * イベント起動
+</span>         * イベント発火
          */
         fire: function(e) {
             e.target = this;
@@ -80,6 +80,16 @@ tm.event = tm.event || {};
                 }
             }
             
+            return this;
+        },
+
+        /*
+         * イベント名でイベント発火
+         */
+        flare: function(eventName) {
+            var e = tm.event.Event(eventName);
+            this.fire(e);
+
             return this;
         },
         

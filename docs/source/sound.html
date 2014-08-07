@@ -36,6 +36,8 @@ tm.sound = tm.sound || {};
      * サウンドクラス
      */
     tm.sound.Sound = tm.createClass({
+        superClass: tm.event.EventDispatcher,
+
 <span id='tm-sound-Sound-property-element'>        /** element */
 </span>        element     : null,
 <span id='tm-sound-Sound-property-loaded'>        /** loaded */
@@ -47,6 +49,8 @@ tm.sound = tm.sound || {};
 </span>         * @constructor
          */
         init: function(src) {
+            this.superInit();
+            
             this.element = new Audio();
             this.element.src = src;
             this.element.load();
@@ -55,6 +59,7 @@ tm.sound = tm.sound || {};
             var self = this;
             this.element.addEventListener(&quot;canplaythrough&quot;, function(){
                 self.loaded = true;
+                self.fire(tm.event.Event(&quot;load&quot;));
             });
             this.element.addEventListener(&quot;ended&quot;, function(){
                 self.isPlay = false;

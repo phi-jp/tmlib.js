@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * ResultScene
+ */
+
+    
+(function() {
+
+    tm.define(&quot;tm.scene.ResultScene&quot;, {
+        superClass: &quot;tm.app.Scene&quot;,
+
+        init: function(param) {
+            this.superInit();
+
+            param = {}.$extend(tm.scene.ResultScene.default, param);
+
+            this.fromJSON({
+                children: {
+                    bg: {
+                        type: &quot;tm.display.RectangleShape&quot;,
+                        init: [param.width, param.height, {
+                            fillStyle: param.bgColor,
+                            strokeStyle: &quot;transparent&quot;,
+                        }],
+                        originX: 0,
+                        originY: 0,
+                    }
+                }
+            });
+
+            if (param.bgImage) {
+                this.fromJSON({
+                    children: {
+                        bgImage: {
+                            type: &quot;tm.display.Sprite&quot;,
+                            init: [param.bgImage],
+                            originX: 0,
+                            originY: 0,
+                        }
+                    }
+                });
+            }
+
+            this.fromJSON({
+                children: {
+                    scoreText: {
+                        type: &quot;Label&quot;,
+                        text: &quot;score&quot;,
+                        x: param.width/2,
+                        y: param.height/10*2,
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.5,
+                        fontFamily: &quot;'Helvetica-Light' 'Meiryo' sans-serif&quot;,
+                        align: &quot;center&quot;,
+                        baseline: &quot;middle&quot;,
+                    },
+                    scoreLabel: {
+                        type: &quot;Label&quot;,
+                        text: param.score,
+                        x: param.width/2,
+                        y: param.height/10*3,
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize,
+                        fontFamily: &quot;'Helvetica-Light' 'Meiryo' sans-serif&quot;,
+                        align: &quot;center&quot;,
+                        baseline: &quot;middle&quot;,
+                    },
+                    shareButton: {
+                        type: &quot;FlatButton&quot;,
+                        init: [
+                            {
+                                text: &quot;Share&quot;,
+                                width: 200,
+                                bgColor: &quot;hsl(240, 80%, 70%)&quot;,
+                            }
+                        ],
+                        x: param.width/10*3,
+                        y: param.height/10*7,
+                    },
+                    backButton: {
+                        type: &quot;FlatButton&quot;,
+                        init: [
+                            {
+                                text: &quot;Back&quot;,
+                                width: 200,
+                                bgColor: &quot;hsl(240, 80%, 0%)&quot;,
+                            }
+                        ],
+                        x: param.width/10*7,
+                        y: param.height/10*7,
+                    }
+                }
+            });
+
+            // setup tweet
+            var text = &quot;SCORE: {score}, {message}&quot;.format(param);
+            var twitterURL = tm.social.Twitter.createURL({
+                type    : &quot;tweet&quot;,
+                text    : text,
+                hashtags: param.hashtags,
+                url     : param.url, // or window.document.location.href
+            });
+            this.shareButton.onclick = function() {
+                window.open(twitterURL, 'share window', 'width=400, height=300');
+            };
+
+            // back
+            this.backButton.onpointingstart = this._back.bind(this);
+
+            this.autopop = param.autopop;
+        },
+
+        _back: function() {
+            this.flare(&quot;finish&quot;);
+
+            if (this.autopop) {
+                this.app.popScene();
+            }
+        },
+    });
+
+    tm.scene.ResultScene.default = {
+        score: 256,
+        message: &quot;this is tmlib.js&quot;,
+        hashtags: &quot;tmlibjs,game&quot;,
+        related: &quot;tmlib.js tmlife javascript&quot;,
+        url: &quot;http://phi-jp.github.io/tmlib.js/&quot;,
+
+        width: 640,
+        height: 960,
+        fontColor: &quot;#444&quot;,
+        fontSize: 90,
+        bgColor: &quot;rgb(240,240,240)&quot;,
+        bgImage: null,
+        autopop: true,
+    };
+
+})();
+
+</pre>
+</body>
+</html>

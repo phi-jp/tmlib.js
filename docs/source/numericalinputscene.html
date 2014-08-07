@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+;(function() {
+
+	tm.define(&quot;tm.scene.NumericalInputScene&quot;, {
+		superClass: &quot;tm.app.Scene&quot;,
+
+		init: function(param) {
+			this.superInit();
+
+			var loader = tm.asset.Loader();
+			loader.load({
+				&quot;ss&quot;: &quot;scene/ss.png&quot;,
+			});
+
+			loader.onload = function() {
+				this.fromJSON({
+					children: {
+						ss: {
+							type: &quot;tm.display.Sprite&quot;,
+							init: &quot;ss&quot;,
+							originX: 0,
+							originY: 0,
+							y: -88,
+							alpha: 0.1,
+						}
+					}
+				})
+			}.bind(this);
+
+			this.fromJSON({
+				children: {
+					inputLabel: {
+						type: &quot;tm.display.Label&quot;,
+						fillStyle: &quot;white&quot;,
+						text: &quot;&quot;,
+						fontSize: 64,
+						x: 320,
+						y: 120,
+					},
+					buttonGroup: {
+						type: &quot;tm.display.CanvasElement&quot;,
+					},
+				},
+			});
+
+
+			[1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, 'OK'].each(function(n, i) {
+				var button = this._createButton(n.toString()).addChildTo(this.buttonGroup);
+				var xIndex = i%3;
+				var yIndex = (i/3)|0;
+				button.x = 190*xIndex + 130;
+				button.y = 177*yIndex + 280;
+			}, this);
+
+			var self = this;
+			var buttons = this.buttonGroup.children;
+			buttons.each(function(button) {
+				button.setInteractive(true).setBoundingType(&quot;circle&quot;);
+				button.radius = 145/2;
+				button.onpointingstart = function() {
+					if (this.label.text == 'OK') {
+						var e = tm.event.Event(&quot;decided&quot;);
+						e.value = Number(self.inputLabel.text);
+						self.fire(e);
+					}
+					else if (this.label.text == 'C') {
+						self.inputLabel.text = &quot;&quot;;
+					}
+					else {
+						self.inputLabel.text += this.label.text;
+					}
+				}
+			});
+		},
+
+		_createButton: function(n) {
+			var button = tm.display.CanvasElement();
+
+			button.fromJSON({
+				children: {
+					bg: {
+						type: &quot;tm.display.CircleShape&quot;,
+						init: [145, 145, {
+							fillStyle: &quot;transparent&quot;,
+							strokeStyle: &quot;white&quot;,
+						}],
+					},
+					label: {
+						type: &quot;tm.display.Label&quot;,
+						text: n,
+						fontSize: 64,
+						fillStyle: &quot;white&quot;,
+					},
+				},
+			});
+
+			return button;
+		},
+	});
+
+})();
+</pre>
+</body>
+</html>

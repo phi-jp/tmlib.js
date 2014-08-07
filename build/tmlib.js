@@ -7220,7 +7220,7 @@ tm.dom = tm.dom || {};
             
             this.element = new Image();
             if ( !tm.isLocal() && !(/^data:/.test(src)) ) {
-                this.element.crossOrigin = "anonymous";
+                // this.element.crossOrigin = "anonymous";
             }
             this.element.src = src;
             
@@ -7234,8 +7234,11 @@ tm.dom = tm.dom || {};
             this.element.onerror = function(e) {
                 console.error("[tmlib] {0}の読み込みに失敗!".format(src));
                 
-                var key = src.split('/').last.replace('.png', '');
-                e.target.src = "http://dummyimage.com/128x128/444444/eeeeee&text=" + key;
+                var key = src.split('/').last.replace('.png', '').split('?').first.split('#').first;
+                var elm = e.target;
+                
+                elm.src = "http://dummyimage.com/128x128/444444/eeeeee&text=" + key;
+                elm.onerror = null;
             };
         },
         
@@ -11829,10 +11832,8 @@ tm.app = tm.app || {};
         stats         : null,
         /** タイマー */
         timer         : null,
-        /** フレームレート */
-        fps           : 30,
         /** 現在更新中か */
-        isPlaying     : null,
+        awake         : null,
         /** @private  シーン情報の管理 */
         _scenes       : null,
         /** @private  シーンのインデックス */
@@ -11866,7 +11867,7 @@ tm.app = tm.app || {};
             this.updater = tm.app.Updater(this);
             
             // 再生フラグ
-            this.isPlaying = true;
+            this.awake = true;
             
             // シーン周り
             this._scenes = [ tm.app.Scene() ];
@@ -11887,7 +11888,7 @@ tm.app = tm.app || {};
                 this.currentScene.dispatchEvent(tm.event.Event("blur"));
             }.bind(this));
             // クリック
-            this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
+            this.element.addEventListener((tm.isMobile) ? "touchend" : "mouseup", this._onclick.bind(this));
         },
         
         /**
@@ -11895,28 +11896,30 @@ tm.app = tm.app || {};
          */
         run: function() {
             var self = this;
-            
-            // // requestAnimationFrame version
-            // var fn = function() {
-                // self._loop();
-                // requestAnimationFrame(fn);
-            // }
-            // fn();
-            
-            tm.setLoop(function(){ self._loop(); }, this.timer.frameTime);
-            
-            return ;
-            
-            if (true) {
-                setTimeout(arguments.callee.bind(this), 1000/this.fps);
-                this._loop();
-            }
-            
-            return ;
-            
-            var self = this;
-            // setInterval(function(){ self._loop(); }, 1000/self.fps);
-            tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
+
+            this.startedTime = new Date();
+            this.prevTime = new Date();
+            this.deltaTime = 0;
+
+            var _run = function() {
+                // start
+                var start = (new Date()).getTime();
+
+                // run
+                self._loop();
+
+                // calculate progress time
+                var progress = (new Date()).getTime() - start;
+                // calculate next waiting time
+                var newDelay = self.timer.frameTime-progress;
+
+                // set next running function
+                setTimeout(_run, newDelay);
+            };
+
+            _run();
+
+            return this;
         },
         
         /*
@@ -11931,6 +11934,10 @@ tm.app = tm.app || {};
             // draw
             if (this.draw) this.draw();
             this._draw();
+
+            var now = new Date();
+            this.deltaTime = now - this.prevTime;
+            this.prevTime = now;
             
             // stats update
             if (this.stats) this.stats.update();
@@ -12045,7 +12052,7 @@ tm.app = tm.app || {};
          * シーンのupdateを実行するようにする
          */
         start: function() {
-            this.isPlaying = true;
+            this.awake = true;
 
             return this;
         },
@@ -12054,7 +12061,7 @@ tm.app = tm.app || {};
          * シーンのupdateを実行しないようにする
          */
         stop: function() {
-            this.isPlaying = false;
+            this.awake = false;
 
             return this;
         },
@@ -12070,7 +12077,7 @@ tm.app = tm.app || {};
             this.touch.update();
             // this.touches.update();
             
-            if (this.isPlaying) {
+            if (this.awake) {
                 this.updater.update(this.currentScene);
                 this.timer.update();
             }
@@ -12095,26 +12102,14 @@ tm.app = tm.app || {};
          * @param {Object} e
          */
         _onclick: function(e) {
-            var px = e.pointX;
-            var py = e.pointY;
-
-            if (this.element.style.width) {
-                px *= this.element.width / parseInt(this.element.style.width);
-            }
-            if (this.element.style.height) {
-                py *= this.element.height / parseInt(this.element.style.height);
-            }
-
             var _fn = function(elm) {
                 if (elm.children.length > 0) {
-                    elm.children.each(function(elm) {
-                        if (elm.hasEventListener("click")) {
-                            if (elm.isHitPoint && elm.isHitPoint(px, py)) {
-                                elm.dispatchEvent(tm.event.Event("click"));
-                            }
-                        }
-                    });
+                    elm.children.each(function(elm) { _fn(elm); });
                 }
+                if (elm._clickFlag && elm.hasEventListener("click")) {
+                    elm.dispatchEvent(tm.event.Event("click"));
+                }
+                elm._clickFlag = false;
             };
             _fn(this.currentScene);
         },
@@ -12472,6 +12467,7 @@ tm.app = tm.app || {};
             this.interactive = false;
             this.hitFlags = [];
             this.downFlags= [];
+            this._clickFlag = false;
 
             this._worldMatrix = tm.geom.Matrix33();
             this._worldMatrix.identity();
@@ -12814,9 +12810,8 @@ tm.app = tm.app || {};
             var elm = this.element;
             
             var prevHitFlag = this.hitFlags[index];
-            
             this.hitFlags[index]    = this.isHitPoint(p.x, p.y);
-            
+
             if (!prevHitFlag && this.hitFlags[index]) {
                 this._dispatchPointingEvent("mouseover", "touchover", "pointingover", app, p);
             }
@@ -12829,6 +12824,7 @@ tm.app = tm.app || {};
                 if (p.getPointingStart()) {
                     this._dispatchPointingEvent("mousedown", "touchstart", "pointingstart", app, p);
                     this.downFlags[index] = true;
+                    this._clickFlag = true;
                 }
             }
             
@@ -15800,18 +15796,8 @@ tm.display = tm.display || {};
         },
         "label": function(canvas) {
             canvas.setText(this.fontStyle, this.align, this.baseline);
-            if (this.fill) {
-                if (this.maxWidth) {
-                    this._lines.each(function(elm, i) {
-                        canvas.fillText(elm, 0, this.textSize*i, this.maxWidth);
-                    }.bind(this));
-                }
-                else {
-                    this._lines.each(function(elm, i) {
-                        canvas.fillText(elm, 0, this.textSize*i);
-                    }.bind(this));
-                }
-            }
+            if (this.lineWidth) canvas.lineWidth = this.lineWidth;
+            
             if (this.stroke) {
                 if (this.maxWidth) {
                     this._lines.each(function(elm, i) {
@@ -15821,6 +15807,18 @@ tm.display = tm.display || {};
                 else {
                     this._lines.each(function(elm, i) {
                         canvas.strokeText(elm, 0, this.textSize*i);
+                    }.bind(this));
+                }
+            }
+            if (this.fill) {
+                if (this.maxWidth) {
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i, this.maxWidth);
+                    }.bind(this));
+                }
+                else {
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i);
                     }.bind(this));
                 }
             }
@@ -17659,25 +17657,25 @@ tm.ui = tm.ui || {};
 		init: function(param) {
 			this.superInit();
 
-			var loader = tm.asset.Loader();
-			loader.load({
-				"ss": "scene/ss.png",
-			});
+			// var loader = tm.asset.Loader();
+			// loader.load({
+			// 	"ss": "scene/ss.png",
+			// });
 
-			loader.onload = function() {
-				this.fromJSON({
-					children: {
-						ss: {
-							type: "tm.display.Sprite",
-							init: "ss",
-							originX: 0,
-							originY: 0,
-							y: -88,
-							alpha: 0.1,
-						}
-					}
-				})
-			}.bind(this);
+			// loader.onload = function() {
+			// 	this.fromJSON({
+			// 		children: {
+			// 			ss: {
+			// 				type: "tm.display.Sprite",
+			// 				init: "ss",
+			// 				originX: 0,
+			// 				originY: 0,
+			// 				y: -88,
+			// 				alpha: 0.1,
+			// 			}
+			// 		}
+			// 	})
+			// }.bind(this);
 
 			this.fromJSON({
 				children: {
@@ -18483,8 +18481,14 @@ tm.sound = tm.sound || {};
 
 (function() {
 
-    var isAvailable = tm.global.webkitAudioContext ? true : false;
-    var context = isAvailable ? new webkitAudioContext() : null;
+    var context = null;
+    if (tm.global.webkitAudioContext) {
+        context = new webkitAudioContext();
+    } else if (tm.global.mozAudioContext) {
+        context = new mozAudioContext();
+    } else if (tm.global.AudioContext) {
+        context = new AudioContext();
+    }
 
     /**
      * @class tm.sound.WebAudio
@@ -18502,6 +18506,10 @@ tm.sound = tm.sound || {};
         panner: null,
         /** volume */
         volume: 0.8,
+        /** playing **/
+        playing: false,
+
+        _pannerEnabled: true,
 
         /**
          * @constructor
@@ -18533,11 +18541,12 @@ tm.sound = tm.sound || {};
          * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
          */
         play: function(time) {
+            if (this.playing == true) { return ; }
+            this.playing = true;
+
             if (time === undefined) time = 0;
 
-            if (this.source.playbackState == 0) {
-                this.source.noteOn(this.context.currentTime + time);
-            }
+            this.source.start(this.context.currentTime + time);
             
             var self = this;
             var time = (this.source.buffer.duration/this.source.playbackRate.value)*1000;
@@ -18553,18 +18562,21 @@ tm.sound = tm.sound || {};
          * 停止
          */
         stop: function(time) {
+            if (this.playing == false) { return ; }
+            this.playing = false;
+
             if (time === undefined) time = 0;
             if (this.source.playbackState == 0) {
                 return ;
             }
-            this.source.noteOff(this.context.currentTime + time);
+            this.source.stop(this.context.currentTime + time);
             
             var buffer = this.buffer;
             var volume = this.volume;
             var loop   = this.loop;
             
             this.source = this.context.createBufferSource();
-            this.source.connect(this.panner);
+            this.source.connect(this.gainNode);
             this.buffer = buffer;
             this.volume = volume;
             this.loop = loop;
@@ -18585,7 +18597,7 @@ tm.sound = tm.sound || {};
          * レジューム
          */
         resume: function() {
-            this.source.connect(this.panner);
+            this.source.connect(this.gainNode);
 
             return this;
         },
@@ -18673,7 +18685,9 @@ tm.sound = tm.sound || {};
                 url: src,
                 responseType: "arraybuffer",
                 success: function(data) {
+                    // console.debug("WebAudio ajax load success");
                     self.context.decodeAudioData(data, function(buffer) {
+                        console.debug("WebAudio decodeAudioData success");
                         self._setup();
                         self.buffer = buffer;
                         self.loaded = true;
@@ -18688,13 +18702,19 @@ tm.sound = tm.sound || {};
          */
         _setup: function() {
             this.source     = this.context.createBufferSource();
-//            this.gainNode   = this.context.createGainNode();
+            this.gainNode   = this.context.createGain();
             this.panner     = this.context.createPanner();
             this.analyser   = this.context.createAnalyser();
 
-            this.source.connect(this.panner);
+            this.source.connect(this.gainNode);
+            this.gainNode.connect(this.panner);
             this.panner.connect(this.analyser);
             this.analyser.connect(this.context.destination);
+
+            // TODO 暫定的対応
+            if (tm.BROWSER === "Firefox") {
+                this.pannerEnabled = false;
+            }
         },
 
         /**
@@ -18746,8 +18766,8 @@ tm.sound = tm.sound || {};
      * ボリューム
      */
     tm.sound.WebAudio.prototype.accessor("volume", {
-        get: function()  { return this.source.gain.value; },
-        set: function(v) { this.source.gain.value = v; }
+        get: function()  { return this.gainNode.gain.value; },
+        set: function(v) { this.gainNode.gain.value = v; }
     });
 
     /**
@@ -18759,8 +18779,29 @@ tm.sound = tm.sound || {};
         set: function(v) { this.source.playbackRate.value = v; }
     });
 
+    /**
+     * @property    pannerEnabled
+     * panner有効
+     */
+    tm.sound.WebAudio.prototype.accessor("pannerEnabled", {
+        get: function()  { return this._pannerEnabled; },
+        set: function(v) {
+            this.gainNode.disconnect();
+            this.panner.disconnect();
+            if (v) {
+                this.gainNode.connect(this.panner);
+                this.panner.connect(this.analyser);
+            } else {
+                this.gainNode.connect(this.analyser);
+            }
+            this._pannerEnabled = v;
+
+            // console.debug("WebAudio pannerEnabled: " + v);
+        }
+    });
+
     /** @static @property */
-    tm.sound.WebAudio.isAvailable = tm.global.webkitAudioContext ? true : false;
+    tm.sound.WebAudio.isAvailable = (tm.global.webkitAudioContext || tm.global.mozAudioContext || tm.global.AudioContext) ? true : false;
 
 })();
 

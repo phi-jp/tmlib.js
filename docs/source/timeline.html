@@ -183,21 +183,18 @@ tm.namespace(&quot;tm.app&quot;, function() {
             });
             return this;
         },
-        
+
+
 <span id='tm-app-Timeline-method-setTarget'>        /**
-</span>         * ターゲットをセット
+</span>         * ターゲットのセット
          * @param {Object} target
          */
         setTarget: function(target) {
-            if (this._fn) {
-                this.element.removeEventListener(&quot;enterframe&quot;, this._fn);
-            }
-            
             this.element = target;
-            this._fn = function(e) { this.update(e.app); }.bind(this);
-            this.element.addEventListener(&quot;enterframe&quot;, this._fn);
+
+            return this;
         },
-        
+
 <span id='tm-app-Timeline-method-getTarget'>        /**
 </span>         * ターゲットをゲット
          */
@@ -320,8 +317,11 @@ tm.namespace(&quot;tm.app&quot;, function() {
     tm.app.Element.prototype.getter(&quot;timeline&quot;, function() {
         if (!this._timeline) {
             this._timeline = tm.app.Timeline(this);
+            this.on(&quot;enterframe&quot;, function(e) {
+                this._timeline.update(e.app);
+            });
         }
-        
+
         return this._timeline;
     });
     

@@ -115,6 +115,55 @@
         return str;
     });
     
+<span id='global-Number-method-times'>    /**
+</span>     * @method  times
+     * 数値分繰り返す
+     */
+    Number.defineInstanceMethod(&quot;times&quot;,  function(fn, self) {
+        self = self || this;
+        for (var i=0; i&lt;this; ++i) {
+            fn.call(self, i);
+        }
+        return this;
+    });
+    
+<span id='global-Number-method-upto'>    /**
+</span>     * @method  upto
+     * インクリメント繰り返し
+     */
+    Number.defineInstanceMethod(&quot;upto&quot;,  function(t, fn, self) {
+        self = self || this;
+        for (var i=+this; i&lt;=t; ++i) {
+            fn.call(self, i);
+        }
+        return this;
+    });
+    
+<span id='global-Number-method-upto'>    /**
+</span>     * @method  upto
+     * デクリメント繰り返し
+     */
+    Number.defineInstanceMethod(&quot;downto&quot;,  function(t, fn, self) {
+        self = self || this;
+        for (var i=+this; i&gt;=t; --i) {
+            fn.call(self, i);
+        }
+        return this;
+    });
+
+<span id='global-Number-method-step'>    /**
+</span>     * @method step
+     * ステップ繰り返し(float対応)
+     */
+    Number.defineInstanceMethod(&quot;step&quot;,  function(limit, step, fn, self) {
+        self = self || this;
+        for (var i=+this; i&lt;=limit; i+=step) {
+            fn.call(self, i);
+        }
+        return this;
+    });
+
+    
 })();
 
 </pre>

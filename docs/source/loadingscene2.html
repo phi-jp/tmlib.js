@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * loadingscene.js
+ */
+
+
+;(function() {
+    
+    var DEFAULT_PARAM = {
+        width: 465,
+        height: 465,
+        bgColor: &quot;transparent&quot;,
+    };
+    
+    tm.define(&quot;tm.ui.LoadingScene&quot;, {
+        superClass: &quot;tm.app.Scene&quot;,
+        
+        init: function(param) {
+            this.superInit();
+            
+            this.param = param = {}.$extend(DEFAULT_PARAM, param);
+
+            this.fromJSON({
+                children: {
+                    stage: {
+                        type: &quot;tm.display.CanvasElement&quot;,
+                    },
+                }
+            });
+
+            this.stage.fromJSON({
+                children: {
+                    bg: {
+                        type: &quot;tm.display.Shape&quot;,
+                        init: [param.width, param.height],
+                        originX: 0,
+                        originY: 0,
+                    },
+                    piyoLayer: {
+                        type: &quot;tm.display.CanvasElement&quot;,
+                    },
+                    label: {
+                        type: &quot;tm.display.Label&quot;,
+                        text: &quot;LOADING&quot;,
+                        x: param.width/2,
+                        y: param.height/2-20,
+                        align: &quot;center&quot;,
+                        baseline: &quot;middle&quot;,
+                        fontSize: 46,
+                        shadowBlur: 4,
+                        shadowColor: &quot;hsl(190, 100%, 50%)&quot;,
+                    },
+                    // piyo: {
+                    //     type: &quot;tm.display.Shape&quot;,
+                    //     init: [84, 84],
+                    // },
+                    bar: {
+                        type: &quot;tm.ui.Gauge&quot;,
+                        init: [{
+                            width: param.width,
+                            height: 10,
+                            color: &quot;hsl(200, 100%, 80%)&quot;,
+                            bgColor: &quot;transparent&quot;,
+                            borderColor: &quot;transparent&quot;,
+                            borderWidth: 0,
+                        }],
+                        x: 0,
+                        y: 0,
+                    },
+                }
+            });
+            
+            // bg
+            var bg = this.stage.bg;
+            bg.canvas.clearColor(param.bgColor);
+
+            // label
+            var label = this.stage.label;
+            label.tweener
+                .to({alpha:1}, 1000)
+                .to({alpha:0.5}, 1000)
+                .setLoop(true)
+
+            // bar
+            var bar = this.stage.bar;
+            bar.animationFlag = false;
+            bar.value = 0;
+            bar.animationFlag = true;
+            bar.animationTime = 100;
+            
+            // ひよこさん
+            this._createHiyoko(param).addChildTo(this.stage.piyoLayer);
+
+            // load
+            var stage = this.stage;
+            stage.alpha = 0.0;
+            stage.tweener.clear().fadeIn(100).call(function() {
+                if (param.assets) {
+                    var loader = tm.asset.Loader();
+                    loader.onload = function() {
+                        stage.tweener.clear().wait(200).fadeOut(200).call(function() {
+                            if (param.nextScene) {
+                                this.app.replaceScene(param.nextScene());
+                            }
+                            var e = tm.event.Event(&quot;load&quot;);
+                            this.fire(e);
+                        }.bind(this));
+                    }.bind(this);
+                    
+                    loader.onprogress = function(e) {
+                        // update bar
+                        bar.value = e.progress*100;
+
+                        // dispatch event
+                        var event = tm.event.Event(&quot;progress&quot;);
+                        event.progress = e.progress;
+                        this.fire(event);
+                    }.bind(this);
+                    
+                    loader.load(param.assets);
+                }
+            }.bind(this));
+        },
+
+        onpointingstart: function(app) {
+            // ひよこさん生成
+            var p = app.pointing;
+            var piyo = this._createHiyoko(this.param).addChildTo(this.stage.piyoLayer);
+            piyo.x = p.x;
+            piyo.y = p.y;
+        },
+
+        _createHiyoko: function(param) {
+            // ひよこさん
+            var piyo = tm.display.Shape(84, 84);
+            piyo.x = tm.util.Random.randint(0, param.width);
+            piyo.y = tm.util.Random.randint(0, param.height);
+            piyo.canvas.setColorStyle(&quot;white&quot;, &quot;yellow&quot;).fillCircle(42, 42, 32);
+            piyo.canvas.setColorStyle(&quot;white&quot;, &quot;black&quot;).fillCircle(27, 27, 2);
+            piyo.canvas.setColorStyle(&quot;white&quot;, &quot;brown&quot;).fillRect(40, 70, 4, 15).fillTriangle(0, 40, 11, 35, 11, 45);
+            piyo.dir = tm.geom.Vector2.random(0, 360, 4);
+            var rect = tm.geom.Rect(0, 0, param.width, param.height);
+            rect.padding(42);
+            piyo.update = function(app) {
+                this.position.add(this.dir);
+
+                if (this.x &lt; rect.left) {
+                    this.x = rect.left;
+                    this.dir.x*=-1;
+                }
+                else if (this.x &gt; rect.right) {
+                    this.x = rect.right;
+                    this.dir.x*=-1;
+                }
+                if (this.y &lt; rect.top) {
+                    this.y = rect.top;
+                    this.dir.y*=-1;
+                }
+                else if (this.y &gt; rect.bottom) {
+                    this.y = rect.bottom;
+                    this.dir.y*=-1;
+                }
+
+                if (this.dir.x&lt;0) {
+                    this.rotation -= 7;
+                    this.scaleX = 1;
+                }
+                else {
+                    this.rotation += 7;
+                    this.scaleX = -1;
+                }
+
+                // // 向き更新
+                // if (app.pointing.getPointingStart()) {
+                //     var p = app.pointing.position;
+                //     var v = tm.geom.Vector2.sub(p, this.position);
+                //     this.dir = v.normalize().mul(4);
+                // }
+
+            };
+
+            return piyo;
+        },
+    });
+    
+})();
+
+
+
+
+
+</pre>
+</body>
+</html>

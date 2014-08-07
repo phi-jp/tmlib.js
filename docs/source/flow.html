@@ -55,6 +55,10 @@ tm.define(&quot;tm.util.Flow&quot;, {
         this.callback = callback;
         this.counter = 0;
         this.args = {};
+
+        this._check();
+
+        return this;
     },
     
 <span id='tm-util-Flow-method-pass'>    /**

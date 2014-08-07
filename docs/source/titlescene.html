@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * TitleScene
+ */
+
+    
+(function() {
+
+    tm.define(&quot;tm.scene.TitleScene&quot;, {
+        superClass: &quot;tm.app.Scene&quot;,
+
+        init: function(param) {
+            this.superInit();
+
+            param = {}.$extend(tm.scene.TitleScene.default, param);
+
+            this.fromJSON({
+                children: {
+                    bg: {
+                        type: &quot;tm.display.RectangleShape&quot;,
+                        init: [param.width, param.height, {
+                            fillStyle: param.bgColor,
+                            strokeStyle: &quot;transparent&quot;,
+                        }],
+                        originX: 0,
+                        originY: 0,
+                    }
+                }
+            });
+
+            if (param.bgImage) {
+                this.fromJSON({
+                    children: {
+                        bgImage: {
+                            type: &quot;tm.display.Sprite&quot;,
+                            init: [param.bgImage],
+                            originX: 0,
+                            originY: 0,
+                        }
+                    }
+                });
+            }
+
+            this.fromJSON({
+                children: {
+                    titleLabel: {
+                        type: &quot;Label&quot;, name: &quot;titleLabel&quot;,
+                        text: param.title,
+                        x: param.width/2,
+                        y: param.height/10*2,
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize,
+                        fontFamily: &quot;'Helvetica-Light' 'Meiryo' sans-serif&quot;,
+                        align: &quot;center&quot;,
+                        baseline: &quot;middle&quot;,
+                    },
+                    touchLabel: {
+                        type: &quot;Label&quot;, name: &quot;nextLabel&quot;,
+                        text: &quot;TOUCH START&quot;,
+                        x: param.width/2,
+                        y: param.height/10*8,
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.4,
+                        fontFamily: &quot;'Helvetica-Light' 'Meiryo' sans-serif&quot;,
+                        align: &quot;center&quot;,
+                        baseline: &quot;middle&quot;,
+                    }
+                }
+            });
+            
+            this.touchLabel.tweener
+                .fadeOut(500)
+                .fadeIn(1000)
+                .setLoop(true);
+
+            this.autopop = param.autopop;
+        },
+
+        onpointingstart: function() {
+            this.flare(&quot;finish&quot;);
+
+            if (this.autopop) {
+                this.app.popScene();
+            }
+        },
+    });
+
+    tm.scene.TitleScene.default = {
+        title: &quot;Time is money&quot;,
+        fontSize: 72,
+        fontColor: &quot;#444&quot;,
+        width: 640,
+        height: 960,
+        bgColor: &quot;rgb(240,240,240)&quot;,
+        bgImage: null,
+        autopop: true,
+    };
+
+})();
+
+</pre>
+</body>
+</html>

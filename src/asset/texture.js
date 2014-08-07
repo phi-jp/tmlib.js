@@ -26,7 +26,7 @@
             
             this.element = new Image();
             if ( !tm.isLocal() && !(/^data:/.test(src)) ) {
-                this.element.crossOrigin = "anonymous";
+                // this.element.crossOrigin = "anonymous";
             }
             this.element.src = src;
             
@@ -40,8 +40,11 @@
             this.element.onerror = function(e) {
                 console.error("[tmlib] {0}の読み込みに失敗!".format(src));
                 
-                var key = src.split('/').last.replace('.png', '');
-                e.target.src = "http://dummyimage.com/128x128/444444/eeeeee&text=" + key;
+                var key = src.split('/').last.replace('.png', '').split('?').first.split('#').first;
+                var elm = e.target;
+                
+                elm.src = "http://dummyimage.com/128x128/444444/eeeeee&text=" + key;
+                elm.onerror = null;
             };
         },
         

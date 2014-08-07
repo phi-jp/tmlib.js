@@ -1,5 +1,5 @@
 
-describe('String', function() {
+describe('core.String', function() {
     
     it('format', function() {
         assert.equal("hsl({0}, {1}%, {2}%)".format(240, 50, 60), "hsl(240, 50%, 60%)");

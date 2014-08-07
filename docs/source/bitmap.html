@@ -360,11 +360,11 @@ tm.graphics = tm.graphics || {};
 </span>     * @member tm.asset.Texture
      * ビットマップ生成
      */
-    tm.asset.Texture.prototype.getBitmap = function(width, height) {
+    tm.asset.Texture.prototype.getBitmap = function(x, y, width, height) {
         var canvas = tm.graphics.Canvas();
         canvas.resize(this.width, this.height);
         canvas.drawTexture(this, 0, 0, this.width, this.height);
-        return canvas.getBitmap(width, height);
+        return canvas.getBitmap(x, y, width, height);
     };
 
     var dummyCanvas = null;

@@ -1,5 +1,5 @@
 
-describe('Array', function() {
+describe('core.Array', function() {
     
     it('first', function() {
         // 最初の要素を取得

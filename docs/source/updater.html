@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * updater.js
+ */
+
+ 
+(function() {
+    
+<span id='tm-app-Updater'>    /**
+</span>     * @class tm.app.Updater
+     * 更新管理クラス
+     */
+    tm.define(&quot;tm.app.Updater&quot;, {
+        app: null,
+
+        init: function(app) {
+            this.app = app;
+        },
+
+        update: function(root) {
+            this._updateElement(root);
+        },
+
+        _updateElement: function(elm) {
+            var app = this.app;
+            
+            // 更新するかを判定
+            if (elm.awake == false) return ;
+
+            // 更新
+            if (elm.update) elm.update(app);
+
+            // エンターフレームイベント
+            if (elm.hasEventListener(&quot;enterframe&quot;)) {
+                var e = tm.event.Event(&quot;enterframe&quot;);
+                e.app = app;
+                elm.fire(e);
+            }
+            
+            // タッチ判定
+            if (elm.interactive) {
+                elm._checkPointing(app);
+            }
+
+            // 子供を更新
+            var len = elm.children.length;
+            if (len &gt; 0) {
+                var tempChildren = elm.children.slice();
+                for (var i=0; i&lt;len; ++i) {
+                    this._updateElement(tempChildren[i]);
+                }
+            }
+        },
+    });
+
+})();
+
+
+</pre>
+</body>
+</html>
