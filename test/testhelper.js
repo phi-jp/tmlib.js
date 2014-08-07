@@ -149,6 +149,7 @@
         "app/collision.js",
 
         "display/sprite.js",
+        "display/mapsprite.js",
 
         "scene/scene.js",
 

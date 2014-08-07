@@ -9,7 +9,7 @@ tm.define("tests.mapsprite.DemoScene00", {
         this.superInit();
         
         var loader = tm.asset.Loader();
-        loader.load("sample", "../../resource/tmx/testmap.tmx");
+        loader.load("sample", "../resource/tmx/testmap.tmx");
         var mapSheet = loader.get("sample");
         mapSheet.onload = function() {
             this.map = tm.display.MapSprite("sample", 32, 32).addChildTo(this);
@@ -50,7 +50,7 @@ tm.define("tests.mapsprite.DemoScene01", {
 
             tilesets: [
                 {
-                    image: "../../resource/tmx/mapImage.png"
+                    image: "../resource/tmx/mapImage.png"
                 }
             ],
 
@@ -118,7 +118,7 @@ tm.define("tests.mapsprite.DemoScene02", {
         this.superInit();
         var canvasElement = tm.display.CanvasElement().addChildTo(this);
         
-        var mapSheet = tm.asset.MapSheet("../../resource/tmx/testmap.tmx");
+        var mapSheet = tm.asset.MapSheet("../resource/tmx/testmap.tmx");
         mapSheet.onload = function() {
             canvasElement.load(mapSheet);
         }.bind(this);
@@ -150,7 +150,7 @@ tm.define("tests.mapsprite.DemoScene03", {
         this.superInit();
         
         var loader = tm.asset.Loader();
-        loader.load("sample", "../../resource/tmx/testmap.tmx");
+        loader.load("sample", "../resource/tmx/testmap.tmx");
         var mapSheet = loader.get("sample");
         mapSheet.onload = function() {
             this.map = tm.display.MapSprite("sample", 32, 32).addChildTo(this);
@@ -158,7 +158,7 @@ tm.define("tests.mapsprite.DemoScene03", {
         }.bind(this);
 
 
-        var charaTexture = tm.asset.Texture("../../resource/img/chara.png");
+        var charaTexture = tm.asset.Texture("../resource/img/chara.png");
 
         var ss = tm.asset.SpriteSheet({
             image: charaTexture,
