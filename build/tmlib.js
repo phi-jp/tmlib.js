@@ -11905,7 +11905,11 @@ tm.app = tm.app || {};
                 // requestAnimationFrame(fn);
             // }
             // fn();
-            
+
+            this.startedTime = new Date();
+            this.prevTime = new Date();
+            this.deltaTime = 0;
+
             tm.setLoop(function(){ self._loop(); }, this.timer.frameTime);
             
             return ;
@@ -11934,6 +11938,10 @@ tm.app = tm.app || {};
             // draw
             if (this.draw) this.draw();
             this._draw();
+
+            var now = new Date();
+            this.deltaTime = now - this.prevTime;
+            this.prevTime = now;
             
             // stats update
             if (this.stats) this.stats.update();
