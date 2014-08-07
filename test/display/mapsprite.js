@@ -266,11 +266,11 @@ tm.define("tests.mapsprite.DemoScene04", {
             tilesets: [
                 {
                     name: 'pink',
-                    image: '../../resource/img/tilesets/pink.png'
+                    image: '../resource/img/tilesets/pink.png'
                 },
                 {
                     name: 'blue',
-                    image: '../../resource/img/tilesets/blue.png'
+                    image: '../resource/img/tilesets/blue.png'
                 }
             ],
 
