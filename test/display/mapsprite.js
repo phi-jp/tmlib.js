@@ -249,3 +249,101 @@ tm.define("tests.mapsprite.DemoScene03", {
 
     },
 });
+
+tm.define("tests.mapsprite.DemoScene04", {
+    superClass: "tm.app.Scene",
+
+    init: function() {
+        this.superInit();
+
+        var mapSheet = tm.asset.MapSheet({
+            tilewidth: 32,
+            tileheight: 32,
+
+            width: 5,
+            height: 10,
+
+            tilesets: [
+                {
+                    name: 'pink',
+                    image: '../resource/img/tilesets/pink.png'
+                },
+                {
+                    name: 'blue',
+                    image: '../resource/img/tilesets/blue.png'
+                }
+            ],
+
+            layers: [
+                {
+                    tilesets: ['blue','pink'],
+                    data: [
+                         0, 1, 0, 4, 5,
+                         2, 3, 0, 6, 7,
+                         0, 0,-1, 0, 0,
+                         0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1
+                    ]
+                },
+                {
+                    tilesets: ['pink','blue'],
+                    data: [
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                         0, 1, 0, 4, 5,
+                         2, 3, 0, 6, 7,
+                         0, 0,-1, 0, 0,
+                         0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0
+                    ]
+                },
+                {
+                    tilesets: 'blue',
+                    data: [
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1,-1,-1,-1,
+                        -1,-1, 0,-1,-1,
+                    ]
+                }
+            ]
+        });
+        mapSheet.onload = function() {
+            this.map = tm.display.MapSprite(mapSheet, 32, 32).addChildTo(this);
+            this.update = this._move;
+        }.bind(this);
+
+        this.vx = 0;
+        this.vy = 0;
+    },
+
+    _move: function(app) {
+        var p = app.pointing;
+
+        if (p.getPointing()) {
+            this.vx = p.deltaPosition.x;
+            this.vy = p.deltaPosition.y;
+            this.map.x += this.vx;
+            this.map.y += this.vy;
+        }
+        else {
+            this.map.x += (this.vx*=0.8);
+            this.map.y += (this.vy*=0.8);
+        }
+    },
+});
