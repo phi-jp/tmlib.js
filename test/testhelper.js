@@ -140,6 +140,7 @@
     };
 
     global.testhelper.testScripts = [
+        "app/baseapp.js",
         "app/scene.js",
         "app/timer.js",
         "app/object2d.js",
@@ -149,6 +150,7 @@
 
         "display/sprite.js",
         "display/shape.js",
+        "display/mapsprite.js",
 
         "scene/scene.js",
 

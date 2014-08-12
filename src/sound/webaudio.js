@@ -32,6 +32,8 @@ tm.sound = tm.sound || {};
         panner: null,
         /** volume */
         volume: 0.8,
+        /** playing **/
+        playing: false,
 
         _pannerEnabled: true,
 
@@ -65,6 +67,9 @@ tm.sound = tm.sound || {};
          * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
          */
         play: function(time) {
+            if (this.playing == true) { return ; }
+            this.playing = true;
+
             if (time === undefined) time = 0;
 
             this.source.start(this.context.currentTime + time);
@@ -83,6 +88,9 @@ tm.sound = tm.sound || {};
          * 停止
          */
         stop: function(time) {
+            if (this.playing == false) { return ; }
+            this.playing = false;
+
             if (time === undefined) time = 0;
             if (this.source.playbackState == 0) {
                 return ;

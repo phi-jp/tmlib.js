@@ -115,6 +115,11 @@ var TestCtrl = function($scope) {
         $scope.code = code[0];
     };
 
+    $scope.reload = function() {
+        var previewElement = tm.dom.Element("#preview");
+        previewElement.element.contentWindow.location.reload();
+    };
+
 
     // スクリプトファイルを読み込む
     var testCode = "";

@@ -108,7 +108,7 @@
                     var webaudio = null;
 
                     play.event.click(function() {
-                        webaudio = tm.asset.Manager.get("sample").clone().play();
+                        webaudio = tm.asset.Manager.get("sample").clone();
                         webaudio.volume = parseFloat(volume.value);
                         webaudio.setPosition( parseFloat(position.value), 0, 0 );
                         webaudio.play();

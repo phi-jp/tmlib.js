@@ -532,7 +532,7 @@ if (typeof module !== 'undefined' && module.exports) {
     Object.defineInstanceMethod("$safe", function(source) {
         Array.prototype.forEach.call(arguments, function(source) {
             for (var property in source) {
-                if (this[property] === undefined || this[property] === null) this[property] = source[property];
+                if (this[property] === undefined) this[property] = source[property];
             }
         }, this);
         return this;
@@ -7220,7 +7220,7 @@ tm.dom = tm.dom || {};
             
             this.element = new Image();
             if ( !tm.isLocal() && !(/^data:/.test(src)) ) {
-                this.element.crossOrigin = "anonymous";
+                // this.element.crossOrigin = "anonymous";
             }
             this.element.src = src;
             
@@ -11832,10 +11832,8 @@ tm.app = tm.app || {};
         stats         : null,
         /** タイマー */
         timer         : null,
-        /** フレームレート */
-        fps           : 30,
         /** 現在更新中か */
-        isPlaying     : null,
+        awake         : null,
         /** @private  シーン情報の管理 */
         _scenes       : null,
         /** @private  シーンのインデックス */
@@ -11869,7 +11867,7 @@ tm.app = tm.app || {};
             this.updater = tm.app.Updater(this);
             
             // 再生フラグ
-            this.isPlaying = true;
+            this.awake = true;
             
             // シーン周り
             this._scenes = [ tm.app.Scene() ];
@@ -11890,7 +11888,7 @@ tm.app = tm.app || {};
                 this.currentScene.dispatchEvent(tm.event.Event("blur"));
             }.bind(this));
             // クリック
-            this.element.addEventListener((tm.isMobile) ? "touchstart" : "mousedown", this._onclick.bind(this));
+            this.element.addEventListener((tm.isMobile) ? "touchend" : "mouseup", this._onclick.bind(this));
         },
         
         /**
@@ -11898,28 +11896,30 @@ tm.app = tm.app || {};
          */
         run: function() {
             var self = this;
-            
-            // // requestAnimationFrame version
-            // var fn = function() {
-                // self._loop();
-                // requestAnimationFrame(fn);
-            // }
-            // fn();
-            
-            tm.setLoop(function(){ self._loop(); }, this.timer.frameTime);
-            
-            return ;
-            
-            if (true) {
-                setTimeout(arguments.callee.bind(this), 1000/this.fps);
-                this._loop();
-            }
-            
-            return ;
-            
-            var self = this;
-            // setInterval(function(){ self._loop(); }, 1000/self.fps);
-            tm.setLoop(function(){ self._loop(); }, 1000/self.fps);
+
+            this.startedTime = new Date();
+            this.prevTime = new Date();
+            this.deltaTime = 0;
+
+            var _run = function() {
+                // start
+                var start = (new Date()).getTime();
+
+                // run
+                self._loop();
+
+                // calculate progress time
+                var progress = (new Date()).getTime() - start;
+                // calculate next waiting time
+                var newDelay = self.timer.frameTime-progress;
+
+                // set next running function
+                setTimeout(_run, newDelay);
+            };
+
+            _run();
+
+            return this;
         },
         
         /*
@@ -11934,6 +11934,10 @@ tm.app = tm.app || {};
             // draw
             if (this.draw) this.draw();
             this._draw();
+
+            var now = new Date();
+            this.deltaTime = now - this.prevTime;
+            this.prevTime = now;
             
             // stats update
             if (this.stats) this.stats.update();
@@ -12048,7 +12052,7 @@ tm.app = tm.app || {};
          * シーンのupdateを実行するようにする
          */
         start: function() {
-            this.isPlaying = true;
+            this.awake = true;
 
             return this;
         },
@@ -12057,7 +12061,7 @@ tm.app = tm.app || {};
          * シーンのupdateを実行しないようにする
          */
         stop: function() {
-            this.isPlaying = false;
+            this.awake = false;
 
             return this;
         },
@@ -12073,7 +12077,7 @@ tm.app = tm.app || {};
             this.touch.update();
             // this.touches.update();
             
-            if (this.isPlaying) {
+            if (this.awake) {
                 this.updater.update(this.currentScene);
                 this.timer.update();
             }
@@ -12098,26 +12102,14 @@ tm.app = tm.app || {};
          * @param {Object} e
          */
         _onclick: function(e) {
-            var px = e.pointX;
-            var py = e.pointY;
-
-            if (this.element.style.width) {
-                px *= this.element.width / parseInt(this.element.style.width);
-            }
-            if (this.element.style.height) {
-                py *= this.element.height / parseInt(this.element.style.height);
-            }
-
             var _fn = function(elm) {
                 if (elm.children.length > 0) {
-                    elm.children.each(function(elm) {
-                        if (elm.hasEventListener("click")) {
-                            if (elm.isHitPoint && elm.isHitPoint(px, py)) {
-                                elm.dispatchEvent(tm.event.Event("click"));
-                            }
-                        }
-                    });
+                    elm.children.each(function(elm) { _fn(elm); });
                 }
+                if (elm._clickFlag && elm.hasEventListener("click")) {
+                    elm.dispatchEvent(tm.event.Event("click"));
+                }
+                elm._clickFlag = false;
             };
             _fn(this.currentScene);
         },
@@ -12475,6 +12467,7 @@ tm.app = tm.app || {};
             this.interactive = false;
             this.hitFlags = [];
             this.downFlags= [];
+            this._clickFlag = false;
 
             this._worldMatrix = tm.geom.Matrix33();
             this._worldMatrix.identity();
@@ -12817,9 +12810,8 @@ tm.app = tm.app || {};
             var elm = this.element;
             
             var prevHitFlag = this.hitFlags[index];
-            
             this.hitFlags[index]    = this.isHitPoint(p.x, p.y);
-            
+
             if (!prevHitFlag && this.hitFlags[index]) {
                 this._dispatchPointingEvent("mouseover", "touchover", "pointingover", app, p);
             }
@@ -12832,6 +12824,7 @@ tm.app = tm.app || {};
                 if (p.getPointingStart()) {
                     this._dispatchPointingEvent("mousedown", "touchstart", "pointingstart", app, p);
                     this.downFlags[index] = true;
+                    this._clickFlag = true;
                 }
             }
             
@@ -15494,6 +15487,7 @@ tm.display = tm.display || {};
             this.height= chipWidth*this.mapSheet.height;
 
             this.tileset = [];
+            this.tilesetInfo = {};
             this._build();
         },
 
@@ -15503,8 +15497,8 @@ tm.display = tm.display || {};
         _build: function() {
             var self = this;
 
-            this.mapSheet.tilesets.each(function(tileset) {
-                self._buildTileset(tileset);
+            this.mapSheet.tilesets.each(function(tileset, index) {
+                self._buildTileset(tileset, index);
             });
 
             this.mapSheet.layers.each(function(layer, hoge) {
@@ -15520,12 +15514,23 @@ tm.display = tm.display || {};
         /**
          * @private
          */
-        _buildTileset: function(tileset) {
+        _buildTileset: function(tileset, index) {
             var self      = this;
             var mapSheet  = this.mapSheet;
             var texture   = tm.asset.Manager.get(tileset.image);
             var xIndexMax = (texture.width / mapSheet.tilewidth)|0;
             var yIndexMax = (texture.height / mapSheet.tileheight)|0;
+
+            var info = {
+                begin: self.tileset.length,
+                end: self.tileset.length + xIndexMax * yIndexMax
+            };
+
+            self.tilesetInfo[index] = info;
+
+            if (tileset.name !== undefined) {
+                self.tilesetInfo[tileset.name] = info;
+            }
 
             yIndexMax.times(function(my) {
                 xIndexMax.times(function(mx) {
@@ -15552,7 +15557,23 @@ tm.display = tm.display || {};
             var shape    = tm.display.Shape(this.width, this.height).addChildTo(this);
             var visible  = (layer.visible === 1) || (layer.visible === undefined);
             var opacity  = layer.opacity === undefined ? 1 : layer.opacity;
+            var tileset  = [];
             shape.origin.set(0, 0);
+
+            if (layer.tilesets !== undefined) {
+                var tilesets = null;
+                if (Array.isArray(layer.tilesets)) {
+                    tilesets = layer.tilesets;
+                } else {
+                    tilesets = [layer.tilesets];
+                }
+                tilesets.each(function(n) {
+                    var info = self.tilesetInfo[n];
+                    tileset = tileset.concat(self.tileset.slice(info.begin, info.end));
+                });
+            } else {
+                tileset = self.tileset;
+            }
 
             if (visible) {
                 layer.data.each(function(d, index) {
@@ -15561,13 +15582,16 @@ tm.display = tm.display || {};
                         return ;
                     }
                     type = Math.abs(type);
+                    if (tileset[type] === undefined) {
+                        return ;
+                    }
 
                     var xIndex = index%mapSheet.width;
                     var yIndex = (index/mapSheet.width)|0;
                     var dx = xIndex*self.chipWidth;
                     var dy = yIndex*self.chipHeight;
 
-                    var tile = self.tileset[type];
+                    var tile = tileset[type];
 
                     var texture = tm.asset.Manager.get(tile.image);
                     var rect = tile.rect;
@@ -15803,18 +15827,8 @@ tm.display = tm.display || {};
         },
         "label": function(canvas) {
             canvas.setText(this.fontStyle, this.align, this.baseline);
-            if (this.fill) {
-                if (this.maxWidth) {
-                    this._lines.each(function(elm, i) {
-                        canvas.fillText(elm, 0, this.textSize*i, this.maxWidth);
-                    }.bind(this));
-                }
-                else {
-                    this._lines.each(function(elm, i) {
-                        canvas.fillText(elm, 0, this.textSize*i);
-                    }.bind(this));
-                }
-            }
+            if (this.lineWidth) canvas.lineWidth = this.lineWidth;
+            
             if (this.stroke) {
                 if (this.maxWidth) {
                     this._lines.each(function(elm, i) {
@@ -15824,6 +15838,18 @@ tm.display = tm.display || {};
                 else {
                     this._lines.each(function(elm, i) {
                         canvas.strokeText(elm, 0, this.textSize*i);
+                    }.bind(this));
+                }
+            }
+            if (this.fill) {
+                if (this.maxWidth) {
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i, this.maxWidth);
+                    }.bind(this));
+                }
+                else {
+                    this._lines.each(function(elm, i) {
+                        canvas.fillText(elm, 0, this.textSize*i);
                     }.bind(this));
                 }
             }
@@ -18511,6 +18537,8 @@ tm.sound = tm.sound || {};
         panner: null,
         /** volume */
         volume: 0.8,
+        /** playing **/
+        playing: false,
 
         _pannerEnabled: true,
 
@@ -18544,6 +18572,9 @@ tm.sound = tm.sound || {};
          * - noteGrainOn ... http://www.html5rocks.com/en/tutorials/casestudies/munkadoo_bouncymouse/
          */
         play: function(time) {
+            if (this.playing == true) { return ; }
+            this.playing = true;
+
             if (time === undefined) time = 0;
 
             this.source.start(this.context.currentTime + time);
@@ -18562,6 +18593,9 @@ tm.sound = tm.sound || {};
          * 停止
          */
         stop: function(time) {
+            if (this.playing == false) { return ; }
+            this.playing = false;
+
             if (time === undefined) time = 0;
             if (this.source.playbackState == 0) {
                 return ;

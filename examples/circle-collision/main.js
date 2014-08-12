@@ -3,14 +3,6 @@
  */
 
 /*
- * グローバル
- */
-var app             = null;
-var visibleTrace    = true;
-var circleList      = [];
-var target          = null;
-
-/*
  * 定数
  */
 var SCREEN_WIDTH    = 640;
@@ -23,12 +15,8 @@ var CIRCLE_MAX_NUM  = 15;
 var CIRCLE_PURSUIT_RATE = 0.25;  // 収束率
 
 
-/*
- * プレロード
- */
-tm.preload(function() {
-    
-});
+// global
+var app = null;
 
 /*
  * メイン処理
@@ -37,20 +25,20 @@ tm.main(function() {
     app = tm.app.CanvasApp("#world");
     app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
     app.fitWindow();
-    app.background = "rgba(0, 0, 0, 0.25)";
+    app.background = "rgba(0, 0, 0, 1)";
+
+    var circleGroup = tm.display.CanvasElement().addChildTo(app.currentScene);
+    app.circleGroup = circleGroup;
+
+    CIRCLE_MAX_NUM.times(function() {
+        var circle = Circle().addChildTo(circleGroup);
+    });
     
-    for (var i=0; i<CIRCLE_MAX_NUM; ++i) {
-        var circle = Circle();
-        app.currentScene.addChild(circle);
-        circleList.push(circle);
-    }
-    
-    // app.currentScene.rotation = 30;
-    
-    for (var i=0; i<circleList.length-1; ++i) {
-        var target = circleList[i];
-        for (var j=i+1; j<circleList.length; ++j) {
-            var other = circleList[j];
+    var circles = circleGroup.children;
+    for (var i=0; i<circles.length-1; ++i) {
+        var target = circles[i];
+        for (var j=i+1; j<circles.length; ++j) {
+            var other = circles[j];
             target.collision.add(other);
         }
     }
@@ -62,9 +50,6 @@ tm.main(function() {
     var gui = app.enableDatGUI();
     if (gui) {
         gui.add(window, "explode");
-        gui.add(window, "visibleTrace").setValue(true).onChange(function(){
-            app.background = (visibleTrace) ? "rgba(0, 0, 0, 0.25)" : "rgba(0, 0, 0, 1)";
-        });
         gui.add(window, "BOUNCINESS", 0, 1, 0.1);
         gui.add(window, "FRICTION", 0, 1, 0.01);
         
@@ -74,28 +59,15 @@ tm.main(function() {
         gravityFolder.add(GRAVITY, "y", -2, 2, 0.1);
         gravityFolder.open();
     }
-    
-    app.update = function() {
-        var scene = this.currentScene;
-        var key = this.keyboard;
-        // ポーズ
-        if (key.getKeyDown("space") == true) {
-            (scene.isUpdate == true) ? scene.sleep() : scene.wakeUp();
-        }
-    }
-    
-    // mdlclick でキャプチャ
-    tm.dom.Element(app.getElement()).event.mdlclick(function() {
-        app.canvas.saveAsImage();
-    });
-    
+
     app.run();
 });
 
 
 window.explode = function() {
-    for (var i=0; i<circleList.length; ++i) {
-        var circle = circleList[i];
+    var circles = app.circleGroup.children;
+    for (var i=0; i<circles.length; ++i) {
+        var circle = circles[i];
         circle.explode();
     }
 };
@@ -111,8 +83,8 @@ var Circle = tm.createClass({
         this.superInit(40, 40);
         
         // 位置をセット
-        this.x = Math.rand(0, app.width);
-        this.y = Math.rand(0, app.height);
+        this.x = Math.rand(0, SCREEN_WIDTH);
+        this.y = Math.rand(0, SCREEN_HEIGHT);
         
         // パラメータセット
         this.radius = Math.rand(25, 50);
@@ -123,9 +95,9 @@ var Circle = tm.createClass({
         var canvas = document.createElement("canvas");
         var context= canvas.getContext("2d");
         var grad = context.createRadialGradient(0, 0, 0, 0, 0, this.radius);
-        grad.addColorStop(0.0, "hsla({color}, 65%, 50%, 0.0)".format({color: this.colorAngle}));
-        grad.addColorStop(0.95, "hsla({color}, 65%, 50%, 1.0)".format({color: this.colorAngle}));
-        grad.addColorStop(1.0, "hsla({color}, 65%, 50%, 0.0)".format({color: this.colorAngle}));
+        grad.addColorStop(0.0, "hsla({color}, 85%, 50%, 0.0)".format({color: this.colorAngle}));
+        grad.addColorStop(0.95, "hsla({color}, 85%, 50%, 1.0)".format({color: this.colorAngle}));
+        grad.addColorStop(1.0, "hsla({color}, 85%, 50%, 0.0)".format({color: this.colorAngle}));
         this.fillStyle  = grad;
         this.strokeStyle= "white";
         this.blendMode  = "lighter";
@@ -139,7 +111,7 @@ var Circle = tm.createClass({
     
     update: function(app) {
         // 掴んでいるサークルが自分だった場合
-        if (this === target) {
+        if (this === app.targetCircle) {
             var p = app.pointing;
             this.position.set(p.x + this.offsetX, p.y + this.offsetY);
             this.velocity.set(p.dx, p.dy);
@@ -196,14 +168,14 @@ var Circle = tm.createClass({
     
     onpointingstart: function(e) {
         var p = e.app.pointing;
-        target = this;
+        e.app.targetCircle = this;
         this.velocity.set(0, 0);
         this.offsetX = this.x - p.x;
         this.offsetY = this.y - p.y;
     },
     
-    onpointingend: function() {
-        target = null;
+    onpointingend: function(e) {
+        e.app.targetCircle = null;
     },
 });
 

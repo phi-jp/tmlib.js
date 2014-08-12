@@ -1,5 +1,5 @@
 
-describe('Number', function() {
+describe('core.Number', function() {
     
     it('round', function() {
         assert.equal((42.1947).round(), 42);
