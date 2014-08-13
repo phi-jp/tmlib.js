@@ -12361,14 +12361,14 @@ tm.app = tm.app || {};
                 if (key == "children") {
                     if (value instanceof Array) {
                         for (var i=0,len=value.length; i<len; ++i) {
-                            var data = value[i];
-                            _fromJSON(data.name, data);
+                            var childData = value[i];
+                            _fromJSON(childData.name, childData);
                         }
                     }
                     else {
                         for (var key in value) {
-                            var data = value[key];
-                            _fromJSON(key, data);
+                            var childData = value[key];
+                            _fromJSON(key, childData);
                         }
                     }
                 }
