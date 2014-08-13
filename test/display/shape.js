@@ -72,9 +72,17 @@ tm.define("tests.shape.triangle", {
         this.shape.bgColor = "#444";
     },
 
-    onpointingstart: function() {
-        this.shape.fillStyle = "gold";
+    onenter: function() {
+        this.shape.bgColor = "#444444";
+        this.shape.fillStyle = "#00ff00";
+        this.shape.strokeStyle = "#ffffff";
+
+        var gui = this.app.enableDatGUI();
+
+        gui.add(this.shape, 'width', 0, 512).step(1).onChange(onchange);
+        gui.add(this.shape, 'height', 0, 512).step(1).onChange(onchange);
     },
+
 });
 
 
@@ -201,6 +209,36 @@ tm.define("tests.shape.heart", {
         gui.add(this.shape, 'lineWidth', 0, 32).step(1);
         gui.add(this.shape, 'cornerAngle', 0, 90).step(1);
 
+    },
+});
+
+
+
+tm.define("tests.shape.text", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+
+        this.shape = tm.display.TextShape({
+            lineWidth: 8,
+            shadowBlur: 4,
+            shadowColor: "red",
+        }).addChildTo(this).setPosition(320, 480);
+    },
+
+    onenter: function() {
+        this.shape.bgColor = "#444444";
+        this.shape.fillStyle = "#000000";
+        this.shape.strokeStyle = "#ffffff";
+
+        var gui = this.app.enableDatGUI();
+        var onchange = this.shape.fit.bind(this.shape)
+
+        gui.add(this.shape, 'text').onChange(onchange);
+        gui.add(this.shape, 'fontSize', 0, 128).step(1).onChange(onchange);
+        gui.add(this.shape, 'fontWeight').onChange(onchange);
+        gui.add(this.shape, 'fontFamily').onChange(onchange);
     },
 });
 
