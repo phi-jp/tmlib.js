@@ -1,5 +1,63 @@
 
 
+/*
+ * loadingscene
+ */
+tm.define("tests.loadingscene.test", {
+    superClass: "tm.app.Scene",
+ 
+    init: function() {
+        this.superInit();
+    },
+    
+    onenter: function() {
+        
+        var loading = tm.scene.LoadingScene({
+            assets: {
+                "image1": "http://dummyimage.com/512x512/aaa/fff.png?&text=1&"+(new Date()).getTime(),
+                "image2": "http://dummyimage.com/512x512/aaa/fff.png?&text=2&"+(new Date()).getTime(),
+                "image3": "http://dummyimage.com/512x512/aaa/fff.png?&text=3&"+(new Date()).getTime(),
+                "image4": "http://dummyimage.com/512x512/aaa/fff.png?&text=4&"+(new Date()).getTime(),
+                "image5": "http://dummyimage.com/512x512/aaa/fff.png?&text=5&"+(new Date()).getTime(),
+                "image6": "http://dummyimage.com/512x512/aaa/fff.png?&text=6&"+(new Date()).getTime(),
+                "image7": "http://dummyimage.com/512x512/aaa/fff.png?&text=7&"+(new Date()).getTime(),
+                "image8": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image9": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image10": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image11": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image12": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image13": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image14": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image15": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image16": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image17": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image18": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image19": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+                "image20": "http://dummyimage.com/512x512/aaa/fff.png?&text=8&"+(new Date()).getTime(),
+            },
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
+        });
+        this.app.replaceScene(loading);
+        
+        this.onenter =  null;
+        
+        loading.onprogress = function(e) {
+            console.log(e.type, e.progress);
+        };
+        var self = this;
+        loading.onload = function(e) {
+            console.log(e.type, e.progress);
+
+            this.app.replaceScene(self);
+            
+            tm.display.Sprite("image1").addChildTo(self).setPosition(320, 480);
+        };
+        
+    }
+
+});
+
 
 /*
  * titlescene

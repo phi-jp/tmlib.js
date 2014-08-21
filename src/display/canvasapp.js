@@ -114,6 +114,8 @@ tm.display = tm.display || {};
             
             this.canvas.fillStyle   = "white";
             this.canvas.strokeStyle = "white";
+            this.canvas.context.lineJoin = "round";
+            this.canvas.context.lineCap  = "round";
 
             // スタックしたキャンバスを描画
             if (this._canvasCache.last)
