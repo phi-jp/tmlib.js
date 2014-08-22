@@ -2080,8 +2080,11 @@ tm.event = tm.event || {};
         /*
          * イベント名でイベント発火
          */
-        flare: function(eventName) {
+        flare: function(eventName, param) {
             var e = tm.event.Event(eventName);
+            if (param) {
+                e.$extend(param);
+            }
             this.fire(e);
 
             return this;
@@ -17777,8 +17780,8 @@ tm.ui = tm.ui || {};
             return this.scenes[index];
         },
 
-        setSceneArgument: function(label, key, value) {
-            this.getScene(label).arguments[key] = value;
+        setSceneArguments: function(label, param) {
+            this.getScene(label).arguments.$extend(param);
             return this;
         },
 
@@ -17891,26 +17894,6 @@ tm.ui = tm.ui || {};
 		init: function(param) {
 			this.superInit();
 
-			// var loader = tm.asset.Loader();
-			// loader.load({
-			// 	"ss": "scene/ss.png",
-			// });
-
-			// loader.onload = function() {
-			// 	this.fromJSON({
-			// 		children: {
-			// 			ss: {
-			// 				type: "tm.display.Sprite",
-			// 				init: "ss",
-			// 				originX: 0,
-			// 				originY: 0,
-			// 				y: -88,
-			// 				alpha: 0.1,
-			// 			}
-			// 		}
-			// 	})
-			// }.bind(this);
-
 			this.fromJSON({
 				children: {
 					inputLabel: {
@@ -17948,10 +17931,15 @@ tm.ui = tm.ui || {};
 						self.fire(e);
 					}
 					else if (this.label.text == 'C') {
+						var e = tm.event.Event("push");
 						self.inputLabel.text = "";
+						self.flare("clear");
 					}
 					else {
 						self.inputLabel.text += this.label.text;
+						self.flare("push", {
+							select: this.label.text,
+						});
 					}
 				}
 			});

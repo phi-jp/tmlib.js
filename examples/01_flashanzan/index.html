@@ -40,16 +40,22 @@ tm.define("MainScene", {
     init: function() {
         this.superInit({
             scenes: [
-                // {
-                //     className: "tm.app.LoadingScene",
-                //     arguments: {
-                //         assets: {
-                //             touch: "touch.wav",
-                //             decide: "decide.wav",
-                //         }
-                //     },
-                //     label: "loading",
-                // },
+                {
+                    className: "tm.scene.LoadingScene",
+                    arguments: {
+                        assets: {
+                            touch: "touch.wav",
+                            decide: "decide.wav",
+                            correct: "correct.mp3",
+                            incorrect: "incorrect.mp3",
+                            question: "question.wav",
+                        },
+                        width: 640,
+                        height: 960,
+                        autopop: true,
+                    },
+                    label: "loading",
+                },
                 {
                     className: "tm.scene.TitleScene",
                     arguments: {
@@ -77,21 +83,12 @@ tm.define("MainScene", {
 
     onprepare: function() {
         if (this.getCurrentLabel() == "game") {
-            this.setSceneArgument("result", "score", this.currentScene.score);
+            // スコアをセットする
+            this.setSceneArguments("result", {
+                "score": this.currentScene.score
+            });
         }
     },
-
-    // ongoto: function() {
-    //     if (this.getCurrentLabel() == "loading") {
-    //         this.currentScene.onload = function() {
-    //             this.app.popScene();
-    //         }.bind(this);
-    //     }
-    // },
-
-    // onstart: function() {
-    //     this.gotoScene("result");
-    // },
 });
 
 
@@ -101,27 +98,25 @@ tm.define("GameScene", {
     init: function() {
     	this.superInit();
 
-    	this.count = 0;
-    	this.maxCount = 5;
-    	this.numbers = Array.range(5).map(function() {
-    		return tm.util.Random.randint(1, 9);
-    	});
-    	this.sum = (function(numbers) {
-    		var sum = 0;
-    		numbers.each(function(number) {
-    			sum += number;
-    		});
-    		return sum;
-    	})(this.numbers);
-
-    	this.startNumber();
+        this.score = 0;
+        
+        this.setupQuestion();
     },
 
-    reset: function() {
+    setupQuestion: function() {
+        this.count = 0;
+        this.maxCount = 3;
+        this.numbers = Array.range(this.maxCount).map(function() {
+            return tm.util.Random.randint(1, 9);
+        });
+        this.sum = this.numbers.reduce(function(prev, current) {
+            return prev + current;
+        });
 
+        this.startQuestion();
     },
 
-    startNumber: function() {
+    startQuestion: function() {
     	var self = this;
     	var number = this.numbers[this.count];
     	var label = tm.display.Label("9").addChildTo(this);
@@ -141,6 +136,8 @@ tm.define("GameScene", {
     			label.remove();
     			self.flare("numberfinish");
     		}, label);
+
+        tm.asset.Manager.get("question").clone().play();
     },
 
     startAnswer: function() {
@@ -173,27 +170,73 @@ tm.define("GameScene", {
             // 答え入力
             var scene = tm.scene.NumericalInputScene();
 
+            scene.onpush = function(e) {
+                tm.asset.Manager.get("touch").clone().play();
+            };
             scene.ondecided = function(e) {
+                tm.asset.Manager.get("decide").clone().play();
                 self.judge(e.value);
+                self.app.popScene();
             };
             this.app.pushScene(scene);
     		this.onpointingstart = this.startAnswer.bind(this);
     	}
     	else {
-	    	this.startNumber();
+	    	this.startQuestion();
     	}
     },
 
     judge: function(v) {
-        if (v == this.sum) {
-            alert("right!");
+        var isCorrect = (v == this.sum);
+
+        this.fromJSON({
+            children: {
+                correctLabel: {
+                    type: "tm.display.Label",
+                    text: (v == this.sum) ? "right!" : "worng!",
+                    x: SCREEN_CENTER_X,
+                    y: SCREEN_CENTER_Y,
+                    fontSize: 128,
+                    baseline: "bottom",
+                    scaleX: 0.5,
+                    scaleY: 0.5,
+                },
+                answerLabel: {
+                    type: "tm.display.Label",
+                    text: "answer: {0}".format(this.sum),
+                    x: SCREEN_CENTER_X,
+                    y: SCREEN_CENTER_Y+ 30,
+                    fontSize: 80,
+                    baseline: "top",
+                    scaleX: 0.5,
+                    scaleY: 0.5,
+                }
+            },
+        });
+
+        if (isCorrect) {
+            tm.asset.Manager.get("correct").clone().play();
         }
         else {
-            alert("wrong!");
+            tm.asset.Manager.get("incorrect").clone().play();
         }
 
-        this.app.popScene();
-        this.app.popScene();
+        this.correctLabel.tweener
+            .scale(1, 256, "easeOutBounce")
+            .wait(1000)
+            .call(function() {
+                this.correctLabel.remove();
+                this.answerLabel.remove();
+
+                if (isCorrect) {
+                    this.score += 100;
+                    this.setupQuestion();
+                }
+                else {
+                    this.app.popScene();
+                }
+            }, this)
+            ;
     },
 });
 

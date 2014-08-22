@@ -8,26 +8,6 @@
 		init: function(param) {
 			this.superInit();
 
-			// var loader = tm.asset.Loader();
-			// loader.load({
-			// 	"ss": "scene/ss.png",
-			// });
-
-			// loader.onload = function() {
-			// 	this.fromJSON({
-			// 		children: {
-			// 			ss: {
-			// 				type: "tm.display.Sprite",
-			// 				init: "ss",
-			// 				originX: 0,
-			// 				originY: 0,
-			// 				y: -88,
-			// 				alpha: 0.1,
-			// 			}
-			// 		}
-			// 	})
-			// }.bind(this);
-
 			this.fromJSON({
 				children: {
 					inputLabel: {
@@ -65,10 +45,15 @@
 						self.fire(e);
 					}
 					else if (this.label.text == 'C') {
+						var e = tm.event.Event("push");
 						self.inputLabel.text = "";
+						self.flare("clear");
 					}
 					else {
 						self.inputLabel.text += this.label.text;
+						self.flare("push", {
+							select: this.label.text,
+						});
 					}
 				}
 			});

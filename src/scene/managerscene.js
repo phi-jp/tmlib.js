@@ -49,8 +49,8 @@
             return this.scenes[index];
         },
 
-        setSceneArgument: function(label, key, value) {
-            this.getScene(label).arguments[key] = value;
+        setSceneArguments: function(label, param) {
+            this.getScene(label).arguments.$extend(param);
             return this;
         },
 
