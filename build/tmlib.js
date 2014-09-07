@@ -1443,7 +1443,12 @@ if (typeof module !== 'undefined' && module.exports) {
         if (typeof arg == "object") {
             /** @ignore */
             rep_fn = function(m, k) {
-                return arg[k] || '';
+                if (arg[k] === undefined) {
+                    return '';
+                }
+                else {
+                    return arg[k];
+                }
             }
         }
         // 複数引数だった場合
