@@ -115,10 +115,11 @@
             }.bind(this));
             
             var loadAsset = function(asset, key) {
+
                 var e = tm.event.Event("progress");
                 e.key = key;
                 e.asset = asset;
-                e.progress = flow.counter/flow.waits; // todo
+                e.progress = (flow.counter+1)/flow.waits; // todo
                 this.dispatchEvent(e);
 
                 flow.pass();

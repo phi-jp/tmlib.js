@@ -69,8 +69,11 @@ tm.event = tm.event || {};
         /*
          * イベント名でイベント発火
          */
-        flare: function(eventName) {
+        flare: function(eventName, param) {
             var e = tm.event.Event(eventName);
+            if (param) {
+                e.$extend(param);
+            }
             this.fire(e);
 
             return this;

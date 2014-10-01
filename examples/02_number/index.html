@@ -50,16 +50,19 @@ tm.define("MainScene", {
     init: function() {
         this.superInit({
             scenes: [
-                // {
-                //     className: "tm.app.LoadingScene",
-                //     arguments: {
-                //         assets: {
-                //             touch: "touch.wav",
-                //             decide: "decide.wav",
-                //         }
-                //     },
-                //     label: "loading",
-                // },
+                {
+                    className: "tm.scene.LoadingScene",
+                    arguments: {
+                        width: SCREEN_WIDTH,
+                        height: SCREEN_HEIGHT,
+                        assets: {
+                            touch: "touch.wav",
+                            decide: "decide.wav",
+                        },
+                        autopop: true,
+                    },
+                    label: "loading",
+                },
                 {
                     className: "tm.scene.TitleScene",
                     arguments: {

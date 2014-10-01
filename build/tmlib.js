@@ -1442,7 +1442,14 @@ if (typeof module !== 'undefined' && module.exports) {
         // オブジェクトの場合
         if (typeof arg == "object") {
             /** @ignore */
-            rep_fn = function(m, k) { return arg[k]; }
+            rep_fn = function(m, k) {
+                if (arg[k] === undefined) {
+                    return '';
+                }
+                else {
+                    return arg[k];
+                }
+            }
         }
         // 複数引数だった場合
         else {
@@ -1573,7 +1580,6 @@ if (typeof module !== 'undefined' && module.exports) {
      */
     String.defineInstanceMethod("count", function(str) {
         var re = new RegExp(str, 'gm');
-        console.log(this.match(re));
         return this.match(re).length;
     });
     
@@ -2080,8 +2086,11 @@ tm.event = tm.event || {};
         /*
          * イベント名でイベント発火
          */
-        flare: function(eventName) {
+        flare: function(eventName, param) {
             var e = tm.event.Event(eventName);
+            if (param) {
+                e.$extend(param);
+            }
             this.fire(e);
 
             return this;
@@ -7090,10 +7099,11 @@ tm.dom = tm.dom || {};
             }.bind(this));
             
             var loadAsset = function(asset, key) {
+
                 var e = tm.event.Event("progress");
                 e.key = key;
                 e.asset = asset;
-                e.progress = flow.counter/flow.waits; // todo
+                e.progress = (flow.counter+1)/flow.waits; // todo
                 this.dispatchEvent(e);
 
                 flow.pass();
@@ -11860,6 +11870,12 @@ tm.app = tm.app || {};
             
             // ポインティングをセット(PC では Mouse, Mobile では Touch)
             this.pointing   = (tm.isMobile) ? this.touch : this.mouse;
+            this.element.addEventListener("touchstart", function () {
+                this.pointing = this.touch;
+            }.bind(this));
+            this.element.addEventListener("mousedown", function () {
+                this.pointing = this.mouse;
+            }.bind(this));
             
             // 加速度センサーを生成
             this.accelerometer = tm.input.Accelerometer();
@@ -12361,14 +12377,14 @@ tm.app = tm.app || {};
                 if (key == "children") {
                     if (value instanceof Array) {
                         for (var i=0,len=value.length; i<len; ++i) {
-                            var data = value[i];
-                            _fromJSON(data.name, data);
+                            var childData = value[i];
+                            _fromJSON(childData.name, childData);
                         }
                     }
                     else {
                         for (var key in value) {
-                            var data = value[key];
-                            _fromJSON(key, data);
+                            var childData = value[key];
+                            _fromJSON(key, childData);
                         }
                     }
                 }
@@ -14143,6 +14159,8 @@ tm.display = tm.display || {};
             
             this.canvas.fillStyle   = "white";
             this.canvas.strokeStyle = "white";
+            this.canvas.context.lineJoin = "round";
+            this.canvas.context.lineCap  = "round";
 
             // スタックしたキャンバスを描画
             if (this._canvasCache.last)
@@ -17520,6 +17538,200 @@ tm.ui = tm.ui || {};
 })();
 
 
+/*
+ * loadingscene.js
+ */
+
+
+;(function() {
+    
+    var DEFAULT_PARAM = {
+        width: 465,
+        height: 465,
+        bgColor: "transparent",
+    };
+    
+    tm.define("tm.scene.LoadingScene", {
+        superClass: "tm.app.Scene",
+        
+        init: function(param) {
+            this.superInit();
+            
+            this.param = param = {}.$extend(DEFAULT_PARAM, param);
+
+            this.fromJSON({
+                children: {
+                    stage: {
+                        type: "tm.display.CanvasElement",
+                    },
+                }
+            });
+
+            this.stage.fromJSON({
+                children: {
+                    bg: {
+                        type: "tm.display.Shape",
+                        init: [param.width, param.height],
+                        originX: 0,
+                        originY: 0,
+                    },
+                    piyoLayer: {
+                        type: "tm.display.CanvasElement",
+                    },
+                    label: {
+                        type: "tm.display.Label",
+                        text: "LOADING",
+                        x: param.width/2,
+                        y: param.height/2-20,
+                        align: "center",
+                        baseline: "middle",
+                        fontSize: 46,
+                        shadowBlur: 4,
+                        shadowColor: "hsl(190, 100%, 50%)",
+                    },
+                    // piyo: {
+                    //     type: "tm.display.Shape",
+                    //     init: [84, 84],
+                    // },
+                    bar: {
+                        type: "tm.ui.Gauge",
+                        init: [{
+                            width: param.width,
+                            height: 10,
+                            color: "hsl(200, 100%, 80%)",
+                            bgColor: "transparent",
+                            borderColor: "transparent",
+                            borderWidth: 0,
+                        }],
+                        x: 0,
+                        y: 0,
+                    },
+                }
+            });
+            
+            // bg
+            var bg = this.stage.bg;
+            bg.canvas.clearColor(param.bgColor);
+
+            // label
+            var label = this.stage.label;
+            label.tweener
+                .to({alpha:1}, 1000)
+                .to({alpha:0.5}, 1000)
+                .setLoop(true)
+
+            // bar
+            var bar = this.stage.bar;
+            bar.animationFlag = false;
+            bar.value = 0;
+            bar.animationFlag = true;
+            bar.animationTime = 100;
+            
+            // ひよこさん
+            this._createHiyoko(param).addChildTo(this.stage.piyoLayer);
+
+            // load
+            var stage = this.stage;
+            stage.alpha = 0.0;
+            stage.tweener.clear().fadeIn(100).call(function() {
+                if (param.assets) {
+                    var loader = tm.asset.Loader();
+                    loader.onload = function() {
+                        stage.tweener.clear().wait(200).fadeOut(200).call(function() {
+                            if (param.nextScene) {
+                                this.app.replaceScene(param.nextScene());
+                            }
+                            var e = tm.event.Event("load");
+                            this.fire(e);
+
+                            if (param.autopop == true) {
+                                this.app.popScene();
+                            }
+                        }.bind(this));
+                    }.bind(this);
+                    
+                    loader.onprogress = function(e) {
+                        // update bar
+                        bar.value = e.progress*100;
+
+                        // dispatch event
+                        var event = tm.event.Event("progress");
+                        event.progress = e.progress;
+                        this.fire(event);
+                    }.bind(this);
+                    
+                    loader.load(param.assets);
+                }
+            }.bind(this));
+        },
+
+        onpointingstart: function(app) {
+            // ひよこさん生成
+            var p = app.pointing;
+            var piyo = this._createHiyoko(this.param).addChildTo(this.stage.piyoLayer);
+            piyo.x = p.x;
+            piyo.y = p.y;
+        },
+
+        _createHiyoko: function(param) {
+            // ひよこさん
+            var piyo = tm.display.Shape(84, 84);
+            piyo.x = tm.util.Random.randint(0, param.width);
+            piyo.y = tm.util.Random.randint(0, param.height);
+            piyo.canvas.setColorStyle("white", "yellow").fillCircle(42, 42, 32);
+            piyo.canvas.setColorStyle("white", "black").fillCircle(27, 27, 2);
+            piyo.canvas.setColorStyle("white", "brown").fillRect(40, 70, 4, 15).fillTriangle(0, 40, 11, 35, 11, 45);
+            piyo.dir = tm.geom.Vector2.random(0, 360, 4);
+            var rect = tm.geom.Rect(0, 0, param.width, param.height);
+            rect.padding(42);
+            piyo.update = function(app) {
+                this.position.add(this.dir);
+
+                if (this.x < rect.left) {
+                    this.x = rect.left;
+                    this.dir.x*=-1;
+                }
+                else if (this.x > rect.right) {
+                    this.x = rect.right;
+                    this.dir.x*=-1;
+                }
+                if (this.y < rect.top) {
+                    this.y = rect.top;
+                    this.dir.y*=-1;
+                }
+                else if (this.y > rect.bottom) {
+                    this.y = rect.bottom;
+                    this.dir.y*=-1;
+                }
+
+                if (this.dir.x<0) {
+                    this.rotation -= 7;
+                    this.scaleX = 1;
+                }
+                else {
+                    this.rotation += 7;
+                    this.scaleX = -1;
+                }
+
+                // // 向き更新
+                // if (app.pointing.getPointingStart()) {
+                //     var p = app.pointing.position;
+                //     var v = tm.geom.Vector2.sub(p, this.position);
+                //     this.dir = v.normalize().mul(4);
+                // }
+
+            };
+
+            return piyo;
+        },
+    });
+    
+})();
+
+
+
+
+
 
 
 
@@ -17574,8 +17786,8 @@ tm.ui = tm.ui || {};
             return this.scenes[index];
         },
 
-        setSceneArgument: function(label, key, value) {
-            this.getScene(label).arguments[key] = value;
+        setSceneArguments: function(label, param) {
+            this.getScene(label).arguments.$extend(param);
             return this;
         },
 
@@ -17688,26 +17900,6 @@ tm.ui = tm.ui || {};
 		init: function(param) {
 			this.superInit();
 
-			// var loader = tm.asset.Loader();
-			// loader.load({
-			// 	"ss": "scene/ss.png",
-			// });
-
-			// loader.onload = function() {
-			// 	this.fromJSON({
-			// 		children: {
-			// 			ss: {
-			// 				type: "tm.display.Sprite",
-			// 				init: "ss",
-			// 				originX: 0,
-			// 				originY: 0,
-			// 				y: -88,
-			// 				alpha: 0.1,
-			// 			}
-			// 		}
-			// 	})
-			// }.bind(this);
-
 			this.fromJSON({
 				children: {
 					inputLabel: {
@@ -17745,10 +17937,15 @@ tm.ui = tm.ui || {};
 						self.fire(e);
 					}
 					else if (this.label.text == 'C') {
+						var e = tm.event.Event("push");
 						self.inputLabel.text = "";
+						self.flare("clear");
 					}
 					else {
 						self.inputLabel.text += this.label.text;
+						self.flare("push", {
+							select: this.label.text,
+						});
 					}
 				}
 			});

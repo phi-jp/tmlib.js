@@ -4,6 +4,7 @@ describe('core.String', function() {
     it('format', function() {
         assert.equal("hsl({0}, {1}%, {2}%)".format(240, 50, 60), "hsl(240, 50%, 60%)");
         assert.equal("hsl({h}, {s}%, {l}%)".format({h:240, s:50, l:60}), "hsl(240, 50%, 60%)");
+        assert.equal("hsl({h}, {s}%, {l}%)".format({}), "hsl(, %, %)");
     });
 
     it('trim', function() {

@@ -32,7 +32,14 @@
         // オブジェクトの場合
         if (typeof arg == "object") {
             /** @ignore */
-            rep_fn = function(m, k) { return arg[k]; }
+            rep_fn = function(m, k) {
+                if (arg[k] === undefined) {
+                    return '';
+                }
+                else {
+                    return arg[k];
+                }
+            }
         }
         // 複数引数だった場合
         else {
@@ -163,7 +170,6 @@
      */
     String.defineInstanceMethod("count", function(str) {
         var re = new RegExp(str, 'gm');
-        console.log(this.match(re));
         return this.match(re).length;
     });
     
