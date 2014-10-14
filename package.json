@@ -23,6 +23,9 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "gitHead": "52af6f02efb6ad0697bcddd67c27dc13882ac22c",
+  "dependencies"  : {
+    "high"  : "*"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-coffee": "~0.6.0",
