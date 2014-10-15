@@ -10,14 +10,13 @@
         "core": [
             "src/tmlib.js",
 
-            "src/core/object.js",
-            "src/core/array.js",
-            "src/core/date.js",
-            "src/core/function.js",
-            "src/core/math.js",
-            "src/core/number.js",
-            "src/core/string.js",
-            "src/core/list.js",
+            "node_modules/high/src/object.js",
+            "node_modules/high/src/array.js",
+            "node_modules/high/src/date.js",
+            "node_modules/high/src/function.js",
+            "node_modules/high/src/math.js",
+            "node_modules/high/src/number.js",
+            "node_modules/high/src/string.js",
         ],
         "event": [
             "src/event/event.js",
