@@ -205,9 +205,15 @@ tm.sound = tm.sound || {};
                 success: function(data) {
                     // console.debug("WebAudio ajax load success");
                     self.context.decodeAudioData(data, function(buffer) {
-                        console.debug("WebAudio decodeAudioData success");
+                        // console.debug("WebAudio decodeAudioData success");
                         self._setup();
                         self.buffer = buffer;
+                        self.loaded = true;
+                        self.dispatchEvent( tm.event.Event("load") );
+                    }, function() {
+                        console.warn("音声ファイルのデコードに失敗しました。(" + src + ")");
+                        self._setup();
+                        self.buffer = context.createBuffer(1, 1, 22050);
                         self.loaded = true;
                         self.dispatchEvent( tm.event.Event("load") );
                     });
