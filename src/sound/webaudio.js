@@ -357,14 +357,6 @@ tm.sound = tm.sound || {};
         tm.sound.WebAudio.context = context;
     };
 
-    tm.sound.WebAudio.unlock = function() {
-        var buffer = context.createBuffer(1, 1, 22050);
-        var unlockSource = context.createBufferSource();
-        unlockSource.buffer = buffer;
-        unlockSource.connect(context.destination);
-        unlockSource.start(0);
-    };
-
     tm.sound.WebAudio.createContext();
 })();
 
