@@ -357,6 +357,18 @@ tm.sound = tm.sound || {};
         tm.sound.WebAudio.context = context;
     };
 
+    /**
+     * @static
+     * iOSでWebAudioを使う場合、window.ontouchend等でこの関数を実行する
+     */
+    tm.sound.WebAudio.unlock = function() {
+        var unlockBuffer = context.createBuffer(1, 1, 22050);
+        var unlockSrc = context.createBufferSource();
+        unlockSrc.buffer = unlockBuffer;
+        unlockSrc.connect(context.destination);
+        unlockSrc.start(0);
+    };
+
     tm.sound.WebAudio.createContext();
 })();
 
