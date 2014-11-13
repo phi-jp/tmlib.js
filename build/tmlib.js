@@ -18438,17 +18438,9 @@ tm.sound = tm.sound || {};
 
 tm.sound = tm.sound || {};
 
-
 (function() {
 
     var context = null;
-    if (tm.global.webkitAudioContext) {
-        context = new webkitAudioContext();
-    } else if (tm.global.mozAudioContext) {
-        context = new mozAudioContext();
-    } else if (tm.global.AudioContext) {
-        context = new AudioContext();
-    }
 
     /**
      * @class tm.sound.WebAudio
@@ -18507,7 +18499,7 @@ tm.sound = tm.sound || {};
             if (time === undefined) time = 0;
 
             this.source.start(this.context.currentTime + time);
-            
+
             var self = this;
             var time = (this.source.buffer.duration/this.source.playbackRate.value)*1000;
             window.setTimeout(function() {
@@ -18530,11 +18522,11 @@ tm.sound = tm.sound || {};
                 return ;
             }
             this.source.stop(this.context.currentTime + time);
-            
+
             var buffer = this.buffer;
             var volume = this.volume;
             var loop   = this.loop;
-            
+
             this.source = this.context.createBufferSource();
             this.source.connect(this.gainNode);
             this.buffer = buffer;
@@ -18637,7 +18629,10 @@ tm.sound = tm.sound || {};
          * @private
          */
         _load: function(src) {
-            if (!this.context) return ;
+            if (!this.context) {
+                console.warn("本環境はWebAudio未対応です。(" + src + ")");
+                return;
+            }
 
             var self = this;
             tm.util.Ajax.load({
@@ -18647,9 +18642,15 @@ tm.sound = tm.sound || {};
                 success: function(data) {
                     // console.debug("WebAudio ajax load success");
                     self.context.decodeAudioData(data, function(buffer) {
-                        console.debug("WebAudio decodeAudioData success");
+                        // console.debug("WebAudio decodeAudioData success");
                         self._setup();
                         self.buffer = buffer;
+                        self.loaded = true;
+                        self.dispatchEvent( tm.event.Event("load") );
+                    }, function() {
+                        console.warn("音声ファイルのデコードに失敗しました。(" + src + ")");
+                        self._setup();
+                        self.buffer = context.createBuffer(1, 1, 22050);
                         self.loaded = true;
                         self.dispatchEvent( tm.event.Event("load") );
                     });
@@ -18684,7 +18685,7 @@ tm.sound = tm.sound || {};
             // handle parameter
             hertz   = hertz !== undefined ? hertz : 200;
             seconds = seconds !== undefined ? seconds : 1;
-            // set default value    
+            // set default value
             var nChannels   = 1;
             var sampleRate  = 44100;
             var amplitude   = 2;
@@ -18760,9 +18761,52 @@ tm.sound = tm.sound || {};
         }
     });
 
+    /**
+     * @property    loopStart
+     * ループ開始位置（秒）
+     */
+    tm.sound.WebAudio.prototype.accessor("loopStart", {
+        get: function()  { return this.source.loopStart; },
+        set: function(v) { this.source.loopStart = v; }
+    });
+
+    /**
+     * @property    loopEnd
+     * ループ終了位置（秒）
+     */
+    tm.sound.WebAudio.prototype.accessor("loopEnd", {
+        get: function()  { return this.source.loopEnd; },
+        set: function(v) { this.source.loopEnd = v; }
+    });
+
     /** @static @property */
     tm.sound.WebAudio.isAvailable = (tm.global.webkitAudioContext || tm.global.mozAudioContext || tm.global.AudioContext) ? true : false;
 
+    tm.sound.WebAudio.createContext = function() {
+        if (tm.global.webkitAudioContext) {
+            context = new webkitAudioContext();
+        } else if (tm.global.mozAudioContext) {
+            context = new mozAudioContext();
+        } else if (tm.global.AudioContext) {
+            context = new AudioContext();
+        }
+
+        tm.sound.WebAudio.context = context;
+    };
+
+    /**
+     * @static
+     * iOSでWebAudioを使う場合、window.ontouchend等でこの関数を実行する
+     */
+    tm.sound.WebAudio.unlock = function() {
+        var unlockBuffer = context.createBuffer(1, 1, 22050);
+        var unlockSrc = context.createBufferSource();
+        unlockSrc.buffer = unlockBuffer;
+        unlockSrc.connect(context.destination);
+        unlockSrc.start(0);
+    };
+
+    tm.sound.WebAudio.createContext();
 })();
 
 
