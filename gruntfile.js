@@ -58,6 +58,7 @@ module.exports = function(grunt) {
     "src/asset/texture.js",
     "src/asset/spritesheet.js",
     "src/asset/mapsheet.js",
+    "src/asset/font.js",
 
     "src/input/keyboard.js",
     "src/input/mouse.js",
