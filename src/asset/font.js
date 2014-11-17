@@ -1,36 +1,42 @@
-tm.define("tm.asset.WebFont", {
-    superClass: "tm.event.EventDispatcher",
+tm.asset = tm.asset || {};
 
-    init: function(path, key) {
-        this.superInit();
+(function() {
 
-        var testElement = tm.dom.Element("body").create("span");
-        testElement.style
-            .set("color", "rgba(0, 0, 0, 0)")
-            .set("fontSize", "40px");
-        testElement.text = "QW@HhsXJ=/()あいうえお＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝";
+    tm.define("tm.asset.WebFont", {
+        superClass: "tm.event.EventDispatcher",
 
-        var before = testElement.element.offsetWidth;
+        init: function(path, key) {
+            this.superInit();
 
-        testElement.style
-            .set("fontFamily", "'{0}', 'monospace'".format(key));
+            var testElement = tm.dom.Element("body").create("span");
+            testElement.style
+                .set("color", "rgba(0, 0, 0, 0)")
+                .set("fontSize", "40px");
+            testElement.text = "QW@HhsXJ=/()あいうえお＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝";
 
-        var fontFaceStyleElement = tm.dom.Element("head").create("style");
-        fontFaceStyleElement.text = "@font-face { font-family: '{0}'; src: url({1}) format('truetype'); }".format(key, path);
+            var before = testElement.element.offsetWidth;
 
-        var checkLoadFont = function() {
-            if (testElement.element.offsetWidth !== before) {
-                testElement.remove();
-                this.flare("load");
-                console.debug("webfont loaded", path, key);
-            } else {
-                setTimeout(checkLoadFont, 100);
-            }
-        }.bind(this);
-        setTimeout(checkLoadFont, 100);
-    },
-});
+            testElement.style
+                .set("fontFamily", "'{0}', 'monospace'".format(key));
 
-tm.asset.Loader.register("ttf", function(path, key) {
-    return tm.asset.WebFont(path, key);
-});
+            var fontFaceStyleElement = tm.dom.Element("head").create("style");
+            fontFaceStyleElement.text = "@font-face { font-family: '{0}'; src: url({1}) format('truetype'); }".format(key, path);
+
+            var checkLoadFont = function() {
+                if (testElement.element.offsetWidth !== before) {
+                    testElement.remove();
+                    this.flare("load");
+                    console.debug("webfont loaded", path, key);
+                } else {
+                    setTimeout(checkLoadFont, 100);
+                }
+            }.bind(this);
+            setTimeout(checkLoadFont, 100);
+        },
+    });
+
+    tm.asset.Loader.register("ttf", function(path, key) {
+        return tm.asset.WebFont(path, key);
+    });
+
+})();
