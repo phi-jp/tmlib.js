@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html ng-app>
+<html ng-app="MyApp">
     <head>
         <meta charset="UTF-8" />
         <!--
@@ -21,6 +21,10 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Mystery+Quest' rel='stylesheet' type='text/css'>
+
+        <!-- anguler -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.min.js"></script>
 
         <style>
         html {
@@ -43,7 +47,7 @@
             float: left;
             width: 30%;
             height: 100%;
-            background-color: hsla(140, 100%, 30%, 0.8);
+            background-color: hsla(220, 100%, 30%, 0.8);
             color: white;   
             padding-top: 5px;
             overflow: scroll;
@@ -59,7 +63,7 @@
         #menu h1 a {
             -webkit-transition: 200ms;
             -moz-transition: 200ms;
-            color: hsla(0, 0%, 20%, 0.6);
+            color: hsla(0, 0%, 10%, 0.6);
             font-weight: bold;
             text-decoration: none;
         }
@@ -141,12 +145,16 @@
                 <div id="menu">
                     <h1><a href="./index.html" target="_blank">tmlib.js</a> test</h1>
 
-                    <h2>tm.display.Sprite</h2>
-                    <ul class='tutorials'>
-                        <li><a target="runstant" href="../node_modules/runstant/release/alpha/index.html#UEsDBAoAAAAAAKileUVyjdjWAAoAAAAKAAAEAAAAZGF0YXsidmVyc2lvbiI6IjAuMC4xIiwiY3VycmVudCI6InNjcmlwdCIsInNldHRpbmciOnsidGl0bGUiOiJ0ZW1wbGF0ZSAtIHRtbGliLmpzIiwiZGV0YWlsIjoidG1saWIuanMg55So5YWs5byP44Ko44OH44Kj44K/LiDoibLjgIXjgajkvb/jgYjjgb7jgZnjgojimaoifSwiY29kZSI6eyJodG1sIjp7InR5cGUiOiJodG1sIiwidmFsdWUiOiI8IURPQ1RZUEUgaHRtbD5cbiBcbjxodG1sPlxuICAgIDxoZWFkPlxuICAgICAgICA8bWV0YSBjaGFyc2V0PVwiVVRGLThcIiAvPlxuICAgICAgICA8bWV0YSBuYW1lPVwidmlld3BvcnRcIiBjb250ZW50PVwid2lkdGg9ZGV2aWNlLXdpZHRoLCB1c2VyLXNjYWxhYmxlPW5vXCIgLz5cbiAgICAgICAgPG1ldGEgbmFtZT1cImFwcGxlLW1vYmlsZS13ZWItYXBwLWNhcGFibGVcIiBjb250ZW50PVwieWVzXCIgLz5cbiAgICAgICAgPGJhc2UgaHJlZj1cIi4uLy4uLy4uLy4uL1wiIC8+XG4gICAgICAgIFxuICAgICAgICA8dGl0bGU+JHt0aXRsZX08L3RpdGxlPlxuICAgICAgICA8bWV0YSBuYW1lPVwiZGVzY3JpcHRpb25cIiBjb250ZW50PVwiJHtkZXNjcmlwdGlvbn1cIiAvPlxuXG4gICAgICAgIDxzdHlsZT4ke3N0eWxlfTwvc3R5bGU+XG4gICAgICAgIDxzY3JpcHQgc3JjPVwidGVzdC90ZXN0aGVscGVyLmpzXCI+PC9zY3JpcHQ+XG4gICAgICAgIDxzY3JpcHQ+XG4gICAgICAgIDsoZnVuY3Rpb24oZ2xvYmFsKSB7XG4gICAgICAgICAgICB0ZXN0aGVscGVyLmxvYWR0bWxpYkFsbChcIlwiKTtcbiAgICAgICAgfSkoKTtcbiAgICAgICAgPC9zY3JpcHQ+XG5cdFx0PHNjcmlwdD4ke3NjcmlwdH08L3NjcmlwdD5cbiAgICA8L2hlYWQ+XG4gICAgPGJvZHk+XG4gICAgICAgIDxjYW52YXMgaWQ9XCJ3b3JsZFwiPjwvY2FudmFzPlxuICAgIDwvYm9keT5cbjwvaHRtbD4ifSwic3R5bGUiOnsidHlwZSI6ImNzcyIsInZhbHVlIjoiYm9keSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI0MCwgMjQwLCAyNTApO1xufVxuXG5oMSB7XG4gICAgY29sb3I6ICM0NDQ7XG4gICAgZm9udC1zaXplOiAyM3B4O1xuICAgIGZvbnQtZmFtaWx5OiAnTHVjaWRhIEdyYW5kZScsJ0hpcmFnaW5vIEtha3UgR290aGljIFByb04nLCBNZWlyeW8sIHNhbnMtc2VyaWY7XG59In0sInNjcmlwdCI6eyJ0eXBlIjoiamF2YXNjcmlwdCIsInZhbHVlIjoiLypcbiAqICMgdGVzdCAtIHRtbGliLmpzXG4gKiB0bWxpYi5qcyDjga7jg4Hjg6Xjg7zjg4jjg6rjgqLjg6vjgafjgZkuXG4gKiBodHRwOi8vcGhpLWpwLmdpdGh1Yi5pby90bWxpYi5qcy90dXRvcmlhbC5odG1sXG4gKi9cblxudmFyIFNDUkVFTl9XSURUSCAgICA9IDQ2NTsgICAgICAgICAgICAgIC8vIOOCueOCr+ODquODvOODs+W5hVxudmFyIFNDUkVFTl9IRUlHSFQgICA9IDQ2NTsgICAgICAgICAgICAgIC8vIOOCueOCr+ODquODvOODs+mrmOOBlVxudmFyIFNDUkVFTl9DRU5URVJfWCA9IFNDUkVFTl9XSURUSC8yOyAgIC8vIOOCueOCr+ODquODvOODs+W5heOBruWNiuWIhlxudmFyIFNDUkVFTl9DRU5URVJfWSA9IFNDUkVFTl9IRUlHSFQvMjsgIC8vIOOCueOCr+ODquODvOODs+mrmOOBleOBruWNiuWIhlxudmFyIEFTU0VUUyA9IHtcbiAgICBcInBsYXllclwiOiBcImh0dHA6Ly9qc3J1bi5pdC9hc3NldHMvcy9BLzMvai9zQTNqTC5wbmdcIixcbiAgICBcImJnXCI6IFwiaHR0cDovL2pzcnVuLml0L2Fzc2V0cy9hL0cvNS9ZL2FHNVlELnBuZ1wiLFxufTtcblxuXG50bS5kZWZpbmUoXCJNYWluU2NlbmVcIiwge1xuICAgIFwic3VwZXJDbGFzc1wiOiBcInRtLmFwcC5TY2VuZVwiLFxuICAgIFxuICAgIGluaXQ6IGZ1bmN0aW9uKCkge1xuICAgICAgICB0aGlzLnN1cGVySW5pdCgpO1xuICAgICAgICBcbiAgICAgICAgdmFyIHRleHR1cmUgPSB0bS5hc3NldC5UZXh0dXJlKFwiaHR0cDovL2pzcnVuLml0L2Fzc2V0cy9zL0EvMy9qL3NBM2pMLnBuZ1wiKTtcbiAgICAgICAgXG4gICAgICAgIHRleHR1cmUub25sb2FkID0gZnVuY3Rpb24oKSB7XG4gICAgICAgICAgICB2YXIgc3ByaXRlID0gdG0uZGlzcGxheS5TcHJpdGUodGV4dHVyZSkuYWRkQ2hpbGRUbyh0aGlzKTtcbiAgICAgICAgICAgIHNwcml0ZS5zZXRQb3NpdGlvbihTQ1JFRU5fQ0VOVEVSX1gsIFNDUkVFTl9DRU5URVJfWSk7XG4gICAgICAgICAgICBzcHJpdGUuc2V0U2NhbGUoMiwgMik7XG4gICAgICAgIH0uYmluZCh0aGlzKTtcbiAgICB9XG59KTtcblxuLy8gbWFpblxudG0ubWFpbihmdW5jdGlvbigpIHtcbiAgICAvLyDjgq3jg6Pjg7Pjg5DjgrnjgqLjg5fjg6rjgrHjg7zjgrfjg6fjg7PjgpLnlJ/miJBcbiAgICB2YXIgYXBwID0gdG0uZGlzcGxheS5DYW52YXNBcHAoXCIjd29ybGRcIik7XG4gICAgLy8g44Oq44K144Kk44K6XG4gICAgYXBwLnJlc2l6ZShTQ1JFRU5fV0lEVEgsIFNDUkVFTl9IRUlHSFQpO1xuICAgIC8vIOOCpuOCo+ODs+ODieOCpuOBq+ODleOCo+ODg+ODiOOBleOBm+OCi1xuICAgIGFwcC5maXRXaW5kb3coKTtcbiAgICBcbiAgICBhcHAucmVwbGFjZVNjZW5lKE1haW5TY2VuZSgpKTtcblxuICAgIC8vIOWun+ihjFxuICAgIGFwcC5ydW4oKTtcbn0pO1xuXG5cbiJ9fX1QSwECFAAKAAAAAACopXlFco3Y1gAKAAAACgAABAAAAAAAAAAAAAAAAAAAAAAAZGF0YVBLBQYAAAAAAQABADIAAAAiCgAAAAA=">hoge</a></li>
-                        <li><a target="runstant" href="http://goo.gl/xJKj0u">init(imageName)</a></li>
-                        <li><a target="runstant" href="http://goo.gl/vUuoJX">init(imageName, width, height)</a></li>
-                    </ul>
+                    <div ng-controller="MainCtrl">
+                        <div ng-repeat="unit in testUnit">
+                            <h2>{{unit.name}}</h2>
+                            <ul>
+                                <li ng-repeat="test in unit.tests">
+                                    <a href="#" ng-click="openTest(unit, test)">{{test.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
                     <ul class="social nav navbar-nav navbar-right">
                         <li>
@@ -170,7 +178,7 @@
                 </div>
                 <div id="runstant">
                     <img src="../resource/img/hiyokos.png" />
-                    <iframe src="#" name="runstant" id="runstant-frame" class="hide"></iframe>
+                    <iframe name="runstant" id="runstant-frame" class="hide"></iframe>
                 </div>
             </div>
         </div>
@@ -180,30 +188,64 @@
         </div>
 
         <!-- Github ribbon -->
+        <!--
         <a href="https://github.com/phi-jp/tmlib.js/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+    -->
     </body>
-    <script>
-    window.onload = function() {
+</html>
+
+<script>
+
+
+    var app = angular.module('MyApp', ['ngResource']);
+    app.controller("MainCtrl", function MainCtrl($scope,$resource) {
+
+        $.ajaxSetup({async: false});
+        $.getJSON("./tests.json", function(data) {
+            var testUnit = [];
+            for (var unitName in data) {
+                if (unitName[0] == '$') continue ;
+                console.log(unitName);
+                testUnit.push({
+                    name: unitName,
+                    tests: data[unitName],
+                });
+            }
+            $scope.testUnit = testUnit;
+        });
+        $.ajaxSetup({async: true});
+
         var runstantElement = document.getElementById("runstant-frame");
         var loadingElement = document.getElementById("loading");
 
-        runstantElement.onload = function() {
-            console.log("Hello, world!");
-            runstantElement.classList.remove("hide");
-            loadingElement.classList.add("hide");
-        };
+        var prevTest = "#";
 
-        runstantElement.onprogress = function(e) {
-            debugger;
-        };
-
-        var tutorialLinks = document.querySelectorAll('.tutorials a');
-        Array.prototype.forEach.call(tutorialLinks, function(elm) {
-            elm.onclick = function() {
-                runstantElement.classList.add("hide");
-                loadingElement.classList.remove("hide");
+        $scope.openTest = function(unit, test) {
+            var testName = unit.name + '/' + test.name;
+            var base = "../node_modules/runstant/release/alpha/index.html#";
+            var url = base + test.code;
+            if (testName != prevTest) {
+                // runstantElement.classList.add("hide");
+                // loadingElement.classList.remove("hide");
+                prevTest = testName;
+            }
+            runstantElement.src = url;
+            runstantElement.onload = function() {
+                runstantElement.classList.remove("hide");
+                loadingElement.classList.add("hide");
             };
-        });
-    }
-    </script>
-</html>
+
+            console.log(testName);
+        };
+
+        document.onclick = function() {
+            var code = runstantElement.contentDocument.location.href.split('#')[1];
+            console.log(JSON.stringify({
+                name: "test",
+                code: code,
+            }, '', '    '));
+        };
+
+    });
+
+</script>
