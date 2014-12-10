@@ -1,76 +1,281 @@
+<!DOCTYPE html>
+
 <html>
     <head>
-        <meta charset="utf-8" />
-        <title>tmlib.js test</title>
-        <link rel="stylesheet" href="http://rawgithub.com/visionmedia/mocha/1.20.1/mocha.css" />
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="http://rawgithub.com/visionmedia/mocha/1.20.1/mocha.js"></script>
-        <script>
-            mocha.setup('bdd');
-        </script>
-        <script src="../src/tmlib.js"></script>
-        <script src="../src/core/object.js"></script>
-        <script src="../src/core/array.js"></script>
-        <script src="../src/core/number.js"></script>
-        <script src="../src/core/string.js"></script>
-        <script src="../src/core/list.js"></script>
-        <script src="../src/core/math.js"></script>
-
-        <script src="../src/event/event.js"></script>
-        <script src="../src/event/eventdispatcher.js"></script>
-        
-        <script src="../src/geom/vector2.js"></script>
-        <script src="../src/geom/vector3.js"></script>
-        <script src="../src/geom/circle.js"></script>
-        <script src="../src/geom/rect.js"></script>
-
-        <script src="../src/util/ajax.js"></script>
-        <script src="../src/util/file.js"></script>
-        <script src="../src/util/type.js"></script>
-        <script src="../src/util/flow.js"></script>
-        <script src="../src/util/querystring.js"></script>
-        <script src="../src/util/script.js"></script>
-
-        <script src="test.js"></script>
-
-        <script src="core/object.js"></script>
-        <script src="core/array.js"></script>
-        <script src="core/string.js"></script>
-        <script src="core/number.js"></script>
-
-        <script src="event/eventdispatcher.js"></script>
-
-        <script src="util/ajax.js"></script>
+        <meta charset="UTF-8" />
         <!--
-        <script src="util/file.js"></script>
-        <script src="util/type.js"></script>
-        <script src="util/flow.js"></script>
-        <script src="util/querystring.js"></script>
-        <script src="util/script.js"></script>
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
     -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <title>Test | tmlib.js</title>
+        
+        <link rel="shortcut icon" href="logo.png" />
+        <link rel="apple-touch-icon-precomposed" href="icon.png" />
 
-        <script src="geom/vector2.js"></script>
-        <script src="geom/vector3.js"></script>
-        <script src="geom/circle.js"></script>
-        <script src="geom/rect.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
 
-        <script>
-            
-            var assert = function(expr, msg) {
-                if (!expr) throw new Error(msg || 'failed');
-            };
-            
-            assert.equal = function(a, b, msg) {
-                if (a !== b) throw new Error(msg || ('failed : '+a+','+b));
-            };
-            
-            $(function() {
-                mocha.run();
-            });
-            
-        </script>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Mystery+Quest' rel='stylesheet' type='text/css'>
+
+        <!-- jszip -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
+
+        <style>
+        html {
+            height: 100%;
+        }
+        body {
+            height: 100%;
+            margin: 0px;
+        }
+
+        #main {
+            height: 100%;
+        }
+
+        #main-content {
+            height: 100%;
+        }
+
+        #menu {
+            float: left;
+            width: 30%;
+            height: 100%;
+            background-color: hsla(220, 100%, 30%, 0.8);
+            color: white;   
+            padding-top: 5px;
+            overflow: scroll;
+        }
+        #menu h1 {
+            font-family: 'Mystery Quest', cursive;
+            text-align: center;
+            font-size: 32px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            color: #eee;
+        }
+        #menu h1 a {
+            -webkit-transition: 200ms;
+            -moz-transition: 200ms;
+            color: hsla(0, 0%, 10%, 0.6);
+            font-weight: bold;
+            text-decoration: none;
+        }
+        #menu h1 a:hover {
+            color: hsla(0, 0%, 20%, 1.0);
+        }
+        #menu h2 {
+            font-size: 22px;
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        #menu .social {
+            position: absolute;
+            padding-top: 20px;
+            padding-bottom: 5px;
+            bottom: 0px;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 50%;
+        }
+        #menu ul {
+            padding-left: 40px;
+        }
+        #menu ul li {
+            font-size: 16px;
+            padding-bottom: 5px;
+        }
+        #menu ul li a {
+            -webkit-transition: 200ms;
+            -moz-transition: 200ms;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        #menu ul li a:hover {
+            color: rgba(255, 255, 255, 1.0);
+            text-decoration: none;
+        }
+        #menu .search-form {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #runstant {
+            float right;
+            width: 100%;
+            height: 100%;
+        }
+        #runstant img {
+            position: absolute;
+            height: 100%;
+        }
+        #runstant iframe {
+            position: relative;
+            background-color: transparent;
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 70%;
+            height: 100%;
+            box-shadow: 0px 0px 8px 0px #fff;
+        }
+        #loading {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width:100%;
+            height:100%;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        #loading img {
+            display: block;
+            position: absolute;
+            margin: auto;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+        }
+        </style>
     </head>
     <body>
-        <div id="mocha"></div>
+        <div id="main">
+            <div id="main-content">
+                <div id="menu">
+                    <h1><a href="./index.html" target="_blank">tmlib.js</a> test</h1>
+
+                    <div id="sidebar">
+                        <div class="search-form">
+                            <input type="search" class="form-control" id="search" placeholder="Search">
+                        </div>
+                    </div>
+                </div>
+                <div id="runstant">
+                    <img src="../resource/img/hiyokos.png" />
+                    <iframe name="runstant" id="runstant-frame"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="hide">
+            <img src="../ajax-loader.gif" />
+        </div>
+
+        <!-- Github ribbon -->
+        <!--
+        <a href="https://github.com/phi-jp/tmlib.js/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+    -->
     </body>
 </html>
+
+
+<script src="testhelper.js"></script>
+
+<script src="app/baseapp.js"></script>
+<script src="app/scene.js"></script>
+<script src="app/object2d.js"></script>
+<script src="app/timeline.js"></script>
+<script src="app/tweener.js"></script>
+<script src="display/sprite.js"></script>
+<script src="display/label.js"></script>
+<script src="social/social.js"></script>
+
+<script>
+
+testhelper.loadtmlibAll("../");
+
+window.onload = function() {
+    testhelper.run({
+        tests: [
+            "display/sprite.js",
+            "display/label.js",
+        ],
+        sidebar: "#sidebar",
+        preview: "#runstant-frame",
+        search: "#search",
+    });
+};
+
+</script>
+
+
+
+
+<script type="template" id="html-template">
+<!DOCTYPE html>
+ 
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <base href="../../../../" />
+        
+        <title>${title}</title>
+        <meta name="description" content="${description}" />
+
+        <style>${style}</style>
+        <__script__ src="test/testhelper.js"></__script__>
+        <__script__>
+        ;(function(global) {
+            testhelper.loadtmlibAll("");
+        })();
+        </__script__>
+        <__script__>${__script__}</__script__>
+    </head>
+    <body>
+        <canvas id="world"></canvas>
+    </body>
+</html>
+</script>
+
+
+
+<script type="template" id="script-template">
+/*
+ * # test - tmlib.js
+ * tmlib.js のチュートリアルです.
+ * http://phi-jp.github.io/tmlib.js/tutorial.html
+ */
+
+var SCREEN_WIDTH    = 640;              // スクリーン幅
+var SCREEN_HEIGHT   = 960;              // スクリーン高さ
+var SCREEN_CENTER_X = SCREEN_WIDTH/2;   // スクリーン幅の半分
+var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;  // スクリーン高さの半分
+var ASSETS = {
+    "player": "http://jsrun.it/assets/s/A/3/j/sA3jL.png",
+    "bg": "http://jsrun.it/assets/a/G/5/Y/aG5YD.png",
+};
+
+{testcode}
+
+// main
+tm.main(function() {
+    // キャンバスアプリケーションを生成
+    var app = tm.display.CanvasApp("#world");
+    // リサイズ
+    app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    // ウィンドウにフィットさせる
+    app.fitWindow();
+    
+    app.replaceScene(MainScene());
+
+    // 実行
+    app.run();
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+

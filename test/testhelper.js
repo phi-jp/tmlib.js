@@ -291,18 +291,21 @@
 
         searchElement.event.add("keyup", function(e) {
             var value = e.target.value;
-            var re = new RegExp(value, 'gim');
-
-            this.units.$forIn(function(key, unit, i) {
-                if (re.test(unit.name)) {
-                    unit.element.element.classList.remove("hide");
-                }
-                else {
-                    unit.element.element.classList.add("hide");
-                }
-            });
-            console.log(value);
+            filter(value);
         }.bind(this));
+    };
+
+    var filter = function(value) {
+        var re = new RegExp(value, 'gim');
+
+        testhelper.units.$forIn(function(key, unit, i) {
+            if (re.test(unit.name)) {
+                unit.element.element.classList.remove("hide");
+            }
+            else {
+                unit.element.element.classList.add("hide");
+            }
+        });
     };
     
 })(this);
