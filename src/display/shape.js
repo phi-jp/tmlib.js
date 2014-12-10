@@ -25,6 +25,7 @@ tm.display = tm.display || {};
          * @constructor
          */
         init: function(param) {
+            param = this._dirtyCheckParam.apply(this, arguments);
             var param = {}.$safe(param, {
                 width: 64,
                 height: 64,
@@ -63,8 +64,6 @@ tm.display = tm.display || {};
             c.lineWidth   = this.lineWidth;
             c.shadowBlur  = this.shadowBlur;
             c.shadowColor  = this.shadowColor;
-
-            console.log(c.shadowBlur);
 
             return this;
         },
@@ -111,6 +110,23 @@ tm.display = tm.display || {};
             
             c.restore();
         },
+
+
+        // TODO: old support(plan delete)
+        _dirtyCheckParam: function(param) {
+            var param = param;
+            if (arguments.length >= 2) {
+                var width = arguments[0];
+                var height= arguments[1];
+                var param = arguments[2] || {};
+                param.width = width;
+                param.height = height;
+
+                console.warn("tmlib.js warn: arguments of shape init is only param from version 0.4");
+            }
+
+            return param;
+        },
         
     });
 
@@ -151,6 +167,7 @@ tm.display = tm.display || {};
          * @constructor
          */
         init: function(param) {
+            param = this._dirtyCheckParam.apply(this, arguments);
             this.superInit(param);
 
             this.render();
@@ -184,6 +201,7 @@ tm.display = tm.display || {};
          * @constructor
          */
         init: function(param) {
+            param = this._dirtyCheckParam.apply(this, arguments);
             param = {}.$safe(param, {
                 fillStyle: "green",
             });
@@ -224,6 +242,7 @@ tm.display = tm.display || {};
          * @constructor
          */
         init: function(param) {
+            param = this._dirtyCheckParam.apply(this, arguments);
             param = {}.$safe(param, {
                 fillStyle: "blue",
             });
@@ -261,6 +280,7 @@ tm.display = tm.display || {};
          * @constructor
          */
         init: function(param) {
+            param = this._dirtyCheckParam.apply(this, arguments);
             param = {}.$safe(param, {
                 fillStyle: "blue",
                 cornerRadius: 8,
@@ -275,7 +295,7 @@ tm.display = tm.display || {};
             // 描画
             var lw = this.lineWidth;
             var lw_half = lw/2;
-            console.log(this.cornerRadius);
+
             c.fillRoundRect(lw_half, lw_half, this.width-lw, this.height-lw, this.cornerRadius);
             c.strokeRoundRect(lw_half, lw_half, this.width-lw, this.height-lw, this.cornerRadius);
         },
@@ -312,6 +332,7 @@ tm.display = tm.display || {};
          * @constructor
          */
         init: function(param) {
+            param = this._dirtyCheckParam.apply(this, arguments);
             param = {}.$safe(param, {
                 fillStyle: "yellow",
                 sides: 5,
@@ -374,6 +395,7 @@ tm.display = tm.display || {};
          * @constructor
          */
         init: function(param) {
+            param = this._dirtyCheckParam.apply(this, arguments);
             param = {}.$safe(param, {
                 fillStyle: "cyan",
                 sides: 5,
@@ -436,6 +458,7 @@ tm.display = tm.display || {};
          * @constructor
          */
         init: function(param) {
+            param = this._dirtyCheckParam.apply(this, arguments);
             param = {}.$safe(param, {
                 fillStyle: "pink",
                 cornerAngle: 45,
@@ -492,6 +515,7 @@ tm.display = tm.display || {};
          * @constructor
          */
         init: function(width, height, param) {
+            param = this._dirtyCheckParam.apply(this, arguments);
             param = {}.$safe(param, {
                 fillStyle: "black",
                 lineWidth: 4,
