@@ -300,9 +300,8 @@
     };
 
     var filter = function(value) {
-        var re = new RegExp(value, 'gim');
-
         testhelper.units.$forIn(function(key, unit, i) {
+            var re = new RegExp(value, 'gim');
             if (re.test(unit.name)) {
                 unit.element.element.classList.remove("hide");
             }
