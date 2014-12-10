@@ -112,6 +112,10 @@ tm.geom = tm.geom || {};
             return this;
         },
 
+        contains: function(x, y) {
+            return this.left <= x && x <= this.right && this.top <= y && y <= this.bottom;
+        },
+
         /**
          * クローン
          */
