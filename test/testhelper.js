@@ -243,8 +243,6 @@
                 a.event.add("click", function() {
                     preview(value);
                 });
-
-                console.log(value.toString());
             });
 
             value.element = div;
@@ -288,6 +286,12 @@
 
         // serach
         var searchElement = tm.dom.Element(param.search);
+        var search = localStorage.getItem("search");
+
+        if (search) {
+            searchElement.value = search;
+            filter(search);
+        }
 
         searchElement.event.add("keyup", function(e) {
             var value = e.target.value;
@@ -306,6 +310,8 @@
                 unit.element.element.classList.add("hide");
             }
         });
+
+        localStorage.setItem("search", value);
     };
     
 })(this);
