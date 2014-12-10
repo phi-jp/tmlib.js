@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html ng-app="MyApp">
+<html>
     <head>
         <meta charset="UTF-8" />
         <!--
@@ -22,9 +22,8 @@
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Mystery+Quest' rel='stylesheet' type='text/css'>
 
-        <!-- anguler -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.min.js"></script>
+        <!-- jszip -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
 
         <style>
         html {
@@ -73,7 +72,7 @@
         #menu h2 {
             font-size: 22px;
             padding-left: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         #menu .social {
             position: absolute;
@@ -145,7 +144,8 @@
                 <div id="menu">
                     <h1><a href="./index.html" target="_blank">tmlib.js</a> test</h1>
 
-                    <div ng-controller="MainCtrl">
+                    <div id="sidebar">
+                        <!--
                         <div ng-repeat="unit in testUnit">
                             <h2>{{unit.name}}</h2>
                             <ul>
@@ -154,31 +154,12 @@
                                 </li>
                             </ul>
                         </div>
+                    -->
                     </div>
-
-                    <ul class="social nav navbar-nav navbar-right">
-                        <li>
-                            <div>
-                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="tmlib.js - JavaScript ゲームライブラリ. ヒヨコ始めました!!" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
-                                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-<a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
-<script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <a href="http://b.hatena.ne.jp/entry/http://phi-jp.github.io/tmlib.js/" class="hatena-bookmark-button" data-hatena-bookmark-title="tmlib.js" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
                 <div id="runstant">
                     <img src="../resource/img/hiyokos.png" />
-                    <iframe name="runstant" id="runstant-frame" class="hide"></iframe>
+                    <iframe name="runstant" id="runstant-frame"></iframe>
                 </div>
             </div>
         </div>
@@ -194,58 +175,109 @@
     </body>
 </html>
 
+
+<script src="testhelper.js"></script>
+
+<script src="app/baseapp.js"></script>
+<script src="app/scene.js"></script>
+<script src="app/object2d.js"></script>
+<script src="app/timeline.js"></script>
+<script src="app/tweener.js"></script>
+<script src="display/sprite.js"></script>
+<script src="display/label.js"></script>
+<script src="social/social.js"></script>
+
 <script>
 
+testhelper.loadtmlibAll("../");
 
-    var app = angular.module('MyApp', ['ngResource']);
-    app.controller("MainCtrl", function MainCtrl($scope,$resource) {
-
-        $.ajaxSetup({async: false});
-        $.getJSON("./tests.json", function(data) {
-            var testUnit = [];
-            for (var unitName in data) {
-                if (unitName[0] == '$') continue ;
-                console.log(unitName);
-                testUnit.push({
-                    name: unitName,
-                    tests: data[unitName],
-                });
-            }
-            $scope.testUnit = testUnit;
-        });
-        $.ajaxSetup({async: true});
-
-        var runstantElement = document.getElementById("runstant-frame");
-        var loadingElement = document.getElementById("loading");
-
-        var prevTest = "#";
-
-        $scope.openTest = function(unit, test) {
-            var testName = unit.name + '/' + test.name;
-            var base = "../node_modules/runstant/release/alpha/index.html#";
-            var url = base + test.code;
-            if (testName != prevTest) {
-                // runstantElement.classList.add("hide");
-                // loadingElement.classList.remove("hide");
-                prevTest = testName;
-            }
-            runstantElement.src = url;
-            runstantElement.onload = function() {
-                runstantElement.classList.remove("hide");
-                loadingElement.classList.add("hide");
-            };
-
-            console.log(testName);
-        };
-
-        document.onclick = function() {
-            var code = runstantElement.contentDocument.location.href.split('#')[1];
-            console.log(JSON.stringify({
-                name: "test",
-                code: code,
-            }, '', '    '));
-        };
-
+window.onload = function() {
+    testhelper.run({
+        tests: [
+            "display/sprite.js",
+            "display/label.js",
+        ],
+        sidebar: "#sidebar",
+        preview: "#runstant-frame",
     });
+};
 
 </script>
+
+
+
+
+<script type="template" id="html-template">
+<!DOCTYPE html>
+ 
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <base href="../../../../" />
+        
+        <title>${title}</title>
+        <meta name="description" content="${description}" />
+
+        <style>${style}</style>
+        <__script__ src="test/testhelper.js"></__script__>
+        <__script__>
+        ;(function(global) {
+            testhelper.loadtmlibAll("");
+        })();
+        </__script__>
+        <__script__>${__script__}</__script__>
+    </head>
+    <body>
+        <canvas id="world"></canvas>
+    </body>
+</html>
+</script>
+
+
+
+<script type="template" id="script-template">
+/*
+ * # test - tmlib.js
+ * tmlib.js のチュートリアルです.
+ * http://phi-jp.github.io/tmlib.js/tutorial.html
+ */
+
+var SCREEN_WIDTH    = 640;              // スクリーン幅
+var SCREEN_HEIGHT   = 960;              // スクリーン高さ
+var SCREEN_CENTER_X = SCREEN_WIDTH/2;   // スクリーン幅の半分
+var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;  // スクリーン高さの半分
+var ASSETS = {
+    "player": "http://jsrun.it/assets/s/A/3/j/sA3jL.png",
+    "bg": "http://jsrun.it/assets/a/G/5/Y/aG5YD.png",
+};
+
+{testcode}
+
+// main
+tm.main(function() {
+    // キャンバスアプリケーションを生成
+    var app = tm.display.CanvasApp("#world");
+    // リサイズ
+    app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    // ウィンドウにフィットさせる
+    app.fitWindow();
+    
+    app.replaceScene(MainScene());
+
+    // 実行
+    app.run();
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
