@@ -193,6 +193,7 @@
 
     testhelper.describe = function(name, func) {
         testhelper.units[name] = {
+            name: name,
             func: func,
             its: {},
         };
@@ -244,7 +245,9 @@
                 });
 
                 console.log(value.toString());
-            }); 
+            });
+
+            value.element = div;
         });
 
         // preview
@@ -281,6 +284,25 @@
 
             previewElement.attr.set("src", url);
         };
+
+
+        // serach
+        var searchElement = tm.dom.Element(param.search);
+
+        searchElement.event.add("keyup", function(e) {
+            var value = e.target.value;
+            var re = new RegExp(value, 'gim');
+
+            this.units.$forIn(function(key, unit, i) {
+                if (re.test(unit.name)) {
+                    unit.element.element.classList.remove("hide");
+                }
+                else {
+                    unit.element.element.classList.add("hide");
+                }
+            });
+            console.log(value);
+        }.bind(this));
     };
     
 })(this);

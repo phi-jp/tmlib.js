@@ -98,6 +98,10 @@
             color: rgba(255, 255, 255, 1.0);
             text-decoration: none;
         }
+        #menu .search-form {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
 
         #runstant {
             float right;
@@ -145,16 +149,9 @@
                     <h1><a href="./index.html" target="_blank">tmlib.js</a> test</h1>
 
                     <div id="sidebar">
-                        <!--
-                        <div ng-repeat="unit in testUnit">
-                            <h2>{{unit.name}}</h2>
-                            <ul>
-                                <li ng-repeat="test in unit.tests">
-                                    <a href="#" ng-click="openTest(unit, test)">{{test.name}}</a>
-                                </li>
-                            </ul>
+                        <div class="search-form">
+                            <input type="search" class="form-control" id="search" placeholder="Search">
                         </div>
-                    -->
                     </div>
                 </div>
                 <div id="runstant">
@@ -199,6 +196,7 @@ window.onload = function() {
         ],
         sidebar: "#sidebar",
         preview: "#runstant-frame",
+        search: "#search",
     });
 };
 
