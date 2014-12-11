@@ -1,6 +1,6 @@
 [
     {
-        "name": "# from @phi_jp",
+        "name": "# examples",
         "list": [
             { "name": "Circle", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
             { "name": "Circle Collision", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
@@ -17,6 +17,12 @@
         ]
     },
     {
+        "name": "# from @phi_jp",
+        "list": [
+            { "name": "Dodge Ball", "url": "#", "target": "runstant" }
+        ]
+    },
+    {
         "name": "# from @daishi_hmr",
         "list": [
             { "name": "TM-Shooter", "url": "http://tmshooter.net/", "target": "_blank" }
@@ -25,15 +31,23 @@
     {
         "name": "# from @omatoro",
         "list": [
-            { "name": "TM-Shooter", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "circle2", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "_blank" }
+            { "name": "Rogue Plus", "url": "http://rogueplus.testcoding.net/", "target": "runstant" }
+        ]
+    },
+    {
+        "name": "# from @Rosetta_Halt",
+        "list": [
+            { "name": "Web Reverse Reverse", "url": "https://webrxr.github.com/RxR/", "target": "runstant" }
         ]
     },
     {
         "name": "# from @utyo",
         "list": [
-            { "name": "circle", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "circle2", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "_blank" }
+            { "name": "ブロック崩さぬ", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" },
+            { "name": "ひとりポン", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" },
+            { "name": "テトリス工場", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" },
+            { "name": "ジャンプ武田", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" },
+            { "name": "ヤリマン(槍男)", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" }
         ]
     }
 ]
