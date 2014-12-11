@@ -221,7 +221,10 @@ tm.ui = tm.ui || {};
                 fontFamily: "'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif",
             });
 
-            this.superInit(param.width, param.height);
+            this.superInit({
+                width: param.width,
+                height: param.height,
+            });
 
             this.canvas.clearColor(param.bgColor);
 
