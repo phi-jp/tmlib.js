@@ -1,0 +1,134 @@
+
+@bg-color: hsla(0, 90%, 30%, 1.0);
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0px;
+}
+
+#main {
+    height: 100%;
+}
+
+#main-content {
+    height: 100%;
+}
+
+#menu {
+    float: left;
+    width: 30%;
+    height: 100%;
+    background-color: @bg-color;
+    color: white;   
+    padding-top: 5px;
+    overflow: scroll;
+    
+    h1 {
+        font-family: 'Mystery Quest', cursive;
+        text-align: center;
+        font-size: 32px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        color: white;
+
+        a {
+            -webkit-transition: 200ms;
+            -moz-transition: 200ms;
+            color: hsla(0, 0%, 10%, 0.6);
+            font-weight: bold;
+            text-decoration: none;
+
+            &:hover {
+                color: hsla(0, 0%, 20%, 1.0);
+            }
+        }
+    }
+
+    h2 {
+        font-size: 22px;
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+    .social {
+        position: absolute;
+        padding-top: 20px;
+        padding-bottom: 5px;
+        bottom: 0px;
+        background-color: rgba(0, 0, 0, 0.5);
+        width: 30%;
+    }
+
+    ul {
+        padding-left: 40px;
+
+        li {
+            font-size: 16px;
+            padding-bottom: 5px;
+
+            a {
+                -webkit-transition: 200ms;
+                -moz-transition: 200ms;
+                color: rgba(255, 255, 255, 0.8);
+
+                &:hover {
+                    color: rgba(255, 255, 255, 1.0);
+                    text-decoration: none;
+                }
+            }
+
+        }
+    }
+
+    .search-form {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+}
+
+
+#runstant {
+    position: relative;
+    float: right;
+    width: 70%;
+    height: 100%;
+}
+#runstant img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+#runstant iframe {
+    position: relative;
+    background-color: transparent;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 8px 0px #fff;
+}
+#loading {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width:100%;
+    height:100%;
+    background: rgba(255, 255, 255, 0.5);
+}
+#loading img {
+    display: block;
+    position: absolute;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+}
