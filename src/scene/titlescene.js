@@ -12,15 +12,18 @@
             this.superInit();
 
             param = {}.$extend(tm.scene.TitleScene.default, param);
+            this.param = param;
 
             this.fromJSON({
                 children: {
                     bg: {
                         type: "tm.display.RectangleShape",
-                        init: [param.width, param.height, {
+                        init: {
+                            width: param.width,
+                            height: param.height,
                             fillStyle: param.bgColor,
                             strokeStyle: "transparent",
-                        }],
+                        },
                         originX: 0,
                         originY: 0,
                     }
@@ -45,8 +48,8 @@
                     titleLabel: {
                         type: "Label", name: "titleLabel",
                         text: param.title,
-                        x: param.width/2,
-                        y: param.height/10*2,
+                        x: this._toGridX(6),
+                        y: this._toGridY(3),
                         fillStyle: param.fontColor,
                         fontSize: param.fontSize,
                         fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
@@ -56,8 +59,8 @@
                     touchLabel: {
                         type: "Label", name: "nextLabel",
                         text: "TOUCH START",
-                        x: param.width/2,
-                        y: param.height/10*8,
+                        x: this._toGridX(6),
+                        y: this._toGridY(9),
                         fillStyle: param.fontColor,
                         fontSize: param.fontSize*0.4,
                         fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
@@ -73,6 +76,14 @@
                 .setLoop(true);
 
             this.autopop = param.autopop;
+        },
+
+        _toGridX: function(index) {
+            return this.param.width/12*index;
+        },
+
+        _toGridY: function(index) {
+            return this.param.height/12*index;
         },
 
         onpointingstart: function() {
