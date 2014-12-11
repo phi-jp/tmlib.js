@@ -9,14 +9,6 @@
     global.testhelper.scripts = {
         "core": [
             "src/tmlib.js",
-
-            "node_modules/high/src/object.js",
-            "node_modules/high/src/array.js",
-            "node_modules/high/src/date.js",
-            "node_modules/high/src/function.js",
-            "node_modules/high/src/math.js",
-            "node_modules/high/src/number.js",
-            "node_modules/high/src/string.js",
         ],
         "event": [
             "src/event/event.js",
