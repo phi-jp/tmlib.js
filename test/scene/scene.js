@@ -18,6 +18,25 @@ testhelper.describe("tm.scene.TitleScene", function() {
         
     });
 
+    testhelper.it("yoko", function() {
+
+        var SCREEN_WIDTH = 960;
+        var SCREEN_HEIGHT = 640;
+
+        tm.define("MainScene", {
+            superClass: "tm.scene.TitleScene",
+            
+            init: function() {
+                this.superInit({
+                    width: SCREEN_WIDTH,
+                    height: SCREEN_HEIGHT,
+                    score: 10,
+                });
+            },
+        });
+        
+    });
+
     testhelper.it("custom", function() {
 
         tm.define("MainScene", {
@@ -51,6 +70,26 @@ testhelper.describe("tm.scene.ResultScene", function() {
                     width: SCREEN_WIDTH,
                     height: SCREEN_HEIGHT,
                     score: 10,
+                });
+            },
+        });
+        
+    });
+
+    testhelper.it("yoko", function() {
+
+        var SCREEN_WIDTH = 960;
+        var SCREEN_HEIGHT = 640;
+
+        tm.define("MainScene", {
+            superClass: "tm.scene.ResultScene",
+            
+            init: function() {
+                this.superInit({
+                    width: SCREEN_WIDTH,
+                    height: SCREEN_HEIGHT,
+                    score: 10,
+                    fontSize: 64,
                 });
             },
         });
