@@ -2,7 +2,7 @@
     {
         "name": "# examples",
         "list": [
-            { "name": "Circle", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
+            { "name": "Circle", "url": "http://goo.gl/gevbhJ", "target": "runstant" },
             { "name": "Circle Collision", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
             { "name": "Juggling", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
             { "name": "Magic Square", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },

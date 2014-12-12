@@ -36,9 +36,8 @@
         <div id="main">
             <div id="main-content">
                 <div id="menu">
-                    <h1><a href="./index.html" target="_blank">tmlib.js</a> examples</h1>
-
-                    <div ng-controller="MainCtrl">
+                    <div id="menu-inner" ng-controller="MainCtrl">
+                        <h1><a href="./index.html" target="_blank">tmlib.js</a> examples</h1>
 	                    <div class="search-form">
 	                        <input type="search" ng-model="q" class="form-control" id="search" placeholder="Search">
 	                    </div>
@@ -73,12 +72,14 @@
                     </ul>
                 </div>
                 <div id="runstant">
-                    <img src="../resource/img/hiyokos.png" />
-                    <iframe name="runstant" id="runstant-frame" class="hide"></iframe>
+                    <div id="runstant-inner">
+                        <img src="../resource/img/hiyokos.png" />
+                        <iframe name="runstant" id="runstant-frame" class="hide"></iframe>
 
-			        <div id="loading" class="hide">
-			            <img src="../ajax-loader.gif" />
-			        </div>
+    			        <div id="loading" class="hide">
+    			            <img src="../ajax-loader.gif" />
+    			        </div>
+                    </div>
                 </div>
             </div>
         </div>
