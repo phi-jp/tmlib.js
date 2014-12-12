@@ -3,17 +3,17 @@
         "name": "# examples",
         "list": [
             { "name": "Circle", "url": "http://goo.gl/gevbhJ", "target": "runstant" },
-            { "name": "Circle Collision", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Juggling", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Magic Square", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Filter", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Paint", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Piano", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Snow", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Unit Circle", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Particle", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Text Effect", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" },
-            { "name": "Pursuit", "url": "http://phi-jp.github.io/runstant/release/alpha/", "target": "runstant" }
+            { "name": "Circle Collision", "url": "http://goo.gl/Tt424h", "target": "runstant" },
+            { "name": "Juggling", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Magic Square", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Filter", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Paint", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Piano", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Snow", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Unit Circle", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Particle", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Text Effect", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Pursuit", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" }
         ]
     },
     {
@@ -35,19 +35,19 @@
         ]
     },
     {
-        "name": "# from @Rosetta_Halt",
-        "list": [
-            { "name": "Web Reverse Reverse", "url": "https://webrxr.github.com/RxR/", "target": "runstant" }
-        ]
-    },
-    {
         "name": "# from @utyo",
         "list": [
             { "name": "ブロック崩さぬ", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" },
-            { "name": "ひとりポン", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" },
-            { "name": "テトリス工場", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" },
-            { "name": "ジャンプ武田", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" },
-            { "name": "ヤリマン(槍男)", "url": "http://cachacachacom.appspot.com/BlockKUZUSAZU/index.html", "target": "runstant" }
+            { "name": "テトリス工場", "url": "http://cachacachacom.appspot.com/Tetrisfactory/index.html", "target": "runstant" },
+            { "name": "ジャンプ武田", "url": "http://cachacachacom.appspot.com/jumperTAKEDA/index.html", "target": "runstant" },
+            { "name": "ヤリマン(槍男)", "url": "http://cachacachacom.appspot.com/YARIMAN/index.html", "target": "runstant" },
+            { "name": "ひとりポン", "url": "http://cachacachacom.appspot.com/HitoriPON/index.html", "target": "runstant" }
+        ]
+    },
+    {
+        "name": "# from @Rosetta_Halt",
+        "list": [
+            { "name": "Web Reverse Reverse", "url": "https://webrxr.github.com/RxR/", "target": "runstant" }
         ]
     }
 ]
