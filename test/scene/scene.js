@@ -218,26 +218,23 @@ testhelper.describe("tm.scene.NumericalInputScene", function() {
 
 testhelper.describe("tm.scene.ManagerScene", function() {
 
-    testhelper.it("load", function() {
+    testhelper.it("init", function() {
 
-        tm.define("TestScene", {
+        tm.define("SimpleScene", {
             superClass: "tm.app.Scene",
 
             init: function(param) {
                 this.superInit();
 
                 this.name = param.name;
-
                 this.label = tm.display.Label("name: {name}".format(param))
                     .setPosition(SCREEN_CENTER_X, SCREEN_CENTER_Y)
                     .addChildTo(this);
             },
-
             onpointingstart: function() {
                 this.app.popScene();
             },
         });
-
 
         tm.define("MainScene", {
             superClass: "tm.scene.ManagerScene",
@@ -250,17 +247,13 @@ testhelper.describe("tm.scene.ManagerScene", function() {
                             label: "title",
                         },
                         {
-                            className: "TestScene",
-                            arguments: {
-                                name: "Game1",
-                            },
+                            className: "SimpleScene",
+                            arguments: { name: "Game1", },
                             label: "game1",
                         },
                         {
-                            className: "TestScene",
-                            arguments: {
-                                name: "Game2",
-                            },
+                            className: "SimpleScene",
+                            arguments: { name: "Game2", },
                             label: "game2",
                         },
                         {
@@ -272,30 +265,158 @@ testhelper.describe("tm.scene.ManagerScene", function() {
                 });
             },
 
-            ongoto: function(e) {
-                console.log(this.currentScene.name);
+            onfinish: function() {
+                console.log("finish!");
+            }
+        });
+    });
+
+    testhelper.it("startLabel", function() {
+
+        tm.define("MainScene", {
+            superClass: "tm.scene.ManagerScene",
+         
+            init: function() {
+                this.superInit({
+                    startLabel: "result",
+                    scenes: [
+                        {
+                            className: "tm.scene.TitleScene",
+                            label: "title",
+                        },
+                        {
+                            className: "tm.scene.ResultScene",
+                            label: "result",
+                            nextLabel: "title",
+                        },
+                    ],
+                });
             },
-
-            // onstart: function() {
-            //     this.gotoScene(0);
-            // },
-
-            // onnext: function(e) {
-            //     if (this.getCurrentLabel() == "result") {
-            //         alert("終わり");
-            //     }
-            //     else {
-            //         this.gotoNext();
-            //     }
-            // },
 
             onfinish: function() {
                 console.log("finish!");
             }
         });
-
-
     });
+
+
+    testhelper.it("nextLabel", function() {
+
+        tm.define("SimpleScene", {
+            superClass: "tm.app.Scene",
+
+            init: function(param) {
+                this.superInit();
+
+                this.name = param.name;
+                this.label = tm.display.Label("name: {name}".format(param))
+                    .setPosition(SCREEN_CENTER_X, SCREEN_CENTER_Y)
+                    .addChildTo(this);
+
+                // タイトルに飛ぶようにする
+                this.nextLabel = "title";
+            },
+            onpointingstart: function() {
+                this.app.popScene();
+            },
+        });
+
+        tm.define("MainScene", {
+            superClass: "tm.scene.ManagerScene",
+         
+            init: function() {
+                this.superInit({
+                    scenes: [
+                        {
+                            className: "tm.scene.TitleScene",
+                            label: "title",
+                        },
+                        {
+                            className: "SimpleScene",
+                            arguments: { name: "Game1", },
+                            label: "game1",
+                        },
+                        {
+                            className: "SimpleScene",
+                            arguments: { name: "Game2", },
+                            label: "game2",
+                        },
+                        {
+                            className: "tm.scene.ResultScene",
+                            label: "result",
+                            nextLabel: "title",
+                        },
+                    ],
+                });
+            },
+
+            onfinish: function() {
+                console.log("finish!");
+            }
+        });
+    });
+
+
+    testhelper.it("nextArguments", function() {
+
+        tm.define("SimpleScene", {
+            superClass: "tm.app.Scene",
+
+            init: function(param) {
+                this.superInit();
+
+                this.name = param.name;
+                this.label = tm.display.Label("name: {name}".format(param))
+                    .setPosition(SCREEN_CENTER_X, SCREEN_CENTER_Y)
+                    .addChildTo(this);
+
+                // 次のシーンに渡すパラメータ
+                this.nextArguments = {
+                    "name": "書き換えたよ♪"
+                };
+            },
+            onpointingstart: function() {
+                this.app.popScene();
+            },
+        });
+
+        tm.define("MainScene", {
+            superClass: "tm.scene.ManagerScene",
+         
+            init: function() {
+                this.superInit({
+                    scenes: [
+                        {
+                            className: "tm.scene.TitleScene",
+                            label: "title",
+                        },
+                        {
+                            className: "SimpleScene",
+                            arguments: { name: "Game1", },
+                            label: "game1",
+                        },
+                        {
+                            className: "SimpleScene",
+                            arguments: { name: "Game2", },
+                            label: "game2",
+                        },
+                        {
+                            className: "tm.scene.ResultScene",
+                            label: "result",
+                            nextLabel: "title",
+                        },
+                    ],
+                });
+            },
+
+            onfinish: function() {
+                console.log("finish!");
+            }
+        });
+    });
+
+
+
 });
 
 

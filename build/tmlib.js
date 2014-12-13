@@ -11762,6 +11762,7 @@ tm.app = tm.app || {};
             // 
             var e = tm.event.Event("resume");
             e.app = this;
+            e.prevScene = scene;
             this.currentScene.dispatchEvent(e);
             
             return scene;
@@ -17646,15 +17647,10 @@ tm.ui = tm.ui || {};
             this.setScenes(param.scenes);
 
             this.on("enter", function() {
-                var e = tm.event.Event("start");
-                this.fire(e);
+                this.gotoScene(param.startLabel || 0);
             }.bind(this));
 
-            this.on("resume", function() {
-                var e = tm.event.Event("next");
-                this.fire(e);
-            }.bind(this));
-
+            this.on("resume", this.onnext.bind(this));
 
             this.commonArguments = {};
         },
@@ -17669,34 +17665,27 @@ tm.ui = tm.ui || {};
             return this;
         },
 
-        getScene: function(index) {
-            index = (typeof index == 'string') ? this.labelToIndex(index) : index||0;
-            return this.scenes[index];
-        },
-
-        setSceneArguments: function(label, param) {
-            this.getScene(label).arguments.$extend(param);
-            return this;
-        },
-
         /**
          * index(or label) のシーンへ飛ぶ
          */
-        gotoScene: function(index) {
+        gotoScene: function(index, args) {
             index = (typeof index == 'string') ? this.labelToIndex(index) : index||0;
 
             // イベント発火
             var e = tm.event.Event("prepare");
             this.fire(e);
 
-
             var data = this.scenes[index];
             var klass = tm.using(data.className);
-            var arguments = data.arguments;
-
-            if (!tm.util.Type.isArray(arguments)) arguments = [arguments];
-
-            var scene = klass.apply(null, arguments);
+            var initArguments = data.arguments;
+            var initArguments = {}.$extend(initArguments, args);
+            var scene = klass.call(null, initArguments);
+            if (!scene.nextLabel) {
+                scene.nextLabel = data.nextLabel;
+            }
+            if (!scene.nextArguments) {
+                scene.nextArguments = data.nextArguments;
+            }
             this.app.pushScene(scene);
 
             this.sceneIndex = index;
@@ -17713,7 +17702,7 @@ tm.ui = tm.ui || {};
         /**
          * 次のシーンへ飛ぶ
          */
-        gotoNext: function() {
+        gotoNext: function(args) {
             var data = this.scenes[this.sceneIndex];
             var nextIndex = null;
 
@@ -17727,7 +17716,7 @@ tm.ui = tm.ui || {};
             }
 
             if (nextIndex !== null) {
-                this.gotoScene(nextIndex);
+                this.gotoScene(nextIndex, args);
             }
             else {
                 this.fire(tm.event.Event("finish"));
@@ -17768,12 +17757,15 @@ tm.ui = tm.ui || {};
             return this.scenes[index].label;
         },
 
-        onstart: function() {
-            this.gotoScene(0);
-        },
-
-        onnext: function() {
-            this.gotoNext();
+        onnext: function(e) {
+            var nextLabel = e.prevScene.nextLabel;
+            var nextArguments = e.prevScene.nextArguments;
+            if (nextLabel) {
+                this.gotoScene(nextLabel, nextArguments);
+            }
+            else {
+                this.gotoNext(nextArguments);
+            }
         },
     });
 
