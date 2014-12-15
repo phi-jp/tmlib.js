@@ -3,17 +3,17 @@
         "name": "# examples",
         "list": [
             { "name": "Circle", "url": "http://goo.gl/gevbhJ", "target": "runstant" },
+            { "name": "Magic Square", "url": "http://goo.gl/x8W3AM", "target": "runstant" },
+            { "name": "Pursuit", "url": "http://goo.gl/OC2Rv7", "target": "runstant" },
+            { "name": "Particle", "url": "http://goo.gl/yhtYLS", "target": "runstant" },
             { "name": "Circle Collision", "url": "http://goo.gl/Tt424h", "target": "runstant" },
             { "name": "Juggling", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
-            { "name": "Magic Square", "url": "http://goo.gl/x8W3AM", "target": "runstant" },
             { "name": "Filter", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
-            { "name": "Paint", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
+            { "name": "Paint", "url": "http://goo.gl/67ANNM", "target": "runstant" },
             { "name": "Piano", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
             { "name": "Snow", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
             { "name": "Unit Circle", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
-            { "name": "Particle", "url": "http://goo.gl/yhtYLS", "target": "runstant" },
-            { "name": "Text Effect", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" },
-            { "name": "Pursuit", "url": "http://goo.gl/OC2Rv7", "target": "runstant" }
+            { "name": "Text Effect", "url": "aaaaaaaaaaaaaaaaaaaaaaaaaaa", "target": "runstant" }
         ]
     },
     {
