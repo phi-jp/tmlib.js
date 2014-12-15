@@ -42,9 +42,9 @@ tm.display = tm.display || {};
             this.superInit();
 
             // 
-            this.$extend(param);
-            // 
             this.canvas = tm.graphics.Canvas();
+            // 
+            this.$extend(param);
             // 
             this.render();
             // 
