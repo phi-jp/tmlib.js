@@ -24,8 +24,7 @@
   "readmeFilename": "README.md",
   "gitHead": "52af6f02efb6ad0697bcddd67c27dc13882ac22c",
   "dependencies"  : {
-    "high"  : "*",
-    "runstant": "*"
+    "high"  : "*"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
