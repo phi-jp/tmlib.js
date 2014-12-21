@@ -245,7 +245,7 @@
         var previewElement = tm.dom.Element(param.preview);
 
         var preview = function(code) {
-            var baseURL = "../node_modules/runstant/release/alpha/index.html#";
+            var baseURL = "runstant.html#";
             var data = {
                 version: '0.0.1',
                 current: "script",

@@ -109,7 +109,6 @@ window.onload = function() {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <base href="../../../../" />
         
         <title>${title}</title>
         <meta name="description" content="${description}" />
@@ -117,10 +116,10 @@ window.onload = function() {
         <style>${style}</style>
         <__script__ src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></__script__>
         <__script__ src="http://cdn.rawgit.com/phi-jp/high/0.0.3/high.js"></__script__>
-        <__script__ src="test/testhelper.js"></__script__>
+        <__script__ src="./testhelper.js"></__script__>
         <__script__>
         ;(function(global) {
-            testhelper.loadtmlibAll("");
+            testhelper.loadtmlibAll("../");
         })();
         </__script__>
         <__script__>${__script__}</__script__>
