@@ -129,6 +129,10 @@ tm.geom = tm.geom || {};
             return this;
         },
 
+        contains: function(x, y) {
+            return this.left &lt;= x &amp;&amp; x &lt;= this.right &amp;&amp; this.top &lt;= y &amp;&amp; y &lt;= this.bottom;
+        },
+
 <span id='tm-geom-Rect-method-clone'>        /**
 </span>         * クローン
          */

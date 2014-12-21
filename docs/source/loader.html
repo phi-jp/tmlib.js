@@ -97,7 +97,7 @@
             
             path = path || key;
             // type が省略されている場合は拡張子から判定する
-            type = type || path.split('?')[0].split('#')[0].split('.').last;
+            type = type || path.split(&#39;?&#39;)[0].split(&#39;#&#39;)[0].split(&#39;.&#39;).last;
             
             var asset = tm.asset.Loader._funcs[type](path);
             this.set(key, asset);
@@ -132,10 +132,11 @@
             }.bind(this));
             
             var loadAsset = function(asset, key) {
+
                 var e = tm.event.Event(&quot;progress&quot;);
                 e.key = key;
                 e.asset = asset;
-                e.progress = flow.counter/flow.waits; // todo
+                e.progress = (flow.counter+1)/flow.waits; // todo
                 this.dispatchEvent(e);
 
                 flow.pass();
@@ -145,11 +146,11 @@
                 var value = hash[key];
                 var asset = null;
 
-                if (typeof value == 'string') {
+                if (typeof value == &#39;string&#39;) {
                     asset = this._load(key, value);
                 }
                 else {
-                    asset = this._load(key, value['url'] || value['src'] || value['path'], value['type']);
+                    asset = this._load(key, value[&#39;url&#39;] || value[&#39;src&#39;] || value[&#39;path&#39;], value[&#39;type&#39;]);
                 }
                 
                 if (asset.loaded) {
@@ -193,10 +194,10 @@
     var _jsonFunc = function(path) {
         var file = tm.util.File();
         
-        if (typeof path == 'string') {
+        if (typeof path == &#39;string&#39;) {
             file.load({
                 url: path,
-                dataType: 'json',
+                dataType: &#39;json&#39;,
             });
         }
         else {

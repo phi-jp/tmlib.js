@@ -38,15 +38,10 @@
             this.setScenes(param.scenes);
 
             this.on(&quot;enter&quot;, function() {
-                var e = tm.event.Event(&quot;start&quot;);
-                this.fire(e);
+                this.gotoScene(param.startLabel || 0);
             }.bind(this));
 
-            this.on(&quot;resume&quot;, function() {
-                var e = tm.event.Event(&quot;next&quot;);
-                this.fire(e);
-            }.bind(this));
-
+            this.on(&quot;resume&quot;, this.onnext.bind(this));
 
             this.commonArguments = {};
         },
@@ -61,34 +56,27 @@
             return this;
         },
 
-        getScene: function(index) {
-            index = (typeof index == 'string') ? this.labelToIndex(index) : index||0;
-            return this.scenes[index];
-        },
-
-        setSceneArgument: function(label, key, value) {
-            this.getScene(label).arguments[key] = value;
-            return this;
-        },
-
 <span id='tm-scene-ManagerScene-method-gotoScene'>        /**
 </span>         * index(or label) のシーンへ飛ぶ
          */
-        gotoScene: function(index) {
-            index = (typeof index == 'string') ? this.labelToIndex(index) : index||0;
+        gotoScene: function(index, args) {
+            index = (typeof index == &#39;string&#39;) ? this.labelToIndex(index) : index||0;
 
             // イベント発火
             var e = tm.event.Event(&quot;prepare&quot;);
             this.fire(e);
 
-
             var data = this.scenes[index];
             var klass = tm.using(data.className);
-            var arguments = data.arguments;
-
-            if (!tm.util.Type.isArray(arguments)) arguments = [arguments];
-
-            var scene = klass.apply(null, arguments);
+            var initArguments = data.arguments;
+            var initArguments = {}.$extend(initArguments, args);
+            var scene = klass.call(null, initArguments);
+            if (!scene.nextLabel) {
+                scene.nextLabel = data.nextLabel;
+            }
+            if (!scene.nextArguments) {
+                scene.nextArguments = data.nextArguments;
+            }
             this.app.pushScene(scene);
 
             this.sceneIndex = index;
@@ -105,7 +93,7 @@
 <span id='tm-scene-ManagerScene-method-gotoNext'>        /**
 </span>         * 次のシーンへ飛ぶ
          */
-        gotoNext: function() {
+        gotoNext: function(args) {
             var data = this.scenes[this.sceneIndex];
             var nextIndex = null;
 
@@ -119,7 +107,7 @@
             }
 
             if (nextIndex !== null) {
-                this.gotoScene(nextIndex);
+                this.gotoScene(nextIndex, args);
             }
             else {
                 this.fire(tm.event.Event(&quot;finish&quot;));
@@ -160,12 +148,15 @@
             return this.scenes[index].label;
         },
 
-        onstart: function() {
-            this.gotoScene(0);
-        },
-
-        onnext: function() {
-            this.gotoNext();
+        onnext: function(e) {
+            var nextLabel = e.prevScene.nextLabel;
+            var nextArguments = e.prevScene.nextArguments;
+            if (nextLabel) {
+                this.gotoScene(nextLabel, nextArguments);
+            }
+            else {
+                this.gotoNext(nextArguments);
+            }
         },
     });
 

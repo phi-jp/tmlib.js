@@ -43,7 +43,7 @@
             
             this.element = new Image();
             if ( !tm.isLocal() &amp;&amp; !(/^data:/.test(src)) ) {
-                this.element.crossOrigin = &quot;anonymous&quot;;
+                // this.element.crossOrigin = &quot;anonymous&quot;;
             }
             this.element.src = src;
             
@@ -57,7 +57,7 @@
             this.element.onerror = function(e) {
                 console.error(&quot;[tmlib] {0}の読み込みに失敗!&quot;.format(src));
                 
-                var key = src.split('/').last.replace('.png', '').split('?').first.split('#').first;
+                var key = src.split(&#39;/&#39;).last.replace(&#39;.png&#39;, &#39;&#39;).split(&#39;?&#39;).first.split(&#39;#&#39;).first;
                 var elm = e.target;
                 
                 elm.src = &quot;http://dummyimage.com/128x128/444444/eeeeee&amp;text=&quot; + key;
@@ -109,9 +109,9 @@
         paths.push(param.color || &quot;000&quot;);
         paths.push(param.format || &quot;png&quot;);
 
-        var src = paths.join('/');
+        var src = paths.join(&#39;/&#39;);
         if (param.text) {
-            src += '&amp;text=' + param.text;
+            src += &#39;&amp;text=&#39; + param.text;
         }
 
         this.textures[key] = tm.graphics.Texture(src);

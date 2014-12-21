@@ -235,10 +235,13 @@ tm.ui = tm.ui || {};
                 bgColor: &quot;rgb(180, 180, 180)&quot;,
                 text: &quot;ABC&quot;,
                 fontSize: 50,
-                fontFamily: &quot;'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif&quot;,
+                fontFamily: &quot;&#39;ヒラギノ角ゴ Pro W3&#39;, &#39;Hiragino Kaku Gothic Pro&#39;, &#39;メイリオ&#39;, &#39;Meiryo&#39;, &#39;ＭＳ Ｐゴシック&#39;, &#39;MS PGothic&#39;, sans-serif&quot;,
             });
 
-            this.superInit(param.width, param.height);
+            this.superInit({
+                width: param.width,
+                height: param.height,
+            });
 
             this.canvas.clearColor(param.bgColor);
 

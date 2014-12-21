@@ -168,9 +168,9 @@ tm.sound = tm.sound || {};
         var ext     = &quot;&quot;;
         var audio   = new Audio();
         
-        if      (audio.canPlayType(&quot;audio/wav&quot;) == 'maybe') { ext=&quot;wav&quot;; }
-        else if (audio.canPlayType(&quot;audio/mp3&quot;) == 'maybe') { ext=&quot;mp3&quot;; }
-        else if (audio.canPlayType(&quot;audio/ogg&quot;) == 'maybe') { ext=&quot;ogg&quot;; }
+        if      (audio.canPlayType(&quot;audio/wav&quot;) == &#39;maybe&#39;) { ext=&quot;wav&quot;; }
+        else if (audio.canPlayType(&quot;audio/mp3&quot;) == &#39;maybe&#39;) { ext=&quot;mp3&quot;; }
+        else if (audio.canPlayType(&quot;audio/ogg&quot;) == &#39;maybe&#39;) { ext=&quot;ogg&quot;; }
         
         return ext;
     })();
@@ -200,7 +200,7 @@ tm.sound = tm.sound || {};
         cache = cache || DEFAULT_CACHE_NUM;
         
         // 拡張子チェック
-        if (src.split('/').at(-1).indexOf('.') == -1) {
+        if (src.split(&#39;/&#39;).at(-1).indexOf(&#39;.&#39;) == -1) {
             src += &quot;.&quot; + tm.sound.Sound.SUPPORT_EXT;
         }
         

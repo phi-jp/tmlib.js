@@ -25,7 +25,7 @@ var tm = tm || {};
 tm.global = window || global || this;
 
 // node.js
-if (typeof module !== 'undefined' &amp;&amp; module.exports) {
+if (typeof module !== &#39;undefined&#39; &amp;&amp; module.exports) {
     module.exports = tm;
 }
 
@@ -35,7 +35,7 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
 <span id='tm-VERSION'>    /**
 </span>     * バージョン
      */
-    tm.VERSION = '&lt;%= pkg.version %&gt;';
+    tm.VERSION = &#39;&lt;%= pkg.version %&gt;&#39;;
 
 <span id='tm-LIB_ROOT'>    /**
 </span>     * tmlib.js のルートパス
@@ -297,7 +297,7 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
             padding     = &quot;10px 0px&quot;;
             zIndex      = &quot;0&quot;;
             textAlign   = &quot;center&quot;;
-            fontFamily  = '&quot;Meiryo&quot;, &quot;メイリオ&quot;, &quot;ヒラギノ角ゴ Pro W3&quot;, sans-serif';
+            fontFamily  = &#39;&quot;Meiryo&quot;, &quot;メイリオ&quot;, &quot;ヒラギノ角ゴ Pro W3&quot;, sans-serif&#39;;
             fontSize    = &quot;13px&quot;;
             opacity     = &quot;0.25&quot;;
             backgroundColor = &quot;rgb(230,230,255)&quot;;
@@ -308,12 +308,12 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
         }
 
         /*
-        eInfo.innerHTML = &quot;このプログラムで利用している JavaScript ライブラリ 『tmlib.js』 は&lt;a href='{tmlibLink}'&gt;こちら&lt;/a&gt;からダウンロードできます. 詳しくは&lt;a href='{blogLink}'&gt;Blog&lt;/a&gt;に書いています.&quot;.format({
+        eInfo.innerHTML = &quot;このプログラムで利用している JavaScript ライブラリ 『tmlib.js』 は&lt;a href=&#39;{tmlibLink}&#39;&gt;こちら&lt;/a&gt;からダウンロードできます. 詳しくは&lt;a href=&#39;{blogLink}&#39;&gt;Blog&lt;/a&gt;に書いています.&quot;.format({
             &quot;tmlibLink&quot;: &quot;http://code.google.com/p/tmlib-js/downloads/list&quot;,
             &quot;blogLink&quot; : &quot;http://tmlife.net/tmlib&quot;
         });
         */
-        eInfo.innerHTML = &quot;このプログラムで利用している JavaScript ライブラリ 『tmlib.js』 については&lt;a href='{projectLink}'&gt;こちら&lt;/a&gt;.&quot;.format({
+        eInfo.innerHTML = &quot;このプログラムで利用している JavaScript ライブラリ 『tmlib.js』 については&lt;a href=&#39;{projectLink}&#39;&gt;こちら&lt;/a&gt;.&quot;.format({
             &quot;projectLink&quot; : &quot;https://github.com/phi1618/tmlib.js&quot;
         });
         parent.appendChild(eInfo);

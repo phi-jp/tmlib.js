@@ -54,7 +54,7 @@
                 style[name] = props[key] + &quot;&quot;;
             }
             
-            style[tm.dom.Trans.PROPERTY] = names.join(', ');   // none;
+            style[tm.dom.Trans.PROPERTY] = names.join(&#39;, &#39;);   // none;
             
             return this;
         },
@@ -158,7 +158,7 @@
                 style[name] = prop[key];
             }
             
-            style[tm.dom.Trans.PROPERTY] = prop_list.join(', ');   // none;
+            style[tm.dom.Trans.PROPERTY] = prop_list.join(&#39;, &#39;);   // none;
             
             return this;
         },
@@ -229,7 +229,7 @@
     };
     var _checkStyleProperty = function(name) {
         if (_styleList[name] === true) {
-            return '-'+tm.VENDER_PREFIX + name.capitalizeFirstLetter();
+            return &#39;-&#39;+tm.VENDER_PREFIX + name.capitalizeFirstLetter();
         }
         return name;
     };

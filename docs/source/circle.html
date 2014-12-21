@@ -87,6 +87,17 @@ tm.geom = tm.geom || {};
             return this;
         },
 
+<span id='tm-geom-Circle-method-contains'>        /**
+</span>         * 
+         */
+        contains: function(x, y) {
+            var lenX = this.x-x;
+            var lenY = this.y-y;
+            var lenSquared = (lenX*lenX)+(lenY*lenY);
+
+            return lenSquared &lt;= this.radius*this.radius;
+        },
+
 <span id='tm-geom-Circle-method-clone'>        /**
 </span>         * クローン作成
          */

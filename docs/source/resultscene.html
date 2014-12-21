@@ -29,15 +29,29 @@
             this.superInit();
 
             param = {}.$extend(tm.scene.ResultScene.default, param);
+            this.param = param;
+
+            var userData = this._getUserData();
+            var bestScore = (userData.bestScore) ? userData.bestScore : 0;
+            var highScoreFlag = (param.score &gt; bestScore);
+
+            if (param.record) {
+                if (highScoreFlag) {
+                    userData.bestScore = param.score;
+                    this._record(userData);
+                }
+            }
 
             this.fromJSON({
                 children: {
                     bg: {
                         type: &quot;tm.display.RectangleShape&quot;,
-                        init: [param.width, param.height, {
+                        init: {
+                            width: param.width,
+                            height: param.height,
                             fillStyle: param.bgColor,
                             strokeStyle: &quot;transparent&quot;,
-                        }],
+                        },
                         originX: 0,
                         originY: 0,
                     }
@@ -57,53 +71,78 @@
                 });
             }
 
+            var baseLabelParam = {
+                type: &quot;Label&quot;,
+                fillStyle: param.fontColor,
+                fontFamily: &quot;&#39;Helvetica-Light&#39; &#39;Meiryo&#39; sans-serif&quot;,
+            };
+
             this.fromJSON({
                 children: {
-                    scoreText: {
-                        type: &quot;Label&quot;,
+                    scoreText: baseLabelParam.$extend({
                         text: &quot;score&quot;,
-                        x: param.width/2,
-                        y: param.height/10*2,
-                        fillStyle: param.fontColor,
+                        x: this._toGridX(4),
+                        y: this._toGridY(3),
                         fontSize: param.fontSize*0.5,
-                        fontFamily: &quot;'Helvetica-Light' 'Meiryo' sans-serif&quot;,
-                        align: &quot;center&quot;,
-                        baseline: &quot;middle&quot;,
-                    },
+                    }),
                     scoreLabel: {
                         type: &quot;Label&quot;,
                         text: param.score,
-                        x: param.width/2,
-                        y: param.height/10*3,
+                        x: this._toGridX(4),
+                        y: this._toGridY(4),
                         fillStyle: param.fontColor,
                         fontSize: param.fontSize,
-                        fontFamily: &quot;'Helvetica-Light' 'Meiryo' sans-serif&quot;,
-                        align: &quot;center&quot;,
-                        baseline: &quot;middle&quot;,
+                        fontFamily: &quot;&#39;Helvetica-Light&#39; &#39;Meiryo&#39; sans-serif&quot;,
                     },
+                    bestText: {
+                        type: &quot;Label&quot;,
+                        text: &quot;best&quot;,
+                        x: this._toGridX(8),
+                        y: this._toGridY(3),
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.5,
+                        fontFamily: &quot;&#39;Helvetica-Light&#39; &#39;Meiryo&#39; sans-serif&quot;,
+                    },
+                    bestLabel: {
+                        type: &quot;Label&quot;,
+                        text: bestScore,
+                        x: this._toGridX(8),
+                        y: this._toGridY(4),
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize,
+                        fontFamily: &quot;&#39;Helvetica-Light&#39; &#39;Meiryo&#39; sans-serif&quot;,
+                    },
+
+                    newRecordText: {
+                        type: &quot;Label&quot;,
+                        text: &quot;new record!&quot;,
+                        x: this._toGridX(6),
+                        y: this._toGridY(6),
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.5,
+                        fontFamily: &quot;&#39;Helvetica-Light&#39; &#39;Meiryo&#39; sans-serif&quot;,
+                        visible: false,
+                    },
+
                     shareButton: {
                         type: &quot;FlatButton&quot;,
-                        init: [
-                            {
-                                text: &quot;Share&quot;,
-                                width: 200,
-                                bgColor: &quot;hsl(240, 80%, 70%)&quot;,
-                            }
-                        ],
-                        x: param.width/10*3,
-                        y: param.height/10*7,
+                        init: {
+                            text: &quot;Share&quot;,
+                            width: 200,
+                            bgColor: &quot;hsl(240, 100%, 64%)&quot;,
+                        },
+                        x: this._toGridX(4),
+                        y: this._toGridY(9),
                     },
                     backButton: {
                         type: &quot;FlatButton&quot;,
-                        init: [
-                            {
-                                text: &quot;Back&quot;,
-                                width: 200,
-                                bgColor: &quot;hsl(240, 80%, 0%)&quot;,
-                            }
-                        ],
-                        x: param.width/10*7,
-                        y: param.height/10*7,
+                        init: {
+                            text: &quot;Back&quot;,
+                            width: 200,
+                            bgColor: &quot;hsl(240, 80%, 0%)&quot;,
+                        },
+                        x: this._toGridX(8),
+                        y: this._toGridY(9),
                     }
                 }
             });
@@ -117,13 +156,43 @@
                 url     : param.url, // or window.document.location.href
             });
             this.shareButton.onclick = function() {
-                window.open(twitterURL, 'share window', 'width=400, height=300');
+                window.open(twitterURL, &#39;share window&#39;, &#39;width=400, height=300&#39;);
             };
 
-            // back
+            // setup back
             this.backButton.onpointingstart = this._back.bind(this);
-
             this.autopop = param.autopop;
+
+            // setup record
+            if (highScoreFlag) {
+                this.newRecordText.show();
+                this.newRecordText.tweener
+                    .set({alpha:0.0})
+                    .fadeIn(2000)
+                    .setLoop(true)
+                    ;
+            }
+        },
+
+        _getUserData: function() {
+            var key = location.pathname.toCRC32();
+            var data = localStorage.getItem(key);
+            return (data) ? JSON.parse(data) : {};
+        },
+
+        _record: function(data) {
+            var key = location.pathname.toCRC32();
+            var dataString = JSON.stringify(data);
+            localStorage.setItem(key, dataString);
+            return this;
+        },
+
+        _toGridX: function(index) {
+            return this.param.width/12*index;
+        },
+
+        _toGridY: function(index) {
+            return this.param.height/12*index;
         },
 
         _back: function() {
@@ -146,8 +215,9 @@
         height: 960,
         fontColor: &quot;#444&quot;,
         fontSize: 90,
-        bgColor: &quot;rgb(240,240,240)&quot;,
+        bgColor: &quot;rgba(255,255,255, 0.9)&quot;,
         bgImage: null,
+        record: true,
         autopop: true,
     };
 

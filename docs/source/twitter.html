@@ -65,7 +65,7 @@ tm.social = tm.social || {};
         var url = &quot;{baseURL}/{type}?{param}&quot;.format({
             baseURL : BASE_URL,
             type    : prop.type,
-            param   : param_string_list.join('&amp;'),
+            param   : param_string_list.join(&#39;&amp;&#39;),
         });
         
         return url;

@@ -113,9 +113,9 @@ tm.graphics = tm.graphics || {};
          */
         toStyleAsHex: function() {
             return &quot;#{0}{1}{2}&quot;.format(
-                this.r.toString(16).padding(2, '0'),
-                this.g.toString(16).padding(2, '0'),
-                this.b.toString(16).padding(2, '0')
+                this.r.toString(16).padding(2, &#39;0&#39;),
+                this.g.toString(16).padding(2, &#39;0&#39;),
+                this.b.toString(16).padding(2, &#39;0&#39;)
             );
         },
         
@@ -261,14 +261,14 @@ tm.graphics = tm.graphics || {};
         var vlaue = null;
         var type = null;
         
-        if (str[0] === '#') {
+        if (str[0] === &#39;#&#39;) {
             type = (str.length == 4) ?  &quot;hex111&quot; : &quot;hex222&quot;;
         }
-        else if (str[0] === 'r' &amp;&amp; str[1] === 'g' &amp;&amp; str[2] === 'b') {
-            type = (str[3] == 'a') ? &quot;rgba&quot; : &quot;rgb&quot;;
+        else if (str[0] === &#39;r&#39; &amp;&amp; str[1] === &#39;g&#39; &amp;&amp; str[2] === &#39;b&#39;) {
+            type = (str[3] == &#39;a&#39;) ? &quot;rgba&quot; : &quot;rgb&quot;;
         }
-        else if (str[0] === 'h' &amp;&amp; str[1] === 's' &amp;&amp; str[2] === 'l') {
-            type = (str[3] == 'a') ? &quot;hsla&quot; : &quot;hsl&quot;;
+        else if (str[0] === &#39;h&#39; &amp;&amp; str[1] === &#39;s&#39; &amp;&amp; str[2] === &#39;l&#39;) {
+            type = (str[3] == &#39;a&#39;) ? &quot;hsla&quot; : &quot;hsl&quot;;
         }
         
         if (type) {

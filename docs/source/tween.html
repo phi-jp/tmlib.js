@@ -165,10 +165,10 @@ tm.anim = tm.anim || {};
          * @param {Function} func
          */
         setTransition: function(func) {
-            if (typeof func == 'function') {
+            if (typeof func == &#39;function&#39;) {
                 this.func = func;
             }
-            else if (typeof func == 'string'){
+            else if (typeof func == &#39;string&#39;){
                 this.func = tm.anim.easing[func];
             }
             else {

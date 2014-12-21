@@ -54,7 +54,7 @@ tm.dom = tm.dom || {};
          */
         add: function(name, value) {
             var now = this.get(name);
-            value = (now) ? now + ' ' + value : value;
+            value = (now) ? now + &#39; &#39; + value : value;
             this.element.setAttribute(name, value);
             return this;
         },
@@ -66,7 +66,7 @@ tm.dom = tm.dom || {};
             // value があるときはそれのみを削除する
             if (value) {
                 var now = this.get(name);
-                var next= (now) ? now.replace(value, '').replace('  ', ' ') : '';
+                var next= (now) ? now.replace(value, &#39;&#39;).replace(&#39;  &#39;, &#39; &#39;) : &#39;&#39;;
                 this.element.setAttribute(name, next.trim());
             }
             // ないときは属性そのものを削除する
@@ -92,7 +92,7 @@ tm.dom = tm.dom || {};
                 return now != null;
             }
             else if (arguments.length == 2) {
-                return (' '+now+' ').indexOf(' '+value+' ') &gt; -1;
+                return (&#39; &#39;+now+&#39; &#39;).indexOf(&#39; &#39;+value+&#39; &#39;) &gt; -1;
             }
 
             return false;

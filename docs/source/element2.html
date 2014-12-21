@@ -228,22 +228,22 @@ tm.dom = tm.dom || {};
     });
 <span id='tm-dom-Element-property-x'>    /** @property x  x値 */
 </span>    tm.dom.Element.prototype.accessor(&quot;x&quot;, {
-        &quot;get&quot;: function()   { return Number( this.element.style.left.replace(&quot;px&quot;, '') ); },
+        &quot;get&quot;: function()   { return Number( this.element.style.left.replace(&quot;px&quot;, &#39;&#39;) ); },
         &quot;set&quot;: function(x)  { this.element.style.left = x+&quot;px&quot;; }
     });
 <span id='tm-dom-Element-property-y'>    /** @property y  y値 */
 </span>    tm.dom.Element.prototype.accessor(&quot;y&quot;, {
-        &quot;get&quot;: function()   { return Number( this.element.style.top.replace(&quot;px&quot;, '') ); },
+        &quot;get&quot;: function()   { return Number( this.element.style.top.replace(&quot;px&quot;, &#39;&#39;) ); },
         &quot;set&quot;: function(y)  { this.element.style.top = y+&quot;px&quot;; }
     });
 <span id='tm-dom-Element-property-width'>    /** @property width  幅 */
 </span>    tm.dom.Element.prototype.accessor(&quot;width&quot;, {
-        &quot;get&quot;: function()   { return Number( this.element.style.width.replace(&quot;px&quot;, '') ); },
+        &quot;get&quot;: function()   { return Number( this.element.style.width.replace(&quot;px&quot;, &#39;&#39;) ); },
         &quot;set&quot;: function(w)  { this.element.style.width = w+&quot;px&quot;; }
     });
 <span id='tm-dom-Element-property-height'>    /** @property height  高さ */
 </span>    tm.dom.Element.prototype.accessor(&quot;height&quot;, {
-        &quot;get&quot;: function()   { return Number( this.element.style.height.replace(&quot;px&quot;, '') ); },
+        &quot;get&quot;: function()   { return Number( this.element.style.height.replace(&quot;px&quot;, &#39;&#39;) ); },
         &quot;set&quot;: function(h)  { this.element.style.height = h+&quot;px&quot;; }
     });
 <span id='tm-dom-Element-property-color'>    /** @property color  色 */

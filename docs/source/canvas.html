@@ -254,7 +254,7 @@ tm.graphics = tm.graphics || {};
                 pattern = pattern || 0xf0f0;
                 patternTable = pattern.toString(2);
             }
-            patternTable = patternTable.padding(16, '1');
+            patternTable = patternTable.padding(16, &#39;1&#39;);
             
             var vx = x1-x0;
             var vy = y1-y0;
@@ -264,7 +264,7 @@ tm.graphics = tm.graphics || {};
             var x = x0;
             var y = y0;
             for (var i=0; i&lt;len; ++i) {
-                if (patternTable[i%16] == '1') {
+                if (patternTable[i%16] == &#39;1&#39;) {
                     this.drawPoint(x, y);
                     // this.fillRect(x, y, this.context.lineWidth, this.context.lineWidth);
                 }
@@ -599,8 +599,8 @@ tm.graphics = tm.graphics || {};
         
         _drawVerticalText: function(func, text, x, y) {
             var ctx = this.context;
-            var lines = text.split('\n');
-            var charSize = this.context.measureText('あ').width;
+            var lines = text.split(&#39;\n&#39;);
+            var charSize = this.context.measureText(&#39;あ&#39;).width;
             
             ctx.save();
             
@@ -620,8 +620,8 @@ tm.graphics = tm.graphics || {};
         _drawLabelArea: function(func, param) {
             var ctx = this.context;
             var text = param.text;
-            var charSize = this.context.measureText('あ').width;
-            var lines = text.split('\n');
+            var charSize = this.context.measureText(&#39;あ&#39;).width;
+            var lines = text.split(&#39;\n&#39;);
             var lineSpace = (param.lineSpace || 1)*charSize;
             
             ctx.save();

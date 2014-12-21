@@ -69,7 +69,7 @@ tm.event = tm.event || {};
          */
         fire: function(e) {
             e.target = this;
-            var oldEventName = 'on' + e.type;
+            var oldEventName = &#39;on&#39; + e.type;
             if (this[oldEventName]) this[oldEventName](e);
             
             var listeners = this._listeners[e.type];
@@ -86,8 +86,11 @@ tm.event = tm.event || {};
         /*
          * イベント名でイベント発火
          */
-        flare: function(eventName) {
+        flare: function(eventName, param) {
             var e = tm.event.Event(eventName);
+            if (param) {
+                e.$extend(param);
+            }
             this.fire(e);
 
             return this;
@@ -119,7 +122,7 @@ tm.event = tm.event || {};
 </span>         * type に登録されているリスナーを全てクリア
          */
         clearEventListener: function(type) {
-            var oldEventName = 'on' + type;
+            var oldEventName = &#39;on&#39; + type;
             if (this[oldEventName]) delete this[oldEventName];
 
             this._listeners[type] = [];

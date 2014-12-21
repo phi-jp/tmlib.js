@@ -65,7 +65,7 @@ tm.mml = tm.mml || {};
 
     var frequency = (function() {
         var k0 = { c: -9, d: -7, e: -5, f: -4, g: -2, a: 0, b: 2 };
-        var k1 = { '+': 1, '#': 1, '': 0, '-': -1 };
+        var k1 = { &#39;+&#39;: 1, &#39;#&#39;: 1, &#39;&#39;: 0, &#39;-&#39;: -1 };
         return function(h, sign, oct) {
             return 13.75 * Math.pow(2, (k0[h] + k1[sign]) / 12 + (oct || 0));
         };
@@ -82,7 +82,7 @@ tm.mml = tm.mml || {};
          */
         compile: function(source) {
             var buffer = new Array();
-            var trackList = source.split(';');
+            var trackList = source.split(&#39;;&#39;);
             var trackNum = trackList.length;
 
             var sampleRate = 22050;
@@ -106,13 +106,13 @@ tm.mml = tm.mml || {};
                     var freq, len;
 
                     switch(s[1]){
-                        case 'c':
-                        case 'd':
-                        case 'e':
-                        case 'f':
-                        case 'g':
-                        case 'a':
-                        case 'b':
+                        case &#39;c&#39;:
+                        case &#39;d&#39;:
+                        case &#39;e&#39;:
+                        case &#39;f&#39;:
+                        case &#39;g&#39;:
+                        case &#39;a&#39;:
+                        case &#39;b&#39;:
                             freq = frequency(s[1], s[2], octave);
                             len = val || sndLen;
                             len = sampleRate * // sample/sec
@@ -132,7 +132,7 @@ tm.mml = tm.mml || {};
                             pos += len;
 
                             break;
-                        case 'r':
+                        case &#39;r&#39;:
                             len = (val || sndLen);
                             len = sampleRate * 60 * 4 / tempo / len;
                             for (var i=0; i&lt;len; ++i) {
@@ -143,13 +143,13 @@ tm.mml = tm.mml || {};
                             }
                             pos += len;
                             break;
-                        case '&lt;': octave +=  val || 1; break;
-                        case '&gt;': octave -=  val || 1; break;
-                        case 'l': if (val) sndLen = val; break;
-                        case 't': if (val) tempo = val; break;
-                        case 'v': if (val) volume = val; break;
-                        case 'o': if (val) octave = val; break;
-                        case '@': timberFunc = timberFuncList[val] || timberFuncList[0]; break;
+                        case &#39;&lt;&#39;: octave +=  val || 1; break;
+                        case &#39;&gt;&#39;: octave -=  val || 1; break;
+                        case &#39;l&#39;: if (val) sndLen = val; break;
+                        case &#39;t&#39;: if (val) tempo = val; break;
+                        case &#39;v&#39;: if (val) volume = val; break;
+                        case &#39;o&#39;: if (val) octave = val; break;
+                        case &#39;@&#39;: timberFunc = timberFuncList[val] || timberFuncList[0]; break;
                         default: break;
                     }
                 }

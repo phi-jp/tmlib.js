@@ -32,6 +32,12 @@ tm.app = tm.app || {};
     tm.app.Scene = tm.createClass({
         superClass: tm.app.Object2D,
 
+<span id='tm-app-Scene-property-nextLabel'>        /** ManagerScene 経由で生成された際に次にどのシーンに遷移するかのラベル */
+</span>        nextLabel: &quot;&quot;,
+
+<span id='tm-app-Scene-property-nextArguments'>        /** ManagerScene 経由で生成された際に次のシーンに渡す引数 */
+</span>        nextArguments: null,
+
 <span id='tm-app-Scene-method-constructor'>        /**
 </span>         * @constructor
          */
