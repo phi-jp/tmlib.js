@@ -1,5 +1,5 @@
 /*
- * tmlib.js 0.4.0
+ * tmlib.js 0.4.1
  * http://github.com/phi-jp/tmlib.js
  * MIT Licensed
  * 
@@ -25,7 +25,7 @@ if (typeof module !== 'undefined' && module.exports) {
     /**
      * バージョン
      */
-    tm.VERSION = '0.4.0';
+    tm.VERSION = '0.4.1';
 
     /**
      * tmlib.js のルートパス
@@ -17452,7 +17452,10 @@ tm.ui = tm.ui || {};
 
         _createHiyoko: function(param) {
             // ひよこさん
-            var piyo = tm.display.Shape(84, 84);
+            var piyo = tm.display.Shape({
+                width: 84,
+                height: 84,
+            });
             piyo.x = tm.util.Random.randint(0, param.width);
             piyo.y = tm.util.Random.randint(0, param.height);
             piyo.canvas.setColorStyle("white", "yellow").fillCircle(42, 42, 32);
