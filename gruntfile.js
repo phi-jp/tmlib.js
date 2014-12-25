@@ -97,7 +97,6 @@ module.exports = function(grunt) {
     "src/ui/sketch.js",
     "src/ui/gauge.js",
     "src/ui/labelarea.js",
-    "src/ui/loadingscene.js",
 
     "src/scene/titlescene.js",
     "src/scene/resultscene.js",

@@ -31,7 +31,10 @@
                 children: {
                     bg: {
                         type: "tm.display.Shape",
-                        init: [param.width, param.height],
+                        init: {
+                            width: param.width,
+                            height: param.height,
+                        },
                         originX: 0,
                         originY: 0,
                     },
