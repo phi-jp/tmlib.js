@@ -107,6 +107,16 @@
                         visible: false,
                     },
 
+                    messageText: {
+                        type: "Label",
+                        text: param.message,
+                        x: this._toGridX(6),
+                        y: this._toGridY(7),
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.5,
+                        fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
+                    },
+
                     shareButton: {
                         type: "FlatButton",
                         init: {
@@ -189,7 +199,7 @@
 
     tm.scene.ResultScene.default = {
         score: 256,
-        message: "this is tmlib.js",
+        message: "this is tmlib.js project.",
         hashtags: "tmlibjs,game",
         related: "tmlib.js tmlife javascript",
         url: "http://phi-jp.github.io/tmlib.js/",
