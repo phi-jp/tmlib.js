@@ -17050,6 +17050,17 @@ tm.ui = tm.ui || {};
                         align: "center",
                         baseline: "middle",
                     },
+                    messageLabel: {
+                        type: "Label", name: "nextLabel",
+                        text: param.message || "",
+                        x: this._toGridX(6),
+                        y: this._toGridY(6),
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.36,
+                        fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
+                        align: "center",
+                        baseline: "middle",
+                    },
                     touchLabel: {
                         type: "Label", name: "nextLabel",
                         text: "TOUCH START",
@@ -17091,6 +17102,7 @@ tm.ui = tm.ui || {};
 
     tm.scene.TitleScene.default = {
         title: "Time is money",
+        message: "",
         fontSize: 72,
         fontColor: "#444",
         width: 640,
