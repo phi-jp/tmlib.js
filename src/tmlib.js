@@ -6,7 +6,9 @@
  */
 var tm = tm || {};
 tm.global = window || global || this;
-tm.global.tm = tm;
+if (tm.global.Meteor != null) {
+  tm.global.tm = tm;
+}
 
 // node.js
 if (typeof module !== 'undefined' && module.exports) {
