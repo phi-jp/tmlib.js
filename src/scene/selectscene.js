@@ -70,23 +70,34 @@
             }
 
             var height = Math.max((1+this.menu.length)*50, 50) + 40;
-            this.box = tm.display.RectangleShape(this._screenWidth * 0.8, height, {
-                strokeStyle: "rgba(0,0,0,0)",
-                fillStyle: "rgba(43,156,255, 0.8)",
-            }).setPosition(this._screenWidth*0.5, this._screenHeight*0.5);
-            this.box.width = 1;
-            this.box.height = 1;
-            this.box.setBoundingType("rect");
+            this.fromJSON({
+                children: {
+                    box: {
+                        type: "tm.display.Shape",
+                        init: {
+                            width: this._screenWidth * 0.8,
+                            height: height,
+                            bgColor: "rgba(43,156,255, 0.8)",
+                        },
+                        x: this._screenWidth*0.5,
+                        y: this._screenHeight*0.5,
+                        width: 1,
+                        height: 1,
+                        boundingType: "rect",
+                    },
+                    description: {
+                        type: "tm.display.Label",
+                        align: "center",
+                        baseline: "middle",
+                        x: this._screenWidth*0.5,
+                        y: this._screenHeight-10,
+                    },
+                }
+            });
+
             this.box.tweener
                 .to({ width: this._screenWidth*0.8, height: height }, 200, "easeOutExpo")
                 .call(this._onOpen.bind(this));
-            this.box.addChildTo(this);
-
-            this.description = tm.display.Label("", 14)
-                .setAlign("center")
-                .setBaseline("middle")
-                .setPosition(this._screenWidth*0.5, this._screenHeight-10)
-                .addChildTo(this);
         },
 
         /**
