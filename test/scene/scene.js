@@ -423,15 +423,92 @@ testhelper.describe("tm.scene.ManagerScene", function() {
 
 
 
-;(function() {
+testhelper.describe("tm.scene.SelectScene", function() {
+
+    testhelper.it("test", function() {
+
+        tm.define("MainScene", {
+            superClass: "tm.app.Scene",
+
+            init: function() {
+                this.superInit();
+
+                tm.ui.GlossyButton(300, 50, "blue", "Open MenuDialog")
+                    .setPosition(150+10, 25+10)
+                    .addChildTo(this)
+                    .on("pointingend", function() {
+                        this.openSelectScene();
+                    }.bind(this));
+            },
+
+            openSelectScene: function() {
+                var menu = ["アルファ", "ベータ", "ガンマ"];
+                var scene = tm.scene.SelectScene({
+                    title: "メニュー",
+                    menu: menu,
+                });
+
+                this.app.pushScene(scene);
+
+                scene.onmenuselected = function(e) {
+                    console.log(menu[e.selectIndex] + "が選択されました");
+                }.bind(this);
+            },
+        });
+
+    });
 
 
+    testhelper.it("full option", function() {
 
+        tm.define("MainScene", {
+            superClass: "tm.app.Scene",
 
+            init: function() {
+                this.superInit();
 
-/*
- * managerscene.js
- */
+                tm.ui.GlossyButton(300, 50, "blue", "Open MenuDialog")
+                    .setPosition(150+10, 25+10)
+                    .addChildTo(this)
+                    .on("pointingend", function() {
+                        this.openSelectScene();
+                    }.bind(this));
+            },
 
-})
+            openSelectScene: function() {
+                var menu = ["カレー", "ラーメン", "やきそば", "かき氷(イチゴ)", "かき氷(メロン)"];
+                var scene = tm.scene.SelectScene({
+                    screenWidth: SCREEN_WIDTH,
+                    screenHeight: SCREEN_HEIGHT,
+                    title: "メニュー",
+                    menu: menu,
+                    selected: this.lastSelection,
+                    menuDesctiptions: [
+                        "スパイシーでゴージャスなカレーライス",
+                        "透き通ったスープの滋味豊かなしょうゆラーメン",
+                        "ジュージュー焼けたソースが香ります。青のりに気をつけろ！",
+                        "慌てて食べるとキーンとくるよ",
+                        "緑色はメロン。抹茶は認めない。あんこも認めない。"
+                    ],
+                });
 
+                this.app.pushScene(scene);
+
+                scene.onmenuopened = function(e) {
+                    console.log("ダイアログ開いたよ♪");
+                };
+
+                scene.onmenuselect = function(e) {
+                    console.log(e.selectValue + "を選択中");
+                };
+
+                scene.onmenuselected = function(e) {
+                    console.log(menu[e.selectIndex] + "が選択されました");
+                    this.lastSelection = e.selectIndex;
+                }.bind(this);
+            },
+        });
+
+    });
+
+});

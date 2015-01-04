@@ -93,7 +93,6 @@
         "ui": [
             "src/ui/userinterface.js",
             "src/ui/button.js",
-            "src/ui/menudialog.js",
             "src/ui/sketch.js",
             "src/ui/gauge.js",
             "src/ui/labelarea.js",
@@ -107,6 +106,7 @@
             "src/scene/splashscene.js",
             "src/scene/managerscene.js",
             "src/scene/numericalinputscene.js",
+            "src/scene/selectscene.js",
         ],
         "three": [
             "src/three/three.js",

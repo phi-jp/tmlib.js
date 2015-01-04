@@ -5,12 +5,12 @@
 (function() {
     
     /**
-     * @class tm.ui.MenuDialog
-     * メニューダイアログ
+     * @class tm.scene.SelectScene
+     * 選択シーン
      * @extends tm.app.Scene
      */
-    tm.define("tm.ui.MenuDialog", {
-        superClass: tm.app.Scene,
+    tm.define("tm.scene.SelectScene", {
+        superClass: "tm.app.Scene",
 
         /** @type {string} タイトル */
         titleText: null,
@@ -51,12 +51,12 @@
         init: function(params) {
             this.superInit();
 
-            this._screenWidth = params.screenWidth;
-            this._screenHeight = params.screenHeight;
+            this._screenWidth = params.screenWidth || 640;
+            this._screenHeight = params.screenHeight || 960;
 
             this.titleText = params.title;
             this.menu = [].concat(params.menu);
-            this._selected = ~~params.defaultSelected;
+            this._selected = ~~params.selected;
             this.showExit = !!params.showExit;
             if (params.menuDesctiptions) {
                 this.descriptions = params.menuDesctiptions;
@@ -111,7 +111,7 @@
                     .setPosition(this._screenWidth*0.5, y)
                     .addChildTo(this);
                 selection.interactive = true;
-                selection.addEventListener("click", function() {
+                selection.on("click", function() {
                     if (self._selected === i) {
                         self.closeDialog(self._selected);
                     } else {
