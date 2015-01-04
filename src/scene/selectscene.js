@@ -15,7 +15,9 @@
         /** @type {string} タイトル */
         titleText: null,
         /** @type {Array.<string>} メニュー名リスト */
-        menu: null,
+        texts: null,
+        /** @type {Array.<string>} メニュー画像リスト */
+        images: null,
         /** @type {Array.<string>} メニュー詳細リスト */
         descriptions: null,
         /** @type {boolean} exit の表示/非表示 */
@@ -54,29 +56,39 @@
             this._screenWidth = params.screenWidth || 640;
             this._screenHeight = params.screenHeight || 960;
 
+            this.filterColor = params.filterColor || "rgba(0, 0, 0, 0.8)";
+
             this.titleText = params.title;
-            this.menu = [].concat(params.menu);
+            this.texts = [].concat(params.texts);
             this._selected = ~~params.selected;
             this.showExit = !!params.showExit;
             if (params.menuDesctiptions) {
                 this.descriptions = params.menuDesctiptions;
             } else {
-                this.descriptions = [].concat(params.menu);
+                this.descriptions = [].concat(params.texts);
             }
 
             if (this.showExit) {
-                this.menu.push("exit");
+                this.texts.push("exit");
                 this.descriptions.push("前の画面へ戻ります");
             }
 
-            var height = Math.max((1+this.menu.length)*50, 50) + 40;
             this.fromJSON({
                 children: {
+                    filter: {
+                        type: "tm.display.Shape",
+                        init: {
+                            width: this._screenWidth,
+                            height: this._screenHeight,
+                            bgColor: this.filterColor,
+                        },
+                        originX: 0,
+                        originY: 0,
+                    },
                     box: {
                         type: "tm.display.Shape",
                         init: {
                             width: this._screenWidth * 0.8,
-                            height: height,
                             bgColor: "rgba(43,156,255, 0.8)",
                         },
                         x: this._screenWidth*0.5,
@@ -95,27 +107,30 @@
                 }
             });
 
+            this.open();
+        },
+
+        open: function() {
+            var height = Math.max((1+this.texts.length)*50, 50) + 40;
             this.box.tweener
                 .to({ width: this._screenWidth*0.8, height: height }, 200, "easeOutExpo")
-                .call(this._onOpen.bind(this));
+                .call(this._open.bind(this));
         },
 
         /**
          * @private
          */
-        _onOpen: function() {
+        _open: function() {
             var self = this;
-            var y = this._screenHeight*0.5 - this.menu.length * 25;
+            var y = this._screenHeight*0.5 - this.texts.length * 25;
 
             this.title = tm.display.Label(this.titleText, 30)
-                .setAlign("center")
-                .setBaseline("middle")
                 .setPosition(this._screenWidth*0.5, y)
                 .addChildTo(this);
 
             this.cursor = this._createCursor();
 
-            this.selections = this.menu.map(function(text, i) {
+            this.selections = this.texts.map(function(text, i) {
                 var self = this;
                 y += 50;
                 var selection = tm.ui.LabelButton(text)
@@ -124,11 +139,11 @@
                 selection.interactive = true;
                 selection.on("click", function() {
                     if (self._selected === i) {
-                        self.closeDialog(self._selected);
+                        self.close(self._selected);
                     } else {
                         self._selected = i;
-                        var e = tm.event.Event("menuselect");
-                        e.selectValue = self.menu[self._selected];
+                        var e = tm.event.Event("select");
+                        e.selectValue = self.texts[self._selected];
                         e.selectIndex = i;
                         self.dispatchEvent(e);
                     }
@@ -145,7 +160,7 @@
             this.on("pointingend", function(e) {
                 var p = e.app.pointing;
                 if (!self.box.isHitPoint(p.x, p.y)) {
-                    self.closeDialog(self._selected);
+                    self.close(self._selected);
                 }
             });
 
@@ -158,9 +173,10 @@
          * @private
          */
         _createCursor: function() {
-            var cursor = tm.display.RectangleShape(this._screenWidth*0.7, 30, {
-                strokeStyle: "rgba(0,0,0,0)",
-                fillStyle: "rgba(12,79,138,1)"
+            var cursor = tm.display.Shape({
+                width: this._screenWidth*0.7,
+                height: 30,
+                bgColor: "rgba(12,79,138,1)"
             }).addChildTo(this);
             cursor.x = this._screenWidth*0.5;
             cursor.target = this._selected;
@@ -188,10 +204,10 @@
         /**
          * 閉じる
          */
-        closeDialog: function(result) {
+        close: function(result) {
             this._finished = true;
 
-            var e = tm.event.Event("menuselected");
+            var e = tm.event.Event("selected");
             e.selectIndex = result;
             this.dispatchEvent(e);
 
@@ -220,14 +236,6 @@
                     this.visible = !this.visible;
                 }.bind(this.cursor))
                 .setLoop(true);
-        },
-
-        /**
-         * 描画
-         */
-        draw: function(canvas) {
-            canvas.fillStyle = "rgba(0,0,0,0.8)";
-            canvas.fillRect(0,0,this._screenWidth,this._screenHeight);
         },
 
     });

@@ -442,16 +442,20 @@ testhelper.describe("tm.scene.SelectScene", function() {
             },
 
             openSelectScene: function() {
-                var menu = ["アルファ", "ベータ", "ガンマ"];
+                var texts = ["アルファ", "ベータ", "ガンマ"];
                 var scene = tm.scene.SelectScene({
                     title: "メニュー",
-                    menu: menu,
+                    texts: texts,
+                    // images: [],
+                    // filterColor: "red",
+                    // bgColor: "",
+                    // cursorColor: "",
                 });
 
                 this.app.pushScene(scene);
 
-                scene.onmenuselected = function(e) {
-                    console.log(menu[e.selectIndex] + "が選択されました");
+                scene.onselected = function(e) {
+                    console.log(texts[e.selectIndex] + "が選択されました");
                 }.bind(this);
             },
         });
