@@ -17050,6 +17050,17 @@ tm.ui = tm.ui || {};
                         align: "center",
                         baseline: "middle",
                     },
+                    messageLabel: {
+                        type: "Label", name: "nextLabel",
+                        text: param.message || "",
+                        x: this._toGridX(6),
+                        y: this._toGridY(6),
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.36,
+                        fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
+                        align: "center",
+                        baseline: "middle",
+                    },
                     touchLabel: {
                         type: "Label", name: "nextLabel",
                         text: "TOUCH START",
@@ -17091,6 +17102,7 @@ tm.ui = tm.ui || {};
 
     tm.scene.TitleScene.default = {
         title: "Time is money",
+        message: "",
         fontSize: 72,
         fontColor: "#444",
         width: 640,
@@ -17212,6 +17224,16 @@ tm.ui = tm.ui || {};
                         visible: false,
                     },
 
+                    messageText: {
+                        type: "Label",
+                        text: param.message,
+                        x: this._toGridX(6),
+                        y: this._toGridY(7),
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.5,
+                        fontFamily: "'Helvetica-Light' 'Meiryo' sans-serif",
+                    },
+
                     shareButton: {
                         type: "FlatButton",
                         init: {
@@ -17294,7 +17316,7 @@ tm.ui = tm.ui || {};
 
     tm.scene.ResultScene.default = {
         score: 256,
-        message: "this is tmlib.js",
+        message: "this is tmlib.js project.",
         hashtags: "tmlibjs,game",
         related: "tmlib.js tmlife javascript",
         url: "http://phi-jp.github.io/tmlib.js/",
