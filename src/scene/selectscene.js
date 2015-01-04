@@ -142,7 +142,7 @@
             this._opened = true;
 
             // close window when touch bg outside
-            this.addEventListener("pointingend", function(e) {
+            this.on("pointingend", function(e) {
                 var p = e.app.pointing;
                 if (!self.box.isHitPoint(p.x, p.y)) {
                     self.closeDialog(self._selected);
