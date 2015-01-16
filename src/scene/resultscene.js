@@ -122,7 +122,7 @@
                         init: {
                             text: "Share",
                             width: 200,
-                            bgColor: "hsl(240, 100%, 64%)",
+                            fillStyle: "hsl(240, 100%, 64%)",
                         },
                         x: this._toGridX(4),
                         y: this._toGridY(9),
@@ -132,7 +132,7 @@
                         init: {
                             text: "Back",
                             width: 200,
-                            bgColor: "hsl(240, 80%, 0%)",
+                            fillStyle: "hsl(240, 80%, 0%)",
                         },
                         x: this._toGridX(8),
                         y: this._toGridY(9),
