@@ -206,37 +206,37 @@ tm.ui = tm.ui || {};
      * @extends tm.display.Shape
      */
     tm.define("tm.ui.FlatButton", {
-        superClass: tm.display.Shape,
+        superClass: "tm.display.RoundRectangleShape",
 
         /**
          * @constructor
          */
         init: function(param) {
-            param.$safe({
-                width: 300,
-                height: 100,
-                bgColor: "rgb(180, 180, 180)",
-                text: "ABC",
-                fontSize: 50,
-                fontFamily: "'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif",
-            });
+            param = (param || {}).$safe(tm.ui.FlatButton.defaults);
 
-            this.superInit({
-                width: param.width,
-                height: param.height,
-            });
-
-            this.canvas.clearColor(param.bgColor);
+            this.superInit(param);
 
             this.setInteractive(true);
             this.setBoundingType("rect");
+            this.on("pointingend", function() {
+                this.flare('push');
+            });
 
             this.label = tm.display.Label(param.text).addChildTo(this);
             this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign("center").setBaseline("middle");
         },
     });
 
-
+    tm.ui.FlatButton.defaults = {
+        width: 300,
+        height: 100,
+        fillStyle: "hsl(180, 60%, 50%)",
+        strokeStyle: "transparent",
+        text: "START",
+        fontSize: 50,
+        cornerRadius: 8,
+        fontFamily: "'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif",
+    };
 
 })();
 
