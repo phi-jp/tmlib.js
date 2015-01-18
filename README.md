@@ -9,17 +9,7 @@
 公式ページは[こちら](http://phi-jp.github.io/tmlib.js/).
 
 
-[Usage](#usage) - [Examples](#examples) - [Documentation](#documentation) - [Download](#download)
-
-
-
-## Download
-- [tmlib.js version 0.2.0](https://raw.github.com/phi-jp/tmlib.js/0.2.0/build/tmlib.js)
-- [tmlib.min.js version 0.2.0](https://raw.github.com/phi-jp/tmlib.js/0.2.0/build/tmlib.min.js)
-
-
-## Documentation
-ドキュメントは[こちら](http://phi-jp.github.io/tmlib.js/docs/index.html)
+[Usage](#usage) - [Examples](#examples) - [Documentation](#documentation)
 
 ## Usage
 
@@ -27,7 +17,7 @@
 これだけで全ての機能を使う事ができます.
 
 ```html
-<script src="tmlib.js"></script>
+<script src="http://cdn.rawgit.com/phi-jp/tmlib.js/0.4.4/build/tmlib.js"></script>
 ```
 
 
@@ -81,6 +71,9 @@
 ```
 
 
+## Documentation
+ドキュメントは[こちら](http://phi-jp.github.io/tmlib.js/docs/index.html)
+
 
 ## Examples
 
@@ -128,5 +121,5 @@ IE なんて知りません.
 
 tmlib.js に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
 
-[TM Life](http://tmlife.net)
+[tmlife](http://tmlife.io)
 
