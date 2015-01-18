@@ -2,7 +2,7 @@ tm.asset = tm.asset || {};
 
 (function() {
 
-    tm.define("tm.asset.WebFont", {
+    tm.define("tm.asset.Font", {
         superClass: "tm.event.EventDispatcher",
 
         init: function(path, key) {
@@ -36,13 +36,13 @@ tm.asset = tm.asset || {};
     });
 
     tm.asset.Loader.register("ttf", function(path, key) {
-        return tm.asset.WebFont(path, key);
+        return tm.asset.Font(path, key);
     });
     tm.asset.Loader.register("otf", function(path, key) {
-        return tm.asset.WebFont(path, key);
+        return tm.asset.Font(path, key);
     });
     tm.asset.Loader.register("woff", function(path, key) {
-        return tm.asset.WebFont(path, key);
+        return tm.asset.Font(path, key);
     });
 
 })();
