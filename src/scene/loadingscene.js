@@ -31,7 +31,10 @@
                 children: {
                     bg: {
                         type: "tm.display.Shape",
-                        init: [param.width, param.height],
+                        init: {
+                            width: param.width,
+                            height: param.height,
+                        },
                         originX: 0,
                         originY: 0,
                     },
@@ -135,7 +138,10 @@
 
         _createHiyoko: function(param) {
             // ひよこさん
-            var piyo = tm.display.Shape(84, 84);
+            var piyo = tm.display.Shape({
+                width: 84,
+                height: 84,
+            });
             piyo.x = tm.util.Random.randint(0, param.width);
             piyo.y = tm.util.Random.randint(0, param.height);
             piyo.canvas.setColorStyle("white", "yellow").fillCircle(42, 42, 32);

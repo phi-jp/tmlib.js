@@ -71,6 +71,17 @@ tm.geom = tm.geom || {};
         },
 
         /**
+         * 
+         */
+        contains: function(x, y) {
+            var lenX = this.x-x;
+            var lenY = this.y-y;
+            var lenSquared = (lenX*lenX)+(lenY*lenY);
+
+            return lenSquared <= this.radius*this.radius;
+        },
+
+        /**
          * クローン作成
          */
         clone: function() {

@@ -9,14 +9,6 @@
     global.testhelper.scripts = {
         "core": [
             "src/tmlib.js",
-
-            "node_modules/high/src/object.js",
-            "node_modules/high/src/array.js",
-            "node_modules/high/src/date.js",
-            "node_modules/high/src/function.js",
-            "node_modules/high/src/math.js",
-            "node_modules/high/src/number.js",
-            "node_modules/high/src/string.js",
         ],
         "event": [
             "src/event/event.js",
@@ -148,6 +140,7 @@
         "app/collision.js",
 
         "display/sprite.js",
+        "display/shape.js",
         "display/mapsprite.js",
 
         "scene/scene.js",
@@ -186,5 +179,166 @@
     global.testhelper.loadtmlibAll = function(path) {
         this.loadtmlib(path, "all");
     };
+
+
+    testhelper.current = '';
+    testhelper.units = {};
+
+    testhelper.describe = function(name, func) {
+        testhelper.units[name] = {
+            name: name,
+            func: func,
+            its: {},
+        };
+    };
+
+    testhelper.it = function(name, func) {
+        var unit = this.units[this.current];
+        var lines = func.toString().split('\n');
+
+        lines.shift();
+        lines.pop();
+        lines = lines.map(function(line) {
+            return line.replace('        ', '');
+        });
+
+        var code = lines.join('\n');
+
+        unit.its[name] = {
+            func: func,
+            code: code,
+        };
+    };
+
+    testhelper.run = function(param) {
+        this.units.$forIn(function(key, value, i) {
+            testhelper.current = key;
+            value.func();
+        });
+
+        // setup dom
+        var sidebar = tm.dom.Element(param.sidebar);
+        this.units.$forIn(function(key, value, i) {
+            var div = sidebar.create("div");
+
+            // header
+            var header = div.create("h2");
+            header.html = key;
+
+            // list
+            var list = div.create("ul");
+
+            value.its.$forIn(function(key, value, i) {
+                var li = list.create("li");
+                var a = li.create("a");
+                a.html = key;
+                a.attr.set("href", "#");
+                a.event.add("click", function() {
+                    preview(value);
+                });
+            });
+
+            value.element = div;
+        });
+
+        // preview
+        var previewElement = tm.dom.Element(param.preview);
+
+        var preview = function(code) {
+            var baseURL = "runstant.html#";
+            var data = {
+                version: '0.0.1',
+                current: "script",
+
+                setting: {
+                    title: "",
+                    detail: "",
+                },
+
+                code: {
+                    html: {
+                        type: "html",
+                        value: document.querySelector("#html-template").innerHTML.replace(/__script__/g, 'script'),
+                    },
+                    style: {
+                        type: "css",
+                        value: "",
+                    },
+                    script: {
+                        type: "javascript",
+                        value: document.querySelector("#script-template").innerHTML.replace("{testcode}", code.code),
+                    }
+                }
+            };
+
+            var url = baseURL + _encode(data);
+
+            previewElement.attr.set("src", url);
+        };
+
+
+        // serach
+        var searchElement = tm.dom.Element(param.search);
+        var search = localStorage.getItem("search");
+
+        if (search) {
+            searchElement.value = search;
+            filter(search);
+        }
+
+        searchElement.event.add("keyup", function(e) {
+            var value = e.target.value;
+            filter(value);
+        }.bind(this));
+    };
+
+    var filter = function(value) {
+        testhelper.units.$forIn(function(key, unit, i) {
+            var re = new RegExp(value, 'gim');
+            if (re.test(unit.name)) {
+                unit.element.element.classList.remove("hide");
+            }
+            else {
+                unit.element.element.classList.add("hide");
+            }
+        });
+
+        localStorage.setItem("search", value);
+    };
     
 })(this);
+
+
+var _encode = function(data) {
+    data = JSON.stringify(data);
+    data = zip(data);
+    data = encodeURI(data);
+
+    return data;
+};
+
+var zip = function(data) {
+    var zip = new JSZip();
+    zip.file('data', data);
+
+    return zip.generate({type:"base64"});
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -33,8 +33,8 @@ tm.util = tm.util || {};
 </span>         * パース
          */
         parse: function(str, sep, eq) {
-            sep = sep || '&amp;';
-            eq  = eq  || '=';
+            sep = sep || &#39;&amp;&#39;;
+            eq  = eq  || &#39;=&#39;;
             
             var obj = {};
             var params = str.split(sep);
@@ -55,8 +55,8 @@ tm.util = tm.util || {};
 </span>         * ストリングファイ
          */
         stringify: function(obj, sep, eq) {
-            sep = sep || '&amp;';
-            eq  = eq  || '=';
+            sep = sep || &#39;&amp;&#39;;
+            eq  = eq  || &#39;=&#39;;
             
             
             var strList = [];

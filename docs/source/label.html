@@ -118,17 +118,17 @@ tm.display = tm.display || {};
             this.fontStyle = &quot;{fontWeight} {fontSize}px {fontFamily}&quot;.format(this);
             if (!dummyCanvas) {
                 dummyCanvas = document.createElement(&quot;canvas&quot;);
-                dummyContext = dummyCanvas.getContext('2d');
+                dummyContext = dummyCanvas.getContext(&#39;2d&#39;);
             }
             dummyContext.font = this.fontStyle;
-            this.textSize = dummyContext.measureText('あ').width * this.lineHeight;
+            this.textSize = dummyContext.measureText(&#39;あ&#39;).width * this.lineHeight;
         },
 
 <span id='tm-display-Label-method-_updateLines'>        /**
 </span>         * @private
          */
         _updateLines: function() {
-            this._lines = (this._text+'').split('\n');
+            this._lines = (this._text+&#39;&#39;).split(&#39;\n&#39;);
         },
         
     });
@@ -191,7 +191,7 @@ tm.display = tm.display || {};
     tm.display.Label.default = {
         align: &quot;center&quot;,
         baseline: &quot;middle&quot;,
-        fontFamily: &quot;'HiraKakuProN-W3'&quot;, // Hiragino or Helvetica
+        fontFamily: &quot;&#39;HiraKakuProN-W3&#39;&quot;, // Hiragino or Helvetica
         // align: &quot;start&quot;,
         // baseline: &quot;alphabetic&quot;,
     };

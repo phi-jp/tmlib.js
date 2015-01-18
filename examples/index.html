@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html ng-app="MyApp">
+    <head>
+        <meta charset="UTF-8" />
+        <!--
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+    -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <title>Examples | tmlib.js</title>
+        
+        <link rel="shortcut icon" href="logo.png" />
+        <link rel="apple-touch-icon-precomposed" href="icon.png" />
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Mystery+Quest' rel='stylesheet' type='text/css'>
+
+        <!-- anguler -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.min.js"></script>
+
+        <link rel="stylesheet/less" type="text/css" href="style.less">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/2.1.1/less.min.js" type="text/javascript"></script>
+
+        <style>
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <div id="main-content">
+                <div id="menu">
+                    <div id="menu-inner" ng-controller="MainCtrl">
+                        <h1><a href="./index.html" target="_blank">tmlib.js</a> examples</h1>
+	                    <div class="search-form">
+	                        <input type="search" ng-model="q" class="form-control" id="search" placeholder="Search">
+	                    </div>
+                        <div ng-repeat="unit in data | filter:q">
+                            <h2>{{unit.name}}</h2>
+                            <ul>
+                                <li ng-repeat="example in unit.list">
+                                    <a target="{{example.target}}" href="{{example.url}}" ng-click="openTest(example)">{{example.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <ul class="social nav navbar-nav navbar-right">
+                        <li>
+                            <div>
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://phi-jp.github.io/tmlib.js/" data-text="tmlib.js - JavaScript ゲームライブラリ. ヒヨコ始めました!!" data-via="phi_jp" data-hashtags="tmlib">Tweet</a>
+                                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+<a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
+<script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="http://b.hatena.ne.jp/entry/http://phi-jp.github.io/tmlib.js/" class="hatena-bookmark-button" data-hatena-bookmark-title="tmlib.js" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="runstant">
+                    <div id="runstant-inner">
+                        <img src="../resource/img/hiyokos.png" />
+                        <iframe name="runstant" id="runstant-frame" class="hide"></iframe>
+
+    			        <div id="loading" class="hide">
+    			            <img src="../ajax-loader.gif" />
+    			        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Github ribbon -->
+        <a href="https://github.com/phi-jp/tmlib.js/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+    </body>
+</html>
+
+<script>
+
+    var app = angular.module('MyApp', ['ngResource']);
+    app.controller("MainCtrl", function MainCtrl($scope,$resource) {
+
+        $.ajaxSetup({async: false});
+        $.getJSON("./examples.json", function(data) {
+            $scope.data = data;
+        });
+        $.ajaxSetup({async: true});
+
+        var runstantElement = document.getElementById("runstant-frame");
+        var loadingElement = document.getElementById("loading");
+
+        $scope.openTest = function(example) {
+        	if (example.target != "runstant") return ;
+
+            runstantElement.classList.add("hide");
+            loadingElement.classList.remove("hide");
+
+            runstantElement.onload = function() {
+                runstantElement.classList.remove("hide");
+                loadingElement.classList.add("hide");
+            };
+        };
+    });
+
+</script>

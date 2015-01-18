@@ -217,6 +217,7 @@ tm.app = tm.app || {};
             // 
             var e = tm.event.Event("resume");
             e.app = this;
+            e.prevScene = scene;
             this.currentScene.dispatchEvent(e);
             
             return scene;

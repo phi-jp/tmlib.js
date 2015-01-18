@@ -44,7 +44,7 @@ tm.display = tm.display || {};
         init: function(image, width, height) {
             this.superInit();
             
-            console.assert(typeof image != 'number', &quot;Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました&quot;);
+            console.assert(typeof image != &#39;number&#39;, &quot;Sprite の第一引数はテクスチャもしくはテクスチャ名に変わりました&quot;);
             
             this._frameIndex = 0;
             this.srcRect = tm.geom.Rect(0, 0, 64, 64);
@@ -65,7 +65,7 @@ tm.display = tm.display || {};
             if (typeof image == &quot;string&quot;) {
                 var key = image;
                 image = tm.asset.Manager.get(key);
-                console.assert(image != null, &quot;don't find '&quot; + key + &quot;' as image.&quot;);
+                console.assert(image != null, &quot;don&#39;t find &#39;&quot; + key + &quot;&#39; as image.&quot;);
             }
             
             this._image = image;

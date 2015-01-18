@@ -75,7 +75,7 @@ tm.dom = tm.dom || {};
 </span>         * CSS の値も考慮した上での値を取得
          */
         getPropValue: function(prop_name) {
-            return document.defaultView.getComputedStyle(this.element, '').getPropertyValue(prop_name);
+            return document.defaultView.getComputedStyle(this.element, &#39;&#39;).getPropertyValue(prop_name);
         },
     });
     

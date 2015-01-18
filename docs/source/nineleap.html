@@ -56,7 +56,7 @@ tm.social = tm.social || {};
      * 9leap でランキングを POST
      */
     tm.social.Nineleap.postRanking = function(score, result) {
-        if (location.hostname == 'r.jsgames.jp') {
+        if (location.hostname == &#39;r.jsgames.jp&#39;) {
             var id = location.pathname.match(/^\/games\/(\d+)/)[1];
             location.replace( this.createURL(id, score, result) );
         }

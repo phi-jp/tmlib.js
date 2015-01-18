@@ -29,15 +29,18 @@
             this.superInit();
 
             param = {}.$extend(tm.scene.TitleScene.default, param);
+            this.param = param;
 
             this.fromJSON({
                 children: {
                     bg: {
                         type: &quot;tm.display.RectangleShape&quot;,
-                        init: [param.width, param.height, {
+                        init: {
+                            width: param.width,
+                            height: param.height,
                             fillStyle: param.bgColor,
                             strokeStyle: &quot;transparent&quot;,
-                        }],
+                        },
                         originX: 0,
                         originY: 0,
                     }
@@ -62,22 +65,22 @@
                     titleLabel: {
                         type: &quot;Label&quot;, name: &quot;titleLabel&quot;,
                         text: param.title,
-                        x: param.width/2,
-                        y: param.height/10*2,
+                        x: this._toGridX(6),
+                        y: this._toGridY(3),
                         fillStyle: param.fontColor,
                         fontSize: param.fontSize,
-                        fontFamily: &quot;'Helvetica-Light' 'Meiryo' sans-serif&quot;,
+                        fontFamily: &quot;&#39;Helvetica-Light&#39; &#39;Meiryo&#39; sans-serif&quot;,
                         align: &quot;center&quot;,
                         baseline: &quot;middle&quot;,
                     },
                     touchLabel: {
                         type: &quot;Label&quot;, name: &quot;nextLabel&quot;,
                         text: &quot;TOUCH START&quot;,
-                        x: param.width/2,
-                        y: param.height/10*8,
+                        x: this._toGridX(6),
+                        y: this._toGridY(9),
                         fillStyle: param.fontColor,
                         fontSize: param.fontSize*0.4,
-                        fontFamily: &quot;'Helvetica-Light' 'Meiryo' sans-serif&quot;,
+                        fontFamily: &quot;&#39;Helvetica-Light&#39; &#39;Meiryo&#39; sans-serif&quot;,
                         align: &quot;center&quot;,
                         baseline: &quot;middle&quot;,
                     }
@@ -90,6 +93,14 @@
                 .setLoop(true);
 
             this.autopop = param.autopop;
+        },
+
+        _toGridX: function(index) {
+            return this.param.width/12*index;
+        },
+
+        _toGridY: function(index) {
+            return this.param.height/12*index;
         },
 
         onpointingstart: function() {

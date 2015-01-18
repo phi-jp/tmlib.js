@@ -1,6 +1,6 @@
 # [tmlib.js](http://phi-jp.github.com/tmlib.js)
 
-<img src="https://github.com/phi-jp/tmlib.js/raw/develop/logo.png" style="text-align: center;">
+<img src="https://qiita-image-store.s3.amazonaws.com/0/7756/7aa8af56-c678-0146-d101-3064923f95b9.png" width=400 style="text-align: center;">
 
 『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
 コンセプトに制作した JavaScript ライブラリです.

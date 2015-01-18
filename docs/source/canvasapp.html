@@ -131,6 +131,8 @@ tm.display = tm.display || {};
             
             this.canvas.fillStyle   = &quot;white&quot;;
             this.canvas.strokeStyle = &quot;white&quot;;
+            this.canvas.context.lineJoin = &quot;round&quot;;
+            this.canvas.context.lineCap  = &quot;round&quot;;
 
             // スタックしたキャンバスを描画
             if (this._canvasCache.last)

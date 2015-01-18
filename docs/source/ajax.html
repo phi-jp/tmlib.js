@@ -36,11 +36,11 @@ tm.util = tm.util || {};
         /* @property data */
         data: null,
         /* @property contentType */
-        contentType: 'application/x-www-form-urlencoded',
+        contentType: &#39;application/x-www-form-urlencoded&#39;,
         /* @property dataType */
-        dataType: 'text',
+        dataType: &#39;text&#39;,
         /* @property dataType */
-        responseType: '', // or 'arraybuffer'
+        responseType: &#39;&#39;, // or &#39;arraybuffer&#39;
         /* @property username */
         username: null,
         /* @property password */
@@ -73,7 +73,7 @@ tm.util = tm.util || {};
             var url = params.url;
             if (params.data) {
                 var query = &quot;&quot;;
-                if (typeof params.data == 'string') {
+                if (typeof params.data == &#39;string&#39;) {
                     query = params.data;
                     // query = encodeURIComponent(params.data);
                 }
@@ -81,11 +81,11 @@ tm.util = tm.util || {};
                     query = tm.util.QueryString.stringify(params.data);
                 }
 
-                if (params.type == 'GET') {
-                    params.url += '?' + query;
+                if (params.type == &#39;GET&#39;) {
+                    params.url += &#39;?&#39; + query;
                     params.data = null;
                 }
-                else if (params.type == 'POST') {
+                else if (params.type == &#39;POST&#39;) {
                     params.data = query;
                 }
             }
@@ -119,7 +119,7 @@ tm.util = tm.util || {};
 
             httpRequest.open(params.type, params.url, params.async, params.username, params.password);   // オープン
             if (params.type === &quot;POST&quot;) {
-                httpRequest.setRequestHeader('Content-Type', params.contentType);        // ヘッダをセット
+                httpRequest.setRequestHeader(&#39;Content-Type&#39;, params.contentType);        // ヘッダをセット
             }
 
             if (params.responseType) {
@@ -173,7 +173,7 @@ tm.util = tm.util || {};
         /* @method */
         xml: function(data) {
             var parser = new DOMParser();
-            var xml = parser.parseFromString(data, 'text/xml');
+            var xml = parser.parseFromString(data, &#39;text/xml&#39;);
 
             return xml;
         },
