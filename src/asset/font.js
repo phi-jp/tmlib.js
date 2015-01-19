@@ -43,7 +43,7 @@ tm.asset = tm.asset || {};
         return tm.asset.Font(path, key, "truetype");
     });
     tm.asset.Loader.register("otf", function(path, key) {
-        return tm.asset.Font(path, key, "otf");
+        return tm.asset.Font(path, key, "opentype");
     });
     tm.asset.Loader.register("woff", function(path, key) {
         return tm.asset.Font(path, key, "woff");
