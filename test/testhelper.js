@@ -51,6 +51,7 @@
             "src/asset/texture.js",
             "src/asset/spritesheet.js",
             "src/asset/mapsheet.js",
+            "src/asset/font.js",
         ],
         "input": [
             "src/input/keyboard.js",

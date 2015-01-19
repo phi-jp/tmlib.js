@@ -8,32 +8,36 @@ tm.asset = tm.asset || {};
         init: function(path, key) {
             this.superInit();
 
-            var testElement = tm.dom.Element("body").create("span");
-            testElement.style
-                .set("color", "rgba(0, 0, 0, 0)")
-                .set("fontSize", "40px");
-            testElement.text = "QW@HhsXJ=/()あいうえお＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝";
-
-            var before = testElement.element.offsetWidth;
-
-            testElement.style
-                .set("fontFamily", "'{0}', 'monospace'".format(key));
-
             var fontFaceStyleElement = tm.dom.Element("head").create("style");
             fontFaceStyleElement.text = "@font-face { font-family: '{0}'; src: url({1}) format('truetype'); }".format(key, path);
 
-            var checkLoadFont = function() {
-                if (testElement.element.offsetWidth !== before) {
-                    testElement.remove();
-                    this.flare("load");
-                    console.debug("webfont loaded", path, key);
-                } else {
-                    setTimeout(checkLoadFont, 100);
-                }
-            }.bind(this);
-            setTimeout(checkLoadFont, 100);
+            tm.asset.Font.checkLoaded(key, function() {
+                this.flare("load");
+            }.bind(this));
         },
     });
+
+    tm.asset.Font.checkLoaded = function(font, callback) {
+        var element = tm.dom.Element("body").create("span");
+        element.style
+            .set("color", "rgba(0, 0, 0, 0)")
+            .set("fontSize", "40px");
+        element.text = "QW@HhsXJ=/()あいうえお＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝";
+
+        var before = element.element.offsetWidth;
+        element.style
+            .set("fontFamily", "'{0}', 'monospace'".format(font));
+
+        var checkLoadFont = function() {
+            if (element.element.offsetWidth !== before) {
+                element.remove();
+                callback && callback();
+            } else {
+                setTimeout(checkLoadFont, 100);
+            }
+        };
+        setTimeout(checkLoadFont, 100);
+    };
 
     tm.asset.Loader.register("ttf", function(path, key) {
         return tm.asset.Font(path, key);
