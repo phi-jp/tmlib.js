@@ -78,6 +78,7 @@ module.exports = function(grunt) {
     "src/app/baseapp.js",
     "src/app/element.js",
     "src/app/object2d.js",
+    "src/app/grid.js",
     "src/app/scene.js",
     "src/app/collision.js",
     "src/app/tweener.js",
