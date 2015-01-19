@@ -5,11 +5,11 @@ tm.asset = tm.asset || {};
     tm.define("tm.asset.Font", {
         superClass: "tm.event.EventDispatcher",
 
-        init: function(path, key) {
+        init: function(path, key, format) {
             this.superInit();
 
             var fontFaceStyleElement = tm.dom.Element("head").create("style");
-            fontFaceStyleElement.text = "@font-face { font-family: '{0}'; src: url({1}) format('truetype'); }".format(key, path);
+            fontFaceStyleElement.text = "@font-face { font-family: '{0}'; src: url({1}) format('{2}'); }".format(key, path, format);
 
             tm.asset.Font.checkLoaded(key, function() {
                 this.flare("load");
@@ -40,13 +40,16 @@ tm.asset = tm.asset || {};
     };
 
     tm.asset.Loader.register("ttf", function(path, key) {
-        return tm.asset.Font(path, key);
+        return tm.asset.Font(path, key, "truetype");
     });
     tm.asset.Loader.register("otf", function(path, key) {
-        return tm.asset.Font(path, key);
+        return tm.asset.Font(path, key, "opentype");
     });
     tm.asset.Loader.register("woff", function(path, key) {
-        return tm.asset.Font(path, key);
+        return tm.asset.Font(path, key, "woff");
+    });
+    tm.asset.Loader.register("woff2", function(path, key) {
+        return tm.asset.Font(path, key, "woff2");
     });
 
 })();
