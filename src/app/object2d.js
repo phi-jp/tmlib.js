@@ -51,8 +51,7 @@
             this.downFlags= [];
             this._clickFlag = false;
 
-            this._worldMatrix = tm.geom.Matrix33();
-            this._worldMatrix.identity();
+            this._worldMatrix = tm.geom.Matrix33().identity();
             this._worldAlpha = 1.0;
         },
         
@@ -466,11 +465,11 @@
             localTransform[3] = this._sr * this.scale.x;
             localTransform[4] = this._cr * this.scale.y;
 
-            ///AAARR GETTER SETTTER!
+            // 
             localTransform[2] = this.position.x;
             localTransform[5] = this.position.y;
 
-            // Cache the matrix values (makes for huge speed increases!)
+            // cache
             var a00 = localTransform[0], a01 = localTransform[1], a02 = localTransform[2],
                 a10 = localTransform[3], a11 = localTransform[4], a12 = localTransform[5],
 
