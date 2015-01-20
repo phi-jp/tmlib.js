@@ -49,6 +49,12 @@ testhelper.describe("benchmark", function() {
                     child.scaleX = child.scaleY = i / CHILD_NUM + 0.5;
                     child.alpha = i / CHILD_NUM + 0.1;
                     container.addChild(child);
+
+                    child.checkHierarchy = true;
+                    child.setInteractive(true);
+                    child.onpointingstart = function() {
+                        this.scale.set(2, 2);
+                    };
                 });
 
             },
