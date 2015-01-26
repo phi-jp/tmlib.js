@@ -56,3 +56,14 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 
 [tmlife](http://tmlife.io)
 
+## Feature
+
+### 0.5
+
+- pointing の機能を強化( startPosition 保持したり, 数フレーム分の移動値をキャッシュしたり )
+- checkHierarchy のデフォルト値を true に変更 ... done
+- CircleShape がサイズによって切れる問題を修正
+- リファクタリング
+
+
+
