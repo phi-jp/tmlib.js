@@ -1,5 +1,5 @@
 /*
- * tmlib.js 0.4.1
+ * tmlib.js 0.5.0
  * http://github.com/phi-jp/tmlib.js
  * MIT Licensed
  * 
@@ -28,7 +28,7 @@ if (typeof module !== 'undefined' && module.exports) {
     /**
      * バージョン
      */
-    tm.VERSION = '0.4.1';
+    tm.VERSION = '0.5.0';
 
     /**
      * tmlib.js のルートパス
@@ -15514,7 +15514,10 @@ tm.display = tm.display || {};
         _buildLayer: function(layer) {
             var self     = this;
             var mapSheet = this.mapSheet;
-            var shape    = tm.display.Shape(this.width, this.height).addChildTo(this);
+            var shape    = tm.display.Shape({
+                width: this.width,
+                height: this.height
+            }).addChildTo(this);
             var visible  = (layer.visible === 1) || (layer.visible === undefined);
             var opacity  = layer.opacity === undefined ? 1 : layer.opacity;
             var tileset  = [];
