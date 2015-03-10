@@ -1,5 +1,7 @@
 # [tmlib.js](http://phi-jp.github.com/tmlib.js)
 
+[![Join the chat at https://gitter.im/phi-jp/tmlib.js](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/phi-jp/tmlib.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 <img src="https://qiita-image-store.s3.amazonaws.com/0/7756/7aa8af56-c678-0146-d101-3064923f95b9.png" width=400 style="text-align: center;">
 
 『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
