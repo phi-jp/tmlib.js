@@ -60,11 +60,14 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 
 ### 0.5
 
+- scene namespace を game namespace に変更
+- tm.display.CountScene を作成
 - pointing の機能を強化( startPosition 保持したり, 数フレーム分の移動値をキャッシュしたり )
-- checkHierarchy のデフォルト値を true に変更 ... done
 - CircleShape がサイズによって切れる問題を修正
 - テスト改修
 - リファクタリング
 - getFinalMatrix の位置が origin によってズレるバグを修正 ... done
+- checkHierarchy のデフォルト値を true に変更 ... done
+
 
 
