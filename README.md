@@ -61,7 +61,8 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 ### 0.5
 
 - scene namespace を game namespace に変更
-- tm.display.CountScene を作成
+- tm.game.CountScene を作成
+- tm.game.ResultScene のデザインを変更
 - pointing の機能を強化( startPosition 保持したり, 数フレーム分の移動値をキャッシュしたり )
 - CircleShape がサイズによって切れる問題を修正
 - テスト改修
