@@ -7380,7 +7380,7 @@ tm.dom = tm.dom || {};
             var map = xml.getElementsByTagName("map")[0];
             var layers = [];
             each.call(map.childNodes, function(elm) {
-                if (elm.tagName == "layer" || elm.tagName == "objectgroup") {
+                if (elm.tagName == "layer" || elm.tagName == "objectgroup" || elm.tagName == "imagelayer") {
                     layers.push(elm);
                 }
             });
@@ -7420,6 +7420,22 @@ tm.dom = tm.dom || {};
 
                         l.objects.push(d);
                     }.bind(this));
+
+                    data.push(l);
+                }
+                else if (layer.tagName == "imagelayer") {
+                    var l = {
+                        type: "imagelayer",
+                        name: layer.getAttribute("name"),
+                        x: layer.getAttribute("x") || 0,
+                        y: layer.getAttribute("y") || 0,
+                        alpha: layer.getAttribute("opacity") || 1,
+                        visible: (layer.getAttribute("visible") === undefined || layer.getAttribute("visible") != 0),
+                    };
+                    var imageElm = layer.getElementsByTagName("image")[0];
+                    l.image = {
+                        source: imageElm.getAttribute("source")
+                    };
 
                     data.push(l);
                 }
@@ -7501,9 +7517,25 @@ tm.dom = tm.dom || {};
          */
         _checkImage: function() {
             var self = this;
+            var imageSoruces = [];
+
+            // for tile set
             if (this.tilesets.length) {
+                Array.prototype.push.apply(imageSoruces, this.tilesets.map(function(tile) {
+                    return tile.image;
+                }));
+            }
+
+            // for image layer
+            this.layers.each(function(layer) {
+                if (layer.type == "imagelayer") {
+                    imageSoruces.push(layer.image.source);
+                }
+            });
+
+            if (imageSoruces.length) {
                 var i = 0;
-                var len = this.tilesets.length;
+                var len = imageSoruces.length;
 
                 var _onloadimage = function() {
                     i++;
@@ -7514,8 +7546,8 @@ tm.dom = tm.dom || {};
                     }
                 }.bind(this);
 
-                this.tilesets.each(function(elm) {
-                    var image = tm.asset.Manager.get(elm.image)
+                imageSoruces.each(function(imageName) {
+                    var image = tm.asset.Manager.get(imageName);
 
                     if (image) {
                         if (image.loaded) {
@@ -7533,8 +7565,8 @@ tm.dom = tm.dom || {};
                     }
                     else {
                         var loader = tm.asset.Loader();
-                        loader.load(elm.image);
-                        var texture = tm.asset.Manager.get(elm.image);
+                        loader.load(imageName);
+                        var texture = tm.asset.Manager.get(imageName);
                         texture.addEventListener("load", _onloadimage);
                     }
                 });
@@ -12363,7 +12395,7 @@ tm.app = tm.app || {};
             if (this.parent) {
                 matrix.multiply(this.parent.getFinalMatrix());
             }
-            matrix.translate(this.centerX, this.centerY);
+            matrix.translate(this.x, this.y);
             matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
             matrix.scale(this.scaleX, this.scaleY);
  
@@ -15465,6 +15497,9 @@ tm.display = tm.display || {};
                 if (layer.type == "objectgroup") {
                     self._buildObject(layer);
                 }
+                else if (layer.type == "imagelayer") {
+                    self._buildImageLayer(layer);
+                }
                 else {
                     self._buildLayer(layer);
                 }
@@ -15576,8 +15611,8 @@ tm.display = tm.display || {};
             var self = this;
 
             var group = tm.display.CanvasElement().addChildTo(self);
-            group.width = layer.width;
-            group.height = layer.height;
+            group.width = self.width;
+            group.height = self.height;
 
             layer.objects.forEach(function(obj) {
                 var _class = tm.using(obj.type);
@@ -15608,6 +15643,19 @@ tm.display = tm.display || {};
             self[layer.name] = group;
 
         },
+
+        /**
+         * @private
+         */
+        _buildImageLayer: function(layer) {
+            var sprite = tm.display.Sprite(layer.image.source).setOrigin(0, 0).addChildTo(this);
+            sprite.x = layer.x;
+            sprite.y = layer.y;
+            sprite.alpha = layer.alpha;
+            sprite.visible = layer.visible;
+
+            this[layer.name] = sprite;
+        }
 
     });
 
