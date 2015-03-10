@@ -65,7 +65,7 @@
             if (this.parent) {
                 matrix.multiply(this.parent.getFinalMatrix());
             }
-            matrix.translate(this.centerX, this.centerY);
+            matrix.translate(this.x, this.y);
             matrix.rotateZ(this.rotation*Math.DEG_TO_RAD);
             matrix.scale(this.scaleX, this.scaleY);
  
