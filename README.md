@@ -65,6 +65,6 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 - CircleShape がサイズによって切れる問題を修正
 - テスト改修
 - リファクタリング
-
+- getFinalMatrix の位置が origin によってズレるバグを修正 ... done
 
 
