@@ -9,6 +9,8 @@
 公式ページは[こちら](http://phi-jp.github.io/tmlib.js/).
 
 
+[Gitter](https://gitter.im/phi-jp/tmlib.js#)
+
 ## Usage
 
 使い方は tmlib.js を読み込むだけです.
