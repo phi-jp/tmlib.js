@@ -64,6 +64,12 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 
 ### 0.5
 
+- getFinalMatrix の位置が origin によってズレるバグを修正 ... done
+- checkHierarchy のデフォルト値を true に変更 ... done
+- tm.display.Grid を実装 ... done
+- getChildIndex の機能が getChildAt になっていたのを修正 ... done
+- tm.app.Element.prototype.getChildAt を実装 ... done
+- tm.app.Object2D の left, right, top, bottom それぞれの setter を実装 ... done
 - scene namespace を game namespace に変更
 - tm.game.CountScene を作成
 - tm.game.ResultScene のデザインを変更
@@ -71,8 +77,6 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 - CircleShape がサイズによって切れる問題を修正
 - テスト改修
 - リファクタリング
-- getFinalMatrix の位置が origin によってズレるバグを修正 ... done
-- checkHierarchy のデフォルト値を true に変更 ... done
 
 
 
