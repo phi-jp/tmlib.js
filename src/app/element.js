@@ -101,6 +101,13 @@ tm.app = tm.app || {};
          * 指定で要素を取得
          */
         getChildAt: function(child) {
+            return this.children.at(child);
+        },
+        
+        /**
+         * 指定で要素を取得
+         */
+        getChildIndex: function(child) {
             return this.children.indexOf(child);
         },
         
