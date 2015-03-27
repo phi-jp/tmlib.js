@@ -129,9 +129,130 @@ testhelper.describe("tm.app.Object2d", function() {
             }
         });
 
-
-
     });
 
+    testhelper.it("left", function() {
+        tm.define("MainScene", {
+            superClass: "tm.app.Scene",
+         
+            init: function() {
+                this.superInit();
+
+                var base = tm.display.CircleShape({fillStyle:'blue', width:100, height:100}).addChildTo(this);
+                base.position.set(100, 100);
+                console.log(base.left);
+                
+                var circle = tm.display.CircleShape({fillStyle:'red', width:100, height:100}).addChildTo(this);
+                circle.position.set(100, 200);
+                circle.left = 100;
+                console.log(circle.left);
+                
+                var circle2 = tm.display.CircleShape({fillStyle:'green', width:100, height:100}).addChildTo(this);
+                circle2.position.set(100, 300);
+                circle2.originX = 0;
+                circle2.left = 100;
+                console.log(circle2.left);
+                
+                var circle3 = tm.display.CircleShape({fillStyle:'yellow', width:100, height:100}).addChildTo(this);
+                circle3.position.set(100, 400);
+                circle3.originX = 0;
+                circle3.left = 100;
+                console.log(circle3.left);
+            }
+        });
+    });
+
+    testhelper.it("right", function() {
+        tm.define("MainScene", {
+            superClass: "tm.app.Scene",
+         
+            init: function() {
+                this.superInit();
+
+                var base = tm.display.CircleShape({fillStyle:'blue', width:100, height:100}).addChildTo(this);
+                base.position.set(100, 100);
+                console.log(base.right);
+                
+                var circle = tm.display.CircleShape({fillStyle:'red', width:100, height:100}).addChildTo(this);
+                circle.position.set(100, 200);
+                circle.right = 100;
+                console.log(circle.right);
+                
+                var circle2 = tm.display.CircleShape({fillStyle:'green', width:100, height:100}).addChildTo(this);
+                circle2.position.set(100, 300);
+                circle2.originX = 0;
+                circle2.right = 100;
+                console.log(circle2.right);
+                
+                var circle3 = tm.display.CircleShape({fillStyle:'yellow', width:100, height:100}).addChildTo(this);
+                circle3.position.set(100, 400);
+                circle3.originX = 0;
+                circle3.right = 100;
+                console.log(circle3.right);
+            }
+        });
+    });
+
+    testhelper.it("top", function() {
+        tm.define("MainScene", {
+            superClass: "tm.app.Scene",
+         
+            init: function() {
+                this.superInit();
+
+                var base = tm.display.CircleShape({fillStyle:'blue', width:100, height:100}).addChildTo(this);
+                base.position.set(100, 100);
+                console.log(base.top);
+                
+                var circle = tm.display.CircleShape({fillStyle:'red', width:100, height:100}).addChildTo(this);
+                circle.position.set(200, 100);
+                circle.top = 100;
+                console.log(circle.top);
+                
+                var circle2 = tm.display.CircleShape({fillStyle:'green', width:100, height:100}).addChildTo(this);
+                circle2.position.set(300, 100);
+                circle2.originY = 0;
+                circle2.top = 100;
+                console.log(circle2.top);
+                
+                var circle3 = tm.display.CircleShape({fillStyle:'yellow', width:100, height:100}).addChildTo(this);
+                circle3.position.set(400, 100);
+                circle3.originY = 0;
+                circle3.top = 100;
+                console.log(circle3.top);
+            }
+        });
+    });
+
+    testhelper.it("bottom", function() {
+        tm.define("MainScene", {
+            superClass: "tm.app.Scene",
+         
+            init: function() {
+                this.superInit();
+
+                var base = tm.display.CircleShape({fillStyle:'blue', width:100, height:100}).addChildTo(this);
+                base.position.set(100, 100);
+                console.log(base.bottom);
+                
+                var circle = tm.display.CircleShape({fillStyle:'red', width:100, height:100}).addChildTo(this);
+                circle.position.set(200, 100);
+                circle.bottom = 100;
+                console.log(circle.bottom);
+                
+                var circle2 = tm.display.CircleShape({fillStyle:'green', width:100, height:100}).addChildTo(this);
+                circle2.position.set(300, 100);
+                circle2.originY = 0;
+                circle2.bottom = 100;
+                console.log(circle2.bottom);
+                
+                var circle3 = tm.display.CircleShape({fillStyle:'yellow', width:100, height:100}).addChildTo(this);
+                circle3.position.set(400, 100);
+                circle3.originY = 0;
+                circle3.bottom = 100;
+                console.log(circle3.bottom);
+            }
+        });
+    });
 });
 

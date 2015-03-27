@@ -584,34 +584,38 @@
      * @property    top
      * 左
      */
-    tm.app.Object2D.prototype.getter("top", function() {
-        return this.y - this.height*this.originY;
+    tm.app.Object2D.prototype.accessor("top", {
+        "get": function()   { return this.y - this.height*this.originY; },
+        "set": function(v)  { this.y = v + this.height*this.originY; },
     });
  
     /**
      * @property    right
      * 左
      */
-    tm.app.Object2D.prototype.getter("right", function() {
-        return this.x + this.width*(1-this.originX);
+    tm.app.Object2D.prototype.accessor("right", {
+        "get": function()   { return this.x + this.width*(1-this.originX); },
+        "set": function(v)  { this.x = v - this.width*(1-this.originX); },
     });
  
     /**
      * @property    bottom
      * 左
      */
-    tm.app.Object2D.prototype.getter("bottom", function() {
-        return this.y + this.height*(1-this.originY);
+    tm.app.Object2D.prototype.accessor("bottom", {
+        "get": function()   { return this.y - this.height*(1-this.originY); },
+        "set": function(v)  { this.y = v - this.height*(1-this.originY); },
     });
  
     /**
      * @property    left
      * 左
      */
-    tm.app.Object2D.prototype.getter("left", function() {
-        return this.x - this.width*this.originX;
+    tm.app.Object2D.prototype.accessor("left", {
+        "get": function()   { return this.x - this.width*this.originX; },
+        "set": function(v)  { this.x = v + this.width*this.originX; },
     });
- 
+
     /**
      * @property    centerX
      * centerX
