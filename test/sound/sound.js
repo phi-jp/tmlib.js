@@ -26,4 +26,28 @@ testhelper.describe("tm.sound.SoundManager", function() {
         });
         
     });
+
+    testhelper.it("playMusic", function() {
+
+        tm.define("MainScene", {
+            superClass: "tm.app.Scene",
+            
+            init: function() {
+                this.superInit();
+                var loader = tm.asset.Loader();
+                loader.onload = this._init.bind(this);
+                loader.load({ "bgm": "../resource/bgm/bgm.mp3", });
+            },
+            _init: function() {
+                var button = tm.ui.FlatButton().addChildTo(this);
+                button.setPosition(SCREEN_CENTER_X, 300);
+                button.onpush = function() {
+                    tm.sound.SoundManager.playMusic('bgm');
+                };
+            },
+        });
+        
+    });
+
+
 });

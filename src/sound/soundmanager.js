@@ -61,9 +61,9 @@
         /*
          * 音楽を再生
          */
-        playMusic: function(name, loop, fade) {
+        playMusic: function(name, fadeTime, loop) {
             if (this.currentMusic) {
-                this.stopMusic();
+                this.stopMusic(fadeTime);
             }
 
             var music = tm.asset.Manager.get(name).clone();
@@ -72,38 +72,67 @@
             music.volume = this.getVolumeMusic();
             music.play();
 
-            if (fade === true || fade === undefined) {
-                var time = 0;
+            if (fadeTime > 0) {
+                var count = 32;
+                var counter = 0;
+                var unitTime = fadeTime/count;
                 var volume = this.getVolumeMusic();
 
                 music.volume = 0;
                 var id = setInterval(function() {
-                    time += 1;
-                    var rate = time/10;
+                    counter += 1;
+                    var rate = counter/count;
                     music.volume = rate*volume;
 
-                    if (time >= 10) {
+                    if (rate >= 1) {
                         clearInterval(id);
                         return false;
                     }
 
                     return true;
-                }, 100);
+                }, unitTime);
             }
             else {
                 music.volume = this.getVolumeMusic();
             }
-            this.currentMusic
 
             this.currentMusic = music;
+
             return this.currentMusic;
         },
+
         /*
          * 音楽を停止
          */
-        stopMusic: function() {
+        stopMusic: function(fadeTime) {
             if (!this.currentMusic) { return ; }
-            this.currentMusic.stop();
+
+            var music = this.currentMusic;
+
+            if (fadeTime > 0) {
+                var count = 32;
+                var counter = 0;
+                var unitTime = fadeTime/count;
+                var volume = this.getVolumeMusic();
+
+                music.volume = 0;
+                var id = setInterval(function() {
+                    counter += 1;
+                    var rate = counter/count;
+                    music.volume = volume*(1-rate);
+
+                    if (rate >= 1) {
+                        music.stop();
+                        clearInterval(id);
+                        return false;
+                    }
+
+                    return true;
+                }, unitTime);
+            }
+            else {
+                this.currentMusic.stop();
+            }
         },
         /*
          * 音楽を一時停止
