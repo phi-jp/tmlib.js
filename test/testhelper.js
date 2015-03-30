@@ -24,6 +24,7 @@
             "src/util/querystring.js",
             "src/util/type.js",
             "src/util/flow.js",
+            "src/util/gridsystem.js",
         ],
         "geom": [
             "src/geom/vector2.js",

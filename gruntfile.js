@@ -35,6 +35,7 @@ module.exports = function(grunt) {
     "src/util/querystring.js",
     "src/util/type.js",
     "src/util/flow.js",
+    "src/util/gridsystem.js",
 
     "src/geom/vector2.js",
     "src/geom/vector3.js",
