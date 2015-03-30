@@ -118,6 +118,7 @@
 
             "src/sound/sound.js",
             "src/sound/webaudio.js",
+            "src/sound/soundmanager.js",
         ],
         "twitter": [
 

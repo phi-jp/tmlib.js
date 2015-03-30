@@ -346,15 +346,17 @@ tm.sound = tm.sound || {};
     });
 
     /** @static @property */
-    tm.sound.WebAudio.isAvailable = (tm.global.webkitAudioContext || tm.global.mozAudioContext || tm.global.AudioContext) ? true : false;
+    tm.sound.WebAudio.isAvailable = (tm.global.AudioContext || tm.global.webkitAudioContext || tm.global.mozAudioContext) ? true : false;
 
     tm.sound.WebAudio.createContext = function() {
-        if (tm.global.webkitAudioContext) {
-            context = new webkitAudioContext();
-        } else if (tm.global.mozAudioContext) {
-            context = new mozAudioContext();
-        } else if (tm.global.AudioContext) {
+        if (tm.global.AudioContext) {
             context = new AudioContext();
+        }
+        else if (tm.global.webkitAudioContext) {
+            context = new webkitAudioContext();
+        }
+        else if (tm.global.mozAudioContext) {
+            context = new mozAudioContext();
         }
 
         tm.sound.WebAudio.context = context;

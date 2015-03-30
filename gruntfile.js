@@ -113,6 +113,7 @@ module.exports = function(grunt) {
 
     "src/sound/sound.js",
     "src/sound/webaudio.js",
+    "src/sound/soundmanager.js",
 
     "src/social/twitter.js",
     "src/social/nineleap.js",
