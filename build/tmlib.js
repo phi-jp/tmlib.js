@@ -18599,112 +18599,6 @@ tm.sound = tm.sound || {};
     
 })();
 
-
-(function(){
-    
-    //? モバイル系ブラウザ対応
-    var DEFAULT_CACHE_NUM = (tm.isMobile) ? 1 : 4;
-    
-    /**
-     * @class tm.sound.SoundManager
-     * サウンドを管理するクラス
-     */
-    tm.sound.SoundManager = {
-        sounds: {}
-    };
-    
-    /**
-     * @static
-     * @method
-     * サウンドを追加
-     */
-    tm.sound.SoundManager.add = function(name, src, cache) {
-        cache = cache || DEFAULT_CACHE_NUM;
-        
-        // 拡張子チェック
-        if (src.split('/').at(-1).indexOf('.') == -1) {
-            src += "." + tm.sound.Sound.SUPPORT_EXT;
-        }
-        
-        var cacheList = this.sounds[name] = [];
-        for (var i=0; i<cache; ++i) {
-            var sound = tm.sound.Sound(src);
-            cacheList.push( sound );
-        }
-        
-        return this;
-    };
-    
-    /**
-     * @static
-     * @method
-     * サウンドを取得
-     */
-    tm.sound.SoundManager.get = function(name) {
-        var cacheList = this.sounds[name];
-        for (var i=0,len=cacheList.length; i<len; ++i) {
-            if (cacheList[i].isPlay == false) {
-                return cacheList[i];
-            }
-        }
-        // 仕方なく0番目を返す
-        return cacheList[0];
-    };
-    
-    /**
-     * @static
-     * @method
-     * サウンドを取得(index 指定版)
-     */
-    tm.sound.SoundManager.getByIndex = function(name, index) {
-        return this.sounds[name][index];
-    };
-    
-    /**
-     * @static
-     * @method
-     * サウンドを削除
-     */
-    tm.sound.SoundManager.remove = function(name) {
-        // TODO:
-        
-        return this;
-    };
-    
-    /**
-     * @static
-     * @method
-     * ボリュームをセット
-     */
-    tm.sound.SoundManager.setVolume = function(name, volume) {
-        // TODO:
-        
-        return this;
-    };
-    
-    /**
-     * @static
-     * @method
-     * ロードチェック
-     */
-    tm.sound.SoundManager.isLoaded = function() {
-        for (var key in this.sounds) {
-            var soundList = this.sounds[key];
-            
-            for (var i=0,len=soundList.length; i<len; ++i) {
-                if (soundList[i].loaded == false) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    };
-    
-    tm.addLoadCheckList(tm.sound.SoundManager);
-    
-})();
-
-
 /*
  * webaudio.js
  */
@@ -19053,15 +18947,17 @@ tm.sound = tm.sound || {};
     });
 
     /** @static @property */
-    tm.sound.WebAudio.isAvailable = (tm.global.webkitAudioContext || tm.global.mozAudioContext || tm.global.AudioContext) ? true : false;
+    tm.sound.WebAudio.isAvailable = (tm.global.AudioContext || tm.global.webkitAudioContext || tm.global.mozAudioContext) ? true : false;
 
     tm.sound.WebAudio.createContext = function() {
-        if (tm.global.webkitAudioContext) {
-            context = new webkitAudioContext();
-        } else if (tm.global.mozAudioContext) {
-            context = new mozAudioContext();
-        } else if (tm.global.AudioContext) {
+        if (tm.global.AudioContext) {
             context = new AudioContext();
+        }
+        else if (tm.global.webkitAudioContext) {
+            context = new webkitAudioContext();
+        }
+        else if (tm.global.mozAudioContext) {
+            context = new mozAudioContext();
         }
 
         tm.sound.WebAudio.context = context;
@@ -19083,6 +18979,178 @@ tm.sound = tm.sound || {};
 })();
 
 
+
+
+/*
+ * soundmanager.js
+ */
+
+;(function() {
+
+    /*
+     * tm.sound.SoundManager
+     * ### Ref
+     * - http://evolve.reintroducing.com/_source/classes/as3/SoundManager/SoundManager.html
+     * - https://github.com/nicklockwood/SoundManager
+     */
+    tm.sound.SoundManager = {
+        volume: 0.8,
+        musicVolume: 0.8,
+        muteFlag: false,
+        currentMusic: null,
+
+        /*
+         * 再生
+         */
+        play: function(name, volume, startTime, loop) {
+            var sound = tm.asset.Manager.get(name).clone();
+
+            sound.volume = this.getVolume();
+            sound.play();
+
+            return sound;
+        },
+        stop: function() {
+            // TODO: 
+        },
+        pause: function() {
+            // TODO: 
+        },
+        fade: function() {
+            // TODO: 
+        },
+        setVolume: function(volume) {
+            this.volume = volume;
+        },
+        getVolume: function() {
+            return this.isMute() ? 0 : this.volume;
+        },
+        /*
+         * ミュート(toggle)
+         */
+        mute: function() {
+            this.muteFlag = (this.muteFlag === true) ? false : true;
+
+            if (this.currentMusic) {
+                this.currentMusic.volume = this.getVolumeMusic();
+            }
+
+            return this;
+        },
+        isMute: function() {
+            return this.muteFlag;
+        },
+
+        /*
+         * 音楽を再生
+         */
+        playMusic: function(name, fadeTime, loop) {
+            if (this.currentMusic) {
+                this.stopMusic(fadeTime);
+            }
+
+            var music = tm.asset.Manager.get(name).clone();
+
+            music.setLoop(true);
+            music.volume = this.getVolumeMusic();
+            music.play();
+
+            if (fadeTime > 0) {
+                var count = 32;
+                var counter = 0;
+                var unitTime = fadeTime/count;
+                var volume = this.getVolumeMusic();
+
+                music.volume = 0;
+                var id = setInterval(function() {
+                    counter += 1;
+                    var rate = counter/count;
+                    music.volume = rate*volume;
+
+                    if (rate >= 1) {
+                        clearInterval(id);
+                        return false;
+                    }
+
+                    return true;
+                }, unitTime);
+            }
+            else {
+                music.volume = this.getVolumeMusic();
+            }
+
+            this.currentMusic = music;
+
+            return this.currentMusic;
+        },
+
+        /*
+         * 音楽を停止
+         */
+        stopMusic: function(fadeTime) {
+            if (!this.currentMusic) { return ; }
+
+            var music = this.currentMusic;
+
+            if (fadeTime > 0) {
+                var count = 32;
+                var counter = 0;
+                var unitTime = fadeTime/count;
+                var volume = this.getVolumeMusic();
+
+                music.volume = 0;
+                var id = setInterval(function() {
+                    counter += 1;
+                    var rate = counter/count;
+                    music.volume = volume*(1-rate);
+
+                    if (rate >= 1) {
+                        music.stop();
+                        clearInterval(id);
+                        return false;
+                    }
+
+                    return true;
+                }, unitTime);
+            }
+            else {
+                this.currentMusic.stop();
+            }
+        },
+        /*
+         * 音楽を一時停止
+         */
+        pauseMusic: function() {
+            if (!this.currentMusic) { return ; }
+            this.currentMusic.pause();
+        },
+        /*
+         * 音楽を再開
+         */
+        resumeMusic: function() {
+            if (!this.currentMusic) { return ; }
+            this.currentMusic.resume();
+        },
+        /*
+         * 音楽のボリュームを設定
+         */
+        setVolumeMusic: function(volume) {
+            this.musicVolume = volume;
+            if (this.currentMusic) {
+                this.currentMusic.volume = volume;
+            }
+
+            return this;
+        },
+        /*
+         * 音楽のボリュームを取得
+         */
+        getVolumeMusic: function(volume) {
+            return this.isMute() ? 0 : this.musicVolume;
+        },
+    };
+
+})();
 
 
 /*
