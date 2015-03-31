@@ -102,6 +102,9 @@
             "src/ui/labelarea.js",
             "src/ui/loadingscene.js",
         ],
+        "game": [
+            "src/game/countscene.js",
+        ],
         "scene": [
             "src/scene/titlescene.js",
             "src/scene/resultscene.js",
