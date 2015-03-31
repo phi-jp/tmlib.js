@@ -17220,6 +17220,8 @@ tm.ui = tm.ui || {};
                 width: 640,
                 height: 960,
                 bgColor: '#444',
+                count: 3,
+                autopop: true,
             });
 
             param = param || {};
@@ -17244,9 +17246,9 @@ tm.ui = tm.ui || {};
                 }
             });
 
-            this.counter = 3;
+            this.counter = param.count;
+            this.autopop = param.autopop;
             this._updateCount();
-
         },
 
         _updateCount: function() {
@@ -17270,7 +17272,10 @@ tm.ui = tm.ui || {};
                 }, 250)
                 .call(function() {
                     if (this.counter <= 0) {
-                        this.app.popScene();
+                        this.flare('finish');
+                        if (this.autopop) {
+                            this.app.popScene();
+                        }
                     }
                     else {
                         this._updateCount();
