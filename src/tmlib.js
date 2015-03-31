@@ -338,9 +338,17 @@ if (typeof module !== 'undefined' && module.exports) {
 
     _preloadListners = [];
     _mainListners = [];
+    var loadedFlag = false;
 
     tm.preload = function(fn) { _preloadListners.push(fn); };
-    tm.main    = function(fn) { _mainListners.push(fn); };
+    tm.main    = function(fn) {
+        if (loadedFlag === false) {
+            _mainListners.push(fn);
+        }
+        else {
+            fn();
+        }
+    };
 
     var _preload = function() {
 
@@ -371,6 +379,8 @@ if (typeof module !== 'undefined' && module.exports) {
         _preload();
 
         _main();
+
+        loadedFlag = true;
 
     }, false);
 
