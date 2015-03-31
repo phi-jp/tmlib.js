@@ -193,7 +193,7 @@
     };
 
     var _loadScript = function(path) {
-        var script = tm.util.Script(path);
+        var script = tm.asset.Script(path);
 
         return script;
     };

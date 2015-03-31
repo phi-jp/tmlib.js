@@ -50,4 +50,8 @@
     tm.asset.AssetManager = tm.asset.Manager;
     tm.ui.LoadingScene = tm.scene.LoadingScene;
 
+    tm.util.getter('Script', function() {
+        console.warn('`tm.util.Script` は `tm.asset.Script` になりました!');
+    });
+
 })();
