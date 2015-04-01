@@ -70,11 +70,13 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 - getChildIndex の機能が getChildAt になっていたのを修正 ... done
 - tm.app.Element.prototype.getChildAt を実装 ... done
 - tm.app.Object2D の left, right, top, bottom それぞれの setter を実装 ... done
+- [tm.sound.SoundManager を実装](https://github.com/phi-jp/tmlib.js/pull/147) ... done
+- [tm.game.CountScene を作成](https://github.com/phi-jp/tmlib.js/pull/148) ... done
+- [JavaScript ファイルのAsset対応](https://github.com/phi-jp/tmlib.js/issues/146) ... done
+- CircleShape がサイズによって切れる問題を修正
 - scene namespace を game namespace に変更
-- tm.game.CountScene を作成
 - tm.game.ResultScene のデザインを変更
 - pointing の機能を強化( startPosition 保持したり, 数フレーム分の移動値をキャッシュしたり )
-- CircleShape がサイズによって切れる問題を修正
 - テスト改修
 - リファクタリング
 
