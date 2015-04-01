@@ -17222,101 +17222,19 @@ tm.ui = tm.ui || {};
 })();
 
 /*
- * countscene.js
- */
-
-;(function() {
-
-    tm.define("tm.game.CountScene", {
-        superClass: "tm.app.Scene",
-
-        init: function(param) {
-            this.superInit();
-
-            param = param.$safe({
-                width: 640,
-                height: 960,
-                bgColor: '#444',
-                count: 3,
-                autopop: true,
-            });
-
-            param = param || {};
-
-            this.fromJSON({
-                children: {
-                    bg: {
-                        type: "tm.display.Shape",
-                        width: param.width,
-                        height: param.height,
-                        bgColor: param.bgColor,
-                        originX: 0,
-                        originY: 0,
-                    },
-                    label: {
-                        type: "tm.display.Label",
-                        fillStyle: "white",
-                        fontSize: 200,
-                        x: SCREEN_CENTER_X,
-                        y: SCREEN_CENTER_Y,
-                    },
-                }
-            });
-
-            this.counter = param.count;
-            this.autopop = param.autopop;
-            this._updateCount();
-        },
-
-        _updateCount: function() {
-            var endFlag = this.counter <= 0;
-
-            this.label.text = this.counter--;
-
-            this.label.scale.set(1, 1);
-            this.label.tweener
-                .clear()
-                .to({
-                    scaleX: 1,
-                    scaleY: 1,
-                    alpha: 1,
-                }, 250)
-                .wait(500)
-                .to({
-                    scaleX: 1.5,
-                    scaleY: 1.5,
-                    alpha: 0.0
-                }, 250)
-                .call(function() {
-                    if (this.counter <= 0) {
-                        this.flare('finish');
-                        if (this.autopop) {
-                            this.app.popScene();
-                        }
-                    }
-                    else {
-                        this._updateCount();
-                    }
-                }, this);
-        },
-
-    });
-
-})();
-/*
  * TitleScene
  */
 
     
 (function() {
 
-    tm.define("tm.scene.TitleScene", {
+    tm.define("tm.game.TitleScene", {
         superClass: "tm.app.Scene",
 
         init: function(param) {
             this.superInit();
 
-            param = {}.$extend(tm.scene.TitleScene.default, param);
+            param = {}.$extend(tm.game.TitleScene.default, param);
             this.param = param;
 
             this.fromJSON({
@@ -17411,7 +17329,7 @@ tm.ui = tm.ui || {};
         },
     });
 
-    tm.scene.TitleScene.default = {
+    tm.game.TitleScene.default = {
         title: "Time is money",
         message: "",
         fontSize: 72,
@@ -17433,13 +17351,13 @@ tm.ui = tm.ui || {};
     
 (function() {
 
-    tm.define("tm.scene.ResultScene", {
+    tm.define("tm.game.ResultScene", {
         superClass: "tm.app.Scene",
 
         init: function(param) {
             this.superInit();
 
-            param = {}.$extend(tm.scene.ResultScene.default, param);
+            param = {}.$extend(tm.game.ResultScene.default, param);
             this.param = param;
 
             var userData = this._getUserData();
@@ -17625,7 +17543,7 @@ tm.ui = tm.ui || {};
         },
     });
 
-    tm.scene.ResultScene.default = {
+    tm.game.ResultScene.default = {
         score: 256,
         message: "this is tmlib.js project.",
         hashtags: "tmlibjs,game",
@@ -17658,7 +17576,7 @@ tm.ui = tm.ui || {};
         bgColor: "transparent",
     };
     
-    tm.define("tm.scene.LoadingScene", {
+    tm.define("tm.game.LoadingScene", {
         superClass: "tm.app.Scene",
         
         init: function(param) {
@@ -17854,11 +17772,11 @@ tm.ui = tm.ui || {};
 ;(function() {
 
     /**
-     * @class tm.scene.ManagerScene
+     * @class tm.game.ManagerScene
      * マネージャーシーン
      * @extends tm.app.Scene
      */
-    tm.define("tm.scene.ManagerScene", {
+    tm.define("tm.game.ManagerScene", {
         superClass: "tm.app.Scene",
 
         /**
@@ -17997,7 +17915,7 @@ tm.ui = tm.ui || {};
 
 ;(function() {
 
-	tm.define("tm.scene.NumericalInputScene", {
+	tm.define("tm.game.NumericalInputScene", {
 		superClass: "tm.app.Scene",
 
 		init: function(param) {
@@ -18081,6 +17999,88 @@ tm.ui = tm.ui || {};
 
 })();
 
+/*
+ * countscene.js
+ */
+
+;(function() {
+
+    tm.define("tm.game.CountScene", {
+        superClass: "tm.app.Scene",
+
+        init: function(param) {
+            this.superInit();
+
+            param = param.$safe({
+                width: 640,
+                height: 960,
+                bgColor: '#444',
+                count: 3,
+                autopop: true,
+            });
+
+            param = param || {};
+
+            this.fromJSON({
+                children: {
+                    bg: {
+                        type: "tm.display.Shape",
+                        width: param.width,
+                        height: param.height,
+                        bgColor: param.bgColor,
+                        originX: 0,
+                        originY: 0,
+                    },
+                    label: {
+                        type: "tm.display.Label",
+                        fillStyle: "white",
+                        fontSize: 200,
+                        x: SCREEN_CENTER_X,
+                        y: SCREEN_CENTER_Y,
+                    },
+                }
+            });
+
+            this.counter = param.count;
+            this.autopop = param.autopop;
+            this._updateCount();
+        },
+
+        _updateCount: function() {
+            var endFlag = this.counter <= 0;
+
+            this.label.text = this.counter--;
+
+            this.label.scale.set(1, 1);
+            this.label.tweener
+                .clear()
+                .to({
+                    scaleX: 1,
+                    scaleY: 1,
+                    alpha: 1,
+                }, 250)
+                .wait(500)
+                .to({
+                    scaleX: 1.5,
+                    scaleY: 1.5,
+                    alpha: 0.0
+                }, 250)
+                .call(function() {
+                    if (this.counter <= 0) {
+                        this.flare('finish');
+                        if (this.autopop) {
+                            this.app.popScene();
+                        }
+                    }
+                    else {
+                        this._updateCount();
+                    }
+                }, this);
+        },
+
+    });
+
+})();
 /*
  * three.js
  */
@@ -19709,10 +19709,27 @@ tm.google = tm.google || {};
     }
     
     tm.asset.AssetManager = tm.asset.Manager;
-    tm.ui.LoadingScene = tm.scene.LoadingScene;
 
     tm.util.getter('Script', function() {
         console.warn('`tm.util.Script` は `tm.asset.Script` になりました!');
+    });
+
+    tm.ui.LoadingScene = function(param) {
+        console.warn('`tm.ui.LoadingScene` は `tm.game.LoadingScene` になりました!');
+        return tm.game.LoadingScene(param);
+    };
+
+    tm.scene = tm.scene || {};
+    tm.scene.ManagerScene = tm.game.ManagerScene;
+    tm.scene.LoadingScene = tm.game.LoadingScene;
+    tm.scene.TitleScene = tm.game.TitleScene;
+    tm.scene.ResultScene = tm.game.ResultScene;
+    tm.scene.NumericalInputScene = tm.game.NumericalInputScene;
+    
+    tm.getter('scene', function() {
+        debugger;
+        console.warn('tm.scene は tm.game に変更されました');
+        return tm.game;
     });
 
 })();
