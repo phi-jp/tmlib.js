@@ -64,11 +64,12 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 
 ### 0.5
 
-- getFinalMatrix の位置が origin によってズレるバグを修正 ... done
-- checkHierarchy のデフォルト値を true に変更 ... done
-- tm.display.Grid を実装 ... done
-- getChildIndex の機能が getChildAt になっていたのを修正 ... done
-- tm.app.Element.prototype.getChildAt を実装 ... done
+- [getFinalMatrix の位置が origin によってズレるバグを修正](https://github.com/phi-jp/tmlib.js/pull/143) ... done
+- [tm.util.GridSystem を実装](https://github.com/phi-jp/tmlib.js/commit/04f26429391834b948ecf1b55e8b2d95e3d2ed2a) ... done
+- [checkHierarchy のデフォルト値を true に変更](https://github.com/phi-jp/tmlib.js/commit/1ea9499b5ef037d5cec8ed2c8b7ccbc2ea61080c) ... done
+- [tm.display.Grid を実装](https://github.com/phi-jp/tmlib.js/commit/90c1b986941df3adfba0847184c841dc883dc134) ... done
+- [getChildIndex の機能が getChildAt になっていたのを修正](https://github.com/phi-jp/tmlib.js/commit/103ba47c7631d162f7a79b4c213d7830f00389f1) ... done
+- [tm.app.Element.prototype.getChildAt を実装](https://github.com/phi-jp/tmlib.js/commit/103ba47c7631d162f7a79b4c213d7830f00389f1) ... done
 - tm.app.Object2D の left, right, top, bottom それぞれの setter を実装 ... done
 - [tm.sound.SoundManager を実装](https://github.com/phi-jp/tmlib.js/pull/147) ... done
 - [tm.game.CountScene を作成](https://github.com/phi-jp/tmlib.js/pull/148) ... done
