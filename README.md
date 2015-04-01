@@ -39,8 +39,6 @@ MIT License
 
 ## Browser
 
-対応ブラウザの一覧です.  
-IE なんて知りません.
 - [Google Chrome](http://www.google.co.jp/chrome/intl/ja/landing_ch.html)
 - [Safari](http://www.apple.com/jp/safari/)
 - [Firefox](http://mozilla.jp/firefox/)
@@ -64,16 +62,16 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 
 ### 0.5
 
-- [getFinalMatrix の位置が origin によってズレるバグを修正](https://github.com/phi-jp/tmlib.js/pull/143) ... done
-- [tm.util.GridSystem を実装](https://github.com/phi-jp/tmlib.js/commit/04f26429391834b948ecf1b55e8b2d95e3d2ed2a) ... done
-- [checkHierarchy のデフォルト値を true に変更](https://github.com/phi-jp/tmlib.js/commit/1ea9499b5ef037d5cec8ed2c8b7ccbc2ea61080c) ... done
-- [tm.display.Grid を実装](https://github.com/phi-jp/tmlib.js/commit/90c1b986941df3adfba0847184c841dc883dc134) ... done
-- [getChildIndex の機能が getChildAt になっていたのを修正](https://github.com/phi-jp/tmlib.js/commit/103ba47c7631d162f7a79b4c213d7830f00389f1) ... done
-- [tm.app.Element.prototype.getChildAt を実装](https://github.com/phi-jp/tmlib.js/commit/103ba47c7631d162f7a79b4c213d7830f00389f1) ... done
-- [tm.app.Object2D の left, right, top, bottom それぞれの setter を実装](https://github.com/phi-jp/tmlib.js/commit/a0ca57c3866663794a8aad451f94120dbaaef3a5) ... done
-- [tm.sound.SoundManager を実装](https://github.com/phi-jp/tmlib.js/pull/147) ... done
-- [tm.game.CountScene を作成](https://github.com/phi-jp/tmlib.js/pull/148) ... done
-- [JavaScript ファイルのAsset対応](https://github.com/phi-jp/tmlib.js/issues/146) ... done
+- [getFinalMatrix の位置が origin によってズレるバグを修正](https://github.com/phi-jp/tmlib.js/pull/143)
+- [tm.util.GridSystem を実装](https://github.com/phi-jp/tmlib.js/commit/04f26429391834b948ecf1b55e8b2d95e3d2ed2a)
+- [checkHierarchy のデフォルト値を true に変更](https://github.com/phi-jp/tmlib.js/commit/1ea9499b5ef037d5cec8ed2c8b7ccbc2ea61080c)
+- [tm.display.Grid を実装](https://github.com/phi-jp/tmlib.js/commit/90c1b986941df3adfba0847184c841dc883dc134)
+- [getChildIndex の機能が getChildAt になっていたのを修正](https://github.com/phi-jp/tmlib.js/commit/103ba47c7631d162f7a79b4c213d7830f00389f1)
+- [tm.app.Element.prototype.getChildAt を実装](https://github.com/phi-jp/tmlib.js/commit/103ba47c7631d162f7a79b4c213d7830f00389f1)
+- [tm.app.Object2D の left, right, top, bottom それぞれの setter を実装](https://github.com/phi-jp/tmlib.js/commit/a0ca57c3866663794a8aad451f94120dbaaef3a5)
+- [tm.sound.SoundManager を実装](https://github.com/phi-jp/tmlib.js/pull/147)
+- [tm.game.CountScene を作成](https://github.com/phi-jp/tmlib.js/pull/148)
+- [JavaScript ファイルのAsset対応](https://github.com/phi-jp/tmlib.js/issues/146)
 - CircleShape がサイズによって切れる問題を修正
 - scene namespace を game namespace に変更
 - tm.game.ResultScene のデザインを変更
