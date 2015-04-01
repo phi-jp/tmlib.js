@@ -192,6 +192,12 @@
         return file;
     };
 
+    var _loadScript = function(path) {
+        var script = tm.asset.Script(path);
+
+        return script;
+    };
+
     // image
     tm.asset.Loader.register("png", _textureFunc);
     tm.asset.Loader.register("gif", _textureFunc);
@@ -212,8 +218,9 @@
     
     // spritesheet for tmlib.js
     tm.asset.Loader.register("tmss", _tmssFunc);
-
-
+    
+    // script file
+    tm.asset.Loader.register("js", _loadScript);
     
 })();
 

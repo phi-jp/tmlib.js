@@ -13,28 +13,6 @@ var CIRCLE_RADIUS   = 30;
 var TIME            = 10;
 
 
-tm.main(function() {
-    app = tm.app.CanvasApp("#world");
-    app.fitWindow();
-    // app.enableStats();
-    
-    bgm = tm.sound.Sound("http://storage.tmlife.net/resource/bgm/maoudamashii/bgm_maoudamashii_healing02.wav");
-    bgm.onload = function() {
-        bgm.play();
-    };
-    
-    var scene = MainScene();
-    app.replaceScene(scene);
-    
-    app.run();
-
-    app.onblur = function() {
-        this.pushScene(PauseScene());
-    };
-});
-
-
-
 tm.define("MainScene", {
     superClass: "tm.scene.ManagerScene",
  
@@ -42,7 +20,7 @@ tm.define("MainScene", {
         this.superInit({
             scenes: [
                 {
-                    className: "tm.app.LoadingScene",
+                    className: "tm.scene.LoadingScene",
                     arguments: {
                         assets: {
                             touch: "touch.wav",
@@ -237,3 +215,24 @@ tm.define("PauseScene", {
 });
 
 
+
+
+tm.main(function() {
+    app = tm.app.CanvasApp("#world");
+    app.fitWindow();
+    // app.enableStats();
+    
+    bgm = tm.sound.Sound("http://storage.tmlife.net/resource/bgm/maoudamashii/bgm_maoudamashii_healing02.wav");
+    bgm.onload = function() {
+        bgm.play();
+    };
+    
+    var scene = MainScene();
+    app.replaceScene(scene);
+    
+    app.run();
+
+    app.onblur = function() {
+        this.pushScene(PauseScene());
+    };
+});

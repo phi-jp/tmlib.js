@@ -20,7 +20,6 @@
             "src/util/file.js",
             "src/util/timeline.js",
             "src/util/data.js",
-            "src/util/script.js",
             "src/util/querystring.js",
             "src/util/type.js",
             "src/util/flow.js",
@@ -53,6 +52,7 @@
             "src/asset/spritesheet.js",
             "src/asset/mapsheet.js",
             "src/asset/font.js",
+            "src/asset/script.js",
         ],
         "input": [
             "src/input/keyboard.js",

@@ -8,11 +8,11 @@ tm.util = tm.util || {};
 (function() {
     
     /**
-     * @class tm.util.Script
+     * @class tm.asset.Script
      * スクリプトクラス
      */
 
-    tm.define("tm.util.Script", {
+    tm.define("tm.asset.Script", {
 
         superClass: "tm.event.EventDispatcher",
 
@@ -51,8 +51,8 @@ tm.util = tm.util || {};
         
     });
 
-    tm.util.Script.load = function(src) {
-        var script = tm.util.Script(src);
+    tm.asset.Script.load = function(src) {
+        var script = tm.asset.Script(src);
 
         return script;
     };
@@ -62,7 +62,7 @@ tm.util = tm.util || {};
      * @method
      * Stats を動的ロード
      */
-    tm.util.Script.loadStats = function(version) {
+    tm.asset.Script.loadStats = function(version) {
         version = version || "r11";
         var path = null;
         if (["r6", "r7", "r8", "r9", "10"].indexOf(version) != -1) {
@@ -80,7 +80,7 @@ tm.util = tm.util || {};
      * @method
      * datGUI を動的ロード
      */
-    tm.util.Script.loadDatGUI = function(version) {
+    tm.asset.Script.loadDatGUI = function(version) {
         // http://dat-gui.googlecode.com/git/build/dat.gui.min.js
         // https://dat-gui.googlecode.com/git-history/0.5/build/dat.gui.min.js
 
@@ -96,7 +96,7 @@ tm.util = tm.util || {};
      * @method
      * Three.js を動的ロード
      */
-    tm.util.Script.loadThree = function(version) {
+    tm.asset.Script.loadThree = function(version) {
         var THREE_JS_URL = "http://rawgithub.com/mrdoob/three.js/{version}/build/three.js";
 //        var THREE_JS_URL = "https://raw.github.com/mrdoob/three.js/{version}/build/three.min.js";
         version = version || "r55";
@@ -111,7 +111,7 @@ tm.util = tm.util || {};
      * @method
      * BulletML.js を動的ロード
      */
-    tm.util.Script.loadBulletML = function(version) {
+    tm.asset.Script.loadBulletML = function(version) {
         var BULLETML_FOR_TMLIB_JS_URL   = "http://rawgithub.com/daishihmr/bulletml.js/{version}/target/bulletml.for.tmlib.js";
         version = version || "v0.4.2";
         var path = BULLETML_FOR_TMLIB_JS_URL.format({version: version});        
