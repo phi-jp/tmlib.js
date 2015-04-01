@@ -73,6 +73,8 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 - [tm.game.CountScene を作成](https://github.com/phi-jp/tmlib.js/pull/148)
 - [JavaScript ファイルのAsset対応](https://github.com/phi-jp/tmlib.js/issues/146)
 - [scene namespace を game namespace に変更](https://github.com/phi-jp/tmlib.js/pull/151)
+- [tm.game.setup で Canvas ゲーム開発を簡略化](https://github.com/phi-jp/tmlib.js/pull/152)
+- [tm.game.SplashScene を実装](https://github.com/phi-jp/tmlib.js/pull/153)
 - tm.game.ResultScene のデザインを変更
 - pointing の機能を強化( startPosition 保持したり, 数フレーム分の移動値をキャッシュしたり )
 - テスト改修
