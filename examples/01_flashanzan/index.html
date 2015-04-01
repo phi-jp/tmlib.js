@@ -31,9 +31,10 @@ tm.game.setup({
     query: "#world",
     width: 640,
     height: 960,
-    startLabel: 'game',
+    startLabel: 'splash',
     background: '#444',
 });
+
 
 tm.define("GameScene", {
     superClass: Scene,
@@ -151,6 +152,9 @@ tm.define("GameScene", {
                     this.setupQuestion();
                 }
                 else {
+                    this.nextArguments = {
+                        score: this.score,
+                    };
                     this.app.popScene();
                 }
             }, this)

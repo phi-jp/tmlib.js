@@ -20,6 +20,15 @@
 
         var scenes = [
             {
+                className: "SplashScene",
+                arguments: {
+                    width: param.width,
+                    height: param.height,
+                },
+                label: "splash",
+                nextLabel: "title",
+            },
+            {
                 className: "TitleScene",
                 arguments: {
                     title: param.title,
