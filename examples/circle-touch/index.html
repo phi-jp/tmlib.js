@@ -14,10 +14,15 @@
         <script src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
         <script src="http://rawgithub.com/mrdoob/stats.js/master/src/Stats.js"></script>
         <script src="../../build/tmlib.js"></script>
-        <script src="main.js"></script>
         
         <script>
-
+        var loader = tm.asset.Loader();
+        loader.load({
+            main: 'main.js',
+        });
+        loader.onload = function() {
+            console.log('finish!');
+        };
         </script>
     </head>
     
