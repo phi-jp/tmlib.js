@@ -225,8 +225,36 @@ if (typeof module !== 'undefined' && module.exports) {
     };
     
     tm.globalize = function(obj) {
-        tm.global.$strict(obj);
-        
+        tm.$forIn(function(key, value) {
+            if (typeof value !== 'object') {
+                return ;
+            }
+            if (key === "classes") {
+                return ;
+            }
+            if (key === "global") {
+                return ;
+            }
+            if (key === "event") {
+                return ;
+            }
+            if (key === "dom") {
+                return ;
+            }
+
+            // console.log("#### " + key + " ###########");
+            value.$forIn(function(key, value) {
+                if (!window[key]) {
+                    // console.log(key);
+                    window[key] = value;
+                }
+                else {
+                    // TODO: 名前を考えなおす
+                    // console.log(key);
+                }
+            });
+        });
+
         return this;
     };
     
