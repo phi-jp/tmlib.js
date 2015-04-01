@@ -70,7 +70,7 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 - [tm.display.Grid を実装](https://github.com/phi-jp/tmlib.js/commit/90c1b986941df3adfba0847184c841dc883dc134) ... done
 - [getChildIndex の機能が getChildAt になっていたのを修正](https://github.com/phi-jp/tmlib.js/commit/103ba47c7631d162f7a79b4c213d7830f00389f1) ... done
 - [tm.app.Element.prototype.getChildAt を実装](https://github.com/phi-jp/tmlib.js/commit/103ba47c7631d162f7a79b4c213d7830f00389f1) ... done
-- tm.app.Object2D の left, right, top, bottom それぞれの setter を実装 ... done
+- [tm.app.Object2D の left, right, top, bottom それぞれの setter を実装](https://github.com/phi-jp/tmlib.js/commit/a0ca57c3866663794a8aad451f94120dbaaef3a5) ... done
 - [tm.sound.SoundManager を実装](https://github.com/phi-jp/tmlib.js/pull/147) ... done
 - [tm.game.CountScene を作成](https://github.com/phi-jp/tmlib.js/pull/148) ... done
 - [JavaScript ファイルのAsset対応](https://github.com/phi-jp/tmlib.js/issues/146) ... done
