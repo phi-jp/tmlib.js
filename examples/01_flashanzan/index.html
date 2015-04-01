@@ -35,6 +35,7 @@ tm.game.setup({
     background: '#444',
 });
 
+
 tm.define("GameScene", {
     superClass: Scene,
     
@@ -151,6 +152,9 @@ tm.define("GameScene", {
                     this.setupQuestion();
                 }
                 else {
+                    this.nextArguments = {
+                        score: this.score,
+                    };
                     this.app.popScene();
                 }
             }, this)
