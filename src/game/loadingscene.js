@@ -11,7 +11,7 @@
         bgColor: "transparent",
     };
     
-    tm.define("tm.scene.LoadingScene", {
+    tm.define("tm.game.LoadingScene", {
         superClass: "tm.app.Scene",
         
         init: function(param) {

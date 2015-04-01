@@ -1,11 +1,11 @@
 
 
-testhelper.describe("tm.scene.TitleScene", function() {
+testhelper.describe("tm.game.TitleScene", function() {
 
     testhelper.it("default", function() {
 
         tm.define("MainScene", {
-            superClass: "tm.scene.TitleScene",
+            superClass: "tm.game.TitleScene",
             
             init: function() {
                 this.superInit({
@@ -24,7 +24,7 @@ testhelper.describe("tm.scene.TitleScene", function() {
         var SCREEN_HEIGHT = 640;
 
         tm.define("MainScene", {
-            superClass: "tm.scene.TitleScene",
+            superClass: "tm.game.TitleScene",
             
             init: function() {
                 this.superInit({
@@ -40,7 +40,7 @@ testhelper.describe("tm.scene.TitleScene", function() {
     testhelper.it("custom", function() {
 
         tm.define("MainScene", {
-            superClass: "tm.scene.TitleScene",
+            superClass: "tm.game.TitleScene",
             
             init: function() {
                 this.superInit({
@@ -58,12 +58,12 @@ testhelper.describe("tm.scene.TitleScene", function() {
 });
 
 
-testhelper.describe("tm.scene.ResultScene", function() {
+testhelper.describe("tm.game.ResultScene", function() {
 
     testhelper.it("default", function() {
 
         tm.define("MainScene", {
-            superClass: "tm.scene.ResultScene",
+            superClass: "tm.game.ResultScene",
             
             init: function() {
                 this.superInit({
@@ -82,7 +82,7 @@ testhelper.describe("tm.scene.ResultScene", function() {
         var SCREEN_HEIGHT = 640;
 
         tm.define("MainScene", {
-            superClass: "tm.scene.ResultScene",
+            superClass: "tm.game.ResultScene",
             
             init: function() {
                 this.superInit({
@@ -99,7 +99,7 @@ testhelper.describe("tm.scene.ResultScene", function() {
     testhelper.it("custom", function() {
 
         tm.define("MainScene", {
-            superClass: "tm.scene.ResultScene",
+            superClass: "tm.game.ResultScene",
             
             init: function() {
                 this.superInit({
@@ -123,7 +123,7 @@ testhelper.describe("tm.scene.ResultScene", function() {
 
 
 
-testhelper.describe("tm.scene.LoadingScene", function() {
+testhelper.describe("tm.game.LoadingScene", function() {
 
     testhelper.it("load", function() {
 
@@ -135,7 +135,7 @@ testhelper.describe("tm.scene.LoadingScene", function() {
             },
 
             onenter: function() {
-                var loading = tm.scene.LoadingScene({
+                var loading = tm.game.LoadingScene({
                     assets: {
                         "image1": "http://dummyimage.com/512x512/aaa/fff.png?&text=1&"+(new Date()).getTime(),
                         "image2": "http://dummyimage.com/512x512/aaa/fff.png?&text=2&"+(new Date()).getTime(),
@@ -186,7 +186,7 @@ testhelper.describe("tm.scene.LoadingScene", function() {
 
 
 
-testhelper.describe("tm.scene.NumericalInputScene", function() {
+testhelper.describe("tm.game.NumericalInputScene", function() {
 
     testhelper.it("load", function() {
 
@@ -199,7 +199,7 @@ testhelper.describe("tm.scene.NumericalInputScene", function() {
             },
 
             onenter: function() {
-                var scene = tm.scene.NumericalInputScene();
+                var scene = tm.game.NumericalInputScene();
                 scene.ondecided = function(e) {
                     alert(e.value);
                 };
@@ -216,7 +216,7 @@ testhelper.describe("tm.scene.NumericalInputScene", function() {
 
 
 
-testhelper.describe("tm.scene.ManagerScene", function() {
+testhelper.describe("tm.game.ManagerScene", function() {
 
     testhelper.it("init", function() {
 
@@ -237,13 +237,13 @@ testhelper.describe("tm.scene.ManagerScene", function() {
         });
 
         tm.define("MainScene", {
-            superClass: "tm.scene.ManagerScene",
+            superClass: "tm.game.ManagerScene",
          
             init: function() {
                 this.superInit({
                     scenes: [
                         {
-                            className: "tm.scene.TitleScene",
+                            className: "tm.game.TitleScene",
                             label: "title",
                         },
                         {
@@ -257,7 +257,7 @@ testhelper.describe("tm.scene.ManagerScene", function() {
                             label: "game2",
                         },
                         {
-                            className: "tm.scene.ResultScene",
+                            className: "tm.game.ResultScene",
                             label: "result",
                             nextLabel: "title",
                         },
@@ -274,18 +274,18 @@ testhelper.describe("tm.scene.ManagerScene", function() {
     testhelper.it("startLabel", function() {
 
         tm.define("MainScene", {
-            superClass: "tm.scene.ManagerScene",
+            superClass: "tm.game.ManagerScene",
          
             init: function() {
                 this.superInit({
                     startLabel: "result",
                     scenes: [
                         {
-                            className: "tm.scene.TitleScene",
+                            className: "tm.game.TitleScene",
                             label: "title",
                         },
                         {
-                            className: "tm.scene.ResultScene",
+                            className: "tm.game.ResultScene",
                             label: "result",
                             nextLabel: "title",
                         },
@@ -322,13 +322,13 @@ testhelper.describe("tm.scene.ManagerScene", function() {
         });
 
         tm.define("MainScene", {
-            superClass: "tm.scene.ManagerScene",
+            superClass: "tm.game.ManagerScene",
          
             init: function() {
                 this.superInit({
                     scenes: [
                         {
-                            className: "tm.scene.TitleScene",
+                            className: "tm.game.TitleScene",
                             label: "title",
                         },
                         {
@@ -342,7 +342,7 @@ testhelper.describe("tm.scene.ManagerScene", function() {
                             label: "game2",
                         },
                         {
-                            className: "tm.scene.ResultScene",
+                            className: "tm.game.ResultScene",
                             label: "result",
                             nextLabel: "title",
                         },
@@ -381,13 +381,13 @@ testhelper.describe("tm.scene.ManagerScene", function() {
         });
 
         tm.define("MainScene", {
-            superClass: "tm.scene.ManagerScene",
+            superClass: "tm.game.ManagerScene",
          
             init: function() {
                 this.superInit({
                     scenes: [
                         {
-                            className: "tm.scene.TitleScene",
+                            className: "tm.game.TitleScene",
                             label: "title",
                         },
                         {
@@ -401,7 +401,7 @@ testhelper.describe("tm.scene.ManagerScene", function() {
                             label: "game2",
                         },
                         {
-                            className: "tm.scene.ResultScene",
+                            className: "tm.game.ResultScene",
                             label: "result",
                             nextLabel: "title",
                         },

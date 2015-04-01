@@ -2,7 +2,7 @@
 
 ;(function() {
 
-	tm.define("tm.scene.NumericalInputScene", {
+	tm.define("tm.game.NumericalInputScene", {
 		superClass: "tm.app.Scene",
 
 		init: function(param) {

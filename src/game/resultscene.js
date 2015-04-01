@@ -5,13 +5,13 @@
     
 (function() {
 
-    tm.define("tm.scene.ResultScene", {
+    tm.define("tm.game.ResultScene", {
         superClass: "tm.app.Scene",
 
         init: function(param) {
             this.superInit();
 
-            param = {}.$extend(tm.scene.ResultScene.default, param);
+            param = {}.$extend(tm.game.ResultScene.default, param);
             this.param = param;
 
             var userData = this._getUserData();
@@ -197,7 +197,7 @@
         },
     });
 
-    tm.scene.ResultScene.default = {
+    tm.game.ResultScene.default = {
         score: 256,
         message: "this is tmlib.js project.",
         hashtags: "tmlibjs,game",
