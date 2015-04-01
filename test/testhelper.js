@@ -103,6 +103,7 @@
             "src/ui/loadingscene.js",
         ],
         "game": [
+            "src/game/game.js",
             "src/game/titlescene.js",
             "src/game/resultscene.js",
             "src/game/loadingscene.js",

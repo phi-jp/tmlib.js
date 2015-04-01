@@ -18,82 +18,25 @@
 <script>
 
 // 定数
-var SCREEN_WIDTH    = 640;
-var SCREEN_HEIGHT   = 960;
-var SCREEN_CENTER_X = SCREEN_WIDTH/2;
-var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;
+var ASSETS = {
+    touch: "touch.wav",
+    decide: "decide.wav",
+    correct: "correct.mp3",
+    incorrect: "incorrect.mp3",
+    question: "question.wav",
+};
 
-
-tm.main(function() {
-	var app = tm.app.CanvasApp("#world");
-
-	app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	app.fitWindow();
-	app.replaceScene(MainScene());
-	app.run();
+tm.game.setup({
+    title: "Flash 暗算",
+    query: "#world",
+    width: 640,
+    height: 960,
+    startLabel: 'game',
+    background: '#444',
 });
-
-
-tm.define("MainScene", {
-    superClass: "tm.game.ManagerScene",
- 
-    init: function() {
-        this.superInit({
-            scenes: [
-                {
-                    className: "tm.game.LoadingScene",
-                    arguments: {
-                        assets: {
-                            touch: "touch.wav",
-                            decide: "decide.wav",
-                            correct: "correct.mp3",
-                            incorrect: "incorrect.mp3",
-                            question: "question.wav",
-                        },
-                        width: 640,
-                        height: 960,
-                        autopop: true,
-                    },
-                    label: "loading",
-                },
-                {
-                    className: "tm.game.TitleScene",
-                    arguments: {
-                        title: "Flash",
-                    },
-                    label: "title",
-                },
-                {
-                    className: "GameScene",
-                    arguments: {
-                    },
-                    label: "game",
-                },
-                {
-                    className: "tm.game.ResultScene",
-                    arguments: {
-                        name: "Result",
-                    },
-                    label: "result",
-                    nextLabel: "title",
-                },
-            ],
-        });
-    },
-
-    onprepare: function() {
-        if (this.getCurrentLabel() == "game") {
-            // スコアをセットする
-            this.setSceneArguments("result", {
-                "score": this.currentScene.score
-            });
-        }
-    },
-});
-
 
 tm.define("GameScene", {
-    superClass: tm.app.Scene,
+    superClass: Scene,
     
     init: function() {
     	this.superInit();
@@ -107,7 +50,7 @@ tm.define("GameScene", {
         this.count = 0;
         this.maxCount = 8;
         this.numbers = Array.range(this.maxCount).map(function() {
-            return tm.util.Random.randint(1, 9);
+            return Random.randint(1, 9);
         });
         this.sum = this.numbers.reduce(function(prev, current) {
             return prev + current;
@@ -119,7 +62,7 @@ tm.define("GameScene", {
     startQuestion: function() {
     	var self = this;
     	var number = this.numbers[this.count];
-    	var label = tm.display.Label().addChildTo(this);
+    	var label = Label().addChildTo(this);
 
     	label.text = number;
     	label.x = SCREEN_CENTER_X;
@@ -129,7 +72,7 @@ tm.define("GameScene", {
     	label.tweener
             .wait(100)
             .call(function() {
-                tm.asset.Manager.get("question").clone().play();
+                SoundManager.play("question");
             })
     		.fadeIn(50)
     		.wait(300)
@@ -148,13 +91,13 @@ tm.define("GameScene", {
     	if (this.count >= this.maxCount) {
             var self = this;
             // 答え入力
-            var scene = tm.game.NumericalInputScene();
+            var scene = NumericalInputScene();
 
             scene.onpush = function(e) {
-                tm.asset.Manager.get("touch").clone().play();
+                SoundManager.play("touch");
             };
             scene.ondecided = function(e) {
-                tm.asset.Manager.get("decide").clone().play();
+                SoundManager.play("decide");
                 self.judge(e.value);
                 self.app.popScene();
             };
@@ -171,7 +114,7 @@ tm.define("GameScene", {
         this.fromJSON({
             children: {
                 correctLabel: {
-                    type: "tm.display.Label",
+                    type: "Label",
                     text: (v == this.sum) ? "right!" : "wrong!",
                     x: SCREEN_CENTER_X,
                     y: SCREEN_CENTER_Y,
@@ -181,7 +124,7 @@ tm.define("GameScene", {
                     scaleY: 0.5,
                 },
                 answerLabel: {
-                    type: "tm.display.Label",
+                    type: "Label",
                     text: "answer: {0}".format(this.sum),
                     x: SCREEN_CENTER_X,
                     y: SCREEN_CENTER_Y+ 30,
@@ -194,7 +137,7 @@ tm.define("GameScene", {
         });
 
         var se = (isCorrect) ? "correct" : "incorrect";
-        tm.asset.Manager.get(se).clone().play();
+        SoundManager.play(se);
 
         this.correctLabel.tweener
             .scale(1, 256, "easeOutBounce")
