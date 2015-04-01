@@ -5,11 +5,11 @@
 ;(function() {
 
     /**
-     * @class tm.scene.ManagerScene
+     * @class tm.game.ManagerScene
      * マネージャーシーン
      * @extends tm.app.Scene
      */
-    tm.define("tm.scene.ManagerScene", {
+    tm.define("tm.game.ManagerScene", {
         superClass: "tm.app.Scene",
 
         /**

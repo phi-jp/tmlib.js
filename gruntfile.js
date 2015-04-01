@@ -101,14 +101,13 @@ module.exports = function(grunt) {
     "src/ui/gauge.js",
     "src/ui/labelarea.js",
 
+    "src/game/titlescene.js",
+    "src/game/resultscene.js",
+    "src/game/loadingscene.js",
+    "src/game/splashscene.js",
+    "src/game/managerscene.js",
+    "src/game/numericalinputscene.js",
     "src/game/countscene.js",
-
-    "src/scene/titlescene.js",
-    "src/scene/resultscene.js",
-    "src/scene/loadingscene.js",
-    "src/scene/splashscene.js",
-    "src/scene/managerscene.js",
-    "src/scene/numericalinputscene.js",
     
     "src/three/three.js",
 

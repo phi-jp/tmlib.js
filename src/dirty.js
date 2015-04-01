@@ -48,10 +48,27 @@
     }
     
     tm.asset.AssetManager = tm.asset.Manager;
-    tm.ui.LoadingScene = tm.scene.LoadingScene;
 
     tm.util.getter('Script', function() {
         console.warn('`tm.util.Script` は `tm.asset.Script` になりました!');
+    });
+
+    tm.ui.LoadingScene = function(param) {
+        console.warn('`tm.ui.LoadingScene` は `tm.game.LoadingScene` になりました!');
+        return tm.game.LoadingScene(param);
+    };
+
+    tm.scene = tm.scene || {};
+    tm.scene.ManagerScene = tm.game.ManagerScene;
+    tm.scene.LoadingScene = tm.game.LoadingScene;
+    tm.scene.TitleScene = tm.game.TitleScene;
+    tm.scene.ResultScene = tm.game.ResultScene;
+    tm.scene.NumericalInputScene = tm.game.NumericalInputScene;
+    
+    tm.getter('scene', function() {
+        debugger;
+        console.warn('tm.scene は tm.game に変更されました');
+        return tm.game;
     });
 
 })();

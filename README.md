@@ -72,7 +72,6 @@ tmlib.js に関する最新の情報やチュートリアルなどはこちら�
 - [tm.sound.SoundManager を実装](https://github.com/phi-jp/tmlib.js/pull/147)
 - [tm.game.CountScene を作成](https://github.com/phi-jp/tmlib.js/pull/148)
 - [JavaScript ファイルのAsset対応](https://github.com/phi-jp/tmlib.js/issues/146)
-- CircleShape がサイズによって切れる問題を修正
 - scene namespace を game namespace に変更
 - tm.game.ResultScene のデザインを変更
 - pointing の機能を強化( startPosition 保持したり, 数フレーム分の移動値をキャッシュしたり )

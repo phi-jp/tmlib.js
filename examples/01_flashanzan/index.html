@@ -35,13 +35,13 @@ tm.main(function() {
 
 
 tm.define("MainScene", {
-    superClass: "tm.scene.ManagerScene",
+    superClass: "tm.game.ManagerScene",
  
     init: function() {
         this.superInit({
             scenes: [
                 {
-                    className: "tm.scene.LoadingScene",
+                    className: "tm.game.LoadingScene",
                     arguments: {
                         assets: {
                             touch: "touch.wav",
@@ -57,7 +57,7 @@ tm.define("MainScene", {
                     label: "loading",
                 },
                 {
-                    className: "tm.scene.TitleScene",
+                    className: "tm.game.TitleScene",
                     arguments: {
                         title: "Flash",
                     },
@@ -70,7 +70,7 @@ tm.define("MainScene", {
                     label: "game",
                 },
                 {
-                    className: "tm.scene.ResultScene",
+                    className: "tm.game.ResultScene",
                     arguments: {
                         name: "Result",
                     },
@@ -148,7 +148,7 @@ tm.define("GameScene", {
     	if (this.count >= this.maxCount) {
             var self = this;
             // 答え入力
-            var scene = tm.scene.NumericalInputScene();
+            var scene = tm.game.NumericalInputScene();
 
             scene.onpush = function(e) {
                 tm.asset.Manager.get("touch").clone().play();

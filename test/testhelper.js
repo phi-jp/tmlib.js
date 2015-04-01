@@ -103,16 +103,13 @@
             "src/ui/loadingscene.js",
         ],
         "game": [
+            "src/game/titlescene.js",
+            "src/game/resultscene.js",
+            "src/game/loadingscene.js",
+            "src/game/splashscene.js",
+            "src/game/managerscene.js",
+            "src/game/numericalinputscene.js",
             "src/game/countscene.js",
-        ],
-        "scene": [
-            "src/scene/titlescene.js",
-            "src/scene/resultscene.js",
-            "src/scene/loadingscene.js",
-            "src/scene/countdownscene.js",
-            "src/scene/splashscene.js",
-            "src/scene/managerscene.js",
-            "src/scene/numericalinputscene.js",
         ],
         "three": [
             "src/three/three.js",
@@ -132,9 +129,9 @@
         "google": [
             "src/google/chart.js",
         ],
-        // "dirty": [
-        //     "src/dirty.js",
-        // ],
+        "dirty": [
+            "src/dirty.js",
+        ],
     };
 
     global.testhelper.testScripts = [

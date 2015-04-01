@@ -45,13 +45,13 @@ tm.main(function() {
 
 
 tm.define("MainScene", {
-    superClass: "tm.scene.ManagerScene",
+    superClass: "tm.game.ManagerScene",
  
     init: function() {
         this.superInit({
             scenes: [
                 {
-                    className: "tm.scene.LoadingScene",
+                    className: "tm.game.LoadingScene",
                     arguments: {
                         width: SCREEN_WIDTH,
                         height: SCREEN_HEIGHT,
@@ -64,7 +64,7 @@ tm.define("MainScene", {
                     label: "loading",
                 },
                 {
-                    className: "tm.scene.TitleScene",
+                    className: "tm.game.TitleScene",
                     arguments: {
                         title: "Number",
                     },
@@ -152,7 +152,7 @@ tm.define("GameScene", {
     },
 
     pushResult: function(fn) {
-        var result = tm.scene.ResultScene({
+        var result = tm.game.ResultScene({
             score: 99999 - this.app.timer.getMilliseconds()
         });
 
