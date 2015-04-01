@@ -17293,6 +17293,9 @@ tm.ui = tm.ui || {};
             },
             {
                 className: "ResultScene",
+                arguments: {
+                    message: param.title,
+                },
                 label: "result",
                 nextLabel: "title",
             },
