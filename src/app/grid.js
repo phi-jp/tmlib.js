@@ -1,4 +1,4 @@
-
+﻿
 
 
 ;(function() {
@@ -16,6 +16,7 @@
         cellHeight: 64,
         maxPerLine: 8,
         arrangement: "horizontal", // vertical
+        margin: 0,
         
         /**
          * @constructor
@@ -28,12 +29,14 @@
         reposition: function() {
             var childs = this.children;
 
+            if(this.margin < 0) { this.margin = 0; }
+
             if (this.arrangement == "horizontal") {
                 childs.each(function(child, i) {
                     var xIndex = (i%this.maxPerLine);
                     var yIndex = (i/this.maxPerLine)|0;
-                    var x = this.cellWidth*xIndex;
-                    var y = this.cellHeight*yIndex;
+                    var x = (this.cellWidth+this.margin)*xIndex;
+                    var y = (this.cellHeight+this.margin)*yIndex;
                     child.setPosition(x, y);
                 }, this);
             }
@@ -41,8 +44,8 @@
                 childs.each(function(child, i) {
                     var xIndex = (i/this.maxPerLine)|0;
                     var yIndex = (i%this.maxPerLine);
-                    var x = this.cellWidth*xIndex;
-                    var y = this.cellHeight*yIndex;
+                    var x = (this.cellWidth+this.margin)*xIndex;
+                    var y = (this.cellHeight+this.margin)*yIndex;
                     child.setPosition(x, y);
                 }, this);
             }
