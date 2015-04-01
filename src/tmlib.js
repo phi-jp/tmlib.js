@@ -229,16 +229,16 @@ if (typeof module !== 'undefined' && module.exports) {
             if (typeof value !== 'object') {
                 return ;
             }
-            if (key === "classes") {
+            else if (key === "classes") {
                 return ;
             }
-            if (key === "global") {
+            else if (key === "global") {
                 return ;
             }
-            if (key === "event") {
+            else if (key === "event") {
                 return ;
             }
-            if (key === "dom") {
+            else if (key === "dom") {
                 return ;
             }
 
