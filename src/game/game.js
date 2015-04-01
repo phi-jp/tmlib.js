@@ -50,7 +50,7 @@
             app.background = param.background;// 背景色
 
             if (window.ASSETS) {
-                var loading = LoadingScene({
+                var loading = tm.game.LoadingScene({
                     assets: ASSETS,
                     width: SCREEN_WIDTH,
                     height: SCREEN_HEIGHT,
