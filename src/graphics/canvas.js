@@ -93,12 +93,12 @@ tm.graphics = tm.graphics || {};
                 var rate = e.height/e.width;
                 
                 if (rateWidth > rateHeight) {
-                    s.width  = innerWidth+"px";
-                    s.height = innerWidth*rate+"px";
+                    s.width  = (innerWidth).floor()+"px";
+                    s.height = (innerWidth*rate).floor()+"px";
                 }
                 else {
-                    s.width  = innerHeight/rate+"px";
-                    s.height = innerHeight+"px";
+                    s.width  = (innerHeight/rate).floor()+"px";
+                    s.height = (innerHeight).floor()+"px";
                 }
             }.bind(this);
             
