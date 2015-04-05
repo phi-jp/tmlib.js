@@ -17263,6 +17263,8 @@ tm.ui = tm.ui || {};
             width: 640,
             height: 960,
             startLabel: 'title',
+            fitting: true,
+            fps: 30,
         });
 
         tm.globalize();
@@ -17307,10 +17309,11 @@ tm.ui = tm.ui || {};
         ];
 
         tm.main(function() {
-            var app = tm.app.CanvasApp(param.query);       // 生成
+            var app = tm.app.CanvasApp(param.query);    // 生成
             app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);    // サイズ(解像度)設定
-            app.fitWindow();                            // 自動フィッティング有効
-            app.background = param.background;// 背景色
+            if (param.fitting) { app.fitWindow(); }     // 自動フィッティング有効
+            app.background = param.background;          // 背景色
+            app.fps = param.fps;                        // fps
 
             if (window.ASSETS) {
                 var loading = tm.game.LoadingScene({
@@ -17675,7 +17678,7 @@ tm.ui = tm.ui || {};
     });
 
     tm.game.ResultScene.default = {
-        score: 256,
+        score: 0,
         message: "this is tmlib.js project.",
         hashtags: "tmlibjs,game",
         related: "tmlib.js tmlife javascript",
