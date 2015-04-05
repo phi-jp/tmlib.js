@@ -198,7 +198,7 @@
     });
 
     tm.game.ResultScene.default = {
-        score: 256,
+        score: 0,
         message: "this is tmlib.js project.",
         hashtags: "tmlibjs,game",
         related: "tmlib.js tmlife javascript",
