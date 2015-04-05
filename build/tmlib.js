@@ -17337,6 +17337,8 @@ tm.ui = tm.ui || {};
             }
 
             app.run();
+
+            tm.game.app = app;
         });
     };
 

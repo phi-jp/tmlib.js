@@ -86,6 +86,8 @@
             }
 
             app.run();
+
+            tm.game.app = app;
         });
     };
 
