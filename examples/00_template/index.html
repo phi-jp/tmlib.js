@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+ 
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+        <title>Template - example</title>
+        <meta name="description" content="${description}" />
+
+        <script src="http://cdn.rawgit.com/phi-jp/tmlib.js/95ecca6b74140ca7968cfe91533549f257aa4381/build/tmlib.js"></script>
+    </head>
+    <body>
+        <canvas id="world"></canvas>
+    </body>
+</html>
+
+
+<script>
+
+/*
+ * # example - tmlib.js
+ */
+
+var speed = 20;
+
+tm.game.setup({
+    title: "Template",
+    width: 640,
+    height: 960,
+});
+
+tm.define("GameScene", {
+    superClass: "Scene",
+
+    init: function() {
+        this.superInit();
+
+    },
+});
+
+</script>
