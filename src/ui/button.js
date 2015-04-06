@@ -8,7 +8,7 @@ tm.ui = tm.ui || {};
 ;(function() {
 
     tm.define("tm.ui.BaseButton", {
-        superClass: "tm.app.Object2D",
+        superClass: "tm.display.CanvasElement",
 
         init: function(param) {
             this.superInit();
@@ -247,7 +247,7 @@ tm.ui = tm.ui || {};
 
             this.superInit(param);
 
-            this.shape = tm.display.RectangleShape().addChildTo(this);
+            this.shape = tm.display.RoundRectangleShape(param).addChildTo(this);
 
             this.label = tm.display.Label(param.text).addChildTo(this);
             this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign("center").setBaseline("middle");

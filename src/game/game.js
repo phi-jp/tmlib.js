@@ -14,6 +14,7 @@
             startLabel: 'title',
             fitting: true,
             fps: 30,
+            assets: window.ASSETS || null,
         });
 
         tm.globalize();
@@ -64,9 +65,9 @@
             app.background = param.background;          // 背景色
             app.fps = param.fps;                        // fps
 
-            if (window.ASSETS) {
+            if (param.assets) {
                 var loading = tm.game.LoadingScene({
-                    assets: ASSETS,
+                    assets: param.assets,
                     width: SCREEN_WIDTH,
                     height: SCREEN_HEIGHT,
                 });

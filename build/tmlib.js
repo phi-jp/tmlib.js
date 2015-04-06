@@ -16172,7 +16172,7 @@ tm.ui = tm.ui || {};
 ;(function() {
 
     tm.define("tm.ui.BaseButton", {
-        superClass: "tm.app.Object2D",
+        superClass: "tm.display.CanvasElement",
 
         init: function(param) {
             this.superInit();
@@ -16411,7 +16411,7 @@ tm.ui = tm.ui || {};
 
             this.superInit(param);
 
-            this.shape = tm.display.RectangleShape().addChildTo(this);
+            this.shape = tm.display.RoundRectangleShape(param).addChildTo(this);
 
             this.label = tm.display.Label(param.text).addChildTo(this);
             this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign("center").setBaseline("middle");
@@ -17292,6 +17292,7 @@ tm.ui = tm.ui || {};
             startLabel: 'title',
             fitting: true,
             fps: 30,
+            assets: window.ASSETS || null,
         });
 
         tm.globalize();
@@ -17342,9 +17343,9 @@ tm.ui = tm.ui || {};
             app.background = param.background;          // 背景色
             app.fps = param.fps;                        // fps
 
-            if (window.ASSETS) {
+            if (param.assets) {
                 var loading = tm.game.LoadingScene({
-                    assets: ASSETS,
+                    assets: param.assets,
                     width: SCREEN_WIDTH,
                     height: SCREEN_HEIGHT,
                 });
