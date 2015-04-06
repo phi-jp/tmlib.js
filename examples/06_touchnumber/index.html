@@ -9,7 +9,7 @@
         <title>Template - example</title>
         <meta name="description" content="${description}" />
 
-        <script src="http://cdn.rawgit.com/phi-jp/tmlib.js/95ecca6b74140ca7968cfe91533549f257aa4381/build/tmlib.js"></script>
+        <script src="../../build/tmlib.js"></script>
     </head>
     <body>
         <canvas id="world"></canvas>
@@ -22,14 +22,14 @@
 /*
  * # example - tmlib.js
  */
-var ASSETS = {
-    'touch': 'touch.m4a',
-    'bgm': 'lo_008.mp3',
-};
 
 tm.game.setup({
     title: "Touch Number",
     startLabel: "game",
+    assets: {
+        'touch': 'touch.m4a',
+        'bgm': 'lo_008.mp3',
+    },
 });
 
 tm.define("GameScene", {
