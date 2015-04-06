@@ -8,8 +8,10 @@
  
         <title>Template - example</title>
         <meta name="description" content="${description}" />
-
+        <!--
         <script src="http://cdn.rawgit.com/phi-jp/tmlib.js/95ecca6b74140ca7968cfe91533549f257aa4381/build/tmlib.js"></script>
+    -->
+        <script src="../../build/tmlib.js"></script>
     </head>
     <body>
         <canvas id="world"></canvas>
@@ -19,11 +21,7 @@
 
 <script>
 
-/*
- * # example - tmlib.js
- */
-
-
+// 読み込む画像, 音
 var ASSETS = {
     'correct_se': 'correct.mp3',
     'incorrect_se': 'incorrect.mp3',
@@ -31,6 +29,7 @@ var ASSETS = {
     'incorrect': 'incorrect.png',
 };
 
+// 問題のリスト
 var QUESTIONS = [
     {
         text: '「ハッカー」とは「不正行為を行う人」\nのことである',
@@ -56,6 +55,9 @@ var QUESTIONS = [
 
 tm.game.setup({
     title: "◯✕クイーズ",
+    width: 640,
+    height: 960,
+    startLabel: "game",
 });
 
 tm.define("GameScene", {
@@ -63,32 +65,33 @@ tm.define("GameScene", {
 
     init: function() {
         this.superInit();
-
+        // スコア用変数
         this.score = 0;
 
-        var questionLabel = Label("hoge").addChildTo(this);
-        questionLabel.x = SCREEN_GRID_X.center();
-        questionLabel.y = SCREEN_GRID_Y.span(5);
-        questionLabel.fillStyle = "#222";
-        questionLabel.fontSize = 32;
-        this.questionLabel = questionLabel;
+        // 問題文用ラベル
+        this.questionLabel = Label("").addChildTo(this);// シーンに追加
+        this.questionLabel.x = SCREEN_GRID_X.center();  // x 座標
+        this.questionLabel.y = SCREEN_GRID_Y.span(5);   // y 座標
+        this.questionLabel.fillStyle = "#222";          // 色
+        this.questionLabel.fontSize = 32;               // サイズ
 
-        this.correctSprite = Sprite("correct").addChildTo(this);
-        this.correctSprite.x = SCREEN_GRID_X.span(4);
-        this.correctSprite.y = SCREEN_GRID_Y.span(10);
-        this.correctSprite.setInteractive(true, 'rect');
-        this.correctSprite.onpointingstart = function() {
+        // ◯ボタンを生成
+        this.correctButton = SpriteButton("correct").addChildTo(this);
+        this.correctButton.x = SCREEN_GRID_X.span(4);   // x 座標
+        this.correctButton.y = SCREEN_GRID_Y.span(10);  // y 座標
+        // 押した時の処理を設定
+        this.correctButton.onpush = function() {
             this.judge(true);
         }.bind(this);
-        this.incorrectSprite = Sprite("incorrect").addChildTo(this);
-        this.incorrectSprite.x = SCREEN_GRID_X.span(-4);
-        this.incorrectSprite.y = SCREEN_GRID_Y.span(10);
-        this.incorrectSprite.setInteractive(true, 'rect');
-        this.incorrectSprite.onpointingstart = function() {
+
+        // ✕ボタンを生成
+        this.incorrectButton = SpriteButton("incorrect").addChildTo(this);
+        this.incorrectButton.x = SCREEN_GRID_X.span(-4);
+        this.incorrectButton.y = SCREEN_GRID_Y.span(10);
+        // 押した時の処理を設定
+        this.incorrectButton.onpush = function() {
             this.judge(false);
         }.bind(this);
-
-        this.setQuestion();
     },
 
     onenter: function() {
@@ -98,7 +101,7 @@ tm.define("GameScene", {
         // });
         // this.app.pushScene(scene);
 
-
+        this.setQuestion();
     },
 
     update: function(app) {
@@ -153,20 +156,5 @@ tm.define("GameScene", {
         }
     },
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </script>
