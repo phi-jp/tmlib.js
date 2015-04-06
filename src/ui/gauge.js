@@ -140,7 +140,7 @@
          * 値を比率でセット
          */
         setRatio: function(ratio) {
-            return this.setValue(this._maxValue*percent);
+            return this.setValue(this._maxValue*ratio);
         },
 
         /**
