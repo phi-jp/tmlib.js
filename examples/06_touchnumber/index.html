@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+ 
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+        <title>Template - example</title>
+        <meta name="description" content="${description}" />
+
+        <script src="http://cdn.rawgit.com/phi-jp/tmlib.js/95ecca6b74140ca7968cfe91533549f257aa4381/build/tmlib.js"></script>
+    </head>
+    <body>
+        <canvas id="world"></canvas>
+    </body>
+</html>
+
+
+<script>
+
+/*
+ * # example - tmlib.js
+ */
+var ASSETS = {
+    'touch': 'touch.m4a',
+    'bgm': 'lo_008.mp3',
+};
+
+tm.game.setup({
+    title: "Touch Number",
+});
+
+tm.define("GameScene", {
+    superClass: "Scene",
+
+    init: function() {
+        this.superInit();
+
+        this.currentIndex = 1;
+        this.time = 0;
+        var pieceGroup = Grid().addChildTo(this);
+        var pieceSize = 100;
+        var maxPerLine = 5;
+        var numbers = Array.range(1, 26);
+        var self = this;
+
+        var pieceGrid = GridSystem(SCREEN_WIDTH, maxPerLine+1);
+
+        numbers.shuffle().each(function(index, i) {
+            var xIndex = i%maxPerLine;
+            var yIndex = (i/maxPerLine).floor();
+            var rect = RectangleShape({
+                width: pieceGrid.span(1)-4,
+                height: pieceGrid.span(1)-4,
+                fillStyle: "hsl(190, 94%, 50%)",
+            }).addChildTo(pieceGroup);
+            rect.x = pieceGrid.span(xIndex+1);
+            rect.y = pieceGrid.span(yIndex) + 240;
+            rect.index = index;
+            rect.setInteractive(true);
+            rect.setBoundingType("rect");
+            rect.checkHierarchy = true;
+            rect.onpointingstart = function() {
+                SoundManager.play('touch');
+                self.check(this);
+            };
+            
+            var label = Label(index).addChildTo(rect);
+            label.fontSize = 32;
+        });
+
+        pieceGroup.maxPerLine = maxPerLine;
+        // pieceGroup.x = (SCREEN_WIDTH-maxPerLine*pieceSize)/2 + pieceSize/2;
+        // pieceGroup.y = SCREEN_GRID_Y.span(4);
+        pieceGroup.cellWidth = pieceSize;
+        pieceGroup.cellHeight = pieceSize;
+        // pieceGroup.reposition();
+
+        var timerLabel = Label(0).addChildTo(this);
+        timerLabel.x = SCREEN_CENTER_X;
+        timerLabel.y = SCREEN_GRID_Y.span(2);
+        timerLabel.fillStyle = "#222";
+        timerLabel.fontSize = 64;
+        this.timerLabel = timerLabel;
+
+        var resetButton = FlatButton({
+            text: "RESET",
+        }).addChildTo(this);
+        resetButton.x = SCREEN_GRID_X.center();
+        resetButton.y = SCREEN_GRID_Y.span(14);
+
+        resetButton.onpush = function() {
+            self.reset();
+        };
+
+        SoundManager.playMusic('bgm');
+    },
+
+    onenter: function() {
+        var scene = CountScene({
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
+        });
+        this.app.pushScene(scene);
+    },
+
+    update: function(app) {
+        this.time += app.deltaTime;
+        var sec = this.time/1000;
+        this.timerLabel.text = sec.floor();
+    },
+
+    check: function(piece) {
+        if (this.currentIndex === piece.index) {
+            this.currentIndex += 1;
+            piece.alpha = 0.5;
+            piece.setInteractive(false);
+
+            if (this.currentIndex > 25) {
+                this.clear();
+            }
+        }
+    },
+
+    clear: function() {
+        var sec = this.time/1000;
+        var score = 100 - sec.floor();
+        score = Math.max(score, 0);
+        this.nextArguments = {
+            score: score,
+        };
+        this.app.popScene();
+    },
+
+    reset: function() {
+        this.nextLabel = "game";
+        this.app.popScene();
+    },
+});
+
+
+
+
+
+</script>
