@@ -43,7 +43,7 @@ tm.ui = tm.ui || {};
             this.height = this.sprite.height;
         },
     });
-    
+
 })();
 
 
@@ -237,7 +237,7 @@ tm.ui = tm.ui || {};
      * @extends tm.display.Shape
      */
     tm.define("tm.ui.FlatButton", {
-        superClass: "tm.display.RoundRectangleShape",
+        superClass: "tm.ui.BaseButton",
 
         /**
          * @constructor
@@ -247,11 +247,7 @@ tm.ui = tm.ui || {};
 
             this.superInit(param);
 
-            this.setInteractive(true);
-            this.setBoundingType("rect");
-            this.on("pointingend", function() {
-                this.flare('push');
-            });
+            this.shape = tm.display.RectangleShape().addChildTo(this);
 
             this.label = tm.display.Label(param.text).addChildTo(this);
             this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign("center").setBaseline("middle");
