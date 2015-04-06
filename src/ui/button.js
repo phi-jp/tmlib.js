@@ -5,7 +5,49 @@
 tm.ui = tm.ui || {};
 
 
-(function() {
+;(function() {
+
+    tm.define("tm.ui.BaseButton", {
+        superClass: "tm.app.Object2D",
+
+        init: function(param) {
+            this.superInit();
+
+            param = param || {};
+            this.width = param.width || 64;
+            this.height = param.height || 64;
+
+            this.setInteractive(true);
+            this.boundingType = "rect";
+
+            this.on("pointingend", function() {
+                this.flare('push');
+            });
+        },
+    });
+
+})();
+
+
+;(function() {
+
+    tm.define("tm.ui.SpriteButton", {
+        superClass: "tm.ui.BaseButton",
+
+        init: function(image) {
+            this.superInit();
+
+            this.sprite = tm.display.Sprite(image).addChildTo(this);
+
+            this.width = this.sprite.width;
+            this.height = this.sprite.height;
+        },
+    });
+    
+})();
+
+
+;(function() {
     
     /**
      * @class tm.ui.LabelButton
@@ -70,25 +112,14 @@ tm.ui = tm.ui || {};
         /**
          * @constructor
          */
-        init: function(texture) {
-            if (texture) {
-                this.superInit(texture, texture.width, texture.height);
-            }
-            else {
-                this.superInit();
-            }
-            
-            this.alpha = tm.ui.IconButton.DEFAULT_ALPHA;
+        init: function() {
+            this.superInit.call(this, arguments);
             
             this.setInteractive(true);
             this.boundingType = "rect";
-            this.addEventListener("pointingover", function() {
-                this.tweener.clear();
-                this.tweener.fade(1, 250);
-            });
-            this.addEventListener("pointingout", function() {
-                this.tweener.clear();
-                this.tweener.fade(tm.ui.LabelButton.DEFAULT_ALPHA, 250);
+
+            this.on("pointingend", function() {
+                this.flare('push');
             });
         },
     });
