@@ -422,6 +422,60 @@ testhelper.describe("tm.game.ManagerScene", function() {
 
 
 
+testhelper.describe("tm.game.CountScene", function() {
+
+    testhelper.it("init", function() {
+
+        tm.define("MainScene", {
+            superClass: "tm.game.CountScene",
+         
+            init: function() {
+                this.superInit({
+                    count: 10,
+                });
+            },
+            onfinish: function() {
+                console.log("finish!");
+            },
+        });
+    });
+
+    testhelper.it("start", function() {
+
+        tm.define("MainScene", {
+            superClass: "tm.game.CountScene",
+         
+            init: function() {
+                this.superInit({
+                    count: [3, 2, 1, 'Start'],
+                    fontSize: 100,
+                });
+            },
+            onfinish: function() {
+                console.log("finish!");
+            },
+        });
+    });
+
+    testhelper.it("ready", function() {
+
+        tm.define("MainScene", {
+            superClass: "tm.game.CountScene",
+         
+            init: function() {
+                this.superInit({
+                    count: ['Ready'],
+                    fontSize: 100,
+                });
+            },
+            onfinish: function() {
+                console.log("finish!");
+            },
+        });
+    });
+
+});
+
 
 ;(function() {
 
