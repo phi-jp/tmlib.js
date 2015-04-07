@@ -364,59 +364,27 @@ if (typeof module !== 'undefined' && module.exports) {
 (function() {
     if (!window.document) return ;
 
-    _loadCheckList = [];
-    tm.addLoadCheckList = function(obj) {
-        console.assert(obj.isLoaded !== undefined, "isLoaded が定義されていません!!");
+    var _mainListeners = [];
 
-        _loadCheckList.push(obj);
-    };
-
-    _preloadListners = [];
-    _mainListners = [];
-    var loadedFlag = false;
-
-    tm.preload = function(fn) { _preloadListners.push(fn); };
     tm.main    = function(fn) {
-        if (loadedFlag === false) {
-            _mainListners.push(fn);
+        if (fn) {
+            _mainListeners.push(fn);
         }
         else {
-            fn();
+            _main();
         }
-    };
-
-    var _preload = function() {
-
-        for (var i=0,len=_preloadListners.length; i<len; ++i) {
-            _preloadListners[i]();
-        }
-        _preloadListners = [];
     };
 
     var _main = function() {
-        for (var i=0,len=_loadCheckList.length; i<len; ++i) {
-            var c = _loadCheckList[i];
-            if (c.isLoaded() == false) {
-                setTimeout(arguments.callee, 0);
-                return ;
-            }
+        for (var i=0,len=_mainListeners.length; i<len; ++i) {
+            _mainListeners[i]();
         }
 
-        for (var i=0,len=_mainListners.length; i<len; ++i) {
-            _mainListners[i]();
-        }
-
-        _mainListners = [];
+        _mainListeners = [];
     };
 
     window.addEventListener("load", function() {
-
-        _preload();
-
         _main();
-
-        loadedFlag = true;
-
     }, false);
 
 })();
