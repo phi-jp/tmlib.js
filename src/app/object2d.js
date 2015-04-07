@@ -603,7 +603,7 @@
      * 左
      */
     tm.app.Object2D.prototype.accessor("bottom", {
-        "get": function()   { return this.y - this.height*(1-this.originY); },
+        "get": function()   { return this.y + this.height*(1-this.originY); },
         "set": function(v)  { this.y = v - this.height*(1-this.originY); },
     });
  
