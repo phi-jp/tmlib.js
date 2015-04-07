@@ -18196,6 +18196,7 @@ tm.ui = tm.ui || {};
                 bgColor: '#444',
                 count: 3,
                 autopop: true,
+                fontSize: 180,
             });
 
             param = param || {};
@@ -18213,22 +18214,29 @@ tm.ui = tm.ui || {};
                     label: {
                         type: "tm.display.Label",
                         fillStyle: "white",
-                        fontSize: 200,
+                        fontSize: param.fontSize,
                         x: SCREEN_CENTER_X,
                         y: SCREEN_CENTER_Y,
                     },
                 }
             });
 
-            this.counter = param.count;
+            if (param.count instanceof Array) {
+                this.countList = param.count.reverse();
+            }
+            else {
+                this.countList = Array.range(1, param.count+1);
+            }
+            this.counter = this.countList.length;
             this.autopop = param.autopop;
             this._updateCount();
         },
 
         _updateCount: function() {
             var endFlag = this.counter <= 0;
+            var index = --this.counter;
 
-            this.label.text = this.counter--;
+            this.label.text = this.countList[index];
 
             this.label.scale.set(1, 1);
             this.label.tweener
