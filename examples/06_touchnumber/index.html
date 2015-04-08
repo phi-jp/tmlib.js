@@ -116,16 +116,17 @@ tm.define("GameScene", {
     clear: function() {
         var sec = this.time/1000;
         var score = 100 - sec.floor();
-        score = Math.max(score, 0);
-        this.nextArguments = {
-            score: score,
-        };
-        this.app.popScene();
+
+        this.exit({
+            nextLabel: "result",
+            nextArguments: {
+                score: score,
+            }
+        });
     },
 
     reset: function() {
-        this.nextLabel = "game";
-        this.app.popScene();
+        this.exit("game");
     },
 });
 
