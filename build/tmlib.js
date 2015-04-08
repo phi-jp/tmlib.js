@@ -54,7 +54,7 @@ if (typeof module !== 'undefined' && module.exports) {
         else if (/opera/i.test(navigator.userAgent))    { return "Opera";   }
         else if (/getcko/i.test(navigator.userAgent))   { return "Getcko";  }
         else if (/msie/i.test(navigator.userAgent))     { return "IE";      }
-        else { return null; }
+        else { return ''; }
     })();
 
     /**
