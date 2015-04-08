@@ -19,7 +19,7 @@
 これだけで全ての機能を使う事ができます.
 
 ```html
-<script src="http://cdn.rawgit.com/phi-jp/tmlib.js/0.4.4/build/tmlib.js"></script>
+<script src="http://cdn.rawgit.com/phi-jp/tmlib.js/0.5.0/build/tmlib.js"></script>
 ```
 
 
