@@ -92,7 +92,7 @@ tm.event = tm.event || {};
             
             return this;
         },
-        
+
         /**
          * type に登録されたイベントがあるかをチェック
          */
@@ -135,5 +135,12 @@ tm.event = tm.event || {};
      * fire と同じ
      */
     proto.dispatchEvent         = proto.fire;
+    
+    /**
+     * @member  tm.event.EventDispatcher
+     * @method  trigger
+     * fire と同じ
+     */
+    proto.trigger = proto.fire;
     
 })();
