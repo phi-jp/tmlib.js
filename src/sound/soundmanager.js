@@ -20,7 +20,12 @@
          * 再生
          */
         play: function(name, volume, startTime, loop) {
-            var sound = tm.asset.Manager.get(name).clone();
+            var origin = tm.asset.Manager.get(name);
+            if (origin == null) {
+                console.warn('not found ' + name);
+                return ;
+            }
+            var sound = origin.clone();
 
             sound.volume = this.getVolume();
             sound.play();
@@ -66,7 +71,12 @@
                 this.stopMusic(fadeTime);
             }
 
-            var music = tm.asset.Manager.get(name).clone();
+            var origin = tm.asset.Manager.get(name);
+            if (origin == null) {
+                console.warn('not found ' + name);
+                return ;
+            }
+            var music = origin.clone();
 
             music.setLoop(true);
             music.volume = this.getVolumeMusic();
