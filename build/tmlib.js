@@ -768,6 +768,7 @@ if (typeof module !== 'undefined' && module.exports) {
         for (var i=0,len=this.length; i<len; ++i) {
             if ( fn(this[i], i, this) ) {
                 this.splice(i--, 1);
+                len--;
             }
         }
         return this;
