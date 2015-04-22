@@ -99,7 +99,7 @@
             // type が省略されている場合は拡張子から判定する
             type = type || path.split(&#39;?&#39;)[0].split(&#39;#&#39;)[0].split(&#39;.&#39;).last;
             
-            var asset = tm.asset.Loader._funcs[type](path);
+            var asset = tm.asset.Loader._funcs[type](path, key);
             this.set(key, asset);
             
             return asset;
@@ -209,6 +209,12 @@
         return file;
     };
 
+    var _loadScript = function(path) {
+        var script = tm.asset.Script(path);
+
+        return script;
+    };
+
     // image
     tm.asset.Loader.register(&quot;png&quot;, _textureFunc);
     tm.asset.Loader.register(&quot;gif&quot;, _textureFunc);
@@ -229,8 +235,9 @@
     
     // spritesheet for tmlib.js
     tm.asset.Loader.register(&quot;tmss&quot;, _tmssFunc);
-
-
+    
+    // script file
+    tm.asset.Loader.register(&quot;js&quot;, _loadScript);
     
 })();
 

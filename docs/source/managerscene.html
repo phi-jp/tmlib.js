@@ -21,15 +21,15 @@
 
 ;(function() {
 
-<span id='tm-scene-ManagerScene'>    /**
-</span>     * @class tm.scene.ManagerScene
+<span id='tm-game-ManagerScene'>    /**
+</span>     * @class tm.game.ManagerScene
      * マネージャーシーン
      * @extends tm.app.Scene
      */
-    tm.define(&quot;tm.scene.ManagerScene&quot;, {
+    tm.define(&quot;tm.game.ManagerScene&quot;, {
         superClass: &quot;tm.app.Scene&quot;,
 
-<span id='tm-scene-ManagerScene-method-constructor'>        /**
+<span id='tm-game-ManagerScene-method-constructor'>        /**
 </span>         * @constructor
          */
         init: function(param) {
@@ -46,7 +46,7 @@
             this.commonArguments = {};
         },
 
-<span id='tm-scene-ManagerScene-method-setScenes'>        /**
+<span id='tm-game-ManagerScene-method-setScenes'>        /**
 </span>         * scenes をセット
          */
         setScenes: function(scenes) {
@@ -56,7 +56,7 @@
             return this;
         },
 
-<span id='tm-scene-ManagerScene-method-gotoScene'>        /**
+<span id='tm-game-ManagerScene-method-gotoScene'>        /**
 </span>         * index(or label) のシーンへ飛ぶ
          */
         gotoScene: function(index, args) {
@@ -90,7 +90,7 @@
             return this;
         },
 
-<span id='tm-scene-ManagerScene-method-gotoNext'>        /**
+<span id='tm-game-ManagerScene-method-gotoNext'>        /**
 </span>         * 次のシーンへ飛ぶ
          */
         gotoNext: function(args) {
@@ -116,21 +116,21 @@
             return this;
         },
 
-<span id='tm-scene-ManagerScene-method-getCurrentIndex'>        /**
+<span id='tm-game-ManagerScene-method-getCurrentIndex'>        /**
 </span>         * シーンインデックスを取得
          */
         getCurrentIndex: function() {
             return this.sceneIndex;
         },
 
-<span id='tm-scene-ManagerScene-method-getCurrentLabel'>        /**
+<span id='tm-game-ManagerScene-method-getCurrentLabel'>        /**
 </span>         * シーンラベルを取得
          */
         getCurrentLabel: function() {
             return this.scenes[this.sceneIndex].label;
         },
 
-<span id='tm-scene-ManagerScene-method-labelToIndex'>        /**
+<span id='tm-game-ManagerScene-method-labelToIndex'>        /**
 </span>         * ラベルからインデックスに変換
          */
         labelToIndex: function(label) {
@@ -141,7 +141,7 @@
             return this.scenes.indexOf(data);
         },
 
-<span id='tm-scene-ManagerScene-method-indexToLabel'>        /**
+<span id='tm-game-ManagerScene-method-indexToLabel'>        /**
 </span>         * インデックスからラベルに変換
          */
         indexToLabel: function(index) {

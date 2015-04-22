@@ -66,6 +66,28 @@
     
     tm.asset.AssetManager = tm.asset.Manager;
 
+    tm.util.getter(&#39;Script&#39;, function() {
+        console.warn(&#39;`tm.util.Script` は `tm.asset.Script` になりました!&#39;);
+    });
+
+    tm.ui.LoadingScene = function(param) {
+        console.warn(&#39;`tm.ui.LoadingScene` は `tm.game.LoadingScene` になりました!&#39;);
+        return tm.game.LoadingScene(param);
+    };
+
+    tm.scene = tm.scene || {};
+    tm.scene.ManagerScene = tm.game.ManagerScene;
+    tm.scene.LoadingScene = tm.game.LoadingScene;
+    tm.scene.TitleScene = tm.game.TitleScene;
+    tm.scene.ResultScene = tm.game.ResultScene;
+    tm.scene.NumericalInputScene = tm.game.NumericalInputScene;
+    
+    tm.getter(&#39;scene&#39;, function() {
+        debugger;
+        console.warn(&#39;tm.scene は tm.game に変更されました&#39;);
+        return tm.game;
+    });
+
 })();
 </pre>
 </body>

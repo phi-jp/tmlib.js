@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+;(function() {
+
+    tm.game = tm.game || {};
+
+
+    tm.game.setup = function(param) {
+        param.$safe({
+            query: &quot;#world&quot;,
+            title: &quot;Title&quot;,
+            background: &quot;rgba(250, 250, 250, 1.0)&quot;,
+            width: 640,
+            height: 960,
+            startLabel: &#39;title&#39;,
+            fitting: true,
+            fps: 30,
+            assets: window.ASSETS || null,
+        });
+
+        tm.globalize();
+
+        this.expand(param);
+
+        var scenes = [
+            {
+                className: &quot;SplashScene&quot;,
+                arguments: {
+                    width: param.width,
+                    height: param.height,
+                },
+                label: &quot;splash&quot;,
+                nextLabel: &quot;title&quot;,
+            },
+            {
+                className: &quot;TitleScene&quot;,
+                arguments: {
+                    title: param.title,
+                },
+                label: &quot;title&quot;,
+            },
+            {
+                className: &quot;GameScene&quot;,
+                label: &quot;game&quot;,
+                nextLabel: &quot;result&quot;,
+            },
+            {
+                className: &quot;ResultScene&quot;,
+                arguments: {
+                    message: param.title,
+                },
+                label: &quot;result&quot;,
+                nextLabel: &quot;title&quot;,
+            },
+
+            {
+                className: &quot;PauseScene&quot;,
+                label: &quot;pause&quot;,
+            },
+        ];
+
+        tm.main(function() {
+            var app = tm.app.CanvasApp(param.query);    // 生成
+            app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);    // サイズ(解像度)設定
+            if (param.fitting) { app.fitWindow(); }     // 自動フィッティング有効
+            app.background = param.background;          // 背景色
+            app.fps = param.fps;                        // fps
+
+            if (param.assets) {
+                var loading = tm.game.LoadingScene({
+                    assets: param.assets,
+                    width: SCREEN_WIDTH,
+                    height: SCREEN_HEIGHT,
+                });
+                loading.onload = function() {
+                    app.replaceScene(tm.game.ManagerScene({
+                        startLabel: param.startLabel,
+                        scenes: scenes,
+                    }));
+                };
+                app.replaceScene(loading);
+            }
+            else {
+                app.replaceScene(tm.game.ManagerScene({
+                    startLabel: param.startLabel,
+                    scenes: scenes,
+                }));
+            }
+
+            app.run();
+
+            tm.game.app = app;
+        });
+    };
+
+    tm.game.expand = function(param) {
+        tm.global.$extend({
+            SCREEN_WIDTH: param.width,
+            SCREEN_HEIGHT: param.height,
+            SCREEN_CENTER_X: param.width/2,
+            SCREEN_CENTER_Y: param.height/2,
+            SCREEN_GRID_X: GridSystem(param.width, 16),
+            SCREEN_GRID_Y: GridSystem(param.height, 16),
+            QUERY: tm.util.QueryString.parse(location.search.substr(1)),
+        });
+
+    };
+
+})();
+</pre>
+</body>
+</html>

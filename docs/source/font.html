@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">tm.asset = tm.asset || {};
+
+(function() {
+
+    tm.define(&quot;tm.asset.Font&quot;, {
+        superClass: &quot;tm.event.EventDispatcher&quot;,
+
+        init: function(path, key, format) {
+            this.superInit();
+
+            var fontFaceStyleElement = tm.dom.Element(&quot;head&quot;).create(&quot;style&quot;);
+            fontFaceStyleElement.text = &quot;@font-face { font-family: &#39;{0}&#39;; src: url({1}) format(&#39;{2}&#39;); }&quot;.format(key, path, format);
+
+            tm.asset.Font.checkLoaded(key, function() {
+                this.flare(&quot;load&quot;);
+            }.bind(this));
+        },
+    });
+
+    tm.asset.Font.checkLoaded = function(font, callback) {
+        var element = tm.dom.Element(&quot;body&quot;).create(&quot;span&quot;);
+        element.style
+            .set(&quot;color&quot;, &quot;rgba(0, 0, 0, 0)&quot;)
+            .set(&quot;fontSize&quot;, &quot;40px&quot;);
+        element.text = &quot;QW@HhsXJ=/()あいうえお＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝&quot;;
+
+        var before = element.element.offsetWidth;
+        element.style
+            .set(&quot;fontFamily&quot;, &quot;&#39;{0}&#39;, &#39;monospace&#39;&quot;.format(font));
+
+        var checkLoadFont = function() {
+            if (element.element.offsetWidth !== before) {
+                element.remove();
+                callback &amp;&amp; callback();
+            } else {
+                setTimeout(checkLoadFont, 100);
+            }
+        };
+        setTimeout(checkLoadFont, 100);
+    };
+
+    tm.asset.Loader.register(&quot;ttf&quot;, function(path, key) {
+        return tm.asset.Font(path, key, &quot;truetype&quot;);
+    });
+    tm.asset.Loader.register(&quot;otf&quot;, function(path, key) {
+        return tm.asset.Font(path, key, &quot;opentype&quot;);
+    });
+    tm.asset.Loader.register(&quot;woff&quot;, function(path, key) {
+        return tm.asset.Font(path, key, &quot;woff&quot;);
+    });
+    tm.asset.Loader.register(&quot;woff2&quot;, function(path, key) {
+        return tm.asset.Font(path, key, &quot;woff2&quot;);
+    });
+
+})();
+</pre>
+</body>
+</html>

@@ -110,12 +110,12 @@ tm.graphics = tm.graphics || {};
                 var rate = e.height/e.width;
                 
                 if (rateWidth &gt; rateHeight) {
-                    s.width  = innerWidth+&quot;px&quot;;
-                    s.height = innerWidth*rate+&quot;px&quot;;
+                    s.width  = (innerWidth).floor()+&quot;px&quot;;
+                    s.height = (innerWidth*rate).floor()+&quot;px&quot;;
                 }
                 else {
-                    s.width  = innerHeight/rate+&quot;px&quot;;
-                    s.height = innerHeight+&quot;px&quot;;
+                    s.width  = (innerHeight/rate).floor()+&quot;px&quot;;
+                    s.height = (innerHeight).floor()+&quot;px&quot;;
                 }
             }.bind(this);
             

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * グリッドシステム
+ */
+tm.define(&quot;tm.util.GridSystem&quot;, {
+    width: 640, // 幅
+    col: 12,    // 列数
+    
+    init: function(width, col) {
+        if (typeof arguments[0] === &#39;object&#39;) {
+            var param = arguments[0];
+            width = param.width;
+            col = param.col;
+        }
+        
+        this.width = width;
+        this.col = col;
+        this.unitWidth = this.width/this.col;
+    },
+    
+    // スパン指定で値を取得(負数もok)
+    span: function(index) {
+        index += this.col;
+        index %= this.col;
+
+        return this.unitWidth * index;
+    },
+    
+    // 真ん中
+    center: function() {
+        return this.unitWidth * (this.col/2);
+    },
+});
+</pre>
+</body>
+</html>

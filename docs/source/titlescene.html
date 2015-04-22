@@ -22,13 +22,13 @@
     
 (function() {
 
-    tm.define(&quot;tm.scene.TitleScene&quot;, {
+    tm.define(&quot;tm.game.TitleScene&quot;, {
         superClass: &quot;tm.app.Scene&quot;,
 
         init: function(param) {
             this.superInit();
 
-            param = {}.$extend(tm.scene.TitleScene.default, param);
+            param = {}.$extend(tm.game.TitleScene.default, param);
             this.param = param;
 
             this.fromJSON({
@@ -73,6 +73,17 @@
                         align: &quot;center&quot;,
                         baseline: &quot;middle&quot;,
                     },
+                    messageLabel: {
+                        type: &quot;Label&quot;, name: &quot;nextLabel&quot;,
+                        text: param.message || &quot;&quot;,
+                        x: this._toGridX(6),
+                        y: this._toGridY(6),
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.36,
+                        fontFamily: &quot;&#39;Helvetica-Light&#39; &#39;Meiryo&#39; sans-serif&quot;,
+                        align: &quot;center&quot;,
+                        baseline: &quot;middle&quot;,
+                    },
                     touchLabel: {
                         type: &quot;Label&quot;, name: &quot;nextLabel&quot;,
                         text: &quot;TOUCH START&quot;,
@@ -112,8 +123,9 @@
         },
     });
 
-    tm.scene.TitleScene.default = {
+    tm.game.TitleScene.default = {
         title: &quot;Time is money&quot;,
+        message: &quot;&quot;,
         fontSize: 72,
         fontColor: &quot;#444&quot;,
         width: 640,

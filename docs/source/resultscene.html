@@ -22,13 +22,13 @@
     
 (function() {
 
-    tm.define(&quot;tm.scene.ResultScene&quot;, {
+    tm.define(&quot;tm.game.ResultScene&quot;, {
         superClass: &quot;tm.app.Scene&quot;,
 
         init: function(param) {
             this.superInit();
 
-            param = {}.$extend(tm.scene.ResultScene.default, param);
+            param = {}.$extend(tm.game.ResultScene.default, param);
             this.param = param;
 
             var userData = this._getUserData();
@@ -124,12 +124,22 @@
                         visible: false,
                     },
 
+                    messageText: {
+                        type: &quot;Label&quot;,
+                        text: param.message,
+                        x: this._toGridX(6),
+                        y: this._toGridY(7),
+                        fillStyle: param.fontColor,
+                        fontSize: param.fontSize*0.5,
+                        fontFamily: &quot;&#39;Helvetica-Light&#39; &#39;Meiryo&#39; sans-serif&quot;,
+                    },
+
                     shareButton: {
                         type: &quot;FlatButton&quot;,
                         init: {
                             text: &quot;Share&quot;,
                             width: 200,
-                            bgColor: &quot;hsl(240, 100%, 64%)&quot;,
+                            fillStyle: &quot;hsl(240, 100%, 64%)&quot;,
                         },
                         x: this._toGridX(4),
                         y: this._toGridY(9),
@@ -139,7 +149,7 @@
                         init: {
                             text: &quot;Back&quot;,
                             width: 200,
-                            bgColor: &quot;hsl(240, 80%, 0%)&quot;,
+                            fillStyle: &quot;hsl(240, 80%, 0%)&quot;,
                         },
                         x: this._toGridX(8),
                         y: this._toGridY(9),
@@ -204,9 +214,9 @@
         },
     });
 
-    tm.scene.ResultScene.default = {
-        score: 256,
-        message: &quot;this is tmlib.js&quot;,
+    tm.game.ResultScene.default = {
+        score: 0,
+        message: &quot;this is tmlib.js project.&quot;,
         hashtags: &quot;tmlibjs,game&quot;,
         related: &quot;tmlib.js tmlife javascript&quot;,
         url: &quot;http://phi-jp.github.io/tmlib.js/&quot;,

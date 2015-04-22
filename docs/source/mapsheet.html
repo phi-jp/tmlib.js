@@ -112,7 +112,7 @@
             var map = xml.getElementsByTagName(&quot;map&quot;)[0];
             var layers = [];
             each.call(map.childNodes, function(elm) {
-                if (elm.tagName == &quot;layer&quot; || elm.tagName == &quot;objectgroup&quot;) {
+                if (elm.tagName == &quot;layer&quot; || elm.tagName == &quot;objectgroup&quot; || elm.tagName == &quot;imagelayer&quot;) {
                     layers.push(elm);
                 }
             });
@@ -152,6 +152,22 @@
 
                         l.objects.push(d);
                     }.bind(this));
+
+                    data.push(l);
+                }
+                else if (layer.tagName == &quot;imagelayer&quot;) {
+                    var l = {
+                        type: &quot;imagelayer&quot;,
+                        name: layer.getAttribute(&quot;name&quot;),
+                        x: layer.getAttribute(&quot;x&quot;) || 0,
+                        y: layer.getAttribute(&quot;y&quot;) || 0,
+                        alpha: layer.getAttribute(&quot;opacity&quot;) || 1,
+                        visible: (layer.getAttribute(&quot;visible&quot;) === undefined || layer.getAttribute(&quot;visible&quot;) != 0),
+                    };
+                    var imageElm = layer.getElementsByTagName(&quot;image&quot;)[0];
+                    l.image = {
+                        source: imageElm.getAttribute(&quot;source&quot;)
+                    };
 
                     data.push(l);
                 }
@@ -233,9 +249,25 @@
          */
         _checkImage: function() {
             var self = this;
+            var imageSoruces = [];
+
+            // for tile set
             if (this.tilesets.length) {
+                Array.prototype.push.apply(imageSoruces, this.tilesets.map(function(tile) {
+                    return tile.image;
+                }));
+            }
+
+            // for image layer
+            this.layers.each(function(layer) {
+                if (layer.type == &quot;imagelayer&quot;) {
+                    imageSoruces.push(layer.image.source);
+                }
+            });
+
+            if (imageSoruces.length) {
                 var i = 0;
-                var len = this.tilesets.length;
+                var len = imageSoruces.length;
 
                 var _onloadimage = function() {
                     i++;
@@ -246,8 +278,8 @@
                     }
                 }.bind(this);
 
-                this.tilesets.each(function(elm) {
-                    var image = tm.asset.Manager.get(elm.image)
+                imageSoruces.each(function(imageName) {
+                    var image = tm.asset.Manager.get(imageName);
 
                     if (image) {
                         if (image.loaded) {
@@ -265,8 +297,8 @@
                     }
                     else {
                         var loader = tm.asset.Loader();
-                        loader.load(elm.image);
-                        var texture = tm.asset.Manager.get(elm.image);
+                        loader.load(imageName);
+                        var texture = tm.asset.Manager.get(imageName);
                         texture.addEventListener(&quot;load&quot;, _onloadimage);
                     }
                 });

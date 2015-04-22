@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+
+;(function() {
+
+
+<span id='tm-app-Grid'>    /**
+</span>     * @class tm.app.Grid
+     * @extends tm.app.Object2d
+     * グリッド
+     */
+    tm.define(&quot;tm.app.Grid&quot;, {
+        superClass: &quot;tm.app.Object2D&quot;,
+
+        cellWidth: 64,
+        cellHeight: 64,
+        maxPerLine: 8,
+        arrangement: &quot;horizontal&quot;, // vertical
+        
+<span id='tm-app-Grid-method-constructor'>        /**
+</span>         * @constructor
+         */
+        init: function(param) {
+            this.superInit();
+
+        },
+
+        reposition: function() {
+            var childs = this.children;
+
+            if (this.arrangement == &quot;horizontal&quot;) {
+                childs.each(function(child, i) {
+                    var xIndex = (i%this.maxPerLine);
+                    var yIndex = (i/this.maxPerLine)|0;
+                    var x = this.cellWidth*xIndex;
+                    var y = this.cellHeight*yIndex;
+                    child.setPosition(x, y);
+                }, this);
+            }
+            else {
+                childs.each(function(child, i) {
+                    var xIndex = (i/this.maxPerLine)|0;
+                    var yIndex = (i%this.maxPerLine);
+                    var x = this.cellWidth*xIndex;
+                    var y = this.cellHeight*yIndex;
+                    child.setPosition(x, y);
+                }, this);
+            }
+        },
+    });
+
+})();
+
+</pre>
+</body>
+</html>

@@ -118,6 +118,13 @@ tm.app = tm.app || {};
 </span>         * 指定で要素を取得
          */
         getChildAt: function(child) {
+            return this.children.at(child);
+        },
+        
+<span id='tm-app-Element-method-getChildIndex'>        /**
+</span>         * 指定で要素を取得
+         */
+        getChildIndex: function(child) {
             return this.children.indexOf(child);
         },
         

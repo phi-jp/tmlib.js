@@ -32,6 +32,8 @@ tm.app = tm.app || {};
     tm.app.Scene = tm.createClass({
         superClass: tm.app.Object2D,
 
+        app: null,
+
 <span id='tm-app-Scene-property-nextLabel'>        /** ManagerScene 経由で生成された際に次にどのシーンに遷移するかのラベル */
 </span>        nextLabel: &quot;&quot;,
 
@@ -48,6 +50,28 @@ tm.app = tm.app || {};
             
             // タッチに反応させる
             this.setInteractive(true);
+        },
+
+        exit: function(param) {
+            if (!this.app) return ;
+
+            if (typeof param !== &#39;object&#39;) {
+                var temp = {};
+                temp.nextLabel = arguments[0];
+                temp.nextArguments = arguments[1];
+                param = temp;
+            }
+
+            if (param.nextLabel) {
+                this.nextLabel = param.nextLabel;
+            }
+            if (param.nextArguments) {
+                this.nextArguments = param.nextArguments;
+            }
+
+            this.app.popScene();
+
+            return this;
         },
 
     });

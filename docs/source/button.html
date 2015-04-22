@@ -22,7 +22,49 @@
 tm.ui = tm.ui || {};
 
 
-(function() {
+;(function() {
+
+    tm.define(&quot;tm.ui.BaseButton&quot;, {
+        superClass: &quot;tm.display.CanvasElement&quot;,
+
+        init: function(param) {
+            this.superInit();
+
+            param = param || {};
+            this.width = param.width || 64;
+            this.height = param.height || 64;
+
+            this.setInteractive(true);
+            this.boundingType = &quot;rect&quot;;
+
+            this.on(&quot;pointingend&quot;, function() {
+                this.flare(&#39;push&#39;);
+            });
+        },
+    });
+
+})();
+
+
+;(function() {
+
+    tm.define(&quot;tm.ui.SpriteButton&quot;, {
+        superClass: &quot;tm.ui.BaseButton&quot;,
+
+        init: function(image) {
+            this.superInit();
+
+            this.sprite = tm.display.Sprite(image).addChildTo(this);
+
+            this.width = this.sprite.width;
+            this.height = this.sprite.height;
+        },
+    });
+
+})();
+
+
+;(function() {
     
 <span id='tm-ui-LabelButton'>    /**
 </span>     * @class tm.ui.LabelButton
@@ -87,25 +129,14 @@ tm.ui = tm.ui || {};
 <span id='tm-ui-IconButton-method-constructor'>        /**
 </span>         * @constructor
          */
-        init: function(texture) {
-            if (texture) {
-                this.superInit(texture, texture.width, texture.height);
-            }
-            else {
-                this.superInit();
-            }
-            
-            this.alpha = tm.ui.IconButton.DEFAULT_ALPHA;
+        init: function() {
+            this.superInit.call(this, arguments);
             
             this.setInteractive(true);
             this.boundingType = &quot;rect&quot;;
-            this.addEventListener(&quot;pointingover&quot;, function() {
-                this.tweener.clear();
-                this.tweener.fade(1, 250);
-            });
-            this.addEventListener(&quot;pointingout&quot;, function() {
-                this.tweener.clear();
-                this.tweener.fade(tm.ui.LabelButton.DEFAULT_ALPHA, 250);
+
+            this.on(&quot;pointingend&quot;, function() {
+                this.flare(&#39;push&#39;);
             });
         },
     });
@@ -223,37 +254,33 @@ tm.ui = tm.ui || {};
      * @extends tm.display.Shape
      */
     tm.define(&quot;tm.ui.FlatButton&quot;, {
-        superClass: tm.display.Shape,
+        superClass: &quot;tm.ui.BaseButton&quot;,
 
 <span id='tm-ui-FlatButton-method-constructor'>        /**
 </span>         * @constructor
          */
         init: function(param) {
-            param.$safe({
-                width: 300,
-                height: 100,
-                bgColor: &quot;rgb(180, 180, 180)&quot;,
-                text: &quot;ABC&quot;,
-                fontSize: 50,
-                fontFamily: &quot;&#39;ヒラギノ角ゴ Pro W3&#39;, &#39;Hiragino Kaku Gothic Pro&#39;, &#39;メイリオ&#39;, &#39;Meiryo&#39;, &#39;ＭＳ Ｐゴシック&#39;, &#39;MS PGothic&#39;, sans-serif&quot;,
-            });
+            param = (param || {}).$safe(tm.ui.FlatButton.defaults);
 
-            this.superInit({
-                width: param.width,
-                height: param.height,
-            });
+            this.superInit(param);
 
-            this.canvas.clearColor(param.bgColor);
-
-            this.setInteractive(true);
-            this.setBoundingType(&quot;rect&quot;);
+            this.shape = tm.display.RoundRectangleShape(param).addChildTo(this);
 
             this.label = tm.display.Label(param.text).addChildTo(this);
             this.label.setFontSize(param.fontSize).setFontFamily(param.fontFamily).setAlign(&quot;center&quot;).setBaseline(&quot;middle&quot;);
         },
     });
 
-
+    tm.ui.FlatButton.defaults = {
+        width: 300,
+        height: 100,
+        fillStyle: &quot;hsl(180, 60%, 50%)&quot;,
+        strokeStyle: &quot;transparent&quot;,
+        text: &quot;START&quot;,
+        fontSize: 50,
+        cornerRadius: 8,
+        fontFamily: &quot;&#39;ヒラギノ角ゴ Pro W3&#39;, &#39;Hiragino Kaku Gothic Pro&#39;, &#39;メイリオ&#39;, &#39;Meiryo&#39;, &#39;ＭＳ Ｐゴシック&#39;, &#39;MS PGothic&#39;, sans-serif&quot;,
+    };
 
 })();
 

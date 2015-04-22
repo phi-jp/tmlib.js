@@ -23,6 +23,9 @@
  */
 var tm = tm || {};
 tm.global = window || global || this;
+if (tm.global.Meteor != null) {
+  tm.global.tm = tm;
+}
 
 // node.js
 if (typeof module !== &#39;undefined&#39; &amp;&amp; module.exports) {
@@ -61,7 +64,7 @@ if (typeof module !== &#39;undefined&#39; &amp;&amp; module.exports) {
         else if (/opera/i.test(navigator.userAgent))    { return &quot;Opera&quot;;   }
         else if (/getcko/i.test(navigator.userAgent))   { return &quot;Getcko&quot;;  }
         else if (/msie/i.test(navigator.userAgent))     { return &quot;IE&quot;;      }
-        else { return null; }
+        else { return &#39;&#39;; }
     })();
 
 <span id='tm-VENDER_PREFIX'>    /**
@@ -239,8 +242,36 @@ if (typeof module !== &#39;undefined&#39; &amp;&amp; module.exports) {
     };
     
     tm.globalize = function(obj) {
-        tm.global.$strict(obj);
-        
+        tm.$forIn(function(key, value) {
+            if (typeof value !== &#39;object&#39;) {
+                return ;
+            }
+            else if (key === &quot;classes&quot;) {
+                return ;
+            }
+            else if (key === &quot;global&quot;) {
+                return ;
+            }
+            else if (key === &quot;event&quot;) {
+                return ;
+            }
+            else if (key === &quot;dom&quot;) {
+                return ;
+            }
+
+            // console.log(&quot;#### &quot; + key + &quot; ###########&quot;);
+            value.$forIn(function(key, value) {
+                if (!window[key]) {
+                    // console.log(key);
+                    window[key] = value;
+                }
+                else {
+                    // TODO: 名前を考えなおす
+                    // console.log(key);
+                }
+            });
+        });
+
         return this;
     };
     
@@ -343,49 +374,27 @@ if (typeof module !== &#39;undefined&#39; &amp;&amp; module.exports) {
 (function() {
     if (!window.document) return ;
 
-    _loadCheckList = [];
-    tm.addLoadCheckList = function(obj) {
-        console.assert(obj.isLoaded !== undefined, &quot;isLoaded が定義されていません!!&quot;);
+    var _mainListeners = [];
 
-        _loadCheckList.push(obj);
-    };
-
-    _preloadListners = [];
-    _mainListners = [];
-
-    tm.preload = function(fn) { _preloadListners.push(fn); };
-    tm.main    = function(fn) { _mainListners.push(fn); };
-
-    var _preload = function() {
-
-        for (var i=0,len=_preloadListners.length; i&lt;len; ++i) {
-            _preloadListners[i]();
+    tm.main    = function(fn) {
+        if (fn) {
+            _mainListeners.push(fn);
         }
-        _preloadListners = [];
+        else {
+            _main();
+        }
     };
 
     var _main = function() {
-        for (var i=0,len=_loadCheckList.length; i&lt;len; ++i) {
-            var c = _loadCheckList[i];
-            if (c.isLoaded() == false) {
-                setTimeout(arguments.callee, 0);
-                return ;
-            }
+        for (var i=0,len=_mainListeners.length; i&lt;len; ++i) {
+            _mainListeners[i]();
         }
 
-        for (var i=0,len=_mainListners.length; i&lt;len; ++i) {
-            _mainListners[i]();
-        }
-
-        _mainListners = [];
+        _mainListeners = [];
     };
 
     window.addEventListener(&quot;load&quot;, function() {
-
-        _preload();
-
         _main();
-
     }, false);
 
 })();</pre>
