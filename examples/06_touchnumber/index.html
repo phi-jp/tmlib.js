@@ -10,128 +10,14 @@
         <meta name="description" content="${description}" />
 
         <script src="../../build/tmlib.js"></script>
+        <script src="script.js"></script>
+        <style>
+        canvas {
+            box-shadow: 0px 0px 4px 0px #aaa;
+        }
+        </style>
     </head>
     <body>
         <canvas id="world"></canvas>
     </body>
 </html>
-
-
-<script>
-
-/*
- * # example - tmlib.js
- */
-
-tm.game.setup({
-    title: "Touch Number",
-    startLabel: "game",
-    assets: {
-        'touch': 'touch.m4a',
-        'bgm': 'lo_008.mp3',
-    },
-});
-
-tm.define("GameScene", {
-    superClass: "Scene",
-
-    init: function() {
-        this.superInit();
-
-        this.time = 0;
-        this.currentIndex = 1;
-
-        var pieceGroup = CanvasElement().addChildTo(this);
-        var maxPerLine = 5;
-        var numbers = Array.range(1, 26);
-        var self = this;
-
-        var pieceGrid = GridSystem(SCREEN_WIDTH, maxPerLine+1);
-
-        numbers.shuffle().each(function(index, i) {
-            var xIndex = i%maxPerLine;
-            var yIndex = (i/maxPerLine).floor();
-            var button = FlatButton({
-                width: pieceGrid.span(1)-4,
-                height: pieceGrid.span(1)-4,
-                fillStyle: "hsl(190, 94%, 50%)",
-                text: index,
-            }).addChildTo(pieceGroup);
-
-            button.x = pieceGrid.span(xIndex+1);
-            button.y = pieceGrid.span(yIndex) + 240;
-            button.onpush = function() {
-                SoundManager.play('touch');
-                self.check(this);
-            };
-            button.index = index;
-        });
-
-        var timerLabel = Label(0).addChildTo(this);
-        timerLabel.x = SCREEN_CENTER_X;
-        timerLabel.y = SCREEN_GRID_Y.span(2);
-        timerLabel.fillStyle = "#222";
-        timerLabel.fontSize = 64;
-        this.timerLabel = timerLabel;
-
-        var resetButton = FlatButton({
-            text: "RESET",
-        }).addChildTo(this);
-        resetButton.x = SCREEN_GRID_X.center();
-        resetButton.y = SCREEN_GRID_Y.span(14);
-
-        resetButton.onpush = function() {
-            self.reset();
-        };
-
-        SoundManager.playMusic('bgm');
-    },
-
-    onenter: function() {
-        // var scene = CountScene({
-        //     width: SCREEN_WIDTH,
-        //     height: SCREEN_HEIGHT,
-        // });
-        // this.app.pushScene(scene);
-    },
-
-    update: function(app) {
-        this.time += app.deltaTime;
-        var sec = this.time/1000;
-        this.timerLabel.text = sec.floor();
-    },
-
-    check: function(piece) {
-        if (this.currentIndex === piece.index) {
-            this.currentIndex += 1;
-            piece.alpha = 0.5;
-            piece.setInteractive(false);
-
-            if (this.currentIndex > 25) {
-                this.clear();
-            }
-        }
-    },
-
-    clear: function() {
-        var sec = this.time/1000;
-        var score = 100 - sec.floor();
-
-        this.exit({
-            nextLabel: "result",
-            nextArguments: {
-                score: score,
-            }
-        });
-    },
-
-    reset: function() {
-        this.exit("game");
-    },
-});
-
-
-
-
-
-</script>
