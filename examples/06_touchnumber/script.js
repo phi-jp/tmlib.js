@@ -54,14 +54,12 @@ tm.define("GameScene", {
         numbers.shuffle().each(function(index, i) {
             var xIndex = i%MAX_PER_LINE;
             var yIndex = (i/MAX_PER_LINE).floor();
-            var colorAngle = (360/MAX_NUM)*index;
-            var color = "hsl({0}, 80%, 64%)".format(colorAngle);
+            var colorAngle = 180;
+            var color = "hsl(200, 76%, 64%)".format(colorAngle);
             var button = FlatButton({
                 width: PIECE_SIZE,
                 height: PIECE_SIZE,
                 fillStyle: color,
-                strokeStyle: '#444',
-                lineWidth: 2,
                 text: index,
             }).addChildTo(pieceGroup);
 
@@ -71,9 +69,6 @@ tm.define("GameScene", {
                 self.check(this);
             };
             button.index = index;
-            button.label.stroke = true;
-            button.label.strokeStyle = '#222';
-            button.label.lineWidth = 4;
         });
         
         // タイマーラベルを生成
@@ -125,20 +120,14 @@ tm.define("GameScene", {
     update: function(app) {
         // タイマーを更新
         this.time += app.deltaTime;
-
-        // タイマー更新
         var sec = this.time/1000; // 秒数に変換
-        var timeString = sec + ""; // 文字列に変換
-        var timeStrings = timeString.split('.'); // 小数点以下を分割
-
-        this.timerLabel.text = timeStrings[0] + '.' + (timeStrings[1] || '').paddingRight(3, '0');
+        this.timerLabel.text = sec.toFixed(3);
     },
     // チェック処理
     check: function(piece) {
         // 今の index と一致したら次に進める
         if (this.currentIndex === piece.index) {
             this.currentIndex += 1;
-            piece.shape.fillStyle = "#444";
             piece.alpha = 0.5;
             piece.setInteractive(false);
             
@@ -146,6 +135,8 @@ tm.define("GameScene", {
             if (this.currentIndex > 25) {
                 this.clear();
             }
+
+            SoundManager.play('touch');
         }
     },
     // クリア処理
