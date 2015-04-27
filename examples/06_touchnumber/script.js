@@ -16,10 +16,10 @@ tm.game.setup({
 var MAX_PER_LINE    = 5;    // ピースの横に並ぶ最大数
 var MAX_NUM         = MAX_PER_LINE*5;   // ピース全体の数
 var PIECE_COLOR     = "hsl(190, 94%, 50%)";   // ピースの色
-var PIECE_SIZE      = 110;  // ピースのサイズ
+var PIECE_ALL_WIDTH = SCREEN_GRID_X.span(15);
 var PIECE_MARGIN    = 10;   // ピースのマージン
-var PIECE_ALL_WIDTH = (PIECE_SIZE+PIECE_MARGIN)*MAX_PER_LINE;
-var PIECE_OFFSET_X  = (SCREEN_WIDTH-PIECE_ALL_WIDTH)/2 + (PIECE_SIZE+PIECE_MARGIN)/2;    // ピースのオフセットX
+var PIECE_SIZE      = (PIECE_ALL_WIDTH-(PIECE_MARGIN*MAX_PER_LINE))/MAX_PER_LINE;  // ピースのサイズ
+var PIECE_OFFSET_X  = (SCREEN_WIDTH-PIECE_ALL_WIDTH)/2 + (PIECE_SIZE+PIECE_MARGIN)/2;   // ピースのオフセットX
 var PIECE_OFFSET_Y  = (SCREEN_HEIGHT-PIECE_ALL_WIDTH)/2 + (PIECE_SIZE+PIECE_MARGIN)/2;  // ピースのオフセットY
 
 var BUTTON_WIDTH = SCREEN_GRID_X.span(7);
