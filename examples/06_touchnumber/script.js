@@ -1,26 +1,27 @@
 /*
- * 
+ * touchnumber | tmlib.js tutorial
  */
 
 // 初期化
 tm.game.setup({
     title: "Touch Number",
-    startLabel: "game",
-    assets: {
-        'touch': 'touch.m4a',
-        'bgm': 'lo_008.mp3',
-    },
+    startLabel: "title",
+    // assets: {
+    //     'touch': 'sounds/touch.m4a',
+    //     'bgm': 'sounds/bgm.mp3',
+    // },
 });
 
 // 定数
-var MAX_PER_LINE    = 5;    // ピースの横に並ぶ最大数
-var MAX_NUM         = MAX_PER_LINE*5;   // ピース全体の数
-var PIECE_COLOR     = "hsl(190, 94%, 50%)";   // ピースの色
-var PIECE_ALL_WIDTH = SCREEN_GRID_X.span(15);
-var PIECE_MARGIN    = 10;   // ピースのマージン
+var MAX_PER_LINE    = 5;                            // ピースの横に並ぶ最大数
+var MAX_NUM         = MAX_PER_LINE*MAX_PER_LINE;    // ピース全体の数
+var PIECE_ALL_WIDTH = SCREEN_GRID_X.span(15);       // ピース全体の幅
+var PIECE_MARGIN    = 10;                           // ピースのマージン
 var PIECE_SIZE      = (PIECE_ALL_WIDTH-(PIECE_MARGIN*MAX_PER_LINE))/MAX_PER_LINE;  // ピースのサイズ
 var PIECE_OFFSET_X  = (SCREEN_WIDTH-PIECE_ALL_WIDTH)/2 + (PIECE_SIZE+PIECE_MARGIN)/2;   // ピースのオフセットX
 var PIECE_OFFSET_Y  = (SCREEN_HEIGHT-PIECE_ALL_WIDTH)/2 + (PIECE_SIZE+PIECE_MARGIN)/2;  // ピースのオフセットY
+var PIECE_COLOR     = "hsl(190, 94%, 50%)";   // ピースの色
+var PIECE_FONT_SIZE = PIECE_SIZE*0.4;
 
 var BUTTON_WIDTH = SCREEN_GRID_X.span(7);
 
@@ -61,6 +62,7 @@ tm.define("GameScene", {
                 height: PIECE_SIZE,
                 fillStyle: color,
                 text: index,
+                fontSize: PIECE_FONT_SIZE,
             }).addChildTo(pieceGroup);
 
             button.x = pieceGrid.span(xIndex) + PIECE_OFFSET_X;
@@ -132,7 +134,7 @@ tm.define("GameScene", {
             piece.setInteractive(false);
             
             // すべてのボタンを押し終えたらクリア
-            if (this.currentIndex > 25) {
+            if (this.currentIndex > MAX_NUM) {
                 this.clear();
             }
 
@@ -141,18 +143,19 @@ tm.define("GameScene", {
     },
     // クリア処理
     clear: function() {
-        var sec = this.time/1000;
-        var score = 100 - sec.floor();
+        var score = 100*1000 - this.time;
+        score = (score/10).floor();
         score = Math.max(score, 0);
-        this.nextArguments = {
+
+        this.exit('result', {
             score: score,
-        };
-        this.app.popScene();
+        });
     },
     // リセット
     reset: function() {
         this.exit('game');
     },
+    // タイトルへ遷移
     gotoTitle: function() {
         this.exit('title');
     },
