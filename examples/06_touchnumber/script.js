@@ -5,7 +5,7 @@
 // 初期化
 tm.game.setup({
     title: "Touch Number",
-    startLabel: "title",
+    startLabel: "game",
     // assets: {
     //     'touch': 'sounds/touch.m4a',
     //     'bgm': 'sounds/bgm.mp3',
@@ -20,10 +20,11 @@ var PIECE_MARGIN    = 10;                           // ピースのマージン
 var PIECE_SIZE      = (PIECE_ALL_WIDTH-(PIECE_MARGIN*MAX_PER_LINE))/MAX_PER_LINE;  // ピースのサイズ
 var PIECE_OFFSET_X  = (SCREEN_WIDTH-PIECE_ALL_WIDTH)/2 + (PIECE_SIZE+PIECE_MARGIN)/2;   // ピースのオフセットX
 var PIECE_OFFSET_Y  = (SCREEN_HEIGHT-PIECE_ALL_WIDTH)/2 + (PIECE_SIZE+PIECE_MARGIN)/2;  // ピースのオフセットY
-var PIECE_COLOR     = "hsl(190, 94%, 50%)";   // ピースの色
+var PIECE_COLOR     = "hsl(200, 76%, 64%)";   // ピースの色
 var PIECE_FONT_SIZE = PIECE_SIZE*0.4;
 
 var BUTTON_WIDTH = SCREEN_GRID_X.span(7);
+var BUTTON_COLOR = 'hsl(50, 0%, 40%)';
 
 /*
  * ゲームシーン
@@ -46,30 +47,33 @@ tm.define("GameScene", {
         var pieceGroup = CanvasElement().addChildTo(this);
         
         // 1 ~ 25 の数値配列を生成
-        var numbers = Array.range(1, MAX_NUM+1);
+        var numbers = Array.range(1, MAX_NUM+1).shuffle();
         var self = this;
 
         var pieceGrid = GridSystem(PIECE_ALL_WIDTH, MAX_PER_LINE);
         
         // 数値ボタンを生成
-        numbers.shuffle().each(function(index, i) {
+        numbers.each(function(index, i) {
+            // グリッド上でのインデックス
             var xIndex = i%MAX_PER_LINE;
             var yIndex = (i/MAX_PER_LINE).floor();
-            var colorAngle = 180;
-            var color = "hsl(200, 76%, 64%)".format(colorAngle);
+            // ボタンを生成
             var button = FlatButton({
                 width: PIECE_SIZE,
                 height: PIECE_SIZE,
-                fillStyle: color,
+                fillStyle: PIECE_COLOR,
                 text: index,
                 fontSize: PIECE_FONT_SIZE,
             }).addChildTo(pieceGroup);
 
+            // ボタンの位置を設定
             button.x = pieceGrid.span(xIndex) + PIECE_OFFSET_X;
             button.y = pieceGrid.span(yIndex) + PIECE_OFFSET_Y;
+            // ボタンを押した際の処理を登録
             button.onpush = function() {
                 self.check(this);
             };
+            // インデックスを保持
             button.index = index;
         });
         
@@ -87,7 +91,7 @@ tm.define("GameScene", {
         var resetButton = FlatButton({
             text: "RESET",
             width: BUTTON_WIDTH,
-            fillStyle: 'hsl(50, 0%, 40%)',
+            fillStyle: BUTTON_COLOR,
         }).addChildTo(this);
         resetButton.x = SCREEN_GRID_X.span(-4);
         resetButton.y = SCREEN_GRID_Y.span(-1.5);
@@ -98,7 +102,7 @@ tm.define("GameScene", {
         var titleButton = FlatButton({
             text: "TITLE",
             width: BUTTON_WIDTH,
-            fillStyle: 'hsl(50, 0%, 40%)',
+            fillStyle: BUTTON_COLOR,
         }).addChildTo(this);
         titleButton.x = SCREEN_GRID_X.span(4);
         titleButton.y = SCREEN_GRID_Y.span(-1.5);
@@ -109,7 +113,7 @@ tm.define("GameScene", {
     
     // エンター時
     onenter: function() {
-        // レディーシーンをプッシュ
+        // カウントシーンをプッシュ
         var scene = CountScene({
             width: SCREEN_WIDTH,
             height: SCREEN_HEIGHT,
@@ -143,6 +147,7 @@ tm.define("GameScene", {
     },
     // クリア処理
     clear: function() {
+        // スコアを計算
         var score = 100*1000 - this.time;
         score = (score/10).floor();
         score = Math.max(score, 0);
