@@ -484,7 +484,175 @@
             worldTransform[4] = b10 * a01 + b11 * a11;
             worldTransform[5] = b10 * a02 + b11 * a12 + b12;
         },
-        
+
+        __accessor: {
+            /**
+             * @property    x
+             * x座標値
+             */
+            x: {
+                "get": function()   { return this.position.x; },
+                "set": function(v)  { this.position.x = v; }
+            },
+            /**
+             * @property    y
+             * y座標値
+             */
+            y: {
+                "get": function()   { return this.position.y; },
+                "set": function(v)  { this.position.y = v; }
+            },
+
+            /**
+             * @property    originX
+             * x座標値
+             */
+            originX: {
+                "get": function()   { return this.origin.x; },
+                "set": function(v)  { this.origin.x = v; }
+            },
+            
+            /**
+             * @property    originY
+             * y座標値
+             */
+            originY: {
+                "get": function()   { return this.origin.y; },
+                "set": function(v)  { this.origin.y = v; }
+            },
+            
+            /**
+             * @property    scaleX
+             * スケールX値
+             */
+            scaleX: {
+                "get": function()   { return this.scale.x; },
+                "set": function(v)  { this.scale.x = v; }
+            },
+            
+            /**
+             * @property    scaleY
+             * スケールY値
+             */
+            scaleY: {
+                "get": function()   { return this.scale.y; },
+                "set": function(v)  { this.scale.y = v; }
+            },
+            
+            /**
+             * @property    width
+             * width
+             */
+            width: {
+                "get": function()   { return this._width; },
+                "set": function(v)  { this._width = v; }
+            },
+            /**
+             * @property    height
+             * height
+             */
+            height: {
+                "get": function()   { return this._height; },
+                "set": function(v)  { this._height = v; }
+            },
+
+            /**
+             * @property    radius
+             * 半径
+             */
+            radius: {
+                "get": function()   {
+                    return (this._radius !== undefined) ? this._radius : (this.width+this.height)/4;
+                },
+                "set": function(v)  { this._radius = v; }
+            },
+            
+            /**
+             * @property    top
+             * 左
+             */
+            top: {
+                "get": function()   { return this.y - this.height*this.originY; },
+                "set": function(v)  { this.y = v + this.height*this.originY; },
+            },
+         
+            /**
+             * @property    right
+             * 左
+             */
+            right: {
+                "get": function()   { return this.x + this.width*(1-this.originX); },
+                "set": function(v)  { this.x = v - this.width*(1-this.originX); },
+            },
+         
+            /**
+             * @property    bottom
+             * 左
+             */
+            bottom: {
+                "get": function()   { return this.y + this.height*(1-this.originY); },
+                "set": function(v)  { this.y = v - this.height*(1-this.originY); },
+            },
+         
+            /**
+             * @property    left
+             * 左
+             */
+            left: {
+                "get": function()   { return this.x - this.width*this.originX; },
+                "set": function(v)  { this.x = v + this.width*this.originX; },
+            },
+
+            /**
+             * @property    centerX
+             * centerX
+             */
+            centerX: {
+                "get": function()   { return this.x + this.width/2 - this.width*this.originX; },
+                "set": function(v)  {
+                    // TODO: どうしようかな??
+                }
+            },
+         
+            /**
+             * @property    centerY
+             * centerY
+             */
+            centerY: {
+                "get": function()   { return this.y + this.height/2 - this.height*this.originY; },
+                "set": function(v)  {
+                    // TODO: どうしようかな??
+                }
+            },
+
+            /**
+             * @property    boundingType
+             * boundingType
+             */
+            boundingType: {
+                "get": function() {
+                    return this._boundingType;
+                },
+                "set": function(v) {
+                    this._boundingType = v;
+                    this._setIsHitFunc();
+                },
+            },
+         
+            /**
+             * @property    checkHierarchy
+             * checkHierarchy
+             */
+            checkHierarchy: {
+                "get": function()   { return this._checkHierarchy; },
+                "set": function(v)  {
+                    this._checkHierarchy = v;
+                    this._setIsHitFunc();
+                }
+            },
+
+        },
+
         /**
          * dirty method
          * @private
@@ -493,176 +661,8 @@
             this._calcWorldMatrix();
         },
     });
- 
-    /**
-     * @property    x
-     * x座標値
-     */
-    tm.app.Object2D.prototype.accessor("x", {
-        "get": function()   { return this.position.x; },
-        "set": function(v)  { this.position.x = v; }
-    });
-    
-    /**
-     * @property    y
-     * y座標値
-     */
-    tm.app.Object2D.prototype.accessor("y", {
-        "get": function()   { return this.position.y; },
-        "set": function(v)  { this.position.y = v; }
-    });
- 
-    /**
-     * @property    originX
-     * x座標値
-     */
-    tm.app.Object2D.prototype.accessor("originX", {
-        "get": function()   { return this.origin.x; },
-        "set": function(v)  { this.origin.x = v; }
-    });
-    
-    /**
-     * @property    originY
-     * y座標値
-     */
-    tm.app.Object2D.prototype.accessor("originY", {
-        "get": function()   { return this.origin.y; },
-        "set": function(v)  { this.origin.y = v; }
-    });
-    
-    /**
-     * @property    scaleX
-     * スケールX値
-     */
-    tm.app.Object2D.prototype.accessor("scaleX", {
-        "get": function()   { return this.scale.x; },
-        "set": function(v)  { this.scale.x = v; }
-    });
-    
-    /**
-     * @property    scaleY
-     * スケールY値
-     */
-    tm.app.Object2D.prototype.accessor("scaleY", {
-        "get": function()   { return this.scale.y; },
-        "set": function(v)  { this.scale.y = v; }
-    });
-    
-    
-    
-    /**
-     * @property    width
-     * width
-     */
-    tm.app.Object2D.prototype.accessor("width", {
-        "get": function()   { return this._width; },
-        "set": function(v)  { this._width = v; }
-    });
-    
-    
-    /**
-     * @property    height
-     * height
-     */
-    tm.app.Object2D.prototype.accessor("height", {
-        "get": function()   { return this._height; },
-        "set": function(v)  { this._height = v; }
-    });
-    
-    /**
-     * @property    radius
-     * 半径
-     */
-    tm.app.Object2D.prototype.accessor("radius", {
-        "get": function()   {
-            return (this._radius !== undefined) ? this._radius : (this.width+this.height)/4;
-        },
-        "set": function(v)  { this._radius = v; }
-    });
-    
-    /**
-     * @property    top
-     * 左
-     */
-    tm.app.Object2D.prototype.accessor("top", {
-        "get": function()   { return this.y - this.height*this.originY; },
-        "set": function(v)  { this.y = v + this.height*this.originY; },
-    });
- 
-    /**
-     * @property    right
-     * 左
-     */
-    tm.app.Object2D.prototype.accessor("right", {
-        "get": function()   { return this.x + this.width*(1-this.originX); },
-        "set": function(v)  { this.x = v - this.width*(1-this.originX); },
-    });
- 
-    /**
-     * @property    bottom
-     * 左
-     */
-    tm.app.Object2D.prototype.accessor("bottom", {
-        "get": function()   { return this.y + this.height*(1-this.originY); },
-        "set": function(v)  { this.y = v - this.height*(1-this.originY); },
-    });
- 
-    /**
-     * @property    left
-     * 左
-     */
-    tm.app.Object2D.prototype.accessor("left", {
-        "get": function()   { return this.x - this.width*this.originX; },
-        "set": function(v)  { this.x = v + this.width*this.originX; },
-    });
 
-    /**
-     * @property    centerX
-     * centerX
-     */
-    tm.app.Object2D.prototype.accessor("centerX", {
-        "get": function()   { return this.x + this.width/2 - this.width*this.originX; },
-        "set": function(v)  {
-            // TODO: どうしようかな??
-        }
-    });
- 
-    /**
-     * @property    centerY
-     * centerY
-     */
-    tm.app.Object2D.prototype.accessor("centerY", {
-        "get": function()   { return this.y + this.height/2 - this.height*this.originY; },
-        "set": function(v)  {
-            // TODO: どうしようかな??
-        }
-    });
- 
-    /**
-     * @property    boundingType
-     * boundingType
-     */
-    tm.app.Object2D.prototype.accessor("boundingType", {
-        "get": function() {
-            return this._boundingType;
-        },
-        "set": function(v) {
-            this._boundingType = v;
-            this._setIsHitFunc();
-        },
-    });
- 
-    /**
-     * @property    checkHierarchy
-     * checkHierarchy
-     */
-    tm.app.Object2D.prototype.accessor("checkHierarchy", {
-        "get": function()   { return this._checkHierarchy; },
-        "set": function(v)  {
-            this._checkHierarchy = v;
-            this._setIsHitFunc();
-        }
-    });
+    
  
  
     var _isHitFuncMap = {
