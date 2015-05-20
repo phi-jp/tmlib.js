@@ -35,6 +35,8 @@
                 className: "TitleScene",
                 arguments: {
                     title: param.title,
+                    width: param.width,
+                    height: param.height,
                 },
                 label: "title",
             },
@@ -47,6 +49,8 @@
                 className: "ResultScene",
                 arguments: {
                     message: param.title,
+                    width: param.width,
+                    height: param.height,
                 },
                 label: "result",
                 nextLabel: "title",
@@ -64,6 +68,8 @@
             if (param.fitting) { app.fitWindow(); }     // 自動フィッティング有効
             app.background = param.background;          // 背景色
             app.fps = param.fps;                        // fps
+
+            tm.game.app = app;
 
             if (param.assets) {
                 var loading = tm.game.LoadingScene({
@@ -87,8 +93,6 @@
             }
 
             app.run();
-
-            tm.game.app = app;
         });
     };
 
