@@ -128,6 +128,17 @@ if (typeof module !== 'undefined' && module.exports) {
 
         tm_class._class = true;
 
+        // accessor 定義
+        ['setter', 'getter', 'accessor'].each(function(type) {
+            var propName = '__' + type;
+
+            if (prop[propName]) {
+                prop[propName].$forIn(function(key, value, i) {
+                    tm_class.prototype[type](key, value);
+                });
+            }
+        });
+
         return tm_class;
     };
 
