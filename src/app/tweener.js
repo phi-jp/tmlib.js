@@ -96,6 +96,7 @@
 
                 if (this.loop === true) {
                     this._index = 0;
+                    return this._updateTask(app);
                 }
                 else {
                     this.isPlaying = false;
