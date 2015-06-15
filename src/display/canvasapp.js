@@ -160,7 +160,7 @@ tm.display = tm.display || {};
      * 高さ
      */
     tm.display.CanvasApp.prototype.accessor("background", {
-        "get": function()   { return this.canvas._background; },
+        "get": function()   { return this._background; },
         "set": function(v)  {
             this._background = v;
             this.element.style.background = v;
