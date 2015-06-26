@@ -2,7 +2,7 @@
   "name": "tmlib.js",
   "version": "0.5.0",
   "description": "javascript library for game programming.",
-  "main": "src/tmlib.js",
+  "main": "build/tmlib.js",
   "directories": {
     "doc": "docs",
     "example": "examples",
