@@ -111,6 +111,7 @@ module.exports = function(grunt) {
     "src/game/countscene.js",
     
     "src/three/three.js",
+    "src/webgl/webgl.js",
 
     "src/sound/sound.js",
     "src/sound/webaudio.js",
