@@ -27,7 +27,7 @@ tm.asset = tm.asset || {};
         canvas.context.font = '40px ' + font;
 
         var checkLoadFont = function () {
-            if (canvas.context.measureText(checkText) !== before) {
+            if (canvas.context.measureText(checkText).width !== before) {
                 callback && callback();
             } else {
                 setTimeout(checkLoadFont, 100);
