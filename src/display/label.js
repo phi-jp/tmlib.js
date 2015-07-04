@@ -116,18 +116,18 @@ tm.display = tm.display || {};
                 var defaultIndex = rowWidth / this.measure('あ') | 0;
 
                 for (var i = lines.length; i--;) {
-                    var text = lines[i], index, len, j = 0, remove = 1;
+                    var text = lines[i], index, len, j = 0;
                     while (true) {
-                        if (rowWidth > this.measure(text)) break;
+                        if (rowWidth > dummyContext.measureText(text).width) break;
 
                         index = index || defaultIndex;
                         len = text.length;
                         if (len <= index) index = len - 1;
 
-                        if (rowWidth < this.measure(text.substring(0, index))) {
-                            while (rowWidth < this.measure(text.substring(0, --index)));
+                        if (rowWidth < dummyContext.measureText(text.substring(0, index)).width) {
+                            while (rowWidth < dummyContext.measureText(text.substring(0, --index)).width);
                         } else {
-                            while (rowWidth >= this.measure(text.substring(0, ++index)));
+                            while (rowWidth >= dummyContext.measureText(text.substring(0, ++index)).width);
                             --index;
                         }
 
