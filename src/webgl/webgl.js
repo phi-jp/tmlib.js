@@ -19,6 +19,7 @@ tm.webgl = tm.webgl || {};
 
         /** canvas */
         canvas      : null,
+        _scenes      : null,
 
         /**
          * @constructor
@@ -41,12 +42,185 @@ tm.webgl = tm.webgl || {};
             // レンダラーを生成
             this.renderer = new GLBoost.Renderer({ canvas: this.element, clearColor: {red:0, green:1, blue:0, alpha:1}});
 
+            // シーン周り
+            this._scenes = [ tm.webgl.Scene() ];
+
         },
 
         _draw: function() {
             this.renderer.clearCanvas();
-            this.renderer.draw();
+
+            for (var i=0, len=this._scenes.length; i<len; ++i) {
+                this.renderer.draw(this.currentScene);
+            }
+
+        },
+
+        /**
+         * @TODO ?
+         */
+        resize: function(width, height) {
+            this.width = width;
+            this.height= height;
+
+            return this;
+        },
+
+        /**
+         * @TODO ?
+         */
+        resizeWindow: function() {
+            this.width = innerWidth;
+            this.height= innerHeight;
+
+            return this;
+        },
+
+        /**
+         * 画面にフィットさせる
+         */
+        fitWindow: function(everFlag) {
+            // 画面にフィット
+            var _fitFunc = function() {
+                everFlag = everFlag === undefined ? true : everFlag;
+                var e = this.element;
+                var s = e.style;
+
+                s.position = "absolute";
+                s.left = "0px";
+                s.top  = "0px";
+
+                var rateWidth = e.width/window.innerWidth;
+                var rateHeight= e.height/window.innerHeight;
+                var rate = e.height/e.width;
+
+                if (rateWidth > rateHeight) {
+                    s.width  = innerWidth+"px";
+                    s.height = innerWidth*rate+"px";
+                }
+                else {
+                    s.width  = innerHeight/rate+"px";
+                    s.height = innerHeight+"px";
+                }
+            }.bind(this);
+
+            // 一度実行しておく
+            _fitFunc();
+            // リサイズ時のリスナとして登録しておく
+            if (everFlag) {
+                window.addEventListener("resize", _fitFunc, false);
+            }
+
+            // マウスとタッチの座標更新関数をパワーアップ
+            this.mouse._mousemove = this.mouse._mousemoveScale;
+            this.touch._touchmove = this.touch._touchmoveScale;
         }
 
     });
+})();
+
+(function() {
+
+    if (!tm.global.GLBoost) return ;
+
+    /**
+     * @class tm.three.Element
+     * @TODO ?
+     */
+    tm.webgl.Element = tm.createClass({
+      superClass: GLBoost.Element,
+        /**
+         * @constructor
+         */
+        init: function() {
+            GLBoost.Element.constructor.call(this);
+
+            tm.event.EventDispatcher.prototype.init.call(this);
+        },
+
+        /**
+         * 更新処理
+         */
+        update: function() {},
+
+        /**
+         * @TODO ?
+         * @private
+         */
+        _update: function(app) {
+            // 更新有効チェック
+            if (this.awake == false) return ;
+
+            this.update(app);
+
+            var e = tm.event.Event("enterframe");
+            e.app = app;
+            this.dispatchEvent(e);
+
+        },
+    });
+
+    // tm.event.EventDispatcher を継承
+    tm.webgl.Element.prototype.$safe(tm.event.EventDispatcher.prototype);
+
+})();
+
+
+(function() {
+
+    if (!tm.global.GLBoost) return ;
+
+    /**
+     * @class tm.three.MeshElement
+     * @TODO ?
+     */
+    tm.webgl.MeshElement = tm.createClass({
+        superClass: GLBoost.Mesh,
+
+        /**
+         * @constructor
+         */
+        init: function(geometry, material) {
+            GLBoost.Mesh.constructor.call(this);
+
+            tm.webgl.Element.prototype.init.call(this);
+        }
+    });
+
+    // tm.webgl.Element を継承
+    tm.webgl.MeshElement.prototype.$safe(tm.webgl.Element.prototype);
+
+})();
+
+
+(function() {
+
+    if (!tm.global.GLBoost) return ;
+
+    /**
+     * @class tm.three.Scene
+     * シーン
+     */
+    tm.webgl.Scene = tm.createClass({
+        superClass: GLBoost.Scene,
+
+        /** @property camera    カメラ */
+        /** @property Projector プロジェクター */
+
+        /**
+         * @constructor
+         */
+        init: function(fov, aspect) {
+            // THREE.Scene の初期化
+            GLBoost.Scene.call(this);
+
+            // tm.three.Element を継承
+            tm.webgl.Element.prototype.init.call(this);
+
+        },
+
+    });
+
+    // tm.webgl.Element を継承
+    tm.webgl.Scene.prototype.$safe(tm.webgl.Element.prototype);
 })();
