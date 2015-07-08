@@ -25,6 +25,9 @@ tm.display = tm.display || {};
         stroke: false,
         /** デバッグボックス */
         debugBox: false,
+        /** キャッシュ */
+        _cache: null,
+
 
         /** @property _fontSize @private */
         /** @property _fontFamily @private */
@@ -100,7 +103,9 @@ tm.display = tm.display || {};
          */
         _updateFont: function() {
             this.fontStyle = "{fontWeight} {fontSize}px {fontFamily}".format(this);
-            
+
+            this._cache = tm.display.Label._cache[this.fontStyle];
+
             this.textSize = this.measure('あ') * this.lineHeight;
         },
 
@@ -114,27 +119,26 @@ tm.display = tm.display || {};
                 var rowWidth = this._rowWidth;
                 //どのへんで改行されるか目星つけとく
                 var defaultIndex = rowWidth / this.measure('あ') | 0;
-
+                var cache = this._cache || (this._cache = tm.display.Label._cache[this.fontStyle] = {});
                 for (var i = lines.length; i--;) {
-                    var text = lines[i], index, len, j = 0;
+                    var text = lines[i], index, len, j = 0, width, char;
                     while (true) {
-                        if (rowWidth > dummyContext.measureText(text).width) break;
+                        if (rowWidth > (cache[text] || (cache[text] = dummyContext.measureText(text).width))) break;
 
                         index = index || defaultIndex;
                         len = text.length;
                         if (len <= index) index = len - 1;
 
-                        if (rowWidth < dummyContext.measureText(text.substring(0, index)).width) {
-                            while (rowWidth < dummyContext.measureText(text.substring(0, --index)).width);
+                        if (rowWidth < (width = cache[char = text.substring(0, index)] || (cache[char] = dummyContext.measureText(char).width))) {
+                            while (rowWidth < (width -= cache[char = text[--index]] || (cache[char] = dummyContext.measureText(char).width)));
                         } else {
-                            while (rowWidth >= dummyContext.measureText(text.substring(0, ++index)).width);
+                            while (rowWidth >= (width += cache[char = text[index++]] || (cache[char] = dummyContext.measureText(char).width)));
                             --index;
                         }
 
                         //index が 0 のときは無限ループになるので、1にしとく
                         if (index === 0) index = 1;
-                        lines.splice(i + j++, 1, text.substring(0, index));
-                        lines.splice(i + j, 0, text = text.substring(index, len));
+                        lines.splice(i + j++, 1, text.substring(0, index), text = text.substring(index, len));
                     }
 
                 }
@@ -167,8 +171,16 @@ tm.display = tm.display || {};
         /**
          * 列の幅をセット
          */
-        setRowWidth: function (v) {
-            this.rowWidth = v;
+        setRowWidth: function (rowWidth) {
+            this.rowWidth = rowWidth;
+            return this;
+        },
+
+        /**
+         * 文字列をセット
+         */
+        setText: function (text) {
+            this.text = text;
             return this;
         },
         
@@ -180,13 +192,9 @@ tm.display = tm.display || {};
      */
     tm.display.Label.prototype.accessor("text", {
         "get": function() { return this._text; },
-        "set": function(v){
-            if (v == null) {
-                this._text = "";
-            }
-            else {
-                this._text = v;
-            }
+        "set": function (v) {
+            if (this._text === v) return;
+            this._text = (v != null) ? v : '';
             this._updateLines();
         }
     });
@@ -247,6 +255,8 @@ tm.display = tm.display || {};
         // align: "start",
         // baseline: "alphabetic",
     };
+
+    tm.display.Label._cache = {};
 
     
 })();
