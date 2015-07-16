@@ -57,7 +57,7 @@
          * 空っぽかをチェック
          */
         isEmpty: function() {
-            return this._value == 0;
+            return this._value === 0;
         },
 
         /**
@@ -65,8 +65,7 @@
          */
         _reset: function(direction) {
             this.originX = 0;
-            this._value = 100;
-            this._value = this._maxValue = 100;
+            this._realValue = this._value = this._maxValue = 100;
         },
 
         /**
@@ -122,6 +121,14 @@
             return this.value;
         },
 
+
+        /**
+         * 値をゲット
+         */
+        getRealValue: function () {
+            return this._realValue;
+        },
+
         /**
          * 値を％でセット
          */
@@ -132,8 +139,15 @@
         /**
          * 値を％でゲット
          */
-        getPercent: function() {
-            return (this._value/this._maxValue)*100;
+        getPercent: function () {
+            return (this._value / this._maxValue) * 100;
+        },
+
+        /**
+         * 値を％でゲット
+         */
+        getRealPercent: function () {
+            return (this._realValue / this._maxValue) * 100;
         },
 
         /**
@@ -146,10 +160,17 @@
         /**
          * 値を比率でゲット
          */
-        getRatio: function() {
-            return this._value/this._maxValue;
+        getRatio: function () {
+            return this._value / this._maxValue;
         },
-        
+
+        /**
+         * 値を比率でゲット
+         */
+        getRealRatio: function () {
+            return this._realValue / this._maxValue;
+        },
+
         isAnimation: function() {
             return this.animationFlag;
         },
@@ -187,6 +208,20 @@
         },
     });
 
+
+    /**
+     * @property    realValue
+     * 値
+     */
+    tm.ui.Gauge.prototype.accessor("realValue", {
+        get: function () {
+            return this._realValue;
+        },
+        set: function (v) {
+            this.setValue(v);
+        },
+    });
+
     /**
      * @property    percent
      * パーセント
@@ -197,6 +232,19 @@
         },
         set: function(v) {
             this.setPercent(v);
+        },
+    });
+
+    /**
+     * @property    percent
+     * パーセント
+     */
+    tm.ui.Gauge.prototype.accessor("realPercent", {
+        get: function () {
+            return this.getRealPercent();
+        },
+        set: function (v) {
+            this.setRealPercent(v);
         },
     });
     
@@ -210,6 +258,19 @@
             return this.getRatio();
         },
         set: function(v) {
+            this.setRatio(v);
+        },
+    });
+
+    /**
+     * @property    ratio
+     * 比率
+     */
+    tm.ui.Gauge.prototype.accessor("realRatio", {
+        get: function () {
+            return this.getRealRatio();
+        },
+        set: function (v) {
             this.setRatio(v);
         },
     });
