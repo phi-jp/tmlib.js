@@ -113,7 +113,7 @@ tm.ui = tm.ui || {};
          * @constructor
          */
         init: function() {
-            this.superInit.call(this, arguments);
+            this.superInit.apply(this, arguments);
             
             this.setInteractive(true);
             this.boundingType = "rect";
