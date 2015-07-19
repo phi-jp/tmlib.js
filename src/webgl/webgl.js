@@ -192,6 +192,31 @@ tm.webgl = tm.webgl || {};
 
 })();
 
+(function() {
+
+    if (!tm.global.GLBoost) return ;
+
+    /**
+     * @class tm.webgl.BlendShapeMeshElement
+     * @TODO ?
+     */
+    tm.webgl.BlendShapeMeshElement = tm.createClass({
+        superClass: GLBoost.BlendShapeMesh,
+
+        /**
+         * @constructor
+         */
+        init: function(geometry, material) {
+            GLBoost.BlendShapeMesh.prototype.constructor.call(this);
+
+            tm.webgl.MeshElement.prototype.init.call(this);
+        }
+    });
+
+    // tm.webgl.MeshElement を継承
+    tm.webgl.BlendShapeMeshElement.prototype.$safe(tm.webgl.MeshElement.prototype);
+
+})();
 
 (function() {
 
