@@ -133,7 +133,7 @@ tm.webgl = tm.webgl || {};
          * @constructor
          */
         init: function() {
-            GLBoost.Element.constructor.call(this);
+            GLBoost.Element.prototype.constructor.call(this);
 
             tm.event.EventDispatcher.prototype.init.call(this);
         },
@@ -181,7 +181,7 @@ tm.webgl = tm.webgl || {};
          * @constructor
          */
         init: function(geometry, material) {
-            GLBoost.Mesh.constructor.call(this);
+            GLBoost.Mesh.prototype.constructor.call(this);
 
             tm.webgl.Element.prototype.init.call(this);
         }
@@ -212,7 +212,7 @@ tm.webgl = tm.webgl || {};
          */
         init: function(fov, aspect) {
             // THREE.Scene の初期化
-            GLBoost.Scene.call(this);
+            GLBoost.Scene.prototype.constructor.call(this);
 
             // tm.three.Element を継承
             tm.webgl.Element.prototype.init.call(this);
