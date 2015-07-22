@@ -190,10 +190,12 @@ tm.app = tm.app || {};
                 
                 console.assert(Object.keys(_class).length !== 0, _class + " is not defined.");
                 
-                var elm = _class.apply(null, args).addChildTo(this);
+                var elm = _class.apply(null, args);
                 elm.fromJSON(data);
                 
                 this[name] = elm;
+                
+                elm.addChildTo(this);
             }.bind(this);
             
             for (var key in data) {
