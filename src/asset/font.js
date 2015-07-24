@@ -17,20 +17,17 @@ tm.asset = tm.asset || {};
         },
     });
 
-    tm.asset.Font.checkLoaded = function(font, callback) {
-        var element = tm.dom.Element("body").create("span");
-        element.style
-            .set("color", "rgba(0, 0, 0, 0)")
-            .set("fontSize", "40px");
-        element.text = "QW@HhsXJ=/()あいうえお＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝";
+    tm.asset.Font.checkLoaded = function (font, callback) {
+        var canvas = tm.graphics.Canvas();
+        canvas.context.font = '40px monospace';
 
-        var before = element.element.offsetWidth;
-        element.style
-            .set("fontFamily", "'{0}', 'monospace'".format(font));
+        var checkText = "1234567890-^\\qwertyuiop@[asdfghjkl;:]zxcvbnm,./\!\"#$%&'()=~|QWERTYUIOP`{ASDFGHJKL+*}ZXCVBNM<>?_１２３４５６７８９０－＾￥ｑｗｅｒｔｙｕｉｏｐａｓｄｆｇｈｊｋｌｚｘｃｖｂｎｍ，．あいうかさたなをん時は金なり";
 
-        var checkLoadFont = function() {
-            if (element.element.offsetWidth !== before) {
-                element.remove();
+        var before = canvas.context.measureText(checkText);
+        canvas.context.font = '40px ' + font;
+
+        var checkLoadFont = function () {
+            if (canvas.context.measureText(checkText).width !== before) {
                 callback && callback();
             } else {
                 setTimeout(checkLoadFont, 100);
