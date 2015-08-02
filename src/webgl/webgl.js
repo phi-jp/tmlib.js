@@ -197,6 +197,32 @@ tm.webgl = tm.webgl || {};
     if (!tm.global.GLBoost) return ;
 
     /**
+     * @class tm.webgl.CameraElement
+     * @TODO ?
+     */
+    tm.webgl.CameraElement = tm.createClass({
+        superClass: GLBoost.Camera,
+
+        /**
+         * @constructor
+         */
+        init: function(lookAt, perspective) {
+            GLBoost.Camera.prototype.constructor.call(this, lookAt, perspective);
+
+            tm.webgl.Element.prototype.init.call(this);
+        }
+    });
+
+    // tm.webgl.Element を継承
+    tm.webgl.CameraElement.prototype.$safe(tm.webgl.Element.prototype);
+
+})();
+
+(function() {
+
+    if (!tm.global.GLBoost) return ;
+
+    /**
      * @class tm.webgl.BlendShapeMeshElement
      * @TODO ?
      */
