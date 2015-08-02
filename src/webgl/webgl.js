@@ -124,7 +124,7 @@ tm.webgl = tm.webgl || {};
     if (!tm.global.GLBoost) return ;
 
     /**
-     * @class tm.three.Element
+     * @class tm.webgl.Element
      * @TODO ?
      */
     tm.webgl.Element = tm.createClass({
@@ -171,7 +171,7 @@ tm.webgl = tm.webgl || {};
     if (!tm.global.GLBoost) return ;
 
     /**
-     * @class tm.three.MeshElement
+     * @class tm.webgl.MeshElement
      * @TODO ?
      */
     tm.webgl.MeshElement = tm.createClass({
@@ -180,7 +180,7 @@ tm.webgl = tm.webgl || {};
         /**
          * @constructor
          */
-        init: function(geometry, material) {
+        init: function() {
             GLBoost.Mesh.prototype.constructor.call(this);
 
             tm.webgl.Element.prototype.init.call(this);
@@ -249,7 +249,7 @@ tm.webgl = tm.webgl || {};
     if (!tm.global.GLBoost) return ;
 
     /**
-     * @class tm.three.Scene
+     * @class tm.webgl.Scene
      * シーン
      */
     tm.webgl.Scene = tm.createClass({
