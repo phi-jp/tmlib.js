@@ -203,12 +203,7 @@
                             this.dispatchEvent(e);
                         }.bind(this));
                 }.bind(this));
-            this.cursor.tweener
-                .clear()
-                .call(function() {
-                    this.visible = !this.visible;
-                }.bind(this.cursor))
-                .setLoop(true);
+            this.cursor.on('enterframe', function () { this.visible = !this.visible; });
         },
 
         /**
