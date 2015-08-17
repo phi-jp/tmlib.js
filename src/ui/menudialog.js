@@ -70,7 +70,9 @@
             }
 
             var height = Math.max((1+this.menu.length)*50, 50) + 40;
-            this.box = tm.display.RectangleShape(this._screenWidth * 0.8, height, {
+            this.box = tm.display.RectangleShape({
+                width: this._screenWidth * 0.8,
+                height: height,
                 strokeStyle: "rgba(0,0,0,0)",
                 fillStyle: "rgba(43,156,255, 0.8)",
             }).setPosition(this._screenWidth*0.5, this._screenHeight*0.5);
@@ -147,7 +149,9 @@
          * @private
          */
         _createCursor: function() {
-            var cursor = tm.display.RectangleShape(this._screenWidth*0.7, 30, {
+            var cursor = tm.display.RectangleShape({
+                width: this._screenWidth*0.7,
+                height: 30,
                 strokeStyle: "rgba(0,0,0,0)",
                 fillStyle: "rgba(12,79,138,1)"
             }).addChildTo(this);
@@ -203,12 +207,7 @@
                             this.dispatchEvent(e);
                         }.bind(this));
                 }.bind(this));
-            this.cursor.tweener
-                .clear()
-                .call(function() {
-                    this.visible = !this.visible;
-                }.bind(this.cursor))
-                .setLoop(true);
+            this.cursor.on("enterframe", function () { this.visible = !this.visible; });
         },
 
         /**
