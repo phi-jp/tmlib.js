@@ -203,7 +203,7 @@
                             this.dispatchEvent(e);
                         }.bind(this));
                 }.bind(this));
-            this.cursor.on('enterframe', function () { this.visible = !this.visible; });
+            this.cursor.on("enterframe", function () { this.visible = !this.visible; });
         },
 
         /**
