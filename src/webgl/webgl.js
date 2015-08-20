@@ -268,7 +268,7 @@ tm.webgl = tm.webgl || {};
             // tm.three.Element を継承
             tm.webgl.Element.prototype.init.call(this);
 
-        },
+        }
 
     });
 
