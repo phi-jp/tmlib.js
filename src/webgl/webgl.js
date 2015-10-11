@@ -114,6 +114,10 @@ tm.webgl = tm.webgl || {};
             // マウスとタッチの座標更新関数をパワーアップ
             this.mouse._mousemove = this.mouse._mousemoveScale;
             this.touch._touchmove = this.touch._touchmoveScale;
+        },
+
+        getRenderer: function() {
+          return this.renderer;
         }
 
     });
