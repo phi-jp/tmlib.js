@@ -56,7 +56,7 @@ MIT License
 
 tmlib.js に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
 
-[tmlife](http://tmlife.io)
+[phiary](http://phiary.me)
 
 ## Feature
 
