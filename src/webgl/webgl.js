@@ -185,9 +185,9 @@ tm.webgl = tm.webgl || {};
          * @constructor
          */
         init: function(canvas) {
-            GLBoost.Mesh.prototype.constructor.call(this, canvas);
-
             tm.webgl.Element.prototype.init.call(this);
+
+            GLBoost.Mesh.prototype.constructor.call(this, canvas);
         }
     });
 
@@ -211,9 +211,9 @@ tm.webgl = tm.webgl || {};
          * @constructor
          */
         init: function(lookAt, perspective) {
-            GLBoost.Camera.prototype.constructor.call(this, lookAt, perspective);
-
             tm.webgl.Element.prototype.init.call(this);
+
+            GLBoost.Camera.prototype.constructor.call(this, lookAt, perspective);
         }
     });
 
@@ -237,9 +237,9 @@ tm.webgl = tm.webgl || {};
          * @constructor
          */
         init: function(canvas) {
-            GLBoost.BlendShapeMesh.prototype.constructor.call(this, canvas);
-
             tm.webgl.MeshElement.prototype.init.call(this, canvas);
+
+            GLBoost.BlendShapeMesh.prototype.constructor.call(this, canvas);
         }
     });
 
@@ -266,11 +266,11 @@ tm.webgl = tm.webgl || {};
          * @constructor
          */
         init: function(fov, aspect) {
-            // GLBoost.Scene の初期化
-            GLBoost.Scene.prototype.constructor.call(this);
-
             // tm.webgl.Element を継承
             tm.webgl.Element.prototype.init.call(this);
+
+            // GLBoost.Scene の初期化
+            GLBoost.Scene.prototype.constructor.call(this);
 
         }
 
