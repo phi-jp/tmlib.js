@@ -32,11 +32,6 @@
 ドキュメントは[こちら](http://phi-jp.github.io/tmlib.js/docs/index.html)
 
 
-## WebGL
-
-@emadurandal san 主体で WebGL 対応も進めています!!
-https://github.com/phi-jp/tmlib.js/tree/feature/webgl
-
 ## License
 
 MIT License
@@ -62,6 +57,13 @@ MIT License
 tmlib.js に関する最新の情報やチュートリアルなどはこちらのブログで紹介していきます.
 
 [phiary](http://phiary.me)
+
+
+## WebGL
+
+@emadurandal san 主体で WebGL 対応も進めています!!
+https://github.com/phi-jp/tmlib.js/tree/feature/webgl
+
 
 ## Feature
 
