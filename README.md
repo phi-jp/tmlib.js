@@ -4,6 +4,15 @@
 
 <img src="https://qiita-image-store.s3.amazonaws.com/0/7756/7aa8af56-c678-0146-d101-3064923f95b9.png" width=400 style="text-align: center;">
 
+**tmlib.js は [phina.js](https://github.com/phi-jp/phina.js) に名前を変更し引続き開発しております. もしよければ [phina.js](https://github.com/phi-jp/phina.js) の方を star もしくは watch して使っていただけると幸いです.**
+
+
+
+
+
+
+
+
 『**JavaScript をより使いやすく, より便利に, そしてより豊かに**』を  
 コンセプトに制作した JavaScript ライブラリです.
 
