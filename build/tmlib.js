@@ -3,7 +3,7 @@
  * http://github.com/phi-jp/tmlib.js
  * MIT Licensed
  * 
- * Copyright (C) 2010 phi, http://tmlife.net
+ * Copyright (C) 2010 phi, https://phiary.me/
  */
 
 (function() { "use strict"; })();
